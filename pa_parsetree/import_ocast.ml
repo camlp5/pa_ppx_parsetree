@@ -1,6 +1,5 @@
 (** $(MIGRATE_OCAMLCFLAGS) -package pa_ppx_q_ast,pa_ppx.import,compiler-libs.common -syntax camlp5o *)
 
-
 module Lexing = struct
 end
 module Location = struct
@@ -43,7 +42,7 @@ end
       ]
   ]
  [@with Location.t := loc]
- [@with Asttypes.loc := located]
+ [@with Location.loc := located]
  [@with Longident.t := longident_t]
  [@with Asttypes.arg_label := arg_label]
  [@with Asttypes.label := label]
