@@ -1,0 +1,35 @@
+synopsis: "A Camlp5 PPX Rewriter for OCaml's AST "
+description:
+"""
+This is a PPX Rewriter to expand PPX string extensions
+into expressions and patterns over OCaml's official
+AST types, so you can write code that computes over
+OCaml's AST, using human-readable surface syntax for
+patterns and expressions.
+"""
+opam-version: "2.0"
+maintainer: "Chet Murthy <chetsky@gmail.com>"
+authors: ["Chet Murthy"]
+homepage: "https://github.com/camlp5/pa_ppx_parsetree"
+license: "BSD-3-Clause"
+bug-reports: "https://github.com/camlp5/pa_ppx_parsetree/issues"
+dev-repo: "git+https://github.com/camlp5/pa_ppx_parsetree.git"
+doc: "https://github.com/camlp5/pa_ppx_parsetree/doc"
+
+depends: [
+  "conf-perl"
+  "ocaml"       { >= "4.10.0" }
+  "camlp5-buildscripts"
+  "camlp5"      { >= "8.00.04" }
+  "pa_ppx"      { >= "0.10" }
+  "pa_ppx_q_ast"      { >= "0.10" }
+  "not-ocamlfind" { >= "0.09" }
+  "ounit" {with-test}
+  "fmt"
+  "mdx"
+]
+build: [
+  [make "sys"]
+  [make "test"] {with-test}
+]
+install: [make "install"]
