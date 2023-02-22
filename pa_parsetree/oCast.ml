@@ -31,7 +31,7 @@ module Longident =
 ;
 module Asttypes =
   struct
-    type loc α = { txt : α; loc : Location.t };
+    type loc α = Location.loc α ;
     type arg_label =
 
         [ Nolabel

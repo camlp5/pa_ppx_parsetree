@@ -12,41 +12,38 @@ end
 
 
 [%%import: OCast.attribute
-             [@add
-                 [%%import: OCast.Lexing.position]
-              type location_t = [%import: OCast.Location.t
-                                            [@with Lexing.position := position]
-                                ]
-              type 'a loc_t = [%import: 'a OCast.Location.loc
-                                          [@with t := location_t]
-                              ]
-              type longident_t = [%import: OCast.Longident.t
-                                             [@with Lexing.position := position]
-                                             [@with t := longident_t]
-                                 ]
-                                   [%%import: OCast.Asttypes.loc
-                                                [@with Location.t := location_t]
-                                   ]
-                                   [%%import: OCast.Asttypes.arg_label]
-                                   [%%import: OCast.Asttypes.label]
-                                   [%%import: OCast.Asttypes.closed_flag]
-                                   [%%import: OCast.Asttypes.rec_flag]
-                                   [%%import: OCast.Asttypes.direction_flag]
-                                   [%%import: OCast.Asttypes.private_flag]
-                                   [%%import: OCast.Asttypes.mutable_flag]
-                                   [%%import: OCast.Asttypes.virtual_flag]
-                                   [%%import: OCast.Asttypes.override_flag]
-                                   [%%import: OCast.Asttypes.variance]
-                                   [%%import: OCast.Asttypes.injectivity]
-                                   [%%import: OCast.constant
-                                                [@with Location.t := location_t]
-                                   ]
-                                   [%%import: OCast.location_stack
-                                                [@with Location.t := location_t]
-                                   ]
-             ]
- [@with Location.t := location_t]
- [@with Asttypes.loc := loc]
+  [@add
+      [%%import: OCast.Lexing.position]
+      type loc = [%import: OCast.Location.t
+                                    [@with Lexing.position := position]
+                        ]
+      type 'a located = [%import: 'a OCast.Location.loc
+                                    [@with t := loc]
+                        ]
+      type longident_t = [%import: OCast.Longident.t
+                                     [@with Lexing.position := position]
+                                     [@with t := longident_t]
+                         ]
+      [%%import: OCast.Asttypes.arg_label]
+      [%%import: OCast.Asttypes.label]
+      [%%import: OCast.Asttypes.closed_flag]
+      [%%import: OCast.Asttypes.rec_flag]
+      [%%import: OCast.Asttypes.direction_flag]
+      [%%import: OCast.Asttypes.private_flag]
+      [%%import: OCast.Asttypes.mutable_flag]
+      [%%import: OCast.Asttypes.virtual_flag]
+      [%%import: OCast.Asttypes.override_flag]
+      [%%import: OCast.Asttypes.variance]
+      [%%import: OCast.Asttypes.injectivity]
+      [%%import: OCast.constant
+                   [@with Location.t := loc]
+      ]
+      [%%import: OCast.location_stack
+                   [@with Location.t := loc]
+      ]
+  ]
+ [@with Location.t := loc]
+ [@with Asttypes.loc := located]
  [@with Longident.t := longident_t]
  [@with Asttypes.arg_label := arg_label]
  [@with Asttypes.label := label]
