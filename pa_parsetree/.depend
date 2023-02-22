@@ -1,6 +1,10 @@
-parsetree.cmo pa_ppx_parsetree.cmo parsetree.cmi pa_ppx_parsetree.cmi parsetree.cmx pa_ppx_parsetree.cmx: 
-parsetree.cmo :
-parsetree.cmx :
+oCast.cmo import_ocast.cmo pa_ppx_parsetree.cmo oCast.cmi import_ocast.cmi pa_ppx_parsetree.cmi oCast.cmx import_ocast.cmx pa_ppx_parsetree.cmx: 
+oCast.cmo :
+oCast.cmx :
+import_ocast.cmo : \
+    oCast.cmo
+import_ocast.cmx : \
+    oCast.cmx
 pa_ppx_parsetree.cmo :
 pa_ppx_parsetree.cmx :
 mk_meta.cmo :
