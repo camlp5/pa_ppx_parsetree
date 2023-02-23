@@ -23,6 +23,10 @@ end
                                      [@with Lexing.position := position]
                                      [@with t := longident_t]
                          ]
+      type ast_constant =
+        [%import: OCast.Asttypes.constant
+                    [@with Location.t := loc]
+        ]
       [%%import: OCast.Asttypes.arg_label]
       [%%import: OCast.Asttypes.label]
       [%%import: OCast.Asttypes.closed_flag]
@@ -40,6 +44,11 @@ end
       [%%import: OCast.location_stack
                    [@with Location.t := loc]
       ]
+      [%%import: OCast.toplevel_phrase
+                   [@with Location.t := loc]
+                   [@with Location.loc := located]
+                   [@with Longident.t := longident_t]
+            ]
   ]
  [@with Location.t := loc]
  [@with Location.loc := located]

@@ -11,6 +11,7 @@ module Longident = struct
 [%%import: Longident.t]
 end
 module Asttypes = struct
+[%%import: Asttypes.constant]
 [%%import: Asttypes.arg_label]
 [%%import: Asttypes.label]
 [%%import: Asttypes.closed_flag]
@@ -26,5 +27,8 @@ end
 [%%import: Parsetree.constant]
 [%%import: Parsetree.location_stack]
 [%%import: Parsetree.attribute
+ [@with Asttypes.loc := Location.loc]
+]
+[%%import: Parsetree.toplevel_phrase
  [@with Asttypes.loc := Location.loc]
 ]
