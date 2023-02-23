@@ -14,7 +14,7 @@ MKCAMLP5=mkcamlp5 -verbose -I +dynlink
 MKCAMLP5OPT=mkcamlp5.opt -verbose -I +dynlink
 INCLUDES=
 OCAMLCFLAGS= $(INCLUDES)
-PACKAGES=fmt,unix,camlp5,camlp5.extfun,camlp5.parser_quotations
+PACKAGES=fmt,unix,camlp5
 PRPACKAGE = camlp5.pr_o
 
 CMO = $(ML:.ml=.cmo)
