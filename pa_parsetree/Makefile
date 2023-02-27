@@ -10,7 +10,11 @@ DESTDIR=
 PACKAGES := $(PACKAGES),fmt,pa_ppx.base,pa_ppx.deriving_plugins.std
 TARGET_PACKAGE = pa_ppx_parsetree
 
-ML = oCast.ml supportfuns.ml mLast2OCast.ml import_ocast.ml pa_ppx_parsetree.ml
+ML = oCast.ml supportfuns.ml mLast2OCast.ml import_ocast.ml pa_ocast.ml q_ocast.ml
+
+# pa_ppx_parsetree.ml
+
+
 TOOLSML = mk_meta.ml
 ALLSRC=$(ML) $(TOOLSML)
 ALLPACKAGES=$(PACKAGES)
