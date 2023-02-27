@@ -40,7 +40,9 @@ default_uninstall::
 
 .ml.cmo:
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),$(PRPACKAGE) $< > $*_ppo.ml
-	$(OCAMLFIND) ocamlc $(DEBUG) $(WARNERR) $(OCAMLCFLAGS) -package $(PACKAGES) -c $*_ppo.ml
+	perl -p -i -e 's,-syntax camlp5r,-syntax camlp5o,' $*_ppo.ml
+	perl -p -i -e 's, -package pa_ppx.deriving_plugins.params , ,' $*_ppo.ml
+	$(LAUNCH) $(YAWRAP) $(OCAMLFIND) ocamlc $(DEBUG) $(WARNERR) $(OCAMLCFLAGS) -package $(PACKAGES) -c $*_ppo.ml
 	$(LAUNCH) $(YAWRAP) $(OCAMLFIND) ocamlc $(DEBUG) $(OCAMLCFLAGS) -package $(PACKAGES) -c $<
 
 .ml.cmx:
@@ -65,6 +67,9 @@ default_uninstall::
 	perl -p -i -e 's,.*: added to search path,: added to search path,' $<
 	perl -p -i -e 's,.*: loaded,: loaded,' $<
 	diff -Bwiu $^
+
+toplevel::
+	$(LAUNCH) ocaml -nopromptcont
 
 .SUFFIXES: .cmo .cmi .ml .mli .cmx .cma .cmxa .cmt .cmti
 

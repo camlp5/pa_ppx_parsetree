@@ -1,23 +1,13 @@
 (** $(MIGRATE_OCAMLCFLAGS) -package pa_ppx_q_ast,pa_ppx.import,compiler-libs.common -syntax camlp5o *)
 
-module Lexing = struct
-end
-module Location = struct
-end
-module Longident = struct
-end
-module Asttypes = struct
-end
-
-
 [%%import: OCast.attribute
   [@add
       [%%import: OCast.Lexing.position]
-      type loc = [%import: OCast.Location.t
+      type location = [%import: OCast.Location.t
                                     [@with Lexing.position := position]
                         ]
       type 'a located = [%import: 'a OCast.Location.loc
-                                    [@with t := loc]
+                                    [@with t := location]
                         ]
       type longident_t = [%import: OCast.Longident.t
                                      [@with Lexing.position := position]
@@ -25,7 +15,7 @@ end
                          ]
       type ast_constant =
         [%import: OCast.Asttypes.constant
-                    [@with Location.t := loc]
+                    [@with Location.t := location]
         ]
       [%%import: OCast.Asttypes.arg_label]
       [%%import: OCast.Asttypes.label]
@@ -39,18 +29,18 @@ end
       [%%import: OCast.Asttypes.variance]
       [%%import: OCast.Asttypes.injectivity]
       [%%import: OCast.constant
-                   [@with Location.t := loc]
+                   [@with Location.t := location]
       ]
       [%%import: OCast.location_stack
-                   [@with Location.t := loc]
+                   [@with Location.t := location]
       ]
       [%%import: OCast.toplevel_phrase
-                   [@with Location.t := loc]
+                   [@with Location.t := location]
                    [@with Location.loc := located]
                    [@with Longident.t := longident_t]
             ]
   ]
- [@with Location.t := loc]
+ [@with Location.t := location]
  [@with Location.loc := located]
  [@with Longident.t := longident_t]
  [@with Asttypes.arg_label := arg_label]
