@@ -8,9 +8,9 @@ include $(TOP)/config/Makefile.sub
 DESTDIR=
 
 PACKAGES := fmt,camlp5,pcre,pa_ppx.base
-TARGET_PACKAGE = pa_ppx_static_runtime
+TARGET_PACKAGE = pa_ppx_parsetree_runtime
 
-ML = pa_ppx_static_runtime.ml
+ML = pa_ppx_parsetree_runtime.ml
 TOOLSML = mk_meta.ml
 MLI := 
 ALLSRC=$(ML) $(MLI) $(TOOLSML)

@@ -1,4 +1,4 @@
-oCast.cmo supportfuns.cmo mLast2OCast.cmo import_ocast.cmo pa_ppx_parsetree.cmo oCast.cmi supportfuns.cmi mLast2OCast.cmi import_ocast.cmi pa_ppx_parsetree.cmi oCast.cmx supportfuns.cmx mLast2OCast.cmx import_ocast.cmx pa_ppx_parsetree.cmx: 
+oCast.cmo supportfuns.cmo mLast2OCast.cmo import_ocast.cmo pa_ocast.cmo q_ocast.cmo oCast.cmi supportfuns.cmi mLast2OCast.cmi import_ocast.cmi pa_ocast.cmi q_ocast.cmi oCast.cmx supportfuns.cmx mLast2OCast.cmx import_ocast.cmx pa_ocast.cmx q_ocast.cmx: 
 oCast.cmo :
 oCast.cmx :
 supportfuns.cmo : \
@@ -15,7 +15,17 @@ import_ocast.cmo : \
     oCast.cmo
 import_ocast.cmx : \
     oCast.cmx
-pa_ppx_parsetree.cmo :
-pa_ppx_parsetree.cmx :
+pa_ocast.cmo : \
+    mLast2OCast.cmo
+pa_ocast.cmx : \
+    mLast2OCast.cmx
+q_ocast.cmo : \
+    pa_ocast.cmo \
+    oCast.cmo \
+    import_ocast.cmo
+q_ocast.cmx : \
+    pa_ocast.cmx \
+    oCast.cmx \
+    import_ocast.cmx
 mk_meta.cmo :
 mk_meta.cmx :

@@ -13,16 +13,16 @@ Arg.(parse [
 ;;
 
 Fmt.(pf stdout {|
-# Specifications for the "pa_ppx_static_runtime" package:
+# Specifications for the "pa_ppx_parsetree_runtime" package:
 requires = "fmt,re,pcre,pa_ppx.base"
 version = "%s"
-description = "pa_ppx_static runtime support"
+description = "pa_ppx_parsetree runtime support"
 
 # For linking
-archive(byte) = "pa_ppx_static_runtime.cmo"
-archive(native) = "pa_ppx_static_runtime.cmx"
+archive(byte) = "pa_ppx_parsetree_runtime.cmo"
+archive(native) = "pa_ppx_parsetree_runtime.cmx"
 
 # For the toploop:
-archive(byte,toploop) = "pa_ppx_static_runtime.cmo"
+archive(byte,toploop) = "pa_ppx_parsetree_runtime.cmo"
 
 |} version)
