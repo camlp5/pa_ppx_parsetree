@@ -14,23 +14,23 @@ Arg.(parse [
 
 Fmt.(pf stdout {|
 # Specifications for the "pa_ppx_parsetree" preprocessor:
-requires = "camlp5,fmt,pa_ppx.base,camlp5.parser_quotations"
+requires = "camlp5,fmt,pa_ppx.base,camlp5.parser_quotations,pa_ppx_q_ast.runtime"
 version = "%s"
 description = "pa_ppx_parsetree: pa_ppx_parsetree rewriter"
 
 # For linking
 package "link" (
-requires = "camlp5,fmt,pa_ppx.base.link,camlp5.parser_quotations.link"
-archive(byte) = "oCast.cmo supportfuns.cmo mLast2OCast.cmo import_ocast.cmo pa_ocast.cmo"
-archive(native) = "oCast.cmx supportfuns.cmx mLast2OCast.cmx import_ocast.cmx pa_ocast.cmx"
+requires = "camlp5,fmt,pa_ppx.base.link,camlp5.parser_quotations.link,,pa_ppx_q_ast.runtime"
+archive(byte) = "oCast.cmo supportfuns.cmo mLast2OCast.cmo import_ocast.cmo pa_ocast.cmo q_ocast.cmo"
+archive(native) = "oCast.cmx supportfuns.cmx mLast2OCast.cmx import_ocast.cmx pa_ocast.cmx q_ocast.cmx"
 )
 
 # For the toploop:
-archive(byte,toploop) = "oCast.cmo supportfuns.cmo mLast2OCast.cmo import_ocast.cmo pa_ocast.cmo"
+archive(byte,toploop) = "oCast.cmo supportfuns.cmo mLast2OCast.cmo import_ocast.cmo pa_ocast.cmo q_ocast.cmo"
 
   # For the preprocessor itself:
-  requires(syntax,preprocessor) = "camlp5,fmt,pa_ppx.base,camlp5.parser_quotations"
-  archive(syntax,preprocessor,-native) = "oCast.cmo supportfuns.cmo mLast2OCast.cmo import_ocast.cmo pa_ocast.cmo"
-  archive(syntax,preprocessor,native) = "oCast.cmx supportfuns.cmx mLast2OCast.cmx import_ocast.cmx pa_ocast.cmx"
+  requires(syntax,preprocessor) = "camlp5,fmt,pa_ppx.base,camlp5.parser_quotations,pa_ppx_q_ast.runtime"
+  archive(syntax,preprocessor,-native) = "oCast.cmo supportfuns.cmo mLast2OCast.cmo import_ocast.cmo pa_ocast.cmo q_ocast.cmo"
+  archive(syntax,preprocessor,native) = "oCast.cmx supportfuns.cmx mLast2OCast.cmx import_ocast.cmx pa_ocast.cmx q_ocast.cmx"
 
 |} version)

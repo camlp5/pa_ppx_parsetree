@@ -22,6 +22,28 @@ end
   ; expr_meta_module = MetaE
   ; patt_meta_module = MetaP
   ; loc_mode = NoLoc
+  ; pertype = {
+      location = {
+        data_source_module = Location
+      ; quotation_source_module = Import_ocast
+      }
+    ; position = {
+        data_source_module = Lexing
+      ; quotation_source_module = Import_ocast
+      }
+    ; constant = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Import_ocast
+      }
+    ; expression = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Import_ocast
+      }
+    ; expression_desc = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Import_ocast
+      }
+    }
   ; entrypoints = [
       {name = "expression"; grammar_entry = Pa_ocast.expression_eoi ; type_name = expression }
     ]

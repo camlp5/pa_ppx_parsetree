@@ -1,16 +1,13 @@
 (** -syntax camlp5o *)
-[%%static_preamble open List]
 open OUnit2
 
-let hd x = 2
+let f = function
+  <:expression< 1 >> ->  1
 
 let test_simple ctxt =
   ()
-  ; [%static ()]
-  ; assert_equal 2 (hd [1;2;3])
-  ; assert_equal 1 [%static hd [1;2;3]]
 
-let suite = "Test pa_ppx_static" >::: [
+let suite = "Test pa_ppx_parsetree" >::: [
       "simple"   >:: test_simple
     ]
 
