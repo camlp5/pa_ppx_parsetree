@@ -29,10 +29,10 @@ all: $(CMO) camlp5.pa_ppx_parsetree camlp5.pa_ppx_parsetree.opt META
 doc: $(CMT) $(CMTI)
 
 camlp5.pa_ppx_parsetree: $(CMO)
-	$(MKCAMLP5) -package fmt,re,camlp5.pa_r,camlp5.pr_r,pa_ppx.base $(CMO) -o $@
+	$(MKCAMLP5) -package fmt,re,camlp5.pa_r,camlp5.pr_r,pa_ppx.base,pa_ppx_q_ast.runtime $(CMO) -o $@
 
 camlp5.pa_ppx_parsetree.opt: $(CMX)
-	$(MKCAMLP5OPT) -package fmt,re,camlp5.pa_r,camlp5.pr_r,pa_ppx.base $(CMX) -o $@
+	$(MKCAMLP5OPT) -package fmt,re,camlp5.pa_r,camlp5.pr_r,pa_ppx.base,pa_ppx_q_ast.runtime $(CMX) -o $@
 
 TARGET_INSTALL_FILES=$(FILES_TARGET_INSTALL_FILES)
 install:: default_install
