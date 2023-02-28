@@ -1,4 +1,4 @@
-(** $(MIGRATE_OCAMLCFLAGS) -ppopt -pa_import-redeclare -package pa_ppx.import,compiler-libs.common -syntax camlp5o *)
+(**pp $(MIGRATE_OCAMLCFLAGS) -ppopt -pa_import-redeclare -package pa_ppx.import,compiler-libs.common -syntax camlp5o *)
 
 module Lexing = struct
 [%%import: Lexing.position] [@@deriving show]

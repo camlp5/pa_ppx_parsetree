@@ -1,4 +1,4 @@
-(** -syntax camlp5o *)
+(**pp -syntax camlp5o *)
 (* Copyright (c) INRIA 2007-2017 *)
 
 open Pattern_OCast ;;

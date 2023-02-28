@@ -1,4 +1,4 @@
-(** $(MIGRATE_OCAMLCFLAGS) -package pa_ppx_q_ast,pa_ppx.import,compiler-libs.common -syntax camlp5o *)
+(**pp $(MIGRATE_OCAMLCFLAGS) -package pa_ppx_q_ast,pa_ppx.import,compiler-libs.common -syntax camlp5o *)
 
 [%%import: Pattern_OCast.Parsetree.attribute
   [@add

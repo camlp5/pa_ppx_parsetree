@@ -1,4 +1,4 @@
-(** -syntax camlp5r -package camlp5.quotations *)
+(**pp -syntax camlp5r -package camlp5.quotations *)
 
 open Pattern_OCast ;
 open Pattern_OCast.Parsetree;
