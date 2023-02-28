@@ -1,16 +1,37 @@
 #use "topfind.camlp5";;
 #camlp5o ;;
 #require "camlp5.pr_o";;
-(*
+#require "pa_ppx.testutils";;
+open Pa_ppx_testutils ;;
+open Papr_util ;;
+
+let pp_ctyp ty = Fmt.(pf stdout "#<ctyp< %s >>" (Eprinter.apply Pcaml.pr_ctyp Pprintf.empty_pc ty));;
+let pp_expr ty = Fmt.(pf stdout "#<expr< %s >>" (Eprinter.apply Pcaml.pr_expr Pprintf.empty_pc ty));;
+let pp_patt ty = Fmt.(pf stdout "#<patt< %s >>" (Eprinter.apply Pcaml.pr_patt Pprintf.empty_pc ty));;
+
+#install_printer pp_ctyp ;;
+#install_printer pp_expr ;;
+#install_printer pp_patt ;;
+
+print_string "================ START ================\n";; flush stdout ;;
+
+
 #require "pa_ppx_parsetree";;
 #require "camlp5,pa_ppx.deriving_plugins.show,camlp5.parser_quotations,pa_ppx.params_runtime,pa_ppx_q_ast.runtime";;
- *)
-#require "camlp5,pa_ppx.deriving_plugins.show";;
-(*
-#require "camlp5.parser_quotations";;
-#require "pa_ppx.params_runtime";;
-#require "pa_ppx_q_ast.runtime";;
- *)
+
+#trace Pa_ppx_q_ast_runtime.Locate.mk;;
+#trace Pa_ppx_q_ast_runtime.Locate.get;;
+#trace Q_ocast.Regular.P.expression ;;
+#trace Q_ocast.Regular.P.expression_desc ;;
+#trace Q_ocast.Regular.P.location ;;
+#trace Q_ocast.Regular.P.location_stack ;;
+
+{|
+let f = function
+  <:expression< 1 >> ->  1
+|} |> PAPR.Implem.pa1 |> PAPR.Implem.pr |> print_string ;;
+
+
 (*
 ;;; Local Variables: ***
 ;;; mode:tuareg ***
