@@ -1,9 +1,9 @@
 (** -syntax camlp5r -package camlp5.quotations *)
 
-module Parsetree = OCast ;
-open OCast ;
-open OCast.Longident;
-open OCast.Asttypes;
+module Parsetree = Pattern_OCast ;
+open Pattern_OCast ;
+open Pattern_OCast.Longident;
+open Pattern_OCast.Asttypes;
 open Asttools;
 open Supportfuns;
 

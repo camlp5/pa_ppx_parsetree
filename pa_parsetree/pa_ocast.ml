@@ -14,7 +14,7 @@ EXTEND
 
   expression: [
     [
-      e = expr -> MLast2OCast.expr e
+      e = expr -> MLast2Pattern_OCast.expr e
     ]
   ]
   ;

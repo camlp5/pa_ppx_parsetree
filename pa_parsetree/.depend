@@ -1,31 +1,33 @@
-oCast.cmo supportfuns.cmo mLast2OCast.cmo import_ocast.cmo pa_ocast.cmo q_ocast.cmo oCast.cmi supportfuns.cmi mLast2OCast.cmi import_ocast.cmi pa_ocast.cmi q_ocast.cmi oCast.cmx supportfuns.cmx mLast2OCast.cmx import_ocast.cmx pa_ocast.cmx q_ocast.cmx: 
+oCast.cmo pattern_OCast.cmo supportfuns.cmo mLast2Pattern_OCast.cmo import_ocast.cmo pa_ocast.cmo q_ocast.cmo oCast.cmi pattern_OCast.cmi supportfuns.cmi mLast2Pattern_OCast.cmi import_ocast.cmi pa_ocast.cmi q_ocast.cmi oCast.cmx pattern_OCast.cmx supportfuns.cmx mLast2Pattern_OCast.cmx import_ocast.cmx pa_ocast.cmx q_ocast.cmx: 
 oCast.cmo :
 oCast.cmx :
+pattern_OCast.cmo :
+pattern_OCast.cmx :
 supportfuns.cmo : \
-    oCast.cmo
+    pattern_OCast.cmo
 supportfuns.cmx : \
-    oCast.cmx
-mLast2OCast.cmo : \
+    pattern_OCast.cmx
+mLast2Pattern_OCast.cmo : \
     supportfuns.cmo \
-    oCast.cmo
-mLast2OCast.cmx : \
+    pattern_OCast.cmo
+mLast2Pattern_OCast.cmx : \
     supportfuns.cmx \
-    oCast.cmx
+    pattern_OCast.cmx
 import_ocast.cmo : \
-    oCast.cmo
+    pattern_OCast.cmo
 import_ocast.cmx : \
-    oCast.cmx
+    pattern_OCast.cmx
 pa_ocast.cmo : \
-    mLast2OCast.cmo
+    mLast2Pattern_OCast.cmo
 pa_ocast.cmx : \
-    mLast2OCast.cmx
+    mLast2Pattern_OCast.cmx
 q_ocast.cmo : \
+    pattern_OCast.cmo \
     pa_ocast.cmo \
-    oCast.cmo \
     import_ocast.cmo
 q_ocast.cmx : \
+    pattern_OCast.cmx \
     pa_ocast.cmx \
-    oCast.cmx \
     import_ocast.cmx
 mk_meta.cmo :
 mk_meta.cmx :

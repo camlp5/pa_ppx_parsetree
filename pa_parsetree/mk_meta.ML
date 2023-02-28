@@ -21,16 +21,16 @@ description = "pa_ppx_parsetree: pa_ppx_parsetree rewriter"
 # For linking
 package "link" (
 requires = "camlp5,fmt,pa_ppx.base.link,camlp5.parser_quotations.link,,pa_ppx_q_ast.runtime"
-archive(byte) = "oCast.cmo supportfuns.cmo mLast2OCast.cmo import_ocast.cmo pa_ocast.cmo q_ocast.cmo"
-archive(native) = "oCast.cmx supportfuns.cmx mLast2OCast.cmx import_ocast.cmx pa_ocast.cmx q_ocast.cmx"
+archive(byte) = "pa_ppx_parsetree.cma"
+archive(native) = "pa_ppx_parsetree.cmxa"
 )
 
 # For the toploop:
-archive(byte,toploop) = "oCast.cmo supportfuns.cmo mLast2OCast.cmo import_ocast.cmo pa_ocast.cmo q_ocast.cmo"
+archive(byte,toploop) = "pa_ppx_parsetree.cma"
 
   # For the preprocessor itself:
   requires(syntax,preprocessor) = "camlp5,fmt,pa_ppx.base,camlp5.parser_quotations,pa_ppx_q_ast.runtime"
-  archive(syntax,preprocessor,-native) = "oCast.cmo supportfuns.cmo mLast2OCast.cmo import_ocast.cmo pa_ocast.cmo q_ocast.cmo"
-  archive(syntax,preprocessor,native) = "oCast.cmx supportfuns.cmx mLast2OCast.cmx import_ocast.cmx pa_ocast.cmx q_ocast.cmx"
+  archive(syntax,preprocessor,-native) = "pa_ppx_parsetree.cma"
+  archive(syntax,preprocessor,native) = "pa_ppx_parsetree.cmxa"
 
 |} version)

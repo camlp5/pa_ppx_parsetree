@@ -1,10 +1,10 @@
 (** -syntax camlp5o *)
 (* Copyright (c) INRIA 2007-2017 *)
 
-module Parsetree = OCast ;;
-open OCast ;;
-open OCast.Longident;;
-open OCast.Asttypes;;
+module Parsetree = Pattern_OCast ;;
+open Pattern_OCast ;;
+open Pattern_OCast.Longident;;
+open Pattern_OCast.Asttypes;;
 
 type ('a, 'b) choice =
     Left of 'a

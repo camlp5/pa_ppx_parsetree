@@ -1,40 +1,40 @@
 (** $(MIGRATE_OCAMLCFLAGS) -package pa_ppx_q_ast,pa_ppx.import,compiler-libs.common -syntax camlp5o *)
 
-[%%import: OCast.attribute
+[%%import: Pattern_OCast.attribute
   [@add
-      [%%import: OCast.Lexing.position]
-      type location = [%import: OCast.Location.t
+      [%%import: Pattern_OCast.Lexing.position]
+      type location = [%import: Pattern_OCast.Location.t
                                     [@with Lexing.position := position]
                         ]
-      type 'a located = [%import: 'a OCast.Location.loc
+      type 'a located = [%import: 'a Pattern_OCast.Location.loc
                                     [@with t := location]
                         ]
-      type longident_t = [%import: OCast.Longident.t
+      type longident_t = [%import: Pattern_OCast.Longident.t
                                      [@with Lexing.position := position]
                                      [@with t := longident_t]
                          ]
       type ast_constant =
-        [%import: OCast.Asttypes.constant
+        [%import: Pattern_OCast.Asttypes.constant
                     [@with Location.t := location]
         ]
-      [%%import: OCast.Asttypes.arg_label]
-      [%%import: OCast.Asttypes.label]
-      [%%import: OCast.Asttypes.closed_flag]
-      [%%import: OCast.Asttypes.rec_flag]
-      [%%import: OCast.Asttypes.direction_flag]
-      [%%import: OCast.Asttypes.private_flag]
-      [%%import: OCast.Asttypes.mutable_flag]
-      [%%import: OCast.Asttypes.virtual_flag]
-      [%%import: OCast.Asttypes.override_flag]
-      [%%import: OCast.Asttypes.variance]
-      [%%import: OCast.Asttypes.injectivity]
-      [%%import: OCast.constant
+      [%%import: Pattern_OCast.Asttypes.arg_label]
+      [%%import: Pattern_OCast.Asttypes.label]
+      [%%import: Pattern_OCast.Asttypes.closed_flag]
+      [%%import: Pattern_OCast.Asttypes.rec_flag]
+      [%%import: Pattern_OCast.Asttypes.direction_flag]
+      [%%import: Pattern_OCast.Asttypes.private_flag]
+      [%%import: Pattern_OCast.Asttypes.mutable_flag]
+      [%%import: Pattern_OCast.Asttypes.virtual_flag]
+      [%%import: Pattern_OCast.Asttypes.override_flag]
+      [%%import: Pattern_OCast.Asttypes.variance]
+      [%%import: Pattern_OCast.Asttypes.injectivity]
+      [%%import: Pattern_OCast.constant
                    [@with Location.t := location]
       ]
-      [%%import: OCast.location_stack
+      [%%import: Pattern_OCast.location_stack
                    [@with Location.t := location]
       ]
-      [%%import: OCast.toplevel_phrase
+      [%%import: Pattern_OCast.toplevel_phrase
                    [@with Location.t := location]
                    [@with Location.loc := located]
                    [@with Longident.t := longident_t]
