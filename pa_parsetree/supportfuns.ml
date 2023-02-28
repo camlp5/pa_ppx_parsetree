@@ -477,7 +477,7 @@ let ocaml_pexp_construct_args =
 
 let mkexp_ocaml_pexp_construct_arity loc li_loc li al =
   let a = ocaml_mkexp loc (Pexp_tuple al) in
-  {pexp_desc = ocaml_pexp_construct li_loc li (Some a) true; pexp_loc = loc;
+  {pexp_desc = ocaml_pexp_construct li_loc li (Some (Ploc.VaVal a)) true; pexp_loc = loc;
    pexp_loc_stack = [];
    pexp_attributes =
      [{attr_name = mkloc loc "ocaml.explicit_arity"; attr_payload = PStr [];

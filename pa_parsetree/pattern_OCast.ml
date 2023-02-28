@@ -123,8 +123,7 @@ and pattern_desc =
   | Ppat_exception of pattern
   | Ppat_extension of extension
   | Ppat_open of Longident.t Location.loc * pattern
-and expression =
-  { pexp_desc : expression_desc;
+and expression = { pexp_desc : expression_desc;
     pexp_loc : Location.t;
     pexp_loc_stack : location_stack;
     pexp_attributes : attributes }
@@ -134,12 +133,12 @@ and expression_desc =
   | Pexp_let of Asttypes.rec_flag * value_binding list * expression
   | Pexp_function of case list
   | Pexp_fun of Asttypes.arg_label * expression option * pattern * expression
-  | Pexp_apply of expression * (Asttypes.arg_label * expression) list
+  | Pexp_apply of expression Ploc.vala * (Asttypes.arg_label * expression Ploc.vala) list
   | Pexp_match of expression * case list
   | Pexp_try of expression * case list
-  | Pexp_tuple of expression list
-  | Pexp_construct of Longident.t Location.loc * expression option
-  | Pexp_variant of Asttypes.label * expression option
+  | Pexp_tuple of expression Ploc.vala list
+  | Pexp_construct of Longident.t Location.loc * expression Ploc.vala option
+  | Pexp_variant of Asttypes.label * expression Ploc.vala option
   | Pexp_record of
       (Longident.t Location.loc * expression) list * expression option
   | Pexp_field of expression * Longident.t Location.loc
@@ -279,7 +278,7 @@ and class_expr_desc =
     Pcl_constr of Longident.t Location.loc * core_type list
   | Pcl_structure of class_structure
   | Pcl_fun of Asttypes.arg_label * expression option * pattern * class_expr
-  | Pcl_apply of class_expr * (Asttypes.arg_label * expression) list
+  | Pcl_apply of class_expr * (Asttypes.arg_label * expression Ploc.vala) list
   | Pcl_let of Asttypes.rec_flag * value_binding list * class_expr
   | Pcl_constraint of class_expr * class_type
   | Pcl_extension of extension

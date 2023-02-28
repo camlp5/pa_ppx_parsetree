@@ -6,6 +6,7 @@ open Pattern_OCast.Longident;
 open Pattern_OCast.Asttypes;
 open Asttools;
 open Supportfuns;
+open Pa_ppx_base ;
 
 open MLast;
 
@@ -48,6 +49,8 @@ value mkfield_tag ~{alg_attributes=alg_attributes} loc d fl = ocaml_mkfield_tag 
 value mkfield_inh ~{alg_attributes=alg_attributes} loc d fl = ocaml_mkfield_inh ~{alg_attributes=alg_attributes} (mkloc loc) d fl;
 value mkfield_var loc = ocaml_mkfield_var (mkloc loc);
 
+value vaval v = Ploc.VaVal v ;
+
 value mkcty loc d =
   match ocaml_class_type with
   [ Some class_type → class_type d (mkloc loc)
@@ -71,11 +74,11 @@ value mklazy loc e =
       let f = ghexp (ocaml_pexp_function "" None [pwe]) in
       let delayed = Ldot (Lident "Lazy") "Delayed" in
       let cloc = mkloc loc in
-      let df = ghexp (ocaml_pexp_construct cloc delayed (Some f) False) in
+      let df = ghexp (ocaml_pexp_construct cloc delayed (Some (vaval f)) False) in
       let r =
         ghexp (ocaml_pexp_ident cloc (Ldot (Lident "Pervasives") "ref"))
       in
-      ghexp (ocaml_pexp_apply r [("", df)]) ]
+      ghexp (ocaml_pexp_apply (vaval r) [("", vaval df)]) ]
 ;
 
 value strip_char c s =
@@ -838,8 +841,8 @@ and expr =
   | ExFle loc e <:vala< (None, s) >> when uv s = "val" ->
       mkexp loc
         (ocaml_pexp_apply
-           (mkexp loc (ocaml_pexp_ident (mkloc loc) (Lident "!")))
-           [("", expr e)])
+           (Ploc.VaVal (mkexp loc (ocaml_pexp_ident (mkloc loc) (Lident "!"))))
+           [("", anti_expr e)])
 
   | ExFle loc (ExLong _ li) <:vala< (None, s) >> ->
     let li = longid_lident_long_id (Some <:vala< li >>, s) in
@@ -873,7 +876,7 @@ and expr =
             | _ → f ]
         | _ → f ]
       in
-      let al = List.rev (List.fold_left label_expr [] al) in
+      let al : list (string * Ploc.vala Pattern_OCast.expression) = List.rev (List.fold_left label_expr [] al) in
       match ocaml_pexp_construct_args (expr f).pexp_desc with
       [ Some (li, li_loc, None, _) →
           let al = List.map snd al in
@@ -881,7 +884,7 @@ and expr =
             let a =
               match al with
               [ [a] -> a
-              | _ -> mkexp loc (Pexp_tuple al) ]
+              | _ -> vaval (mkexp loc (Pexp_tuple al)) ]
             in
             mkexp loc (ocaml_pexp_construct li_loc li (Some a) False)
           else
@@ -896,21 +899,21 @@ and expr =
                   let a =
                     match al with
                     [ [a] → a
-                    | _ → mkexp loc (Pexp_tuple al) ]
+                    | _ → vaval (mkexp loc (Pexp_tuple al)) ]
                   in
                   mkexp loc (pexp_variant (s, Some a))
               | Some _ | None →
-                  mkexp loc (ocaml_pexp_apply (expr f) al) ]
-          | None → mkexp loc (ocaml_pexp_apply (expr f) al) ] ]
+                mkexp loc (ocaml_pexp_apply (anti_expr f) al) ]
+          | None → mkexp loc (ocaml_pexp_apply (anti_expr f) al) ] ]
   | ExAre loc dotop e1 e2l →
       match (uv dotop, uv e2l) with [
         (".", [e2]) ->
           let cloc = mkloc loc in
           mkexp loc
             (ocaml_pexp_apply
-               (mkexp loc
-                  (ocaml_pexp_ident cloc (array_function "Array" "get")))
-               [("", expr e1); ("", expr e2)])
+               (vaval (mkexp loc
+                  (ocaml_pexp_ident cloc (array_function "Array" "get"))))
+               [("", anti_expr e1); ("", anti_expr e2)])
       | (".", e2l) -> assert False
       | (dotop, [e2]) -> 
         let dotop = dotop ^ "()" in
@@ -927,8 +930,8 @@ and expr =
           let cloc = mkloc loc in
           mkexp loc
             (ocaml_pexp_apply
-               (mkexp loc (ocaml_pexp_ident cloc (Lident ":=")))
-               [("", expr x); ("", expr v)])
+               (vaval  (mkexp loc (ocaml_pexp_ident cloc (Lident ":="))))
+               [("", anti_expr x); ("", anti_expr v)])
 
       | ExFle loc _ _ ->
           match (expr e).pexp_desc with
@@ -941,9 +944,9 @@ and expr =
               let cloc = mkloc loc in
               mkexp loc
                 (ocaml_pexp_apply
-                   (mkexp loc
-                      (ocaml_pexp_ident cloc (array_function "Array" "set")))
-                   [("", expr e1); ("", expr e2); ("", expr v)])
+                   (vaval (mkexp loc
+                      (ocaml_pexp_ident cloc (array_function "Array" "set"))))
+                   [("", anti_expr e1); ("", anti_expr e2); ("", anti_expr v)])
           | (".", e2l) -> assert False
           | (dotop, [e2]) ->
             let dotop = dotop ^ "()<-" in
@@ -971,10 +974,10 @@ and expr =
               let cloc = mkloc loc in
               mkexp loc
                 (ocaml_pexp_apply
-                   (mkexp loc
+                   (vaval (mkexp loc
                       (ocaml_pexp_ident cloc
-                         (array_function bytes_modname "set")))
-                   [("", expr e1); ("", expr e2); ("", expr v)])
+                         (array_function bytes_modname "set"))))
+                   [("", anti_expr e1); ("", anti_expr e2); ("", anti_expr v)])
           | (".", e2l) -> assert False
           | (dotop, [e2]) ->
             let dotop = dotop ^ "[]<-" in
@@ -1149,8 +1152,8 @@ and expr =
           let cloc = mkloc loc in
           mkexp loc
             (ocaml_pexp_apply
-               (mkexp loc (ocaml_pexp_ident cloc (array_function "String" "get")))
-               [("", expr e1); ("", expr e2)])
+               (vaval (mkexp loc (ocaml_pexp_ident cloc (array_function "String" "get"))))
+               [("", anti_expr e1); ("", anti_expr e2)])
       | (".", e2l) -> assert False
       | (dotop, [e2]) ->
         let dotop = dotop ^ "[]" in
@@ -1165,7 +1168,7 @@ and expr =
         (Pexp_constant
            (ocaml_pconst_string (string_of_string_token loc (uv s)) (mkloc loc) None))
   | ExTry loc e pel → mkexp loc (Pexp_try (expr e) (List.map mkpwe (uv pel)))
-  | ExTup loc el → mkexp loc (Pexp_tuple (List.map expr (uv el)))
+  | ExTup loc el → mkexp loc (Pexp_tuple (List.map anti_expr (uv el)))
   | ExTyc loc e t →
       mkexp loc (ocaml_pexp_constraint (expr e) (Some (ctyp t)) None)
   | ExVrn loc s →
@@ -1175,10 +1178,15 @@ and expr =
   | ExWhi loc e1 el →
       let e2 = <:expr< do { $list:uv el$ } >> in
       mkexp loc (Pexp_while (expr e1) (expr e2))
-  | ExXtr loc _ _ → error loc "bad ast ExXtr"
+  | ExXtr loc _ _ as e → Fmt.(Ppxutil.raise_failwithf loc "bad ast ExXtr: %a" Pp_MLast.pp_expr e)
   | ExExten loc ebody -> mkexp loc (ocaml_pexp_extension (extension (uv ebody)))
   | ExUnr loc -> error loc "bad ast ExUnr (parses as '.'; cannot have an ExUnr except at the rhs of match-case)"
   ]
+and anti_expr = fun [
+      ExXtr loc antistr _ as e →
+      Ploc.VaAnt antistr
+    | e -> Ploc.VaVal (expr e)
+    ]
 and label_expr rev_al =
   fun
   [ ExLab loc lpeo →
@@ -1191,7 +1199,7 @@ and label_expr rev_al =
                  [ Some e → e
                  | None → ExLid loc lab ]
                in
-               [(uv lab, expr e) :: rev_al]
+               [(uv lab, anti_expr e) :: rev_al]
            | _ → error loc "ExLab case not impl" ])
         rev_al (uv lpeo)
   | ExOlb loc p eo →
@@ -1202,9 +1210,9 @@ and label_expr rev_al =
             [ Some e → e
             | None → ExLid loc lab ]
           in
-          [("?" ^ uv lab, expr e) :: rev_al]
+          [("?" ^ uv lab, anti_expr e) :: rev_al]
       | _ → error loc "ExOlb case not impl" ]
-  | e → [("", expr e) :: rev_al] ]
+  | e → [("", anti_expr e) :: rev_al] ]
 and mkpe (p, e, attrs) =
   let loc = Ploc.encl (loc_of_patt p) (loc_of_expr e) in
   let (p, e) =

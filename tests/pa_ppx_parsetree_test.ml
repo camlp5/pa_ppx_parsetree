@@ -3,6 +3,8 @@ open OUnit2
 
 let f = function
   <:expression:< 1 >> ->  1
+  | <:expression:< 1 + 2 >> ->  2
+  | <:expression:< $e1$ + $e2$ >> ->  3
 
 let test_simple ctxt =
   ()

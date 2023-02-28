@@ -10,7 +10,9 @@ let pp_expr ty = Fmt.(pf stdout "#<expr< %s >>" (Eprinter.apply Pcaml.pr_expr Pp
 let pp_patt ty = Fmt.(pf stdout "#<patt< %s >>" (Eprinter.apply Pcaml.pr_patt Pprintf.empty_pc ty));;
 
 #install_printer pp_ctyp ;;
+(*
 #install_printer pp_expr ;;
+ *)
 #install_printer pp_patt ;;
 
 print_string "================ START ================\n";; flush stdout ;;
@@ -21,14 +23,16 @@ print_string "================ START ================\n";; flush stdout ;;
 
 #trace Pa_ppx_q_ast_runtime.Locate.mk;;
 #trace Pa_ppx_q_ast_runtime.Locate.get;;
+open Pa_ppx_parsetree ;;
 #trace Q_ocast.Regular.P.expression ;;
 #trace Q_ocast.Regular.P.expression_desc ;;
 #trace Q_ocast.Regular.P.location ;;
 #trace Q_ocast.Regular.P.location_stack ;;
+#trace MLast2Pattern_OCast.expr ;;
 
 {|
 let f = function
-  <:expression< 1 >> ->  1
+  <:expression< $lid:e1$ + $e2$ >> ->  1
 |} |> PAPR.Implem.pa1 |> PAPR.Implem.pr |> print_string ;;
 
 
