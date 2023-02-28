@@ -21,13 +21,9 @@ end
     default_data_source_module = Import_ocast
   ; expr_meta_module = MetaE
   ; patt_meta_module = MetaP
-  ; loc_mode = NoLoc
+  ; loc_mode = CustomLoc { loc_varname = __loc__ ; loc_type = [%typ: location] ; loc_function_name = location }
   ; pertype = {
-      location = {
-        data_source_module = Location
-      ; quotation_source_module = Import_ocast
-      }
-    ; position = {
+      position = {
         data_source_module = Lexing
       ; quotation_source_module = Import_ocast
       }
