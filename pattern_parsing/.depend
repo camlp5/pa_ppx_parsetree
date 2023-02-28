@@ -1,0 +1,109 @@
+location.cmo longident.cmo docstrings.cmo syntaxerr.cmo ast_helper.cmo parser.cmo pprintast.cmo printast.cmo location.cmi longident.cmi docstrings.cmi syntaxerr.cmi ast_helper.cmi parser.cmi pprintast.cmi printast.cmi location.cmx longident.cmx docstrings.cmx syntaxerr.cmx ast_helper.cmx parser.cmx pprintast.cmx printast.cmx: 
+location.cmo : \
+    location.cmi
+location.cmx : \
+    location.cmi
+longident.cmo : \
+    longident.cmi
+longident.cmx : \
+    longident.cmi
+docstrings.cmo : \
+    parsetree.cmi \
+    location.cmi \
+    docstrings.cmi
+docstrings.cmx : \
+    parsetree.cmi \
+    location.cmx \
+    docstrings.cmi
+syntaxerr.cmo : \
+    location.cmi \
+    syntaxerr.cmi
+syntaxerr.cmx : \
+    location.cmx \
+    syntaxerr.cmi
+ast_helper.cmo : \
+    syntaxerr.cmi \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    docstrings.cmi \
+    asttypes.cmi \
+    ast_helper.cmi
+ast_helper.cmx : \
+    syntaxerr.cmx \
+    parsetree.cmi \
+    longident.cmx \
+    location.cmx \
+    docstrings.cmx \
+    asttypes.cmi \
+    ast_helper.cmi
+parser.cmo : \
+    syntaxerr.cmi \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    docstrings.cmi \
+    asttypes.cmi \
+    ast_helper.cmi
+parser.cmx : \
+    syntaxerr.cmx \
+    parsetree.cmi \
+    longident.cmx \
+    location.cmx \
+    docstrings.cmx \
+    asttypes.cmi \
+    ast_helper.cmx
+pprintast.cmo : \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    asttypes.cmi \
+    ast_helper.cmi \
+    pprintast.cmi
+pprintast.cmx : \
+    parsetree.cmi \
+    longident.cmx \
+    location.cmx \
+    asttypes.cmi \
+    ast_helper.cmx \
+    pprintast.cmi
+printast.cmo : \
+    pprintast.cmi \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    asttypes.cmi \
+    printast.cmi
+printast.cmx : \
+    pprintast.cmx \
+    parsetree.cmi \
+    longident.cmx \
+    location.cmx \
+    asttypes.cmi \
+    printast.cmi
+location.cmi :
+longident.cmi :
+asttypes.cmi : \
+    location.cmi
+parsetree.cmi : \
+    longident.cmi \
+    location.cmi \
+    asttypes.cmi
+docstrings.cmi : \
+    parsetree.cmi \
+    location.cmi
+syntaxerr.cmi : \
+    location.cmi
+ast_helper.cmi : \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    docstrings.cmi \
+    asttypes.cmi
+pprintast.cmi : \
+    parsetree.cmi \
+    longident.cmi
+printast.cmi : \
+    parsetree.cmi
+mk_meta.cmo :
+mk_meta.cmx :

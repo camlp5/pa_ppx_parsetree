@@ -7,7 +7,7 @@ include $(TOP)/config/Makefile.top
 WD=$(shell pwd)
 DESTDIR=
 
-SYSDIRS= runtime pa_parsetree
+SYSDIRS= pattern_parsing runtime pa_parsetree
 
 TESTDIRS= tests
 
