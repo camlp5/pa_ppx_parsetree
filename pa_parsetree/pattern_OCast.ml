@@ -45,6 +45,7 @@ module Asttypes =
     type variance = Covariant | Contravariant | NoVariance
     type injectivity = Injective | NoInjectivity
   end
+module Parsetree = struct
 type constant =
     Pconst_integer of string * char option
   | Pconst_char of char
@@ -427,3 +428,4 @@ and directive_argument_desc =
   | Pdir_int of string * char option
   | Pdir_ident of Longident.t
   | Pdir_bool of bool 
+end

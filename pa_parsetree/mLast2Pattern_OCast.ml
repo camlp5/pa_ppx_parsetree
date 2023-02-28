@@ -1,7 +1,7 @@
 (** -syntax camlp5r -package camlp5.quotations *)
 
-module Parsetree = Pattern_OCast ;
 open Pattern_OCast ;
+open Pattern_OCast.Parsetree;
 open Pattern_OCast.Longident;
 open Pattern_OCast.Asttypes;
 open Asttools;
@@ -876,7 +876,7 @@ and expr =
             | _ → f ]
         | _ → f ]
       in
-      let al : list (string * Ploc.vala Pattern_OCast.expression) = List.rev (List.fold_left label_expr [] al) in
+      let al : list (string * Ploc.vala Parsetree.expression) = List.rev (List.fold_left label_expr [] al) in
       match ocaml_pexp_construct_args (expr f).pexp_desc with
       [ Some (li, li_loc, None, _) →
           let al = List.map snd al in

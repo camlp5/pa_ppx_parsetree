@@ -1,8 +1,8 @@
 (** -syntax camlp5o *)
 (* Copyright (c) INRIA 2007-2017 *)
 
-module Parsetree = Pattern_OCast ;;
 open Pattern_OCast ;;
+open Pattern_OCast.Parsetree ;;
 open Pattern_OCast.Longident;;
 open Pattern_OCast.Asttypes;;
 

@@ -24,6 +24,7 @@ module Asttypes = struct
 [%%import: Asttypes.variance] [@@deriving show]
 [%%import: Asttypes.injectivity] [@@deriving show]
 end
+module Parsetree = struct
 [%%import: Parsetree.constant] [@@deriving show]
 [%%import: Parsetree.location_stack] [@@deriving show]
 [%%import: Parsetree.attribute
@@ -32,3 +33,5 @@ end
 [%%import: Parsetree.toplevel_phrase
  [@with Asttypes.loc := Location.loc]
 ] [@@deriving show]
+end
+

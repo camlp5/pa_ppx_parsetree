@@ -1,6 +1,6 @@
 (** $(MIGRATE_OCAMLCFLAGS) -package pa_ppx_q_ast,pa_ppx.import,compiler-libs.common -syntax camlp5o *)
 
-[%%import: Pattern_OCast.attribute
+[%%import: Pattern_OCast.Parsetree.attribute
   [@add
       [%%import: Pattern_OCast.Lexing.position]
       type location = [%import: Pattern_OCast.Location.t
@@ -28,13 +28,13 @@
       [%%import: Pattern_OCast.Asttypes.override_flag]
       [%%import: Pattern_OCast.Asttypes.variance]
       [%%import: Pattern_OCast.Asttypes.injectivity]
-      [%%import: Pattern_OCast.constant
+      [%%import: Pattern_OCast.Parsetree.constant
                    [@with Location.t := location]
       ]
-      [%%import: Pattern_OCast.location_stack
+      [%%import: Pattern_OCast.Parsetree.location_stack
                    [@with Location.t := location]
       ]
-      [%%import: Pattern_OCast.toplevel_phrase
+      [%%import: Pattern_OCast.Parsetree.toplevel_phrase
                    [@with Location.t := location]
                    [@with Location.loc := located]
                    [@with Longident.t := longident_t]
