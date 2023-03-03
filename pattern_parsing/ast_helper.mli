@@ -32,6 +32,13 @@ type str = string with_loc
 type str_opt = string option with_loc
 type attrs = attribute list
 
+type 'a vala = 'a Ploc.vala =
+   VaAnt of string
+  | VaVal of 'a
+
+val vaval : 'a -> 'a vala
+val unvala : 'a Ploc.vala -> 'a
+
 (** {1 Default locations} *)
 
 val default_loc: loc ref
@@ -138,12 +145,12 @@ module Exp:
     val fun_: ?loc:loc -> ?attrs:attrs -> arg_label -> expression option
               -> pattern -> expression -> expression
     val function_: ?loc:loc -> ?attrs:attrs -> case list -> expression
-    val apply: ?loc:loc -> ?attrs:attrs -> expression
-               -> (arg_label * expression) list -> expression
+    val apply: ?loc:loc -> ?attrs:attrs -> expression Ploc.vala
+               -> (arg_label * expression Ploc.vala) list -> expression
     val match_: ?loc:loc -> ?attrs:attrs -> expression -> case list
                 -> expression
     val try_: ?loc:loc -> ?attrs:attrs -> expression -> case list -> expression
-    val tuple: ?loc:loc -> ?attrs:attrs -> expression list -> expression
+    val tuple: ?loc:loc -> ?attrs:attrs -> expression Ploc.vala list -> expression
     val construct: ?loc:loc -> ?attrs:attrs -> lid -> expression option
                    -> expression
     val variant: ?loc:loc -> ?attrs:attrs -> label -> expression option
@@ -153,7 +160,7 @@ module Exp:
     val field: ?loc:loc -> ?attrs:attrs -> expression -> lid -> expression
     val setfield: ?loc:loc -> ?attrs:attrs -> expression -> lid -> expression
                   -> expression
-    val array: ?loc:loc -> ?attrs:attrs -> expression list -> expression
+    val array: ?loc:loc -> ?attrs:attrs -> expression Ploc.vala list -> expression
     val ifthenelse: ?loc:loc -> ?attrs:attrs -> expression -> expression
                     -> expression option -> expression
     val sequence: ?loc:loc -> ?attrs:attrs -> expression -> expression
@@ -419,7 +426,7 @@ module Cl:
     val fun_: ?loc:loc -> ?attrs:attrs -> arg_label -> expression option ->
       pattern -> class_expr -> class_expr
     val apply: ?loc:loc -> ?attrs:attrs -> class_expr ->
-      (arg_label * expression) list -> class_expr
+      (arg_label * expression Ploc.vala) list -> class_expr
     val let_: ?loc:loc -> ?attrs:attrs -> rec_flag -> value_binding list ->
       class_expr -> class_expr
     val constraint_: ?loc:loc -> ?attrs:attrs -> class_expr -> class_type ->

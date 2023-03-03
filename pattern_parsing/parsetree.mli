@@ -320,7 +320,7 @@ and expression_desc =
            - [let f P = E] is represented using
              {{!expression_desc.Pexp_fun}[Pexp_fun]}.
          *)
-  | Pexp_apply of expression * (arg_label * expression) list
+  | Pexp_apply of expression Ploc.vala * (arg_label * expression Ploc.vala) list
       (** [Pexp_apply(E0, [(l1, E1) ; ... ; (ln, En)])]
             represents [E0 ~l1:E1 ... ~ln:En]
 
@@ -335,7 +335,7 @@ and expression_desc =
       (** [match E0 with P1 -> E1 | ... | Pn -> En] *)
   | Pexp_try of expression * case list
       (** [try E0 with P1 -> E1 | ... | Pn -> En] *)
-  | Pexp_tuple of expression list
+  | Pexp_tuple of expression Ploc.vala list
       (** Expressions [(E1, ..., En)]
 
            Invariant: [n >= 2]
@@ -361,7 +361,7 @@ and expression_desc =
   | Pexp_field of expression * Longident.t loc  (** [E.l] *)
   | Pexp_setfield of expression * Longident.t loc * expression
       (** [E1.l <- E2] *)
-  | Pexp_array of expression list  (** [[| E1; ...; En |]] *)
+  | Pexp_array of expression Ploc.vala list  (** [[| E1; ...; En |]] *)
   | Pexp_ifthenelse of expression * expression * expression option
       (** [if E1 then E2 else E3] *)
   | Pexp_sequence of expression * expression  (** [E1; E2] *)
@@ -711,7 +711,7 @@ and class_expr_desc =
                      when [lbl]  is {{!Asttypes.arg_label.Optional}[Optional l]}
                       and [exp0] is [Some E0].
         *)
-  | Pcl_apply of class_expr * (arg_label * expression) list
+  | Pcl_apply of class_expr * (arg_label * expression Ploc.vala) list
       (** [Pcl_apply(CE, [(l1,E1) ; ... ; (ln,En)])]
             represents [CE ~l1:E1 ... ~ln:En].
             [li] can be empty (non labeled argument) or start with [?]

@@ -27,6 +27,14 @@ type str = string with_loc
 type str_opt = string option with_loc
 type attrs = attribute list
 
+type 'a vala = 'a Ploc.vala =
+   VaAnt of string
+  | VaVal of 'a
+
+let vaval x = Ploc.VaVal x
+
+let unvala = Pcaml.unvala
+
 let default_loc = ref Location.none
 
 let with_default_loc l f =

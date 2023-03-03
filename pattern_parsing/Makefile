@@ -7,7 +7,7 @@ include $(TOP)/config/Makefile.sub
 
 DESTDIR=
 
-PACKAGES := $(PACKAGES),fmt,pa_ppx.base,pa_ppx.deriving_plugins.std
+PACKAGES := fmt,camlp5
 TARGET_PACKAGE = pa_ppx_parsetree_pattern_parsing
 TARGET=$(TARGET_PACKAGE).cma
 
