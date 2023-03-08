@@ -11,9 +11,10 @@ PACKAGES := fmt,camlp5
 TARGET_PACKAGE = pa_ppx_parsetree_pattern_parsing
 TARGET=$(TARGET_PACKAGE).cma
 
-ML = location.ml longident.ml asttypes.ml parsetree.ml docstrings.ml syntaxerr.ml ast_helper.ml parser.ml pprintast.ml printast.ml
-#ML = location.ml longident.ml asttypes.ml parsetree.ml  docstrings.ml syntaxerr.ml ast_helper.ml
-MLI = location.mli longident.mli asttypes.mli parsetree.mli docstrings.mli syntaxerr.mli ast_helper.mli  pprintast.mli  printast.mli
+ML = clflags.ml location.ml longident.ml asttypes.ml parsetree.ml docstrings.ml syntaxerr.ml \
+	ast_helper.ml parser.ml lexer.ml pprintast.ml parse.ml printast.ml
+MLI = clflags.mli location.mli longident.mli asttypes.mli parsetree.mli docstrings.mli syntaxerr.mli \
+	ast_helper.mli lexer.mli pprintast.mli parse.mli printast.mli
 
 TOOLSML = mk_meta.ml
 ALLSRC=$(ML) $(MLI) $(TOOLSML)
@@ -30,10 +31,18 @@ TARGET_INSTALL_FILES= $(ARCHIVE_TARGET_INSTALL_FILES)
 install:: default_install
 
 clean::
-	rm -rf META mk_meta mk_meta.ml parser.ml
+	rm -rf META mk_meta mk_meta.ml
+
+realclean:: clean
+	rm -f parser.ml parser.mli lexer.ml lexer.mli
 
 parser.ml: parser.mly
-	menhir --infer $<
+	menhir --infer-write-query parser_mock.ml $<
+	ocamlfind ocamlc -package camlp5 -i parser_mock.ml > parser_mock.mli
+	menhir --infer-read-reply parser_mock.mli $<
+
+lexer.ml: lexer.mll
+	ocamllex lexer.mll
 
 $(TARGET_PACKAGE).cmo $(TARGET_PACKAGE).cmi: $(CMO)
 	$(OCAMLFIND) ocamlc $(DEBUG) -pack -o $(TARGET_PACKAGE).cmo $^

@@ -39,6 +39,8 @@ let f = function
 
 #require "pa_ppx_parsetree_pattern_parsing";;
 
+open Pa_ppx_parsetree_pattern_parsing ;;
+
 (*
 ;;; Local Variables: ***
 ;;; mode:tuareg ***
