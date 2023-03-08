@@ -18,6 +18,7 @@ let pp_patt ty = Fmt.(pf stdout "#<patt< %s >>" (Eprinter.apply Pcaml.pr_patt Pp
 print_string "================ START ================\n";; flush stdout ;;
 
 
+(*
 #require "pa_ppx_parsetree";;
 #require "camlp5,pa_ppx.deriving_plugins.show,camlp5.parser_quotations,pa_ppx.params_runtime,pa_ppx_q_ast.runtime";;
 
@@ -34,7 +35,9 @@ open Pa_ppx_parsetree ;;
 let f = function
   <:expression< $lid:e1$ + $e2$ >> ->  1
 |} |> PAPR.Implem.pa1 |> PAPR.Implem.pr |> print_string ;;
+ *)
 
+#require "pa_ppx_parsetree_pattern_parsing";;
 
 (*
 ;;; Local Variables: ***
