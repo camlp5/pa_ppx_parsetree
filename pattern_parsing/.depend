@@ -1,4 +1,4 @@
-location.cmo longident.cmo docstrings.cmo syntaxerr.cmo ast_helper.cmo parser.cmo pprintast.cmo printast.cmo location.cmi longident.cmi docstrings.cmi syntaxerr.cmi ast_helper.cmi parser.cmi pprintast.cmi printast.cmi location.cmx longident.cmx docstrings.cmx syntaxerr.cmx ast_helper.cmx parser.cmx pprintast.cmx printast.cmx: 
+location.cmo longident.cmo asttypes.cmo parsetree.cmo docstrings.cmo syntaxerr.cmo ast_helper.cmo parser.cmo pprintast.cmo printast.cmo location.cmi longident.cmi asttypes.cmi parsetree.cmi docstrings.cmi syntaxerr.cmi ast_helper.cmi parser.cmi pprintast.cmi printast.cmi location.cmx longident.cmx asttypes.cmx parsetree.cmx docstrings.cmx syntaxerr.cmx ast_helper.cmx parser.cmx pprintast.cmx printast.cmx: 
 location.cmo : \
     location.cmi
 location.cmx : \
@@ -7,12 +7,28 @@ longident.cmo : \
     longident.cmi
 longident.cmx : \
     longident.cmi
+asttypes.cmo : \
+    location.cmi \
+    asttypes.cmi
+asttypes.cmx : \
+    location.cmx \
+    asttypes.cmi
+parsetree.cmo : \
+    longident.cmi \
+    location.cmi \
+    asttypes.cmi \
+    parsetree.cmi
+parsetree.cmx : \
+    longident.cmx \
+    location.cmx \
+    asttypes.cmx \
+    parsetree.cmi
 docstrings.cmo : \
     parsetree.cmi \
     location.cmi \
     docstrings.cmi
 docstrings.cmx : \
-    parsetree.cmi \
+    parsetree.cmx \
     location.cmx \
     docstrings.cmi
 syntaxerr.cmo : \
@@ -31,11 +47,11 @@ ast_helper.cmo : \
     ast_helper.cmi
 ast_helper.cmx : \
     syntaxerr.cmx \
-    parsetree.cmi \
+    parsetree.cmx \
     longident.cmx \
     location.cmx \
     docstrings.cmx \
-    asttypes.cmi \
+    asttypes.cmx \
     ast_helper.cmi
 parser.cmo : \
     syntaxerr.cmi \
@@ -47,11 +63,11 @@ parser.cmo : \
     ast_helper.cmi
 parser.cmx : \
     syntaxerr.cmx \
-    parsetree.cmi \
+    parsetree.cmx \
     longident.cmx \
     location.cmx \
     docstrings.cmx \
-    asttypes.cmi \
+    asttypes.cmx \
     ast_helper.cmx
 pprintast.cmo : \
     parsetree.cmi \
@@ -61,10 +77,10 @@ pprintast.cmo : \
     ast_helper.cmi \
     pprintast.cmi
 pprintast.cmx : \
-    parsetree.cmi \
+    parsetree.cmx \
     longident.cmx \
     location.cmx \
-    asttypes.cmi \
+    asttypes.cmx \
     ast_helper.cmx \
     pprintast.cmi
 printast.cmo : \
@@ -73,13 +89,15 @@ printast.cmo : \
     longident.cmi \
     location.cmi \
     asttypes.cmi \
+    ast_helper.cmi \
     printast.cmi
 printast.cmx : \
     pprintast.cmx \
-    parsetree.cmi \
+    parsetree.cmx \
     longident.cmx \
     location.cmx \
-    asttypes.cmi \
+    asttypes.cmx \
+    ast_helper.cmx \
     printast.cmi
 location.cmi :
 longident.cmi :

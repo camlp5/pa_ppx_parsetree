@@ -11,7 +11,8 @@ PACKAGES := fmt,camlp5
 TARGET_PACKAGE = pa_ppx_parsetree_pattern_parsing
 TARGET=$(TARGET_PACKAGE).cma
 
-ML = location.ml longident.ml docstrings.ml syntaxerr.ml ast_helper.ml parser.ml pprintast.ml printast.ml
+ML = location.ml longident.ml asttypes.ml parsetree.ml docstrings.ml syntaxerr.ml ast_helper.ml parser.ml pprintast.ml printast.ml
+#ML = location.ml longident.ml asttypes.ml parsetree.ml  docstrings.ml syntaxerr.ml ast_helper.ml
 MLI = location.mli longident.mli asttypes.mli parsetree.mli docstrings.mli syntaxerr.mli ast_helper.mli  pprintast.mli  printast.mli
 
 TOOLSML = mk_meta.ml

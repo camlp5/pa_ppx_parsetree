@@ -879,7 +879,7 @@ The precedences must be listed from low to high.
 %type <Longident.t> parse_any_longident
 /* END AVOID */
 
-%type <Parsetree.expression vala list> expr_vala_semi_list
+%type <Parsetree.expression vala list> expr_vaval_semi_list
 %type <Parsetree.expression list> expr_semi_list
 %type <Parsetree.expression> simple_expr
 
@@ -2306,9 +2306,17 @@ let_pattern:
 
 %inline qualified_dotop: ioption(DOT mod_longident {$2}) DOTOP { $1, $2 };
 
-expr_vala:
-  expr
-    { vaval $1 }
+%inline vaval(X):
+   X
+   { vaval $1 }
+;
+
+%inline vala(X,anti):
+   X
+     { vaval $1 }
+  | anti
+     { Ploc.VaAnt $1 }
+;
 
 expr:
     simple_expr %prec below_HASH
@@ -2326,15 +2334,15 @@ expr:
         let pbop_loc = make_loc $sloc in
         let let_ = {pbop_op; pbop_pat; pbop_exp; pbop_loc} in
         mkexp ~loc:$sloc (Pexp_letop{ let_; ands; body}) }
-  | expr COLONCOLON expr
-      { mkexp_cons ~loc:$sloc $loc($2) (ghexp ~loc:$sloc (Pexp_tuple[vaval $1;vaval $3])) }
+  | vaval(expr) COLONCOLON vaval(expr)
+      { mkexp_cons ~loc:$sloc $loc($2) (ghexp ~loc:$sloc (Pexp_tuple[$1;$3])) }
   | mkrhs(label) LESSMINUS expr
       { mkexp ~loc:$sloc (Pexp_setinstvar($1, $3)) }
   | simple_expr DOT mkrhs(label_longident) LESSMINUS expr
       { mkexp ~loc:$sloc (Pexp_setfield($1, $3, $5)) }
   | indexop_expr_1(DOT, seq_expr, LESSMINUS v=expr {Some (vaval v)})
     { mk_indexop_expr builtin_indexing_operators ~loc:$sloc $1 }
-  | indexop_expr_2(qualified_dotop, expr_vala_semi_list, LESSMINUS v=expr {Some (vaval v)})
+  | indexop_expr_2(qualified_dotop, expr_vaval_semi_list, LESSMINUS v=expr {Some (vaval v)})
     { mk_indexop_expr user_indexing_operators ~loc:$sloc $1 }
   | expr attribute
       { Exp.attr $1 $2 }
@@ -2380,16 +2388,16 @@ expr:
       { Pexp_lazy $3, $2 }
 ;
 %inline expr_:
-  | simple_expr nonempty_llist(labeled_simple_expr)
-      { Pexp_apply(vaval $1, List.map (fun (a,b) -> (a, vaval b)) $2) }
-  | expr_vala_comma_list %prec below_COMMA
+  | vaval(simple_expr) nonempty_llist(labeled_simple_expr)
+      { Pexp_apply($1, List.map (fun (a,b) -> (a, vaval b)) $2) }
+  | expr_vaval_comma_list %prec below_COMMA
       { Pexp_tuple($1) }
   | mkrhs(constr_longident) simple_expr %prec below_HASH
       { Pexp_construct($1, Some $2) }
   | name_tag simple_expr %prec below_HASH
       { Pexp_variant($1, Some $2) }
-  | e1 = expr op = op(infix_operator) e2 = expr
-      { mkinfix (vaval e1) (vaval op) (vaval e2) }
+  | e1 = vaval(expr) op = op(infix_operator) e2 = vaval(expr)
+      { mkinfix e1 (vaval op) e2 }
   | subtractive expr %prec prec_unary_minus
       { mkuminus ~oploc:$loc($1) $1 $2 }
   | additive expr %prec prec_unary_plus
@@ -2405,7 +2413,7 @@ simple_expr:
       { mkexp_constraint ~loc:$sloc $2 $3 }
   | indexop_expr_3(DOT, seq_expr, { None })
       { mk_indexop_expr builtin_indexing_operators ~loc:$sloc $1 }
-  | indexop_expr_4(qualified_dotop, expr_vala_semi_list, { None })
+  | indexop_expr_4(qualified_dotop, expr_vaval_semi_list, { None })
       { mk_indexop_expr user_indexing_operators ~loc:$sloc $1 }
   | indexop_error (DOT, seq_expr) { $1 }
   | indexop_error (qualified_dotop, expr_semi_list) { $1 }
@@ -2444,10 +2452,10 @@ simple_expr:
       { Pexp_construct($1, None) }
   | name_tag %prec prec_constant_constructor
       { Pexp_variant($1, None) }
-  | op(PREFIXOP) simple_expr
-      { Pexp_apply(vaval $1, [Nolabel,vaval $2]) }
-  | op(BANG {"!"}) simple_expr
-      { Pexp_apply(vaval $1, [Nolabel,vaval $2]) }
+  | op(PREFIXOP) vaval(simple_expr)
+      { Pexp_apply(vaval $1, [Nolabel,$2]) }
+  | op(BANG {"!"}) vaval(simple_expr)
+      { Pexp_apply(vaval $1, [Nolabel,$2]) }
   | LBRACELESS object_expr_content GREATERRBRACE
       { Pexp_override $2 }
   | LBRACELESS object_expr_content error
@@ -2465,8 +2473,8 @@ simple_expr:
       { unclosed "{<" $loc($3) ">}" $loc($5) }
   | simple_expr HASH mkrhs(label)
       { Pexp_send($1, $3) }
-  | simple_expr op(HASHOP) simple_expr
-      { mkinfix (vaval $1) (vaval $2) (vaval $3) }
+  | vaval(simple_expr) op(HASHOP) vaval(simple_expr)
+      { mkinfix $1 (vaval $2) $3 }
   | extension
       { Pexp_extension $1 }
   | od=open_dot_declaration DOT mkrhs(LPAREN RPAREN {Lident "()"})
@@ -2484,13 +2492,13 @@ simple_expr:
                         (Pexp_record(fields, exten))) }
   | mod_longident DOT LBRACE record_expr_content error
       { unclosed "{" $loc($3) "}" $loc($5) }
-  | LBRACKETBAR expr_vala_semi_list BARRBRACKET
+  | LBRACKETBAR expr_vaval_semi_list BARRBRACKET
       { Pexp_array($2) }
   | LBRACKETBAR expr_semi_list error
       { unclosed "[|" $loc($1) "|]" $loc($3) }
   | LBRACKETBAR BARRBRACKET
       { Pexp_array [] }
-  | od=open_dot_declaration DOT LBRACKETBAR expr_vala_semi_list BARRBRACKET
+  | od=open_dot_declaration DOT LBRACKETBAR expr_vaval_semi_list BARRBRACKET
       { Pexp_open(od, mkexp ~loc:($startpos($3), $endpos) (Pexp_array($4))) }
   | od=open_dot_declaration DOT LBRACKETBAR BARRBRACKET
       { (* TODO: review the location of Pexp_array *)
@@ -2498,11 +2506,11 @@ simple_expr:
   | mod_longident DOT
     LBRACKETBAR expr_semi_list error
       { unclosed "[|" $loc($3) "|]" $loc($5) }
-  | LBRACKET expr_vala_semi_list RBRACKET
+  | LBRACKET expr_vaval_semi_list RBRACKET
       { fst (mktailexp $loc($3) $2) }
   | LBRACKET expr_semi_list error
       { unclosed "[" $loc($1) "]" $loc($3) }
-  | od=open_dot_declaration DOT LBRACKET expr_vala_semi_list RBRACKET
+  | od=open_dot_declaration DOT LBRACKET expr_vaval_semi_list RBRACKET
       { let list_exp =
           (* TODO: review the location of list_exp *)
           let tail_exp, _tail_loc = mktailexp $loc($5) $4 in
@@ -2687,8 +2695,8 @@ fun_def:
   es = separated_nontrivial_llist(COMMA, expr)
     { es }
 ;
-%inline expr_vala_comma_list:
-  es = separated_nontrivial_llist(COMMA, expr_vala)
+%inline expr_vaval_comma_list:
+  es = separated_nontrivial_llist(COMMA, vaval(expr))
     { es }
 ;
 record_expr_content:
@@ -2727,8 +2735,8 @@ record_expr_content:
         in
         label, e }
 ;
-%inline expr_vala_semi_list:
-  es = separated_or_terminated_nonempty_list(SEMI, expr_vala)
+%inline expr_vaval_semi_list:
+  es = separated_or_terminated_nonempty_list(SEMI, vaval(expr))
     { es }
 ;
 %inline expr_semi_list:
