@@ -34,7 +34,7 @@ clean::
 	rm -rf META mk_meta mk_meta.ml
 
 realclean:: clean
-	rm -f parser.ml parser.mli lexer.ml lexer.mli
+	rm -f parser.ml parser.mli lexer.ml lexer.mli *_mock.ml*
 
 parser.ml: parser.mly
 	menhir --infer-write-query parser_mock.ml $<
