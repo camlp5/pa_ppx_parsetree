@@ -248,7 +248,6 @@ and pattern i ppf x =
       line i ppf "Ppat_extension \"%s\"\n" s.txt;
       payload i ppf arg
 
-and expression_vala i ppf x = expression i ppf (unvala x)
 and expression i ppf x =
   line i ppf "expression %a\n" fmt_location x.pexp_loc;
   attributes i ppf x.pexp_attributes;
@@ -271,7 +270,7 @@ and expression i ppf x =
       expression i ppf e;
   | Pexp_apply (e, l) ->
       line i ppf "Pexp_apply\n";
-      expression i ppf (Pcaml.unvala e);
+      expression i ppf e;
       list i label_x_expression ppf l;
   | Pexp_match (e, l) ->
       line i ppf "Pexp_match\n";
@@ -283,7 +282,7 @@ and expression i ppf x =
       list i case ppf l;
   | Pexp_tuple (l) ->
       line i ppf "Pexp_tuple\n";
-      list i expression_vala ppf l;
+      list i expression ppf l;
   | Pexp_construct (li, eo) ->
       line i ppf "Pexp_construct %a\n" fmt_longident_loc li;
       option i expression ppf eo;
@@ -305,7 +304,7 @@ and expression i ppf x =
       expression i ppf e2;
   | Pexp_array (l) ->
       line i ppf "Pexp_array\n";
-      list i expression_vala ppf l;
+      list i expression ppf l;
   | Pexp_ifthenelse (e1, e2, eo) ->
       line i ppf "Pexp_ifthenelse\n";
       expression i ppf e1;
@@ -928,7 +927,7 @@ and longident_x_expression i ppf (li, e) =
 and label_x_expression i ppf (l,e) =
   line i ppf "<arg>\n";
   arg_label i ppf l;
-  expression_vala (i+1) ppf e;
+  expression (i+1) ppf e;
 
 and label_x_bool_x_core_type_list i ppf x =
   match x.prf_desc with

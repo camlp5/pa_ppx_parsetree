@@ -129,8 +129,8 @@ let type_injectivity = function
   | Injective -> "!"
 
 type construct =
-  [ `cons of expression vala list
-  | `list of expression vala list
+  [ `cons of expression list
+  | `list of expression list
   | `nil
   | `normal
   | `simple of Longident.t
@@ -151,8 +151,8 @@ let view_expr x =
                                     pexp_attributes = []}));
              pexp_attributes = []}
             ->
-              loop (unvala e2) (e1::acc)
-          | e -> (List.rev (vaval e::acc),false) in
+              loop e2 (e1::acc)
+          | e -> (List.rev (e::acc),false) in
       let (ls,b) = loop x []  in
       if b then
         `list ls
@@ -535,11 +535,11 @@ and label_exp ctxt f (l,(opt : expression option),p) =
 and sugar_expr ctxt f e =
   if e.pexp_attributes <> [] then false
   else match e.pexp_desc with
-  | Pexp_apply (VaVal { pexp_desc = Pexp_ident {txt = id; _};
+  | Pexp_apply ({ pexp_desc = Pexp_ident {txt = id; _};
                   pexp_attributes=[]; _}, args)
     when List.for_all (fun (lab, _) -> lab = Nolabel) args -> begin
       let print_indexop a path_prefix assign left sep right print_index indices
-          (rem_args : expression vala list) =
+          (rem_args : expression list) =
         let print_path ppf = function
           | None -> ()
           | Some m -> pp ppf ".%a" longident m in
@@ -552,31 +552,31 @@ and sugar_expr ctxt f e =
               pp f "@[%a%a%s%a%s@ <-@;<1 2>%a@]"
                 (simple_expr ctxt) a print_path path_prefix
                 left (list ~sep print_index) indices right
-                (simple_expr_vala ctxt) v; true
+                (simple_expr ctxt) v; true
             | _ -> false in
       match id, List.map snd args with
       | Lident "!", [e] ->
-        pp f "@[<hov>!%a@]" (simple_expr_vala ctxt) e; true
+        pp f "@[<hov>!%a@]" (simple_expr ctxt) e; true
       | Ldot (path, ("get"|"set" as func)), a :: other_args -> begin
           let assign = func = "set" in
-          let print = print_indexop (unvala a) None assign in
+          let print = print_indexop a None assign in
           match path, other_args with
           | Lident "Array", i :: rest ->
-            print ".(" "" ")" (expression_vala ctxt) [i] rest
+            print ".(" "" ")" (expression ctxt) [i] rest
           | Lident "String", i :: rest ->
-            print ".[" "" "]" (expression_vala ctxt) [i] rest
+            print ".[" "" "]" (expression ctxt) [i] rest
           | Ldot (Lident "Bigarray", "Array1"), i1 :: rest ->
-            print ".{" "," "}" (simple_expr_vala ctxt) [i1] rest
+            print ".{" "," "}" (simple_expr ctxt) [i1] rest
           | Ldot (Lident "Bigarray", "Array2"), i1 :: i2 :: rest ->
-            print ".{" "," "}" (simple_expr_vala ctxt) [i1; i2] rest
+            print ".{" "," "}" (simple_expr ctxt) [i1; i2] rest
           | Ldot (Lident "Bigarray", "Array3"), i1 :: i2 :: i3 :: rest ->
-            print ".{" "," "}" (simple_expr_vala ctxt) [i1; i2; i3] rest
+            print ".{" "," "}" (simple_expr ctxt) [i1; i2; i3] rest
           | Ldot (Lident "Bigarray", "Genarray"),
-            VaVal {pexp_desc = Pexp_array indexes; pexp_attributes = []} :: rest ->
-              print ".{" "," "}" (simple_expr_vala ctxt) indexes rest
+            {pexp_desc = Pexp_array indexes; pexp_attributes = []} :: rest ->
+              print ".{" "," "}" (simple_expr ctxt) indexes rest
           | _ -> false
         end
-      | (Lident s | Ldot(_,s)) , a :: (VaVal i) :: rest
+      | (Lident s | Ldot(_,s)) , a :: i :: rest
         when first_is '.' s ->
           (* extract operator:
              assignment operators end with [right_bracket ^ "<-"],
@@ -586,7 +586,7 @@ and sugar_expr ctxt f e =
           let i =
               match i.pexp_desc with
                 | Pexp_array l when multi_indices -> l
-                | _ -> [ vaval i ] in
+                | _ -> [ i ] in
           let assign = last_is '-' s in
           let kind =
             (* extract the right end bracket *)
@@ -601,14 +601,13 @@ and sugar_expr ctxt f e =
             | Ldot(m,_) -> Some m
             | _ -> None in
           let left = String.sub s 0 (1+String.index s left) in
-          print_indexop (unvala a) path_prefix assign left ";" right
-            (if multi_indices then expression_vala ctxt else simple_expr_vala ctxt)
+          print_indexop a path_prefix assign left ";" right
+            (if multi_indices then expression ctxt else simple_expr ctxt)
             i rest
       | _ -> false
     end
   | _ -> false
 
-and expression_vala ctxt f x = expression ctxt f (unvala x)
 and expression ctxt f (x : expression) =
   if x.pexp_attributes <> [] then
     pp f "((%a)@,%a)" (expression ctxt) {x with pexp_attributes=[]}
@@ -650,18 +649,18 @@ and expression ctxt f (x : expression) =
           (expression ctxt) e
     | Pexp_apply (e, l) ->
         begin if not (sugar_expr ctxt f x) then
-            match view_fixity_of_exp (unvala e) with
+            match view_fixity_of_exp e with
             | `Infix s ->
                 begin match l with
                 | [ (Nolabel, _) as arg1; (Nolabel, _) as arg2 ] ->
                     (* FIXME associativity label_x_expression_param *)
                     pp f "@[<2>%a@;%s@;%a@]"
-                      (label_x_expression_vala_param reset_ctxt) arg1 s
-                      (label_x_expression_vala_param ctxt) arg2
+                      (label_x_expression_param reset_ctxt) arg1 s
+                      (label_x_expression_param ctxt) arg2
                 | _ ->
                     pp f "@[<2>%a %a@]"
-                      (simple_expr_vala ctxt) e
-                      (list (label_x_expression_vala_param ctxt)) l
+                      (simple_expr ctxt) e
+                      (list (label_x_expression_param ctxt)) l
                 end
             | `Prefix s ->
                 let s =
@@ -669,21 +668,21 @@ and expression ctxt f (x : expression) =
                    (match l with
                     (* See #7200: avoid turning (~- 1) into (- 1) which is
                        parsed as an int literal *)
-                    |[(_,VaVal {pexp_desc=Pexp_constant _})] -> false
+                    |[(_,{pexp_desc=Pexp_constant _})] -> false
                     | _ -> true)
                   then String.sub s 1 (String.length s -1)
                   else s in
                 begin match l with
                 | [(Nolabel, x)] ->
-                  pp f "@[<2>%s@;%a@]" s (simple_expr_vala ctxt) x
+                  pp f "@[<2>%s@;%a@]" s (simple_expr ctxt) x
                 | _   ->
-                  pp f "@[<2>%a %a@]" (simple_expr_vala ctxt) e
-                    (list (label_x_expression_vala_param ctxt)) l
+                  pp f "@[<2>%a %a@]" (simple_expr ctxt) e
+                    (list (label_x_expression_param ctxt)) l
                 end
             | _ ->
                 pp f "@[<hov2>%a@]" begin fun f (e,l) ->
-                  pp f "%a@ %a" (expression2_vala ctxt) e
-                    (list (label_x_expression_vala_param reset_ctxt))  l
+                  pp f "%a@ %a" (expression2 ctxt) e
+                    (list (label_x_expression_param reset_ctxt))  l
                     (* reset here only because [function,match,try,sequence]
                        are lower priority *)
                 end (e,l)
@@ -692,7 +691,7 @@ and expression ctxt f (x : expression) =
     | Pexp_construct (li, Some eo)
       when not (is_simple_construct (view_expr x))-> (* Not efficient FIXME*)
         (match view_expr x with
-         | `cons ls -> list (simple_expr_vala ctxt) f ls ~sep:"@;::@;"
+         | `cons ls -> list (simple_expr ctxt) f ls ~sep:"@;::@;"
          | `normal ->
              pp f "@[<2>%a@;%a@]" longident_loc li
                (simple_expr ctxt) eo
@@ -767,7 +766,6 @@ and expression1 ctxt f x =
     | _ -> expression2 ctxt f x
 (* used in [Pexp_apply] *)
 
-and expression2_vala ctxt f x = expression2 ctxt f (unvala x)
 and expression2 ctxt f x =
   if x.pexp_attributes <> [] then expression ctxt f x
   else match x.pexp_desc with
@@ -777,7 +775,6 @@ and expression2 ctxt f x =
 
     | _ -> simple_expr ctxt f x
 
-and simple_expr_vala ctxt f x = simple_expr ctxt f (unvala x)
 and simple_expr ctxt f x =
   if x.pexp_attributes <> [] then expression ctxt f x
   else match x.pexp_desc with
@@ -787,7 +784,7 @@ and simple_expr ctxt f x =
          | `tuple -> pp f "()"
          | `list xs ->
              pp f "@[<hv0>[%a]@]"
-               (list (expression_vala (under_semi ctxt)) ~sep:";@;") xs
+               (list (expression (under_semi ctxt)) ~sep:";@;") xs
          | `simple x -> longident f x
          | _ -> assert false)
     | Pexp_ident li ->
@@ -799,7 +796,7 @@ and simple_expr ctxt f x =
     | Pexp_pack me ->
         pp f "(module@;%a)" (module_expr ctxt) me
     | Pexp_tuple l ->
-        pp f "@[<hov2>(%a)@]" (list (simple_expr_vala ctxt) ~sep:",@;") l
+        pp f "@[<hov2>(%a)@]" (list (simple_expr ctxt) ~sep:",@;") l
     | Pexp_constraint (e, ct) ->
         pp f "(%a : %a)" (expression ctxt) e (core_type ctxt) ct
     | Pexp_coerce (e, cto1, ct) ->
@@ -821,7 +818,7 @@ and simple_expr ctxt f x =
           (list longident_x_expression ~sep:";@;") l
     | Pexp_array (l) ->
         pp f "@[<0>@[<2>[|%a|]@]@]"
-          (list (simple_expr_vala (under_semi ctxt)) ~sep:";") l
+          (list (simple_expr (under_semi ctxt)) ~sep:";") l
     | Pexp_while (e1, e2) ->
         let fmt : (_,_,_) format = "@[<2>while@;%a@;do@;%a@;done@]" in
         pp f fmt (expression ctxt) e1 (expression ctxt) e2
@@ -1028,7 +1025,7 @@ and class_expr ctxt f x =
     | Pcl_apply (ce, l) ->
         pp f "((%a)@ %a)" (* Cf: #7200 *)
           (class_expr ctxt) ce
-          (list (label_x_expression_vala_param ctxt)) l
+          (list (label_x_expression_param ctxt)) l
     | Pcl_constr (li, l) ->
         pp f "%a%a"
           (fun f l-> if l <>[] then
@@ -1644,7 +1641,6 @@ and case_list ctxt f l : unit =
   list aux f l ~sep:""
 
 
-and label_x_expression_vala_param ctxt f (l,e) = label_x_expression_param ctxt f (l,unvala e)
 and label_x_expression_param ctxt f (l,e) =
   let simple_name = match e with
     | {pexp_desc=Pexp_ident {txt=Lident l;_};

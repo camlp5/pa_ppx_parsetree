@@ -232,9 +232,8 @@ val ghsig :
   loc:Lexing.position * Lexing.position ->
   Parsetree.signature_item_desc -> Parsetree.signature_item
 val mkinfix :
-  Parsetree.expression Ploc.vala ->
-  Parsetree.expression Ploc.vala ->
-  Parsetree.expression Ploc.vala -> Parsetree.expression_desc
+  Parsetree.expression ->
+  Parsetree.expression -> Parsetree.expression -> Parsetree.expression_desc
 val neg_string : string -> string
 val mkuminus :
   oploc:Lexing.position * Lexing.position ->
@@ -263,7 +262,7 @@ val ghpat_cons_desc :
   Parsetree.pattern -> Parsetree.pattern_desc
 val mktailexp :
   Lexing.position * Lexing.position ->
-  Parsetree.expression Ploc.vala list ->
+  Parsetree.expression list ->
   Parsetree.expression_desc * (Lexing.position * Lexing.position)
 val mktailpat :
   Lexing.position * Lexing.position ->
@@ -302,23 +301,18 @@ type ('dot, 'index) array_family = {
   index :
     Lexing.position * Lexing.position ->
     paren_kind ->
-    'index ->
-    index_dim *
-    (Asttypes.arg_label * Parsetree.expression Ast_helper.vala) list;
+    'index -> index_dim * (Asttypes.arg_label * Parsetree.expression) list;
 }
-val bigarray_untuplify :
-  Parsetree.expression -> Parsetree.expression Ast_helper.vala list
+val bigarray_untuplify : Parsetree.expression -> Parsetree.expression list
 val builtin_arraylike_name :
   Lexing.position * Lexing.position ->
   'a -> assign:bool -> paren_kind -> index_dim -> Longident.t Asttypes.loc
 val builtin_arraylike_index :
   Lexing.position * Lexing.position ->
   paren_kind ->
-  Parsetree.expression Ast_helper.vala ->
-  index_dim *
-  (Asttypes.arg_label * Parsetree.expression Ast_helper.vala) list
-val builtin_indexing_operators :
-  (unit, Parsetree.expression Ast_helper.vala) array_family
+  Parsetree.expression ->
+  index_dim * (Asttypes.arg_label * Parsetree.expression) list
+val builtin_indexing_operators : (unit, Parsetree.expression) array_family
 val paren_to_strings : paren_kind -> string * string
 val user_indexing_operator_name :
   Lexing.position * Lexing.position ->
@@ -327,17 +321,15 @@ val user_indexing_operator_name :
 val user_index :
   Lexing.position * Lexing.position ->
   'a ->
-  Parsetree.expression Ast_helper.vala list ->
-  index_dim *
-  (Asttypes.arg_label * Parsetree.expression Ast_helper.vala) list
+  Parsetree.expression list ->
+  index_dim * (Asttypes.arg_label * Parsetree.expression) list
 val user_indexing_operators :
-  (Longident.t option * string, Parsetree.expression Ast_helper.vala list)
-  array_family
+  (Longident.t option * string, Parsetree.expression list) array_family
 val mk_indexop_expr :
   ('a, 'b) array_family ->
   loc:Lexing.position * Lexing.position ->
-  Parsetree.expression Ast_helper.vala * 'a * paren_kind * 'b *
-  Parsetree.expression Ast_helper.vala option -> Parsetree.expression
+  Parsetree.expression * 'a * paren_kind * 'b * Parsetree.expression option ->
+  Parsetree.expression
 val indexop_unclosed_error :
   Lexing.position * Lexing.position ->
   paren_kind -> Lexing.position * Lexing.position -> 'a
@@ -508,8 +500,6 @@ val xv_with_constraint : Parsetree.with_constraint
 val xv_virtual_with_private_flag : Asttypes.private_flag
 val xv_virtual_with_mutable_flag : Asttypes.mutable_flag
 val xv_virtual_flag : Asttypes.virtual_flag
-val xv_vaval_simple_expr_ : Parsetree.expression Ast_helper.vala
-val xv_vaval_expr_ : Parsetree.expression Ast_helper.vala
 val xv_value_type :
   Asttypes.label Asttypes.loc * Asttypes.mutable_flag *
   Asttypes.virtual_flag * Parsetree.core_type
@@ -599,8 +589,6 @@ val xv_sig_type_extension :
 val xv_sig_exception_declaration :
   Parsetree.type_exception * string Asttypes.loc option
 val xv_seq_expr : Parsetree.expression
-val xv_separated_or_terminated_nonempty_list_SEMI_vaval_expr__ :
-  Parsetree.expression Ast_helper.vala list
 val xv_separated_or_terminated_nonempty_list_SEMI_record_expr_field_ :
   (Longident.t Asttypes.loc * Parsetree.expression) list
 val xv_separated_or_terminated_nonempty_list_SEMI_pattern_ :
@@ -611,8 +599,7 @@ val xv_separated_or_terminated_nonempty_list_SEMI_expr_ :
   Parsetree.expression list
 val xv_separated_nontrivial_llist_STAR_atomic_type_ :
   Parsetree.core_type list
-val xv_separated_nontrivial_llist_COMMA_vaval_expr__ :
-  Parsetree.expression Ast_helper.vala list
+val xv_separated_nontrivial_llist_COMMA_expr_ : Parsetree.expression list
 val xv_separated_nontrivial_llist_COMMA_core_type_ : Parsetree.core_type list
 val xv_separated_nonempty_llist_COMMA_type_parameter_ :
   (Parsetree.core_type * (Asttypes.variance * Asttypes.injectivity)) list
@@ -626,8 +613,8 @@ val xv_row_field_list : Parsetree.row_field list
 val xv_row_field : Parsetree.row_field
 val xv_reversed_separated_nontrivial_llist_STAR_atomic_type_ :
   Parsetree.core_type list
-val xv_reversed_separated_nontrivial_llist_COMMA_vaval_expr__ :
-  Parsetree.expression Ast_helper.vala list
+val xv_reversed_separated_nontrivial_llist_COMMA_expr_ :
+  Parsetree.expression list
 val xv_reversed_separated_nontrivial_llist_COMMA_core_type_ :
   Parsetree.core_type list
 val xv_reversed_separated_nonempty_llist_STAR_atomic_type_ :
@@ -660,8 +647,8 @@ val xv_reversed_bar_llist_constructor_declaration_ :
   Parsetree.constructor_declaration list
 val xv_rev_reversed_separated_nontrivial_llist_STAR_atomic_type__ :
   Parsetree.core_type list
-val xv_rev_reversed_separated_nontrivial_llist_COMMA_vaval_expr___ :
-  Parsetree.expression Ast_helper.vala list
+val xv_rev_reversed_separated_nontrivial_llist_COMMA_expr__ :
+  Parsetree.expression list
 val xv_rev_reversed_separated_nontrivial_llist_COMMA_core_type__ :
   Parsetree.core_type list
 val xv_rev_reversed_separated_nonempty_llist_COMMA_type_parameter__ :
@@ -966,22 +953,18 @@ val xv_inline_reversed_separated_nonempty_llist_AMPERSAND_core_type_no_attr_ :
 val xv_inline_private_flag : Asttypes.private_flag
 val xv_inherit_field : Parsetree.object_field
 val xv_infix_operator : Asttypes.label
-val xv_indexop_expr_4_qualified_dotop_expr_vaval_semi_list___anonymous_25_ :
-  Parsetree.expression Ast_helper.vala * (Longident.t option * string) *
-  paren_kind * Parsetree.expression Ast_helper.vala list *
-  Parsetree.expression Ast_helper.vala option
+val xv_indexop_expr_4_qualified_dotop_expr_semi_list___anonymous_25_ :
+  Parsetree.expression * (Longident.t option * string) * paren_kind *
+  Parsetree.expression list * Parsetree.expression option
 val xv_indexop_expr_3_DOT_seq_expr___anonymous_24_ :
-  Parsetree.expression Ast_helper.vala * unit * paren_kind *
-  Parsetree.expression Ast_helper.vala *
-  Parsetree.expression Ast_helper.vala option
-val xv_indexop_expr_2_qualified_dotop_expr_vaval_semi_list___anonymous_23_ :
-  Parsetree.expression Ast_helper.vala * (Longident.t option * string) *
-  paren_kind * Parsetree.expression Ast_helper.vala list *
-  Parsetree.expression Ast_helper.vala option
+  Parsetree.expression * unit * paren_kind * Parsetree.expression *
+  Parsetree.expression option
+val xv_indexop_expr_2_qualified_dotop_expr_semi_list___anonymous_23_ :
+  Parsetree.expression * (Longident.t option * string) * paren_kind *
+  Parsetree.expression list * Parsetree.expression option
 val xv_indexop_expr_1_DOT_seq_expr___anonymous_22_ :
-  Parsetree.expression Ast_helper.vala * unit * paren_kind *
-  Parsetree.expression Ast_helper.vala *
-  Parsetree.expression Ast_helper.vala option
+  Parsetree.expression * unit * paren_kind * Parsetree.expression *
+  Parsetree.expression option
 val xv_indexop_error_qualified_dotop_expr_semi_list_ : Parsetree.expression
 val xv_indexop_error_DOT_seq_expr_ : Parsetree.expression
 val xv_index_mod : string
@@ -1061,9 +1044,8 @@ val xv_extension_constructor_BAR_ : Parsetree.extension_constructor
 val xv_extension : Parsetree.extension
 val xv_ext_attributes : string Asttypes.loc option * Parsetree.attributes
 val xv_ext : string Asttypes.loc option
-val xv_expr_vaval_semi_list : Parsetree.expression Ast_helper.vala list
-val xv_expr_vaval_comma_list : Parsetree.expression Ast_helper.vala list
 val xv_expr_semi_list : Parsetree.expression list
+val xv_expr_comma_list : Parsetree.expression list
 val xv_expr_colon_package_type : Parsetree.expression
 val xv_expr_attrs :
   Parsetree.expression_desc *
@@ -1173,10 +1155,10 @@ val xv___anonymous_29 : Parsetree.expression_desc
 val xv___anonymous_28 : Longident.t
 val xv___anonymous_27 : Longident.t
 val xv___anonymous_26 : string
-val xv___anonymous_25 : Parsetree.expression Ast_helper.vala option
-val xv___anonymous_24 : Parsetree.expression Ast_helper.vala option
-val xv___anonymous_23 : Parsetree.expression Ast_helper.vala option
-val xv___anonymous_22 : Parsetree.expression Ast_helper.vala option
+val xv___anonymous_25 : Parsetree.expression option
+val xv___anonymous_24 : Parsetree.expression option
+val xv___anonymous_23 : Parsetree.expression option
+val xv___anonymous_22 : Parsetree.expression option
 val xv___anonymous_21 : Longident.t
 val xv___anonymous_20 : Parsetree.pattern_desc
 val xv___anonymous_2 :
