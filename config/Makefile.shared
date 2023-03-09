@@ -3,6 +3,7 @@
 
 RM=rm
 
+DEBUG=-g
 NOT_OCAMLFIND=not-ocamlfind
 LAUNCH=env TOP=$(TOP) ocamlfind camlp5-buildscripts/LAUNCH --
 OCAMLFIND=ocamlfind

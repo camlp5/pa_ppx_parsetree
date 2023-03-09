@@ -584,6 +584,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI (payload, loc)
      }
+  | "$" "tuplelist:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_TUPLELIST (payload, loc)
+     }
   | eof { EOF }
   | (_ as illegal_char)
       { error lexbuf (Illegal_character illegal_char) }

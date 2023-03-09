@@ -36,6 +36,12 @@ clean::
 realclean:: clean
 	rm -f parser.ml parser.mli lexer.ml *_mock.ml* *.conflicts
 
+parser.cmo: parser.ml
+	$(LAUNCH) $(YAWRAP) $(OCAMLFIND) ocamlc $(OCAMLCFLAGS) -package $(PACKAGES) -c $<
+
+parser.cmx: parser.ml
+	$(LAUNCH) $(YAWRAP) $(OCAMLFIND) ocamlopt $(OCAMLCFLAGS) -package $(PACKAGES) -c $<
+
 parser.ml: parser.mly
 	menhir --infer-write-query parser_mock.ml $<
 	ocamlfind ocamlc -package camlp5 -i parser_mock.ml > parser_mock.mli
