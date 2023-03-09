@@ -283,6 +283,7 @@ and expression =
     }
 
 and expression_desc =
+  | Pexp_xtr of string loc
   | Pexp_ident of Longident.t loc
       (** Identifiers such as [x] and [M.x]
          *)

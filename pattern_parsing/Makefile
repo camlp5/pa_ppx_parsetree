@@ -34,12 +34,12 @@ clean::
 	rm -rf META mk_meta mk_meta.ml
 
 realclean:: clean
-	rm -f parser.ml parser.mli lexer.ml lexer.mli *_mock.ml*
+	rm -f parser.ml parser.mli lexer.ml *_mock.ml* *.conflicts
 
 parser.ml: parser.mly
 	menhir --infer-write-query parser_mock.ml $<
 	ocamlfind ocamlc -package camlp5 -i parser_mock.ml > parser_mock.mli
-	menhir --infer-read-reply parser_mock.mli $<
+	menhir --explain --infer-read-reply parser_mock.mli $<
 
 lexer.ml: lexer.mll
 	ocamllex lexer.mll

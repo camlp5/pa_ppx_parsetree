@@ -832,7 +832,7 @@ The precedences must be listed from low to high.
 %nonassoc BACKQUOTE BANG BEGIN CHAR FALSE FLOAT INT OBJECT
           LBRACE LBRACELESS LBRACKET LBRACKETBAR LIDENT LPAREN
           NEW PREFIXOP STRING TRUE UIDENT
-          LBRACKETPERCENT QUOTED_STRING_EXPR
+          LBRACKETPERCENT QUOTED_STRING_EXPR ANTI
 
 
 /* Entry points */
@@ -2444,6 +2444,7 @@ simple_expr:
 %inline simple_expr_:
   | mkrhs(val_longident)
       { Pexp_ident ($1) }
+  | ANTI { Pexp_xtr (Location.mkloc (fst $1) (snd $1)) }
   | constant
       { Pexp_constant $1 }
   | mkrhs(constr_longident) %prec prec_constant_constructor
