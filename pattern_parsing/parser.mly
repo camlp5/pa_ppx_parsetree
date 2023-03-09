@@ -768,7 +768,7 @@ let mk_directive ~loc name arg =
 %token WITH                   "with"
 %token <string * Location.t> COMMENT    "(* comment *)"
 %token <Docstrings.docstring> DOCSTRING "(** documentation *)"
-
+%token <string * Location.t> ANTI
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -2315,7 +2315,7 @@ let_pattern:
    X
      { vaval $1 }
   | anti
-     { Ploc.VaAnt $1 }
+     { Ploc.VaAnt (fst $1) }
 ;
 
 expr:

@@ -121,6 +121,7 @@ type token =
   | BACKQUOTE
   | ASSERT
   | AS
+  | ANTI of (string * Location.t)
   | ANDOP of (string)
   | AND
   | AMPERSAND
