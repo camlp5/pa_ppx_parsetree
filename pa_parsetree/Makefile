@@ -11,7 +11,7 @@ PACKAGES := $(PACKAGES),fmt,pa_ppx.base,pa_ppx.deriving_plugins.std
 TARGET_PACKAGE = pa_ppx_parsetree
 TARGET=$(TARGET_PACKAGE).cma
 
-ML = oCast.ml pattern_OCast.ml supportfuns.ml mLast2Pattern_OCast.ml import_ocast.ml pa_ocast.ml q_ocast.ml
+ML = oCast.ml pattern_OCast.ml supportfuns.ml mLast2Pattern_OCast.ml reorg_ocast.ml pa_ocast.ml q_ocast.ml
 
 TOOLSML = mk_meta.ml
 ALLSRC=$(ML) $(TOOLSML)

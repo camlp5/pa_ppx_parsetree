@@ -32,40 +32,40 @@ module MetaP = struct
                                Pp_MLast.pp_patt e))
 end
 
-[%%import: Import_ocast.attribute]
+[%%import: Reorg_ocast.attribute]
 [@@deriving q_ast {
-    default_data_source_module = Import_ocast
+    default_data_source_module = Reorg_ocast
   ; expr_meta_module = MetaE
   ; patt_meta_module = MetaP
   ; loc_mode = CustomLoc { loc_varname = __loc__ ; loc_type = [%typ: location] ; loc_function_name = location }
   ; pertype = {
       located = {
         data_source_module = Location
-      ; quotation_source_module = Import_ocast
+      ; quotation_source_module = Reorg_ocast
       }
     ; longident_t = {
         data_source_module = Longident
-      ; quotation_source_module = Import_ocast
+      ; quotation_source_module = Reorg_ocast
       }
     ; arg_label = {
         data_source_module = Asttypes
-      ; quotation_source_module = Import_ocast
+      ; quotation_source_module = Reorg_ocast
       }
     ; position = {
         data_source_module = Lexing
-      ; quotation_source_module = Import_ocast
+      ; quotation_source_module = Reorg_ocast
       }
     ; constant = {
         data_source_module = Parsetree
-      ; quotation_source_module = Import_ocast
+      ; quotation_source_module = Reorg_ocast
       }
     ; expression = {
         data_source_module = Parsetree
-      ; quotation_source_module = Import_ocast
+      ; quotation_source_module = Reorg_ocast
       }
     ; expression_desc = {
         data_source_module = Parsetree
-      ; quotation_source_module = Import_ocast
+      ; quotation_source_module = Reorg_ocast
       }
     }
   ; entrypoints = [
