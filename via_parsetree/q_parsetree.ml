@@ -11,12 +11,11 @@ module MetaE = struct
   let int n = let loc = Ploc.dummy in <:expr< $int:string_of_int n$ >>
   open Pa_ppx_base
   open MLast
+    let xtr s = <:expr< $lid:s$ >>
     let vala elem x =
-      match Pa_ppx_q_ast_runtime.MetaE.vala elem x with
-        <:expr< Ploc.VaVal $e$ >> -> e
-      | e -> Ploc.raise (loc_of_expr e)
-               (Failure Fmt.(str "Sexp_example.NoVala.vala: unexpected result expr:@ %a"
-                               Pp_MLast.pp_expr e))
+      match x with
+        Ploc.VaVal p -> elem p
+      | Ploc.VaAnt s -> xtr s
 end
 
 module MetaP = struct
@@ -24,12 +23,11 @@ module MetaP = struct
   let int n = let loc = Ploc.dummy in <:patt< $int:string_of_int n$ >>
   open Pa_ppx_base
   open MLast
+    let xtr s = <:patt< $lid:s$ >>
     let vala elem x =
-      match Pa_ppx_q_ast_runtime.MetaP.vala elem x with
-        <:patt< Ploc.VaVal $e$ >> -> e
-      | e -> Ploc.raise (loc_of_patt e)
-               (Failure Fmt.(str "Sexp_example.NoVala.vala: unexpected result patt:@ %a"
-                               Pp_MLast.pp_patt e))
+      match x with
+        Ploc.VaVal p -> elem p
+      | Ploc.VaAnt s -> xtr s
 end
 
 let parse_expression s =
@@ -69,6 +67,8 @@ let parse_expression s =
     ; expression_desc = {
         data_source_module = Parsetree
       ; quotation_source_module = Reorg_parsetree
+      ; custom_branches_code = function
+          | Pexp_xtr{txt = s;} -> C.xtr s
       }
     }
   ; entrypoints = [

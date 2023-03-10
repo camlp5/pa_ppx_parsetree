@@ -13,14 +13,17 @@ Arg.(parse [
 ;;
 
 Fmt.(pf stdout {|
-# Specifications for the "pa_ppx_parsetree_via_parsetree" preprocessor:
-requires = "fmt,pa_ppx_parsetree_pattern_parsetree"
+# Specifications for the "pa_ppx_parsetree" preprocessor:
+requires = "camlp5,fmt,pa_ppx_parsetree_pattern_parsetree,pa_ppx.base,camlp5.parser_quotations,pa_ppx_q_ast.runtime"
 version = "%s"
-description = "pa_ppx_parsetree_via_parsetree: OCaml AST for patterns"
+description = "pa_ppx_parsetree_via_parsetree: pa_ppx_parsetree_via_parsetree rewriter"
 
+# For linking
+package "link" (
+requires = "camlp5,fmt,pa_ppx_parsetree_pattern_parsetree,pa_ppx.base.link,camlp5.parser_quotations.link,,pa_ppx_q_ast.runtime"
 archive(byte) = "pa_ppx_parsetree_via_parsetree.cma"
 archive(native) = "pa_ppx_parsetree_via_parsetree.cmxa"
-
+)
 
 # For the toploop:
 archive(byte,toploop) = "pa_ppx_parsetree_via_parsetree.cma"

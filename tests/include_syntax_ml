@@ -10,9 +10,7 @@ let pp_expr ty = Fmt.(pf stdout "#<expr< %s >>" (Eprinter.apply Pcaml.pr_expr Pp
 let pp_patt ty = Fmt.(pf stdout "#<patt< %s >>" (Eprinter.apply Pcaml.pr_patt Pprintf.empty_pc ty));;
 
 #install_printer pp_ctyp ;;
-(*
 #install_printer pp_expr ;;
- *)
 #install_printer pp_patt ;;
 
 print_string "================ START ================\n";; flush stdout ;;
@@ -39,7 +37,12 @@ let f = function
 
 #require "pa_ppx_parsetree_pattern_parsetree";;
 
-open Pa_ppx_parsetree_pattern_parsetree ;;
+#require "pa_ppx_parsetree_via_parsetree";;
+{| <:expr< $e1$ + $e2$ >> |} |>  PAPR.Implem.pa1 ;;
+{| <:expression< $e1$ + $e2$ >> |} |>  PAPR.Implem.pa1 ;;
+
+{| function <:expression< $tuplelist:l$ >> ->  l |} |>  PAPR.Implem.pa1 ;;
+
 
 (*
 ;;; Local Variables: ***
