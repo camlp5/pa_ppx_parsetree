@@ -1,4 +1,4 @@
-(**pp -syntax camlp5o *)
+(**pp -package pa_ppx_parsetree_via_camlp5 -syntax camlp5o *)
 open OUnit2
 
 let f = function

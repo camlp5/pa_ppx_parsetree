@@ -1,13 +1,13 @@
-(**pp $(MIGRATE_OCAMLCFLAGS) -package pa_ppx_q_ast,pa_ppx.import,compiler-libs.common,pa_ppx_parsetree_pattern_parsetree -ppopt -pa_import-package -ppopt pa_ppx_parsetree_pattern_parsetree -syntax camlp5o *)
+(**pp $(MIGRATE_OCAMLCFLAGS) -package pa_ppx_q_ast,pa_ppx.import -syntax camlp5o *)
 
 [%%import: Pa_ppx_parsetree_pattern_parsetree.Parsetree.attribute
   [@add
       [%%import: Lexing.position]
-      type location = [%import: Pa_ppx_parsetree_pattern_parsetree.Location.t
+      type location = [%import: Location.t
                                     [@with Lexing.position := position]
                         ]
       type 'a located = [%import: 'a Pa_ppx_parsetree_pattern_parsetree.Asttypes.loc
-                                    [@with t := location]
+                                    [@with Location.t := location]
                         ]
       type longident_t = [%import: Pa_ppx_parsetree_pattern_parsetree.Longident.t
                                      [@with Lexing.position := position]
