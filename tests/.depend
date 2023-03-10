@@ -1,5 +1,5 @@
-pa_parsetree_test.cmo pattern_parsetree_test.cmo pa_parsetree_test.cmi pattern_parsetree_test.cmi pa_parsetree_test.cmx pattern_parsetree_test.cmx: ../local-install/lib/pa_ppx_parsetree_pa_parsetree/META ../local-install/lib/pa_ppx_parsetree_pattern_parsetree/META
-pa_parsetree_test.cmo :
-pa_parsetree_test.cmx :
+via_camlp5_test.cmo pattern_parsetree_test.cmo via_camlp5_test.cmi pattern_parsetree_test.cmi via_camlp5_test.cmx pattern_parsetree_test.cmx: ../local-install/lib/pa_ppx_parsetree_via_camlp5/META ../local-install/lib/pa_ppx_parsetree_pattern_parsetree/META
+via_camlp5_test.cmo :
+via_camlp5_test.cmx :
 pattern_parsetree_test.cmo :
 pattern_parsetree_test.cmx :

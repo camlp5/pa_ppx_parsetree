@@ -7,7 +7,7 @@ include $(TOP)/config/Makefile.top
 WD=$(shell pwd)
 DESTDIR=
 
-SYSDIRS= pattern_parsetree runtime pa_parsetree
+SYSDIRS= pattern_parsetree runtime via_camlp5
 
 TESTDIRS= tests
 
@@ -26,8 +26,8 @@ META: sys
 	$(JOINMETA) \
 		-rewrite pa_ppx_parsetree_pattern_paretree:pa_ppx_parsetree.pattern_parsetree \
 		-wrap-subdir pattern_parsetree:pattern_parsetree \
-		-rewrite pa_ppx_parsetree_pa_parsetree:pa_ppx_parsetree.pa_parsetree \
-		-wrap-subdir pa_parsetree:pa_parsetree \
+		-rewrite pa_ppx_parsetree_via_camlp5:pa_ppx_parsetree.via_camlp5 \
+		-wrap-subdir via_camlp5:via_camlp5 \
 		> META
 
 install: META

@@ -8,7 +8,7 @@ include $(TOP)/config/Makefile.sub
 DESTDIR=
 
 PACKAGES := $(PACKAGES),fmt,pa_ppx.base,pa_ppx.deriving_plugins.std
-TARGET_PACKAGE = pa_ppx_parsetree_pa_parsetree
+TARGET_PACKAGE = pa_ppx_parsetree_via_camlp5
 TARGET=$(TARGET_PACKAGE).cma
 
 ML = oCast.ml pattern_OCast.ml supportfuns.ml mLast2Pattern_OCast.ml reorg_ocast.ml reorg_parsetree.ml pa_ocast.ml q_ocast.ml
@@ -17,7 +17,7 @@ TOOLSML = mk_meta.ml
 ALLSRC=$(ML) $(TOOLSML)
 ALLPACKAGES=$(PACKAGES)
 
-OCAMLCFLAGS := $(OCAMLCFLAGS) -linkall -for-pack Pa_ppx_parsetree_pa_parsetree
+OCAMLCFLAGS := $(OCAMLCFLAGS) -linkall -for-pack Pa_ppx_parsetree_via_camlp5
 
 export MIGRATE_OCAMLCFLAGS= -ppopt -pa_import-I -ppopt . -ppopt -pa_passthru-debug \
 	-ppopt -pa_import-package -ppopt $(PACKAGES)
