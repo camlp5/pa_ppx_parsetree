@@ -8,7 +8,7 @@ include $(TOP)/config/Makefile.sub
 DESTDIR=
 
 PACKAGES := fmt,camlp5
-TARGET_PACKAGE = pa_ppx_parsetree_pattern_parsing
+TARGET_PACKAGE = pa_ppx_parsetree_pattern_parsetree
 TARGET=$(TARGET_PACKAGE).cma
 
 ML = clflags.ml location.ml longident.ml asttypes.ml parsetree.ml docstrings.ml syntaxerr.ml \
@@ -20,7 +20,7 @@ TOOLSML = mk_meta.ml
 ALLSRC=$(ML) $(MLI) $(TOOLSML)
 ALLPACKAGES=$(PACKAGES)
 
-OCAMLCFLAGS := $(OCAMLCFLAGS) -linkall -for-pack Pa_ppx_parsetree_pattern_parsing
+OCAMLCFLAGS := $(OCAMLCFLAGS) -linkall -for-pack Pa_ppx_parsetree_pattern_parsetree
 
 all: $(TARGET) $(TARGET:.cma=.cmxa) META
 	$(MAKE) DESTDIR=$(WD)/$(TOP)/local-install/ install

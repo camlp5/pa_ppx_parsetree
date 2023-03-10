@@ -1,3 +1,5 @@
-pa_ppx_parsetree_test.cmo pa_ppx_parsetree_test.cmi pa_ppx_parsetree_test.cmx: ../local-install/lib/pa_ppx_parsetree/META
-pa_ppx_parsetree_test.cmo :
-pa_ppx_parsetree_test.cmx :
+pa_parsetree_test.cmo pattern_parsetree_test.cmo pa_parsetree_test.cmi pattern_parsetree_test.cmi pa_parsetree_test.cmx pattern_parsetree_test.cmx: ../local-install/lib/pa_ppx_parsetree_pa_parsetree/META ../local-install/lib/pa_ppx_parsetree_pattern_parsetree/META
+pa_parsetree_test.cmo :
+pa_parsetree_test.cmx :
+pattern_parsetree_test.cmo :
+pattern_parsetree_test.cmx :

@@ -13,21 +13,21 @@ Arg.(parse [
 ;;
 
 Fmt.(pf stdout {|
-# Specifications for the "pa_ppx_parsetree_pattern_parsing" preprocessor:
+# Specifications for the "pa_ppx_parsetree_pattern_parsetree" preprocessor:
 requires = ""
 version = "%s"
-description = "pa_ppx_parsetree_pattern_parsing: OCaml AST for patterns"
+description = "pa_ppx_parsetree_pattern_parsetree: OCaml AST for patterns"
 
-archive(byte) = "pa_ppx_parsetree_pattern_parsing.cma"
-archive(native) = "pa_ppx_parsetree_pattern_parsing.cmxa"
+archive(byte) = "pa_ppx_parsetree_pattern_parsetree.cma"
+archive(native) = "pa_ppx_parsetree_pattern_parsetree.cmxa"
 
 
 # For the toploop:
-archive(byte,toploop) = "pa_ppx_parsetree_pattern_parsing.cma"
+archive(byte,toploop) = "pa_ppx_parsetree_pattern_parsetree.cma"
 
   # For the preprocessor itself:
   requires(syntax,preprocessor) = "camlp5,fmt,pa_ppx.base,camlp5.parser_quotations,pa_ppx_q_ast.runtime"
-  archive(syntax,preprocessor,-native) = "pa_ppx_parsetree_pattern_parsing.cma"
-  archive(syntax,preprocessor,native) = "pa_ppx_parsetree_pattern_parsing.cmxa"
+  archive(syntax,preprocessor,-native) = "pa_ppx_parsetree_pattern_parsetree.cma"
+  archive(syntax,preprocessor,native) = "pa_ppx_parsetree_pattern_parsetree.cmxa"
 
 |} version)

@@ -7,7 +7,7 @@ include $(TOP)/config/Makefile.top
 WD=$(shell pwd)
 DESTDIR=
 
-SYSDIRS= pattern_parsing runtime pa_parsetree
+SYSDIRS= pattern_parsetree runtime pa_parsetree
 
 TESTDIRS= tests
 
@@ -23,9 +23,12 @@ test: all mdx-test
 mdx-test:: README.asciidoc.TEST
 
 META: sys
-	$(JOINMETA) -rewrite pa_ppx_parsetree_runtime:pa_ppx_parsetree.runtime \
-			-direct-include pa_parsetree \
-			-wrap-subdir runtime:runtime > META
+	$(JOINMETA) \
+		-rewrite pa_ppx_parsetree_pattern_paretree:pa_ppx_parsetree.pattern_parsetree \
+		-wrap-subdir pattern_parsetree:pattern_parsetree \
+		-rewrite pa_ppx_parsetree_pa_parsetree:pa_ppx_parsetree.pa_parsetree \
+		-wrap-subdir pa_parsetree:pa_parsetree \
+		> META
 
 install: META
 	$(OCAMLFIND) remove pa_ppx_parsetree || true

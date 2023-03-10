@@ -37,9 +37,9 @@ let f = function
 |} |> PAPR.Implem.pa1 |> PAPR.Implem.pr |> print_string ;;
  *)
 
-#require "pa_ppx_parsetree_pattern_parsing";;
+#require "pa_ppx_parsetree_pattern_parsetree";;
 
-open Pa_ppx_parsetree_pattern_parsing ;;
+open Pa_ppx_parsetree_pattern_parsetree ;;
 
 (*
 ;;; Local Variables: ***
