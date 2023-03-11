@@ -885,7 +885,7 @@ The precedences must be listed from low to high.
 %type <Parsetree.expression list> expr_semi_list
 %type <Parsetree.expression> simple_expr
 %type <string> constr_extra_nonprefix_ident
-%type <string Ploc.vala> ident_vala name_tag_vala
+%type <string Ploc.vala> ident_vala name_tag_vala val_ident_vala
 %type <label> ident name_tag
 
 %%
@@ -3697,7 +3697,7 @@ mk_longident(prefix,final):
    | prefix DOT final { Ldot($1,$3) }
 ;
 val_longident:
-    mk_longident(mod_longident, vaval(val_ident)) { $1 }
+    mk_longident(mod_longident, val_ident_vala) { $1 }
 ;
 label_longident:
     mk_longident(mod_longident, vaval(LIDENT)) { $1 }

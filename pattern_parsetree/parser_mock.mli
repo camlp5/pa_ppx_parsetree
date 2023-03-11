@@ -507,7 +507,6 @@ val xv_with_constraint : Parsetree.with_constraint
 val xv_virtual_with_private_flag : Asttypes.private_flag
 val xv_virtual_with_mutable_flag : Asttypes.mutable_flag
 val xv_virtual_flag : Asttypes.virtual_flag
-val xv_vaval_val_ident_ : Asttypes.label Ast_helper.vala
 val xv_vaval_val_extra_ident_ : Asttypes.label Ast_helper.vala
 val xv_vaval_ident_ : Asttypes.label Ast_helper.vala
 val xv_vaval_constr_extra_ident_ : Asttypes.label Ast_helper.vala
@@ -526,6 +525,7 @@ val xv_vala_ident_ANTI_LID_ : Asttypes.label Ast_helper.vala
 val xv_vala_UIDENT_ANTI_UID_ : Asttypes.label Ast_helper.vala
 val xv_vala_LIDENT_ANTI_LID_ : Asttypes.label Ast_helper.vala
 val xv_val_longident : Longident.t
+val xv_val_ident_vala : Asttypes.label Ast_helper.vala
 val xv_val_ident : Asttypes.label
 val xv_val_extra_ident : Asttypes.label
 val xv_use_file_element : Parsetree.toplevel_phrase list
@@ -886,9 +886,9 @@ val xv_mkclass___anonymous_8_ : Parsetree.class_expr
 val xv_mkclass___anonymous_11_ : Parsetree.class_expr
 val xv_mkclass___anonymous_10_ : Parsetree.class_expr
 val xv_mkcf___anonymous_13_ : Parsetree.class_field
-val xv_mk_longident_mod_longident_vaval_val_ident__ : Longident.t
 val xv_mk_longident_mod_longident_vaval_LIDENT__ : Longident.t
 val xv_mk_longident_mod_longident_vala_UIDENT_ANTI_UID__ : Longident.t
+val xv_mk_longident_mod_longident_val_ident_vala_ : Longident.t
 val xv_mk_longident_mod_ext_longident_vaval_ident__ : Longident.t
 val xv_mk_longident_mod_ext_longident_vaval_LIDENT__ : Longident.t
 val xv_mk_longident_mod_ext_longident_vala_UIDENT_ANTI_UID__ : Longident.t

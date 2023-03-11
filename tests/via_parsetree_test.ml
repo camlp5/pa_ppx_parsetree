@@ -12,6 +12,9 @@ let f1 : Longident.t -> string = function
 let f2 : Longident.t -> string * string = function
 <:longident_t< $uid:m$ . $lid:e1$ >> -> (m,e1)
 
+let f3 : Longident.t -> string * string =
+ function <:longident_t< $uid:m$. $lid:e1$ >> -> (m,e1)
+
 end
 
 module EX = struct
@@ -24,6 +27,9 @@ let f2 : Parsetree.expression -> Parsetree.expression list =
 
 let f3 : Parsetree.expression -> Parsetree.expression * Parsetree.expression =
  function <:expression< ($e1$, $e2$) >> ->  (e1, e2)
+
+let f4 : Parsetree.expression -> string * string =
+ function <:expression< $uid:m$. $lid:e1$ >> -> (m,e1)
 
 end
 
