@@ -892,6 +892,7 @@ val xv_mk_longident_mod_longident_val_ident_vala_ : Longident.t
 val xv_mk_longident_mod_ext_longident_vaval_ident__ : Longident.t
 val xv_mk_longident_mod_ext_longident_vaval_LIDENT__ : Longident.t
 val xv_mk_longident_mod_ext_longident_vala_UIDENT_ANTI_UID__ : Longident.t
+val xv_mk_longident_mod_ext_longident_vala_LIDENT_ANTI_LID__ : Longident.t
 val xv_mk_longident_mod_ext_longident___anonymous_41_ : Longident.t
 val xv_mk_directive_arg_toplevel_directive_argument_ :
   Parsetree.directive_argument

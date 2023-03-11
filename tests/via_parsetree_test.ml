@@ -40,6 +40,9 @@ let f1 : Parsetree.pattern -> Parsetree.pattern list =
 let f2 : Parsetree.pattern -> Parsetree.pattern * Parsetree.pattern =
  function <:pattern< ($e1$, $e2$) >> ->  (e1, e2)
 
+let f4 : Parsetree.pattern -> string =
+ function <:pattern< $uid:m$ >> -> m
+
 end
 
 module TY = struct
@@ -49,8 +52,8 @@ let f1 : Parsetree.core_type -> Parsetree.core_type list =
 let f2 : Parsetree.core_type -> Parsetree.core_type * Parsetree.core_type =
  function <:core_type< ($e1$, $e2$) t >> ->  (e1, e2)
 
-let f3 : Parsetree.core_type -> Parsetree.core_type =
-function <:core_type< $c$  t >> -> c ;;
+let f3 : Parsetree.core_type -> Parsetree.core_type * string =
+function <:core_type< $c$ $uid:m$ . $lid:t$ >> -> (c,m,t)
 
 end
 

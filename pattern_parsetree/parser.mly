@@ -836,7 +836,7 @@ The precedences must be listed from low to high.
 %nonassoc BACKQUOTE BANG BEGIN CHAR FALSE FLOAT INT OBJECT
           LBRACE LBRACELESS LBRACKET LBRACKETBAR LIDENT LPAREN
           NEW PREFIXOP STRING TRUE UIDENT
-          LBRACKETPERCENT QUOTED_STRING_EXPR ANTI ANTI_UID
+          LBRACKETPERCENT QUOTED_STRING_EXPR ANTI ANTI_UID ANTI_LID
 
 
 /* Entry points */
@@ -3703,7 +3703,7 @@ label_longident:
     mk_longident(mod_longident, vaval(LIDENT)) { $1 }
 ;
 type_longident:
-    mk_longident(mod_ext_longident, vaval(LIDENT))  { $1 }
+    mk_longident(mod_ext_longident, vala(LIDENT, ANTI_LID))  { $1 }
 ;
 mod_longident:
     mk_longident(mod_longident, vala(UIDENT, ANTI_UID))  { $1 }
