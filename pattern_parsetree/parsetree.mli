@@ -87,7 +87,7 @@ and core_type =
 and core_type_desc =
   | Ptyp_xtr of string loc
   | Ptyp_any  (** [_] *)
-  | Ptyp_var of string  (** A type variable such as ['a] *)
+  | Ptyp_var of string Ploc.vala  (** A type variable such as ['a] *)
   | Ptyp_arrow of arg_label * core_type * core_type
       (** [Ptyp_arrow(lbl, T1, T2)] represents:
             - [T1 -> T2]    when [lbl] is
@@ -123,7 +123,7 @@ and core_type_desc =
             - [(T1, ..., Tn) #tconstr] when [l=[T1 ; ... ; Tn]].
          *)
   | Ptyp_alias of core_type * string  (** [T as 'a]. *)
-  | Ptyp_variant of row_field list * closed_flag * label list option
+  | Ptyp_variant of row_field list * closed_flag * label Ploc.vala list option
       (** [Ptyp_variant([`A;`B], flag, labels)] represents:
             - [[ `A|`B ]]
                       when [flag]   is {{!Asttypes.closed_flag.Closed}[Closed]},
@@ -220,7 +220,7 @@ and pattern =
 and pattern_desc =
   | Ppat_xtr of string loc
   | Ppat_any  (** The pattern [_]. *)
-  | Ppat_var of string loc  (** A variable pattern such as [x] *)
+  | Ppat_var of string Ploc.vala loc  (** A variable pattern such as [x] *)
   | Ppat_alias of pattern * string loc
       (** An alias pattern such as [P as 'a] *)
   | Ppat_constant of constant
@@ -243,7 +243,7 @@ and pattern_desc =
                                            [Some ([], Ppat_tuple [P1; ...; Pn])]
             - [C (type a b) P]  when [args] is [Some ([a; b], P)]
          *)
-  | Ppat_variant of label * pattern option
+  | Ppat_variant of label Ploc.vala * pattern option
       (** [Ppat_variant(`A, pat)] represents:
             - [`A]   when [pat] is [None],
             - [`A P] when [pat] is [Some P]
@@ -349,7 +349,7 @@ and expression_desc =
            - [C E]             when [exp] is [Some E],
            - [C (E1, ..., En)] when [exp] is [Some (Pexp_tuple[E1;...;En])]
         *)
-  | Pexp_variant of label * expression option
+  | Pexp_variant of label Ploc.vala * expression option
       (** [Pexp_variant(`A, exp)] represents
             - [`A]   when [exp] is [None]
             - [`A E] when [exp] is [Some E]

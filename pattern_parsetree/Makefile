@@ -44,6 +44,8 @@ parser.cmx: parser.ml
 
 parser.ml: parser.mly
 	menhir --infer-write-query parser_mock.ml $<
+	perl -p -e 's,# \d+.*,,' parser_mock.ml > parser_mock_nolines.ml
+#	ocamlfind ocamlc -package camlp5 -c parser_mock_nolines.ml
 	ocamlfind ocamlc -package camlp5 -i parser_mock.ml > parser_mock.mli
 	menhir --explain --infer-read-reply parser_mock.mli $<
 

@@ -24,6 +24,7 @@ type loc = Location.t
 
 type lid = Longident.t with_loc
 type str = string with_loc
+type str_vala = string Ploc.vala with_loc
 type str_opt = string option with_loc
 type attrs = attribute list
 
@@ -39,6 +40,9 @@ let default_loc = ref Location.none
 
 let with_default_loc l f =
   Misc.protect_refs [Misc.R (default_loc, l)] f
+
+let loc_map (f : 'a -> 'b) (x : 'a Location.loc) : 'b Location.loc =
+  { x with txt = f x.txt }
 
 module Const = struct
   let integer ?suffix i = Pconst_integer (i, suffix)
@@ -96,13 +100,13 @@ module Typ = struct
         match t.ptyp_desc with
         | Ptyp_any -> Ptyp_any
         | Ptyp_var x ->
-            check_variable var_names t.ptyp_loc x;
+            Pcaml.vala_it (check_variable var_names t.ptyp_loc) x;
             Ptyp_var x
         | Ptyp_arrow (label,core_type,core_type') ->
             Ptyp_arrow(label, loop core_type, loop core_type')
         | Ptyp_tuple lst -> Ptyp_tuple (Pcaml.vala_map (List.map loop) lst)
         | Ptyp_constr( { txt = Longident.Lident s }, Ploc.VaVal [])
-          when List.mem s var_names ->
+          when List.mem (unvala s) var_names ->
             Ptyp_var s
         | Ptyp_constr(longident, lst) ->
             Ptyp_constr(longident, Pcaml.vala_map (List.map loop) lst)

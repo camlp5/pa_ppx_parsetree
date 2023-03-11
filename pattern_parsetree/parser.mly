@@ -106,7 +106,7 @@ let reloc_typ ~loc x =
   { x with ptyp_loc = make_loc loc;
            ptyp_loc_stack = push_loc x.ptyp_loc x.ptyp_loc_stack }
 
-let mkexpvar ~loc (name : string) =
+let mkexpvar ~loc name =
   mkexp ~loc (Pexp_ident(mkrhs (Lident name) loc))
 
 let mkoperator =
@@ -154,7 +154,7 @@ let mkuminus ~oploc name arg =
   | ("-" | "-."), Pexp_constant(Pconst_float (f, m)) ->
       Pexp_constant(Pconst_float(neg_string f, m))
   | _ ->
-      Pexp_apply(mkoperator ~loc:oploc ("~" ^ name), [Nolabel, arg])
+      Pexp_apply(mkoperator ~loc:oploc (vaval ("~" ^ name)), [Nolabel, arg])
 
 let mkuplus ~oploc name arg =
   let desc = arg.pexp_desc in
@@ -162,30 +162,30 @@ let mkuplus ~oploc name arg =
   | "+", Pexp_constant(Pconst_integer _)
   | ("+" | "+."), Pexp_constant(Pconst_float _) -> desc
   | _ ->
-      Pexp_apply(mkoperator ~loc:oploc ("~" ^ name), [Nolabel, arg])
+      Pexp_apply(mkoperator ~loc:oploc (vaval ("~" ^ name)), [Nolabel, arg])
 
 (* TODO define an abstraction boundary between locations-as-pairs
    and locations-as-Location.t; it should be clear when we move from
    one world to the other *)
 
 let mkexp_cons_desc consloc args =
-  Pexp_construct(mkrhs (Lident "::") consloc, Some args)
+  Pexp_construct(mkrhs (Lident (vaval "::")) consloc, Some args)
 let mkexp_cons ~loc consloc args =
   mkexp ~loc (mkexp_cons_desc consloc args)
 
 let mkpat_cons_desc consloc args =
-  Ppat_construct(mkrhs (Lident "::") consloc, Some ([], args))
+  Ppat_construct(mkrhs (Lident (vaval "::")) consloc, Some ([], args))
 let mkpat_cons ~loc consloc args =
   mkpat ~loc (mkpat_cons_desc consloc args)
 
 let ghexp_cons_desc consloc args =
-  Pexp_construct(ghrhs (Lident "::") consloc, Some args)
+  Pexp_construct(ghrhs (Lident (vaval "::")) consloc, Some args)
 let ghpat_cons_desc consloc args =
-  Ppat_construct(ghrhs (Lident "::") consloc, Some ([], args))
+  Ppat_construct(ghrhs (Lident (vaval "::")) consloc, Some ([], args))
 
 let rec mktailexp nilloc = let open Location in function
     [] ->
-      let nil = ghloc ~loc:nilloc (Lident "[]") in
+      let nil = ghloc ~loc:nilloc (Lident (vaval "[]")) in
       Pexp_construct (nil, None), nilloc
   | e1 :: el ->
       let exp_el, el_loc = mktailexp nilloc el in
@@ -195,7 +195,7 @@ let rec mktailexp nilloc = let open Location in function
 
 let rec mktailpat nilloc = let open Location in function
     [] ->
-      let nil = ghloc ~loc:nilloc (Lident "[]") in
+      let nil = ghloc ~loc:nilloc (Lident (vaval "[]")) in
       Ppat_construct (nil, None), nilloc
   | p1 :: pl ->
       let pat_pl, el_loc = mktailpat nilloc pl in
@@ -306,18 +306,18 @@ let builtin_arraylike_name loc _ ~assign paren_kind n =
   let opname = if assign then "set" else "get" in
   let opname = if !Clflags.unsafe then "unsafe_" ^ opname else opname in
   let prefix = match paren_kind with
-    | Paren -> Lident "Array"
+    | Paren -> Lident (vaval "Array")
     | Bracket ->
         if assign then removed_string_set loc
-        else Lident "String"
+        else Lident (vaval "String")
     | Brace ->
        let submodule_name = match n with
          | One -> "Array1"
          | Two -> "Array2"
          | Three -> "Array3"
          | Many -> "Genarray" in
-       Ldot(Lident "Bigarray", submodule_name) in
-   ghloc ~loc (Ldot(prefix,opname))
+       Ldot(Lident (vaval "Bigarray"), vaval submodule_name) in
+   ghloc ~loc (Ldot(prefix,vaval opname))
 
 let builtin_arraylike_index loc paren_kind (index : expression) = match paren_kind with
     | Paren | Bracket -> One, [Nolabel, index]
@@ -346,8 +346,8 @@ let user_indexing_operator_name loc (prefix,ext) ~assign paren_kind n =
     let left, right = paren_to_strings paren_kind in
     String.concat "" ["."; ext; left; mid; right; assign] in
   let lid = match prefix with
-    | None -> Lident name
-    | Some p -> Ldot(p,name) in
+    | None -> Lident (vaval name)
+    | Some p -> Ldot(p,vaval  name) in
   ghloc ~loc lid
 
 let user_index loc _ index =
@@ -392,17 +392,17 @@ let loc_last (id : Longident.t Location.loc) : string Location.loc =
   loc_map Longident.last id
 
 let loc_lident (id : string Location.loc) : Longident.t Location.loc =
-  loc_map (fun x -> Lident x) id
+  loc_map (fun x -> Lident (vaval x)) id
 
 let exp_of_longident lid =
-  let lid = loc_map (fun id -> Lident (Longident.last id)) lid in
+  let lid = loc_map (fun id -> Lident (vaval (Longident.last id))) lid in
   Exp.mk ~loc:lid.loc (Pexp_ident lid)
 
 let exp_of_label lbl =
   Exp.mk ~loc:lbl.loc (Pexp_ident (loc_lident lbl))
 
 let pat_of_label lbl =
-  Pat.mk ~loc:lbl.loc  (Ppat_var (loc_last lbl))
+  Pat.mk ~loc:lbl.loc  (Ppat_var (loc_map vaval (loc_last lbl)))
 
 let mk_newtypes ~loc newtypes exp =
   let mkexp = mkexp ~loc in
@@ -770,6 +770,8 @@ let mk_directive ~loc name arg =
 %token <string * Location.t> ANTI
 %token <string * Location.t> ANTI_TUPLELIST
 %token <string * Location.t> ANTI_LIST
+%token <string * Location.t> ANTI_LID
+%token <string * Location.t> ANTI_UID
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -834,7 +836,7 @@ The precedences must be listed from low to high.
 %nonassoc BACKQUOTE BANG BEGIN CHAR FALSE FLOAT INT OBJECT
           LBRACE LBRACELESS LBRACKET LBRACKETBAR LIDENT LPAREN
           NEW PREFIXOP STRING TRUE UIDENT
-          LBRACKETPERCENT QUOTED_STRING_EXPR ANTI
+          LBRACKETPERCENT QUOTED_STRING_EXPR ANTI ANTI_UID
 
 
 /* Entry points */
@@ -882,6 +884,9 @@ The precedences must be listed from low to high.
 
 %type <Parsetree.expression list> expr_semi_list
 %type <Parsetree.expression> simple_expr
+%type <string> constr_extra_nonprefix_ident
+%type <string Ploc.vala> ident_vala name_tag_vala
+%type <label> ident name_tag
 
 %%
 
@@ -921,7 +926,7 @@ The precedences must be listed from low to high.
     $1 }
 
 %inline op(symb): symb
-   { mkoperator ~loc:$sloc $1 }
+   { mkoperator ~loc:$sloc (vaval $1) }
 
 %inline mkloc(symb): symb
     { mkloc $1 (make_loc $sloc) }
@@ -2202,13 +2207,13 @@ seq_expr:
 ;
 labeled_simple_pattern:
     QUESTION LPAREN label_let_pattern opt_default RPAREN
-      { (Optional (fst $3), $4, snd $3) }
+      { (Optional (vaval (fst $3)), $4, snd $3) }
   | QUESTION label_var
-      { (Optional (fst $2), None, snd $2) }
+      { (Optional (vaval (fst $2)), None, snd $2) }
   | OPTLABEL LPAREN let_pattern opt_default RPAREN
-      { (Optional $1, $4, $3) }
+      { (Optional (vaval $1), $4, $3) }
   | OPTLABEL pattern_var
-      { (Optional $1, None, $2) }
+      { (Optional (vaval $1), None, $2) }
   | TILDE LPAREN label_let_pattern RPAREN
       { (Labelled (fst $3), None, snd $3) }
   | TILDE label_var
@@ -2221,7 +2226,7 @@ labeled_simple_pattern:
 
 pattern_var:
   mkpat(
-      mkrhs(LIDENT)     { Ppat_var $1 }
+      mkrhs(vala(LIDENT, ANTI_LID))     { Ppat_var $1 }
     | UNDERSCORE        { Ppat_any }
   ) { $1 }
 ;
@@ -2239,8 +2244,8 @@ label_let_pattern:
         mkpat ~loc:$sloc (Ppat_constraint (pat, cty)) }
 ;
 %inline label_var:
-    mkrhs(LIDENT)
-      { ($1.Location.txt, mkpat ~loc:$sloc (Ppat_var $1)) }
+    mkrhs(vala(LIDENT, ANTI_LID))
+      { (unvala $1.Location.txt, mkpat ~loc:$sloc (Ppat_var $1)) }
 ;
 let_pattern:
     pattern
@@ -2396,7 +2401,7 @@ expr:
       { Pexp_tuple(vaval($1)) }
   | mkrhs(constr_longident) simple_expr %prec below_HASH
       { Pexp_construct($1, Some $2) }
-  | name_tag simple_expr %prec below_HASH
+  | name_tag_vala simple_expr %prec below_HASH
       { Pexp_variant($1, Some $2) }
   | e1 = expr op = op(infix_operator) e2 = expr
       { mkinfix e1 op e2 }
@@ -2429,7 +2434,7 @@ simple_expr:
   | BEGIN ext = ext attrs = attributes e = seq_expr END
       { e.pexp_desc, (ext, attrs @ e.pexp_attributes) }
   | BEGIN ext_attributes END
-      { Pexp_construct (mkloc (Lident "()") (make_loc $sloc), None), $2 }
+      { Pexp_construct (mkloc (Lident (vaval"()")) (make_loc $sloc), None), $2 }
   | BEGIN ext_attributes seq_expr error
       { unclosed "begin" $loc($1) "end" $loc($4) }
   | NEW ext_attributes mkrhs(class_longident)
@@ -2453,7 +2458,7 @@ simple_expr:
       { Pexp_constant $1 }
   | mkrhs(constr_longident) %prec prec_constant_constructor
       { Pexp_construct($1, None) }
-  | name_tag %prec prec_constant_constructor
+  | name_tag_vala %prec prec_constant_constructor
       { Pexp_variant($1, None) }
   | op(PREFIXOP) simple_expr
       { Pexp_apply($1, [Nolabel,$2]) }
@@ -2480,7 +2485,7 @@ simple_expr:
       { mkinfix $1 $2 $3 }
   | extension
       { Pexp_extension $1 }
-  | od=open_dot_declaration DOT mkrhs(LPAREN RPAREN {Lident "()"})
+  | od=open_dot_declaration DOT mkrhs(LPAREN RPAREN {Lident (vaval "()")})
       { Pexp_open(od, mkexp ~loc:($loc($3)) (Pexp_construct($3, None))) }
   | mod_longident DOT LPAREN seq_expr error
       { unclosed "(" $loc($3) ")" $loc($5) }
@@ -2519,7 +2524,7 @@ simple_expr:
           let tail_exp, _tail_loc = mktailexp $loc($5) $4 in
           mkexp ~loc:($startpos($3), $endpos) tail_exp in
         Pexp_open(od, list_exp) }
-  | od=open_dot_declaration DOT mkrhs(LBRACKET RBRACKET {Lident "[]"})
+  | od=open_dot_declaration DOT mkrhs(LBRACKET RBRACKET {Lident (vaval "[]")})
       { Pexp_open(od, mkexp ~loc:$loc($3) (Pexp_construct($3, None))) }
   | mod_longident DOT
     LBRACKET expr_semi_list error
@@ -2541,22 +2546,22 @@ labeled_simple_expr:
       { (Labelled $1, $2) }
   | TILDE label = LIDENT
       { let loc = $loc(label) in
-        (Labelled label, mkexpvar ~loc label) }
+        (Labelled label, mkexpvar ~loc (vaval label)) }
   | TILDE LPAREN label = LIDENT ty = type_constraint RPAREN
       { (Labelled label, mkexp_constraint ~loc:($startpos($2), $endpos)
-                           (mkexpvar ~loc:$loc(label) label) ty) }
+                           (mkexpvar ~loc:$loc(label) (vaval label)) ty) }
   | QUESTION label = LIDENT
       { let loc = $loc(label) in
-        (Optional label, mkexpvar ~loc label) }
+        (Optional (vaval label), mkexpvar ~loc (vaval label)) }
   | OPTLABEL simple_expr %prec below_HASH
-      { (Optional $1, $2) }
+      { (Optional (vaval $1), $2) }
 ;
 %inline lident_list:
   xs = mkrhs(LIDENT)+
     { xs }
 ;
 %inline let_ident:
-    val_ident { mkpatvar ~loc:$sloc $1 }
+    vala(val_ident, ANTI_LID) { mkpatvar ~loc:$sloc $1 }
 ;
 let_binding_body_no_punning:
     let_ident strict_binding
@@ -2594,7 +2599,7 @@ let_binding_body:
   | let_binding_body_no_punning
       { let p,e = $1 in (p,e,false) }
 /* BEGIN AVOID */
-  | val_ident %prec below_HASH
+  | vala(val_ident, ANTI_LID) %prec below_HASH
       { (mkpatvar ~loc:$loc $1, mkexpvar ~loc:$loc $1, true) }
   (* The production that allows puns is marked so that [make list-parse-errors]
      does not attempt to exploit it. That would be problematic because it
@@ -2633,7 +2638,7 @@ and_let_binding:
 letop_binding_body:
     pat = let_ident exp = strict_binding
       { (pat, exp) }
-  | val_ident
+  | vala(val_ident, ANTI_LID)
       (* Let-punning *)
       { (mkpatvar ~loc:$loc $1, mkexpvar ~loc:$loc $1) }
   | pat = simple_pattern COLON typ = core_type EQUAL exp = seq_expr
@@ -2813,14 +2818,14 @@ pattern_gen:
     | constr=mkrhs(constr_longident) LPAREN TYPE newtypes=lident_list RPAREN
         pat=simple_pattern
         { Ppat_construct(constr, Some (newtypes, pat)) }
-    | name_tag pattern %prec prec_constr_appl
+    | name_tag_vala pattern %prec prec_constr_appl
         { Ppat_variant($1, Some $2) }
     ) { $1 }
   | LAZY ext_attributes simple_pattern
       { mkpat_attrs ~loc:$sloc (Ppat_lazy $3) $2}
 ;
 simple_pattern:
-    mkpat(mkrhs(val_ident) %prec below_EQUAL
+    mkpat(mkrhs(vala(val_ident, ANTI_LID)) %prec below_EQUAL
       { Ppat_var ($1) })
       { $1 }
   | simple_pattern_not_ident { $1 }
@@ -2850,15 +2855,15 @@ simple_pattern_not_ident:
       { Ppat_interval ($1, $3) }
   | mkrhs(constr_longident)
       { Ppat_construct($1, None) }
-  | name_tag
+  | name_tag_vala
       { Ppat_variant($1, None) }
   | HASH mkrhs(type_longident)
       { Ppat_type ($2) }
   | mkrhs(mod_longident) DOT simple_delimited_pattern
       { Ppat_open($1, $3) }
-  | mkrhs(mod_longident) DOT mkrhs(LBRACKET RBRACKET {Lident "[]"})
+  | mkrhs(mod_longident) DOT mkrhs(LBRACKET RBRACKET {Lident (vaval "[]")})
     { Ppat_open($1, mkpat ~loc:$sloc (Ppat_construct($3, None))) }
-  | mkrhs(mod_longident) DOT mkrhs(LPAREN RPAREN {Lident "()"})
+  | mkrhs(mod_longident) DOT mkrhs(LPAREN RPAREN {Lident (vaval "()")})
     { Ppat_open($1, mkpat ~loc:$sloc (Ppat_construct($3, None))) }
   | mkrhs(mod_longident) DOT LPAREN pattern RPAREN
       { Ppat_open ($1, $4) }
@@ -3096,7 +3101,7 @@ type_parameter:
 ;
 type_variable:
   mktyp(
-    QUOTE tyvar = ident
+    QUOTE tyvar = vala(ident, ANTI_LID)
       { Ptyp_var tyvar }
   | UNDERSCORE
       { Ptyp_any }
@@ -3406,7 +3411,7 @@ function_type:
 ;
 %inline arg_label:
   | label = optlabel
-      { Optional label }
+      { Optional (vaval label) }
   | label = LIDENT COLON
       { Labelled label }
   | /* empty */
@@ -3445,7 +3450,7 @@ atomic_type:
   | LPAREN MODULE ext_attributes package_type RPAREN
       { wrap_typ_attrs ~loc:$sloc (reloc_typ ~loc:$sloc $4) $3 }
   | mktyp( /* begin mktyp group */
-      QUOTE ident
+      QUOTE vala(ident, ANTI_LID)
         { Ptyp_var $2 }
     | ANTI { Ptyp_xtr (Location.mkloc (fst $1) (snd $1)) }
     | UNDERSCORE
@@ -3477,7 +3482,7 @@ atomic_type:
         { Ptyp_variant([], Open, None) }
     | LBRACKETLESS BAR? row_field_list RBRACKET
         { Ptyp_variant($3, Closed, Some []) }
-    | LBRACKETLESS BAR? row_field_list GREATER name_tag_list RBRACKET
+    | LBRACKETLESS BAR? row_field_list GREATER name_tag_vala_list RBRACKET
         { Ptyp_variant($3, Closed, Some $5) }
     | extension
         { Ptyp_extension $1 }
@@ -3541,6 +3546,10 @@ opt_ampersand:
   nonempty_llist(name_tag)
     { $1 }
 ;
+%inline name_tag_vala_list:
+  nonempty_llist(name_tag_vala)
+    { $1 }
+;
 (* A method list (in an object type). *)
 meth_list:
     head = field_semi         tail = meth_list
@@ -3601,8 +3610,12 @@ signed_constant:
 /* Identifiers and long identifiers */
 
 ident:
-    UIDENT                    { $1 }
-  | LIDENT                    { $1 }
+    UIDENT    { $1 }
+  | LIDENT    { $1 }
+;
+ident_vala:
+    vala(UIDENT, ANTI_UID)    { $1 }
+  | vala(LIDENT, ANTI_LID)    { $1 }
 ;
 val_extra_ident:
   | LPAREN operator RPAREN    { $2 }
@@ -3613,6 +3626,10 @@ val_extra_ident:
 val_ident:
     LIDENT                    { $1 }
   | val_extra_ident           { $1 }
+;
+val_ident_vala:
+    vala(LIDENT, ANTI_LID)    { $1 }
+  | val_extra_ident           { vaval $1 }
 ;
 operator:
     PREFIXOP                                    { $1 }
@@ -3671,41 +3688,41 @@ constr_ident:
 ;
 constr_longident:
     mod_longident       %prec below_DOT  { $1 } /* A.B.x vs (A).B.x */
-  | mod_longident DOT constr_extra_ident { Ldot($1,$3) }
-  | constr_extra_ident                   { Lident $1 }
-  | constr_extra_nonprefix_ident         { Lident $1 }
+  | mod_longident DOT constr_extra_ident { Ldot($1,vaval $3) }
+  | constr_extra_ident                   { Lident (vaval $1) }
+  | constr_extra_nonprefix_ident         { Lident (vaval $1) }
 ;
 mk_longident(prefix,final):
-   | final            { Lident $1 }
+   | final            { Lident ($1) }
    | prefix DOT final { Ldot($1,$3) }
 ;
 val_longident:
-    mk_longident(mod_longident, val_ident) { $1 }
+    mk_longident(mod_longident, vaval(val_ident)) { $1 }
 ;
 label_longident:
-    mk_longident(mod_longident, LIDENT) { $1 }
+    mk_longident(mod_longident, vaval(LIDENT)) { $1 }
 ;
 type_longident:
-    mk_longident(mod_ext_longident, LIDENT)  { $1 }
+    mk_longident(mod_ext_longident, vaval(LIDENT))  { $1 }
 ;
 mod_longident:
-    mk_longident(mod_longident, UIDENT)  { $1 }
+    mk_longident(mod_longident, vala(UIDENT, ANTI_UID))  { $1 }
 ;
 mod_ext_longident:
-    mk_longident(mod_ext_longident, UIDENT) { $1 }
+    mk_longident(mod_ext_longident, vala(UIDENT, ANTI_UID)) { $1 }
   | mod_ext_longident LPAREN mod_ext_longident RPAREN
-      { lapply ~loc:$sloc $1 $3 }
+      { lapply ~loc:$sloc (vaval $1) (vaval $3) }
   | mod_ext_longident LPAREN error
       { expecting $loc($3) "module path" }
 ;
 mty_longident:
-    mk_longident(mod_ext_longident,ident) { $1 }
+    mk_longident(mod_ext_longident,vaval(ident)) { $1 }
 ;
 clty_longident:
-    mk_longident(mod_ext_longident,LIDENT) { $1 }
+    mk_longident(mod_ext_longident,vaval(LIDENT)) { $1 }
 ;
 class_longident:
-   mk_longident(mod_longident,LIDENT) { $1 }
+   mk_longident(mod_longident,vaval(LIDENT)) { $1 }
 ;
 
 /* BEGIN AVOID */
@@ -3714,9 +3731,9 @@ class_longident:
    the path prefix is only valid for types: (e.g. F(X).(::)) */
 any_longident:
   | mk_longident (mod_ext_longident,
-     ident | constr_extra_ident | val_extra_ident { $1 }
+     ident_vala | vaval(constr_extra_ident) | vaval(val_extra_ident) { $1 }
     ) { $1 }
-  | constr_extra_nonprefix_ident { Lident $1 }
+  | constr_extra_nonprefix_ident { Lident (vaval $1) }
 ;
 /* END AVOID */
 
@@ -3752,6 +3769,9 @@ toplevel_directive:
 
 name_tag:
     BACKQUOTE ident                             { $2 }
+;
+name_tag_vala:
+    BACKQUOTE ident_vala                        { $2 }
 ;
 rec_flag:
     /* empty */                                 { Nonrecursive }

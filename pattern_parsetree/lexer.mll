@@ -594,6 +594,16 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_LIST (payload, loc)
      }
+  | "$" "lid:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_LID (payload, loc)
+     }
+  | "$" "uid:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_UID (payload, loc)
+     }
   | eof { EOF }
   | (_ as illegal_char)
       { error lexbuf (Illegal_character illegal_char) }

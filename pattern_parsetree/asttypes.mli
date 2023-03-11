@@ -49,7 +49,7 @@ type label = string
 type arg_label =
     Nolabel
   | Labelled of string (** [label:T -> ...] *)
-  | Optional of string (** [?label:T -> ...] *)
+  | Optional of string Ploc.vala (** [?label:T -> ...] *)
 
 type 'a loc = 'a Location.loc = {
   txt : 'a;

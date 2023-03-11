@@ -38,9 +38,25 @@ let f = function
 #require "pa_ppx_parsetree_pattern_parsetree";;
 
 #require "pa_ppx_parsetree_via_parsetree";;
-{| <:expr< $e1$ + $e2$ >> |} |>  PAPR.Implem.pa1 ;;
-{| <:expression< $e1$ + $e2$ >> |} |>  PAPR.Implem.pa1 ;;
 
+open Pa_ppx_parsetree_via_parsetree.Q_parsetree.Regular ;;
+#trace parse_expression  ;;
+#trace parse_longident  ;;
+
+{| <:expr< $e1$ + $e2$ >> |} |>  PAPR.Implem.pa1 ;;
+
+{|
+<:longident_t< $lid:e1$ >>
+ |} |>  PAPR.Implem.pa1 ;;
+
+{|
+<:longident_t< $uid:m$ . $lid:e1$ >>
+ |} |>  PAPR.Implem.pa1 ;;
+
+
+{|
+<:expression< $e1$ + $e2$ >>
+ |} |>  PAPR.Implem.pa1 ;;
 {|
  function <:expression< $tuplelist:l$ >> ->  l
 |} |>  PAPR.Implem.pa1 ;;

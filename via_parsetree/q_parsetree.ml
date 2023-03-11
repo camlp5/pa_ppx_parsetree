@@ -39,6 +39,9 @@ let parse_pattern s =
 let parse_core_type s =
   Pa_ppx_parsetree_pattern_parsetree.Parse.core_type (Lexing.from_string s)
 
+let parse_longident s =
+  Pa_ppx_parsetree_pattern_parsetree.Parse.longident (Lexing.from_string s)
+
 [%%import: Reorg_parsetree.attribute]
 [@@deriving q_ast {
     default_data_source_module = Reorg_parsetree
@@ -107,6 +110,7 @@ let parse_core_type s =
       {name = "expression"; from_string = parse_expression ; type_name = expression }
     ; {name = "pattern"; from_string = parse_pattern ; type_name = pattern }
     ; {name = "core_type"; from_string = parse_core_type ; type_name = core_type }
+    ; {name = "longident_t"; from_string = parse_longident ; type_name = longident_t }
     ]
  }]
 

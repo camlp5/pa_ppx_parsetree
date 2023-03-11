@@ -39,10 +39,10 @@ let fmt_location f loc =
 
 let rec fmt_longident_aux f x =
   match x with
-  | Longident.Lident (s) -> fprintf f "%s" s
-  | Longident.Ldot (y, s) -> fprintf f "%a.%s" fmt_longident_aux y s
+  | Longident.Lident (s) -> fprintf f "%s" (unvala s)
+  | Longident.Ldot (y, s) -> fprintf f "%a.%s" fmt_longident_aux y (unvala s)
   | Longident.Lapply (y, z) ->
-      fprintf f "%a(%a)" fmt_longident_aux y fmt_longident_aux z
+      fprintf f "%a(%a)" fmt_longident_aux (unvala y) fmt_longident_aux (unvala z)
 
 let fmt_longident f x = fprintf f "\"%a\"" fmt_longident_aux x
 
@@ -51,6 +51,9 @@ let fmt_longident_loc f (x : Longident.t loc) =
 
 let fmt_string_loc f (x : string loc) =
   fprintf f "\"%s\" %a" x.txt fmt_location x.loc
+
+let fmt_string_vala_loc f (x : string Ploc.vala loc) =
+  fprintf f "\"%s\" %a" (unvala x.txt) fmt_location x.loc
 
 let fmt_str_opt_loc f (x : string option loc) =
   fprintf f "\"%s\" %a" (Option.value x.txt ~default:"_") fmt_location x.loc
@@ -129,7 +132,7 @@ let string_loc i ppf s = line i ppf "%a\n" fmt_string_loc s
 let str_opt_loc i ppf s = line i ppf "%a\n" fmt_str_opt_loc s
 let arg_label i ppf = function
   | Nolabel -> line i ppf "Nolabel\n"
-  | Optional s -> line i ppf "Optional \"%s\"\n" s
+  | Optional s -> line i ppf "Optional \"%s\"\n" (unvala s)
   | Labelled s -> line i ppf "Labelled \"%s\"\n" s
 
 let typevars ppf vs =
@@ -141,7 +144,7 @@ let rec core_type i ppf x =
   let i = i+1 in
   match x.ptyp_desc with
   | Ptyp_any -> line i ppf "Ptyp_any\n";
-  | Ptyp_var (s) -> line i ppf "Ptyp_var %s\n" s;
+  | Ptyp_var (s) -> line i ppf "Ptyp_var %s\n" (unvala s);
   | Ptyp_arrow (l, ct1, ct2) ->
       line i ppf "Ptyp_arrow\n";
       arg_label i ppf l;
@@ -156,7 +159,7 @@ let rec core_type i ppf x =
   | Ptyp_variant (l, closed, low) ->
       line i ppf "Ptyp_variant closed=%a\n" fmt_closed_flag closed;
       list i label_x_bool_x_core_type_list ppf l;
-      option i (fun i -> list i string) ppf low
+      option i (fun i -> list i string) ppf (Option.map (List.map unvala) low)
   | Ptyp_object (l, c) ->
       line i ppf "Ptyp_object %a\n" fmt_closed_flag c;
       let i = i + 1 in
@@ -196,7 +199,7 @@ and pattern i ppf x =
   let i = i+1 in
   match x.ppat_desc with
   | Ppat_any -> line i ppf "Ppat_any\n";
-  | Ppat_var (s) -> line i ppf "Ppat_var %a\n" fmt_string_loc s;
+  | Ppat_var (s) -> line i ppf "Ppat_var %a\n" fmt_string_vala_loc s;
   | Ppat_alias (p, s) ->
       line i ppf "Ppat_alias %a\n" fmt_string_loc s;
       pattern i ppf p;
@@ -214,7 +217,7 @@ and pattern i ppf x =
           pattern i ppf p)
         ppf po
   | Ppat_variant (l, po) ->
-      line i ppf "Ppat_variant \"%s\"\n" l;
+      line i ppf "Ppat_variant \"%s\"\n" (unvala l);
       option i pattern ppf po;
   | Ppat_record (l, c) ->
       line i ppf "Ppat_record %a\n" fmt_closed_flag c;
@@ -287,7 +290,7 @@ and expression i ppf x =
       line i ppf "Pexp_construct %a\n" fmt_longident_loc li;
       option i expression ppf eo;
   | Pexp_variant (l, eo) ->
-      line i ppf "Pexp_variant \"%s\"\n" l;
+      line i ppf "Pexp_variant \"%s\"\n" (unvala l);
       option i expression ppf eo;
   | Pexp_record (l, eo) ->
       line i ppf "Pexp_record\n";

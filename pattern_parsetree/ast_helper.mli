@@ -29,6 +29,7 @@ type loc = Location.t
 
 type lid = Longident.t with_loc
 type str = string with_loc
+type str_vala = string Ploc.vala with_loc
 type str_opt = string option with_loc
 type attrs = attribute list
 
@@ -47,6 +48,8 @@ val default_loc: loc ref
 val with_default_loc: loc -> (unit -> 'a) -> 'a
     (** Set the [default_loc] within the scope of the execution
         of the provided function. *)
+
+val loc_map : ('a -> 'b) -> 'a Location.loc -> 'b Location.loc
 
 (** {1 Constants} *)
 
@@ -76,7 +79,7 @@ module Typ :
     val attr: core_type -> attribute -> core_type
 
     val any: ?loc:loc -> ?attrs:attrs -> unit -> core_type
-    val var: ?loc:loc -> ?attrs:attrs -> string -> core_type
+    val var: ?loc:loc -> ?attrs:attrs -> string Ploc.vala -> core_type
     val arrow: ?loc:loc -> ?attrs:attrs -> arg_label -> core_type -> core_type
                -> core_type
     val tuple: ?loc:loc -> ?attrs:attrs -> core_type list Ploc.vala -> core_type
@@ -86,7 +89,7 @@ module Typ :
     val class_: ?loc:loc -> ?attrs:attrs -> lid -> core_type list -> core_type
     val alias: ?loc:loc -> ?attrs:attrs -> core_type -> string -> core_type
     val variant: ?loc:loc -> ?attrs:attrs -> row_field list -> closed_flag
-                 -> label list option -> core_type
+                 -> label Ploc.vala list option -> core_type
     val poly: ?loc:loc -> ?attrs:attrs -> str list -> core_type -> core_type
     val package: ?loc:loc -> ?attrs:attrs -> lid -> (lid * core_type) list
                  -> core_type
@@ -111,14 +114,14 @@ module Pat:
     val attr:pattern -> attribute -> pattern
 
     val any: ?loc:loc -> ?attrs:attrs -> unit -> pattern
-    val var: ?loc:loc -> ?attrs:attrs -> str -> pattern
+    val var: ?loc:loc -> ?attrs:attrs -> str_vala -> pattern
     val alias: ?loc:loc -> ?attrs:attrs -> pattern -> str -> pattern
     val constant: ?loc:loc -> ?attrs:attrs -> constant -> pattern
     val interval: ?loc:loc -> ?attrs:attrs -> constant -> constant -> pattern
     val tuple: ?loc:loc -> ?attrs:attrs -> pattern list Ploc.vala -> pattern
     val construct: ?loc:loc -> ?attrs:attrs ->
       lid -> (str list * pattern) option -> pattern
-    val variant: ?loc:loc -> ?attrs:attrs -> label -> pattern option -> pattern
+    val variant: ?loc:loc -> ?attrs:attrs -> label Ploc.vala -> pattern option -> pattern
     val record: ?loc:loc -> ?attrs:attrs -> (lid * pattern) list -> closed_flag
                 -> pattern
     val array: ?loc:loc -> ?attrs:attrs -> pattern list -> pattern
@@ -153,7 +156,7 @@ module Exp:
     val tuple: ?loc:loc -> ?attrs:attrs -> expression list vala -> expression
     val construct: ?loc:loc -> ?attrs:attrs -> lid -> expression option
                    -> expression
-    val variant: ?loc:loc -> ?attrs:attrs -> label -> expression option
+    val variant: ?loc:loc -> ?attrs:attrs -> label Ploc.vala -> expression option
                  -> expression
     val record: ?loc:loc -> ?attrs:attrs -> (lid * expression) list
                 -> expression option -> expression

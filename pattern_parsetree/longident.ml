@@ -14,20 +14,20 @@
 (**************************************************************************)
 
 type t =
-    Lident of string
-  | Ldot of t * string
-  | Lapply of t * t
+    Lident of string Ploc.vala
+  | Ldot of t * string Ploc.vala
+  | Lapply of t Ploc.vala * t Ploc.vala
 
 let rec flat accu = function
-    Lident s -> s :: accu
-  | Ldot(lid, s) -> flat (s :: accu) lid
+    Lident (Ploc.VaVal s) -> s :: accu
+  | Ldot(lid, Ploc.VaVal s) -> flat (s :: accu) lid
   | Lapply(_, _) -> Misc.fatal_error "Longident.flat"
 
 let flatten lid = flat [] lid
 
 let last = function
-    Lident s -> s
-  | Ldot(_, s) -> s
+    Lident (Ploc.VaVal s) -> s
+  | Ldot(_, Ploc.VaVal s) -> s
   | Lapply(_, _) -> Misc.fatal_error "Longident.last"
 
 
@@ -41,10 +41,10 @@ let rec split_at_dots s pos =
 let unflatten l =
   match l with
   | [] -> None
-  | hd :: tl -> Some (List.fold_left (fun p s -> Ldot(p, s)) (Lident hd) tl)
+  | hd :: tl -> Some (List.fold_left (fun p s -> Ldot(p, Ploc.VaVal s)) (Lident (Ploc.VaVal hd)) tl)
 
 let parse s =
   match unflatten (split_at_dots s 0) with
-  | None -> Lident ""  (* should not happen, but don't put assert false
+  | None -> Lident (Ploc.VaVal "")  (* should not happen, but don't put assert false
                           so as not to crash the toplevel (see Genprintval) *)
   | Some v -> v
