@@ -40,8 +40,11 @@ module TY = struct
 let f1 : Parsetree.core_type -> Parsetree.core_type list =
  function <:core_type< $list:l$ t >> ->  l
 
-let f1 : Parsetree.core_type -> Parsetree.core_type * Parsetree.core_type =
+let f2 : Parsetree.core_type -> Parsetree.core_type * Parsetree.core_type =
  function <:core_type< ($e1$, $e2$) t >> ->  (e1, e2)
+
+let f3 : Parsetree.core_type -> Parsetree.core_type =
+function <:core_type< $c$  t >> -> c ;;
 
 end
 
