@@ -200,7 +200,7 @@ let rec mktailpat nilloc = let open Location in function
   | p1 :: pl ->
       let pat_pl, el_loc = mktailpat nilloc pl in
       let loc = (p1.ppat_loc.loc_start, snd el_loc) in
-      let arg = ghpat ~loc (Ppat_tuple [p1; ghpat ~loc:el_loc pat_pl]) in
+      let arg = ghpat ~loc (Ppat_tuple (vaval [p1; ghpat ~loc:el_loc pat_pl])) in
       ghpat_cons_desc loc arg, loc
 
 let mkstrexp e attrs =
@@ -769,6 +769,7 @@ let mk_directive ~loc name arg =
 %token <Docstrings.docstring> DOCSTRING "(** documentation *)"
 %token <string * Location.t> ANTI
 %token <string * Location.t> ANTI_TUPLELIST
+%token <string * Location.t> ANTI_LIST
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -2780,7 +2781,7 @@ pattern_no_exn:
 
 %inline pattern_(self):
   | self COLONCOLON pattern
-      { mkpat_cons ~loc:$sloc $loc($2) (ghpat ~loc:$sloc (Ppat_tuple[$1;$3])) }
+      { mkpat_cons ~loc:$sloc $loc($2) (ghpat ~loc:$sloc (Ppat_tuple (vaval[$1;$3]))) }
   | self attribute
       { Pat.attr $1 $2 }
   | pattern_gen
@@ -2791,7 +2792,9 @@ pattern_no_exn:
     | self AS error
         { expecting $loc($3) "identifier" }
     | pattern_comma_list(self) %prec below_COMMA
-        { Ppat_tuple(List.rev $1) }
+        { Ppat_tuple(vaval (List.rev $1)) }
+  | ANTI_TUPLELIST
+      { Ppat_tuple (Ploc.VaAnt (fst $1)) }
     | self COLONCOLON error
         { expecting $loc($3) "pattern" }
     | self BAR pattern
@@ -2838,6 +2841,7 @@ simple_pattern_not_ident:
       { $1 }
 ;
 %inline simple_pattern_not_ident_:
+  | ANTI { Ppat_xtr (Location.mkloc (fst $1) (snd $1)) }
   | UNDERSCORE
       { Ppat_any }
   | signed_constant
@@ -3419,7 +3423,10 @@ tuple_type:
       { ty }
   | mktyp(
       tys = separated_nontrivial_llist(STAR, atomic_type)
-        { Ptyp_tuple tys }
+        { Ptyp_tuple (vaval tys) }
+    | ANTI_TUPLELIST
+      { Ptyp_tuple (Ploc.VaAnt (fst $1)) }
+
     )
     { $1 }
 ;
@@ -3440,11 +3447,15 @@ atomic_type:
   | mktyp( /* begin mktyp group */
       QUOTE ident
         { Ptyp_var $2 }
+    | ANTI { Ptyp_xtr (Location.mkloc (fst $1) (snd $1)) }
     | UNDERSCORE
         { Ptyp_any }
     | tys = actual_type_parameters
       tid = mkrhs(type_longident)
-        { Ptyp_constr(tid, tys) }
+        { Ptyp_constr(tid, vaval tys) }
+    | ANTI_LIST
+      tid = mkrhs(type_longident)
+        { Ptyp_constr(tid, VaAnt (fst $1)) }
     | LESS meth_list GREATER
         { let (f, c) = $2 in Ptyp_object (f, c) }
     | LESS GREATER

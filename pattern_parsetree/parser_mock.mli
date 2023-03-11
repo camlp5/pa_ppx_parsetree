@@ -121,6 +121,7 @@ type token =
   | ASSERT
   | AS
   | ANTI_TUPLELIST of (string * Location.t)
+  | ANTI_LIST of (string * Location.t)
   | ANTI of (string * Location.t)
   | ANDOP of string
   | AND

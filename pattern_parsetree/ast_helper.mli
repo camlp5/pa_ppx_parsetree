@@ -79,8 +79,8 @@ module Typ :
     val var: ?loc:loc -> ?attrs:attrs -> string -> core_type
     val arrow: ?loc:loc -> ?attrs:attrs -> arg_label -> core_type -> core_type
                -> core_type
-    val tuple: ?loc:loc -> ?attrs:attrs -> core_type list -> core_type
-    val constr: ?loc:loc -> ?attrs:attrs -> lid -> core_type list -> core_type
+    val tuple: ?loc:loc -> ?attrs:attrs -> core_type list Ploc.vala -> core_type
+    val constr: ?loc:loc -> ?attrs:attrs -> lid -> core_type list Ploc.vala -> core_type
     val object_: ?loc:loc -> ?attrs:attrs -> object_field list
                    -> closed_flag -> core_type
     val class_: ?loc:loc -> ?attrs:attrs -> lid -> core_type list -> core_type
@@ -115,7 +115,7 @@ module Pat:
     val alias: ?loc:loc -> ?attrs:attrs -> pattern -> str -> pattern
     val constant: ?loc:loc -> ?attrs:attrs -> constant -> pattern
     val interval: ?loc:loc -> ?attrs:attrs -> constant -> constant -> pattern
-    val tuple: ?loc:loc -> ?attrs:attrs -> pattern list -> pattern
+    val tuple: ?loc:loc -> ?attrs:attrs -> pattern list Ploc.vala -> pattern
     val construct: ?loc:loc -> ?attrs:attrs ->
       lid -> (str list * pattern) option -> pattern
     val variant: ?loc:loc -> ?attrs:attrs -> label -> pattern option -> pattern

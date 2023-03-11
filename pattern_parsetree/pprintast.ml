@@ -323,8 +323,8 @@ and core_type1 ctxt f x =
   else match x.ptyp_desc with
     | Ptyp_any -> pp f "_";
     | Ptyp_var s -> tyvar f  s;
-    | Ptyp_tuple l ->  pp f "(%a)" (list (core_type1 ctxt) ~sep:"@;*@;") l
-    | Ptyp_constr (li, l) ->
+    | Ptyp_tuple (Ploc.VaVal l) ->  pp f "(%a)" (list (core_type1 ctxt) ~sep:"@;*@;") l
+    | Ptyp_constr (li, Ploc.VaVal l) ->
         pp f (* "%a%a@;" *) "%a%a"
           (fun f l -> match l with
              |[] -> ()
@@ -425,7 +425,7 @@ and pattern1 ctxt (f:Format.formatter) (x:pattern) : unit =
     | {ppat_desc =
          Ppat_construct
            ({ txt = Lident("::") ;_},
-            Some ([], {ppat_desc = Ppat_tuple([pat1; pat2]);_}));
+            Some ([], {ppat_desc = Ppat_tuple(Ploc.VaVal [pat1; pat2]);_}));
        ppat_attributes = []}
 
       ->
@@ -485,7 +485,7 @@ and simple_pattern ctxt (f:Format.formatter) (x:pattern) : unit =
         | _ ->
             pp f "@[<2>{@;%a;_}@]" (list longident_x_pattern ~sep:";@;") l
         end
-    | Ppat_tuple l ->
+    | Ppat_tuple (Ploc.VaVal l) ->
         pp f "@[<1>(%a)@]" (list  ~sep:",@;" (pattern1 ctxt))  l (* level1*)
     | Ppat_constant (c) -> pp f "%a" constant c
     | Ppat_interval (c1, c2) -> pp f "%a..%a" constant c1 constant c2

@@ -85,6 +85,7 @@ and core_type =
     }
 
 and core_type_desc =
+  | Ptyp_xtr of string loc
   | Ptyp_any  (** [_] *)
   | Ptyp_var of string  (** A type variable such as ['a] *)
   | Ptyp_arrow of arg_label * core_type * core_type
@@ -96,13 +97,13 @@ and core_type_desc =
             - [?l:T1 -> T2] when [lbl] is
                                      {{!Asttypes.arg_label.Optional}[Optional]}.
          *)
-  | Ptyp_tuple of core_type list
+  | Ptyp_tuple of core_type list Ploc.vala
       (** [Ptyp_tuple([T1 ; ... ; Tn])]
           represents a product type [T1 * ... * Tn].
 
            Invariant: [n >= 2].
         *)
-  | Ptyp_constr of Longident.t loc * core_type list
+  | Ptyp_constr of Longident.t loc * core_type list Ploc.vala
       (** [Ptyp_constr(lident, l)] represents:
             - [tconstr]               when [l=[]],
             - [T tconstr]             when [l=[T]],
@@ -217,6 +218,7 @@ and pattern =
     }
 
 and pattern_desc =
+  | Ppat_xtr of string loc
   | Ppat_any  (** The pattern [_]. *)
   | Ppat_var of string loc  (** A variable pattern such as [x] *)
   | Ppat_alias of pattern * string loc
@@ -228,7 +230,7 @@ and pattern_desc =
 
            Other forms of interval are recognized by the parser
            but rejected by the type-checker. *)
-  | Ppat_tuple of pattern list
+  | Ppat_tuple of pattern list Ploc.vala
       (** Patterns [(P1, ..., Pn)].
 
            Invariant: [n >= 2]

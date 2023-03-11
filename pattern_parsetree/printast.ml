@@ -147,10 +147,10 @@ let rec core_type i ppf x =
       arg_label i ppf l;
       core_type i ppf ct1;
       core_type i ppf ct2;
-  | Ptyp_tuple l ->
+  | Ptyp_tuple (Ploc.VaVal l) ->
       line i ppf "Ptyp_tuple\n";
       list i core_type ppf l;
-  | Ptyp_constr (li, l) ->
+  | Ptyp_constr (li, Ploc.VaVal l) ->
       line i ppf "Ptyp_constr %a\n" fmt_longident_loc li;
       list i core_type ppf l;
   | Ptyp_variant (l, closed, low) ->
@@ -203,7 +203,7 @@ and pattern i ppf x =
   | Ppat_constant (c) -> line i ppf "Ppat_constant %a\n" fmt_constant c;
   | Ppat_interval (c1, c2) ->
       line i ppf "Ppat_interval %a..%a\n" fmt_constant c1 fmt_constant c2;
-  | Ppat_tuple (l) ->
+  | Ppat_tuple (Ploc.VaVal l) ->
       line i ppf "Ppat_tuple\n";
       list i pattern ppf l;
   | Ppat_construct (li, po) ->

@@ -33,6 +33,12 @@ end
 let parse_expression s =
   Pa_ppx_parsetree_pattern_parsetree.Parse.expression (Lexing.from_string s)
 
+let parse_pattern s =
+  Pa_ppx_parsetree_pattern_parsetree.Parse.pattern (Lexing.from_string s)
+
+let parse_core_type s =
+  Pa_ppx_parsetree_pattern_parsetree.Parse.core_type (Lexing.from_string s)
+
 [%%import: Reorg_parsetree.attribute]
 [@@deriving q_ast {
     default_data_source_module = Reorg_parsetree
@@ -63,16 +69,44 @@ let parse_expression s =
     ; expression = {
         data_source_module = Parsetree
       ; quotation_source_module = Reorg_parsetree
+      ; add_branches_patt_code = (function
+          | {pexp_desc=Pexp_xtr{txt = s;};} -> C.xtr s)
+      ; add_branches_expr_code = (function
+          | {pexp_desc=Pexp_xtr{txt = s;};} -> C.xtr s)
       }
     ; expression_desc = {
         data_source_module = Parsetree
       ; quotation_source_module = Reorg_parsetree
-      ; custom_branches_code = function
-          | Pexp_xtr{txt = s;} -> C.xtr s
+      }
+    ; pattern = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
+      ; add_branches_patt_code = (function
+          | {ppat_desc=Ppat_xtr{txt = s;};} -> C.xtr s)
+      ; add_branches_expr_code = (function
+          | {ppat_desc=Ppat_xtr{txt = s;};} -> C.xtr s)
+      }
+    ; pattern_desc = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
+      }
+    ; core_type = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
+      ; add_branches_patt_code = (function
+          | {ptyp_desc=Ptyp_xtr{txt = s;};} -> C.xtr s)
+      ; add_branches_expr_code = (function
+          | {ptyp_desc=Ptyp_xtr{txt = s;};} -> C.xtr s)
+      }
+    ; core_type_desc = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
       }
     }
   ; entrypoints = [
       {name = "expression"; from_string = parse_expression ; type_name = expression }
+    ; {name = "pattern"; from_string = parse_pattern ; type_name = pattern }
+    ; {name = "core_type"; from_string = parse_core_type ; type_name = core_type }
     ]
  }]
 

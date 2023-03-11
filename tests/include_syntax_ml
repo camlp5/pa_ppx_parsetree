@@ -41,7 +41,19 @@ let f = function
 {| <:expr< $e1$ + $e2$ >> |} |>  PAPR.Implem.pa1 ;;
 {| <:expression< $e1$ + $e2$ >> |} |>  PAPR.Implem.pa1 ;;
 
-{| function <:expression< $tuplelist:l$ >> ->  l |} |>  PAPR.Implem.pa1 ;;
+{|
+ function <:expression< $tuplelist:l$ >> ->  l
+|} |>  PAPR.Implem.pa1 ;;
+{|
+ function <:expression< ($e1$, $e2$) >> ->  (e1, e2)
+|} |>  PAPR.Implem.pa1 ;;
+
+{|
+ function <:pattern< $tuplelist:l$ >> ->  l
+|} |>  PAPR.Implem.pa1 ;;
+{|
+ function <:pattern< ($e1$, $e2$) >> ->  (e1, e2)
+|} |>  PAPR.Implem.pa1 ;;
 
 
 (*
