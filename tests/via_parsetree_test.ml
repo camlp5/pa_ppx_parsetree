@@ -6,6 +6,9 @@ let x = 1
 
 module LI = struct
 
+let f0 : Longident.t -> unit = function
+<:longident_t< $lid:_$ >> -> ()
+
 let f1 : Longident.t -> string = function
 <:longident_t< $lid:e1$ >> -> e1
 

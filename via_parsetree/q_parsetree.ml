@@ -27,6 +27,7 @@ module MetaP = struct
     let vala elem x =
       match x with
         Ploc.VaVal p -> elem p
+      | Ploc.VaAnt "_" -> <:patt< _ >>
       | Ploc.VaAnt s -> xtr s
 end
 
