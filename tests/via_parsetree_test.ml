@@ -52,7 +52,7 @@ let f1 : Parsetree.core_type -> Parsetree.core_type list =
 let f2 : Parsetree.core_type -> Parsetree.core_type * Parsetree.core_type =
  function <:core_type< ($e1$, $e2$) t >> ->  (e1, e2)
 
-let f3 : Parsetree.core_type -> Parsetree.core_type * string =
+let f3 : Parsetree.core_type -> Parsetree.core_type * string * string =
 function <:core_type< $c$ $uid:m$ . $lid:t$ >> -> (c,m,t)
 
 end
