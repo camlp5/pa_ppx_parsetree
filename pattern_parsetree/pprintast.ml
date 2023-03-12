@@ -218,7 +218,7 @@ let paren: 'a . ?first:space_formatter -> ?last:space_formatter ->
 
 let rec longident f = function
   | Lident s -> protect_ident f (unvala s)
-  | Ldot(y,s) -> protect_longident f longident y (unvala s)
+  | Ldot(y,s) -> protect_longident f longident (unvala y) (unvala s)
   | Lapply (y,s) ->
       pp f "%a(%a)" longident (unvala y) longident (unvala s)
 
@@ -560,18 +560,18 @@ and sugar_expr ctxt f e =
       | Ldot (path, (Ploc.VaVal ("get"|"set" as func))), a :: other_args -> begin
           let assign = func = "set" in
           let print = print_indexop a None assign in
-          match path, other_args with
+          match unvala path, other_args with
           | Lident (Ploc.VaVal "Array"), i :: rest ->
             print ".(" "" ")" (expression ctxt) [i] rest
           | Lident (Ploc.VaVal "String"), i :: rest ->
             print ".[" "" "]" (expression ctxt) [i] rest
-          | Ldot (Lident (Ploc.VaVal "Bigarray"), (Ploc.VaVal "Array1")), i1 :: rest ->
+          | Ldot (Ploc.VaVal (Lident (Ploc.VaVal "Bigarray")), (Ploc.VaVal "Array1")), i1 :: rest ->
             print ".{" "," "}" (simple_expr ctxt) [i1] rest
-          | Ldot (Lident (Ploc.VaVal "Bigarray"), (Ploc.VaVal "Array2")), i1 :: i2 :: rest ->
+          | Ldot (Ploc.VaVal (Lident (Ploc.VaVal "Bigarray")), (Ploc.VaVal "Array2")), i1 :: i2 :: rest ->
             print ".{" "," "}" (simple_expr ctxt) [i1; i2] rest
-          | Ldot (Lident (Ploc.VaVal "Bigarray"), (Ploc.VaVal "Array3")), i1 :: i2 :: i3 :: rest ->
+          | Ldot (Ploc.VaVal (Lident (Ploc.VaVal "Bigarray")), (Ploc.VaVal "Array3")), i1 :: i2 :: i3 :: rest ->
             print ".{" "," "}" (simple_expr ctxt) [i1; i2; i3] rest
-          | Ldot (Lident (Ploc.VaVal "Bigarray"), (Ploc.VaVal "Genarray")),
+          | Ldot (Ploc.VaVal (Lident (Ploc.VaVal "Bigarray")), (Ploc.VaVal "Genarray")),
             {pexp_desc = Pexp_array indexes; pexp_attributes = []} :: rest ->
               print ".{" "," "}" (simple_expr ctxt) indexes rest
           | _ -> false
@@ -601,7 +601,7 @@ and sugar_expr ctxt f e =
             | Ldot(m,_) -> Some m
             | _ -> None in
           let left = String.sub s 0 (1+String.index s left) in
-          print_indexop a path_prefix assign left ";" right
+          print_indexop a (Option.map unvala path_prefix) assign left ";" right
             (if multi_indices then expression ctxt else simple_expr ctxt)
             i rest
       | _ -> false

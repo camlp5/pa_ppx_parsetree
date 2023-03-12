@@ -122,6 +122,7 @@ type token =
   | AS
   | ANTI_UID of (string * Location.t)
   | ANTI_TUPLELIST of (string * Location.t)
+  | ANTI_LONGID of (string * Location.t)
   | ANTI_LIST of (string * Location.t)
   | ANTI_LID of (string * Location.t)
   | ANTI of (string * Location.t)
@@ -323,7 +324,7 @@ val builtin_indexing_operators : (unit, Parsetree.expression) array_family
 val paren_to_strings : paren_kind -> string * string
 val user_indexing_operator_name :
   Lexing.position * Lexing.position ->
-  Longident.t option * string ->
+  Longident.t Ploc.vala option * string ->
   assign:bool -> paren_kind -> index_dim -> Longident.t Asttypes.loc
 val user_index :
   Lexing.position * Lexing.position ->
@@ -331,7 +332,8 @@ val user_index :
   Parsetree.expression list ->
   index_dim * (Asttypes.arg_label * Parsetree.expression) list
 val user_indexing_operators :
-  (Longident.t option * string, Parsetree.expression list) array_family
+  (Longident.t Ploc.vala option * string, Parsetree.expression list)
+  array_family
 val mk_indexop_expr :
   ('a, 'b) array_family ->
   loc:Lexing.position * Lexing.position ->
@@ -521,6 +523,9 @@ val xv_value :
    Parsetree.class_field_kind) *
   Parsetree.attributes
 val xv_vala_val_ident_ANTI_LID_ : Asttypes.label Ast_helper.vala
+val xv_vala_mod_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
+val xv_vala_mod_longident_ANTI_ : Longident.t Ast_helper.vala
+val xv_vala_mod_ext_longident_ANTI_ : Longident.t Ast_helper.vala
 val xv_vala_ident_ANTI_LID_ : Asttypes.label Ast_helper.vala
 val xv_vala_UIDENT_ANTI_UID_ : Asttypes.label Ast_helper.vala
 val xv_vala_LIDENT_ANTI_LID_ : Asttypes.label Ast_helper.vala
@@ -706,7 +711,7 @@ val xv_rec_module_binding :
   string Asttypes.loc option * Parsetree.module_binding
 val xv_rec_flag : Asttypes.rec_flag
 val xv_raw_string : string
-val xv_qualified_dotop : Longident.t option * string
+val xv_qualified_dotop : Longident.t Ast_helper.vala option * string
 val xv_private_virtual_flags : Asttypes.private_flag * Asttypes.virtual_flag
 val xv_private_flag : Asttypes.private_flag
 val xv_primitive_declaration :
@@ -886,14 +891,18 @@ val xv_mkclass___anonymous_8_ : Parsetree.class_expr
 val xv_mkclass___anonymous_11_ : Parsetree.class_expr
 val xv_mkclass___anonymous_10_ : Parsetree.class_expr
 val xv_mkcf___anonymous_13_ : Parsetree.class_field
-val xv_mk_longident_mod_longident_vaval_LIDENT__ : Longident.t
-val xv_mk_longident_mod_longident_vala_UIDENT_ANTI_UID__ : Longident.t
-val xv_mk_longident_mod_longident_val_ident_vala_ : Longident.t
-val xv_mk_longident_mod_ext_longident_vaval_ident__ : Longident.t
-val xv_mk_longident_mod_ext_longident_vaval_LIDENT__ : Longident.t
-val xv_mk_longident_mod_ext_longident_vala_UIDENT_ANTI_UID__ : Longident.t
-val xv_mk_longident_mod_ext_longident_vala_LIDENT_ANTI_LID__ : Longident.t
-val xv_mk_longident_mod_ext_longident___anonymous_41_ : Longident.t
+val xv_mk_longident_vala_mod_longident_ANTI__vaval_LIDENT__ : Longident.t
+val xv_mk_longident_vala_mod_longident_ANTI__vala_UIDENT_ANTI_UID__ :
+  Longident.t
+val xv_mk_longident_vala_mod_longident_ANTI__val_ident_vala_ : Longident.t
+val xv_mk_longident_vala_mod_ext_longident_ANTI__vaval_ident__ : Longident.t
+val xv_mk_longident_vala_mod_ext_longident_ANTI__vaval_LIDENT__ : Longident.t
+val xv_mk_longident_vala_mod_ext_longident_ANTI__vala_UIDENT_ANTI_UID__ :
+  Longident.t
+val xv_mk_longident_vala_mod_ext_longident_ANTI__vala_LIDENT_ANTI_LID__ :
+  Longident.t
+val xv_mk_longident_vala_mod_ext_longident_ANTI____anonymous_41_ :
+  Longident.t
 val xv_mk_directive_arg_toplevel_directive_argument_ :
   Parsetree.directive_argument
 val xv_method_ :
@@ -956,7 +965,7 @@ val xv_ioption_terminated_simple_expr_WITH__ : Parsetree.expression option
 val xv_ioption_terminated_core_type_EQUAL__ : Parsetree.core_type option
 val xv_ioption_mk_directive_arg_toplevel_directive_argument__ :
   Parsetree.directive_argument option
-val xv_ioption___anonymous_21_ : Longident.t option
+val xv_ioption___anonymous_21_ : Longident.t Ast_helper.vala option
 val xv_ioption_SEMI_ : unit option
 val xv_ioption_BAR_ : unit option
 val xv_interface : Parsetree.signature
@@ -978,14 +987,14 @@ val xv_inline_private_flag : Asttypes.private_flag
 val xv_inherit_field : Parsetree.object_field
 val xv_infix_operator : Asttypes.label
 val xv_indexop_expr_4_qualified_dotop_expr_semi_list___anonymous_25_ :
-  Parsetree.expression * (Longident.t option * string) * paren_kind *
-  Parsetree.expression list * Parsetree.expression option
+  Parsetree.expression * (Longident.t Ast_helper.vala option * string) *
+  paren_kind * Parsetree.expression list * Parsetree.expression option
 val xv_indexop_expr_3_DOT_seq_expr___anonymous_24_ :
   Parsetree.expression * unit * paren_kind * Parsetree.expression *
   Parsetree.expression option
 val xv_indexop_expr_2_qualified_dotop_expr_semi_list___anonymous_23_ :
-  Parsetree.expression * (Longident.t option * string) * paren_kind *
-  Parsetree.expression list * Parsetree.expression option
+  Parsetree.expression * (Longident.t Ast_helper.vala option * string) *
+  paren_kind * Parsetree.expression list * Parsetree.expression option
 val xv_indexop_expr_1_DOT_seq_expr___anonymous_22_ :
   Parsetree.expression * unit * paren_kind * Parsetree.expression *
   Parsetree.expression option
@@ -1184,7 +1193,7 @@ val xv___anonymous_25 : Parsetree.expression option
 val xv___anonymous_24 : Parsetree.expression option
 val xv___anonymous_23 : Parsetree.expression option
 val xv___anonymous_22 : Parsetree.expression option
-val xv___anonymous_21 : Longident.t
+val xv___anonymous_21 : Longident.t Ast_helper.vala
 val xv___anonymous_20 : Parsetree.pattern_desc
 val xv___anonymous_2 :
   Parsetree.structure_item_desc * string Asttypes.loc option

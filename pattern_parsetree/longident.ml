@@ -15,12 +15,12 @@
 
 type t =
     Lident of string Ploc.vala
-  | Ldot of t * string Ploc.vala
+  | Ldot of t Ploc.vala * string Ploc.vala
   | Lapply of t Ploc.vala * t Ploc.vala
 
 let rec flat accu = function
     Lident (Ploc.VaVal s) -> s :: accu
-  | Ldot(lid, Ploc.VaVal s) -> flat (s :: accu) lid
+  | Ldot(lid, Ploc.VaVal s) -> flat (s :: accu) (Pcaml.unvala lid)
   | Lapply(_, _) -> Misc.fatal_error "Longident.flat"
 
 let flatten lid = flat [] lid
@@ -41,7 +41,7 @@ let rec split_at_dots s pos =
 let unflatten l =
   match l with
   | [] -> None
-  | hd :: tl -> Some (List.fold_left (fun p s -> Ldot(p, Ploc.VaVal s)) (Lident (Ploc.VaVal hd)) tl)
+  | hd :: tl -> Some (List.fold_left (fun p s -> Ldot(Ploc.VaVal p, Ploc.VaVal s)) (Lident (Ploc.VaVal hd)) tl)
 
 let parse s =
   match unflatten (split_at_dots s 0) with

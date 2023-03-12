@@ -43,6 +43,9 @@ let parse_core_type s =
 let parse_longident s =
   Pa_ppx_parsetree_pattern_parsetree.Parse.longident (Lexing.from_string s)
 
+let parse_extended_module_path s =
+  Pa_ppx_parsetree_pattern_parsetree.Parse.extended_module_path (Lexing.from_string s)
+
 [%%import: Reorg_parsetree.attribute]
 [@@deriving q_ast {
     default_data_source_module = Reorg_parsetree
@@ -62,8 +65,28 @@ let parse_longident s =
         data_source_module = Asttypes
       ; quotation_source_module = Reorg_parsetree
       }
-    ; position = {
-        data_source_module = Lexing
+    ; arg_label = {
+        data_source_module = Asttypes
+      ; quotation_source_module = Reorg_parsetree
+      }
+    ; rec_flag = {
+        data_source_module = Asttypes
+      ; quotation_source_module = Reorg_parsetree
+      }
+    ; value_binding = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
+      }
+    ; letop = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
+      }
+    ; binding_op = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
+      }
+    ; case = {
+        data_source_module = Parsetree
       ; quotation_source_module = Reorg_parsetree
       }
     ; constant = {
@@ -112,6 +135,7 @@ let parse_longident s =
     ; {name = "pattern"; from_string = parse_pattern ; type_name = pattern }
     ; {name = "core_type"; from_string = parse_core_type ; type_name = core_type }
     ; {name = "longident_t"; from_string = parse_longident ; type_name = longident_t }
+    ; {name = "extended_module_path"; from_string = parse_extended_module_path ; type_name = longident_t }
     ]
  }]
 

@@ -604,6 +604,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_UID (payload, loc)
      }
+  | "$" "longid:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_LONGID (payload, loc)
+     }
   | eof { EOF }
   | (_ as illegal_char)
       { error lexbuf (Illegal_character illegal_char) }

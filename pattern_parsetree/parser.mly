@@ -316,8 +316,8 @@ let builtin_arraylike_name loc _ ~assign paren_kind n =
          | Two -> "Array2"
          | Three -> "Array3"
          | Many -> "Genarray" in
-       Ldot(Lident (vaval "Bigarray"), vaval submodule_name) in
-   ghloc ~loc (Ldot(prefix,vaval opname))
+       Ldot(vaval(Lident (vaval "Bigarray")), vaval submodule_name) in
+   ghloc ~loc (Ldot(vaval prefix,vaval opname))
 
 let builtin_arraylike_index loc paren_kind (index : expression) = match paren_kind with
     | Paren | Bracket -> One, [Nolabel, index]
@@ -337,7 +337,7 @@ let paren_to_strings = function
   | Bracket -> "[", "]"
   | Brace -> "{", "}"
 
-let user_indexing_operator_name loc (prefix,ext) ~assign paren_kind n =
+let user_indexing_operator_name loc ((prefix : Longident.t Ploc.vala option),ext) ~assign paren_kind n =
   let name =
     let assign = if assign then "<-" else "" in
     let mid = match n with
@@ -345,9 +345,9 @@ let user_indexing_operator_name loc (prefix,ext) ~assign paren_kind n =
         | One -> "" in
     let left, right = paren_to_strings paren_kind in
     String.concat "" ["."; ext; left; mid; right; assign] in
-  let lid = match prefix with
+  let lid = match Option.map unvala prefix with
     | None -> Lident (vaval name)
-    | Some p -> Ldot(p,vaval  name) in
+    | Some p -> Ldot(vaval p,vaval  name) in
   ghloc ~loc lid
 
 let user_index loc _ index =
@@ -358,7 +358,7 @@ let user_index loc _ index =
     | l -> Many, [Nolabel, mkexp ~loc (Pexp_array l)]
 
 let user_indexing_operators:
-      (Longident.t option * string, expression list) array_family
+      (Longident.t Ploc.vala option * string, expression list) array_family
   = { index = user_index; name = user_indexing_operator_name }
 
 let mk_indexop_expr array_indexing_operator ~loc
@@ -772,6 +772,7 @@ let mk_directive ~loc name arg =
 %token <string * Location.t> ANTI_LIST
 %token <string * Location.t> ANTI_LID
 %token <string * Location.t> ANTI_UID
+%token <string * Location.t> ANTI_LONGID
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -836,7 +837,7 @@ The precedences must be listed from low to high.
 %nonassoc BACKQUOTE BANG BEGIN CHAR FALSE FLOAT INT OBJECT
           LBRACE LBRACELESS LBRACKET LBRACKETBAR LIDENT LPAREN
           NEW PREFIXOP STRING TRUE UIDENT
-          LBRACKETPERCENT QUOTED_STRING_EXPR ANTI ANTI_UID ANTI_LID
+          LBRACKETPERCENT QUOTED_STRING_EXPR ANTI ANTI_UID ANTI_LID ANTI_LONGID
 
 
 /* Entry points */
@@ -2309,7 +2310,7 @@ let_pattern:
     { indexop_unclosed_error $loc(_p) Bracket $loc(_e) }
 ;
 
-%inline qualified_dotop: ioption(DOT mod_longident {$2}) DOTOP { $1, $2 };
+%inline qualified_dotop: ioption(DOT mod_longident {vaval $2}) DOTOP { $1, $2 };
 
 %inline vaval(X):
    X
@@ -3688,7 +3689,7 @@ constr_ident:
 ;
 constr_longident:
     mod_longident       %prec below_DOT  { $1 } /* A.B.x vs (A).B.x */
-  | mod_longident DOT constr_extra_ident { Ldot($1,vaval $3) }
+  | vala(mod_longident, ANTI_LONGID) DOT constr_extra_ident { Ldot($1,vaval $3) }
   | constr_extra_ident                   { Lident (vaval $1) }
   | constr_extra_nonprefix_ident         { Lident (vaval $1) }
 ;
@@ -3697,32 +3698,32 @@ mk_longident(prefix,final):
    | prefix DOT final { Ldot($1,$3) }
 ;
 val_longident:
-    mk_longident(mod_longident, val_ident_vala) { $1 }
+    mk_longident(vala(mod_longident, ANTI), val_ident_vala) { $1 }
 ;
 label_longident:
-    mk_longident(mod_longident, vaval(LIDENT)) { $1 }
+    mk_longident(vala(mod_longident, ANTI), vaval(LIDENT)) { $1 }
 ;
 type_longident:
-    mk_longident(mod_ext_longident, vala(LIDENT, ANTI_LID))  { $1 }
+    mk_longident(vala(mod_ext_longident, ANTI), vala(LIDENT, ANTI_LID))  { $1 }
 ;
 mod_longident:
-    mk_longident(mod_longident, vala(UIDENT, ANTI_UID))  { $1 }
+    mk_longident(vala(mod_longident, ANTI), vala(UIDENT, ANTI_UID))  { $1 }
 ;
 mod_ext_longident:
-    mk_longident(mod_ext_longident, vala(UIDENT, ANTI_UID)) { $1 }
-  | mod_ext_longident LPAREN mod_ext_longident RPAREN
-      { lapply ~loc:$sloc (vaval $1) (vaval $3) }
-  | mod_ext_longident LPAREN error
+    mk_longident(vala(mod_ext_longident, ANTI), vala(UIDENT, ANTI_UID)) { $1 }
+  | vala(mod_ext_longident, ANTI) LPAREN vala(mod_ext_longident, ANTI) RPAREN
+      { lapply ~loc:$sloc $1 $3 }
+  | vala(mod_ext_longident,ANTI) LPAREN error
       { expecting $loc($3) "module path" }
 ;
 mty_longident:
-    mk_longident(mod_ext_longident,vaval(ident)) { $1 }
+    mk_longident(vala(mod_ext_longident, ANTI),vaval(ident)) { $1 }
 ;
 clty_longident:
-    mk_longident(mod_ext_longident,vaval(LIDENT)) { $1 }
+    mk_longident(vala(mod_ext_longident, ANTI),vaval(LIDENT)) { $1 }
 ;
 class_longident:
-   mk_longident(mod_longident,vaval(LIDENT)) { $1 }
+   mk_longident(vala(mod_longident, ANTI),vaval(LIDENT)) { $1 }
 ;
 
 /* BEGIN AVOID */
@@ -3730,7 +3731,7 @@ class_longident:
    final identifiers which are value specific are accepted even when
    the path prefix is only valid for types: (e.g. F(X).(::)) */
 any_longident:
-  | mk_longident (mod_ext_longident,
+  | mk_longident (vala(mod_ext_longident, ANTI),
      ident_vala | vaval(constr_extra_ident) | vaval(val_extra_ident) { $1 }
     ) { $1 }
   | constr_extra_nonprefix_ident { Lident (vaval $1) }

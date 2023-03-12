@@ -25,7 +25,7 @@
 
 type t =
     Lident of string Ploc.vala
-  | Ldot of t * string Ploc.vala
+  | Ldot of t Ploc.vala * string Ploc.vala
   | Lapply of t Ploc.vala * t Ploc.vala
 
 val flatten: t -> string list
