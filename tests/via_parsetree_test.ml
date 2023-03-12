@@ -104,8 +104,15 @@ function <:core_type< $lid:s$ >> -> s
 let f6 : Parsetree.core_type -> Parsetree.core_type * Parsetree.core_type =
 function <:core_type< $t1$ * $t2$ >> -> (t1, t2)
 
+end
+
+module STRI = struct
+
+let f1 : Parsetree.structure_item -> Parsetree.constructor_declaration list =
+  function <:structure_item< type t = $constructorlist:l$ >> -> l
 
 end
+
 
 (*
 let _ = 

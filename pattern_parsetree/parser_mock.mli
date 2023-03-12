@@ -125,6 +125,7 @@ type token =
   | ANTI_LONGID of (string * Location.t)
   | ANTI_LIST of (string * Location.t)
   | ANTI_LID of (string * Location.t)
+  | ANTI_CONSTRUCTORLIST of (string * Location.t)
   | ANTI of (string * Location.t)
   | ANDOP of string
   | AND
@@ -527,6 +528,8 @@ val xv_vala_mod_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_mod_longident_ANTI_ : Longident.t Ast_helper.vala
 val xv_vala_mod_ext_longident_ANTI_ : Longident.t Ast_helper.vala
 val xv_vala_ident_ANTI_LID_ : Asttypes.label Ast_helper.vala
+val xv_vala_constructor_declarations_ANTI_CONSTRUCTORLIST_ :
+  Parsetree.constructor_declaration list Ast_helper.vala
 val xv_vala_UIDENT_ANTI_UID_ : Asttypes.label Ast_helper.vala
 val xv_vala_LIDENT_ANTI_LID_ : Asttypes.label Ast_helper.vala
 val xv_val_longident : Longident.t
@@ -747,6 +750,7 @@ val xv_pattern__pattern_no_exn_ : Parsetree.pattern
 val xv_pattern__pattern_ : Parsetree.pattern
 val xv_pattern : Parsetree.pattern
 val xv_parse_val_longident : Longident.t
+val xv_parse_structure_item : Parsetree.structure_item
 val xv_parse_pattern : Parsetree.pattern
 val xv_parse_mty_longident : Longident.t
 val xv_parse_module_type : Parsetree.module_type

@@ -770,6 +770,7 @@ let mk_directive ~loc name arg =
 %token <string * Location.t> ANTI
 %token <string * Location.t> ANTI_TUPLELIST
 %token <string * Location.t> ANTI_LIST
+%token <string * Location.t> ANTI_CONSTRUCTORLIST
 %token <string * Location.t> ANTI_LID
 %token <string * Location.t> ANTI_UID
 %token <string * Location.t> ANTI_LONGID
@@ -888,6 +889,8 @@ The precedences must be listed from low to high.
 %type <string> constr_extra_nonprefix_ident
 %type <string Ploc.vala> ident_vala name_tag_vala val_ident_vala
 %type <label> ident name_tag
+%start parse_structure_item
+%type <Parsetree.structure_item> parse_structure_item
 
 %%
 
@@ -1270,6 +1273,11 @@ parse_mod_longident:
 
 parse_any_longident:
   any_longident EOF
+    { $1 }
+;
+
+parse_structure_item:
+  structure_item EOF
     { $1 }
 ;
 /* END AVOID */
@@ -3064,7 +3072,7 @@ nonempty_type_kind:
       { (Ptype_abstract, priv, Some ty) }
   | oty = type_synonym
     priv = inline_private_flag
-    cs = constructor_declarations
+    cs = vala(constructor_declarations, ANTI_CONSTRUCTORLIST)
       { (Ptype_variant cs, priv, oty) }
   | oty = type_synonym
     priv = inline_private_flag

@@ -126,6 +126,7 @@ type token =
   | ANTI_LONGID of (string * Location.t)
   | ANTI_LIST of (string * Location.t)
   | ANTI_LID of (string * Location.t)
+  | ANTI_CONSTRUCTORLIST of (string * Location.t)
   | ANTI of (string * Location.t)
   | ANDOP of (string)
   | AND
@@ -143,6 +144,8 @@ val use_file: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.toplevel_p
 val toplevel_phrase: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.toplevel_phrase)
 
 val parse_val_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longident.t)
+
+val parse_structure_item: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.structure_item)
 
 val parse_pattern: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.pattern)
 

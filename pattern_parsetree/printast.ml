@@ -440,7 +440,7 @@ and type_kind i ppf x =
       line i ppf "Ptype_abstract\n"
   | Ptype_variant l ->
       line i ppf "Ptype_variant\n";
-      list (i+1) constructor_decl ppf l;
+      list (i+1) constructor_decl ppf (unvala l);
   | Ptype_record l ->
       line i ppf "Ptype_record\n";
       list (i+1) label_decl ppf l;

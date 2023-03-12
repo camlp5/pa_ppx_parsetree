@@ -1557,7 +1557,7 @@ and type_declaration ctxt f x =
       let variants fmt xs =
         if xs = [] then pp fmt " |" else
           pp fmt "@\n%a" (list ~sep:"@\n" constructor_declaration) xs
-      in pp f "%t%t%a" intro priv variants xs
+      in pp f "%t%t%a" intro priv variants (unvala xs)
     | Ptype_abstract -> ()
     | Ptype_record l ->
         pp f "%t%t@;%a" intro priv (record_declaration ctxt) l

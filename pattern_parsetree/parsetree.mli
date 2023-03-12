@@ -503,7 +503,7 @@ and type_declaration =
 
 and type_kind =
   | Ptype_abstract
-  | Ptype_variant of constructor_declaration list
+  | Ptype_variant of constructor_declaration list Ploc.vala
   | Ptype_record of label_declaration list  (** Invariant: non-empty list *)
   | Ptype_open
 

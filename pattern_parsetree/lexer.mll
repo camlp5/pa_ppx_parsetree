@@ -589,6 +589,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_TUPLELIST (payload, loc)
      }
+  | "$" "constructorlist:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_CONSTRUCTORLIST (payload, loc)
+     }
   | "$" "list:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in

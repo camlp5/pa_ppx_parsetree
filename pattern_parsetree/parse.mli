@@ -29,6 +29,7 @@ val expression : Lexing.lexbuf -> Parsetree.expression
 val pattern : Lexing.lexbuf -> Parsetree.pattern
 val module_type : Lexing.lexbuf -> Parsetree.module_type
 val module_expr : Lexing.lexbuf -> Parsetree.module_expr
+val structure_item : Lexing.lexbuf -> Parsetree.structure_item
 
 (** The functions below can be used to parse Longident safely. *)
 
