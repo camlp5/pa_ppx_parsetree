@@ -1,4 +1,4 @@
-(**pp -package pa_ppx_parsetree_via_parsetree -syntax camlp5o *)
+(**pp -package pa_ppx_parsetree_via_parsetree,pa_ppx_quotation2extension -syntax camlp5o *)
 
 open OUnit2
 
@@ -6,20 +6,19 @@ let x = 1
 
 module LI = struct
 
-let f0 : Longident.t -> unit = function
-<:longident_t< $lid:_$ >> -> ()
+let test ctxt = 
+  let l = "x" in
+  let m = "M" in
+  let li1 = [%longident_t {| $uid:m$ |}] in
+  assert_equal () (match [%longident_t {| $lid:l$ |}] with
+                     [%longident_t {| $lid:_$ |}] -> ())
+  ; assert_equal l (match [%longident_t {| $lid:l$ |}] with
+                      [%longident_t {| $lid:l2$ |}] -> l2)
 
-let f1 : Longident.t -> string = function
-<:longident_t< $lid:e1$ >> -> e1
-
-let f2 : Longident.t -> string * string = function
-<:longident_t< $uid:m$ . $lid:e1$ >> -> (m,e1)
-
-let f3 : Longident.t -> string * string =
- function <:longident_t< $uid:m$. $lid:e1$ >> -> (m,e1)
-
-let f4 : Longident.t -> Longident.t * string =
- function <:longident_t< $l$. $lid:e1$ >> -> (l,e1)
+  ; assert_equal (m, l) (match [%longident_t {| $uid:m$ . $lid:l$ |}] with
+                           [%longident_t {| $uid:m2$ . $lid:l2$ |}] -> (m2,l2))
+  ; assert_equal (li1,l) (match [%longident_t {| $li1$. $lid:l$ |}] with
+                            [%longident_t {| $li2$. $lid:l2$ |}] -> (li2,l2))
 
 end
 
@@ -136,10 +135,12 @@ let f8 : Parsetree.structure_item -> Asttypes.mutable_flag * string * Parsetree.
 end
 
 
-(*
+let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
+      "longident"   >:: LI.test
+    ]
+
+
 let _ = 
 if not !Sys.interactive then
   run_test_tt_main suite
 else ()
-
- *)

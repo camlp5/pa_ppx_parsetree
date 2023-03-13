@@ -16,6 +16,8 @@ all: $(TESTS)
 
 
 test:: all
+	mkdir -p _build && ./via_camlp5_test.exe
+	mkdir -p _build && ./via_parsetree_test.exe
 
 via_camlp5_test.exe: via_camlp5_test.cmo
 	$(LAUNCH) $(OCAMLFIND) ocamlc -linkall -linkpkg $(OCAMLCFLAGS) -package $(PACKAGES) -linkpkg -linkall -o $@ $<
