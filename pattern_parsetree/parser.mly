@@ -3072,8 +3072,8 @@ generic_type_declaration(flag, kind):
    a smaller automaton. *)
 nonempty_type_kind:
   | priv = vala(inline_private_flag, ANTI_PRIV)
-    ty = core_type
-      { (Ptype_abstract, priv, Some (vaval ty)) }
+    ty = vala(core_type, ANTI_TYP)
+      { (Ptype_abstract, priv, Some ty) }
   | oty = type_synonym
     priv = vala(inline_private_flag,  ANTI_PRIV)
     cs = vala(constructor_declarations, ANTI_CONSTRUCTORLIST)
@@ -3088,7 +3088,7 @@ nonempty_type_kind:
       { (Ptype_record ls, priv, oty) }
 ;
 %inline type_synonym:
-  ioption(terminated(vaval(core_type), EQUAL))
+  ioption(terminated(vala(core_type, ANTI_TYP), EQUAL))
     { $1 }
 ;
 type_kind:
