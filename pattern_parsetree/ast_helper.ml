@@ -547,7 +547,7 @@ module Type = struct
     }
 
   let constructor ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) ?(info = empty_info)
-        ?(vars = []) ?(args = Pcstr_tuple []) ?res name =
+        ?(vars = []) ?(args = Pcstr_tuple (Ploc.VaVal [])) ?res name =
     {
      pcd_name = name;
      pcd_vars = vars;
@@ -600,7 +600,7 @@ module Te = struct
     }
 
   let decl ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) ?(docs = empty_docs)
-         ?(info = empty_info) ?(vars = []) ?(args = Pcstr_tuple []) ?res name =
+         ?(info = empty_info) ?(vars = []) ?(args = Pcstr_tuple (Ploc.VaVal [])) ?res name =
     {
      pext_name = name;
      pext_kind = Pext_decl(vars, args, res);

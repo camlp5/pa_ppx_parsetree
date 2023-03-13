@@ -1601,22 +1601,22 @@ and constructor_declaration ctxt f (name, vars, args, res, attrs) =
   | None ->
       pp f "%s%a@;%a" name
         (fun f -> function
-           | Pcstr_tuple [] -> ()
+           | Pcstr_tuple (Ploc.VaVal []) -> ()
            | Pcstr_tuple l ->
-             pp f "@;of@;%a" (list (core_type1 ctxt) ~sep:"@;*@;") l
-           | Pcstr_record l -> pp f "@;of@;%a" (record_declaration ctxt) l
+             pp f "@;of@;%a" (list (core_type1 ctxt) ~sep:"@;*@;") (unvala l)
+           | Pcstr_record l -> pp f "@;of@;%a" (record_declaration ctxt) (unvala l)
         ) args
         (attributes ctxt) (unvala attrs)
   | Some r ->
       pp f "%s:@;%a%a@;%a" name
         pp_vars vars
         (fun f -> function
-           | Pcstr_tuple [] -> core_type1 ctxt f r
+           | Pcstr_tuple (Ploc.VaVal []) -> core_type1 ctxt f r
            | Pcstr_tuple l -> pp f "%a@;->@;%a"
-                                (list (core_type1 ctxt) ~sep:"@;*@;") l
+                                (list (core_type1 ctxt) ~sep:"@;*@;") (unvala l)
                                 (core_type1 ctxt) r
            | Pcstr_record l ->
-               pp f "%a@;->@;%a" (record_declaration ctxt) l (core_type1 ctxt) r
+               pp f "%a@;->@;%a" (record_declaration ctxt) (unvala l) (core_type1 ctxt) r
         )
         args
         (attributes ctxt) (unvala attrs)

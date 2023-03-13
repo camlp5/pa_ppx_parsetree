@@ -531,6 +531,10 @@ val xv_vala_private_flag_ANTI_PRIV_ : Asttypes.private_flag Ast_helper.vala
 val xv_vala_mod_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_mod_longident_ANTI_ : Longident.t Ast_helper.vala
 val xv_vala_mod_ext_longident_ANTI_ : Longident.t Ast_helper.vala
+val xv_vala_label_declarations_ANTI_LIST_ :
+  Parsetree.label_declaration list Ast_helper.vala
+val xv_vala_inline_separated_nonempty_llist_STAR_atomic_type__ANTI_LIST_ :
+  Parsetree.core_type list Ast_helper.vala
 val xv_vala_inline_private_flag_ANTI_PRIV_ :
   Asttypes.private_flag Ast_helper.vala
 val xv_vala_ident_ANTI_LID_ : Asttypes.label Ast_helper.vala

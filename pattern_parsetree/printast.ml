@@ -885,8 +885,8 @@ and constructor_decl i ppf
   option (i+1) core_type ppf pcd_res
 
 and constructor_arguments i ppf = function
-  | Pcstr_tuple l -> list i core_type ppf l
-  | Pcstr_record l -> list i label_decl ppf l
+  | Pcstr_tuple l -> list i core_type ppf (unvala l)
+  | Pcstr_record l -> list i label_decl ppf (unvala l)
 
 and label_decl i ppf {pld_name; pld_mutable; pld_type; pld_loc; pld_attributes}=
   line i ppf "%a\n" fmt_location pld_loc;

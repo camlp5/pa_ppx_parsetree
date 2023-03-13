@@ -123,8 +123,11 @@ let f4 : Parsetree.structure_item -> Asttypes.private_flag =
 let f5 : Parsetree.structure_item -> string * Parsetree.attribute list =
   function <:structure_item< type t = $uid:cid$ of int $algattrs:l$ >> -> (cid,l)
 
-let f6 : Parsetree.structure_item -> string * Parsetree.attribute list =
-  function <:structure_item< exception $uid:cid$ of int $algattrs:l$ >> -> (cid, l)
+let f6 : Parsetree.structure_item -> string * Parsetree.core_type list * Parsetree.attribute list =
+  function <:structure_item< exception $uid:cid$ of $list:tl$ $algattrs:l$ >> -> (cid, tl, l)
+
+let f7 : Parsetree.structure_item -> string * Parsetree.label_declaration list * Parsetree.attribute list =
+  function <:structure_item< exception $uid:cid$ of { $list:fl$ } $algattrs:l$ >> -> (cid, fl, l)
 
 end
 

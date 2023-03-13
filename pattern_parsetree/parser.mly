@@ -3213,7 +3213,7 @@ sig_exception_declaration:
         Te.decl $1 ~vars ~args ?res ~attrs:$3 ~loc:(make_loc $sloc) }
 ;
 generalized_constructor_arguments:
-    /*empty*/                     { ([],Pcstr_tuple [],None) }
+    /*empty*/                     { ([],Pcstr_tuple (Ploc.VaVal []),None) }
   | OF constructor_arguments      { ([],$2,None) }
   | COLON constructor_arguments MINUSGREATER atomic_type %prec below_HASH
                                   { ([],$2,Some $4) }
@@ -3221,16 +3221,16 @@ generalized_constructor_arguments:
      %prec below_HASH
                                   { ($2,$4,Some $6) }
   | COLON atomic_type %prec below_HASH
-                                  { ([],Pcstr_tuple [],Some $2) }
+                                  { ([],Pcstr_tuple (Ploc.VaVal []),Some $2) }
   | COLON typevar_list DOT atomic_type %prec below_HASH
-                                  { ($2,Pcstr_tuple [],Some $4) }
+                                  { ($2,Pcstr_tuple (Ploc.VaVal []),Some $4) }
 ;
 
 constructor_arguments:
-  | tys = inline_separated_nonempty_llist(STAR, atomic_type)
+  | tys = vala(inline_separated_nonempty_llist(STAR, atomic_type), ANTI_LIST)
     %prec below_HASH
       { Pcstr_tuple tys }
-  | LBRACE label_declarations RBRACE
+  | LBRACE vala(label_declarations, ANTI_LIST) RBRACE
       { Pcstr_record $2 }
 ;
 label_declarations:
