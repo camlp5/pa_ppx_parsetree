@@ -20,6 +20,11 @@ let e2 = [%expression {| a / b |}]
 let p1 = [%pattern {| C(a, b) |}]
 let p2 = [%pattern {| [a :: b] |}]
 
+let v1 = "a"
+let v2 = "b"
+let t1 = [%core_type {| 'a |}]
+let t2 = [%core_type {| 'b |}]
+
 end
 
 module LI = struct
@@ -109,32 +114,40 @@ let test ctxt =
 ; assert_equal l (match  [%pattern {| $lid:l$ |}] with
                     [%pattern {| $lid:m'$ |}] -> m')
 
-let f4 : Parsetree.pattern -> string =
- function [%pattern {| $uid:m$ |}] -> m
+; assert_equal m (match [%pattern {| $uid:m$ |}] with
+                     [%pattern {| $uid:m'$ |}] -> m')
 
 end
 
 module TY = struct
-let f1 : Parsetree.core_type -> Parsetree.core_type list =
- function [%core_type {| $list:l$ t |}] ->  l
 
-let f2 : Parsetree.core_type -> Parsetree.core_type * Parsetree.core_type =
- function [%core_type {| ($e1$, $e2$) t |}] ->  (e1, e2)
+open Fixtures
 
-let f2' : Parsetree.core_type -> string * string =
- function [%core_type {| (' $lid:e1$, ' $lid:e2$) t |}] ->  (e1, e2)
+let test ctxt =
+  assert_equal [t1;t2] (
+      let l = [t1;t2] in
+      match [%core_type {| $list:l$ t |}] with
+        [%core_type {| $list:l'$ t |}] ->  l')
 
-let f3 : Parsetree.core_type -> Parsetree.core_type * string * string =
-function [%core_type {| $c$ $uid:m$ . $lid:t$ |}] -> (c,m,t)
+  ; assert_equal (t1,t2) (match  [%core_type {| ($t1$, $t2$) t |}] with
+                            [%core_type {| ($e1$, $e2$) t |}] ->  (e1, e2))
 
-let f4 : Parsetree.core_type -> Parsetree.core_type list =
-function [%core_type {| $tuplelist:l$ |}] -> l
+  ; assert_equal (v1,v2) (match  [%core_type {| (' $lid:v1$, ' $lid:v2$) t |}] with
+                            [%core_type {| (' $lid:e1$, ' $lid:e2$) t |}] ->  (e1, e2))
 
-let f5 : Parsetree.core_type -> string =
-function [%core_type {| $lid:s$ |}] -> s
+  ; assert_equal (t1,m,l) (match [%core_type {| $t1$ $uid:m$ . $lid:l$ |}] with
+                             [%core_type {| $c'$ $uid:m'$ . $lid:t'$ |}] -> (c',m',t'))
 
-let f6 : Parsetree.core_type -> Parsetree.core_type * Parsetree.core_type =
-function [%core_type {| $t1$ * $t2$ |}] -> (t1, t2)
+  ; assert_equal [t1;t2] (
+        let l = [t1;t2] in
+        match  [%core_type {| $tuplelist:l$ |}] with
+          [%core_type {| $tuplelist:l'$ |}] -> l')
+
+; assert_equal l (match  [%core_type {| $lid:l$ |}] with
+                    [%core_type {| $lid:s'$ |}] -> s')
+
+; assert_equal (t1,t2) (match [%core_type {| $t1$ * $t2$ |}] with
+                          [%core_type {| $t1'$ * $t2'$ |}] -> (t1', t2'))
 
 end
 
