@@ -23,7 +23,9 @@ module MetaP = struct
   let int n = let loc = Ploc.dummy in <:patt< $int:string_of_int n$ >>
   open Pa_ppx_base
   open MLast
-    let xtr s = <:patt< $lid:s$ >>
+    let xtr = function
+        "_" -> <:patt< _ >>
+       | s -> <:patt< $lid:s$ >>
     let vala elem x =
       match x with
         Ploc.VaVal p -> elem p

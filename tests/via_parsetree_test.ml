@@ -6,11 +6,20 @@ let x = 1
 
 module Fixtures = struct
 
+let __loc__ = Location.none
+
 let l = "x" 
 let m = "M" 
 let n = "N" 
 let li1 = [%longident_t {| $uid:m$ |}] 
 let li2 = [%longident_t {| B.C |}] 
+
+let e1 = [%expression {| a * b |}]
+let e2 = [%expression {| a / b |}]
+
+let p1 = [%pattern {| C(a, b) |}]
+let p2 = [%pattern {| [a :: b] |}]
+
 end
 
 module LI = struct
@@ -54,35 +63,51 @@ end
 
 module EX = struct
 
-let f1 : Parsetree.expression -> Parsetree.expression * Parsetree.expression = function
-[%expression {| $e1$ + $e2$ |}] -> (e1,e2)
+open Fixtures
 
-let f2 : Parsetree.expression -> Parsetree.expression list =
- function [%expression {| $tuplelist:l$ |}] ->  l
+let test0 ctxt = 
+  assert_equal Location.none (
+      let __loc__ = 1 in
+      match e1 with
+        <:expression:< $_$ * $_$ >> -> __loc__)
 
-let f3 : Parsetree.expression -> Parsetree.expression * Parsetree.expression =
- function [%expression {| ($e1$, $e2$) |}] ->  (e1, e2)
+let test1 ctxt = 
 
-let f4 : Parsetree.expression -> string * string =
- function [%expression {| $uid:m$. $lid:e1$ |}] -> (m,e1)
+  assert_equal (e1, e2) (match [%expression {| $e1$ + $e2$ |}] with
+                           [%expression {| $e1'$ + $e2'$ |}] -> (e1',e2'))
+; assert_equal [e1;e2] (
+      let l = [e1;e2] in
+      match [%expression {| $tuplelist:l$ |}] with
+        [%expression {| $tuplelist:l2$ |}] ->  l2)
 
-let f5 : Parsetree.expression -> string =
-  function [%expression {| let $lid:x$ = 1 in () |}] -> x
+; assert_equal (e1,e2) (match [%expression {| ($e1$, $e2$) |}] with
+                          [%expression {| ($e1'$, $e2'$) |}] ->  (e1', e2'))
 
-let f6 : Parsetree.expression -> string =
-  function [%expression {| let* $lid:x$ = 1 in () |}] -> x
+; assert_equal (m,l) (match [%expression {| $uid:m$. $lid:l$ |}] with
+                         [%expression {| $uid:m'$. $lid:l'$ |}] -> (m',l'))
+; assert_equal l (match [%expression {| let $lid:l$ = 1 in () |}] with
+                    [%expression {| let $lid:l'$ = 1 in () |}] -> l')
+; assert_equal  l (match [%expression {| let* $lid:l$ = 1 in () |}] with
+                     [%expression {| let* $lid:x$ = 1 in () |}] -> x)
 
 end
 
 module PA = struct
-let f1 : Parsetree.pattern -> Parsetree.pattern list =
- function [%pattern {| $tuplelist:l$ |}] ->  l
 
-let f2 : Parsetree.pattern -> Parsetree.pattern * Parsetree.pattern =
- function [%pattern {| ($e1$, $e2$) |}] ->  (e1, e2)
+open Fixtures
 
-let f3 : Parsetree.pattern -> string =
- function [%pattern {| $lid:m$ |}] -> m
+let test ctxt =
+
+  assert_equal [p1;p2] (
+      let l = [p1;p2] in
+      match  [%pattern {| $tuplelist:l$ |}] with
+        [%pattern {| $tuplelist:l'$ |}] ->  l')
+
+; assert_equal (p1,p2) (match [%pattern {| ($p1$, $p2$) |}] with
+                          [%pattern {| ($e1$, $e2$) |}] ->  (e1, e2))
+
+; assert_equal l (match  [%pattern {| $lid:l$ |}] with
+                    [%pattern {| $lid:m'$ |}] -> m')
 
 let f4 : Parsetree.pattern -> string =
  function [%pattern {| $uid:m$ |}] -> m
@@ -146,6 +171,8 @@ end
 let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
       "longident"   >:: LI.test
     ; "extended_module_path"   >:: XM.test
+    ; "expression-0"   >:: EX.test0
+    ; "expression-1"   >:: EX.test1
     ]
 
 

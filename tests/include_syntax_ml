@@ -35,11 +35,12 @@ let f = function
 |} |> PAPR.Implem.pa1 |> PAPR.Implem.pr |> print_string ;;
  *)
 
-#require "pa_ppx_parsetree_via_camlp5";;
-
+#require "pa_ppx_parsetree_via_parsetree";;
+#require "pa_ppx_quotation2extension";;
+#trace Pa_ppx_parsetree_via_parsetree.Q_parsetree.Regular.MetaP.vala ;;
 {|
 let f = function
-  <:expression< $e1$ + $e2$ >> ->  1
+  <:expression< $_$ + $_$ >> ->  1
 |} |> PAPR.Implem.pa1 |> PAPR.Implem.pr |> print_string ;;
 
 (*
