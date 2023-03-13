@@ -120,6 +120,12 @@ let f3 : Parsetree.structure_item -> Parsetree.constructor_declaration list =
 let f4 : Parsetree.structure_item -> Asttypes.private_flag =
   function <:structure_item< type t = $priv:p$ $typ:t$ >> -> p
 
+let f5 : Parsetree.structure_item -> string * Parsetree.attribute list =
+  function <:structure_item< type t = $uid:cid$ of int $algattrs:l$ >> -> (cid,l)
+
+let f6 : Parsetree.structure_item -> string * Parsetree.attribute list =
+  function <:structure_item< exception $uid:cid$ of int $algattrs:l$ >> -> (cid, l)
+
 end
 
 

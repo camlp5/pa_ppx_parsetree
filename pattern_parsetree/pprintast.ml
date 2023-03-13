@@ -1590,7 +1590,7 @@ and type_extension ctxt f x =
 
 and constructor_declaration ctxt f (name, vars, args, res, attrs) =
   let name =
-    match name with
+    match unvala name with
     | "::" -> "(::)"
     | s -> s in
   let pp_vars f vs =
@@ -1606,7 +1606,7 @@ and constructor_declaration ctxt f (name, vars, args, res, attrs) =
              pp f "@;of@;%a" (list (core_type1 ctxt) ~sep:"@;*@;") l
            | Pcstr_record l -> pp f "@;of@;%a" (record_declaration ctxt) l
         ) args
-        (attributes ctxt) attrs
+        (attributes ctxt) (unvala attrs)
   | Some r ->
       pp f "%s:@;%a%a@;%a" name
         pp_vars vars
@@ -1619,7 +1619,7 @@ and constructor_declaration ctxt f (name, vars, args, res, attrs) =
                pp f "%a@;->@;%a" (record_declaration ctxt) l (core_type1 ctxt) r
         )
         args
-        (attributes ctxt) attrs
+        (attributes ctxt) (unvala attrs)
 
 and extension_constructor ctxt f x =
   (* Cf: #7200 *)
@@ -1628,9 +1628,9 @@ and extension_constructor ctxt f x =
       constructor_declaration ctxt f
         (x.pext_name.txt, v, l, r, x.pext_attributes)
   | Pext_rebind li ->
-      pp f "%s@;=@;%a%a" x.pext_name.txt
+      pp f "%s@;=@;%a%a" (unvala x.pext_name.txt)
         longident_loc li
-        (attributes ctxt) x.pext_attributes
+        (attributes ctxt) (unvala x.pext_attributes)
 
 and case_list ctxt f l : unit =
   let aux f {pc_lhs; pc_guard; pc_rhs} =

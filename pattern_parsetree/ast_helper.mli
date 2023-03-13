@@ -39,6 +39,7 @@ type 'a vala = 'a Ploc.vala =
 
 val vaval : 'a -> 'a vala
 val unvala : 'a Ploc.vala -> 'a
+val append_attrs_vala : attrs vala -> attrs vala -> attrs vala
 
 (** {1 Default locations} *)
 
@@ -220,9 +221,9 @@ module Type:
       ?kind:type_kind -> ?priv:(private_flag Ploc.vala) -> ?manifest:(core_type Ploc.vala) -> str ->
       type_declaration
 
-    val constructor: ?loc:loc -> ?attrs:attrs -> ?info:info ->
+    val constructor: ?loc:loc -> ?attrs:(attrs Ploc.vala) -> ?info:info ->
       ?vars:str list -> ?args:constructor_arguments -> ?res:core_type ->
-      str ->
+      str_vala ->
       constructor_declaration
     val field: ?loc:loc -> ?attrs:attrs -> ?info:info ->
       ?mut:mutable_flag -> str -> core_type -> label_declaration
@@ -238,15 +239,15 @@ module Te:
     val mk_exception: ?loc:loc -> ?attrs:attrs -> ?docs:docs ->
       extension_constructor -> type_exception
 
-    val constructor: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?info:info ->
-      str -> extension_constructor_kind -> extension_constructor
+    val constructor: ?loc:loc -> ?attrs:attrs Ploc.vala -> ?docs:docs -> ?info:info ->
+      str_vala -> extension_constructor_kind -> extension_constructor
 
-    val decl: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?info:info ->
+    val decl: ?loc:loc -> ?attrs:attrs Ploc.vala -> ?docs:docs -> ?info:info ->
       ?vars:str list -> ?args:constructor_arguments -> ?res:core_type ->
-      str ->
+      str_vala ->
       extension_constructor
-    val rebind: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?info:info ->
-      str -> lid -> extension_constructor
+    val rebind: ?loc:loc -> ?attrs:attrs Ploc.vala -> ?docs:docs -> ?info:info ->
+      str_vala -> lid -> extension_constructor
   end
 
 (** {1 Module language} *)

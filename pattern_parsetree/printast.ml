@@ -20,6 +20,7 @@ open Location
 open Parsetree
 
 let unvala = Ast_helper.unvala
+let loc_map = Ast_helper.loc_map
 
 let fmt_position with_name f l =
   let fname = if with_name then l.pos_fname else "" in
@@ -468,9 +469,9 @@ and type_exception i ppf x =
 
 and extension_constructor i ppf x =
   line i ppf "extension_constructor %a\n" fmt_location x.pext_loc;
-  attributes i ppf x.pext_attributes;
+  attributes i ppf (unvala x.pext_attributes);
   let i = i + 1 in
-  line i ppf "pext_name = \"%s\"\n" x.pext_name.txt;
+  line i ppf "pext_name = \"%s\"\n" (unvala x.pext_name.txt);
   line i ppf "pext_kind =\n";
   extension_constructor_kind (i + 1) ppf x.pext_kind;
 
@@ -877,9 +878,9 @@ and core_type_x_core_type_x_location i ppf (ct1, ct2, l) =
 and constructor_decl i ppf
      {pcd_name; pcd_vars; pcd_args; pcd_res; pcd_loc; pcd_attributes} =
   line i ppf "%a\n" fmt_location pcd_loc;
-  line (i+1) ppf "%a\n" fmt_string_loc pcd_name;
+  line (i+1) ppf "%a\n" fmt_string_loc (loc_map unvala pcd_name);
   if pcd_vars <> [] then line (i+1) ppf "pcd_vars =%a\n" typevars pcd_vars;
-  attributes i ppf pcd_attributes;
+  attributes i ppf (unvala pcd_attributes);
   constructor_arguments (i+1) ppf pcd_args;
   option (i+1) core_type ppf pcd_res
 

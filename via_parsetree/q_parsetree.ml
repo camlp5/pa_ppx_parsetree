@@ -96,6 +96,34 @@ let parse_structure_item s =
         data_source_module = Parsetree
       ; quotation_source_module = Reorg_parsetree
       }
+    ; attribute = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
+      }
+    ; payload = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
+      }
+    ; type_exception = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
+      }
+    ; extension_constructor = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
+      }
+    ; extension_constructor_kind = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
+      }
+    ; constructor_declaration = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
+      }
+    ; constructor_arguments = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
+      }
     ; constant = {
         data_source_module = Parsetree
       ; quotation_source_module = Reorg_parsetree

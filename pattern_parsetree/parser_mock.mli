@@ -128,6 +128,7 @@ type token =
   | ANTI_LIST of (string * Location.t)
   | ANTI_LID of (string * Location.t)
   | ANTI_CONSTRUCTORLIST of (string * Location.t)
+  | ANTI_ALGATTRS of (string * Location.t)
   | ANTI of (string * Location.t)
   | ANDOP of string
   | AND
@@ -536,6 +537,8 @@ val xv_vala_ident_ANTI_LID_ : Asttypes.label Ast_helper.vala
 val xv_vala_core_type_ANTI_TYP_ : Parsetree.core_type Ast_helper.vala
 val xv_vala_constructor_declarations_ANTI_CONSTRUCTORLIST_ :
   Parsetree.constructor_declaration list Ast_helper.vala
+val xv_vala_constr_ident_ANTI_UID_ : Asttypes.label Ast_helper.vala
+val xv_vala_attributes_ANTI_ALGATTRS_ : Parsetree.attributes Ast_helper.vala
 val xv_vala_UIDENT_ANTI_UID_ : Asttypes.label Ast_helper.vala
 val xv_vala_LIDENT_ANTI_LID_ : Asttypes.label Ast_helper.vala
 val xv_val_longident : Longident.t
@@ -854,6 +857,7 @@ val xv_mkstr___anonymous_1_ : Parsetree.structure_item
 val xv_mksig___anonymous_5_ : Parsetree.signature_item
 val xv_mkrhs_vala_val_ident_ANTI_LID__ :
   Asttypes.label Ast_helper.vala Asttypes.loc
+val xv_mkrhs_vala_constr_ident_ANTI_UID__ : Ast_helper.str_vala
 val xv_mkrhs_vala_LIDENT_ANTI_LID__ :
   Asttypes.label Ast_helper.vala Asttypes.loc
 val xv_mkrhs_val_longident_ : Longident.t Asttypes.loc
@@ -868,7 +872,6 @@ val xv_mkrhs_label_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_label_ : Asttypes.label Asttypes.loc
 val xv_mkrhs_ident_ : Asttypes.label Asttypes.loc
 val xv_mkrhs_constr_longident_ : Ast_helper.lid
-val xv_mkrhs_constr_ident_ : Ast_helper.str
 val xv_mkrhs_clty_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_class_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs___anonymous_34_ : Longident.t Asttypes.loc
@@ -1039,13 +1042,13 @@ val xv_generic_type_declaration_no_nonrec_flag_type_subst_kind_ :
   (Asttypes.rec_flag * string Asttypes.loc option) *
   Parsetree.type_declaration
 val xv_generic_constructor_declaration_epsilon_ :
-  Ast_helper.str * Ast_helper.str list * Parsetree.constructor_arguments *
-  Parsetree.core_type option * Parsetree.attributes * Location.t *
-  Docstrings.info
+  Ast_helper.str_vala * Ast_helper.str list *
+  Parsetree.constructor_arguments * Parsetree.core_type option *
+  Parsetree.attributes Ast_helper.vala * Location.t * Docstrings.info
 val xv_generic_constructor_declaration_BAR_ :
-  Ast_helper.str * Ast_helper.str list * Parsetree.constructor_arguments *
-  Parsetree.core_type option * Parsetree.attributes * Location.t *
-  Docstrings.info
+  Ast_helper.str_vala * Ast_helper.str list *
+  Parsetree.constructor_arguments * Parsetree.core_type option *
+  Parsetree.attributes Ast_helper.vala * Location.t * Docstrings.info
 val xv_generic_and_type_declaration_type_subst_kind_ :
   Parsetree.type_declaration
 val xv_generic_and_type_declaration_type_kind_ : Parsetree.type_declaration

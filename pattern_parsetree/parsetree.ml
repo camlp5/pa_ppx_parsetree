@@ -528,12 +528,12 @@ and label_declaration =
 
 and constructor_declaration =
     {
-     pcd_name: string loc;
+     pcd_name: string Ploc.vala loc;
      pcd_vars: string loc list;
      pcd_args: constructor_arguments;
      pcd_res: core_type option;
      pcd_loc: Location.t;
-     pcd_attributes: attributes;  (** [C of ... [\@id1] [\@id2]] *)
+     pcd_attributes: attributes Ploc.vala;  (** [C of ... [\@id1] [\@id2]] *)
     }
 
 and constructor_arguments =
@@ -569,10 +569,10 @@ and type_extension =
 
 and extension_constructor =
     {
-     pext_name: string loc;
+     pext_name: string Ploc.vala loc;
      pext_kind: extension_constructor_kind;
      pext_loc: Location.t;
-     pext_attributes: attributes;  (** [C of ... [\@id1] [\@id2]] *)
+     pext_attributes: attributes Ploc.vala;  (** [C of ... [\@id1] [\@id2]] *)
    }
 
 and type_exception =

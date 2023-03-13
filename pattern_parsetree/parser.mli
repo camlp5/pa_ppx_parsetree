@@ -129,6 +129,7 @@ type token =
   | ANTI_LIST of (string * Location.t)
   | ANTI_LID of (string * Location.t)
   | ANTI_CONSTRUCTORLIST of (string * Location.t)
+  | ANTI_ALGATTRS of (string * Location.t)
   | ANTI of (string * Location.t)
   | ANDOP of (string)
   | AND

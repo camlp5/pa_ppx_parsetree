@@ -776,6 +776,7 @@ let mk_directive ~loc name arg =
 %token <string * Location.t> ANTI_LONGID
 %token <string * Location.t> ANTI_TYP
 %token <string * Location.t> ANTI_PRIV
+%token <string * Location.t> ANTI_ALGATTRS
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -895,6 +896,7 @@ The precedences must be listed from low to high.
 %type <Parsetree.structure_item> parse_structure_item
 %type <Asttypes.private_flag> inline_private_flag private_flag
 %type <Parsetree.core_type> core_type core_type_no_attr
+%type <string> constr_ident
 
 %%
 
@@ -3156,9 +3158,9 @@ constructor_declarations:
    merely returns a tuple. *)
 generic_constructor_declaration(opening):
   opening
-  cid = mkrhs(constr_ident)
+  cid = mkrhs(vala(constr_ident, ANTI_UID))
   vars_args_res = generalized_constructor_arguments
-  attrs = attributes
+  attrs = vala(attributes, ANTI_ALGATTRS)
     {
       let vars, args, res = vars_args_res in
       let info = symbol_info $endpos in
@@ -3178,35 +3180,35 @@ str_exception_declaration:
     { $1 }
 | EXCEPTION
   ext = ext
-  attrs1 = attributes
-  id = mkrhs(constr_ident)
+  attrs1 = vala(attributes, ANTI_ALGATTRS)
+  id = mkrhs(vala(constr_ident, ANTI_UID))
   EQUAL
   lid = mkrhs(constr_longident)
-  attrs2 = attributes
+  attrs2 = vala(attributes,  ANTI_ALGATTRS)
   attrs = post_item_attributes
   { let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Te.mk_exception ~attrs
-      (Te.rebind id lid ~attrs:(attrs1 @ attrs2) ~loc ~docs)
+      (Te.rebind id lid ~attrs:(append_attrs_vala attrs1 attrs2) ~loc ~docs)
     , ext }
 ;
 sig_exception_declaration:
   EXCEPTION
   ext = ext
-  attrs1 = attributes
-  id = mkrhs(constr_ident)
+  attrs1 = vala(attributes, ANTI_ALGATTRS)
+  id = mkrhs(vala(constr_ident, ANTI_UID))
   vars_args_res = generalized_constructor_arguments
-  attrs2 = attributes
+  attrs2 = vala(attributes, ANTI_ALGATTRS)
   attrs = post_item_attributes
     { let vars, args, res = vars_args_res in
       let loc = make_loc ($startpos, $endpos(attrs2)) in
       let docs = symbol_docs $sloc in
       Te.mk_exception ~attrs
-        (Te.decl id ~vars ~args ?res ~attrs:(attrs1 @ attrs2) ~loc ~docs)
+        (Te.decl id ~vars ~args ?res ~attrs:(append_attrs_vala attrs1 attrs2) ~loc ~docs)
       , ext }
 ;
 %inline let_exception_declaration:
-    mkrhs(constr_ident) generalized_constructor_arguments attributes
+    mkrhs(vala(constr_ident, ANTI_UID)) generalized_constructor_arguments vala(attributes, ANTI_ALGATTRS)
       { let vars, args, res = $2 in
         Te.decl $1 ~vars ~args ?res ~attrs:$3 ~loc:(make_loc $sloc) }
 ;
@@ -3292,10 +3294,10 @@ label_declaration_semi:
 ;
 extension_constructor_rebind(opening):
   opening
-  cid = mkrhs(constr_ident)
+  cid = mkrhs(vala(constr_ident, ANTI_UID))
   EQUAL
   lid = mkrhs(constr_longident)
-  attrs = attributes
+  attrs = vala(attributes, ANTI_ALGATTRS)
       { let info = symbol_info $endpos in
         Te.rebind cid lid ~attrs ~loc:(make_loc $sloc) ~info }
 ;
