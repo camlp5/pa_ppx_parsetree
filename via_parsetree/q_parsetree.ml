@@ -80,6 +80,10 @@ let parse_structure_item s =
         data_source_module = Asttypes
       ; quotation_source_module = Reorg_parsetree
       }
+    ; mutable_flag = {
+        data_source_module = Asttypes
+      ; quotation_source_module = Reorg_parsetree
+      }
     ; value_binding = {
         data_source_module = Parsetree
       ; quotation_source_module = Reorg_parsetree
@@ -117,6 +121,10 @@ let parse_structure_item s =
       ; quotation_source_module = Reorg_parsetree
       }
     ; constructor_declaration = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
+      }
+    ; label_declaration = {
         data_source_module = Parsetree
       ; quotation_source_module = Reorg_parsetree
       }

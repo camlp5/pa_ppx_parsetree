@@ -557,14 +557,14 @@ module Type = struct
      pcd_attributes = Pcaml.vala_map (add_info_attrs info) attrs;
     }
 
-  let field ?(loc = !default_loc) ?(attrs = []) ?(info = empty_info)
-        ?(mut = Immutable) name typ =
+  let field ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) ?(info = empty_info)
+        ?(mut = Ploc.VaVal Immutable) name typ =
     {
      pld_name = name;
      pld_mutable = mut;
      pld_type = typ;
      pld_loc = loc;
-     pld_attributes = add_info_attrs info attrs;
+     pld_attributes = Pcaml.vala_map (add_info_attrs info) attrs;
     }
 
 end

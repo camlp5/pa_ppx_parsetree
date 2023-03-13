@@ -124,6 +124,7 @@ type token =
   | ANTI_TYP of (string * Location.t)
   | ANTI_TUPLELIST of (string * Location.t)
   | ANTI_PRIV of (string * Location.t)
+  | ANTI_MUTABLE of (string * Location.t)
   | ANTI_LONGID of (string * Location.t)
   | ANTI_LIST of (string * Location.t)
   | ANTI_LID of (string * Location.t)
@@ -528,11 +529,15 @@ val xv_value :
   Parsetree.attributes
 val xv_vala_val_ident_ANTI_LID_ : Asttypes.label Ast_helper.vala
 val xv_vala_private_flag_ANTI_PRIV_ : Asttypes.private_flag Ast_helper.vala
+val xv_vala_poly_type_no_attr_ANTI_TYP_ : Parsetree.core_type Ast_helper.vala
+val xv_vala_mutable_flag_ANTI_MUTABLE_ :
+  Asttypes.mutable_flag Ast_helper.vala
 val xv_vala_mod_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_mod_longident_ANTI_ : Longident.t Ast_helper.vala
 val xv_vala_mod_ext_longident_ANTI_ : Longident.t Ast_helper.vala
 val xv_vala_label_declarations_ANTI_LIST_ :
   Parsetree.label_declaration list Ast_helper.vala
+val xv_vala_label_ANTI_LID_ : Asttypes.label Ast_helper.vala
 val xv_vala_inline_separated_nonempty_llist_STAR_atomic_type__ANTI_LIST_ :
   Parsetree.core_type list Ast_helper.vala
 val xv_vala_inline_private_flag_ANTI_PRIV_ :
@@ -861,6 +866,7 @@ val xv_mkstr___anonymous_1_ : Parsetree.structure_item
 val xv_mksig___anonymous_5_ : Parsetree.signature_item
 val xv_mkrhs_vala_val_ident_ANTI_LID__ :
   Asttypes.label Ast_helper.vala Asttypes.loc
+val xv_mkrhs_vala_label_ANTI_LID__ : Ast_helper.str_vala
 val xv_mkrhs_vala_constr_ident_ANTI_UID__ : Ast_helper.str_vala
 val xv_mkrhs_vala_LIDENT_ANTI_LID__ :
   Asttypes.label Ast_helper.vala Asttypes.loc

@@ -125,6 +125,7 @@ type token =
   | ANTI_TYP of (string * Location.t)
   | ANTI_TUPLELIST of (string * Location.t)
   | ANTI_PRIV of (string * Location.t)
+  | ANTI_MUTABLE of (string * Location.t)
   | ANTI_LONGID of (string * Location.t)
   | ANTI_LIST of (string * Location.t)
   | ANTI_LID of (string * Location.t)

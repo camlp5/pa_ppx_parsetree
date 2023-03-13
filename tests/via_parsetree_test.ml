@@ -129,6 +129,10 @@ let f6 : Parsetree.structure_item -> string * Parsetree.core_type list * Parsetr
 let f7 : Parsetree.structure_item -> string * Parsetree.label_declaration list * Parsetree.attribute list =
   function <:structure_item< exception $uid:cid$ of { $list:fl$ } $algattrs:l$ >> -> (cid, fl, l)
 
+
+let f8 : Parsetree.structure_item -> Asttypes.mutable_flag * string * Parsetree.core_type =
+  function <:structure_item< type t = { $mutable:f$ $lid:name$ : $typ:t$ } >> -> (f,  name, t)
+
 end
 
 

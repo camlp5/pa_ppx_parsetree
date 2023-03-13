@@ -509,11 +509,11 @@ and type_kind =
 
 and label_declaration =
     {
-     pld_name: string loc;
-     pld_mutable: mutable_flag;
-     pld_type: core_type;
+     pld_name: string Ploc.vala loc;
+     pld_mutable: mutable_flag Ploc.vala;
+     pld_type: core_type Ploc.vala;
      pld_loc: Location.t;
-     pld_attributes: attributes;  (** [l : T [\@id1] [\@id2]] *)
+     pld_attributes: attributes Ploc.vala;  (** [l : T [\@id1] [\@id2]] *)
     }
 (**
    - [{ ...; l: T; ... }]

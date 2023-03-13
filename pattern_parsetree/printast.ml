@@ -890,10 +890,10 @@ and constructor_arguments i ppf = function
 
 and label_decl i ppf {pld_name; pld_mutable; pld_type; pld_loc; pld_attributes}=
   line i ppf "%a\n" fmt_location pld_loc;
-  attributes i ppf pld_attributes;
-  line (i+1) ppf "%a\n" fmt_mutable_flag pld_mutable;
-  line (i+1) ppf "%a" fmt_string_loc pld_name;
-  core_type (i+1) ppf pld_type
+  attributes i ppf (unvala pld_attributes);
+  line (i+1) ppf "%a\n" fmt_mutable_flag (unvala pld_mutable);
+  line (i+1) ppf "%a" fmt_string_loc (loc_map unvala pld_name);
+  core_type (i+1) ppf (unvala pld_type)
 
 and longident_x_pattern i ppf (li, p) =
   line i ppf "%a\n" fmt_longident_loc li;

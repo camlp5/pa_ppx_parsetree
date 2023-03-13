@@ -777,6 +777,7 @@ let mk_directive ~loc name arg =
 %token <string * Location.t> ANTI_TYP
 %token <string * Location.t> ANTI_PRIV
 %token <string * Location.t> ANTI_ALGATTRS
+%token <string * Location.t> ANTI_MUTABLE
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -3239,18 +3240,18 @@ label_declarations:
   | label_declaration_semi label_declarations   { $1 :: $2 }
 ;
 label_declaration:
-    mutable_flag mkrhs(label) COLON poly_type_no_attr attributes
+    vala(mutable_flag, ANTI_MUTABLE) mkrhs(vala(label, ANTI_LID)) COLON vala(poly_type_no_attr, ANTI_TYP) vala(attributes, ANTI_ALGATTRS)
       { let info = symbol_info $endpos in
         Type.field $2 $4 ~mut:$1 ~attrs:$5 ~loc:(make_loc $sloc) ~info }
 ;
 label_declaration_semi:
-    mutable_flag mkrhs(label) COLON poly_type_no_attr attributes SEMI attributes
+    vala(mutable_flag, ANTI_MUTABLE) mkrhs(vala(label, ANTI_LID)) COLON vala(poly_type_no_attr, ANTI_TYP) vala(attributes, ANTI_ALGATTRS) SEMI vala(attributes, ANTI_ALGATTRS)
       { let info =
           match rhs_info $endpos($5) with
           | Some _ as info_before_semi -> info_before_semi
           | None -> symbol_info $endpos
        in
-       Type.field $2 $4 ~mut:$1 ~attrs:($5 @ $7) ~loc:(make_loc $sloc) ~info }
+       Type.field $2 $4 ~mut:$1 ~attrs:(append_attrs_vala $5 $7) ~loc:(make_loc $sloc) ~info }
 ;
 
 /* Type Extensions */

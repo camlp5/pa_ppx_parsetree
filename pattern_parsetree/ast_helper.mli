@@ -225,8 +225,8 @@ module Type:
       ?vars:str list -> ?args:constructor_arguments -> ?res:core_type ->
       str_vala ->
       constructor_declaration
-    val field: ?loc:loc -> ?attrs:attrs -> ?info:info ->
-      ?mut:mutable_flag -> str -> core_type -> label_declaration
+    val field: ?loc:loc -> ?attrs:attrs Ploc.vala -> ?info:info ->
+      ?mut:mutable_flag Ploc.vala -> str_vala -> core_type Ploc.vala -> label_declaration
   end
 
 (** Type extensions *)

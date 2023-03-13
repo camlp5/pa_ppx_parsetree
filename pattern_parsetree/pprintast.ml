@@ -1516,10 +1516,10 @@ and type_def_list ctxt f (rf, exported, l) =
 and record_declaration ctxt f lbls =
   let type_record_field f pld =
     pp f "@[<2>%a%s:@;%a@;%a@]"
-      mutable_flag pld.pld_mutable
-      pld.pld_name.txt
-      (core_type ctxt) pld.pld_type
-      (attributes ctxt) pld.pld_attributes
+      mutable_flag (unvala pld.pld_mutable)
+      (unvala pld.pld_name.txt)
+      (core_type ctxt) (unvala pld.pld_type)
+      (attributes ctxt) (unvala pld.pld_attributes)
   in
   pp f "{@\n%a}"
     (list type_record_field ~sep:";@\n" )  lbls
