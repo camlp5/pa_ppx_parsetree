@@ -74,7 +74,7 @@ let test0 ctxt =
   assert_equal Location.none (
       let __loc__ = 1 in
       match e1 with
-        <:expression:< $_$ * $_$ >> -> __loc__)
+        [%expression.loc {| $_$ * $_$ |}] -> __loc__)
 
 let test1 ctxt = 
 

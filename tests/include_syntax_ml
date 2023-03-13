@@ -37,7 +37,7 @@ let f = function
 
 #require "pa_ppx_parsetree_via_parsetree";;
 #require "pa_ppx_quotation2extension";;
-#trace Pa_ppx_parsetree_via_parsetree.Q_parsetree.Regular.MetaP.vala ;;
+
 {|
 let f = function
   <:expression< $_$ + $_$ >> ->  1
