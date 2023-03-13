@@ -1528,7 +1528,7 @@ and type_declaration ctxt f x =
   (* type_declaration has an attribute field,
      but it's been printed by the caller of this method *)
   let priv f =
-    match x.ptype_private with
+    match unvala x.ptype_private with
     | Public -> ()
     | Private -> pp f "@;private"
   in
@@ -1583,7 +1583,7 @@ and type_extension ctxt f x =
            pp f "%a@;" (list (type_param ctxt) ~first:"(" ~last:")" ~sep:",") l)
     x.ptyext_params
     longident_loc x.ptyext_path
-    private_flag x.ptyext_private (* Cf: #7200 *)
+    private_flag (unvala x.ptyext_private) (* Cf: #7200 *)
     (list ~sep:"" extension_constructor)
     x.ptyext_constructors
     (item_attributes ctxt) x.ptyext_attributes

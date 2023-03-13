@@ -122,7 +122,9 @@ type token =
   | ASSERT
   | AS
   | ANTI_UID of (string * Location.t)
+  | ANTI_TYP of (string * Location.t)
   | ANTI_TUPLELIST of (string * Location.t)
+  | ANTI_PRIV of (string * Location.t)
   | ANTI_LONGID of (string * Location.t)
   | ANTI_LIST of (string * Location.t)
   | ANTI_LID of (string * Location.t)

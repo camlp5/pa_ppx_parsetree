@@ -593,7 +593,7 @@ let package_type_of_module_type pmty =
           err loc "parametrized types are not supported";
         if ptyp.ptype_cstrs <> [] then
           err loc "constrained types are not supported";
-        if ptyp.ptype_private <> Public then
+        if unvala ptyp.ptype_private <> Public then
           err loc "private types are not supported";
 
         (* restrictions below are checked by the 'with_constraint' rule *)
@@ -774,6 +774,8 @@ let mk_directive ~loc name arg =
 %token <string * Location.t> ANTI_LID
 %token <string * Location.t> ANTI_UID
 %token <string * Location.t> ANTI_LONGID
+%token <string * Location.t> ANTI_TYP
+%token <string * Location.t> ANTI_PRIV
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -891,6 +893,7 @@ The precedences must be listed from low to high.
 %type <label> ident name_tag
 %start parse_structure_item
 %type <Parsetree.structure_item> parse_structure_item
+%type <Asttypes.private_flag> inline_private_flag private_flag
 
 %%
 
@@ -3067,19 +3070,19 @@ generic_type_declaration(flag, kind):
    definition that leads to a smaller grammar (after expansion) and therefore
    a smaller automaton. *)
 nonempty_type_kind:
-  | priv = inline_private_flag
+  | priv = vala(inline_private_flag, ANTI_PRIV)
     ty = core_type
       { (Ptype_abstract, priv, Some ty) }
   | oty = type_synonym
-    priv = inline_private_flag
+    priv = vala(inline_private_flag,  ANTI_PRIV)
     cs = vala(constructor_declarations, ANTI_CONSTRUCTORLIST)
       { (Ptype_variant cs, priv, oty) }
   | oty = type_synonym
-    priv = inline_private_flag
+    priv = vala(inline_private_flag, ANTI_PRIV)
     DOTDOT
       { (Ptype_open, priv, oty) }
   | oty = type_synonym
-    priv = inline_private_flag
+    priv = vala(inline_private_flag, ANTI_PRIV)
     LBRACE ls = label_declarations RBRACE
       { (Ptype_record ls, priv, oty) }
 ;
@@ -3089,7 +3092,7 @@ nonempty_type_kind:
 ;
 type_kind:
     /*empty*/
-      { (Ptype_abstract, Public, None) }
+      { (Ptype_abstract, vaval Public, None) }
   | EQUAL nonempty_type_kind
       { $2 }
 ;
@@ -3265,7 +3268,7 @@ label_declaration_semi:
   params = type_parameters
   tid = mkrhs(type_longident)
   PLUSEQ
-  priv = private_flag
+  priv = vala(private_flag, ANTI_PRIV)
   cs = bar_llist(declaration)
   attrs2 = post_item_attributes
     { let docs = symbol_docs $sloc in
@@ -3308,7 +3311,7 @@ with_constraint:
               ~params:$2
               ~cstrs:$6
               ~manifest:$5
-              ~priv:$4
+              ~priv:(vaval $4)
               ~loc:(make_loc $sloc))) }
     /* used label_longident instead of type_longident to disallow
        functor applications in type path */

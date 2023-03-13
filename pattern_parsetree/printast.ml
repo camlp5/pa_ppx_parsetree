@@ -408,7 +408,7 @@ and type_declaration i ppf x =
   list (i+1) core_type_x_core_type_x_location ppf x.ptype_cstrs;
   line i ppf "ptype_kind =\n";
   type_kind (i+1) ppf x.ptype_kind;
-  line i ppf "ptype_private = %a\n" fmt_private_flag x.ptype_private;
+  line i ppf "ptype_private = %a\n" fmt_private_flag (unvala x.ptype_private);
   line i ppf "ptype_manifest =\n";
   option (i+1) core_type ppf x.ptype_manifest
 
@@ -456,7 +456,7 @@ and type_extension i ppf x =
   list (i+1) type_parameter ppf x.ptyext_params;
   line i ppf "ptyext_constructors =\n";
   list (i+1) extension_constructor ppf x.ptyext_constructors;
-  line i ppf "ptyext_private = %a\n" fmt_private_flag x.ptyext_private;
+  line i ppf "ptyext_private = %a\n" fmt_private_flag (unvala x.ptyext_private);
 
 and type_exception i ppf x =
   line i ppf "type_exception\n";

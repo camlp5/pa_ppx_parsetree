@@ -525,7 +525,7 @@ module Type = struct
       ?(params = [])
       ?(cstrs = [])
       ?(kind = Ptype_abstract)
-      ?(priv = Public)
+      ?(priv = Ploc.VaVal Public)
       ?manifest
       name =
     {
@@ -566,7 +566,7 @@ end
 (** Type extensions *)
 module Te = struct
   let mk ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs)
-        ?(params = []) ?(priv = Public) path constructors =
+        ?(params = []) ?(priv = Ploc.VaVal Public) path constructors =
     {
      ptyext_path = path;
      ptyext_params = params;
