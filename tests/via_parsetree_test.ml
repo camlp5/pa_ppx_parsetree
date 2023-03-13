@@ -111,6 +111,9 @@ module STRI = struct
 let f1 : Parsetree.structure_item -> Parsetree.constructor_declaration list =
   function <:structure_item< type t = $constructorlist:l$ >> -> l
 
+let f2 : Parsetree.structure_item -> Asttypes.private_flag =
+  function <:structure_item< type t = $priv:p$ t >> -> p
+
 end
 
 

@@ -1537,9 +1537,9 @@ and type_declaration ctxt f x =
     | None -> ()
     | Some y ->
         if x.ptype_kind = Ptype_abstract then
-          pp f "%t@;%a" priv (core_type ctxt) y
+          pp f "%t@;%a" priv (core_type ctxt) (unvala y)
         else
-          pp f "@;%a" (core_type ctxt) y
+          pp f "@;%a" (core_type ctxt) (unvala y)
   in
   let constructor_declaration f pcd =
     pp f "|@;";

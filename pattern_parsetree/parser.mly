@@ -601,7 +601,7 @@ let package_type_of_module_type pmty =
         assert (ptyp.ptype_attributes = []);
         let ty =
           match ptyp.ptype_manifest with
-          | Some ty -> ty
+          | Some (Ploc.VaVal ty) -> ty
           | None -> assert false
         in
         (lid, ty)
@@ -894,6 +894,7 @@ The precedences must be listed from low to high.
 %start parse_structure_item
 %type <Parsetree.structure_item> parse_structure_item
 %type <Asttypes.private_flag> inline_private_flag private_flag
+%type <Parsetree.core_type> core_type core_type_no_attr
 
 %%
 
@@ -3072,7 +3073,7 @@ generic_type_declaration(flag, kind):
 nonempty_type_kind:
   | priv = vala(inline_private_flag, ANTI_PRIV)
     ty = core_type
-      { (Ptype_abstract, priv, Some ty) }
+      { (Ptype_abstract, priv, Some (vaval ty)) }
   | oty = type_synonym
     priv = vala(inline_private_flag,  ANTI_PRIV)
     cs = vala(constructor_declarations, ANTI_CONSTRUCTORLIST)
@@ -3087,7 +3088,7 @@ nonempty_type_kind:
       { (Ptype_record ls, priv, oty) }
 ;
 %inline type_synonym:
-  ioption(terminated(core_type, EQUAL))
+  ioption(terminated(vaval(core_type), EQUAL))
     { $1 }
 ;
 type_kind:
@@ -3310,7 +3311,7 @@ with_constraint:
            (Type.mk lident
               ~params:$2
               ~cstrs:$6
-              ~manifest:$5
+              ~manifest:(vaval $5)
               ~priv:(vaval $4)
               ~loc:(make_loc $sloc))) }
     /* used label_longident instead of type_longident to disallow
@@ -3322,7 +3323,7 @@ with_constraint:
          ($3,
            (Type.mk lident
               ~params:$2
-              ~manifest:$5
+              ~manifest:(vaval $5)
               ~loc:(make_loc $sloc))) }
   | MODULE mkrhs(mod_longident) EQUAL mkrhs(mod_ext_longident)
       { Pwith_module ($2, $4) }
