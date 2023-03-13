@@ -153,7 +153,8 @@ end
 
 module STRI = struct
 
-let f1 : Parsetree.structure_item -> Parsetree.constructor_declaration list =
+  open Fixtures
+
   function [%structure_item {| type t = $constructorlist:l$ |}] -> l
 
 let f3 : Parsetree.structure_item -> Asttypes.private_flag * Parsetree.constructor_declaration list =
@@ -186,6 +187,7 @@ let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
     ; "extended_module_path"   >:: XM.test
     ; "expression-0"   >:: EX.test0
     ; "expression-1"   >:: EX.test1
+    ; "core_type"   >:: TY.test
     ]
 
 
