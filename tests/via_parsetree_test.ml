@@ -4,12 +4,19 @@ open OUnit2
 
 let x = 1
 
+module Fixtures = struct
+
+let l = "x" 
+let m = "M" 
+let n = "N" 
+let li1 = [%longident_t {| $uid:m$ |}] 
+let li2 = [%longident_t {| B.C |}] 
+end
+
 module LI = struct
+open Fixtures
 
 let test ctxt = 
-  let l = "x" in
-  let m = "M" in
-  let li1 = [%longident_t {| $uid:m$ |}] in
   assert_equal () (match [%longident_t {| $lid:l$ |}] with
                      [%longident_t {| $lid:_$ |}] -> ())
   ; assert_equal l (match [%longident_t {| $lid:l$ |}] with
@@ -24,119 +31,121 @@ end
 
 module XM = struct
 
-let f0 : Longident.t -> unit = function
-<:extended_module_path< $uid:_$ >> -> ()
+open Fixtures
 
-let f1 : Longident.t -> string = function
-<:extended_module_path< $uid:e1$ >> -> e1
+let test ctxt =
+  assert_equal () (match [%extended_module_path {| $uid:m$ |}] with
+                     [%extended_module_path {| $uid:_$ |}] -> ())
+; assert_equal m (match [%extended_module_path {| $uid:m$ |}] with
+                     [%extended_module_path {| $uid:e1$ |}] -> e1)
 
-let f2 : Longident.t -> string * string = function
-<:extended_module_path< $uid:m$ . $uid:e1$ >> -> (m,e1)
+; assert_equal (m, l) (match [%extended_module_path {| $uid:m$ . $uid:l$ |}] with
+                         [%extended_module_path {| $uid:m2$ . $uid:l2$ |}] -> (m2,l2))
+; assert_equal (m, n) (match [%extended_module_path {| $uid:m$. $uid:n$ |}] with
+                          [%extended_module_path {| $uid:m2$. $uid:l2$ |}] -> (m2,l2))
 
-let f3 : Longident.t -> string * string =
- function <:extended_module_path< $uid:m$. $uid:e1$ >> -> (m,e1)
+; assert_equal (li1, m) (match [%extended_module_path {| $li1$. $uid:m$ |}] with
+                           [%extended_module_path {| $li2$. $uid:m2$ |}] -> (li2,m2))
 
-let f4 : Longident.t -> Longident.t * string =
- function <:extended_module_path< $l$. $uid:e1$ >> -> (l,e1)
-
-let f5 : Longident.t -> Longident.t * Longident.t =
- function <:extended_module_path< $l$ ($m$) >> -> (l,m)
+; assert_equal (li1, li2) (match [%extended_module_path {| $li1$ ($li2$) |}] with
+                             [%extended_module_path {| $l$ ($m$) |}] -> (l,m))
 
 end
 
 module EX = struct
 
 let f1 : Parsetree.expression -> Parsetree.expression * Parsetree.expression = function
-<:expression< $e1$ + $e2$ >> -> (e1,e2)
+[%expression {| $e1$ + $e2$ |}] -> (e1,e2)
 
 let f2 : Parsetree.expression -> Parsetree.expression list =
- function <:expression< $tuplelist:l$ >> ->  l
+ function [%expression {| $tuplelist:l$ |}] ->  l
 
 let f3 : Parsetree.expression -> Parsetree.expression * Parsetree.expression =
- function <:expression< ($e1$, $e2$) >> ->  (e1, e2)
+ function [%expression {| ($e1$, $e2$) |}] ->  (e1, e2)
 
 let f4 : Parsetree.expression -> string * string =
- function <:expression< $uid:m$. $lid:e1$ >> -> (m,e1)
+ function [%expression {| $uid:m$. $lid:e1$ |}] -> (m,e1)
 
 let f5 : Parsetree.expression -> string =
-  function <:expression< let $lid:x$ = 1 in () >> -> x
+  function [%expression {| let $lid:x$ = 1 in () |}] -> x
 
 let f6 : Parsetree.expression -> string =
-  function <:expression< let* $lid:x$ = 1 in () >> -> x
+  function [%expression {| let* $lid:x$ = 1 in () |}] -> x
 
 end
 
 module PA = struct
 let f1 : Parsetree.pattern -> Parsetree.pattern list =
- function <:pattern< $tuplelist:l$ >> ->  l
+ function [%pattern {| $tuplelist:l$ |}] ->  l
 
 let f2 : Parsetree.pattern -> Parsetree.pattern * Parsetree.pattern =
- function <:pattern< ($e1$, $e2$) >> ->  (e1, e2)
+ function [%pattern {| ($e1$, $e2$) |}] ->  (e1, e2)
 
 let f3 : Parsetree.pattern -> string =
- function <:pattern< $lid:m$ >> -> m
+ function [%pattern {| $lid:m$ |}] -> m
 
 let f4 : Parsetree.pattern -> string =
- function <:pattern< $uid:m$ >> -> m
+ function [%pattern {| $uid:m$ |}] -> m
 
 end
 
 module TY = struct
 let f1 : Parsetree.core_type -> Parsetree.core_type list =
- function <:core_type< $list:l$ t >> ->  l
+ function [%core_type {| $list:l$ t |}] ->  l
 
 let f2 : Parsetree.core_type -> Parsetree.core_type * Parsetree.core_type =
- function <:core_type< ($e1$, $e2$) t >> ->  (e1, e2)
+ function [%core_type {| ($e1$, $e2$) t |}] ->  (e1, e2)
 
 let f2' : Parsetree.core_type -> string * string =
- function <:core_type< (' $lid:e1$, ' $lid:e2$) t >> ->  (e1, e2)
+ function [%core_type {| (' $lid:e1$, ' $lid:e2$) t |}] ->  (e1, e2)
 
 let f3 : Parsetree.core_type -> Parsetree.core_type * string * string =
-function <:core_type< $c$ $uid:m$ . $lid:t$ >> -> (c,m,t)
+function [%core_type {| $c$ $uid:m$ . $lid:t$ |}] -> (c,m,t)
 
 let f4 : Parsetree.core_type -> Parsetree.core_type list =
-function <:core_type< $tuplelist:l$ >> -> l
+function [%core_type {| $tuplelist:l$ |}] -> l
 
 let f5 : Parsetree.core_type -> string =
-function <:core_type< $lid:s$ >> -> s
+function [%core_type {| $lid:s$ |}] -> s
 
 let f6 : Parsetree.core_type -> Parsetree.core_type * Parsetree.core_type =
-function <:core_type< $t1$ * $t2$ >> -> (t1, t2)
+function [%core_type {| $t1$ * $t2$ |}] -> (t1, t2)
 
 end
 
 module STRI = struct
 
 let f1 : Parsetree.structure_item -> Parsetree.constructor_declaration list =
-  function <:structure_item< type t = $constructorlist:l$ >> -> l
+  function [%structure_item {| type t = $constructorlist:l$ |}] -> l
 
 let f3 : Parsetree.structure_item -> Asttypes.private_flag * Parsetree.constructor_declaration list =
-  function <:structure_item< type t = $priv:p$ $constructorlist:l$ >> -> (p,l)
+  function [%structure_item {| type t = $priv:p$ $constructorlist:l$ |}] -> (p,l)
 
 let f3 : Parsetree.structure_item -> Parsetree.constructor_declaration list =
-  function <:structure_item< type t = $priv:p$ $constructorlist:l$ >> -> l
+  function [%structure_item {| type t = $priv:p$ $constructorlist:l$ |}] -> l
 
 let f4 : Parsetree.structure_item -> Asttypes.private_flag =
-  function <:structure_item< type t = $priv:p$ $typ:t$ >> -> p
+  function [%structure_item {| type t = $priv:p$ $typ:t$ |}] -> p
 
 let f5 : Parsetree.structure_item -> string * Parsetree.attribute list =
-  function <:structure_item< type t = $uid:cid$ of int $algattrs:l$ >> -> (cid,l)
+  function [%structure_item {| type t = $uid:cid$ of int $algattrs:l$ |}] -> (cid,l)
 
 let f6 : Parsetree.structure_item -> string * Parsetree.core_type list * Parsetree.attribute list =
-  function <:structure_item< exception $uid:cid$ of $list:tl$ $algattrs:l$ >> -> (cid, tl, l)
+  function [%structure_item {| exception $uid:cid$ of $list:tl$ $algattrs:l$ |}] -> (cid, tl, l)
 
 let f7 : Parsetree.structure_item -> string * Parsetree.label_declaration list * Parsetree.attribute list =
-  function <:structure_item< exception $uid:cid$ of { $list:fl$ } $algattrs:l$ >> -> (cid, fl, l)
+  function [%structure_item {| exception $uid:cid$ of { $list:fl$ } $algattrs:l$ |}] -> (cid, fl, l)
 
 
 let f8 : Parsetree.structure_item -> Asttypes.mutable_flag * string * Parsetree.core_type =
-  function <:structure_item< type t = { $mutable:f$ $lid:name$ : $typ:t$ } >> -> (f,  name, t)
+  function [%structure_item {| type t = { $mutable:f$ $lid:name$ : $typ:t$ } |}] -> (f,  name, t)
 
 end
 
 
 let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
       "longident"   >:: LI.test
+    ; "extended_module_path"   >:: XM.test
     ]
 
 
