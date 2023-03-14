@@ -124,9 +124,6 @@ let test2 ctxt =
   assert_bool "builtin equality fails on expressions" (not (e1 = e2))
   ; assert_equal ~cmp:Helpers.equal_expression e1 e2
 
-let f = function
-    [%expression {| { $list:l$  } |}] -> l
-
 let test3 ctxt =
   assert_equal ("x", [%expression {| 1 |}])
     (match e1 with
@@ -138,6 +135,10 @@ let test3 ctxt =
       ({| { e with y = 2 } |} |> Lexing.from_string |> Parse.expression)
       (let e = Some [%expression {| e |}] in
        [%expression {| { $withe:e$ y = 2 } |}])
+  ; assert_equal [(Location.mknoloc [%longident_t "x"], [%expression {| 1 |}])]
+      (match [%expression {| { x = 1 } |}] with
+         [%expression {| { $list:l$  } |}] -> l)
+
 
 let test = "expression" >::: [
       "0"   >:: test0
