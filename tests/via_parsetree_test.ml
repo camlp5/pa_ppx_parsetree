@@ -209,11 +209,15 @@ let test ctxt =
         match  [%core_type {| $tuplelist:l$ |}] with
           [%core_type {| $tuplelist:l'$ |}] -> l')
 
-; assert_equal l (match  [%core_type {| $lid:l$ |}] with
-                    [%core_type {| $lid:s'$ |}] -> s')
+  ; assert_equal [%core_type {| $t1$ * $t2$ |}]
+      (let l = [t1;t2] in
+       [%core_type {| $tuplelist:l$ |}])
 
-; assert_equal (t1,t2) (match [%core_type {| $t1$ * $t2$ |}] with
-                          [%core_type {| $t1'$ * $t2'$ |}] -> (t1', t2'))
+  ; assert_equal l (match  [%core_type {| $lid:l$ |}] with
+                      [%core_type {| $lid:s'$ |}] -> s')
+
+  ; assert_equal (t1,t2) (match [%core_type {| $t1$ * $t2$ |}] with
+                            [%core_type {| $t1'$ * $t2'$ |}] -> (t1', t2'))
 
 end
 

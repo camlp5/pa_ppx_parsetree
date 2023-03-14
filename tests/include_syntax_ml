@@ -39,7 +39,7 @@ let f = function
 #require "pa_ppx_quotation2extension";;
 
 #trace Pa_ppx_parsetree_via_parsetree.Q_parsetree.Regular.parse_expression ;;
-
+#trace Pa_ppx_parsetree_via_parsetree.Q_parsetree.Regular.E.location_stack ;;
 {|
 let f = function
   <:expression< $_$ + $_$ >> ->  1
