@@ -207,9 +207,10 @@ module STRI = struct
     ; assert_equal (m, fields, attrs) (match [%structure_item {| exception $uid:m$ of { $list:fields$ } $algattrs:attrs$ |}] with
                                          [%structure_item {| exception $uid:cid$ of { $list:fl$ } $algattrs:l$ |}] -> (cid, fl, l))
 
-
-let f8 : Parsetree.structure_item -> Asttypes.mutable_flag * string * Parsetree.core_type =
-  function [%structure_item {| type t = { $mutable:f$ $lid:name$ : $typ:t$ } |}] -> (f,  name, t)
+    ; assert_equal (Mutable, l, t1) (
+          let f = Mutable in
+          match [%structure_item {| type t = { $mutable:f$ $lid:l$ : $typ:t1$ } |}] with
+            [%structure_item {| type t = { $mutable:f'$ $lid:name$ : $typ:t$ } |}] -> (f,  name, t))
 
 end
 
