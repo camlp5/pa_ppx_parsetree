@@ -1,0 +1,9 @@
+reorg_parsetree.cmo q_parsetree.cmo reorg_parsetree.cmi q_parsetree.cmi reorg_parsetree.cmx q_parsetree.cmx: ../local-install/lib/pa_ppx_parsetree_pattern_parsetree/META
+reorg_parsetree.cmo :
+reorg_parsetree.cmx :
+q_parsetree.cmo : \
+    reorg_parsetree.cmo
+q_parsetree.cmx : \
+    reorg_parsetree.cmx
+mk_meta.cmo :
+mk_meta.cmx :

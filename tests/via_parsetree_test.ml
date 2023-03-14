@@ -35,6 +35,10 @@ let attrs = [attr1;attr2]
 let fld1 = [%field {| x : int |}]
 let fld2 = [%field {| mutable y : int |}]
 let fields = [fld1; fld2]
+
+let case1 = [%case {| C x -> f x |}]
+let case2 = [%case {| D y when p y -> g y |}]
+let cases = [case1; case2]
 end
 
 module LI = struct
@@ -105,6 +109,23 @@ let test1 ctxt =
 ; assert_equal  l (match [%expression {| let* $lid:l$ = 1 in () |}] with
                      [%expression {| let* $lid:x$ = 1 in () |}] -> x)
 
+; assert_equal (e1,cases) (match [%expression {| match $e1$ with $list:cases$ |}] with
+                              [%expression {| match $e'$ with $list:cases'$ |}] -> (e',cases'))
+
+end
+
+module Case = struct
+
+open Fixtures
+
+let test ctxt = 
+
+  assert_equal (p1, e1, e2) (match [%case {| $p1$ when $e1$ -> $e2$ |}] with
+                           [%case {| $p1'$ when $e1'$ -> $e2'$ |}] -> (p1', e1',e2'))
+; assert_equal (p1, Some e1, e2) (match [%case {| $p1$ when $e1$ -> $e2$ |}] with
+                           [%case {| $p1'$ $wheno:e1opt$ -> $e2'$ |}] -> (p1', e1opt,e2'))
+; assert_equal (p1, None, e2) (match [%case {| $p1$ -> $e2$ |}] with
+                           [%case {| $p1'$ $wheno:e1opt$ -> $e2'$ |}] -> (p1', e1opt,e2'))
 end
 
 module PA = struct
@@ -223,6 +244,7 @@ let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
     ; "core_type"   >:: TY.test
     ; "constructor_declaration"   >:: CD.test
     ; "structure_item"   >:: STRI.test
+    ; "case"   >:: Case.test
     ]
 
 

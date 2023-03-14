@@ -101,6 +101,7 @@ let structure_item = wrap Parser.parse_structure_item
 let constructor_declaration = wrap Parser.parse_constructor_declaration
 let attribute = wrap Parser.parse_attribute
 let label_declaration = wrap Parser.parse_label_declaration
+let match_case = wrap Parser.parse_match_case
 
 let longident = wrap Parser.parse_any_longident
 let val_ident = wrap Parser.parse_val_longident

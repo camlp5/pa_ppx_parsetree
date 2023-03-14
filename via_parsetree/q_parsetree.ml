@@ -60,6 +60,9 @@ let parse_attribute s =
 let parse_label_declaration s =
   Pa_ppx_parsetree_pattern_parsetree.Parse.label_declaration (Lexing.from_string s)
 
+let parse_match_case s =
+  Pa_ppx_parsetree_pattern_parsetree.Parse.match_case (Lexing.from_string s)
+
 [%%import: Reorg_parsetree.attribute]
 [@@deriving q_ast {
     default_data_source_module = Reorg_parsetree
@@ -210,6 +213,7 @@ let parse_label_declaration s =
     ; {name = "constructor_declaration"; from_string = parse_constructor_declaration ; type_name = constructor_declaration }
     ; {name = "attribute"; from_string = parse_attribute ; type_name = attribute }
     ; {name = "field"; from_string = parse_label_declaration ; type_name = label_declaration }
+    ; {name = "case"; from_string = parse_match_case ; type_name = case }
     ]
  }]
 

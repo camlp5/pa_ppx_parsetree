@@ -279,7 +279,7 @@ and expression i ppf x =
   | Pexp_match (e, l) ->
       line i ppf "Pexp_match\n";
       expression i ppf e;
-      list i case ppf l;
+      list i case ppf (unvala l);
   | Pexp_try (e, l) ->
       line i ppf "Pexp_try\n";
       expression i ppf e;
@@ -901,12 +901,12 @@ and longident_x_pattern i ppf (li, p) =
 
 and case i ppf {pc_lhs; pc_guard; pc_rhs} =
   line i ppf "<case>\n";
-  pattern (i+1) ppf pc_lhs;
-  begin match pc_guard with
+  pattern (i+1) ppf (unvala pc_lhs);
+  begin match unvala pc_guard with
   | None -> ()
-  | Some g -> line (i+1) ppf "<when>\n"; expression (i + 2) ppf g
+  | Some g -> line (i+1) ppf "<when>\n"; expression (i + 2) ppf (unvala g)
   end;
-  expression (i+1) ppf pc_rhs;
+  expression (i+1) ppf (unvala pc_rhs);
 
 and value_binding i ppf x =
   line i ppf "<def>\n";

@@ -151,7 +151,7 @@ module Exp:
     val function_: ?loc:loc -> ?attrs:attrs -> case list -> expression
     val apply: ?loc:loc -> ?attrs:attrs -> expression
                -> (arg_label * expression) list -> expression
-    val match_: ?loc:loc -> ?attrs:attrs -> expression -> case list
+    val match_: ?loc:loc -> ?attrs:attrs -> expression -> case list Ploc.vala
                 -> expression
     val try_: ?loc:loc -> ?attrs:attrs -> expression -> case list -> expression
     val tuple: ?loc:loc -> ?attrs:attrs -> expression list vala -> expression
@@ -201,7 +201,7 @@ module Exp:
     val extension: ?loc:loc -> ?attrs:attrs -> extension -> expression
     val unreachable: ?loc:loc -> ?attrs:attrs -> unit -> expression
 
-    val case: pattern -> ?guard:expression -> expression -> case
+    val case: pattern Ploc.vala -> expression Ploc.vala option Ploc.vala -> expression Ploc.vala -> case
     val binding_op: str -> pattern -> expression -> loc -> binding_op
   end
 

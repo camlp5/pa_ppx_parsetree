@@ -334,7 +334,7 @@ and expression_desc =
 
            Invariant: [n > 0]
          *)
-  | Pexp_match of expression * case list
+  | Pexp_match of expression * case list Ploc.vala
       (** [match E0 with P1 -> E1 | ... | Pn -> En] *)
   | Pexp_try of expression * case list
       (** [try E0 with P1 -> E1 | ... | Pn -> En] *)
@@ -422,9 +422,9 @@ and expression_desc =
 
 and case =
     {
-     pc_lhs: pattern;
-     pc_guard: expression option;
-     pc_rhs: expression;
+     pc_lhs: pattern Ploc.vala;
+     pc_guard: expression Ploc.vala option Ploc.vala;
+     pc_rhs: expression Ploc.vala;
    }
 (** Values of type {!case} represents [(P -> E)] or [(P when E0 -> E)] *)
 

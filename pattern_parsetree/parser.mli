@@ -121,6 +121,7 @@ type token =
   | BACKQUOTE
   | ASSERT
   | AS
+  | ANTI_WHENO of (string * Location.t)
   | ANTI_UID of (string * Location.t)
   | ANTI_TYP of (string * Location.t)
   | ANTI_TUPLELIST of (string * Location.t)
@@ -162,6 +163,8 @@ val parse_module_expr: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.m
 val parse_mod_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longident.t)
 
 val parse_mod_ext_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longident.t)
+
+val parse_match_case: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.case)
 
 val parse_label_declaration: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.label_declaration)
 

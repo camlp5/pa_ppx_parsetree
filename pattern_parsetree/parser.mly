@@ -778,6 +778,7 @@ let mk_directive ~loc name arg =
 %token <string * Location.t> ANTI_PRIV
 %token <string * Location.t> ANTI_ALGATTRS
 %token <string * Location.t> ANTI_MUTABLE
+%token <string * Location.t> ANTI_WHENO
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -904,6 +905,8 @@ The precedences must be listed from low to high.
 %type <Parsetree.attribute> parse_attribute
 %start parse_label_declaration
 %type <Parsetree.label_declaration> parse_label_declaration
+%start parse_match_case
+%type <Parsetree.case> parse_match_case
 
 %%
 
@@ -1306,6 +1309,11 @@ parse_attribute:
 
 parse_label_declaration:
   label_declaration EOF
+    { $1 }
+;
+
+parse_match_case:
+  match_case EOF
     { $1 }
 ;
 /* END AVOID */
@@ -2409,7 +2417,7 @@ expr:
         Pexp_fun(l, o, p, $4), $2 }
   | FUN ext_attributes LPAREN TYPE lident_list RPAREN fun_def
       { (mk_newtypes ~loc:$sloc $5 $7).pexp_desc, $2 }
-  | MATCH ext_attributes seq_expr WITH match_cases
+  | MATCH ext_attributes seq_expr WITH vala(match_cases, ANTI_LIST)
       { Pexp_match($3, $5), $2 }
   | TRY ext_attributes seq_expr WITH match_cases
       { Pexp_try($3, $5), $2 }
@@ -2714,12 +2722,14 @@ strict_binding:
     { xs }
 ;
 match_case:
-    pattern MINUSGREATER seq_expr
-      { Exp.case $1 $3 }
-  | pattern WHEN seq_expr MINUSGREATER seq_expr
-      { Exp.case $1 ~guard:$3 $5 }
-  | pattern MINUSGREATER DOT
-      { Exp.case $1 (Exp.unreachable ~loc:(make_loc $loc($3)) ()) }
+    vaval(pattern) ANTI_WHENO MINUSGREATER vaval(seq_expr)
+      { Exp.case $1 (Ploc.VaAnt (fst $2)) $4 }
+  | vaval(pattern) MINUSGREATER vaval(seq_expr)
+      { Exp.case $1 (vaval None) $3 }
+  | vaval(pattern) WHEN seq_expr MINUSGREATER vaval(seq_expr)
+      { Exp.case $1 (vaval (Some (vaval $3))) $5 }
+  | vaval(pattern) MINUSGREATER DOT
+      { Exp.case $1 (vaval None) (vaval (Exp.unreachable ~loc:(make_loc $loc($3)) ())) }
 ;
 fun_def:
     MINUSGREATER seq_expr

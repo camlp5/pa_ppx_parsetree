@@ -120,6 +120,7 @@ type token =
   | BACKQUOTE
   | ASSERT
   | AS
+  | ANTI_WHENO of (string * Location.t)
   | ANTI_UID of (string * Location.t)
   | ANTI_TYP of (string * Location.t)
   | ANTI_TUPLELIST of (string * Location.t)
@@ -515,6 +516,8 @@ val xv_virtual_with_private_flag : Asttypes.private_flag
 val xv_virtual_with_mutable_flag : Asttypes.mutable_flag
 val xv_virtual_flag : Asttypes.virtual_flag
 val xv_vaval_val_extra_ident_ : Asttypes.label Ast_helper.vala
+val xv_vaval_seq_expr_ : Parsetree.expression Ast_helper.vala
+val xv_vaval_pattern_ : Parsetree.pattern Ast_helper.vala
 val xv_vaval_ident_ : Asttypes.label Ast_helper.vala
 val xv_vaval_constr_extra_ident_ : Asttypes.label Ast_helper.vala
 val xv_vaval_LIDENT_ : string Ast_helper.vala
@@ -535,6 +538,7 @@ val xv_vala_mutable_flag_ANTI_MUTABLE_ :
 val xv_vala_mod_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_mod_longident_ANTI_ : Longident.t Ast_helper.vala
 val xv_vala_mod_ext_longident_ANTI_ : Longident.t Ast_helper.vala
+val xv_vala_match_cases_ANTI_LIST_ : Parsetree.case list Ast_helper.vala
 val xv_vala_label_declarations_ANTI_LIST_ :
   Parsetree.label_declaration list Ast_helper.vala
 val xv_vala_label_ANTI_LID_ : Asttypes.label Ast_helper.vala
@@ -778,6 +782,7 @@ val xv_parse_module_type : Parsetree.module_type
 val xv_parse_module_expr : Parsetree.module_expr
 val xv_parse_mod_longident : Longident.t
 val xv_parse_mod_ext_longident : Longident.t
+val xv_parse_match_case : Parsetree.case
 val xv_parse_label_declaration : Parsetree.label_declaration
 val xv_parse_expression : Parsetree.expression
 val xv_parse_core_type : Parsetree.core_type

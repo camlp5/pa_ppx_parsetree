@@ -634,7 +634,7 @@ and expression ctxt f (x : expression) =
         pp f "@[<hv>function%a@]" (case_list ctxt) l
     | Pexp_match (e, l) ->
         pp f "@[<hv0>@[<hv0>@[<2>match %a@]@ with@]%a@]"
-          (expression reset_ctxt) e (case_list ctxt) l
+          (expression reset_ctxt) e (case_list ctxt) (unvala l)
 
     | Pexp_try (e, l) ->
         pp f "@[<0>@[<hv2>try@ %a@]@ @[<0>with%a@]@]"
@@ -1635,8 +1635,8 @@ and extension_constructor ctxt f x =
 and case_list ctxt f l : unit =
   let aux f {pc_lhs; pc_guard; pc_rhs} =
     pp f "@;| @[<2>%a%a@;->@;%a@]"
-      (pattern ctxt) pc_lhs (option (expression ctxt) ~first:"@;when@;")
-      pc_guard (expression (under_pipe ctxt)) pc_rhs
+      (pattern ctxt) (unvala pc_lhs) (option (expression ctxt) ~first:"@;when@;")
+      (Option.map unvala (unvala pc_guard)) (expression (under_pipe ctxt)) (unvala pc_rhs)
   in
   list aux f l ~sep:""
 
