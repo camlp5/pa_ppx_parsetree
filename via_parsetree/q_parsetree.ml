@@ -51,6 +51,15 @@ let parse_extended_module_path s =
 let parse_structure_item s =
   Pa_ppx_parsetree_pattern_parsetree.Parse.structure_item (Lexing.from_string s)
 
+let parse_constructor_declaration s =
+  Pa_ppx_parsetree_pattern_parsetree.Parse.constructor_declaration (Lexing.from_string s)
+
+let parse_attribute s =
+  Pa_ppx_parsetree_pattern_parsetree.Parse.attribute (Lexing.from_string s)
+
+let parse_label_declaration s =
+  Pa_ppx_parsetree_pattern_parsetree.Parse.label_declaration (Lexing.from_string s)
+
 [%%import: Reorg_parsetree.attribute]
 [@@deriving q_ast {
     default_data_source_module = Reorg_parsetree
@@ -198,6 +207,9 @@ let parse_structure_item s =
     ; {name = "longident_t"; from_string = parse_longident ; type_name = longident_t }
     ; {name = "extended_module_path"; from_string = parse_extended_module_path ; type_name = longident_t }
     ; {name = "structure_item"; from_string = parse_structure_item ; type_name = structure_item }
+    ; {name = "constructor_declaration"; from_string = parse_constructor_declaration ; type_name = constructor_declaration }
+    ; {name = "attribute"; from_string = parse_attribute ; type_name = attribute }
+    ; {name = "field"; from_string = parse_label_declaration ; type_name = label_declaration }
     ]
  }]
 

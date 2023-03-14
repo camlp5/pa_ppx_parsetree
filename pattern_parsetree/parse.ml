@@ -98,6 +98,9 @@ and pattern = wrap Parser.parse_pattern
 let module_type = wrap Parser.parse_module_type
 let module_expr = wrap Parser.parse_module_expr
 let structure_item = wrap Parser.parse_structure_item
+let constructor_declaration = wrap Parser.parse_constructor_declaration
+let attribute = wrap Parser.parse_attribute
+let label_declaration = wrap Parser.parse_label_declaration
 
 let longident = wrap Parser.parse_any_longident
 let val_ident = wrap Parser.parse_val_longident

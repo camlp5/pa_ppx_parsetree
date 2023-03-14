@@ -898,6 +898,12 @@ The precedences must be listed from low to high.
 %type <Asttypes.private_flag> inline_private_flag private_flag
 %type <Parsetree.core_type> core_type core_type_no_attr
 %type <string> constr_ident
+%start parse_constructor_declaration
+%type <Parsetree.constructor_declaration> parse_constructor_declaration
+%start parse_attribute
+%type <Parsetree.attribute> parse_attribute
+%start parse_label_declaration
+%type <Parsetree.label_declaration> parse_label_declaration
 
 %%
 
@@ -1285,6 +1291,21 @@ parse_any_longident:
 
 parse_structure_item:
   structure_item EOF
+    { $1 }
+;
+
+parse_constructor_declaration:
+  constructor_declaration(epsilon) EOF
+    { $1 }
+;
+
+parse_attribute:
+  attribute EOF
+    { $1 }
+;
+
+parse_label_declaration:
+  label_declaration EOF
     { $1 }
 ;
 /* END AVOID */

@@ -778,9 +778,12 @@ val xv_parse_module_type : Parsetree.module_type
 val xv_parse_module_expr : Parsetree.module_expr
 val xv_parse_mod_longident : Longident.t
 val xv_parse_mod_ext_longident : Longident.t
+val xv_parse_label_declaration : Parsetree.label_declaration
 val xv_parse_expression : Parsetree.expression
 val xv_parse_core_type : Parsetree.core_type
+val xv_parse_constructor_declaration : Parsetree.constructor_declaration
 val xv_parse_constr_longident : Longident.t
+val xv_parse_attribute : Parsetree.attribute
 val xv_parse_any_longident : Longident.t
 val xv_paren_module_expr : Parsetree.module_expr
 val xv_package_type : Parsetree.core_type

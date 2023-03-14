@@ -163,11 +163,17 @@ val parse_mod_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longident
 
 val parse_mod_ext_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longident.t)
 
+val parse_label_declaration: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.label_declaration)
+
 val parse_expression: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.expression)
 
 val parse_core_type: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.core_type)
 
+val parse_constructor_declaration: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.constructor_declaration)
+
 val parse_constr_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longident.t)
+
+val parse_attribute: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.attribute)
 
 val parse_any_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longident.t)
 

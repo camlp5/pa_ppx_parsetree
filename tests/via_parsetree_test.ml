@@ -25,6 +25,16 @@ let v2 = "b"
 let t1 = [%core_type {| 'a |}]
 let t2 = [%core_type {| 'b |}]
 
+let cd1 = [%constructor_declaration {| C of t1 * t2 |}]
+let cd2 = [%constructor_declaration {| D |}]
+
+let attr1 = [%attribute {| [@foo] |}]
+let attr2 = [%attribute {| [@bar] |}]
+let attrs = [attr1;attr2]
+
+let fld1 = [%field {| x : int |}]
+let fld2 = [%field {| mutable y : int |}]
+let fields = [fld1; fld2]
 end
 
 module LI = struct
@@ -151,29 +161,51 @@ let test ctxt =
 
 end
 
-module STRI = struct
+module CD = struct
 
   open Fixtures
 
-  function [%structure_item {| type t = $constructorlist:l$ |}] -> l
+  let test ctxt =
+    assert_equal (m, [t1;t2]) (
+        let tl = [t1;t2] in
+        match  [%constructor_declaration {| $uid:m$ of $list:tl$ |}] with
+          [%constructor_declaration {| $uid:cid'$ of $list:tl'$ |}] -> (cid', tl'))
 
-let f3 : Parsetree.structure_item -> Asttypes.private_flag * Parsetree.constructor_declaration list =
-  function [%structure_item {| type t = $priv:p$ $constructorlist:l$ |}] -> (p,l)
+end
 
-let f3 : Parsetree.structure_item -> Parsetree.constructor_declaration list =
-  function [%structure_item {| type t = $priv:p$ $constructorlist:l$ |}] -> l
+module STRI = struct
 
-let f4 : Parsetree.structure_item -> Asttypes.private_flag =
-  function [%structure_item {| type t = $priv:p$ $typ:t$ |}] -> p
+  open Fixtures
+  open Asttypes
 
-let f5 : Parsetree.structure_item -> string * Parsetree.attribute list =
-  function [%structure_item {| type t = $uid:cid$ of int $algattrs:l$ |}] -> (cid,l)
+  let test ctxt =
 
-let f6 : Parsetree.structure_item -> string * Parsetree.core_type list * Parsetree.attribute list =
-  function [%structure_item {| exception $uid:cid$ of $list:tl$ $algattrs:l$ |}] -> (cid, tl, l)
+    assert_equal [cd1;cd2] (
+        let l = [cd1;cd2] in
+        match [%structure_item {| type t = $constructorlist:l$ |}] with
+          [%structure_item {| type t = $constructorlist:l'$ |}] -> l')
 
-let f7 : Parsetree.structure_item -> string * Parsetree.label_declaration list * Parsetree.attribute list =
-  function [%structure_item {| exception $uid:cid$ of { $list:fl$ } $algattrs:l$ |}] -> (cid, fl, l)
+    ; assert_equal (Private, [cd1;cd2]) (
+          let p = Private in
+          let l = [cd1;cd2] in
+          match [%structure_item {| type t = $priv:p$ $constructorlist:l$ |}] with
+            [%structure_item {| type t = $priv:p'$ $constructorlist:l'$ |}] -> (p',l'))
+
+    ; assert_equal (Private,  t1) (
+          let p = Private in
+          match  [%structure_item {| type t = $priv:p$ $typ:t1$ |}] with
+            [%structure_item {| type t = $priv:p'$ $typ:t'$ |}] -> (p', t'))
+
+    ; assert_equal (m,attrs) (match  [%structure_item {| type t = $uid:m$ of int $algattrs:attrs$ |}] with
+                                [%structure_item {| type t = $uid:cid$ of int $algattrs:l$ |}] -> (cid,l))
+
+    ; assert_equal (m, [t1;t2], attrs) (
+          let tl = [t1;t2] in
+          match [%structure_item {| exception $uid:m$ of $list:tl$ $algattrs:attrs$ |}] with
+            [%structure_item {| exception $uid:cid$ of $list:tl'$ $algattrs:l$ |}] -> (cid, tl', l))
+
+    ; assert_equal (m, fields, attrs) (match [%structure_item {| exception $uid:m$ of { $list:fields$ } $algattrs:attrs$ |}] with
+                                         [%structure_item {| exception $uid:cid$ of { $list:fl$ } $algattrs:l$ |}] -> (cid, fl, l))
 
 
 let f8 : Parsetree.structure_item -> Asttypes.mutable_flag * string * Parsetree.core_type =
@@ -188,6 +220,8 @@ let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
     ; "expression-0"   >:: EX.test0
     ; "expression-1"   >:: EX.test1
     ; "core_type"   >:: TY.test
+    ; "constructor_declaration"   >:: CD.test
+    ; "structure_item"   >:: STRI.test
     ]
 
 
