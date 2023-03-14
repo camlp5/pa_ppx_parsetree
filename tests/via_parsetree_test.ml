@@ -194,6 +194,19 @@ module CD = struct
 
 end
 
+module FLD = struct
+
+  open Fixtures
+  open Asttypes
+
+  let test ctxt =
+    assert_equal (Mutable, l, t1, attrs) (
+        let f = Mutable in
+        match  [%field {| $mutable:f$ $lid:l$ : $typ:t1$ $algattrs:attrs$ |}] with
+          [%field {| $mutable:f'$ $lid:l'$ : $typ:t'$ $algattrs:attrs'$ |}] -> (f', l', t', attrs'))
+
+end
+
 module STRI = struct
 
   open Fixtures
@@ -243,6 +256,7 @@ let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
     ; "expression-1"   >:: EX.test1
     ; "core_type"   >:: TY.test
     ; "constructor_declaration"   >:: CD.test
+    ; "field"   >:: FLD.test
     ; "structure_item"   >:: STRI.test
     ; "case"   >:: Case.test
     ]
