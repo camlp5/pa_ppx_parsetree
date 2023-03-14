@@ -69,6 +69,13 @@ let parse_match_case s =
   ; expr_meta_module = MetaE
   ; patt_meta_module = MetaP
   ; loc_mode = CustomLoc { loc_varname = __loc__ ; loc_type = [%typ: location] ; loc_function_name = location }
+  ; custom_type = [
+      ([%typ: location_stack], {
+         pattern = (fun ctxt _ -> <:patt< _ >>)
+       ; expression = (fun ctxt _ -> <:expr< [] >>)
+       ; function_name = location_stack
+      })
+    ]
   ; pertype = {
       located = {
         data_source_module = Location
