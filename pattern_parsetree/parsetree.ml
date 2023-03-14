@@ -354,7 +354,7 @@ and expression_desc =
             - [`A]   when [exp] is [None]
             - [`A E] when [exp] is [Some E]
          *)
-  | Pexp_record of (Longident.t loc * expression) list * expression option
+  | Pexp_record of (Longident.t Ploc.vala loc * expression) list Ploc.vala * expression option Ploc.vala
       (** [Pexp_record([(l1,P1) ; ... ; (ln,Pn)], exp0)] represents
             - [{ l1=P1; ...; ln=Pn }]         when [exp0] is [None]
             - [{ E0 with l1=P1; ...; ln=Pn }] when [exp0] is [Some E0]

@@ -814,8 +814,8 @@ and simple_expr ctxt f x =
               pp f "@[<hov2>%a@;=@;%a@]" longident_loc li (simple_expr ctxt) e
         in
         pp f "@[<hv0>@[<hv2>{@;%a%a@]@;}@]"(* "@[<hov2>{%a%a}@]" *)
-          (option ~last:" with@;" (simple_expr ctxt)) eo
-          (list longident_x_expression ~sep:";@;") l
+          (option ~last:" with@;" (simple_expr ctxt)) (unvala eo)
+          (list longident_x_expression ~sep:";@;") (List.map (fun (a,b) -> (loc_map unvala a, b)) (unvala l))
     | Pexp_array (l) ->
         pp f "@[<0>@[<2>[|%a|]@]@]"
           (list (simple_expr (under_semi ctxt)) ~sep:";") l

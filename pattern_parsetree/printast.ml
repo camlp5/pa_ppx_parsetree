@@ -295,8 +295,8 @@ and expression i ppf x =
       option i expression ppf eo;
   | Pexp_record (l, eo) ->
       line i ppf "Pexp_record\n";
-      list i longident_x_expression ppf l;
-      option i expression ppf eo;
+      list i longident_x_expression ppf (unvala l);
+      option i expression ppf (unvala eo);
   | Pexp_field (e, li) ->
       line i ppf "Pexp_field\n";
       expression i ppf e;
@@ -925,7 +925,7 @@ and string_x_expression i ppf (s, e) =
   expression (i+1) ppf e;
 
 and longident_x_expression i ppf (li, e) =
-  line i ppf "%a\n" fmt_longident_loc li;
+  line i ppf "%a\n" fmt_longident_loc (loc_map unvala li);
   expression (i+1) ppf e;
 
 and label_x_expression i ppf (l,e) =

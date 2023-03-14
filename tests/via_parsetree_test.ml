@@ -39,6 +39,11 @@ let fields = [fld1; fld2]
 let case1 = [%case {| C x -> f x |}]
 let case2 = [%case {| D y when p y -> g y |}]
 let cases = [case1; case2]
+
+end
+
+module Helpers = struct
+  include Pa_ppx_parsetree_official_parsetree.Derive_parsetree
 end
 
 module LI = struct
@@ -111,6 +116,35 @@ let test1 ctxt =
 
 ; assert_equal (e1,cases) (match [%expression {| match $e1$ with $list:cases$ |}] with
                               [%expression {| match $e'$ with $list:cases'$ |}] -> (e',cases'))
+
+let e1 = [%expression {| { x = 1 } |}]
+let e2 =  {| { x = 1 } |} |> Lexing.from_string |> Parse.expression
+
+let test2 ctxt =
+  assert_bool "builtin equality fails on expressions" (not (e1 = e2))
+  ; assert_equal ~cmp:Helpers.equal_expression e1 e2
+
+let f = function
+    [%expression {| { $list:l$  } |}] -> l
+
+let test3 ctxt =
+  assert_equal ("x", [%expression {| 1 |}])
+    (match e1 with
+       [%expression {| { $lid:x$ = $e$ } |}] -> (x,e))
+  ; assert_equal None
+      (match e1 with
+         [%expression {| { $withe:e$ $list:_$ } |}] -> e)
+  ; assert_equal ~cmp:Helpers.equal_expression
+      ({| { e with y = 2 } |} |> Lexing.from_string |> Parse.expression)
+      (let e = Some [%expression {| e |}] in
+       [%expression {| { $withe:e$ y = 2 } |}])
+
+let test = "expression" >::: [
+      "0"   >:: test0
+    ; "1"   >:: test1
+    ; "2"   >:: test2
+    ; "3"   >:: test3
+    ]
 
 end
 
@@ -252,8 +286,7 @@ end
 let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
       "longident"   >:: LI.test
     ; "extended_module_path"   >:: XM.test
-    ; "expression-0"   >:: EX.test0
-    ; "expression-1"   >:: EX.test1
+    ; EX.test
     ; "core_type"   >:: TY.test
     ; "constructor_declaration"   >:: CD.test
     ; "field"   >:: FLD.test

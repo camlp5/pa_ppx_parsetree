@@ -639,6 +639,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_WHENO (payload, loc)
      }
+  | "$" "withe:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_WITHE (payload, loc)
+     }
   | eof { EOF }
   | (_ as illegal_char)
       { error lexbuf (Illegal_character illegal_char) }

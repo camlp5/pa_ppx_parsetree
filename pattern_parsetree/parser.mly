@@ -779,6 +779,7 @@ let mk_directive ~loc name arg =
 %token <string * Location.t> ANTI_ALGATTRS
 %token <string * Location.t> ANTI_MUTABLE
 %token <string * Location.t> ANTI_WHENO
+%token <string * Location.t> ANTI_WITHE
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -907,6 +908,8 @@ The precedences must be listed from low to high.
 %type <Parsetree.label_declaration> parse_label_declaration
 %start parse_match_case
 %type <Parsetree.case> parse_match_case
+%type <Longident.t Ploc.vala Asttypes.loc * Parsetree.expression> record_expr_field
+%type <expression option Ploc.vala * (Longident.t Ploc.vala Asttypes.loc * expression) list Ploc.vala> record_expr_content
 
 %%
 
@@ -2751,19 +2754,20 @@ fun_def:
     { es }
 ;
 record_expr_content:
-  eo = ioption(terminated(simple_expr, WITH))
-  fields = separated_or_terminated_nonempty_list(SEMI, record_expr_field)
+  eo = vala(ioption(terminated(simple_expr, WITH)), ANTI_WITHE)
+  fields = vala(separated_or_terminated_nonempty_list(SEMI, record_expr_field), ANTI_LIST)
     { eo, fields }
 ;
 %inline record_expr_field:
-  | label = mkrhs(label_longident)
+  | label = mkrhs(vala(label_longident, ANTI_LONGID))
     c = type_constraint?
     eo = preceded(EQUAL, expr)?
-      { let constraint_loc, label, e =
+      { let label : Longident.t vala Location.loc = label  in
+        let constraint_loc, label, e =
           match eo with
           | None ->
               (* No pattern; this is a pun. Desugar it. *)
-              $sloc, make_ghost label, exp_of_longident label
+              $sloc, loc_map vaval (make_ghost (loc_map unvala  label)), exp_of_longident (loc_map unvala label)
           | Some e ->
               ($startpos(c), $endpos), label, e
         in
@@ -3747,7 +3751,7 @@ val_longident:
     mk_longident(vala(mod_longident, ANTI), val_ident_vala) { $1 }
 ;
 label_longident:
-    mk_longident(vala(mod_longident, ANTI), vaval(LIDENT)) { $1 }
+    mk_longident(vala(mod_longident, ANTI), vala(LIDENT, ANTI_LID)) { $1 }
 ;
 type_longident:
     mk_longident(vala(mod_ext_longident, ANTI), vala(LIDENT, ANTI_LID))  { $1 }

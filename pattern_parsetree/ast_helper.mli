@@ -28,6 +28,7 @@ type 'a with_loc = 'a Location.loc
 type loc = Location.t
 
 type lid = Longident.t with_loc
+type lid_vala = Longident.t Ploc.vala with_loc
 type str = string with_loc
 type str_vala = string Ploc.vala with_loc
 type str_opt = string option with_loc
@@ -159,8 +160,8 @@ module Exp:
                    -> expression
     val variant: ?loc:loc -> ?attrs:attrs -> label Ploc.vala -> expression option
                  -> expression
-    val record: ?loc:loc -> ?attrs:attrs -> (lid * expression) list
-                -> expression option -> expression
+    val record: ?loc:loc -> ?attrs:attrs -> (lid_vala * expression) list Ploc.vala
+                -> expression option Ploc.vala -> expression
     val field: ?loc:loc -> ?attrs:attrs -> expression -> lid -> expression
     val setfield: ?loc:loc -> ?attrs:attrs -> expression -> lid -> expression
                   -> expression

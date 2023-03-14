@@ -121,6 +121,7 @@ type token =
   | BACKQUOTE
   | ASSERT
   | AS
+  | ANTI_WITHE of (string * Location.t)
   | ANTI_WHENO of (string * Location.t)
   | ANTI_UID of (string * Location.t)
   | ANTI_TYP of (string * Location.t)
