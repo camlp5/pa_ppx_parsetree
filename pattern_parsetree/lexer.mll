@@ -19,6 +19,7 @@
 open Lexing
 open Misc
 open Parser
+open Pattern_misc
 
 type error =
   | Illegal_character of char
@@ -582,67 +583,67 @@ rule token = parse
   | "$" (identchar [^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
-       ANTI (payload, loc)
+       ANTI (make_antiquotation "" loc payload)
      }
   | "$" "tuplelist:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
-       ANTI_TUPLELIST (payload, loc)
+       ANTI_TUPLELIST (make_antiquotation "tuplelist" loc payload)
      }
   | "$" "constructorlist:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
-       ANTI_CONSTRUCTORLIST (payload, loc)
+       ANTI_CONSTRUCTORLIST (make_antiquotation "constructorlist" loc payload)
      }
   | "$" "list:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
-       ANTI_LIST (payload, loc)
+       ANTI_LIST (make_antiquotation "list" loc payload)
      }
   | "$" "lid:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
-       ANTI_LID (payload, loc)
+       ANTI_LID (make_antiquotation "lid" loc payload)
      }
   | "$" "uid:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
-       ANTI_UID (payload, loc)
+       ANTI_UID (make_antiquotation "uid" loc payload)
      }
   | "$" "longid:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
-       ANTI_LONGID (payload, loc)
+       ANTI_LONGID (make_antiquotation "longid" loc payload)
      }
   | "$" "typ:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
-       ANTI_TYP (payload, loc)
+       ANTI_TYP (make_antiquotation "typ" loc payload)
      }
   | "$" "priv:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
-       ANTI_PRIV (payload, loc)
+       ANTI_PRIV (make_antiquotation "priv" loc payload)
      }
   | "$" "algattrs:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
-       ANTI_ALGATTRS (payload, loc)
+       ANTI_ALGATTRS (make_antiquotation "algattrs" loc payload)
      }
   | "$" "mutable:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
-       ANTI_MUTABLE (payload, loc)
+       ANTI_MUTABLE (make_antiquotation "mutable" loc payload)
      }
   | "$" "wheno:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
-       ANTI_WHENO (payload, loc)
+       ANTI_WHENO (make_antiquotation "wheno" loc payload)
      }
   | "$" "withe:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
-       ANTI_WITHE (payload, loc)
+       ANTI_WITHE (make_antiquotation "withe" loc payload)
      }
   | eof { EOF }
   | (_ as illegal_char)

@@ -120,19 +120,19 @@ type token =
   | BACKQUOTE
   | ASSERT
   | AS
-  | ANTI_WITHE of (string * Location.t)
-  | ANTI_WHENO of (string * Location.t)
-  | ANTI_UID of (string * Location.t)
-  | ANTI_TYP of (string * Location.t)
-  | ANTI_TUPLELIST of (string * Location.t)
-  | ANTI_PRIV of (string * Location.t)
-  | ANTI_MUTABLE of (string * Location.t)
-  | ANTI_LONGID of (string * Location.t)
-  | ANTI_LIST of (string * Location.t)
-  | ANTI_LID of (string * Location.t)
-  | ANTI_CONSTRUCTORLIST of (string * Location.t)
-  | ANTI_ALGATTRS of (string * Location.t)
-  | ANTI of (string * Location.t)
+  | ANTI_WITHE of string
+  | ANTI_WHENO of string
+  | ANTI_UID of string
+  | ANTI_TYP of string
+  | ANTI_TUPLELIST of string
+  | ANTI_PRIV of string
+  | ANTI_MUTABLE of string
+  | ANTI_LONGID of string
+  | ANTI_LIST of string
+  | ANTI_LID of string
+  | ANTI_CONSTRUCTORLIST of string
+  | ANTI_ALGATTRS of string
+  | ANTI of string
   | ANDOP of string
   | AND
   | AMPERSAND

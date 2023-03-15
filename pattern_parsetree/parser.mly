@@ -767,19 +767,19 @@ let mk_directive ~loc name arg =
 %token WITH                   "with"
 %token <string * Location.t> COMMENT    "(* comment *)"
 %token <Docstrings.docstring> DOCSTRING "(** documentation *)"
-%token <string * Location.t> ANTI
-%token <string * Location.t> ANTI_TUPLELIST
-%token <string * Location.t> ANTI_LIST
-%token <string * Location.t> ANTI_CONSTRUCTORLIST
-%token <string * Location.t> ANTI_LID
-%token <string * Location.t> ANTI_UID
-%token <string * Location.t> ANTI_LONGID
-%token <string * Location.t> ANTI_TYP
-%token <string * Location.t> ANTI_PRIV
-%token <string * Location.t> ANTI_ALGATTRS
-%token <string * Location.t> ANTI_MUTABLE
-%token <string * Location.t> ANTI_WHENO
-%token <string * Location.t> ANTI_WITHE
+%token <string> ANTI
+%token <string> ANTI_TUPLELIST
+%token <string> ANTI_LIST
+%token <string> ANTI_CONSTRUCTORLIST
+%token <string> ANTI_LID
+%token <string> ANTI_UID
+%token <string> ANTI_LONGID
+%token <string> ANTI_TYP
+%token <string> ANTI_PRIV
+%token <string> ANTI_ALGATTRS
+%token <string> ANTI_MUTABLE
+%token <string> ANTI_WHENO
+%token <string> ANTI_WITHE
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -2368,7 +2368,7 @@ let_pattern:
    X
      { vaval $1 }
   | anti
-     { Ploc.VaAnt (fst $1) }
+     { Ploc.VaAnt $1 }
 ;
 
 expr:
@@ -2444,7 +2444,7 @@ expr:
   | simple_expr nonempty_llist(labeled_simple_expr)
       { Pexp_apply($1, List.map (fun (a,b) -> (a, b)) $2) }
   | ANTI_TUPLELIST
-      { Pexp_tuple (Ploc.VaAnt (fst $1)) }
+      { Pexp_tuple (Ploc.VaAnt $1) }
   | expr_comma_list %prec below_COMMA
       { Pexp_tuple(vaval($1)) }
   | mkrhs(constr_longident) simple_expr %prec below_HASH
@@ -2501,7 +2501,7 @@ simple_expr:
 %inline simple_expr_:
   | mkrhs(val_longident)
       { Pexp_ident ($1) }
-  | ANTI { Pexp_xtr (Location.mkloc (fst $1) (snd $1)) }
+  | ANTI { Pexp_xtr (Location.mkloc $1 (make_loc $sloc)) }
   | constant
       { Pexp_constant $1 }
   | mkrhs(constr_longident) %prec prec_constant_constructor
@@ -2726,7 +2726,7 @@ strict_binding:
 ;
 match_case:
     vaval(pattern) ANTI_WHENO MINUSGREATER vaval(seq_expr)
-      { Exp.case $1 (Ploc.VaAnt (fst $2)) $4 }
+      { Exp.case $1 (Ploc.VaAnt $2) $4 }
   | vaval(pattern) MINUSGREATER vaval(seq_expr)
       { Exp.case $1 (vaval None) $3 }
   | vaval(pattern) WHEN seq_expr MINUSGREATER vaval(seq_expr)
@@ -2850,7 +2850,7 @@ pattern_no_exn:
     | pattern_comma_list(self) %prec below_COMMA
         { Ppat_tuple(vaval (List.rev $1)) }
   | ANTI_TUPLELIST
-      { Ppat_tuple (Ploc.VaAnt (fst $1)) }
+      { Ppat_tuple (Ploc.VaAnt $1) }
     | self COLONCOLON error
         { expecting $loc($3) "pattern" }
     | self BAR pattern
@@ -2897,7 +2897,7 @@ simple_pattern_not_ident:
       { $1 }
 ;
 %inline simple_pattern_not_ident_:
-  | ANTI { Ppat_xtr (Location.mkloc (fst $1) (snd $1)) }
+  | ANTI { Ppat_xtr (Location.mkloc $1 (make_loc $sloc)) }
   | UNDERSCORE
       { Ppat_any }
   | signed_constant
@@ -3481,7 +3481,7 @@ tuple_type:
       tys = separated_nontrivial_llist(STAR, atomic_type)
         { Ptyp_tuple (vaval tys) }
     | ANTI_TUPLELIST
-      { Ptyp_tuple (Ploc.VaAnt (fst $1)) }
+      { Ptyp_tuple (Ploc.VaAnt $1) }
 
     )
     { $1 }
@@ -3503,7 +3503,7 @@ atomic_type:
   | mktyp( /* begin mktyp group */
       QUOTE vala(ident, ANTI_LID)
         { Ptyp_var $2 }
-    | ANTI { Ptyp_xtr (Location.mkloc (fst $1) (snd $1)) }
+    | ANTI { Ptyp_xtr (Location.mkloc $1 (make_loc $sloc)) }
     | UNDERSCORE
         { Ptyp_any }
     | tys = actual_type_parameters
@@ -3511,7 +3511,7 @@ atomic_type:
         { Ptyp_constr(tid, vaval tys) }
     | ANTI_LIST
       tid = mkrhs(type_longident)
-        { Ptyp_constr(tid, VaAnt (fst $1)) }
+        { Ptyp_constr(tid, VaAnt $1) }
     | LESS meth_list GREATER
         { let (f, c) = $2 in Ptyp_object (f, c) }
     | LESS GREATER

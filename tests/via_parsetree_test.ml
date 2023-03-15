@@ -99,10 +99,8 @@ let test1 ctxt =
 
   assert_equal (e1, e2) (match [%expression {| $e1$ + $e2$ |}] with
                            [%expression {| $e1'$ + $e2'$ |}] -> (e1',e2'))
-; assert_equal [e1;e2] (
-      let l = [e1;e2] in
-      match [%expression {| $tuplelist:l$ |}] with
-        [%expression {| $tuplelist:l2$ |}] ->  l2)
+; assert_equal [e1;e2] (match [%expression {| $tuplelist:[e1;e2]$ |}] with
+                          [%expression {| $tuplelist:l2$ |}] ->  l2)
 
 ; assert_equal (e1,e2) (match [%expression {| ($e1$, $e2$) |}] with
                           [%expression {| ($e1'$, $e2'$) |}] ->  (e1', e2'))
@@ -169,10 +167,8 @@ open Fixtures
 
 let test ctxt =
 
-  assert_equal [p1;p2] (
-      let l = [p1;p2] in
-      match  [%pattern {| $tuplelist:l$ |}] with
-        [%pattern {| $tuplelist:l'$ |}] ->  l')
+  assert_equal [p1;p2] (match  [%pattern {| $tuplelist:[p1;p2]$ |}] with
+                          [%pattern {| $tuplelist:l'$ |}] ->  l')
 
 ; assert_equal (p1,p2) (match [%pattern {| ($p1$, $p2$) |}] with
                           [%pattern {| ($e1$, $e2$) |}] ->  (e1, e2))
@@ -190,10 +186,8 @@ module TY = struct
 open Fixtures
 
 let test ctxt =
-  assert_equal [t1;t2] (
-      let l = [t1;t2] in
-      match [%core_type {| $list:l$ t |}] with
-        [%core_type {| $list:l'$ t |}] ->  l')
+  assert_equal [t1;t2] (match [%core_type {| $list:[t1;t2]$ t |}] with
+                          [%core_type {| $list:l'$ t |}] ->  l')
 
   ; assert_equal (t1,t2) (match  [%core_type {| ($t1$, $t2$) t |}] with
                             [%core_type {| ($e1$, $e2$) t |}] ->  (e1, e2))
@@ -204,14 +198,11 @@ let test ctxt =
   ; assert_equal (t1,m,l) (match [%core_type {| $t1$ $uid:m$ . $lid:l$ |}] with
                              [%core_type {| $c'$ $uid:m'$ . $lid:t'$ |}] -> (c',m',t'))
 
-  ; assert_equal [t1;t2] (
-        let l = [t1;t2] in
-        match  [%core_type {| $tuplelist:l$ |}] with
-          [%core_type {| $tuplelist:l'$ |}] -> l')
+  ; assert_equal [t1;t2] (match  [%core_type {| $tuplelist:[t1;t2]$ |}] with
+                            [%core_type {| $tuplelist:l'$ |}] -> l')
 
   ; assert_equal [%core_type {| $t1$ * $t2$ |}]
-      (let l = [t1;t2] in
-       [%core_type {| $tuplelist:l$ |}])
+      [%core_type {| $tuplelist:[t1;t2]$ |}]
 
   ; assert_equal l (match  [%core_type {| $lid:l$ |}] with
                       [%core_type {| $lid:s'$ |}] -> s')
@@ -226,10 +217,8 @@ module CD = struct
   open Fixtures
 
   let test ctxt =
-    assert_equal (m, [t1;t2]) (
-        let tl = [t1;t2] in
-        match  [%constructor_declaration {| $uid:m$ of $list:tl$ |}] with
-          [%constructor_declaration {| $uid:cid'$ of $list:tl'$ |}] -> (cid', tl'))
+    assert_equal (m, [t1;t2]) (match  [%constructor_declaration {| $uid:m$ of $list:[t1;t2]$ |}] with
+                                 [%constructor_declaration {| $uid:cid'$ of $list:tl'$ |}] -> (cid', tl'))
 
 end
 
@@ -239,10 +228,9 @@ module FLD = struct
   open Asttypes
 
   let test ctxt =
-    assert_equal (Mutable, l, t1, attrs) (
-        let f = Mutable in
-        match  [%field {| $mutable:f$ $lid:l$ : $typ:t1$ $algattrs:attrs$ |}] with
-          [%field {| $mutable:f'$ $lid:l'$ : $typ:t'$ $algattrs:attrs'$ |}] -> (f', l', t', attrs'))
+    assert_equal (Mutable, l, t1, attrs)
+      (match  [%field {| $mutable:Mutable$ $lid:l$ : $typ:t1$ $algattrs:attrs$ |}] with
+         [%field {| $mutable:f'$ $lid:l'$ : $typ:t'$ $algattrs:attrs'$ |}] -> (f', l', t', attrs'))
 
 end
 
@@ -253,37 +241,30 @@ module STRI = struct
 
   let test ctxt =
 
-    assert_equal [cd1;cd2] (
-        let l = [cd1;cd2] in
-        match [%structure_item {| type t = $constructorlist:l$ |}] with
-          [%structure_item {| type t = $constructorlist:l'$ |}] -> l')
+    assert_equal [cd1;cd2] (match [%structure_item {| type t = $constructorlist:[cd1;cd2]$ |}] with
+                              [%structure_item {| type t = $constructorlist:l'$ |}] -> l')
 
-    ; assert_equal (Private, [cd1;cd2]) (
-          let p = Private in
-          let l = [cd1;cd2] in
-          match [%structure_item {| type t = $priv:p$ $constructorlist:l$ |}] with
-            [%structure_item {| type t = $priv:p'$ $constructorlist:l'$ |}] -> (p',l'))
+    ; assert_equal (Private, [cd1;cd2])
+        (match [%structure_item {| type t = $priv:Private$ $constructorlist:[cd1;cd2]$ |}] with
+           [%structure_item {| type t = $priv:p'$ $constructorlist:l'$ |}] -> (p',l'))
 
-    ; assert_equal (Private,  t1) (
-          let p = Private in
-          match  [%structure_item {| type t = $priv:p$ $typ:t1$ |}] with
-            [%structure_item {| type t = $priv:p'$ $typ:t'$ |}] -> (p', t'))
+    ; assert_equal (Private,  t1)
+        (match  [%structure_item {| type t = $priv:Private$ $typ:t1$ |}] with
+           [%structure_item {| type t = $priv:p'$ $typ:t'$ |}] -> (p', t'))
 
     ; assert_equal (m,attrs) (match  [%structure_item {| type t = $uid:m$ of int $algattrs:attrs$ |}] with
                                 [%structure_item {| type t = $uid:cid$ of int $algattrs:l$ |}] -> (cid,l))
 
-    ; assert_equal (m, [t1;t2], attrs) (
-          let tl = [t1;t2] in
-          match [%structure_item {| exception $uid:m$ of $list:tl$ $algattrs:attrs$ |}] with
-            [%structure_item {| exception $uid:cid$ of $list:tl'$ $algattrs:l$ |}] -> (cid, tl', l))
+    ; assert_equal (m, [t1;t2], attrs)
+        (match [%structure_item {| exception $uid:m$ of $list:[t1;t2]$ $algattrs:attrs$ |}] with
+           [%structure_item {| exception $uid:cid$ of $list:tl'$ $algattrs:l$ |}] -> (cid, tl', l))
 
     ; assert_equal (m, fields, attrs) (match [%structure_item {| exception $uid:m$ of { $list:fields$ } $algattrs:attrs$ |}] with
                                          [%structure_item {| exception $uid:cid$ of { $list:fl$ } $algattrs:l$ |}] -> (cid, fl, l))
 
-    ; assert_equal (Mutable, l, t1) (
-          let f = Mutable in
-          match [%structure_item {| type t = { $mutable:f$ $lid:l$ : $typ:t1$ } |}] with
-            [%structure_item {| type t = { $mutable:f'$ $lid:name$ : $typ:t$ } |}] -> (f,  name, t))
+    ; assert_equal (Mutable, l, t1)
+        (match [%structure_item {| type t = { $mutable:Mutable$ $lid:l$ : $typ:t1$ } |}] with
+           [%structure_item {| type t = { $mutable:f'$ $lid:name$ : $typ:t$ } |}] -> (f',  name, t))
 
 end
 

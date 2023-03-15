@@ -7,11 +7,11 @@ include $(TOP)/config/Makefile.sub
 
 DESTDIR=
 
-PACKAGES := fmt,camlp5
+PACKAGES := fmt,camlp5,re
 TARGET_PACKAGE = pa_ppx_parsetree_pattern_parsetree
 TARGET=$(TARGET_PACKAGE).cma
 
-ML = clflags.ml location.ml longident.ml asttypes.ml parsetree.ml docstrings.ml syntaxerr.ml \
+ML = clflags.ml location.ml pattern_misc.ml longident.ml asttypes.ml parsetree.ml docstrings.ml syntaxerr.ml \
 	ast_helper.ml parser.ml lexer.ml pprintast.ml parse.ml printast.ml
 MLI = clflags.mli location.mli longident.mli asttypes.mli parsetree.mli docstrings.mli syntaxerr.mli \
 	ast_helper.mli lexer.mli pprintast.mli parse.mli printast.mli

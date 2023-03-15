@@ -3,6 +3,7 @@
 (* pa_sexp.ml,v *)
 (* Copyright (c) INRIA 2007-2017 *)
 
+open Pa_ppx_parsetree_pattern_parsetree.Pattern_misc
 
 module Regular = struct
 
@@ -11,11 +12,12 @@ module MetaE = struct
   let int n = let loc = Ploc.dummy in <:expr< $int:string_of_int n$ >>
   open Pa_ppx_base
   open MLast
-    let xtr s = <:expr< $lid:s$ >>
     let vala elem x =
-      match x with
-        Ploc.VaVal p -> elem p
-      | Ploc.VaAnt s -> xtr s
+      match Pa_ppx_q_ast_runtime.MetaE.vala elem x with
+        <:expr< Ploc.VaVal $e$ >> -> e
+      | e -> Ploc.raise (loc_of_expr e)
+               (Failure Fmt.(str "Q_parsetree.vala: unexpected result expr:@ %a"
+                               Pp_MLast.pp_expr e))
 end
 
 module MetaP = struct
@@ -23,14 +25,12 @@ module MetaP = struct
   let int n = let loc = Ploc.dummy in <:patt< $int:string_of_int n$ >>
   open Pa_ppx_base
   open MLast
-    let xtr = function
-        "_" -> <:patt< _ >>
-       | s -> <:patt< $lid:s$ >>
     let vala elem x =
-      match x with
-        Ploc.VaVal p -> elem p
-      | Ploc.VaAnt "_" -> <:patt< _ >>
-      | Ploc.VaAnt s -> xtr s
+      match Pa_ppx_q_ast_runtime.MetaP.vala elem x with
+        <:patt< Ploc.VaVal $e$ >> -> e
+      | e -> Ploc.raise (loc_of_patt e)
+               (Failure Fmt.(str "Q_parsetree.vala: unexpected result patt:@ %a"
+                               Pp_MLast.pp_patt e))
 end
 
 let parse_expression s =
@@ -161,9 +161,11 @@ let parse_match_case s =
         data_source_module = Parsetree
       ; quotation_source_module = Reorg_parsetree
       ; add_branches_patt_code = (function
-          | {pexp_desc=Pexp_xtr{txt = s;};} -> C.xtr s)
+          | {pexp_desc=Pexp_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
+                                 )
       ; add_branches_expr_code = (function
-          | {pexp_desc=Pexp_xtr{txt = s;};} -> C.xtr s)
+          | {pexp_desc=Pexp_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
+                                 )
       }
     ; expression_desc = {
         data_source_module = Parsetree
@@ -173,9 +175,11 @@ let parse_match_case s =
         data_source_module = Parsetree
       ; quotation_source_module = Reorg_parsetree
       ; add_branches_patt_code = (function
-          | {ppat_desc=Ppat_xtr{txt = s;};} -> C.xtr s)
+          | {ppat_desc=Ppat_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
+                                 )
       ; add_branches_expr_code = (function
-          | {ppat_desc=Ppat_xtr{txt = s;};} -> C.xtr s)
+          | {ppat_desc=Ppat_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
+                                 )
       }
     ; pattern_desc = {
         data_source_module = Parsetree
@@ -201,9 +205,11 @@ let parse_match_case s =
         data_source_module = Parsetree
       ; quotation_source_module = Reorg_parsetree
       ; add_branches_patt_code = (function
-          | {ptyp_desc=Ptyp_xtr{txt = s;};} -> C.xtr s)
+          | {ptyp_desc=Ptyp_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
+                                 )
       ; add_branches_expr_code = (function
-          | {ptyp_desc=Ptyp_xtr{txt = s;};} -> C.xtr s)
+          | {ptyp_desc=Ptyp_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
+                                 )
       }
     ; core_type_desc = {
         data_source_module = Parsetree

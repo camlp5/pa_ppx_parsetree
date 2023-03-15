@@ -205,67 +205,67 @@ type token =
   | AS
   | ANTI_WITHE of (
 # 782 "parser.mly"
-       (string * Location.t)
+       (string)
 # 210 "parser_mock.ml"
 )
   | ANTI_WHENO of (
 # 781 "parser.mly"
-       (string * Location.t)
+       (string)
 # 215 "parser_mock.ml"
 )
   | ANTI_UID of (
 # 775 "parser.mly"
-       (string * Location.t)
+       (string)
 # 220 "parser_mock.ml"
 )
   | ANTI_TYP of (
 # 777 "parser.mly"
-       (string * Location.t)
+       (string)
 # 225 "parser_mock.ml"
 )
   | ANTI_TUPLELIST of (
 # 771 "parser.mly"
-       (string * Location.t)
+       (string)
 # 230 "parser_mock.ml"
 )
   | ANTI_PRIV of (
 # 778 "parser.mly"
-       (string * Location.t)
+       (string)
 # 235 "parser_mock.ml"
 )
   | ANTI_MUTABLE of (
 # 780 "parser.mly"
-       (string * Location.t)
+       (string)
 # 240 "parser_mock.ml"
 )
   | ANTI_LONGID of (
 # 776 "parser.mly"
-       (string * Location.t)
+       (string)
 # 245 "parser_mock.ml"
 )
   | ANTI_LIST of (
 # 772 "parser.mly"
-       (string * Location.t)
+       (string)
 # 250 "parser_mock.ml"
 )
   | ANTI_LID of (
 # 774 "parser.mly"
-       (string * Location.t)
+       (string)
 # 255 "parser_mock.ml"
 )
   | ANTI_CONSTRUCTORLIST of (
 # 773 "parser.mly"
-       (string * Location.t)
+       (string)
 # 260 "parser_mock.ml"
 )
   | ANTI_ALGATTRS of (
 # 779 "parser.mly"
-       (string * Location.t)
+       (string)
 # 265 "parser_mock.ml"
 )
   | ANTI of (
 # 770 "parser.mly"
-       (string * Location.t)
+       (string)
 # 270 "parser_mock.ml"
 )
   | ANDOP of (
@@ -2518,12 +2518,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2542 "parser_mock.ml"
    : (
 # 774 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2546 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2551 "parser_mock.ml"
      : 'tv_vala_val_ident_ANTI_LID_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -2542,12 +2542,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2567 "parser_mock.ml"
    : (
 # 772 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2571 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2576 "parser_mock.ml"
      : 'tv_vala_separated_or_terminated_nonempty_list_SEMI_record_expr_field__ANTI_LIST_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -2566,12 +2566,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2592 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2596 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2601 "parser_mock.ml"
      : 'tv_vala_private_flag_ANTI_PRIV_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ((
@@ -2594,12 +2594,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2621 "parser_mock.ml"
    : (
 # 777 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2625 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2630 "parser_mock.ml"
      : 'tv_vala_poly_type_no_attr_ANTI_TYP_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -2618,12 +2618,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2646 "parser_mock.ml"
    : (
 # 780 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2650 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2655 "parser_mock.ml"
      : 'tv_vala_mutable_flag_ANTI_MUTABLE_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -2642,12 +2642,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2671 "parser_mock.ml"
    : (
 # 776 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2675 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2680 "parser_mock.ml"
      : 'tv_vala_mod_longident_ANTI_LONGID_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -2666,12 +2666,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2696 "parser_mock.ml"
    : (
 # 770 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2700 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2705 "parser_mock.ml"
      : 'tv_vala_mod_longident_ANTI_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -2690,12 +2690,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2721 "parser_mock.ml"
    : (
 # 770 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2725 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2730 "parser_mock.ml"
      : 'tv_vala_mod_ext_longident_ANTI_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -2714,12 +2714,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2746 "parser_mock.ml"
    : (
 # 772 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2750 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2755 "parser_mock.ml"
      : 'tv_vala_match_cases_ANTI_LIST_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -2738,12 +2738,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2771 "parser_mock.ml"
    : (
 # 776 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2775 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2780 "parser_mock.ml"
      : 'tv_vala_label_longident_ANTI_LONGID_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -2762,12 +2762,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2796 "parser_mock.ml"
    : (
 # 772 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2800 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2805 "parser_mock.ml"
      : 'tv_vala_label_declarations_ANTI_LIST_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -2786,12 +2786,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2821 "parser_mock.ml"
    : (
 # 774 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2825 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2830 "parser_mock.ml"
      : 'tv_vala_label_ANTI_LID_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -2810,12 +2810,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2846 "parser_mock.ml"
    : (
 # 782 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2850 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2855 "parser_mock.ml"
      : 'tv_vala_ioption_terminated_simple_expr_WITH___ANTI_WITHE_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -2834,12 +2834,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2871 "parser_mock.ml"
    : (
 # 772 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2875 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2880 "parser_mock.ml"
      : 'tv_vala_inline_separated_nonempty_llist_STAR_atomic_type__ANTI_LIST_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -2858,12 +2858,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2896 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2900 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2905 "parser_mock.ml"
      : 'tv_vala_inline_private_flag_ANTI_PRIV_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ((
@@ -2886,12 +2886,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2925 "parser_mock.ml"
    : (
 # 774 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2929 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2934 "parser_mock.ml"
      : 'tv_vala_ident_ANTI_LID_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ((
@@ -2914,12 +2914,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2954 "parser_mock.ml"
    : (
 # 777 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2958 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2963 "parser_mock.ml"
      : 'tv_vala_core_type_ANTI_TYP_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ((
@@ -2942,12 +2942,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2983 "parser_mock.ml"
    : (
 # 773 "parser.mly"
-       (string * Location.t)
+       (string)
 # 2987 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 2992 "parser_mock.ml"
      : 'tv_vala_constructor_declarations_ANTI_CONSTRUCTORLIST_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -2966,12 +2966,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 3008 "parser_mock.ml"
    : (
 # 775 "parser.mly"
-       (string * Location.t)
+       (string)
 # 3012 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 3017 "parser_mock.ml"
      : 'tv_vala_constr_ident_ANTI_UID_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ((
@@ -2994,12 +2994,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 3037 "parser_mock.ml"
    : (
 # 779 "parser.mly"
-       (string * Location.t)
+       (string)
 # 3041 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 3046 "parser_mock.ml"
      : 'tv_vala_attributes_ANTI_ALGATTRS_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -3018,12 +3018,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 3062 "parser_mock.ml"
    : (
 # 775 "parser.mly"
-       (string * Location.t)
+       (string)
 # 3066 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 3071 "parser_mock.ml"
      : 'tv_vala_UIDENT_ANTI_UID_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -3046,12 +3046,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 3091 "parser_mock.ml"
    : (
 # 774 "parser.mly"
-       (string * Location.t)
+       (string)
 # 3095 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2371 "parser.mly"
-     ( Ploc.VaAnt (fst _1) )
+     ( Ploc.VaAnt _1 )
 # 3100 "parser_mock.ml"
      : 'tv_vala_LIDENT_ANTI_LID_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -5138,12 +5138,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 5276 "parser_mock.ml"
    : (
 # 770 "parser.mly"
-       (string * Location.t)
+       (string)
 # 5280 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2900 "parser.mly"
-         ( Ppat_xtr (Location.mkloc (fst _1) (snd _1)) )
+         ( Ppat_xtr (Location.mkloc _1 (make_loc _sloc)) )
 # 5285 "parser_mock.ml"
      : 'tv_simple_pattern_not_ident_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -6270,12 +6270,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 6414 "parser_mock.ml"
    : (
 # 770 "parser.mly"
-       (string * Location.t)
+       (string)
 # 6418 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2504 "parser.mly"
-         ( Pexp_xtr (Location.mkloc (fst _1) (snd _1)) )
+         ( Pexp_xtr (Location.mkloc _1 (make_loc _sloc)) )
 # 6423 "parser_mock.ml"
      : 'tv_simple_expr_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -11545,7 +11545,7 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 11917 "parser_mock.ml"
    : (
 # 781 "parser.mly"
-       (string * Location.t)
+       (string)
 # 11921 "parser_mock.ml"
   )) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
 # 2727 "parser.mly"
@@ -11554,7 +11554,7 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
    : 'tv_vaval_pattern_) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2729 "parser.mly"
-      ( Exp.case _1 (Ploc.VaAnt (fst _2)) _4 )
+      ( Exp.case _1 (Ploc.VaAnt _2) _4 )
 # 11931 "parser_mock.ml"
      : 'tv_match_case) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -15403,12 +15403,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 15844 "parser_mock.ml"
    : (
 # 771 "parser.mly"
-       (string * Location.t)
+       (string)
 # 15848 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2447 "parser.mly"
-      ( Pexp_tuple (Ploc.VaAnt (fst _1)) )
+      ( Pexp_tuple (Ploc.VaAnt _1) )
 # 15853 "parser_mock.ml"
      : 'tv_expr_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -18068,12 +18068,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 18644 "parser_mock.ml"
    : (
 # 772 "parser.mly"
-       (string * Location.t)
+       (string)
 # 18648 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 3514 "parser.mly"
-        ( Ptyp_constr(tid, VaAnt (fst _1)) )
+        ( Ptyp_constr(tid, VaAnt _1) )
 # 18653 "parser_mock.ml"
      : 'tv___anonymous_40) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -18106,12 +18106,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 18682 "parser_mock.ml"
    : (
 # 770 "parser.mly"
-       (string * Location.t)
+       (string)
 # 18686 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 3506 "parser.mly"
-           ( Ptyp_xtr (Location.mkloc (fst _1) (snd _1)) )
+           ( Ptyp_xtr (Location.mkloc _1 (make_loc _sloc)) )
 # 18691 "parser_mock.ml"
      : 'tv___anonymous_40) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -18190,12 +18190,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 18768 "parser_mock.ml"
    : (
 # 771 "parser.mly"
-       (string * Location.t)
+       (string)
 # 18772 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 3484 "parser.mly"
-      ( Ptyp_tuple (Ploc.VaAnt (fst _1)) )
+      ( Ptyp_tuple (Ploc.VaAnt _1) )
 # 18777 "parser_mock.ml"
      : 'tv___anonymous_39) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -18563,12 +18563,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 19145 "parser_mock.ml"
    : (
 # 771 "parser.mly"
-       (string * Location.t)
+       (string)
 # 19149 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2853 "parser.mly"
-      ( Ppat_tuple (Ploc.VaAnt (fst _1)) )
+      ( Ppat_tuple (Ploc.VaAnt _1) )
 # 19154 "parser_mock.ml"
      : 'tv___anonymous_30_pattern_no_exn_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -18677,12 +18677,12 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 19260 "parser_mock.ml"
    : (
 # 771 "parser.mly"
-       (string * Location.t)
+       (string)
 # 19264 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2853 "parser.mly"
-      ( Ppat_tuple (Ploc.VaAnt (fst _1)) )
+      ( Ppat_tuple (Ploc.VaAnt _1) )
 # 19269 "parser_mock.ml"
      : 'tv___anonymous_30_pattern_) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
