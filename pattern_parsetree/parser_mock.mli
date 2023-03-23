@@ -537,6 +537,8 @@ val xv_vala_separated_or_terminated_nonempty_list_SEMI_record_expr_field__ANTI_L
   Ast_helper.vala
 val xv_vala_private_flag_ANTI_PRIV_ : Asttypes.private_flag Ast_helper.vala
 val xv_vala_poly_type_no_attr_ANTI_TYP_ : Parsetree.core_type Ast_helper.vala
+val xv_vala_nonempty_llist_labeled_simple_expr__ANTI_LIST_ :
+  (Asttypes.arg_label * Parsetree.expression) list Ast_helper.vala
 val xv_vala_mutable_flag_ANTI_MUTABLE_ :
   Asttypes.mutable_flag Ast_helper.vala
 val xv_vala_mod_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala

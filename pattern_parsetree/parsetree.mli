@@ -323,7 +323,7 @@ and expression_desc =
            - [let f P = E] is represented using
              {{!expression_desc.Pexp_fun}[Pexp_fun]}.
          *)
-  | Pexp_apply of expression * (arg_label * expression) list
+  | Pexp_apply of expression * (arg_label * expression) list Ploc.vala
       (** [Pexp_apply(E0, [(l1, E1) ; ... ; (ln, En)])]
             represents [E0 ~l1:E1 ... ~ln:En]
 

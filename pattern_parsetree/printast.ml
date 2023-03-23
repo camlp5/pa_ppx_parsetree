@@ -275,7 +275,7 @@ and expression i ppf x =
   | Pexp_apply (e, l) ->
       line i ppf "Pexp_apply\n";
       expression i ppf e;
-      list i label_x_expression ppf l;
+      list i label_x_expression ppf (unvala l);
   | Pexp_match (e, l) ->
       line i ppf "Pexp_match\n";
       expression i ppf e;

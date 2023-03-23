@@ -14,8 +14,7 @@ TESTS=via_camlp5_test.exe via_parsetree_test.exe
 
 all: $(TESTS)
 
-
-test:: all
+test:: all test1.TEST
 	mkdir -p _build && ./via_camlp5_test.exe
 	mkdir -p _build && ./via_parsetree_test.exe
 
@@ -25,6 +24,26 @@ via_camlp5_test.exe: via_camlp5_test.cmo
 via_parsetree_test.exe: via_parsetree_test.cmo
 	$(LAUNCH) $(OCAMLFIND) ocamlc -linkall -linkpkg $(OCAMLCFLAGS) -package $(PACKAGES) -linkpkg -linkall -o $@ $<
 
+export IMPORT_OCAMLCFLAGS := \
+	-ppopt -pa_passthru-debug \
+	-ppopt -pa_import-package -ppopt camlp5,pa_ppx_parsetree_via_parsetree \
+	-ppopt -pa_import-I -ppopt . \
+
+RPPFLAGS=-ppopt -l -ppopt 400 -ppopt -flag -ppopt D -ppopt -sep -ppopt '\n'
+OPPFLAGS=-ppopt -l -ppopt 400 -ppopt -flag -ppopt M -ppopt -sep -ppopt '\n'
+QUOTPACKAGES=pa_ppx_q_ast.quotation_test,pa_ppx_q_ast.test_cleanup
+#QUOTPACKAGES=pa_ppx_q_ast.quotation_test
+
+%.TEST: %.patterns_out %.types_out
+	diff -Bwiu $^
+
+%.types_out: %_types.ml
+	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,$(QUOTPACKAGES) $(RPPFLAGS) $< > $@
+
+%.patterns_out: %_patterns.ml
+	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r $(RPPFLAGS) $< > $@
+
+
 clean::
-	rm -rf *.cm* _build *.exe
+	rm -rf *.cm* _build *.exe *_out
 

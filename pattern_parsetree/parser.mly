@@ -140,7 +140,7 @@ let ghstr ~loc d = Str.mk ~loc:(ghost_loc loc) d
 let ghsig ~loc d = Sig.mk ~loc:(ghost_loc loc) d
 
 let mkinfix arg1 op arg2 =
-  Pexp_apply(op, [Nolabel, arg1; Nolabel, arg2])
+  Pexp_apply(op, (vaval[Nolabel, arg1; Nolabel, arg2]))
 
 let neg_string f =
   if String.length f > 0 && f.[0] = '-'
@@ -154,7 +154,7 @@ let mkuminus ~oploc name arg =
   | ("-" | "-."), Pexp_constant(Pconst_float (f, m)) ->
       Pexp_constant(Pconst_float(neg_string f, m))
   | _ ->
-      Pexp_apply(mkoperator ~loc:oploc (vaval ("~" ^ name)), [Nolabel, arg])
+      Pexp_apply(mkoperator ~loc:oploc (vaval ("~" ^ name)), vaval[Nolabel, arg])
 
 let mkuplus ~oploc name arg =
   let desc = arg.pexp_desc in
@@ -162,7 +162,7 @@ let mkuplus ~oploc name arg =
   | "+", Pexp_constant(Pconst_integer _)
   | ("+" | "+."), Pexp_constant(Pconst_float _) -> desc
   | _ ->
-      Pexp_apply(mkoperator ~loc:oploc (vaval ("~" ^ name)), [Nolabel, arg])
+      Pexp_apply(mkoperator ~loc:oploc (vaval ("~" ^ name)), vaval[Nolabel, arg])
 
 (* TODO define an abstraction boundary between locations-as-pairs
    and locations-as-Location.t; it should be clear when we move from
@@ -370,7 +370,7 @@ let mk_indexop_expr array_indexing_operator ~loc
     | None -> []
     | Some expr -> [Nolabel, expr] in
   let args = (Nolabel,array) :: index @ set_arg in
-  mkexp ~loc (Pexp_apply(ghexp ~loc (Pexp_ident fn), args))
+  mkexp ~loc (Pexp_apply(ghexp ~loc (Pexp_ident fn), vaval args))
 
 let indexop_unclosed_error loc_s s loc_e =
   let left, right = paren_to_strings s in
@@ -2441,8 +2441,8 @@ expr:
       { Pexp_lazy $3, $2 }
 ;
 %inline expr_:
-  | simple_expr nonempty_llist(labeled_simple_expr)
-      { Pexp_apply($1, List.map (fun (a,b) -> (a, b)) $2) }
+  | simple_expr vala(nonempty_llist(labeled_simple_expr), ANTI_LIST)
+      { Pexp_apply($1, Pcaml.vala_map (List.map (fun (a,b) -> (a, b))) $2) }
   | ANTI_TUPLELIST
       { Pexp_tuple (Ploc.VaAnt $1) }
   | expr_comma_list %prec below_COMMA
@@ -2509,9 +2509,9 @@ simple_expr:
   | name_tag_vala %prec prec_constant_constructor
       { Pexp_variant($1, None) }
   | op(PREFIXOP) simple_expr
-      { Pexp_apply($1, [Nolabel,$2]) }
+      { Pexp_apply($1, vaval[Nolabel,$2]) }
   | op(BANG {"!"}) simple_expr
-      { Pexp_apply($1, [Nolabel,$2]) }
+      { Pexp_apply($1, vaval[Nolabel,$2]) }
   | LBRACELESS object_expr_content GREATERRBRACE
       { Pexp_override $2 }
   | LBRACELESS object_expr_content error

@@ -14,6 +14,7 @@ let n = "N"
 let li1 = [%longident_t {| $uid:m$ |}] 
 let li2 = [%longident_t {| B.C |}] 
 
+let e0 = [%expression {| $lid:l$ |}]
 let e1 = [%expression {| a * b |}]
 let e2 = [%expression {| a / b |}]
 
@@ -96,8 +97,12 @@ let test0 ctxt =
         [%expression.loc {| $_$ * $_$ |}] -> __loc__)
 
 let test1 ctxt = 
-
-  assert_equal (e1, e2) (match [%expression {| $e1$ + $e2$ |}] with
+  let open Asttypes in
+  assert_equal (e0,[(Nolabel,e1);(Nolabel,e2)]) (
+      let el = [(Nolabel,e1);(Nolabel,e2)] in
+      match [%expression {| $e0$ $list:el$ |}] with
+        [%expression {| $e0'$ $list:el'$ |}] -> (e0',el'))
+; assert_equal (e1, e2) (match [%expression {| $e1$ + $e2$ |}] with
                            [%expression {| $e1'$ + $e2'$ |}] -> (e1',e2'))
 ; assert_equal [e1;e2] (match [%expression {| $tuplelist:[e1;e2]$ |}] with
                           [%expression {| $tuplelist:l2$ |}] ->  l2)
