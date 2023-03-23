@@ -2670,9 +2670,18 @@ value_binding:
 ;
 let_bindings(EXT):
     let_binding(EXT)                            { $1 }
+  | LET
+    ext = EXT
+    attrs1 = attributes
+    rec_flag = vala(rec_flag, ANTI_RECFLAG)
+    list = ANTI_LIST
+    {
+      match (ext, attrs1) with
+        (None, []) ->
+        { lbs_bindings = Ploc.VaAnt list ; lbs_rec = rec_flag ; lbs_extension = None }
+      | _ -> syntax_error()
+    }
   | let_bindings(EXT) and_let_binding           { addlb $1 $2 }
-  | LET rec_flag = vala(rec_flag, ANTI_RECFLAG) list = ANTI_LIST
-    { { lbs_bindings = Ploc.VaAnt list ; lbs_rec = rec_flag ; lbs_extension = None } }
 ;
 %inline let_binding(EXT):
   LET
