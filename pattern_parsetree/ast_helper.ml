@@ -36,7 +36,7 @@ type 'a vala = 'a Ploc.vala =
 let vaval x = Ploc.VaVal x
 
 let unvala = Pcaml.unvala
-let append_attrs_vala a1 a2 =
+let append_list_vala a1 a2 =
   match (a1, a2) with
     (Ploc.VaVal l1, Ploc.VaVal l2) -> vaval(l1@l2)
   | (Ploc.VaVal [], a) -> a

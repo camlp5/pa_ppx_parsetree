@@ -513,7 +513,7 @@ type let_binding =
     lb_loc: Location.t; }
 
 type let_bindings =
-  { lbs_bindings: let_binding list;
+  { lbs_bindings: let_binding list Ploc.vala;
     lbs_rec: rec_flag Ploc.vala;
     lbs_extension: string Asttypes.loc option }
 
@@ -531,53 +531,51 @@ let mklb first ~loc (p, e, is_pun) attrs =
 
 let addlb lbs lb =
   if lb.lb_is_pun && lbs.lbs_extension = None then syntax_error ();
-  { lbs with lbs_bindings = lb :: lbs.lbs_bindings }
+  { lbs with lbs_bindings = append_list_vala (vaval[lb]) lbs.lbs_bindings }
 
 let mklbs ext rf lb =
   let lbs = {
-    lbs_bindings = [];
+    lbs_bindings = vaval [];
     lbs_rec = rf;
     lbs_extension = ext;
   } in
   addlb lbs lb
 
+let vb_of_lb lb =
+  Vb.mk ~loc:lb.lb_loc ~attrs:lb.lb_attributes
+    lb.lb_pattern lb.lb_expression
+
 let val_of_let_bindings ~loc lbs =
   let bindings =
-    List.map
-      (fun lb ->
-         Vb.mk ~loc:lb.lb_loc ~attrs:lb.lb_attributes
-           ~docs:(Lazy.force lb.lb_docs)
-           ~text:(Lazy.force lb.lb_text)
-           lb.lb_pattern lb.lb_expression)
+    Pcaml.vala_map (List.map
+                      (fun lb ->
+                        Vb.mk ~loc:lb.lb_loc ~attrs:lb.lb_attributes
+                          ~docs:(Lazy.force lb.lb_docs)
+                          ~text:(Lazy.force lb.lb_text)
+                          lb.lb_pattern lb.lb_expression))
       lbs.lbs_bindings
   in
-  let str = mkstr ~loc (Pstr_value(lbs.lbs_rec, vaval (List.rev bindings))) in
+  let str = mkstr ~loc (Pstr_value(lbs.lbs_rec, Pcaml.vala_map List.rev bindings)) in
   match lbs.lbs_extension with
   | None -> str
   | Some id -> ghstr ~loc (Pstr_extension((id, PStr [str]), []))
 
 let expr_of_let_bindings ~loc lbs body =
   let bindings =
-    List.map
-      (fun lb ->
-         Vb.mk ~loc:lb.lb_loc ~attrs:lb.lb_attributes
-           lb.lb_pattern lb.lb_expression)
+    Pcaml.vala_map (List.map vb_of_lb)
       lbs.lbs_bindings
   in
-    mkexp_attrs ~loc (Pexp_let(lbs.lbs_rec, vaval (List.rev bindings), body))
+    mkexp_attrs ~loc (Pexp_let(lbs.lbs_rec, Pcaml.vala_map List.rev bindings, body))
       (lbs.lbs_extension, [])
 
 let class_of_let_bindings ~loc lbs body =
   let bindings =
-    List.map
-      (fun lb ->
-         Vb.mk ~loc:lb.lb_loc ~attrs:lb.lb_attributes
-           lb.lb_pattern lb.lb_expression)
+    Pcaml.vala_map (List.map vb_of_lb)
       lbs.lbs_bindings
   in
     (* Our use of let_bindings(no_ext) guarantees the following: *)
     assert (lbs.lbs_extension = None);
-    mkclass ~loc (Pcl_let (lbs.lbs_rec, vaval (List.rev bindings), body))
+    mkclass ~loc (Pcl_let (lbs.lbs_rec, Pcaml.vala_map List.rev bindings, body))
 
 (* Alternatively, we could keep the generic module type in the Parsetree
    and extract the package type during type-checking. In that case,
@@ -889,6 +887,8 @@ The precedences must be listed from low to high.
 %type <Longident.t> parse_mod_longident
 %start parse_any_longident
 %type <Longident.t> parse_any_longident
+%start parse_value_binding
+%type <Parsetree.value_binding> parse_value_binding
 /* END AVOID */
 
 %type <Parsetree.expression list> expr_semi_list
@@ -1318,6 +1318,11 @@ parse_label_declaration:
 
 parse_match_case:
   match_case EOF
+    { $1 }
+;
+
+parse_value_binding:
+  value_binding EOF
     { $1 }
 ;
 /* END AVOID */
@@ -2658,9 +2663,16 @@ let_binding_body:
 ;
 (* The formal parameter EXT can be instantiated with ext or no_ext
    so as to indicate whether an extension is allowed or disallowed. *)
+value_binding:
+  body = let_binding_body
+  attrs2 = post_item_attributes
+ { vb_of_lb (mklb ~loc:$sloc true body attrs2) }
+;
 let_bindings(EXT):
     let_binding(EXT)                            { $1 }
   | let_bindings(EXT) and_let_binding           { addlb $1 $2 }
+  | LET rec_flag = vala(rec_flag, ANTI_RECFLAG) list = ANTI_LIST
+    { { lbs_bindings = Ploc.VaAnt list ; lbs_rec = rec_flag ; lbs_extension = None } }
 ;
 %inline let_binding(EXT):
   LET
@@ -3226,7 +3238,7 @@ str_exception_declaration:
   { let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Te.mk_exception ~attrs
-      (Te.rebind id lid ~attrs:(append_attrs_vala attrs1 attrs2) ~loc ~docs)
+      (Te.rebind id lid ~attrs:(append_list_vala attrs1 attrs2) ~loc ~docs)
     , ext }
 ;
 sig_exception_declaration:
@@ -3241,7 +3253,7 @@ sig_exception_declaration:
       let loc = make_loc ($startpos, $endpos(attrs2)) in
       let docs = symbol_docs $sloc in
       Te.mk_exception ~attrs
-        (Te.decl id ~vars ~args ?res ~attrs:(append_attrs_vala attrs1 attrs2) ~loc ~docs)
+        (Te.decl id ~vars ~args ?res ~attrs:(append_list_vala attrs1 attrs2) ~loc ~docs)
       , ext }
 ;
 %inline let_exception_declaration:
@@ -3287,7 +3299,7 @@ label_declaration_semi:
           | Some _ as info_before_semi -> info_before_semi
           | None -> symbol_info $endpos
        in
-       Type.field $2 $4 ~mut:$1 ~attrs:(append_attrs_vala $5 $7) ~loc:(make_loc $sloc) ~info }
+       Type.field $2 $4 ~mut:$1 ~attrs:(append_list_vala $5 $7) ~loc:(make_loc $sloc) ~info }
 ;
 
 /* Type Extensions */

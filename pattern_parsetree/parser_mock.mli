@@ -459,7 +459,7 @@ type let_binding = {
   lb_loc : Location.t;
 }
 type let_bindings = {
-  lbs_bindings : let_binding list;
+  lbs_bindings : let_binding list Ploc.vala;
   lbs_rec : Asttypes.rec_flag Ploc.vala;
   lbs_extension : string Asttypes.loc option;
 }
@@ -472,6 +472,7 @@ val addlb : let_bindings -> let_binding -> let_bindings
 val mklbs :
   string Asttypes.loc option ->
   Asttypes.rec_flag Ploc.vala -> let_binding -> let_bindings
+val vb_of_lb : let_binding -> Parsetree.value_binding
 val val_of_let_bindings :
   loc:Lexing.position * Lexing.position ->
   let_bindings -> Parsetree.structure_item
@@ -528,6 +529,7 @@ val xv_value_type :
   Asttypes.virtual_flag * Parsetree.core_type
 val xv_value_description :
   Parsetree.value_description * string Asttypes.loc option
+val xv_value_binding : Parsetree.value_binding
 val xv_value :
   (Asttypes.label Asttypes.loc * Asttypes.mutable_flag *
    Parsetree.class_field_kind) *
@@ -787,6 +789,7 @@ val xv_pattern_comma_list_pattern_ : Parsetree.pattern list
 val xv_pattern__pattern_no_exn_ : Parsetree.pattern
 val xv_pattern__pattern_ : Parsetree.pattern
 val xv_pattern : Parsetree.pattern
+val xv_parse_value_binding : Parsetree.value_binding
 val xv_parse_val_longident : Longident.t
 val xv_parse_structure_item : Parsetree.structure_item
 val xv_parse_pattern : Parsetree.pattern

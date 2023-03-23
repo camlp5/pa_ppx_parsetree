@@ -41,6 +41,8 @@ let case1 = [%case {| C x -> f x |}]
 let case2 = [%case {| D y when p y -> g y |}]
 let cases = [case1; case2]
 
+let vb1 = [%value_binding {| x = 1 |}]
+let vb2 = [%value_binding {| y = 2 |}]
 end
 
 module Helpers = struct
@@ -83,6 +85,15 @@ let test ctxt =
 
 ; assert_equal (li1, li2) (match [%extended_module_path {| $li1$ ($li2$) |}] with
                              [%extended_module_path {| $l$ ($m$) |}] -> (l,m))
+
+end
+
+module VB = struct
+
+open Fixtures
+
+let test ctxt = 
+  assert_equal [%value_binding {| x = 1 |}] [%value_binding {| x = 1 |}]
 
 end
 
@@ -144,10 +155,11 @@ let test3 ctxt =
 
 let test4 ctxt =
   let open Asttypes in
-  assert_equal Recursive (
+  assert_equal (Recursive, [vb1; vb2],e1) (
       let rf = Recursive in
-      match [%expression {| let $recflag:rf$ f x = f x in 1 |}] with
-                            [%expression {| let $recflag:rf'$ f x = f x in 1 |}] -> rf)
+      let vbl = [vb1; vb2] in
+      match [%expression {| let $recflag:rf$ $list:vbl$ in $e1$ |}] with
+        [%expression {| let $recflag:rf'$ $list:vbl'$ in $e1'$ |}] -> (rf',vbl',e1'))
 
 let test = "expression" >::: [
       "0"   >:: test0
@@ -284,6 +296,7 @@ end
 let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
       "longident"   >:: LI.test
     ; "extended_module_path"   >:: XM.test
+    ; "value_binding"   >:: VB.test
     ; EX.test
     ; "core_type"   >:: TY.test
     ; "constructor_declaration"   >:: CD.test

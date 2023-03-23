@@ -34,6 +34,7 @@ val constructor_declaration : Lexing.lexbuf -> Parsetree.constructor_declaration
 val attribute : Lexing.lexbuf -> Parsetree.attribute
 val label_declaration : Lexing.lexbuf -> Parsetree.label_declaration
 val match_case : Lexing.lexbuf -> Parsetree.case
+val value_binding : Lexing.lexbuf -> Parsetree.value_binding
 
 (** The functions below can be used to parse Longident safely. *)
 

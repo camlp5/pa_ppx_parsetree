@@ -40,7 +40,7 @@ type 'a vala = 'a Ploc.vala =
 
 val vaval : 'a -> 'a vala
 val unvala : 'a Ploc.vala -> 'a
-val append_attrs_vala : attrs vala -> attrs vala -> attrs vala
+val append_list_vala : 'a list vala -> 'a list vala -> 'a list vala
 
 (** {1 Default locations} *)
 
