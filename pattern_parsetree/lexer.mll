@@ -645,6 +645,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_WITHE (make_antiquotation "withe" loc payload)
      }
+  | "$" "recflag:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_RECFLAG (make_antiquotation "recflag" loc payload)
+     }
   | eof { EOF }
   | (_ as illegal_char)
       { error lexbuf (Illegal_character illegal_char) }

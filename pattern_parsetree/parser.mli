@@ -126,6 +126,7 @@ type token =
   | ANTI_UID of (string)
   | ANTI_TYP of (string)
   | ANTI_TUPLELIST of (string)
+  | ANTI_RECFLAG of (string)
   | ANTI_PRIV of (string)
   | ANTI_MUTABLE of (string)
   | ANTI_LONGID of (string)

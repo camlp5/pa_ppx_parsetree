@@ -125,6 +125,7 @@ type token =
   | ANTI_UID of string
   | ANTI_TYP of string
   | ANTI_TUPLELIST of string
+  | ANTI_RECFLAG of string
   | ANTI_PRIV of string
   | ANTI_MUTABLE of string
   | ANTI_LONGID of string
@@ -459,7 +460,7 @@ type let_binding = {
 }
 type let_bindings = {
   lbs_bindings : let_binding list;
-  lbs_rec : Asttypes.rec_flag;
+  lbs_rec : Asttypes.rec_flag Ploc.vala;
   lbs_extension : string Asttypes.loc option;
 }
 val mklb :
@@ -470,7 +471,7 @@ val mklb :
 val addlb : let_bindings -> let_binding -> let_bindings
 val mklbs :
   string Asttypes.loc option ->
-  Asttypes.rec_flag -> let_binding -> let_bindings
+  Asttypes.rec_flag Ploc.vala -> let_binding -> let_bindings
 val val_of_let_bindings :
   loc:Lexing.position * Lexing.position ->
   let_bindings -> Parsetree.structure_item
@@ -535,6 +536,7 @@ val xv_vala_val_ident_ANTI_LID_ : Asttypes.label Ast_helper.vala
 val xv_vala_separated_or_terminated_nonempty_list_SEMI_record_expr_field__ANTI_LIST_ :
   (Longident.t Ast_helper.vala Asttypes.loc * Parsetree.expression) list
   Ast_helper.vala
+val xv_vala_rec_flag_ANTI_RECFLAG_ : Asttypes.rec_flag Ast_helper.vala
 val xv_vala_private_flag_ANTI_PRIV_ : Asttypes.private_flag Ast_helper.vala
 val xv_vala_poly_type_no_attr_ANTI_TYP_ : Parsetree.core_type Ast_helper.vala
 val xv_vala_nonempty_llist_labeled_simple_expr__ANTI_LIST_ :

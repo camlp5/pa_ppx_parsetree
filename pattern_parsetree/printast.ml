@@ -260,8 +260,8 @@ and expression i ppf x =
   | Pexp_ident (li) -> line i ppf "Pexp_ident %a\n" fmt_longident_loc li;
   | Pexp_constant (c) -> line i ppf "Pexp_constant %a\n" fmt_constant c;
   | Pexp_let (rf, l, e) ->
-      line i ppf "Pexp_let %a\n" fmt_rec_flag rf;
-      list i value_binding ppf l;
+      line i ppf "Pexp_let %a\n" fmt_rec_flag (unvala rf);
+      list i value_binding ppf (unvala l);
       expression i ppf e;
   | Pexp_function l ->
       line i ppf "Pexp_function\n";
@@ -585,8 +585,8 @@ and class_expr i ppf x =
       class_expr i ppf ce;
       list i label_x_expression ppf l;
   | Pcl_let (rf, l, ce) ->
-      line i ppf "Pcl_let %a\n" fmt_rec_flag rf;
-      list i value_binding ppf l;
+      line i ppf "Pcl_let %a\n" fmt_rec_flag (unvala rf);
+      list i value_binding ppf (unvala l);
       class_expr i ppf ce;
   | Pcl_constraint (ce, ct) ->
       line i ppf "Pcl_constraint\n";
@@ -815,8 +815,8 @@ and structure_item i ppf x =
       attributes i ppf attrs;
       expression i ppf e;
   | Pstr_value (rf, l) ->
-      line i ppf "Pstr_value %a\n" fmt_rec_flag rf;
-      list i value_binding ppf l;
+      line i ppf "Pstr_value %a\n" fmt_rec_flag (unvala rf);
+      list i value_binding ppf (unvala l);
   | Pstr_primitive vd ->
       line i ppf "Pstr_primitive\n";
       value_description i ppf vd;

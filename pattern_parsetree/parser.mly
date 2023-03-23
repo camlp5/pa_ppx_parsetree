@@ -514,7 +514,7 @@ type let_binding =
 
 type let_bindings =
   { lbs_bindings: let_binding list;
-    lbs_rec: rec_flag;
+    lbs_rec: rec_flag Ploc.vala;
     lbs_extension: string Asttypes.loc option }
 
 let mklb first ~loc (p, e, is_pun) attrs =
@@ -551,7 +551,7 @@ let val_of_let_bindings ~loc lbs =
            lb.lb_pattern lb.lb_expression)
       lbs.lbs_bindings
   in
-  let str = mkstr ~loc (Pstr_value(lbs.lbs_rec, List.rev bindings)) in
+  let str = mkstr ~loc (Pstr_value(lbs.lbs_rec, vaval (List.rev bindings))) in
   match lbs.lbs_extension with
   | None -> str
   | Some id -> ghstr ~loc (Pstr_extension((id, PStr [str]), []))
@@ -564,7 +564,7 @@ let expr_of_let_bindings ~loc lbs body =
            lb.lb_pattern lb.lb_expression)
       lbs.lbs_bindings
   in
-    mkexp_attrs ~loc (Pexp_let(lbs.lbs_rec, List.rev bindings, body))
+    mkexp_attrs ~loc (Pexp_let(lbs.lbs_rec, vaval (List.rev bindings), body))
       (lbs.lbs_extension, [])
 
 let class_of_let_bindings ~loc lbs body =
@@ -577,7 +577,7 @@ let class_of_let_bindings ~loc lbs body =
   in
     (* Our use of let_bindings(no_ext) guarantees the following: *)
     assert (lbs.lbs_extension = None);
-    mkclass ~loc (Pcl_let (lbs.lbs_rec, List.rev bindings, body))
+    mkclass ~loc (Pcl_let (lbs.lbs_rec, vaval (List.rev bindings), body))
 
 (* Alternatively, we could keep the generic module type in the Parsetree
    and extract the package type during type-checking. In that case,
@@ -780,6 +780,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_MUTABLE
 %token <string> ANTI_WHENO
 %token <string> ANTI_WITHE
+%token <string> ANTI_RECFLAG
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -2665,7 +2666,7 @@ let_bindings(EXT):
   LET
   ext = EXT
   attrs1 = attributes
-  rec_flag = rec_flag
+  rec_flag = vala(rec_flag, ANTI_RECFLAG)
   body = let_binding_body
   attrs2 = post_item_attributes
     {

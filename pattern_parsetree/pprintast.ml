@@ -1329,12 +1329,12 @@ and bindings ctxt f (rf,l) =
     pp f "@[<2>%s %a%a@]%a" kwd rec_flag rf
       (binding ctxt) x (item_attributes ctxt) x.pvb_attributes
   in
-  match l with
+  match unvala l with
   | [] -> ()
-  | [x] -> binding "let" rf f x
+  | [x] -> binding "let" (unvala rf) f x
   | x::xs ->
       pp f "@[<v>%a@,%a@]"
-        (binding "let" rf) x
+        (binding "let" (unvala rf)) x
         (list ~sep:"@," (binding "and" Nonrecursive)) xs
 
 and binding_op ctxt f x =

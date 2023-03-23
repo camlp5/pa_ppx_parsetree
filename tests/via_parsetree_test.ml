@@ -142,12 +142,19 @@ let test3 ctxt =
       (match [%expression {| { x = 1 } |}] with
          [%expression {| { $list:l$  } |}] -> l)
 
+let test4 ctxt =
+  let open Asttypes in
+  assert_equal Recursive (
+      let rf = Recursive in
+      match [%expression {| let $recflag:rf$ f x = f x in 1 |}] with
+                            [%expression {| let $recflag:rf'$ f x = f x in 1 |}] -> rf)
 
 let test = "expression" >::: [
       "0"   >:: test0
     ; "1"   >:: test1
     ; "2"   >:: test2
     ; "3"   >:: test3
+    ; "4"   >:: test4
     ]
 
 end
