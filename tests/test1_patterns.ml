@@ -6,6 +6,8 @@
 <:expression< $int64:s$ >> ;
 <:expression< $nativeint:s$ >> ;
 <:expression< $char:x$ >> ;
+<:expression< $string:s1$ >> ;
+<:expression< $string:s1$ $delim:s2$ >> ;
 <:expression< let $recflag:x1$ $list:lx$ in $x2$ >>;
 <:expression< function $list:lx$ >>;
 <:expression< $x$ $list:lxx$ >>;

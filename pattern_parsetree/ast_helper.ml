@@ -61,7 +61,7 @@ module Const = struct
   let float ?suffix f = Pconst_float (Ploc.VaVal(f, suffix))
   let char c = Pconst_char (vaval c)
   let string ?quotation_delimiter ?(loc= !default_loc) s =
-    Pconst_string (vaval(s, loc, quotation_delimiter))
+    Pconst_string (vaval s, loc, Option.map vaval quotation_delimiter)
 end
 
 module Attr = struct

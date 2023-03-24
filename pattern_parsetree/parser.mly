@@ -469,7 +469,7 @@ let wrap_mksig_ext ~loc (item, ext) =
 
 let mk_quotedext ~loc (id, idloc, str, strloc, delim) =
   let exp_id = mkloc id idloc in
-  let e = ghexp ~loc (Pexp_constant (Pconst_string (vaval(str, strloc, delim)))) in
+  let e = ghexp ~loc (Pexp_constant (Pconst_string (vaval str, strloc, Option.map vaval delim))) in
   (exp_id, PStr [mkstrexp e []])
 
 let text_str pos = Str.text (rhs_text pos)
@@ -787,6 +787,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_NATIVEINT
 %token <string> ANTI_CHAR
 %token <string> ANTI_STRING
+%token <string> ANTI_DELIM
 %token <string> ANTI_FLOAT
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
@@ -853,7 +854,7 @@ The precedences must be listed from low to high.
           LBRACE LBRACELESS LBRACKET LBRACKETBAR LIDENT LPAREN
           NEW PREFIXOP STRING TRUE UIDENT
           LBRACKETPERCENT QUOTED_STRING_EXPR ANTI ANTI_UID ANTI_LID ANTI_LONGID
-          ANTI_INT ANTI_INT32 ANTI_INT64 ANTI_NATIVEINT ANTI_CHAR ANTI_STRING ANTI_FLOAT
+          ANTI_INT ANTI_INT32 ANTI_INT64 ANTI_NATIVEINT ANTI_CHAR ANTI_STRING ANTI_DELIM ANTI_FLOAT
 
 /* Entry points */
 
@@ -3687,14 +3688,15 @@ meth_list:
 constant:
   | INT          { let (n, m) = $1 in Pconst_integer (vaval n, m) }
   | CHAR         { Pconst_char (vaval $1) }
-  | STRING       { let (s, strloc, d) = $1 in Pconst_string (vaval(s, strloc, d)) }
+  | STRING       { let (s, strloc, d) = $1 in Pconst_string (vaval s, strloc, Option.map vaval d) }
   | FLOAT        { let (f, m) = $1 in Pconst_float (vaval(f, m)) }
   | ANTI_INT     { Pconst_integer (vaant $1, None) }
   | ANTI_INT32     { Pconst_integer (vaant $1, Some 'l') }
   | ANTI_INT64     { Pconst_integer (vaant $1, Some 'L') }
   | ANTI_NATIVEINT     { Pconst_integer (vaant $1, Some 'n') }
   | ANTI_CHAR     { Pconst_char (vaant $1) }
-  | ANTI_STRING     { Pconst_string (vaant $1) }
+  | ANTI_STRING     { Pconst_string (vaant $1, make_loc $sloc, None) }
+  | ANTI_STRING ANTI_DELIM     { Pconst_string (vaant $1, make_loc $sloc, Some (vaant $2)) }
   | ANTI_FLOAT     { Pconst_float (vaant $1) }
 ;
 signed_constant:

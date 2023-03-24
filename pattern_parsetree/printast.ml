@@ -70,9 +70,9 @@ let fmt_constant f x =
   match x with
   | Pconst_integer (Ploc.VaVal i,m) -> fprintf f "PConst_int (%s,%a)" i fmt_char_option m
   | Pconst_char (Ploc.VaVal c) -> fprintf f "PConst_char %02x" (Char.code c)
-  | Pconst_string (Ploc.VaVal (s, strloc, None)) ->
+  | Pconst_string (Ploc.VaVal s, strloc, None) ->
       fprintf f "PConst_string(%S,%a,None)" s fmt_location strloc
-  | Pconst_string (Ploc.VaVal (s, strloc, Some delim)) ->
+  | Pconst_string (Ploc.VaVal s, strloc, Some (Ploc.VaVal delim)) ->
       fprintf f "PConst_string (%S,%a,Some %S)" s fmt_location strloc delim
   | Pconst_float (Ploc.VaVal (s,m)) -> fprintf f "PConst_float (%s,%a)" s fmt_char_option m
 

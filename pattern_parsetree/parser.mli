@@ -140,6 +140,7 @@ type token =
   | ANTI_INT of (string)
   | ANTI_FLOAT of (string)
   | ANTI_EXPROPT of (string)
+  | ANTI_DELIM of (string)
   | ANTI_CONSTRUCTORLIST of (string)
   | ANTI_CHAR of (string)
   | ANTI_ALGATTRS of (string)

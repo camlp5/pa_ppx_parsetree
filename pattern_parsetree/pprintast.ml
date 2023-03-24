@@ -228,9 +228,9 @@ let longident_vala_loc f x = pp f "%a" longident (unvala x.txt)
 let constant f = function
   | Pconst_char (Ploc.VaVal i) ->
       pp f "%C"  i
-  | Pconst_string (Ploc.VaVal (i, _, None)) ->
+  | Pconst_string (Ploc.VaVal i, _, None) ->
       pp f "%S" i
-  | Pconst_string (Ploc.VaVal (i, _, Some delim)) ->
+  | Pconst_string (Ploc.VaVal i, _, Some (Ploc.VaVal delim)) ->
       pp f "{%s|%s|%s}" delim i delim
   | Pconst_integer (Ploc.VaVal i, None) ->
       paren (first_is '-' i) (fun f -> pp f "%s") f i
