@@ -4,3 +4,4 @@
 <:expression< $x$ $list:lxx$ >>;
 <:expression< match $x$ with $list:lx$ >>;
 <:expression< try $x$ with $list:lx$ >>;
+<:expression<  $tuplelist:lx$ >>;
