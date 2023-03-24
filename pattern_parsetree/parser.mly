@@ -2379,7 +2379,7 @@ let_pattern:
    X
      { vaval $1 }
   | anti
-     { Ploc.VaAnt $1 }
+     { vaant $1 }
 ;
 
 expr:
@@ -2877,7 +2877,7 @@ pattern_no_exn:
     | pattern_comma_list(self) %prec below_COMMA
         { Ppat_tuple(vaval (List.rev $1)) }
   | ANTI_TUPLELIST
-      { Ppat_tuple (Ploc.VaAnt $1) }
+      { Ppat_tuple (vaant $1) }
     | self COLONCOLON error
         { expecting $loc($3) "pattern" }
     | self BAR pattern
@@ -3508,7 +3508,7 @@ tuple_type:
       tys = separated_nontrivial_llist(STAR, atomic_type)
         { Ptyp_tuple (vaval tys) }
     | ANTI_TUPLELIST
-      { Ptyp_tuple (Ploc.VaAnt $1) }
+      { Ptyp_tuple (vaant $1) }
 
     )
     { $1 }
@@ -3538,7 +3538,7 @@ atomic_type:
         { Ptyp_constr(tid, vaval tys) }
     | ANTI_LIST
       tid = mkrhs(type_longident)
-        { Ptyp_constr(tid, VaAnt $1) }
+        { Ptyp_constr(tid, vaant $1) }
     | LESS meth_list GREATER
         { let (f, c) = $2 in Ptyp_object (f, c) }
     | LESS GREATER
