@@ -18,10 +18,14 @@
           expression_desc
         ; located
         ]
+      ; expand_types_per_constructor = [
+          (Pexp_ident, [longident_t])
+        ]
       ; type_module_map = {
           expression = Parsetree
         ; expression_desc = Parsetree
         ; located = Location
+        ; longident_t = Longident
         }
       }
   ]

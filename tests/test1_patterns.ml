@@ -1,4 +1,6 @@
 (**pp -package pa_ppx_parsetree_via_parsetree -syntax camlp5r *)
+<:expression< $lid:s$ >>;
+<:expression< $longid:x$ . $lid:s$ >>;
 <:expression< let $recflag:x1$ $list:lx$ in $x2$ >>;
 <:expression< function $list:lx$ >>;
 <:expression< $x$ $list:lxx$ >>;
