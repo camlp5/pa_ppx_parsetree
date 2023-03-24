@@ -34,6 +34,7 @@ type 'a vala = 'a Ploc.vala =
   | VaVal of 'a
 
 let vaval x = Ploc.VaVal x
+let vaant x = Ploc.VaAnt x
 
 let unvala = Pcaml.unvala
 let append_list_vala a1 a2 =

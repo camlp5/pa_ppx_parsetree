@@ -2370,6 +2370,11 @@ let_pattern:
    { vaval $1 }
 ;
 
+%inline vaant(X):
+   X
+   { vaant $1 }
+;
+
 %inline vala(X,anti):
    X
      { vaval $1 }
@@ -2449,8 +2454,8 @@ expr:
 %inline expr_:
   | simple_expr vala(nonempty_llist(labeled_simple_expr), ANTI_LIST)
       { Pexp_apply($1, Pcaml.vala_map (List.map (fun (a,b) -> (a, b))) $2) }
-  | ANTI_TUPLELIST
-      { Pexp_tuple (Ploc.VaAnt $1) }
+  | vaant(ANTI_TUPLELIST)
+      { Pexp_tuple $1 }
   | expr_comma_list %prec below_COMMA
       { Pexp_tuple(vaval($1)) }
   | mkrhs(constr_longident) simple_expr %prec below_HASH
@@ -2674,11 +2679,11 @@ let_bindings(EXT):
     ext = EXT
     attrs1 = attributes
     rec_flag = vala(rec_flag, ANTI_RECFLAG)
-    list = ANTI_LIST
+    list = vaant(ANTI_LIST)
     {
       match (ext, attrs1) with
         (None, []) ->
-        { lbs_bindings = Ploc.VaAnt list ; lbs_rec = rec_flag ; lbs_extension = None }
+        { lbs_bindings = list ; lbs_rec = rec_flag ; lbs_extension = None }
       | _ -> syntax_error()
     }
   | let_bindings(EXT) and_let_binding           { addlb $1 $2 }
@@ -2747,8 +2752,8 @@ strict_binding:
     { xs }
 ;
 match_case:
-    vaval(pattern) ANTI_WHENO MINUSGREATER vaval(seq_expr)
-      { Exp.case $1 (Ploc.VaAnt $2) $4 }
+    vaval(pattern) vaant(ANTI_WHENO) MINUSGREATER vaval(seq_expr)
+      { Exp.case $1 $2 $4 }
   | vaval(pattern) MINUSGREATER vaval(seq_expr)
       { Exp.case $1 (vaval None) $3 }
   | vaval(pattern) WHEN seq_expr MINUSGREATER vaval(seq_expr)

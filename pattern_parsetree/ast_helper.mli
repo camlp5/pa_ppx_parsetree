@@ -39,6 +39,7 @@ type 'a vala = 'a Ploc.vala =
   | VaVal of 'a
 
 val vaval : 'a -> 'a vala
+val vaant : string -> 'a vala
 val unvala : 'a Ploc.vala -> 'a
 val append_list_vala : 'a list vala -> 'a list vala -> 'a list vala
 

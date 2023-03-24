@@ -571,6 +571,10 @@ val xv_val_longident : Longident.t
 val xv_val_ident_vala : Asttypes.label Ast_helper.vala
 val xv_val_ident : Asttypes.label
 val xv_val_extra_ident : Asttypes.label
+val xv_vaant_ANTI_WHENO_ :
+  Parsetree.expression Ploc.vala option Ast_helper.vala
+val xv_vaant_ANTI_TUPLELIST_ : Parsetree.expression list Ast_helper.vala
+val xv_vaant_ANTI_LIST_ : let_binding list Ast_helper.vala
 val xv_use_file_element : Parsetree.toplevel_phrase list
 val xv_use_file : Parsetree.toplevel_phrase list
 val xv_typevar_list : Ast_helper.str list
