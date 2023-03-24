@@ -226,19 +226,19 @@ let longident_loc f x = pp f "%a" longident x.txt
 let longident_vala_loc f x = pp f "%a" longident (unvala x.txt)
 
 let constant f = function
-  | Pconst_char i ->
+  | Pconst_char (Ploc.VaVal i) ->
       pp f "%C"  i
-  | Pconst_string (i, _, None) ->
+  | Pconst_string (Ploc.VaVal (i, _, None)) ->
       pp f "%S" i
-  | Pconst_string (i, _, Some delim) ->
+  | Pconst_string (Ploc.VaVal (i, _, Some delim)) ->
       pp f "{%s|%s|%s}" delim i delim
-  | Pconst_integer (i, None) ->
+  | Pconst_integer (Ploc.VaVal i, None) ->
       paren (first_is '-' i) (fun f -> pp f "%s") f i
-  | Pconst_integer (i, Some m) ->
+  | Pconst_integer (Ploc.VaVal i, Some m) ->
       paren (first_is '-' i) (fun f (i, m) -> pp f "%s%c" i m) f (i,m)
-  | Pconst_float (i, None) ->
+  | Pconst_float (Ploc.VaVal (i, None)) ->
       paren (first_is '-' i) (fun f -> pp f "%s") f i
-  | Pconst_float (i, Some m) ->
+  | Pconst_float (Ploc.VaVal (i, Some m)) ->
       paren (first_is '-' i) (fun f (i,m) -> pp f "%s%c" i m) f (i,m)
 
 (* trailing space*)

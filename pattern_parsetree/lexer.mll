@@ -660,6 +660,43 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_PATTOPT (make_antiquotation "pattopt" loc payload)
      }
+  | "$" "int:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_INT (make_antiquotation "int" loc payload)
+     }
+  | "$" "int32:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_INT32 (make_antiquotation "int32" loc payload)
+     }
+  | "$" "int64:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_INT64 (make_antiquotation "int64" loc payload)
+     }
+  | "$" "nativeint:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_NATIVEINT (make_antiquotation "nativeint" loc payload)
+     }
+
+  | "$" "char:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_CHAR (make_antiquotation "char" loc payload)
+     }
+  | "$" "string:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_STRING (make_antiquotation "string" loc payload)
+     }
+  | "$" "float:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_FLOAT (make_antiquotation "float" loc payload)
+     }
+
   | eof { EOF }
   | (_ as illegal_char)
       { error lexbuf (Illegal_character illegal_char) }

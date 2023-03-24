@@ -125,15 +125,22 @@ type token =
   | ANTI_UID of string
   | ANTI_TYP of string
   | ANTI_TUPLELIST of string
+  | ANTI_STRING of string
   | ANTI_RECFLAG of string
   | ANTI_PRIV of string
   | ANTI_PATTOPT of string
+  | ANTI_NATIVEINT of string
   | ANTI_MUTABLE of string
   | ANTI_LONGID of string
   | ANTI_LIST of string
   | ANTI_LID of string
+  | ANTI_INT64 of string
+  | ANTI_INT32 of string
+  | ANTI_INT of string
+  | ANTI_FLOAT of string
   | ANTI_EXPROPT of string
   | ANTI_CONSTRUCTORLIST of string
+  | ANTI_CHAR of string
   | ANTI_ALGATTRS of string
   | ANTI of string
   | ANDOP of string
