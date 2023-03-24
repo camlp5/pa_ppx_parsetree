@@ -43,6 +43,7 @@ parser.cmx: parser.ml
 	$(LAUNCH) $(YAWRAP) $(OCAMLFIND) ocamlopt $(OCAMLCFLAGS) -package $(PACKAGES) -c $<
 
 parser.ml: parser.mly
+	menhir --only-preprocess $< > parser_expanded.mly
 	menhir --infer-write-query parser_mock.ml $<
 	perl -p -e 's,# \d+.*,,' parser_mock.ml > parser_mock_nolines.ml
 	ocamlfind ocamlc -package camlp5 -c parser_mock_nolines.ml || true

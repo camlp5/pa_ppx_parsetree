@@ -60,8 +60,8 @@ let test ctxt =
 
   ; assert_equal (m, l) (match [%longident_t {| $uid:m$ . $lid:l$ |}] with
                            [%longident_t {| $uid:m2$ . $lid:l2$ |}] -> (m2,l2))
-  ; assert_equal (li1,l) (match [%longident_t {| $li1$. $lid:l$ |}] with
-                            [%longident_t {| $li2$. $lid:l2$ |}] -> (li2,l2))
+  ; assert_equal (li1,l) (match [%longident_t {| $longid:li1$. $lid:l$ |}] with
+                            [%longident_t {| $longid:li2$. $lid:l2$ |}] -> (li2,l2))
 
 end
 
@@ -80,11 +80,11 @@ let test ctxt =
 ; assert_equal (m, n) (match [%extended_module_path {| $uid:m$. $uid:n$ |}] with
                           [%extended_module_path {| $uid:m2$. $uid:l2$ |}] -> (m2,l2))
 
-; assert_equal (li1, m) (match [%extended_module_path {| $li1$. $uid:m$ |}] with
-                           [%extended_module_path {| $li2$. $uid:m2$ |}] -> (li2,m2))
+; assert_equal (li1, m) (match [%extended_module_path {| $longid:li1$. $uid:m$ |}] with
+                           [%extended_module_path {| $longid:li2$. $uid:m2$ |}] -> (li2,m2))
 
-; assert_equal (li1, li2) (match [%extended_module_path {| $li1$ ($li2$) |}] with
-                             [%extended_module_path {| $l$ ($m$) |}] -> (l,m))
+; assert_equal (li1, li2) (match [%extended_module_path {| $longid:li1$ ($longid:li2$) |}] with
+                             [%extended_module_path {| $longid:l$ ($longid:m$) |}] -> (l,m))
 
 end
 
@@ -153,7 +153,7 @@ let test3 ctxt =
       (match [%expression {| { x = 1 } |}] with
          [%expression {| { $list:l$  } |}] -> l)
 
-let test4 ctxt =
+let test_let ctxt =
   let open Asttypes in
   assert_equal (Recursive, [vb1; vb2],e1) (
       let rf = Recursive in
@@ -161,12 +161,60 @@ let test4 ctxt =
       match [%expression {| let $recflag:rf$ $list:vbl$ in $e1$ |}] with
         [%expression {| let $recflag:rf'$ $list:vbl'$ in $e1'$ |}] -> (rf',vbl',e1'))
 
+let test_function ctxt =
+  let open Asttypes in
+  assert_equal cases (
+      match [%expression {| function $list:cases$ |}] with
+        [%expression {| function $list:cases'$ |}] -> cases')
+
+let test_try ctxt =
+  let open Asttypes in
+  assert_equal (e1,cases) (
+      match [%expression {| try $e1$ with $list:cases$ |}] with
+        [%expression {| try $e1'$ with $list:cases'$ |}] -> (e1',cases'))
+
+let test_construct ctxt =
+  let open Asttypes in
+  assert_equal () (
+      match [%expression {| C |}] with
+        [%expression {| C |}] -> ())
+  ; begin
+      let eopt = Some [%expression {| ($e1$, $e2$)|}] in
+      assert_equal (li1, eopt) (
+          match [%expression {| $longid:li1$ $expropt:eopt$ |}] with
+            [%expression {| $longid:l'$ $expropt:eopt'$ |}] -> (l',eopt'))
+    end
+
+let test_fun ctxt =
+  let open Asttypes in
+  let lab = Nolabel in
+  let eopt = None in
+  assert_equal lab (
+      match [%expression {| fun $label:lab$ ( x ) -> 1 |}] with
+        [%expression {| fun $label:lab'$ ( x ) -> 1 |}] -> lab')
+  ; assert_equal lab (
+        match [%expression {| fun $label:lab$ ( x = 2 ) -> 1 |}] with
+          [%expression {| fun $label:lab'$ ( x = 2 ) -> 1 |}] -> lab')
+  ; assert_equal (lab, None) (
+        match [%expression {| fun $label:lab$ ( x $expropt:eopt$ ) -> 1 |}] with
+          [%expression {| fun $label:lab'$ ( x $expropt:eopt'$ ) -> 1 |}] -> (lab',eopt'))
+  ; assert_equal (lab, p1, None) (
+        match [%expression {| fun $label:lab$ ( $p1$ $expropt:eopt$ ) -> 1 |}] with
+          [%expression {| fun $label:lab'$ ( $p1'$ $expropt:eopt'$ ) -> 1 |}] -> (lab',p1', eopt'))
+  ; assert_equal (lab, p1, None, e2) (
+        match [%expression {| fun $label:lab$ ( $p1$ $expropt:eopt$ ) -> $e2$ |}] with
+          [%expression {| fun $label:lab'$ ( $p1'$ $expropt:eopt'$ ) -> $e2'$ |}] -> (lab',p1', eopt', e2'))
+
 let test = "expression" >::: [
       "0"   >:: test0
     ; "1"   >:: test1
     ; "2"   >:: test2
     ; "3"   >:: test3
-    ; "4"   >:: test4
+    ; "let"   >:: test_let
+    ; "function"   >:: test_function
+    ; "try"   >:: test_try
+    ; "construct"   >:: test_construct
+    ; "fun"   >:: test_fun
     ]
 
 end

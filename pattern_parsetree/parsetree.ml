@@ -23,20 +23,20 @@
 open Asttypes
 
 type constant =
-  | Pconst_integer of string * char option
+  | Pconst_integer of string Ploc.vala * char option
       (** Integer constants such as [3] [3l] [3L] [3n].
 
      Suffixes [[g-z][G-Z]] are accepted by the parser.
      Suffixes except ['l'], ['L'] and ['n'] are rejected by the typechecker
   *)
-  | Pconst_char of char  (** Character such as ['c']. *)
-  | Pconst_string of string * Location.t * string option
+  | Pconst_char of char Ploc.vala  (** Character such as ['c']. *)
+  | Pconst_string of string Ploc.vala * Location.t * string Ploc.vala option
       (** Constant string such as ["constant"] or
           [{delim|other constant|delim}].
 
      The location span the content of the string, without the delimiters.
   *)
-  | Pconst_float of string * char option
+  | Pconst_float of string Ploc.vala * char option
       (** Float constant such as [3.4], [2e5] or [1.4e-4].
 
      Suffixes [g-z][G-Z] are accepted by the parser.
@@ -235,7 +235,7 @@ and pattern_desc =
 
            Invariant: [n >= 2]
         *)
-  | Ppat_construct of Longident.t loc * (string loc list * pattern) option
+  | Ppat_construct of Longident.t Ploc.vala loc * (string loc list * pattern) option Ploc.vala
       (** [Ppat_construct(C, args)] represents:
             - [C]               when [args] is [None],
             - [C P]             when [args] is [Some ([], P)]
@@ -299,8 +299,8 @@ and expression_desc =
             - [let rec P1 = E1 and ... and Pn = EN in E]
                when [flag] is {{!Asttypes.rec_flag.Recursive}[Recursive]}.
          *)
-  | Pexp_function of case list  (** [function P1 -> E1 | ... | Pn -> En] *)
-  | Pexp_fun of arg_label * expression option * pattern * expression
+  | Pexp_function of case list Ploc.vala  (** [function P1 -> E1 | ... | Pn -> En] *)
+  | Pexp_fun of arg_label Ploc.vala * expression option Ploc.vala * pattern * expression
       (** [Pexp_fun(lbl, exp0, P, E1)] represents:
             - [fun P -> E1]
                       when [lbl] is {{!Asttypes.arg_label.Nolabel}[Nolabel]}
@@ -336,14 +336,14 @@ and expression_desc =
          *)
   | Pexp_match of expression * case list Ploc.vala
       (** [match E0 with P1 -> E1 | ... | Pn -> En] *)
-  | Pexp_try of expression * case list
+  | Pexp_try of expression * case list Ploc.vala
       (** [try E0 with P1 -> E1 | ... | Pn -> En] *)
   | Pexp_tuple of expression list Ploc.vala
       (** Expressions [(E1, ..., En)]
 
            Invariant: [n >= 2]
         *)
-  | Pexp_construct of Longident.t loc * expression option
+  | Pexp_construct of Longident.t Ploc.vala loc * expression option Ploc.vala
       (** [Pexp_construct(C, exp)] represents:
            - [C]               when [exp] is [None],
            - [C E]             when [exp] is [Some E],
@@ -699,7 +699,7 @@ and class_expr_desc =
   | Pcl_constr of Longident.t loc * core_type list
       (** [c] and [['a1, ..., 'an] c] *)
   | Pcl_structure of class_structure  (** [object ... end] *)
-  | Pcl_fun of arg_label * expression option * pattern * class_expr
+  | Pcl_fun of arg_label Ploc.vala * expression option Ploc.vala * pattern * class_expr
       (** [Pcl_fun(lbl, exp0, P, CE)] represents:
             - [fun P -> CE]
                      when [lbl]  is {{!Asttypes.arg_label.Nolabel}[Nolabel]}

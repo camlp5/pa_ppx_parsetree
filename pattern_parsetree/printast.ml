@@ -50,6 +50,9 @@ let fmt_longident f x = fprintf f "\"%a\"" fmt_longident_aux x
 let fmt_longident_loc f (x : Longident.t loc) =
   fprintf f "\"%a\" %a" fmt_longident_aux x.txt fmt_location x.loc
 
+let fmt_longident_vala_loc f (x : Longident.t Ploc.vala loc) =
+  fprintf f "\"%a\" %a" fmt_longident_aux (unvala x.txt) fmt_location x.loc
+
 let fmt_string_loc f (x : string loc) =
   fprintf f "\"%s\" %a" x.txt fmt_location x.loc
 
@@ -65,13 +68,13 @@ let fmt_char_option f = function
 
 let fmt_constant f x =
   match x with
-  | Pconst_integer (i,m) -> fprintf f "PConst_int (%s,%a)" i fmt_char_option m
-  | Pconst_char (c) -> fprintf f "PConst_char %02x" (Char.code c)
-  | Pconst_string (s, strloc, None) ->
+  | Pconst_integer (Ploc.VaVal i,m) -> fprintf f "PConst_int (%s,%a)" i fmt_char_option m
+  | Pconst_char (Ploc.VaVal c) -> fprintf f "PConst_char %02x" (Char.code c)
+  | Pconst_string (Ploc.VaVal s, strloc, None) ->
       fprintf f "PConst_string(%S,%a,None)" s fmt_location strloc
-  | Pconst_string (s, strloc, Some delim) ->
+  | Pconst_string (Ploc.VaVal s, strloc, Some (Ploc.VaVal delim)) ->
       fprintf f "PConst_string (%S,%a,Some %S)" s fmt_location strloc delim
-  | Pconst_float (s,m) -> fprintf f "PConst_float (%s,%a)" s fmt_char_option m
+  | Pconst_float (Ploc.VaVal s,m) -> fprintf f "PConst_float (%s,%a)" s fmt_char_option m
 
 let fmt_mutable_flag f x =
   match x with
@@ -211,12 +214,12 @@ and pattern i ppf x =
       line i ppf "Ppat_tuple\n";
       list i pattern ppf l;
   | Ppat_construct (li, po) ->
-      line i ppf "Ppat_construct %a\n" fmt_longident_loc li;
+      line i ppf "Ppat_construct %a\n" fmt_longident_vala_loc li;
       option i
         (fun i ppf (vl, p) ->
           list i string_loc ppf vl;
           pattern i ppf p)
-        ppf po
+        ppf (unvala po)
   | Ppat_variant (l, po) ->
       line i ppf "Ppat_variant \"%s\"\n" (unvala l);
       option i pattern ppf po;
@@ -265,11 +268,11 @@ and expression i ppf x =
       expression i ppf e;
   | Pexp_function l ->
       line i ppf "Pexp_function\n";
-      list i case ppf l;
+      list i case ppf (unvala l);
   | Pexp_fun (l, eo, p, e) ->
       line i ppf "Pexp_fun\n";
-      arg_label i ppf l;
-      option i expression ppf eo;
+      arg_label i ppf (unvala l);
+      option i expression ppf (unvala eo);
       pattern i ppf p;
       expression i ppf e;
   | Pexp_apply (e, l) ->
@@ -283,13 +286,13 @@ and expression i ppf x =
   | Pexp_try (e, l) ->
       line i ppf "Pexp_try\n";
       expression i ppf e;
-      list i case ppf l;
+      list i case ppf (unvala l);
   | Pexp_tuple (l) ->
       line i ppf "Pexp_tuple\n";
       list i expression ppf (unvala l);
   | Pexp_construct (li, eo) ->
-      line i ppf "Pexp_construct %a\n" fmt_longident_loc li;
-      option i expression ppf eo;
+      line i ppf "Pexp_construct %a\n" fmt_longident_vala_loc li;
+      option i expression ppf (unvala eo);
   | Pexp_variant (l, eo) ->
       line i ppf "Pexp_variant \"%s\"\n" (unvala l);
       option i expression ppf eo;
@@ -576,8 +579,8 @@ and class_expr i ppf x =
       class_structure i ppf cs;
   | Pcl_fun (l, eo, p, e) ->
       line i ppf "Pcl_fun\n";
-      arg_label i ppf l;
-      option i expression ppf eo;
+      arg_label i ppf (unvala l);
+      option i expression ppf (unvala eo);
       pattern i ppf p;
       class_expr i ppf e;
   | Pcl_apply (ce, l) ->

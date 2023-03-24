@@ -123,7 +123,7 @@ module Pat:
     val interval: ?loc:loc -> ?attrs:attrs -> constant -> constant -> pattern
     val tuple: ?loc:loc -> ?attrs:attrs -> pattern list Ploc.vala -> pattern
     val construct: ?loc:loc -> ?attrs:attrs ->
-      lid -> (str list * pattern) option -> pattern
+      lid_vala -> (str list * pattern) option Ploc.vala -> pattern
     val variant: ?loc:loc -> ?attrs:attrs -> label Ploc.vala -> pattern option -> pattern
     val record: ?loc:loc -> ?attrs:attrs -> (lid * pattern) list -> closed_flag
                 -> pattern
@@ -148,16 +148,16 @@ module Exp:
     val constant: ?loc:loc -> ?attrs:attrs -> constant -> expression
     val let_: ?loc:loc -> ?attrs:attrs -> rec_flag Ploc.vala -> value_binding list Ploc.vala
               -> expression -> expression
-    val fun_: ?loc:loc -> ?attrs:attrs -> arg_label -> expression option
+    val fun_: ?loc:loc -> ?attrs:attrs -> arg_label Ploc.vala -> expression option Ploc.vala
               -> pattern -> expression -> expression
-    val function_: ?loc:loc -> ?attrs:attrs -> case list -> expression
+    val function_: ?loc:loc -> ?attrs:attrs -> case list Ploc.vala -> expression
     val apply: ?loc:loc -> ?attrs:attrs -> expression
                -> (arg_label * expression) list Ploc.vala -> expression
     val match_: ?loc:loc -> ?attrs:attrs -> expression -> case list Ploc.vala
                 -> expression
-    val try_: ?loc:loc -> ?attrs:attrs -> expression -> case list -> expression
+    val try_: ?loc:loc -> ?attrs:attrs -> expression -> case list Ploc.vala -> expression
     val tuple: ?loc:loc -> ?attrs:attrs -> expression list vala -> expression
-    val construct: ?loc:loc -> ?attrs:attrs -> lid -> expression option
+    val construct: ?loc:loc -> ?attrs:attrs -> lid_vala -> expression option Ploc.vala
                    -> expression
     val variant: ?loc:loc -> ?attrs:attrs -> label Ploc.vala -> expression option
                  -> expression
@@ -429,7 +429,7 @@ module Cl:
 
     val constr: ?loc:loc -> ?attrs:attrs -> lid -> core_type list -> class_expr
     val structure: ?loc:loc -> ?attrs:attrs -> class_structure -> class_expr
-    val fun_: ?loc:loc -> ?attrs:attrs -> arg_label -> expression option ->
+    val fun_: ?loc:loc -> ?attrs:attrs -> arg_label Ploc.vala -> expression option Ploc.vala ->
       pattern -> class_expr -> class_expr
     val apply: ?loc:loc -> ?attrs:attrs -> class_expr ->
       (arg_label * expression) list -> class_expr

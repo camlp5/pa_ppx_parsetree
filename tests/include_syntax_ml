@@ -40,10 +40,9 @@ let f = function
 
 #trace Pa_ppx_parsetree_via_parsetree.Q_parsetree.Regular.parse_expression ;;
 #trace Pa_ppx_parsetree_via_parsetree.Q_parsetree.Regular.E.location_stack ;;
-{|
-let f = function
-  <:expression< $_$ + $_$ >> ->  1
-|} |> PAPR.Implem.pa1 |> PAPR.Implem.pr |> print_string ;;
+{foo|
+[%expression {| fun $label:lab$ ( $patt:p1$ $expropt:eopt$ ) -> 1 |}]
+|foo} |> PAPR.Implem.pa1 |> PAPR.Implem.pr |> print_string ;;
 
 (*
 ;;; Local Variables: ***

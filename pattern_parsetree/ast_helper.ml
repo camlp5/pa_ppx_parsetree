@@ -53,15 +53,15 @@ let loc_map (f : 'a -> 'b) (x : 'a Location.loc) : 'b Location.loc =
   { x with txt = f x.txt }
 
 module Const = struct
-  let integer ?suffix i = Pconst_integer (i, suffix)
+  let integer ?suffix i = Pconst_integer (Ploc.VaVal i, suffix)
   let int ?suffix i = integer ?suffix (Int.to_string i)
   let int32 ?(suffix='l') i = integer ~suffix (Int32.to_string i)
   let int64 ?(suffix='L') i = integer ~suffix (Int64.to_string i)
   let nativeint ?(suffix='n') i = integer ~suffix (Nativeint.to_string i)
-  let float ?suffix f = Pconst_float (f, suffix)
-  let char c = Pconst_char c
+  let float ?suffix f = Pconst_float (Ploc.VaVal f, suffix)
+  let char c = Pconst_char (vaval c)
   let string ?quotation_delimiter ?(loc= !default_loc) s =
-    Pconst_string (s, loc, quotation_delimiter)
+    Pconst_string (vaval s, loc, Option.map vaval quotation_delimiter)
 end
 
 module Attr = struct
