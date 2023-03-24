@@ -2424,7 +2424,7 @@ expr:
       { let open_loc = make_loc ($startpos($2), $endpos($5)) in
         let od = Opn.mk $5 ~override:$3 ~loc:open_loc in
         Pexp_open(od, $7), $4 }
-  | FUNCTION ext_attributes match_cases
+  | FUNCTION ext_attributes vala(match_cases, ANTI_LIST)
       { Pexp_function $3, $2 }
   | FUN ext_attributes labeled_simple_pattern fun_def
       { let (l,o,p) = $3 in
@@ -2433,7 +2433,7 @@ expr:
       { (mk_newtypes ~loc:$sloc $5 $7).pexp_desc, $2 }
   | MATCH ext_attributes seq_expr WITH vala(match_cases, ANTI_LIST)
       { Pexp_match($3, $5), $2 }
-  | TRY ext_attributes seq_expr WITH match_cases
+  | TRY ext_attributes seq_expr WITH vala(match_cases, ANTI_LIST)
       { Pexp_try($3, $5), $2 }
   | TRY ext_attributes seq_expr WITH error
       { syntax_error() }

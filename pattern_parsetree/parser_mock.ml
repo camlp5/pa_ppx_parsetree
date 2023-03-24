@@ -15261,7 +15261,7 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2436 "parser.mly"
                                     _5
 # 15710 "parser_mock.ml"
-   : 'tv_match_cases) (_startpos__5_ : Lexing.position) (_endpos__5_ : Lexing.position) (_startofs__5_ : int) (_endofs__5_ : int) (_loc__5_ : Lexing.position * Lexing.position) (
+   : 'tv_vala_match_cases_ANTI_LIST_) (_startpos__5_ : Lexing.position) (_endpos__5_ : Lexing.position) (_startofs__5_ : int) (_endofs__5_ : int) (_loc__5_ : Lexing.position * Lexing.position) (
 # 2436 "parser.mly"
                                _4
 # 15714 "parser_mock.ml"
@@ -15370,7 +15370,7 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
 # 2427 "parser.mly"
                            _3
 # 15819 "parser_mock.ml"
-   : 'tv_match_cases) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+   : 'tv_vala_match_cases_ANTI_LIST_) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
 # 2427 "parser.mly"
             _2
 # 15823 "parser_mock.ml"

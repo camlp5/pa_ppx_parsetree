@@ -299,7 +299,7 @@ and expression_desc =
             - [let rec P1 = E1 and ... and Pn = EN in E]
                when [flag] is {{!Asttypes.rec_flag.Recursive}[Recursive]}.
          *)
-  | Pexp_function of case list  (** [function P1 -> E1 | ... | Pn -> En] *)
+  | Pexp_function of case list Ploc.vala  (** [function P1 -> E1 | ... | Pn -> En] *)
   | Pexp_fun of arg_label * expression option * pattern * expression
       (** [Pexp_fun(lbl, exp0, P, E1)] represents:
             - [fun P -> E1]
@@ -336,7 +336,7 @@ and expression_desc =
          *)
   | Pexp_match of expression * case list Ploc.vala
       (** [match E0 with P1 -> E1 | ... | Pn -> En] *)
-  | Pexp_try of expression * case list
+  | Pexp_try of expression * case list Ploc.vala
       (** [try E0 with P1 -> E1 | ... | Pn -> En] *)
   | Pexp_tuple of expression list Ploc.vala
       (** Expressions [(E1, ..., En)]

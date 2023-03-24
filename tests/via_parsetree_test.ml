@@ -153,7 +153,7 @@ let test3 ctxt =
       (match [%expression {| { x = 1 } |}] with
          [%expression {| { $list:l$  } |}] -> l)
 
-let test4 ctxt =
+let test_let ctxt =
   let open Asttypes in
   assert_equal (Recursive, [vb1; vb2],e1) (
       let rf = Recursive in
@@ -161,12 +161,19 @@ let test4 ctxt =
       match [%expression {| let $recflag:rf$ $list:vbl$ in $e1$ |}] with
         [%expression {| let $recflag:rf'$ $list:vbl'$ in $e1'$ |}] -> (rf',vbl',e1'))
 
+let test_function ctxt =
+  let open Asttypes in
+  assert_equal cases (
+      match [%expression {| function $list:cases$ |}] with
+        [%expression {| function $list:cases'$ |}] -> cases')
+
 let test = "expression" >::: [
       "0"   >:: test0
     ; "1"   >:: test1
     ; "2"   >:: test2
     ; "3"   >:: test3
-    ; "4"   >:: test4
+    ; "let"   >:: test_let
+    ; "function"   >:: test_function
     ]
 
 end

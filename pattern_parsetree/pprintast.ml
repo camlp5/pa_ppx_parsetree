@@ -631,7 +631,7 @@ and expression ctxt f (x : expression) =
         pp f "@[<2>fun@;(type@;%s)@;->@;%a@]" lid.txt
           (expression ctxt) e
     | Pexp_function l ->
-        pp f "@[<hv>function%a@]" (case_list ctxt) l
+        pp f "@[<hv>function%a@]" (case_list ctxt) (unvala l)
     | Pexp_match (e, l) ->
         pp f "@[<hv0>@[<hv0>@[<2>match %a@]@ with@]%a@]"
           (expression reset_ctxt) e (case_list ctxt) (unvala l)
@@ -639,7 +639,7 @@ and expression ctxt f (x : expression) =
     | Pexp_try (e, l) ->
         pp f "@[<0>@[<hv2>try@ %a@]@ @[<0>with%a@]@]"
              (* "try@;@[<2>%a@]@\nwith@\n%a"*)
-          (expression reset_ctxt) e  (case_list ctxt) l
+          (expression reset_ctxt) e  (case_list ctxt) (unvala l)
     | Pexp_let (rf, l, e) ->
         (* pp f "@[<2>let %a%a in@;<1 -2>%a@]"
            (*no indentation here, a new line*) *)

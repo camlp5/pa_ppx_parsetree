@@ -150,12 +150,12 @@ module Exp:
               -> expression -> expression
     val fun_: ?loc:loc -> ?attrs:attrs -> arg_label -> expression option
               -> pattern -> expression -> expression
-    val function_: ?loc:loc -> ?attrs:attrs -> case list -> expression
+    val function_: ?loc:loc -> ?attrs:attrs -> case list Ploc.vala -> expression
     val apply: ?loc:loc -> ?attrs:attrs -> expression
                -> (arg_label * expression) list Ploc.vala -> expression
     val match_: ?loc:loc -> ?attrs:attrs -> expression -> case list Ploc.vala
                 -> expression
-    val try_: ?loc:loc -> ?attrs:attrs -> expression -> case list -> expression
+    val try_: ?loc:loc -> ?attrs:attrs -> expression -> case list Ploc.vala -> expression
     val tuple: ?loc:loc -> ?attrs:attrs -> expression list vala -> expression
     val construct: ?loc:loc -> ?attrs:attrs -> lid -> expression option
                    -> expression

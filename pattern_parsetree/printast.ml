@@ -265,7 +265,7 @@ and expression i ppf x =
       expression i ppf e;
   | Pexp_function l ->
       line i ppf "Pexp_function\n";
-      list i case ppf l;
+      list i case ppf (unvala l);
   | Pexp_fun (l, eo, p, e) ->
       line i ppf "Pexp_fun\n";
       arg_label i ppf l;
@@ -283,7 +283,7 @@ and expression i ppf x =
   | Pexp_try (e, l) ->
       line i ppf "Pexp_try\n";
       expression i ppf e;
-      list i case ppf l;
+      list i case ppf (unvala l);
   | Pexp_tuple (l) ->
       line i ppf "Pexp_tuple\n";
       list i expression ppf (unvala l);
