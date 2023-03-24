@@ -34,6 +34,8 @@ OPPFLAGS=-ppopt -l -ppopt 400 -ppopt -flag -ppopt M -ppopt -sep -ppopt '\n'
 QUOTPACKAGES=pa_ppx_q_ast.quotation_test,pa_ppx_q_ast.test_cleanup
 #QUOTPACKAGES=pa_ppx_q_ast.quotation_test
 
+.SECONDARY:
+
 %.TEST: %.patterns_out %.types_out
 	diff -Bwiu $^ || true
 

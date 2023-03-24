@@ -235,7 +235,7 @@ and pattern_desc =
 
            Invariant: [n >= 2]
         *)
-  | Ppat_construct of Longident.t loc * (string loc list * pattern) option
+  | Ppat_construct of Longident.t Ploc.vala loc * (string loc list * pattern) option Ploc.vala
       (** [Ppat_construct(C, args)] represents:
             - [C]               when [args] is [None],
             - [C P]             when [args] is [Some ([], P)]
@@ -343,7 +343,7 @@ and expression_desc =
 
            Invariant: [n >= 2]
         *)
-  | Pexp_construct of Longident.t loc * expression option
+  | Pexp_construct of Longident.t Ploc.vala loc * expression option Ploc.vala
       (** [Pexp_construct(C, exp)] represents:
            - [C]               when [exp] is [None],
            - [C E]             when [exp] is [Some E],

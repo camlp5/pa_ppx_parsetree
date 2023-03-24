@@ -133,22 +133,22 @@ type construct =
   | `list of expression list
   | `nil
   | `normal
-  | `simple of Longident.t
+  | `simple of Longident.t Ploc.vala
   | `tuple ]
 
 let view_expr x =
   match x.pexp_desc with
-  | Pexp_construct ( {txt= Lident (Ploc.VaVal "()"); _},_) -> `tuple
-  | Pexp_construct ( {txt= Lident (Ploc.VaVal "[]");_},_) -> `nil
-  | Pexp_construct ( {txt= Lident (Ploc.VaVal "::");_},Some _) ->
+  | Pexp_construct ( {txt= VaVal (Lident (Ploc.VaVal "()")); _},_) -> `tuple
+  | Pexp_construct ( {txt= VaVal (Lident (Ploc.VaVal "[]"));_},_) -> `nil
+  | Pexp_construct ( {txt= VaVal (Lident (Ploc.VaVal "::"));_},VaVal (Some _)) ->
       let rec loop exp acc = match exp with
-          | {pexp_desc=Pexp_construct ({txt=Lident (Ploc.VaVal "[]");_},_);
+          | {pexp_desc=Pexp_construct ({txt=VaVal (Lident (Ploc.VaVal "[]"));_},_);
              pexp_attributes = []} ->
               (List.rev acc,true)
           | {pexp_desc=
-             Pexp_construct ({txt=Lident (Ploc.VaVal "::");_},
-                             Some ({pexp_desc= Pexp_tuple(Ploc.VaVal[e1;e2]);
-                                    pexp_attributes = []}));
+             Pexp_construct ({txt=VaVal (Lident (Ploc.VaVal "::"));_},
+                             VaVal (Some ({pexp_desc= Pexp_tuple(Ploc.VaVal[e1;e2]);
+                                           pexp_attributes = []})));
              pexp_attributes = []}
             ->
               loop e2 (e1::acc)
@@ -157,7 +157,7 @@ let view_expr x =
       if b then
         `list ls
       else `cons ls
-  | Pexp_construct (x,None) -> `simple (x.txt)
+  | Pexp_construct (x,VaVal None) -> `simple (x.txt)
   | _ -> `normal
 
 let is_simple_construct :construct -> bool = function
@@ -223,6 +223,7 @@ let rec longident f = function
       pp f "%a(%a)" longident (unvala y) longident (unvala s)
 
 let longident_loc f x = pp f "%a" longident x.txt
+let longident_vala_loc f x = pp f "%a" longident (unvala x.txt)
 
 let constant f = function
   | Pconst_char i ->
@@ -424,8 +425,8 @@ and pattern1 ctxt (f:Format.formatter) (x:pattern) : unit =
   let rec pattern_list_helper f = function
     | {ppat_desc =
          Ppat_construct
-           ({ txt = Lident(Ploc.VaVal "::") ;_},
-            Some ([], {ppat_desc = Ppat_tuple(Ploc.VaVal [pat1; pat2]);_}));
+           ({ txt = VaVal(Lident(Ploc.VaVal "::")) ;_},
+            VaVal (Some ([], {ppat_desc = Ppat_tuple(Ploc.VaVal [pat1; pat2]);_})));
        ppat_attributes = []}
 
       ->
@@ -436,27 +437,27 @@ and pattern1 ctxt (f:Format.formatter) (x:pattern) : unit =
   else match x.ppat_desc with
     | Ppat_variant (l, Some p) ->
         pp f "@[<2>`%s@;%a@]" (unvala l) (simple_pattern ctxt) p
-    | Ppat_construct (({txt=Lident(Ploc.VaVal ("()"|"[]"));_}), _) ->
+    | Ppat_construct (({txt=VaVal(Lident(Ploc.VaVal ("()"|"[]")));_}), _) ->
         simple_pattern ctxt f x
     | Ppat_construct (({txt;_} as li), po) ->
         (* FIXME The third field always false *)
-        if txt = Lident (Ploc.VaVal "::") then
+        if unvala txt = Lident (Ploc.VaVal "::") then
           pp f "%a" pattern_list_helper x
         else
-          (match po with
+          (match unvala po with
            | Some ([], x) ->
-               pp f "%a@;%a"  longident_loc li (simple_pattern ctxt) x
+               pp f "%a@;%a"  longident_vala_loc li (simple_pattern ctxt) x
            | Some (vl, x) ->
-               pp f "%a@ (type %a)@;%a" longident_loc li
+               pp f "%a@ (type %a)@;%a" longident_vala_loc li
                  (list ~sep:"@ " string_loc) vl
                  (simple_pattern ctxt) x
-           | None -> pp f "%a" longident_loc li)
+           | None -> pp f "%a" longident_vala_loc li)
     | _ -> simple_pattern ctxt f x
 
 and simple_pattern ctxt (f:Format.formatter) (x:pattern) : unit =
   if x.ppat_attributes <> [] then pattern ctxt f x
   else match x.ppat_desc with
-    | Ppat_construct (({txt=Lident (Ploc.VaVal ("()"|"[]" as x));_}), None) ->
+    | Ppat_construct (({txt=VaVal(Lident (Ploc.VaVal ("()"|"[]" as x)));_}), VaVal None) ->
         pp f  "%s" x
     | Ppat_any -> pp f "_";
     | Ppat_var ({txt = txt;_}) -> protect_ident f (unvala txt)
@@ -501,7 +502,7 @@ and simple_pattern ctxt (f:Format.formatter) (x:pattern) : unit =
         let with_paren =
         match p.ppat_desc with
         | Ppat_array _ | Ppat_record _
-        | Ppat_construct (({txt=Lident (Ploc.VaVal ("()"|"[]"));_}), None) -> false
+        | Ppat_construct (({txt=VaVal(Lident (Ploc.VaVal ("()"|"[]")));_}), VaVal None) -> false
         | _ -> true in
         pp f "@[<2>%a.%a @]" longident_loc lid
           (paren with_paren @@ pattern1 ctxt) p
@@ -688,12 +689,12 @@ and expression ctxt f (x : expression) =
                 end (e,unvala l)
         end
 
-    | Pexp_construct (li, Some eo)
+    | Pexp_construct (li, VaVal (Some eo))
       when not (is_simple_construct (view_expr x))-> (* Not efficient FIXME*)
         (match view_expr x with
          | `cons ls -> list (simple_expr ctxt) f ls ~sep:"@;::@;"
          | `normal ->
-             pp f "@[<2>%a@;%a@]" longident_loc li
+             pp f "@[<2>%a@;%a@]" longident_vala_loc li
                (simple_expr ctxt) eo
          | _ -> assert false)
     | Pexp_setfield (e1, li, e2) ->
@@ -785,7 +786,7 @@ and simple_expr ctxt f x =
          | `list xs ->
              pp f "@[<hv0>[%a]@]"
                (list (expression (under_semi ctxt)) ~sep:";@;") xs
-         | `simple x -> longident f x
+         | `simple x -> longident f (unvala x)
          | _ -> assert false)
     | Pexp_ident li ->
         longident_loc f li

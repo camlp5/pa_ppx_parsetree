@@ -16,10 +16,12 @@
         }
       ; expand_types = [
           expression_desc
+        ; located
         ]
       ; type_module_map = {
           expression = Parsetree
         ; expression_desc = Parsetree
+        ; located = Location
         }
       }
   ]

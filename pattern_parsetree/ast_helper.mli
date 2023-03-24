@@ -123,7 +123,7 @@ module Pat:
     val interval: ?loc:loc -> ?attrs:attrs -> constant -> constant -> pattern
     val tuple: ?loc:loc -> ?attrs:attrs -> pattern list Ploc.vala -> pattern
     val construct: ?loc:loc -> ?attrs:attrs ->
-      lid -> (str list * pattern) option -> pattern
+      lid_vala -> (str list * pattern) option Ploc.vala -> pattern
     val variant: ?loc:loc -> ?attrs:attrs -> label Ploc.vala -> pattern option -> pattern
     val record: ?loc:loc -> ?attrs:attrs -> (lid * pattern) list -> closed_flag
                 -> pattern
@@ -157,7 +157,7 @@ module Exp:
                 -> expression
     val try_: ?loc:loc -> ?attrs:attrs -> expression -> case list Ploc.vala -> expression
     val tuple: ?loc:loc -> ?attrs:attrs -> expression list vala -> expression
-    val construct: ?loc:loc -> ?attrs:attrs -> lid -> expression option
+    val construct: ?loc:loc -> ?attrs:attrs -> lid_vala -> expression option Ploc.vala
                    -> expression
     val variant: ?loc:loc -> ?attrs:attrs -> label Ploc.vala -> expression option
                  -> expression

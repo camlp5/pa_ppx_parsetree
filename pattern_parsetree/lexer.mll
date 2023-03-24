@@ -650,6 +650,16 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_RECFLAG (make_antiquotation "recflag" loc payload)
      }
+  | "$" "expropt:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_EXPROPT (make_antiquotation "expropt" loc payload)
+     }
+  | "$" "pattopt:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_PATTOPT (make_antiquotation "pattopt" loc payload)
+     }
   | eof { EOF }
   | (_ as illegal_char)
       { error lexbuf (Illegal_character illegal_char) }

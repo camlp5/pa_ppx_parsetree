@@ -60,8 +60,8 @@ let test ctxt =
 
   ; assert_equal (m, l) (match [%longident_t {| $uid:m$ . $lid:l$ |}] with
                            [%longident_t {| $uid:m2$ . $lid:l2$ |}] -> (m2,l2))
-  ; assert_equal (li1,l) (match [%longident_t {| $li1$. $lid:l$ |}] with
-                            [%longident_t {| $li2$. $lid:l2$ |}] -> (li2,l2))
+  ; assert_equal (li1,l) (match [%longident_t {| $longid:li1$. $lid:l$ |}] with
+                            [%longident_t {| $longid:li2$. $lid:l2$ |}] -> (li2,l2))
 
 end
 
@@ -80,11 +80,11 @@ let test ctxt =
 ; assert_equal (m, n) (match [%extended_module_path {| $uid:m$. $uid:n$ |}] with
                           [%extended_module_path {| $uid:m2$. $uid:l2$ |}] -> (m2,l2))
 
-; assert_equal (li1, m) (match [%extended_module_path {| $li1$. $uid:m$ |}] with
-                           [%extended_module_path {| $li2$. $uid:m2$ |}] -> (li2,m2))
+; assert_equal (li1, m) (match [%extended_module_path {| $longid:li1$. $uid:m$ |}] with
+                           [%extended_module_path {| $longid:li2$. $uid:m2$ |}] -> (li2,m2))
 
-; assert_equal (li1, li2) (match [%extended_module_path {| $li1$ ($li2$) |}] with
-                             [%extended_module_path {| $l$ ($m$) |}] -> (l,m))
+; assert_equal (li1, li2) (match [%extended_module_path {| $longid:li1$ ($longid:li2$) |}] with
+                             [%extended_module_path {| $longid:l$ ($longid:m$) |}] -> (l,m))
 
 end
 
@@ -167,6 +167,24 @@ let test_function ctxt =
       match [%expression {| function $list:cases$ |}] with
         [%expression {| function $list:cases'$ |}] -> cases')
 
+let test_try ctxt =
+  let open Asttypes in
+  assert_equal (e1,cases) (
+      match [%expression {| try $e1$ with $list:cases$ |}] with
+        [%expression {| try $e1'$ with $list:cases'$ |}] -> (e1',cases'))
+
+let test_construct ctxt =
+  let open Asttypes in
+  assert_equal () (
+      match [%expression {| C |}] with
+        [%expression {| C |}] -> ())
+  ; begin
+      let eopt = Some [%expression {| ($e1$, $e2$)|}] in
+      assert_equal (li1, eopt) (
+          match [%expression {| $longid:li1$ $expropt:eopt$ |}] with
+            [%expression {| $longid:l'$ $expropt:eopt'$ |}] -> (l',eopt'))
+    end
+
 let test = "expression" >::: [
       "0"   >:: test0
     ; "1"   >:: test1
@@ -174,6 +192,8 @@ let test = "expression" >::: [
     ; "3"   >:: test3
     ; "let"   >:: test_let
     ; "function"   >:: test_function
+    ; "try"   >:: test_try
+    ; "construct"   >:: test_construct
     ]
 
 end

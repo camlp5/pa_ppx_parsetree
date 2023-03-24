@@ -50,6 +50,9 @@ let fmt_longident f x = fprintf f "\"%a\"" fmt_longident_aux x
 let fmt_longident_loc f (x : Longident.t loc) =
   fprintf f "\"%a\" %a" fmt_longident_aux x.txt fmt_location x.loc
 
+let fmt_longident_vala_loc f (x : Longident.t Ploc.vala loc) =
+  fprintf f "\"%a\" %a" fmt_longident_aux (unvala x.txt) fmt_location x.loc
+
 let fmt_string_loc f (x : string loc) =
   fprintf f "\"%s\" %a" x.txt fmt_location x.loc
 
@@ -211,12 +214,12 @@ and pattern i ppf x =
       line i ppf "Ppat_tuple\n";
       list i pattern ppf l;
   | Ppat_construct (li, po) ->
-      line i ppf "Ppat_construct %a\n" fmt_longident_loc li;
+      line i ppf "Ppat_construct %a\n" fmt_longident_vala_loc li;
       option i
         (fun i ppf (vl, p) ->
           list i string_loc ppf vl;
           pattern i ppf p)
-        ppf po
+        ppf (unvala po)
   | Ppat_variant (l, po) ->
       line i ppf "Ppat_variant \"%s\"\n" (unvala l);
       option i pattern ppf po;
@@ -288,8 +291,8 @@ and expression i ppf x =
       line i ppf "Pexp_tuple\n";
       list i expression ppf (unvala l);
   | Pexp_construct (li, eo) ->
-      line i ppf "Pexp_construct %a\n" fmt_longident_loc li;
-      option i expression ppf eo;
+      line i ppf "Pexp_construct %a\n" fmt_longident_vala_loc li;
+      option i expression ppf (unvala eo);
   | Pexp_variant (l, eo) ->
       line i ppf "Pexp_variant \"%s\"\n" (unvala l);
       option i expression ppf eo;

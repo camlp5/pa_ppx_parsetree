@@ -5,3 +5,6 @@
 <:expression< match $x$ with $list:lx$ >>;
 <:expression< try $x$ with $list:lx$ >>;
 <:expression<  $tuplelist:lx$ >>;
+<:expression< $longid:x$ >>;
+<:expression< $longid:x$ $x2$ >>;
+<:expression< $longid:x$ $expropt:ox2$ >>;
