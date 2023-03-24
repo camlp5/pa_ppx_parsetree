@@ -74,7 +74,7 @@ let fmt_constant f x =
       fprintf f "PConst_string(%S,%a,None)" s fmt_location strloc
   | Pconst_string (Ploc.VaVal s, strloc, Some (Ploc.VaVal delim)) ->
       fprintf f "PConst_string (%S,%a,Some %S)" s fmt_location strloc delim
-  | Pconst_float (Ploc.VaVal (s,m)) -> fprintf f "PConst_float (%s,%a)" s fmt_char_option m
+  | Pconst_float (Ploc.VaVal s,m) -> fprintf f "PConst_float (%s,%a)" s fmt_char_option m
 
 let fmt_mutable_flag f x =
   match x with

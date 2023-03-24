@@ -151,8 +151,8 @@ let mkuminus ~oploc name arg =
   match name, arg.pexp_desc with
   | "-", Pexp_constant(Pconst_integer (Ploc.VaVal n,m)) ->
       Pexp_constant(Pconst_integer(vaval(neg_string n),m))
-  | ("-" | "-."), Pexp_constant(Pconst_float (Ploc.VaVal (f, m))) ->
-      Pexp_constant(Pconst_float(vaval(neg_string f, m)))
+  | ("-" | "-."), Pexp_constant(Pconst_float (Ploc.VaVal f, m)) ->
+      Pexp_constant(Pconst_float(vaval(neg_string f), m))
   | _ ->
       Pexp_apply(mkoperator ~loc:oploc (vaval ("~" ^ name)), vaval[Nolabel, arg])
 
@@ -3689,7 +3689,7 @@ constant:
   | INT          { let (n, m) = $1 in Pconst_integer (vaval n, m) }
   | CHAR         { Pconst_char (vaval $1) }
   | STRING       { let (s, strloc, d) = $1 in Pconst_string (vaval s, strloc, Option.map vaval d) }
-  | FLOAT        { let (f, m) = $1 in Pconst_float (vaval(f, m)) }
+  | FLOAT        { let (f, m) = $1 in Pconst_float (vaval f, m) }
   | ANTI_INT     { Pconst_integer (vaant $1, None) }
   | ANTI_INT32     { Pconst_integer (vaant $1, Some 'l') }
   | ANTI_INT64     { Pconst_integer (vaant $1, Some 'L') }
@@ -3697,14 +3697,14 @@ constant:
   | ANTI_CHAR     { Pconst_char (vaant $1) }
   | ANTI_STRING     { Pconst_string (vaant $1, make_loc $sloc, None) }
   | ANTI_STRING ANTI_DELIM     { Pconst_string (vaant $1, make_loc $sloc, Some (vaant $2)) }
-  | ANTI_FLOAT     { Pconst_float (vaant $1) }
+  | ANTI_FLOAT     { Pconst_float (vaant $1, None) }
 ;
 signed_constant:
     constant     { $1 }
   | MINUS INT    { let (n, m) = $2 in Pconst_integer(vaval("-" ^ n), m) }
-  | MINUS FLOAT  { let (f, m) = $2 in Pconst_float(vaval("-" ^ f, m)) }
+  | MINUS FLOAT  { let (f, m) = $2 in Pconst_float(vaval("-" ^ f), m) }
   | PLUS INT     { let (n, m) = $2 in Pconst_integer (vaval n, m) }
-  | PLUS FLOAT   { let (f, m) = $2 in Pconst_float(vaval(f, m)) }
+  | PLUS FLOAT   { let (f, m) = $2 in Pconst_float(vaval f, m) }
 ;
 
 /* Identifiers and long identifiers */

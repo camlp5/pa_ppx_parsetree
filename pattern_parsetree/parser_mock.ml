@@ -462,8 +462,8 @@ let mkuminus ~oploc name arg =
   match name, arg.pexp_desc with
   | "-", Pexp_constant(Pconst_integer (Ploc.VaVal n,m)) ->
       Pexp_constant(Pconst_integer(vaval(neg_string n),m))
-  | ("-" | "-."), Pexp_constant(Pconst_float (Ploc.VaVal (f, m))) ->
-      Pexp_constant(Pconst_float(vaval(neg_string f, m)))
+  | ("-" | "-."), Pexp_constant(Pconst_float (Ploc.VaVal f, m)) ->
+      Pexp_constant(Pconst_float(vaval(neg_string f), m))
   | _ ->
       Pexp_apply(mkoperator ~loc:oploc (vaval ("~" ^ name)), vaval[Nolabel, arg])
 
@@ -6639,7 +6639,7 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
    : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 3707 "parser.mly"
-                 ( let (f, m) = _2 in Pconst_float(vaval(f, m)) )
+                 ( let (f, m) = _2 in Pconst_float(vaval f, m) )
 # 6810 "parser_mock.ml"
      : 'tv_signed_constant) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -6675,7 +6675,7 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
    : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 3705 "parser.mly"
-                 ( let (f, m) = _2 in Pconst_float(vaval("-" ^ f, m)) )
+                 ( let (f, m) = _2 in Pconst_float(vaval("-" ^ f), m) )
 # 6846 "parser_mock.ml"
      : 'tv_signed_constant) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -16296,7 +16296,7 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 3700 "parser.mly"
-                   ( Pconst_float (vaant _1) )
+                   ( Pconst_float (vaant _1, None) )
 # 16759 "parser_mock.ml"
      : 'tv_constant) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
@@ -16416,7 +16416,7 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 3692 "parser.mly"
-                 ( let (f, m) = _1 in Pconst_float (vaval(f, m)) )
+                 ( let (f, m) = _1 in Pconst_float (vaval f, m) )
 # 16879 "parser_mock.ml"
      : 'tv_constant) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (

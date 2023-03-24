@@ -236,9 +236,9 @@ let constant f = function
       paren (first_is '-' i) (fun f -> pp f "%s") f i
   | Pconst_integer (Ploc.VaVal i, Some m) ->
       paren (first_is '-' i) (fun f (i, m) -> pp f "%s%c" i m) f (i,m)
-  | Pconst_float (Ploc.VaVal (i, None)) ->
+  | Pconst_float (Ploc.VaVal i, None) ->
       paren (first_is '-' i) (fun f -> pp f "%s") f i
-  | Pconst_float (Ploc.VaVal (i, Some m)) ->
+  | Pconst_float (Ploc.VaVal i, Some m) ->
       paren (first_is '-' i) (fun f (i,m) -> pp f "%s%c" i m) f (i,m)
 
 (* trailing space*)

@@ -58,7 +58,7 @@ module Const = struct
   let int32 ?(suffix='l') i = integer ~suffix (Int32.to_string i)
   let int64 ?(suffix='L') i = integer ~suffix (Int64.to_string i)
   let nativeint ?(suffix='n') i = integer ~suffix (Nativeint.to_string i)
-  let float ?suffix f = Pconst_float (Ploc.VaVal(f, suffix))
+  let float ?suffix f = Pconst_float (Ploc.VaVal f, suffix)
   let char c = Pconst_char (vaval c)
   let string ?quotation_delimiter ?(loc= !default_loc) s =
     Pconst_string (vaval s, loc, Option.map vaval quotation_delimiter)

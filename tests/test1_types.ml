@@ -29,6 +29,10 @@
            ; (Parsetree.Pconst_integer (s, Some 'L'))
            ; (Parsetree.Pconst_integer (s, Some 'n'))
            ])
+        ; (Pconst_float, [
+             Parsetree.Pconst_float (sxf1, None)
+          ])
+
         ]
       ; type_module_map = {
           constant = Parsetree

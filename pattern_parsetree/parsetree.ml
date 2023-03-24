@@ -36,7 +36,7 @@ type constant =
 
      The location span the content of the string, without the delimiters.
   *)
-  | Pconst_float of (string * char option) Ploc.vala
+  | Pconst_float of string Ploc.vala * char option
       (** Float constant such as [3.4], [2e5] or [1.4e-4].
 
      Suffixes [g-z][G-Z] are accepted by the parser.
