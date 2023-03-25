@@ -312,7 +312,7 @@ and expression i ppf x =
       expression i ppf e2;
   | Pexp_array (l) ->
       line i ppf "Pexp_array\n";
-      list i expression ppf l;
+      list i expression ppf (unvala l);
   | Pexp_ifthenelse (e1, e2, eo) ->
       line i ppf "Pexp_ifthenelse\n";
       expression i ppf e1;

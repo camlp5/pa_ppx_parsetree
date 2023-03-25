@@ -327,7 +327,7 @@ let builtin_arraylike_index loc paren_kind (index : expression) = match paren_ki
      | [x] -> One, [Nolabel, x]
      | [x; y] -> Two, [Nolabel, x; Nolabel, y]
      | [x; y; z] -> Three, [Nolabel, x; Nolabel, y; Nolabel, z]
-     | coords -> Many, [Nolabel, ghexp ~loc (Pexp_array coords)]
+     | coords -> Many, [Nolabel, ghexp ~loc (Pexp_array (vaval coords))]
 
 let builtin_indexing_operators : (unit, expression) array_family  =
   { index = builtin_arraylike_index; name = builtin_arraylike_name }
@@ -355,7 +355,7 @@ let user_index loc _ index =
      ([a.%[1;2;3;4]]) *)
   match index with
     | [a] -> One, [Nolabel, a]
-    | l -> Many, [Nolabel, mkexp ~loc (Pexp_array l)]
+    | l -> Many, [Nolabel, mkexp ~loc (Pexp_array (vaval l))]
 
 let user_indexing_operators:
       (Longident.t Ploc.vala option * string, expression list) array_family
@@ -2590,17 +2590,17 @@ simple_expr:
                         (Pexp_record(fields, exten))) }
   | mod_longident DOT LBRACE record_expr_content error
       { unclosed "{" $loc($3) "}" $loc($5) }
-  | LBRACKETBAR expr_semi_list BARRBRACKET
+  | LBRACKETBAR vala(expr_semi_list, ANTI_LIST) BARRBRACKET
       { Pexp_array($2) }
   | LBRACKETBAR expr_semi_list error
       { unclosed "[|" $loc($1) "|]" $loc($3) }
   | LBRACKETBAR BARRBRACKET
-      { Pexp_array [] }
+      { Pexp_array (vaval []) }
   | od=open_dot_declaration DOT LBRACKETBAR expr_semi_list BARRBRACKET
-      { Pexp_open(od, mkexp ~loc:($startpos($3), $endpos) (Pexp_array($4))) }
+      { Pexp_open(od, mkexp ~loc:($startpos($3), $endpos) (Pexp_array(vaval $4))) }
   | od=open_dot_declaration DOT LBRACKETBAR BARRBRACKET
       { (* TODO: review the location of Pexp_array *)
-        Pexp_open(od, mkexp ~loc:($startpos($3), $endpos) (Pexp_array [])) }
+        Pexp_open(od, mkexp ~loc:($startpos($3), $endpos) (Pexp_array (vaval []))) }
   | mod_longident DOT
     LBRACKETBAR expr_semi_list error
       { unclosed "[|" $loc($3) "|]" $loc($5) }

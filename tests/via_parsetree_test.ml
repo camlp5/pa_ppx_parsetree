@@ -264,6 +264,16 @@ let test_variant ctxt =
             [%expression {| ` $id:m'$ $expropt:eopt'$ |}] -> (m',eopt'))
     end
 
+let test_array ctxt =
+  let open Asttypes in
+  assert_equal () (
+      match [%expression {| [|1;2|] |}] with
+        [%expression {| [|1;2|] |}] -> ())
+  ; assert_equal [e1;e2] (
+        let l = [e1;e2] in
+        match [%expression {| [| $list:l$ |] |}] with
+          [%expression {| [| $list:l'$ |] |}] -> l')
+
 let test = "expression" >::: [
       "0"   >:: test0
     ; "1"   >:: test1
@@ -277,6 +287,7 @@ let test = "expression" >::: [
     ; "variant"   >:: test_variant
     ; "field"   >:: test_field
     ; "setfield"   >:: test_setfield
+    ; "array"   >:: test_array
     ]
 
 end

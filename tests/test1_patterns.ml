@@ -31,3 +31,4 @@
 <:expression< $x1$ . $longid:x$ . $lid:s$ >>;
 <:expression< $x1$ . $lid:s$ <- $x3$ >>;
 <:expression< $x1$ . $longid:x$ . $lid:s$ <- $x3$ >>;
+<:expression< [| $list:lx$ |] >>;

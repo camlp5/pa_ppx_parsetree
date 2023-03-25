@@ -166,7 +166,7 @@ module Exp:
     val field: ?loc:loc -> ?attrs:attrs -> expression -> lid_vala -> expression
     val setfield: ?loc:loc -> ?attrs:attrs -> expression -> lid_vala -> expression
                   -> expression
-    val array: ?loc:loc -> ?attrs:attrs -> expression list -> expression
+    val array: ?loc:loc -> ?attrs:attrs -> expression list Ploc.vala -> expression
     val ifthenelse: ?loc:loc -> ?attrs:attrs -> expression -> expression
                     -> expression option -> expression
     val sequence: ?loc:loc -> ?attrs:attrs -> expression -> expression

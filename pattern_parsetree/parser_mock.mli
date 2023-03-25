@@ -576,6 +576,8 @@ val xv_vala_inline_private_flag_ANTI_PRIV_ :
   Asttypes.private_flag Ast_helper.vala
 val xv_vala_ident_ANTI_LID_ : Asttypes.label Ast_helper.vala
 val xv_vala_ident_ANTI_ID_ : Asttypes.label Ast_helper.vala
+val xv_vala_expr_semi_list_ANTI_LIST_ :
+  Parsetree.expression list Ast_helper.vala
 val xv_vala_core_type_ANTI_TYP_ : Parsetree.core_type Ast_helper.vala
 val xv_vala_constructor_declarations_ANTI_CONSTRUCTORLIST_ :
   Parsetree.constructor_declaration list Ast_helper.vala

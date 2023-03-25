@@ -574,7 +574,7 @@ and sugar_expr ctxt f e =
             print ".{" "," "}" (simple_expr ctxt) [i1; i2; i3] rest
           | Ldot (Ploc.VaVal (Lident (Ploc.VaVal "Bigarray")), (Ploc.VaVal "Genarray")),
             {pexp_desc = Pexp_array indexes; pexp_attributes = []} :: rest ->
-              print ".{" "," "}" (simple_expr ctxt) indexes rest
+              print ".{" "," "}" (simple_expr ctxt) (unvala indexes) rest
           | _ -> false
         end
       | (Lident (Ploc.VaVal s) | Ldot(_,Ploc.VaVal s)) , a :: i :: rest
@@ -586,7 +586,7 @@ and sugar_expr ctxt f e =
           let multi_indices = String.contains s ';' in
           let i =
               match i.pexp_desc with
-                | Pexp_array l when multi_indices -> l
+                | Pexp_array l when multi_indices -> unvala l
                 | _ -> [ i ] in
           let assign = last_is '-' s in
           let kind =
@@ -819,7 +819,7 @@ and simple_expr ctxt f x =
           (list longident_x_expression ~sep:";@;") (List.map (fun (a,b) -> (loc_map unvala a, b)) (unvala l))
     | Pexp_array (l) ->
         pp f "@[<0>@[<2>[|%a|]@]@]"
-          (list (simple_expr (under_semi ctxt)) ~sep:";") l
+          (list (simple_expr (under_semi ctxt)) ~sep:";") (unvala l)
     | Pexp_while (e1, e2) ->
         let fmt : (_,_,_) format = "@[<2>while@;%a@;do@;%a@;done@]" in
         pp f fmt (expression ctxt) e1 (expression ctxt) e2

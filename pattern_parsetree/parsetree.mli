@@ -364,7 +364,7 @@ and expression_desc =
   | Pexp_field of expression * Longident.t Ploc.vala loc  (** [E.l] *)
   | Pexp_setfield of expression * Longident.t Ploc.vala loc * expression
       (** [E1.l <- E2] *)
-  | Pexp_array of expression list  (** [[| E1; ...; En |]] *)
+  | Pexp_array of expression list Ploc.vala  (** [[| E1; ...; En |]] *)
   | Pexp_ifthenelse of expression * expression * expression option
       (** [if E1 then E2 else E3] *)
   | Pexp_sequence of expression * expression  (** [E1; E2] *)
