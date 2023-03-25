@@ -308,7 +308,7 @@ and expression i ppf x =
   | Pexp_setfield (e1, li, e2) ->
       line i ppf "Pexp_setfield\n";
       expression i ppf e1;
-      longident_loc i ppf li;
+      longident_vala_loc i ppf li;
       expression i ppf e2;
   | Pexp_array (l) ->
       line i ppf "Pexp_array\n";

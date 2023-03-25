@@ -15939,17 +15939,17 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
      : 'tv_expr) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
 # 2432 "parser.mly"
-                                                    _5
+                                                           _5
 # 16397 "parser_mock.ml"
    : 'tv_expr) (_startpos__5_ : Lexing.position) (_endpos__5_ : Lexing.position) (_startofs__5_ : int) (_endofs__5_ : int) (_loc__5_ : Lexing.position * Lexing.position) (
 # 2432 "parser.mly"
-                                          _4
+                                                 _4
 # 16401 "parser_mock.ml"
    : unit) (_startpos__4_ : Lexing.position) (_endpos__4_ : Lexing.position) (_startofs__4_ : int) (_endofs__4_ : int) (_loc__4_ : Lexing.position * Lexing.position) (
 # 2432 "parser.mly"
                    _3
 # 16405 "parser_mock.ml"
-   : 'tv_mkrhs_label_longident_) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+   : 'tv_mkrhs_vaval_label_longident__) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
 # 2432 "parser.mly"
                _2
 # 16409 "parser_mock.ml"

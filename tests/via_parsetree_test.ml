@@ -214,6 +214,21 @@ let test_field ctxt =
         match [%expression {| x. $longid:li2$ . $lid:l$ |}] with
           [%expression {| x. $longid:li2'$ . $lid:l'$ |}] -> (li2', l'))
 
+let test_setfield ctxt =
+  let open Asttypes in
+  assert_equal () (
+      match [%expression {| x.f <- 1 |}] with
+        [%expression {| x.f <- 1 |}] -> ())
+  ; assert_equal () (
+        match [%expression {| x.M.f <- 1 |}] with
+          [%expression {| x.M.f <- 1 |}] -> ())
+  ; assert_equal () (
+        match [%expression {| x. $longid:li2$ . $lid:l$ <- 1 |}] with
+          [%expression {| x.B.C.x <- 1 |}] -> ())
+  ; assert_equal (e1, li2, l, e2) (
+        match [%expression {| $e1$ . $longid:li2$ . $lid:l$ <- $e2$ |}] with
+          [%expression {| $e1'$ . $longid:li2'$ . $lid:l'$ <- $e2'$ |}] -> (e1', li2', l', e2'))
+
 let test_fun ctxt =
   let open Asttypes in
   let lab = Nolabel in
@@ -261,6 +276,7 @@ let test = "expression" >::: [
     ; "fun"   >:: test_fun
     ; "variant"   >:: test_variant
     ; "field"   >:: test_field
+    ; "setfield"   >:: test_setfield
     ]
 
 end

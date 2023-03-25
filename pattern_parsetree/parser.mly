@@ -2429,7 +2429,7 @@ expr:
       { mkexp_cons ~loc:$sloc $loc($2) (ghexp ~loc:$sloc (Pexp_tuple(vaval[$1;$3]))) }
   | mkrhs(label) LESSMINUS expr
       { mkexp ~loc:$sloc (Pexp_setinstvar($1, $3)) }
-  | simple_expr DOT mkrhs(label_longident) LESSMINUS expr
+  | simple_expr DOT mkrhs(vaval(label_longident)) LESSMINUS expr
       { mkexp ~loc:$sloc (Pexp_setfield($1, $3, $5)) }
   | indexop_expr_1(DOT, seq_expr, LESSMINUS v=expr {Some v})
     { mk_indexop_expr builtin_indexing_operators ~loc:$sloc $1 }
