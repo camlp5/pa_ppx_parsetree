@@ -720,7 +720,7 @@ and expression ctxt f (x : expression) =
     | Pexp_new (li) ->
         pp f "@[<hov2>new@ %a@]" longident_vala_loc li;
     | Pexp_setinstvar (s, e) ->
-        pp f "@[<hov2>%s@ <-@ %a@]" s.txt (expression ctxt) e
+        pp f "@[<hov2>%s@ <-@ %a@]" (unvala s.txt) (expression ctxt) e
     | Pexp_override l -> (* FIXME *)
         let string_x_expression f (s, e) =
           pp f "@[<hov2>%s@ =@ %a@]" s.txt (expression ctxt) e in

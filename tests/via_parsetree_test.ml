@@ -335,6 +335,15 @@ let test_new ctxt =
         match [%expression {| new $longid:li1$ . $lid:m$ |}] with
           [%expression {| new $longid:li1'$ . $lid:m'$ |}] -> (li1', m'))
 
+let test_setinstvar ctxt =
+  let open Asttypes in
+  assert_equal () (
+      match [%expression {| x <- 1 |}] with
+        [%expression {| x <- 1 |}] -> ())
+  ; assert_equal (l, e2) (
+        match [%expression {| $lid:l$ <- $e2$ |}] with
+          [%expression {| $lid:l'$ <- $e2'$ |}] -> (l', e2'))
+
 let test = "expression" >::: [
       "0"   >:: test0
     ; "1"   >:: test1
@@ -354,6 +363,7 @@ let test = "expression" >::: [
     ; "coerce"   >:: test_coerce
     ; "send"   >:: test_send
     ; "new"   >:: test_new
+    ; "setinstvar"   >:: test_setinstvar
     ]
 
 end

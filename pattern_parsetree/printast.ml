@@ -346,7 +346,7 @@ and expression i ppf x =
       expression i ppf e;
   | Pexp_new (li) -> line i ppf "Pexp_new %a\n" fmt_longident_vala_loc li;
   | Pexp_setinstvar (s, e) ->
-      line i ppf "Pexp_setinstvar %a\n" fmt_string_loc s;
+      line i ppf "Pexp_setinstvar %a\n" fmt_string_vala_loc s;
       expression i ppf e;
   | Pexp_override (l) ->
       line i ppf "Pexp_override\n";

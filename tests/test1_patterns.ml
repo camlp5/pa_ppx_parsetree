@@ -47,3 +47,4 @@
 <:expression< $x1$ # $lid:x$ >>;
 <:expression< new $lid:s$ >>;
 <:expression< new $longid:x$ . $lid:s$ >>;
+<:expression< $lid:x$ <- $x2$ >>;

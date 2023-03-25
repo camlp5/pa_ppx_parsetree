@@ -16095,17 +16095,17 @@ and (xv_xlist_rec_module_declaration_and_module_declaration_, xv_xlist_rec_modul
      : 'tv_expr) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
 # 2433 "parser.mly"
-                          _3
+                                          _3
 # 16556 "parser_mock.ml"
    : 'tv_expr) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
 # 2433 "parser.mly"
-                _2
+                                _2
 # 16560 "parser_mock.ml"
    : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
 # 2433 "parser.mly"
    _1
 # 16564 "parser_mock.ml"
-   : 'tv_mkrhs_label_) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+   : 'tv_mkrhs_vala_label_ANTI_LID__) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2434 "parser.mly"
       ( mkexp ~loc:_sloc (Pexp_setinstvar(_1, _3)) )
