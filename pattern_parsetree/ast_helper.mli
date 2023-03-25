@@ -182,7 +182,7 @@ module Exp:
     val send: ?loc:loc -> ?attrs:attrs -> expression -> str_vala -> expression
     val new_: ?loc:loc -> ?attrs:attrs -> lid_vala -> expression
     val setinstvar: ?loc:loc -> ?attrs:attrs -> str_vala -> expression -> expression
-    val override: ?loc:loc -> ?attrs:attrs -> (str * expression) list
+    val override: ?loc:loc -> ?attrs:attrs -> (str_vala * expression) list Ploc.vala
                   -> expression
     val letmodule: ?loc:loc -> ?attrs:attrs -> str_opt -> module_expr
                    -> expression -> expression

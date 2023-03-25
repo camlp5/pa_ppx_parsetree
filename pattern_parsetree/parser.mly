@@ -927,6 +927,9 @@ The precedences must be listed from low to high.
 %type <Parsetree.label_declaration> parse_label_declaration
 %start parse_match_case
 %type <Parsetree.case> parse_match_case
+%start parse_lident_vala_loc
+%type <string Ploc.vala Location.loc> parse_lident_vala_loc
+
 %type <Longident.t Ploc.vala Asttypes.loc * Parsetree.expression> record_expr_field
 %type <expression option Ploc.vala * (Longident.t Ploc.vala Asttypes.loc * expression) list Ploc.vala> record_expr_content
 %type <Asttypes.arg_label Ploc.vala * Parsetree.expression option Ploc.vala * Parsetree.pattern> labeled_simple_pattern
@@ -1347,6 +1350,11 @@ parse_value_binding:
 
 parse_arg_label:
   arg_label EOF
+    { $1 }
+;
+
+parse_lident_vala_loc:
+  mkloc(vala(LIDENT, ANTI_LID)) EOF
     { $1 }
 ;
 /* END AVOID */
@@ -2568,7 +2576,7 @@ simple_expr:
   | LBRACELESS object_expr_content error
       { unclosed "{<" $loc($1) ">}" $loc($3) }
   | LBRACELESS GREATERRBRACE
-      { Pexp_override [] }
+      { Pexp_override (vaval []) }
   | simple_expr DOT mkrhs(vaval(label_longident))
       { Pexp_field($1, $3) }
   | od=open_dot_declaration DOT LPAREN seq_expr RPAREN
@@ -2841,17 +2849,17 @@ record_expr_content:
         label, mkexp_opt_constraint ~loc:constraint_loc e c }
 ;
 %inline object_expr_content:
-  xs = separated_or_terminated_nonempty_list(SEMI, object_expr_field)
+  xs = vala(separated_or_terminated_nonempty_list(SEMI, object_expr_field), ANTI_LIST)
     { xs }
 ;
 %inline object_expr_field:
-    label = mkrhs(label)
+    label = mkrhs(vala(label, ANTI_LID))
     oe = preceded(EQUAL, expr)?
       { let label, e =
           match oe with
           | None ->
               (* No expression; this is a pun. Desugar it. *)
-              make_ghost label, exp_of_label label
+              make_ghost label, exp_of_label (loc_map unvala label)
           | Some e ->
               label, e
         in

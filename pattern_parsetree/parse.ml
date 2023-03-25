@@ -104,6 +104,7 @@ let label_declaration = wrap Parser.parse_label_declaration
 let match_case = wrap Parser.parse_match_case
 let value_binding = wrap Parser.parse_value_binding
 let arg_label = wrap Parser.parse_arg_label
+let lident_vala_loc = wrap Parser.parse_lident_vala_loc
 
 let longident = wrap Parser.parse_any_longident
 let val_ident = wrap Parser.parse_val_longident

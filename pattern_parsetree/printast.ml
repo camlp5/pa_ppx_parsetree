@@ -350,7 +350,7 @@ and expression i ppf x =
       expression i ppf e;
   | Pexp_override (l) ->
       line i ppf "Pexp_override\n";
-      list i string_x_expression ppf l;
+      list i string_vala_x_expression ppf (unvala l);
   | Pexp_letmodule (s, me, e) ->
       line i ppf "Pexp_letmodule %a\n" fmt_str_opt_loc s;
       module_expr i ppf me;
@@ -926,6 +926,10 @@ and binding_op i ppf x =
 
 and string_x_expression i ppf (s, e) =
   line i ppf "<override> %a\n" fmt_string_loc s;
+  expression (i+1) ppf e;
+
+and string_vala_x_expression i ppf (s, e) =
+  line i ppf "<override> %a\n" fmt_string_vala_loc s;
   expression (i+1) ppf e;
 
 and longident_x_expression i ppf (li, e) =

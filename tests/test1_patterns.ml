@@ -48,3 +48,4 @@
 <:expression< new $lid:s$ >>;
 <:expression< new $longid:x$ . $lid:s$ >>;
 <:expression< $lid:x$ <- $x2$ >>;
+<:expression< {< $list:lxx$ >} >>;

@@ -9,6 +9,9 @@ module Fixtures = struct
 let __loc__ = Location.none
 
 let l = "x" 
+
+let l_loc = [%lident_loc {| $lid:l$ |}]
+
 let m = "M" 
 let n = "N" 
 let li1 = [%longident_t {| $uid:m$ |}] 
@@ -48,6 +51,14 @@ end
 
 module Helpers = struct
   include Pa_ppx_parsetree_official_parsetree.Derive_parsetree
+end
+
+module SV = struct
+  open Fixtures
+  let test ctxt =
+    assert_equal [%lident_loc {| x |}] [%lident_loc {| x |}]
+    ; assert_equal l (match [%lident_loc {| $lid:l$ |}] with
+                        [%lident_loc {| $lid:l'$ |}] -> l')
 end
 
 module LI = struct
@@ -344,6 +355,19 @@ let test_setinstvar ctxt =
         match [%expression {| $lid:l$ <- $e2$ |}] with
           [%expression {| $lid:l'$ <- $e2'$ |}] -> (l', e2'))
 
+let test_override ctxt =
+  let open Asttypes in
+  assert_equal () (
+      match [%expression {| {< x1 = E1; xn = En >} |}] with
+        [%expression {| {< x1 = E1; xn = En >} |}] -> ())
+    ; assert_equal (l, e1) (
+          match [%expression {| {< $lid:l$ = $e1$; xn = En >} |}] with
+            [%expression {| {< $lid:l'$ = $e1'$; xn = En >} |}] -> (l', e1'))
+    ; assert_equal ([(l_loc, e1)]) (
+          let ll = [(l_loc, e1)] in
+          match [%expression {| {< $list:ll$ >} |}] with
+            [%expression {| {< $list:ll'$ >} |}] -> ll')
+
 let test = "expression" >::: [
       "0"   >:: test0
     ; "1"   >:: test1
@@ -364,6 +388,7 @@ let test = "expression" >::: [
     ; "send"   >:: test_send
     ; "new"   >:: test_new
     ; "setinstvar"   >:: test_setinstvar
+    ; "override"   >:: test_override
     ]
 
 end
@@ -491,7 +516,8 @@ end
 
 
 let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
-      "longident"   >:: LI.test
+      "str_vala"   >:: SV.test
+    ; "longident"   >:: LI.test
     ; "extended_module_path"   >:: XM.test
     ; "value_binding"   >:: VB.test
     ; "arg_label"   >:: AL.test

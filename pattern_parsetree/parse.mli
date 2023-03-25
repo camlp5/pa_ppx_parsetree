@@ -36,6 +36,7 @@ val label_declaration : Lexing.lexbuf -> Parsetree.label_declaration
 val match_case : Lexing.lexbuf -> Parsetree.case
 val value_binding : Lexing.lexbuf -> Parsetree.value_binding
 val arg_label : Lexing.lexbuf -> Asttypes.arg_label
+val lident_vala_loc : Lexing.lexbuf -> Ast_helper.str_vala
 
 (** The functions below can be used to parse Longident safely. *)
 

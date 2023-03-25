@@ -185,6 +185,8 @@ val parse_mod_ext_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longi
 
 val parse_match_case: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.case)
 
+val parse_lident_vala_loc: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (string Ast_helper.vala Location.loc)
+
 val parse_label_declaration: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.label_declaration)
 
 val parse_expression: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.expression)

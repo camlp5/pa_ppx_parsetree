@@ -9,6 +9,7 @@
       type 'a located = [%import: 'a Pa_ppx_parsetree_pattern_parsetree.Asttypes.loc
                                     [@with Location.t := location]
                         ]
+      type str_vala = string Ploc.vala located
       type longident_t = [%import: Pa_ppx_parsetree_pattern_parsetree.Longident.t
                                      [@with Lexing.position := position]
                                      [@with t := longident_t]

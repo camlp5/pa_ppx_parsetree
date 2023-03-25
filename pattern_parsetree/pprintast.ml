@@ -722,10 +722,10 @@ and expression ctxt f (x : expression) =
     | Pexp_setinstvar (s, e) ->
         pp f "@[<hov2>%s@ <-@ %a@]" (unvala s.txt) (expression ctxt) e
     | Pexp_override l -> (* FIXME *)
-        let string_x_expression f (s, e) =
-          pp f "@[<hov2>%s@ =@ %a@]" s.txt (expression ctxt) e in
+        let string_vala_x_expression f (s, e) =
+          pp f "@[<hov2>%s@ =@ %a@]" (unvala s.txt) (expression ctxt) e in
         pp f "@[<hov2>{<%a>}@]"
-          (list string_x_expression  ~sep:";"  )  l;
+          (list string_vala_x_expression  ~sep:";"  )  (unvala l);
     | Pexp_letmodule (s, me, e) ->
         pp f "@[<hov2>let@ module@ %s@ =@ %a@ in@ %a@]"
           (Option.value s.txt ~default:"_")

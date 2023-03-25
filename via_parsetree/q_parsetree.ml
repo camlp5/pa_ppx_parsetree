@@ -69,6 +69,9 @@ let parse_value_binding s =
 let parse_arg_label s =
   Pa_ppx_parsetree_pattern_parsetree.Parse.arg_label (Lexing.from_string s)
 
+let parse_lident_vala_loc s =
+  Pa_ppx_parsetree_pattern_parsetree.Parse.lident_vala_loc (Lexing.from_string s)
+
 [%%import: Reorg_parsetree.attribute]
 [@@deriving q_ast {
     default_data_source_module = Reorg_parsetree
@@ -225,6 +228,10 @@ let parse_arg_label s =
         data_source_module = Parsetree
       ; quotation_source_module = Reorg_parsetree
       }
+    ; str_vala = {
+        data_source_module = Ast_helper
+      ; quotation_source_module = Reorg_parsetree
+      }
     }
   ; entrypoints = [
       {name = "expression"; from_string = parse_expression ; type_name = expression }
@@ -239,6 +246,7 @@ let parse_arg_label s =
     ; {name = "case"; from_string = parse_match_case ; type_name = case }
     ; {name = "value_binding"; from_string = parse_value_binding ; type_name = value_binding }
     ; {name = "arg_label"; from_string = parse_arg_label ; type_name = arg_label }
+    ; {name = "lident_loc"; from_string = parse_lident_vala_loc ; type_name = str_vala }
     ]
  }]
 
