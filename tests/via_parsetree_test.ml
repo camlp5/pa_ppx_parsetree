@@ -301,6 +301,19 @@ let test_for ctxt =
         match [%expression {| for $p1$ = $e1$ $dirflag:f$ $e2$ do $e3$ done |}] with
           [%expression {| for $p1'$ = $e1'$ $dirflag:f'$ $e2'$ do $e3'$ done |}] -> (p1', e1', f', e2', e3'))
 
+let test_coerce ctxt =
+  let open Asttypes in
+  assert_equal () (
+      match [%expression {| ( e1 : t1 :> t2 ) |}] with
+        [%expression {| ( e1 : t1 :> t2 ) |}] -> ())
+  ; assert_equal (e1, t1, t2) (
+        match [%expression {| ( $e1$ : $t1$ :> $t2$ ) |}] with
+          [%expression {| ( $e1'$ : $t1'$ :> $t2'$ ) |}] -> (e1', t1', t2'))
+  ; assert_equal (e1, Some t1, t2) (
+        let t1opt = Some t1 in
+        match [%expression {| ( $e1$ $ctypopt:t1opt$ :> $t2$ ) |}] with
+          [%expression {| ( $e1'$ $ctypopt:t1opt'$ :> $t2'$ ) |}] -> (e1', t1opt', t2'))
+
 let test = "expression" >::: [
       "0"   >:: test0
     ; "1"   >:: test1
@@ -317,6 +330,7 @@ let test = "expression" >::: [
     ; "array"   >:: test_array
     ; "ifthenelse"   >:: test_ifthenelse
     ; "for"   >:: test_for
+    ; "coerce"   >:: test_coerce
     ]
 
 end

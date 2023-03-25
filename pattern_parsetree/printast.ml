@@ -339,7 +339,7 @@ and expression i ppf x =
   | Pexp_coerce (e, cto1, cto2) ->
       line i ppf "Pexp_coerce\n";
       expression i ppf e;
-      option i core_type ppf cto1;
+      option i core_type ppf (unvala cto1);
       core_type i ppf cto2;
   | Pexp_send (e, s) ->
       line i ppf "Pexp_send \"%s\"\n" s.txt;

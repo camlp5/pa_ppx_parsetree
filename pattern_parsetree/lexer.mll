@@ -665,6 +665,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_PATTOPT (make_antiquotation "pattopt" loc payload)
      }
+  | "$" "ctypopt:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_CTYPOPT (make_antiquotation "ctypopt" loc payload)
+     }
   | "$" "patt:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in

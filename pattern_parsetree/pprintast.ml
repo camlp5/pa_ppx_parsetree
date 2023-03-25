@@ -802,7 +802,7 @@ and simple_expr ctxt f x =
         pp f "(%a : %a)" (expression ctxt) e (core_type ctxt) ct
     | Pexp_coerce (e, cto1, ct) ->
         pp f "(%a%a :> %a)" (expression ctxt) e
-          (option (core_type ctxt) ~first:" : " ~last:" ") cto1 (* no sep hint*)
+          (option (core_type ctxt) ~first:" : " ~last:" ") (unvala cto1) (* no sep hint*)
           (core_type ctxt) ct
     | Pexp_variant (l, VaVal None) -> pp f "`%s" (unvala l)
     | Pexp_record (l, eo) ->

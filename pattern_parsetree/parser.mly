@@ -209,7 +209,7 @@ let mkstrexp e attrs =
 let mkexp_constraint ~loc e (t1, t2) =
   match t1, t2 with
   | Some t, None -> mkexp ~loc (Pexp_constraint(e, t))
-  | _, Some t -> mkexp ~loc (Pexp_coerce(e, t1, t))
+  | _, Some t -> mkexp ~loc (Pexp_coerce(e, vaval t1, t))
   | None, None -> assert false
 
 let mkexp_opt_constraint ~loc e = function
@@ -782,6 +782,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_RECFLAG
 %token <string> ANTI_EXPROPT
 %token <string> ANTI_PATTOPT
+%token <string> ANTI_CTYPOPT
 %token <string> ANTI_PATT
 %token <string> ANTI_INT
 %token <string> ANTI_INT32
@@ -1455,9 +1456,9 @@ paren_module_expr:
   | e = expr COLON ty = package_type
       { ghexp ~loc:$loc (Pexp_constraint (e, ty)) }
   | e = expr COLON ty1 = package_type COLONGREATER ty2 = package_type
-      { ghexp ~loc:$loc (Pexp_coerce (e, Some ty1, ty2)) }
+      { ghexp ~loc:$loc (Pexp_coerce (e, vaval (Some ty1), ty2)) }
   | e = expr COLONGREATER ty2 = package_type
-      { ghexp ~loc:$loc (Pexp_coerce (e, None, ty2)) }
+      { ghexp ~loc:$loc (Pexp_coerce (e, vaval None, ty2)) }
 ;
 
 (* A structure, which appears between STRUCT and END (among other places),
@@ -2512,6 +2513,10 @@ simple_expr:
       { unclosed "(" $loc($1) ")" $loc($3) }
   | LPAREN seq_expr type_constraint RPAREN
       { mkexp_constraint ~loc:$sloc $2 $3 }
+
+  | LPAREN e = seq_expr ty1opt = ANTI_CTYPOPT COLONGREATER ty2 = core_type RPAREN
+      { mkexp ~loc:$sloc (Pexp_coerce(e, vaant ty1opt, ty2)) }
+
   | indexop_expr_3(DOT, seq_expr, { None })
       { mk_indexop_expr builtin_indexing_operators ~loc:$sloc $1 }
   | indexop_expr_4(qualified_dotop, expr_semi_list, { None })

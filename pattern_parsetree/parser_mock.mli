@@ -144,6 +144,7 @@ type token =
   | ANTI_EXPROPT of string
   | ANTI_DIRFLAG of string
   | ANTI_DELIM of string
+  | ANTI_CTYPOPT of string
   | ANTI_CONSTRUCTORLIST of string
   | ANTI_CHAR of string
   | ANTI_ALGATTRS of string

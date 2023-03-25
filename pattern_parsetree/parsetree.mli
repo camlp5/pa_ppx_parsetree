@@ -377,7 +377,7 @@ and expression_desc =
                  when [direction] is {{!Asttypes.direction_flag.Downto}[Downto]}
          *)
   | Pexp_constraint of expression * core_type  (** [(E : T)] *)
-  | Pexp_coerce of expression * core_type option * core_type
+  | Pexp_coerce of expression * core_type option Ploc.vala * core_type
       (** [Pexp_coerce(E, from, T)] represents
             - [(E :> T)]      when [from] is [None],
             - [(E : T0 :> T)] when [from] is [Some T0].

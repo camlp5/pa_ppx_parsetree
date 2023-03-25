@@ -41,3 +41,6 @@
 <:expression< for $x1$ = $x2$ downto $x3$ do $x5$ done >>;
 <:expression< for $x1$ = $x2$ $dirflag:x4$ $x3$ do $x5$ done >>;
 <:expression< ( $x1$ : $x2$ ) >>;
+<:expression< ( $x1$ :> $x3$ ) >>;
+<:expression< ( $x1$ : $x2$ :> $x3$ ) >>;
+<:expression< ( $x1$ $ctypopt:ox2$ :> $x3$ ) >>;

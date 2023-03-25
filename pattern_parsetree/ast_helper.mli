@@ -175,7 +175,7 @@ module Exp:
                 -> expression
     val for_: ?loc:loc -> ?attrs:attrs -> pattern -> expression -> expression
               -> direction_flag Ploc.vala -> expression -> expression
-    val coerce: ?loc:loc -> ?attrs:attrs -> expression -> core_type option
+    val coerce: ?loc:loc -> ?attrs:attrs -> expression -> core_type option Ploc.vala
                 -> core_type -> expression
     val constraint_: ?loc:loc -> ?attrs:attrs -> expression -> core_type
                      -> expression
