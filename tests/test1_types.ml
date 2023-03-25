@@ -14,14 +14,22 @@
           location_stack = []
         ; attributes = []
         }
-      ; expand_types = [
-          expression_desc
-        ; located
-        ; constant
-        ]
+      ; expand_types = {
+          expression_desc = Auto
+        ; located = Auto
+        ; constant = Auto
+        }
       ; expand_types_per_constructor = [
-          (Pexp_ident, [longident_t])
-        ; (Pexp_field, [longident_t])
+          (Pexp_ident,
+           { longident_t = Explicit [
+                               Longident.Lident s
+                             ; Longident.Ldot (x, s)
+          ]})
+        ; (Pexp_field,
+           { longident_t = Explicit [
+                               Longident.Lident s
+                             ; Longident.Ldot (x, s)
+          ]})
         ]
       ; per_constructor_exprs = [
           (Pconst_integer, [
