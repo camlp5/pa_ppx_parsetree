@@ -342,7 +342,7 @@ and expression i ppf x =
       option i core_type ppf (unvala cto1);
       core_type i ppf cto2;
   | Pexp_send (e, s) ->
-      line i ppf "Pexp_send \"%s\"\n" s.txt;
+      line i ppf "Pexp_send \"%s\"\n" (unvala s.txt);
       expression i ppf e;
   | Pexp_new (li) -> line i ppf "Pexp_new %a\n" fmt_longident_loc li;
   | Pexp_setinstvar (s, e) ->

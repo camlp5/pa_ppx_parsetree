@@ -382,7 +382,7 @@ and expression_desc =
             - [(E :> T)]      when [from] is [None],
             - [(E : T0 :> T)] when [from] is [Some T0].
          *)
-  | Pexp_send of expression * label loc  (** [E # m] *)
+  | Pexp_send of expression * label Ploc.vala loc  (** [E # m] *)
   | Pexp_new of Longident.t loc  (** [new M.c] *)
   | Pexp_setinstvar of label loc * expression  (** [x <- 2] *)
   | Pexp_override of (label loc * expression) list

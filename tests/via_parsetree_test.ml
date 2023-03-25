@@ -314,6 +314,15 @@ let test_coerce ctxt =
         match [%expression {| ( $e1$ $ctypopt:t1opt$ :> $t2$ ) |}] with
           [%expression {| ( $e1'$ $ctypopt:t1opt'$ :> $t2'$ ) |}] -> (e1', t1opt', t2'))
 
+let test_send ctxt =
+  let open Asttypes in
+  assert_equal () (
+      match [%expression {| e1#m |}] with
+        [%expression {| e1#m |}] -> ())
+  ; assert_equal (e1, m) (
+        match [%expression {| $e1$ # $lid:m$ |}] with
+          [%expression {| $e1'$ # $lid:m'$ |}] -> (e1', m'))
+
 let test = "expression" >::: [
       "0"   >:: test0
     ; "1"   >:: test1
@@ -331,6 +340,7 @@ let test = "expression" >::: [
     ; "ifthenelse"   >:: test_ifthenelse
     ; "for"   >:: test_for
     ; "coerce"   >:: test_coerce
+    ; "send"   >:: test_send
     ]
 
 end
