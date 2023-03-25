@@ -24,4 +24,7 @@
 <:expression< ` $id:x1$ >>;
 <:expression< ` $id:x1$ $x2$ >>;
 <:expression< ` $id:x1$ $expropt:ox2$ >>;
+<:expression< { $list:lxx$ } >>;
+<:expression< { $x$ with $list:lxx$ } >>;
+<:expression< { $withe:ox$ $list:lxx$ } >>;
 
