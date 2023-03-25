@@ -369,7 +369,7 @@ and expression_desc =
       (** [if E1 then E2 else E3] *)
   | Pexp_sequence of expression * expression  (** [E1; E2] *)
   | Pexp_while of expression * expression  (** [while E1 do E2 done] *)
-  | Pexp_for of pattern * expression * expression * direction_flag * expression
+  | Pexp_for of pattern * expression * expression * direction_flag Ploc.vala * expression
       (** [Pexp_for(i, E1, E2, direction, E3)] represents:
             - [for i = E1 to E2 do E3 done]
                  when [direction] is {{!Asttypes.direction_flag.Upto}[Upto]}

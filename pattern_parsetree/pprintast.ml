@@ -828,7 +828,7 @@ and simple_expr ctxt f x =
           "@[<hv0>@[<hv2>@[<2>for %a =@;%a@;%a%a@;do@]@;%a@]@;done@]" in
         let expression = expression ctxt in
         pp f fmt (pattern ctxt) s expression e1 direction_flag
-          df expression e2 expression e3
+          (unvala df) expression e2 expression e3
     | _ ->  paren true (expression ctxt) f x
 
 and attributes ctxt f l =

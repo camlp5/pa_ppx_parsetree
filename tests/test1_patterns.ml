@@ -35,3 +35,8 @@
 <:expression< if $x1$ then $x2$ >>;
 <:expression< if $x1$ then $x2$ else $x3$ >>;
 <:expression< if $x1$ then $x2$ $expropt:ox3$ >>;
+<:expression< $x1$ ; $x2$ >>;
+<:expression< while $x1$ do $x2$ done >>;
+<:expression< for $x1$ = $x2$ to $x3$ do $x5$ done >>;
+<:expression< for $x1$ = $x2$ downto $x3$ do $x5$ done >>;
+<:expression< for $x1$ = $x2$ $dirflag:x4$ $x3$ do $x5$ done >>;

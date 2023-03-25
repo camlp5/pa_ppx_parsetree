@@ -142,6 +142,7 @@ type token =
   | ANTI_ID of string
   | ANTI_FLOAT of string
   | ANTI_EXPROPT of string
+  | ANTI_DIRFLAG of string
   | ANTI_DELIM of string
   | ANTI_CONSTRUCTORLIST of string
   | ANTI_CHAR of string
@@ -578,6 +579,8 @@ val xv_vala_ident_ANTI_LID_ : Asttypes.label Ast_helper.vala
 val xv_vala_ident_ANTI_ID_ : Asttypes.label Ast_helper.vala
 val xv_vala_expr_semi_list_ANTI_LIST_ :
   Parsetree.expression list Ast_helper.vala
+val xv_vala_direction_flag_ANTI_DIRFLAG_ :
+  Asttypes.direction_flag Ast_helper.vala
 val xv_vala_core_type_ANTI_TYP_ : Parsetree.core_type Ast_helper.vala
 val xv_vala_constructor_declarations_ANTI_CONSTRUCTORLIST_ :
   Parsetree.constructor_declaration list Ast_helper.vala

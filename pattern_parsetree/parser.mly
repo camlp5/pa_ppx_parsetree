@@ -792,6 +792,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_DELIM
 %token <string> ANTI_FLOAT
 %token <string> ANTI_LABEL
+%token <string> ANTI_DIRFLAG
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -2473,7 +2474,7 @@ expr:
       { Pexp_ifthenelse($3, $5, vaval None), $2 }
   | WHILE ext_attributes seq_expr DO seq_expr DONE
       { Pexp_while($3, $5), $2 }
-  | FOR ext_attributes pattern EQUAL seq_expr direction_flag seq_expr DO
+  | FOR ext_attributes pattern EQUAL seq_expr vala(direction_flag, ANTI_DIRFLAG) seq_expr DO
     seq_expr DONE
       { Pexp_for($3, $5, $7, $6, $9), $2 }
   | ASSERT ext_attributes simple_expr %prec below_HASH

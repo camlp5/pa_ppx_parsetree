@@ -103,6 +103,10 @@ let parse_arg_label s =
         data_source_module = Asttypes
       ; quotation_source_module = Reorg_parsetree
       }
+    ; direction_flag = {
+        data_source_module = Asttypes
+      ; quotation_source_module = Reorg_parsetree
+      }
     ; private_flag = {
         data_source_module = Asttypes
       ; quotation_source_module = Reorg_parsetree

@@ -288,6 +288,19 @@ let test_ifthenelse ctxt =
        match [%expression {| if $e1$ then $e2$ $expropt:e3opt$ |}] with
          [%expression {| if $e1'$ then $e2'$ $expropt:e3opt'$ |}] -> (e1',e2',e3opt'))
 
+let test_for ctxt =
+  let open Asttypes in
+  assert_equal () (
+      match [%expression {| for i = e1 to e2 do e3 done |}] with
+        [%expression {| for i = e1 to e2 do e3 done |}] -> ())
+  ; assert_equal (p1, e1, e2, e3) (
+      match [%expression {| for $p1$ = $e1$ to $e2$ do $e3$ done |}] with
+        [%expression {| for $p1'$ = $e1'$ to $e2'$ do $e3'$ done |}] -> (p1', e1', e2', e3'))
+  ; assert_equal (p1, e1, Upto, e2, e3) (
+        let f = Upto in
+        match [%expression {| for $p1$ = $e1$ $dirflag:f$ $e2$ do $e3$ done |}] with
+          [%expression {| for $p1'$ = $e1'$ $dirflag:f'$ $e2'$ do $e3'$ done |}] -> (p1', e1', f', e2', e3'))
+
 let test = "expression" >::: [
       "0"   >:: test0
     ; "1"   >:: test1
@@ -303,6 +316,7 @@ let test = "expression" >::: [
     ; "setfield"   >:: test_setfield
     ; "array"   >:: test_array
     ; "ifthenelse"   >:: test_ifthenelse
+    ; "for"   >:: test_for
     ]
 
 end
