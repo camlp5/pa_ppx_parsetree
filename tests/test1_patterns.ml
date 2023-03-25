@@ -40,3 +40,4 @@
 <:expression< for $x1$ = $x2$ to $x3$ do $x5$ done >>;
 <:expression< for $x1$ = $x2$ downto $x3$ do $x5$ done >>;
 <:expression< for $x1$ = $x2$ $dirflag:x4$ $x3$ do $x5$ done >>;
+<:expression< ( $x1$ : $x2$ ) >>;
