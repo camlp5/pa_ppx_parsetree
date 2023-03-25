@@ -137,7 +137,7 @@ let str_opt_loc i ppf s = line i ppf "%a\n" fmt_str_opt_loc s
 let arg_label i ppf = function
   | Nolabel -> line i ppf "Nolabel\n"
   | Optional s -> line i ppf "Optional \"%s\"\n" (unvala s)
-  | Labelled s -> line i ppf "Labelled \"%s\"\n" s
+  | Labelled s -> line i ppf "Labelled \"%s\"\n" (unvala s)
 
 let typevars ppf vs =
   List.iter (fun x -> fprintf ppf " %a" Pprintast.tyvar x.txt) vs

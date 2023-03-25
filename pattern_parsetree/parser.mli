@@ -194,6 +194,8 @@ val parse_constr_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longid
 
 val parse_attribute: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.attribute)
 
+val parse_arg_label: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Asttypes.arg_label)
+
 val parse_any_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longident.t)
 
 val interface: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.signature)

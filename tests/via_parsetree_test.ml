@@ -97,6 +97,20 @@ let test ctxt =
 
 end
 
+module AL = struct
+
+open Fixtures
+
+let test ctxt = 
+  assert_equal [%arg_label {| |}] Asttypes.Nolabel 
+  ; assert_equal [%arg_label {| foo: |}] (Asttypes.Labelled "foo")
+  ; assert_equal [%arg_label {| ?foo: |}] (Asttypes.Optional "foo")
+  ; assert_equal "x" (match [%arg_label {| $lid:l$: |}] with
+                        [%arg_label {| $lid:l'$: |}] -> l')
+  ; assert_equal "x" (match [%arg_label {| ? $lid:l$: |}] with
+                        [%arg_label {| ?  $lid:l'$: |}] -> l')
+end
+
 module EX = struct
 
 open Fixtures
@@ -345,6 +359,7 @@ let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
       "longident"   >:: LI.test
     ; "extended_module_path"   >:: XM.test
     ; "value_binding"   >:: VB.test
+    ; "arg_label"   >:: AL.test
     ; EX.test
     ; "core_type"   >:: TY.test
     ; "constructor_declaration"   >:: CD.test

@@ -901,6 +901,8 @@ The precedences must be listed from low to high.
 %type <Longident.t> parse_any_longident
 %start parse_value_binding
 %type <Parsetree.value_binding> parse_value_binding
+%start parse_arg_label
+%type <Asttypes.arg_label> parse_arg_label
 /* END AVOID */
 
 %type <Parsetree.expression list> expr_semi_list
@@ -1336,6 +1338,11 @@ parse_match_case:
 
 parse_value_binding:
   value_binding EOF
+    { $1 }
+;
+
+parse_arg_label:
+  arg_label EOF
     { $1 }
 ;
 /* END AVOID */
@@ -2282,11 +2289,11 @@ labeled_simple_pattern:
   | OPTLABEL pattern_var
       { (vaval (Optional (vaval $1)), vaval None, $2) }
   | TILDE LPAREN label_let_pattern RPAREN
-      { (vaval (Labelled (fst $3)), vaval None, snd $3) }
+      { (vaval (Labelled (vaval (fst $3))), vaval None, snd $3) }
   | TILDE label_var
-      { (vaval (Labelled (fst $2)), vaval None, snd $2) }
+      { (vaval (Labelled (vaval (fst $2))), vaval None, snd $2) }
   | LABEL simple_pattern
-      { (vaval (Labelled $1), vaval None, $2) }
+      { (vaval (Labelled (vaval $1)), vaval None, $2) }
   | simple_pattern
       { (vaval Nolabel, vaval None, $1) }
   | ANTI_LABEL LPAREN simple_pattern vala(opt_default, ANTI_EXPROPT) RPAREN
@@ -2623,12 +2630,12 @@ labeled_simple_expr:
     simple_expr %prec below_HASH
       { (Nolabel, $1) }
   | LABEL simple_expr %prec below_HASH
-      { (Labelled $1, $2) }
+      { (Labelled (vaval $1), $2) }
   | TILDE label = LIDENT
       { let loc = $loc(label) in
-        (Labelled label, mkexpvar ~loc (vaval label)) }
+        (Labelled (vaval label), mkexpvar ~loc (vaval label)) }
   | TILDE LPAREN label = LIDENT ty = type_constraint RPAREN
-      { (Labelled label, mkexp_constraint ~loc:($startpos($2), $endpos)
+      { (Labelled (vaval label), mkexp_constraint ~loc:($startpos($2), $endpos)
                            (mkexpvar ~loc:$loc(label) (vaval label)) ty) }
   | QUESTION label = LIDENT
       { let loc = $loc(label) in
@@ -3512,8 +3519,8 @@ function_type:
 ;
 %inline arg_label:
   | label = optlabel
-      { Optional (vaval label) }
-  | label = LIDENT COLON
+      { Optional label }
+  | label = vala(LIDENT, ANTI_LID) COLON
       { Labelled label }
   | /* empty */
       { Nolabel }
@@ -3964,8 +3971,8 @@ additive:
   | PLUSDOT                                     { "+." }
 ;
 optlabel:
-   | OPTLABEL                                   { $1 }
-   | QUESTION LIDENT COLON                      { $2 }
+   | OPTLABEL                                   { vaval($1) }
+   | QUESTION vala(LIDENT, ANTI_LID) COLON      { $2 }
 ;
 
 /* Attributes and extensions */

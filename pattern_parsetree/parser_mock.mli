@@ -824,11 +824,12 @@ val xv_parse_core_type : Parsetree.core_type
 val xv_parse_constructor_declaration : Parsetree.constructor_declaration
 val xv_parse_constr_longident : Longident.t
 val xv_parse_attribute : Parsetree.attribute
+val xv_parse_arg_label : Asttypes.arg_label
 val xv_parse_any_longident : Longident.t
 val xv_paren_module_expr : Parsetree.module_expr
 val xv_package_type : Parsetree.core_type
 val xv_override_flag : Asttypes.override_flag
-val xv_optlabel : string
+val xv_optlabel : Asttypes.label Ast_helper.vala
 val xv_optional_use_file_standalone_expression :
   Parsetree.toplevel_phrase list
 val xv_optional_structure_standalone_expression :

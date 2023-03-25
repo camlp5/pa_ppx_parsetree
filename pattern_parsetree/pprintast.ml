@@ -290,7 +290,7 @@ let rec class_params_def ctxt f =  function
 and type_with_label ctxt f (label, c) =
   match label with
   | Nolabel    -> core_type1 ctxt f c (* otherwise parenthesize *)
-  | Labelled s -> pp f "%s:%a" s (core_type1 ctxt) c
+  | Labelled s -> pp f "%s:%a" (unvala s) (core_type1 ctxt) c
   | Optional s -> pp f "?%s:%a" (unvala s) (core_type1 ctxt) c
 
 and core_type ctxt f x =
@@ -529,9 +529,9 @@ and label_exp ctxt f (l,(opt : expression option),p) =
       end
   | Labelled l -> match p with
     | {ppat_desc  = Ppat_var {txt;_}; ppat_attributes = []}
-      when unvala txt = l ->
-        pp f "~%s@;" l
-    | _ ->  pp f "~%s:%a@;" l (simple_pattern ctxt) p
+      when unvala txt = (unvala l) ->
+        pp f "~%s@;" (unvala l)
+    | _ ->  pp f "~%s:%a@;" (unvala l) (simple_pattern ctxt) p
 
 and sugar_expr ctxt f e =
   if e.pexp_attributes <> [] then false
@@ -1655,10 +1655,10 @@ and label_x_expression_param ctxt f (l,e) =
       else
         pp f "?%s:%a" str (simple_expr ctxt) e
   | Labelled lbl ->
-      if Some lbl = simple_name then
-        pp f "~%s" lbl
+      if Some (unvala lbl) = simple_name then
+        pp f "~%s" (unvala lbl)
       else
-        pp f "~%s:%a" lbl (simple_expr ctxt) e
+        pp f "~%s:%a" (unvala lbl) (simple_expr ctxt) e
 
 and directive_argument f x =
   match x.pdira_desc with
