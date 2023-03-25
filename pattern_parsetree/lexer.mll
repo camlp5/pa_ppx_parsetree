@@ -605,6 +605,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_LID (make_antiquotation "lid" loc payload)
      }
+  | "$" "id:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_ID (make_antiquotation "id" loc payload)
+     }
   | "$" "uid:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in

@@ -295,7 +295,7 @@ and expression i ppf x =
       option i expression ppf (unvala eo);
   | Pexp_variant (l, eo) ->
       line i ppf "Pexp_variant \"%s\"\n" (unvala l);
-      option i expression ppf eo;
+      option i expression ppf (unvala eo);
   | Pexp_record (l, eo) ->
       line i ppf "Pexp_record\n";
       list i longident_x_expression ppf (unvala l);

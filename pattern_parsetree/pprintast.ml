@@ -749,7 +749,7 @@ and expression ctxt f (x : expression) =
         pp f "@[<2>let open%s %a in@;%a@]"
           (override o.popen_override) (module_expr ctxt) o.popen_expr
           (expression ctxt) e
-    | Pexp_variant (l,Some eo) ->
+    | Pexp_variant (l,VaVal (Some eo)) ->
         pp f "@[<2>`%s@;%a@]" (unvala l) (simple_expr ctxt) eo
     | Pexp_letop {let_; ands; body} ->
         pp f "@[<2>@[<v>%a@,%a@] in@;<1 -2>%a@]"
@@ -804,7 +804,7 @@ and simple_expr ctxt f x =
         pp f "(%a%a :> %a)" (expression ctxt) e
           (option (core_type ctxt) ~first:" : " ~last:" ") cto1 (* no sep hint*)
           (core_type ctxt) ct
-    | Pexp_variant (l, None) -> pp f "`%s" (unvala l)
+    | Pexp_variant (l, VaVal None) -> pp f "`%s" (unvala l)
     | Pexp_record (l, eo) ->
         let longident_x_expression f ( li, e) =
           match e with

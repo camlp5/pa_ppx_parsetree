@@ -21,3 +21,7 @@
 <:expression< $longid:x$ >>;
 <:expression< $longid:x$ $x2$ >>;
 <:expression< $longid:x$ $expropt:ox2$ >>;
+<:expression< ` $id:x1$ >>;
+<:expression< ` $id:x1$ $x2$ >>;
+<:expression< ` $id:x1$ $expropt:ox2$ >>;
+

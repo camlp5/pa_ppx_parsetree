@@ -159,7 +159,7 @@ module Exp:
     val tuple: ?loc:loc -> ?attrs:attrs -> expression list vala -> expression
     val construct: ?loc:loc -> ?attrs:attrs -> lid_vala -> expression option Ploc.vala
                    -> expression
-    val variant: ?loc:loc -> ?attrs:attrs -> label Ploc.vala -> expression option
+    val variant: ?loc:loc -> ?attrs:attrs -> label Ploc.vala -> expression option Ploc.vala
                  -> expression
     val record: ?loc:loc -> ?attrs:attrs -> (lid_vala * expression) list Ploc.vala
                 -> expression option Ploc.vala -> expression

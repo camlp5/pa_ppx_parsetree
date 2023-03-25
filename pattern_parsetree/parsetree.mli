@@ -349,7 +349,7 @@ and expression_desc =
            - [C E]             when [exp] is [Some E],
            - [C (E1, ..., En)] when [exp] is [Some (Pexp_tuple[E1;...;En])]
         *)
-  | Pexp_variant of label Ploc.vala * expression option
+  | Pexp_variant of label Ploc.vala * expression option Ploc.vala
       (** [Pexp_variant(`A, exp)] represents
             - [`A]   when [exp] is [None]
             - [`A E] when [exp] is [Some E]

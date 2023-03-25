@@ -769,6 +769,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_TUPLELIST
 %token <string> ANTI_LIST
 %token <string> ANTI_CONSTRUCTORLIST
+%token <string> ANTI_ID
 %token <string> ANTI_LID
 %token <string> ANTI_UID
 %token <string> ANTI_LONGID
@@ -2489,7 +2490,9 @@ expr:
   | mkrhs(vala(constr_longident, ANTI_LONGID)) vaant(ANTI_EXPROPT) %prec below_HASH
       { Pexp_construct($1, $2) }
   | name_tag_vala simple_expr %prec below_HASH
-      { Pexp_variant($1, Some $2) }
+      { Pexp_variant($1, vaval(Some $2)) }
+  | name_tag_vala ANTI_EXPROPT %prec below_HASH
+      { Pexp_variant($1, vaant $2) }
   | e1 = expr op = op(infix_operator) e2 = expr
       { mkinfix e1 op e2 }
   | subtractive expr %prec prec_unary_minus
@@ -2546,7 +2549,7 @@ simple_expr:
   | mkrhs(vala(constr_longident, ANTI_LONGID)) %prec prec_constant_constructor
       { Pexp_construct($1, vaval None) }
   | name_tag_vala %prec prec_constant_constructor
-      { Pexp_variant($1, None) }
+      { Pexp_variant($1, vaval None) }
   | op(PREFIXOP) simple_expr
       { Pexp_apply($1, vaval[Nolabel,$2]) }
   | op(BANG {"!"}) simple_expr
@@ -3887,7 +3890,7 @@ name_tag:
     BACKQUOTE ident                             { $2 }
 ;
 name_tag_vala:
-    BACKQUOTE ident_vala                        { $2 }
+    BACKQUOTE vala(ident, ANTI_ID)              { $2 }
 ;
 rec_flag:
     /* empty */                                 { Nonrecursive }

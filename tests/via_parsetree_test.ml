@@ -219,6 +219,21 @@ let test_fun ctxt =
         match [%expression {| fun $label:lab$ ( $p1$ $expropt:eopt$ ) -> $e2$ |}] with
           [%expression {| fun $label:lab'$ ( $p1'$ $expropt:eopt'$ ) -> $e2'$ |}] -> (lab',p1', eopt', e2'))
 
+let test_variant ctxt =
+  let open Asttypes in
+  assert_equal () (
+      match [%expression {| `C |}] with
+        [%expression {| `C |}] -> ())
+  ; assert_equal m (
+      match [%expression {| ` $id:m$ |}] with
+        [%expression {| ` $id:m'$ |}] -> m')
+  ; begin
+      let eopt = Some [%expression {| ($e1$, $e2$)|}] in
+      assert_equal (m, eopt) (
+          match [%expression {| ` $id:m$ $expropt:eopt$ |}] with
+            [%expression {| ` $id:m'$ $expropt:eopt'$ |}] -> (m',eopt'))
+    end
+
 let test = "expression" >::: [
       "0"   >:: test0
     ; "1"   >:: test1
@@ -229,6 +244,7 @@ let test = "expression" >::: [
     ; "try"   >:: test_try
     ; "construct"   >:: test_construct
     ; "fun"   >:: test_fun
+    ; "variant"   >:: test_variant
     ]
 
 end
