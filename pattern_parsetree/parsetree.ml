@@ -361,7 +361,7 @@ and expression_desc =
 
            Invariant: [n > 0]
          *)
-  | Pexp_field of expression * Longident.t loc  (** [E.l] *)
+  | Pexp_field of expression * Longident.t Ploc.vala loc  (** [E.l] *)
   | Pexp_setfield of expression * Longident.t loc * expression
       (** [E1.l <- E2] *)
   | Pexp_array of expression list  (** [[| E1; ...; En |]] *)

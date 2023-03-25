@@ -534,6 +534,7 @@ val xv_virtual_flag : Asttypes.virtual_flag
 val xv_vaval_val_extra_ident_ : string Ast_helper.vala
 val xv_vaval_seq_expr_ : Parsetree.expression Ast_helper.vala
 val xv_vaval_pattern_ : Parsetree.pattern Ast_helper.vala
+val xv_vaval_label_longident_ : Longident.t Ast_helper.vala
 val xv_vaval_ident_ : Asttypes.label Ast_helper.vala
 val xv_vaval_constr_extra_ident_ : string Ast_helper.vala
 val xv_vaval_LIDENT_ : string Ast_helper.vala
@@ -910,6 +911,8 @@ val xv_mktyp___anonymous_36_ : Parsetree.core_type
 val xv_mktyp___anonymous_16_ : Parsetree.core_type
 val xv_mkstr___anonymous_1_ : Parsetree.structure_item
 val xv_mksig___anonymous_5_ : Parsetree.signature_item
+val xv_mkrhs_vaval_label_longident__ :
+  Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_val_ident_ANTI_LID__ : string Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_label_longident_ANTI_LONGID__ :
   Longident.t Ast_helper.vala Location.loc

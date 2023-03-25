@@ -21,6 +21,7 @@
         ]
       ; expand_types_per_constructor = [
           (Pexp_ident, [longident_t])
+        ; (Pexp_field, [longident_t])
         ]
       ; per_constructor_exprs = [
           (Pconst_integer, [

@@ -199,6 +199,21 @@ let test_construct ctxt =
             [%expression {| $longid:l'$ $expropt:eopt'$ |}] -> (l',eopt'))
     end
 
+let test_field ctxt =
+  let open Asttypes in
+  assert_equal () (
+      match [%expression {| x.f |}] with
+        [%expression {| x.f |}] -> ())
+  ; assert_equal () (
+        match [%expression {| x.M.f |}] with
+          [%expression {| x.M.f |}] -> ())
+  ; assert_equal () (
+        match [%expression {| x. $longid:li2$ . $lid:l$ |}] with
+          [%expression {| x.B.C.x |}] -> ())
+  ; assert_equal (li2, l) (
+        match [%expression {| x. $longid:li2$ . $lid:l$ |}] with
+          [%expression {| x. $longid:li2'$ . $lid:l'$ |}] -> (li2', l'))
+
 let test_fun ctxt =
   let open Asttypes in
   let lab = Nolabel in
@@ -245,6 +260,7 @@ let test = "expression" >::: [
     ; "construct"   >:: test_construct
     ; "fun"   >:: test_fun
     ; "variant"   >:: test_variant
+    ; "field"   >:: test_field
     ]
 
 end

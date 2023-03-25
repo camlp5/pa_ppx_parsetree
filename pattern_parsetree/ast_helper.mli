@@ -163,7 +163,7 @@ module Exp:
                  -> expression
     val record: ?loc:loc -> ?attrs:attrs -> (lid_vala * expression) list Ploc.vala
                 -> expression option Ploc.vala -> expression
-    val field: ?loc:loc -> ?attrs:attrs -> expression -> lid -> expression
+    val field: ?loc:loc -> ?attrs:attrs -> expression -> lid_vala -> expression
     val setfield: ?loc:loc -> ?attrs:attrs -> expression -> lid -> expression
                   -> expression
     val array: ?loc:loc -> ?attrs:attrs -> expression list -> expression

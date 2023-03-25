@@ -2560,7 +2560,7 @@ simple_expr:
       { unclosed "{<" $loc($1) ">}" $loc($3) }
   | LBRACELESS GREATERRBRACE
       { Pexp_override [] }
-  | simple_expr DOT mkrhs(label_longident)
+  | simple_expr DOT mkrhs(vaval(label_longident))
       { Pexp_field($1, $3) }
   | od=open_dot_declaration DOT LPAREN seq_expr RPAREN
       { Pexp_open(od, $4) }

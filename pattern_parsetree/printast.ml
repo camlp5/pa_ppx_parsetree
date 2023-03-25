@@ -131,6 +131,7 @@ let option i f ppf x =
       f (i+1) ppf x
 
 let longident_loc i ppf li = line i ppf "%a\n" fmt_longident_loc li
+let longident_vala_loc i ppf li = line i ppf "%a\n" fmt_longident_vala_loc li
 let string i ppf s = line i ppf "\"%s\"\n" s
 let string_loc i ppf s = line i ppf "%a\n" fmt_string_loc s
 let str_opt_loc i ppf s = line i ppf "%a\n" fmt_str_opt_loc s
@@ -303,7 +304,7 @@ and expression i ppf x =
   | Pexp_field (e, li) ->
       line i ppf "Pexp_field\n";
       expression i ppf e;
-      longident_loc i ppf li;
+      longident_vala_loc i ppf li;
   | Pexp_setfield (e1, li, e2) ->
       line i ppf "Pexp_setfield\n";
       expression i ppf e1;

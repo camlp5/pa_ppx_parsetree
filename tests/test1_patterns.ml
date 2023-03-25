@@ -27,4 +27,5 @@
 <:expression< { $list:lxx$ } >>;
 <:expression< { $x$ with $list:lxx$ } >>;
 <:expression< { $withe:ox$ $list:lxx$ } >>;
-
+<:expression< $x1$ . $lid:s$ >>;
+<:expression< $x1$ . $longid:x$ . $lid:s$ >>;
