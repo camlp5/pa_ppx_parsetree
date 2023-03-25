@@ -317,7 +317,7 @@ and expression i ppf x =
       line i ppf "Pexp_ifthenelse\n";
       expression i ppf e1;
       expression i ppf e2;
-      option i expression ppf eo;
+      option i expression ppf (unvala eo);
   | Pexp_sequence (e1, e2) ->
       line i ppf "Pexp_sequence\n";
       expression i ppf e1;

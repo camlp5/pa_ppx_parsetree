@@ -32,3 +32,6 @@
 <:expression< $x1$ . $lid:s$ <- $x3$ >>;
 <:expression< $x1$ . $longid:x$ . $lid:s$ <- $x3$ >>;
 <:expression< [| $list:lx$ |] >>;
+<:expression< if $x1$ then $x2$ >>;
+<:expression< if $x1$ then $x2$ else $x3$ >>;
+<:expression< if $x1$ then $x2$ $expropt:ox3$ >>;

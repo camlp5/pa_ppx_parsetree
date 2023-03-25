@@ -17,6 +17,7 @@ let li2 = [%longident_t {| B.C |}]
 let e0 = [%expression {| $lid:l$ |}]
 let e1 = [%expression {| a * b |}]
 let e2 = [%expression {| a / b |}]
+let e3 = [%expression {| a - b |}]
 
 let p1 = [%pattern {| C(a, b) |}]
 let p2 = [%pattern {| [a :: b] |}]
@@ -274,6 +275,19 @@ let test_array ctxt =
         match [%expression {| [| $list:l$ |] |}] with
           [%expression {| [| $list:l'$ |] |}] -> l')
 
+let test_ifthenelse ctxt =
+  let open Asttypes in
+  assert_equal () (
+      match [%expression {| if e1 then e2 else e3 |}] with
+        [%expression {| if e1 then e2 else e3 |}] -> ())
+ ; assert_equal (e1,e2,e3) (
+       match [%expression {| if $e1$ then $e2$ else $e3$ |}] with
+         [%expression {| if $e1'$ then $e2'$ else $e3'$ |}] -> (e1',e2',e3'))
+ ; assert_equal (e1,e2,Some e3) (
+       let e3opt = Some e3 in
+       match [%expression {| if $e1$ then $e2$ $expropt:e3opt$ |}] with
+         [%expression {| if $e1'$ then $e2'$ $expropt:e3opt'$ |}] -> (e1',e2',e3opt'))
+
 let test = "expression" >::: [
       "0"   >:: test0
     ; "1"   >:: test1
@@ -288,6 +302,7 @@ let test = "expression" >::: [
     ; "field"   >:: test_field
     ; "setfield"   >:: test_setfield
     ; "array"   >:: test_array
+    ; "ifthenelse"   >:: test_ifthenelse
     ]
 
 end

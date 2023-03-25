@@ -365,7 +365,7 @@ and expression_desc =
   | Pexp_setfield of expression * Longident.t Ploc.vala loc * expression
       (** [E1.l <- E2] *)
   | Pexp_array of expression list Ploc.vala  (** [[| E1; ...; En |]] *)
-  | Pexp_ifthenelse of expression * expression * expression option
+  | Pexp_ifthenelse of expression * expression * expression option Ploc.vala
       (** [if E1 then E2 else E3] *)
   | Pexp_sequence of expression * expression  (** [E1; E2] *)
   | Pexp_while of expression * expression  (** [while E1 do E2 done] *)

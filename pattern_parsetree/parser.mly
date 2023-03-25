@@ -858,6 +858,7 @@ The precedences must be listed from low to high.
           NEW PREFIXOP STRING TRUE UIDENT
           LBRACKETPERCENT QUOTED_STRING_EXPR ANTI ANTI_UID ANTI_LID ANTI_LONGID
           ANTI_INT ANTI_INT32 ANTI_INT64 ANTI_NATIVEINT ANTI_CHAR ANTI_STRING ANTI_DELIM ANTI_FLOAT
+          ANTI_EXPROPT
 
 /* Entry points */
 
@@ -2464,10 +2465,12 @@ expr:
       { Pexp_try($3, $5), $2 }
   | TRY ext_attributes seq_expr WITH error
       { syntax_error() }
+  | IF ext_attributes seq_expr THEN expr ANTI_EXPROPT
+      { Pexp_ifthenelse($3, $5, vaant $6), $2 }
   | IF ext_attributes seq_expr THEN expr ELSE expr
-      { Pexp_ifthenelse($3, $5, Some $7), $2 }
+      { Pexp_ifthenelse($3, $5, vaval(Some $7)), $2 }
   | IF ext_attributes seq_expr THEN expr
-      { Pexp_ifthenelse($3, $5, None), $2 }
+      { Pexp_ifthenelse($3, $5, vaval None), $2 }
   | WHILE ext_attributes seq_expr DO seq_expr DONE
       { Pexp_while($3, $5), $2 }
   | FOR ext_attributes pattern EQUAL seq_expr direction_flag seq_expr DO

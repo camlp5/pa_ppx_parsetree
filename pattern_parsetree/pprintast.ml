@@ -708,7 +708,7 @@ and expression ctxt f (x : expression) =
           (fun f eo -> match eo with
              | Some x ->
                  pp f "@;@[<2>else@;%a@]" (expression (under_semi ctxt)) x
-             | None -> () (* pp f "()" *)) eo
+             | None -> () (* pp f "()" *)) (unvala eo)
     | Pexp_sequence _ ->
         let rec sequence_helper acc = function
           | {pexp_desc=Pexp_sequence(e1,e2); pexp_attributes = []} ->

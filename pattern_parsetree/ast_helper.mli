@@ -168,7 +168,7 @@ module Exp:
                   -> expression
     val array: ?loc:loc -> ?attrs:attrs -> expression list Ploc.vala -> expression
     val ifthenelse: ?loc:loc -> ?attrs:attrs -> expression -> expression
-                    -> expression option -> expression
+                    -> expression option Ploc.vala -> expression
     val sequence: ?loc:loc -> ?attrs:attrs -> expression -> expression
                   -> expression
     val while_: ?loc:loc -> ?attrs:attrs -> expression -> expression
