@@ -323,6 +323,18 @@ let test_send ctxt =
         match [%expression {| $e1$ # $lid:m$ |}] with
           [%expression {| $e1'$ # $lid:m'$ |}] -> (e1', m'))
 
+let test_new ctxt =
+  let open Asttypes in
+  assert_equal () (
+      match [%expression {| new c |}] with
+        [%expression {| new c |}] -> ())
+  ; assert_equal () (
+        match [%expression {| new M.N.c |}] with
+          [%expression {| new M.N.c |}] -> ())
+  ; assert_equal (li1, m) (
+        match [%expression {| new $longid:li1$ . $lid:m$ |}] with
+          [%expression {| new $longid:li1'$ . $lid:m'$ |}] -> (li1', m'))
+
 let test = "expression" >::: [
       "0"   >:: test0
     ; "1"   >:: test1
@@ -341,6 +353,7 @@ let test = "expression" >::: [
     ; "for"   >:: test_for
     ; "coerce"   >:: test_coerce
     ; "send"   >:: test_send
+    ; "new"   >:: test_new
     ]
 
 end

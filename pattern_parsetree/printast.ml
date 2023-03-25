@@ -344,7 +344,7 @@ and expression i ppf x =
   | Pexp_send (e, s) ->
       line i ppf "Pexp_send \"%s\"\n" (unvala s.txt);
       expression i ppf e;
-  | Pexp_new (li) -> line i ppf "Pexp_new %a\n" fmt_longident_loc li;
+  | Pexp_new (li) -> line i ppf "Pexp_new %a\n" fmt_longident_vala_loc li;
   | Pexp_setinstvar (s, e) ->
       line i ppf "Pexp_setinstvar %a\n" fmt_string_loc s;
       expression i ppf e;

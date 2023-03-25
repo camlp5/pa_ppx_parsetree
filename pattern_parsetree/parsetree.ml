@@ -383,7 +383,7 @@ and expression_desc =
             - [(E : T0 :> T)] when [from] is [Some T0].
          *)
   | Pexp_send of expression * label Ploc.vala loc  (** [E # m] *)
-  | Pexp_new of Longident.t loc  (** [new M.c] *)
+  | Pexp_new of Longident.t Ploc.vala loc  (** [new M.c] *)
   | Pexp_setinstvar of label loc * expression  (** [x <- 2] *)
   | Pexp_override of (label loc * expression) list
       (** [{< x1 = E1; ...; xn = En >}] *)

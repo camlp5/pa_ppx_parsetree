@@ -718,7 +718,7 @@ and expression ctxt f (x : expression) =
         pp f "@[<hv>%a@]"
           (list (expression (under_semi ctxt)) ~sep:";@;") lst
     | Pexp_new (li) ->
-        pp f "@[<hov2>new@ %a@]" longident_loc li;
+        pp f "@[<hov2>new@ %a@]" longident_vala_loc li;
     | Pexp_setinstvar (s, e) ->
         pp f "@[<hov2>%s@ <-@ %a@]" s.txt (expression ctxt) e
     | Pexp_override l -> (* FIXME *)

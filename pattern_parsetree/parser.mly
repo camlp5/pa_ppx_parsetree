@@ -2536,7 +2536,7 @@ simple_expr:
       { Pexp_construct (mkloc (vaval (Lident (vaval"()"))) (make_loc $sloc), vaval None), $2 }
   | BEGIN ext_attributes seq_expr error
       { unclosed "begin" $loc($1) "end" $loc($4) }
-  | NEW ext_attributes mkrhs(class_longident)
+  | NEW ext_attributes mkrhs(vaval(class_longident))
       { Pexp_new($3), $2 }
   | LPAREN MODULE ext_attributes module_expr RPAREN
       { Pexp_pack $4, $3 }
@@ -3850,7 +3850,7 @@ clty_longident:
     mk_longident(vala(mod_ext_longident, ANTI_LONGID),vaval(LIDENT)) { $1 }
 ;
 class_longident:
-   mk_longident(vala(mod_longident, ANTI_LONGID),vaval(LIDENT)) { $1 }
+   mk_longident(vala(mod_longident, ANTI_LONGID),vala(LIDENT, ANTI_LID)) { $1 }
 ;
 
 /* BEGIN AVOID */

@@ -45,3 +45,5 @@
 <:expression< ( $x1$ : $x2$ :> $x3$ ) >>;
 <:expression< ( $x1$ $ctypopt:ox2$ :> $x3$ ) >>;
 <:expression< $x1$ # $lid:x$ >>;
+<:expression< new $lid:s$ >>;
+<:expression< new $longid:x$ . $lid:s$ >>;

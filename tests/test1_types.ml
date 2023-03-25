@@ -35,7 +35,17 @@
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
           ]})
+        ; (Pexp_setfield,
+           { longident_t = Explicit [
+                               Longident.Lident s
+                             ; Longident.Ldot (x, s)
+          ]})
         ; (Pexp_for, { direction_flag = Auto })
+        ; (Pexp_new,
+           { longident_t = Explicit [
+                               Longident.Lident s
+                             ; Longident.Ldot (x, s)
+          ]})
         ]
       ; per_constructor_exprs = [
           (Pconst_integer, [
