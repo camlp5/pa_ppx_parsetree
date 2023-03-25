@@ -11,6 +11,9 @@
 <:expression< $float:sxf1$ >> ;
 <:expression< let $recflag:x1$ $list:lx$ in $x2$ >>;
 <:expression< function $list:lx$ >>;
+<:expression< fun $label:x1$ ( $x3$ ) -> $x4$ >>;
+<:expression< fun $label:x1$ ( $x3$ = $x2$ ) -> $x4$ >>;
+<:expression< fun $label:x1$ ( $x3$ $expropt:ox2$ ) -> $x4$ >>;
 <:expression< $x$ $list:lxx$ >>;
 <:expression< match $x$ with $list:lx$ >>;
 <:expression< try $x$ with $list:lx$ >>;
