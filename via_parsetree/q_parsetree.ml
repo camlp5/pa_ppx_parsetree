@@ -1,4 +1,4 @@
-(**pp -syntax camlp5o $(MIGRATE_OCAMLCFLAGS) -package pa_ppx.import,pa_ppx_q_ast,camlp5.parser_quotations *)
+(**pp -syntax camlp5o $(MIGRATE_OCAMLCFLAGS) -package pa_ppx.import,pa_ppx_q_ast,camlp5.parser_quotations_base *)
 (* camlp5r *)
 (* pa_sexp.ml,v *)
 (* Copyright (c) INRIA 2007-2017 *)
@@ -35,6 +35,9 @@ end
 
 let parse_expression s =
   Pa_ppx_parsetree_pattern_parsetree.Parse.expression (Lexing.from_string s)
+
+let parse_module_expr s =
+  Pa_ppx_parsetree_pattern_parsetree.Parse.module_expr (Lexing.from_string s)
 
 let parse_pattern s =
   Pa_ppx_parsetree_pattern_parsetree.Parse.pattern (Lexing.from_string s)
@@ -184,6 +187,20 @@ let parse_lident_vala_loc s =
         data_source_module = Parsetree
       ; quotation_source_module = Reorg_parsetree
       }
+    ; module_expr = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
+      ; add_branches_patt_code = (function
+          | {pmod_desc=Pmod_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
+                                 )
+      ; add_branches_expr_code = (function
+          | {pmod_desc=Pmod_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
+                                 )
+      }
+    ; module_expr_desc = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
+      }
     ; pattern = {
         data_source_module = Parsetree
       ; quotation_source_module = Reorg_parsetree
@@ -235,6 +252,7 @@ let parse_lident_vala_loc s =
     }
   ; entrypoints = [
       {name = "expression"; from_string = parse_expression ; type_name = expression }
+    ; {name = "module_expr"; from_string = parse_module_expr ; type_name = module_expr }
     ; {name = "pattern"; from_string = parse_pattern ; type_name = pattern }
     ; {name = "core_type"; from_string = parse_core_type ; type_name = core_type }
     ; {name = "longident_t"; from_string = parse_longident ; type_name = longident_t }

@@ -20,6 +20,7 @@ open Location
 open Parsetree
 
 let unvala = Ast_helper.unvala
+let vaval = Ast_helper.vaval
 let loc_map = Ast_helper.loc_map
 
 let fmt_position with_name f l =
@@ -61,6 +62,9 @@ let fmt_string_vala_loc f (x : string Ploc.vala loc) =
 
 let fmt_str_opt_loc f (x : string option loc) =
   fprintf f "\"%s\" %a" (Option.value x.txt ~default:"_") fmt_location x.loc
+
+let fmt_str_vala_opt_vala_loc f (x : string Ploc.vala option Ploc.vala loc) =
+  fprintf f "\"%s\" %a" (unvala (Option.value (unvala x.txt) ~default:(vaval "_"))) fmt_location x.loc
 
 let fmt_char_option f = function
   | None -> fprintf f "None"
@@ -135,6 +139,7 @@ let longident_vala_loc i ppf li = line i ppf "%a\n" fmt_longident_vala_loc li
 let string i ppf s = line i ppf "\"%s\"\n" s
 let string_loc i ppf s = line i ppf "%a\n" fmt_string_loc s
 let str_opt_loc i ppf s = line i ppf "%a\n" fmt_str_opt_loc s
+let str_vala_opt_vala_loc i ppf s = line i ppf "%a\n" fmt_str_vala_opt_vala_loc s
 let arg_label i ppf = function
   | Nolabel -> line i ppf "Nolabel\n"
   | Optional s -> line i ppf "Optional \"%s\"\n" (unvala s)
@@ -245,7 +250,7 @@ and pattern i ppf x =
       line i ppf "Ppat_type\n";
       longident_loc i ppf li
   | Ppat_unpack s ->
-      line i ppf "Ppat_unpack %a\n" fmt_str_opt_loc s;
+      line i ppf "Ppat_unpack %a\n" fmt_str_vala_opt_vala_loc s;
   | Ppat_exception p ->
       line i ppf "Ppat_exception\n";
       pattern i ppf p
@@ -352,7 +357,7 @@ and expression i ppf x =
       line i ppf "Pexp_override\n";
       list i string_vala_x_expression ppf (unvala l);
   | Pexp_letmodule (s, me, e) ->
-      line i ppf "Pexp_letmodule %a\n" fmt_str_opt_loc s;
+      line i ppf "Pexp_letmodule %a\n" fmt_str_vala_opt_vala_loc s;
       module_expr i ppf me;
       expression i ppf e;
   | Pexp_letexception (cd, e) ->
@@ -672,7 +677,7 @@ and module_type i ppf x =
       line i ppf "Pmty_functor ()\n";
       module_type i ppf mt2;
   | Pmty_functor (Named (s, mt1), mt2) ->
-      line i ppf "Pmty_functor %a\n" fmt_str_opt_loc s;
+      line i ppf "Pmty_functor %a\n" fmt_str_vala_opt_vala_loc s;
       module_type i ppf mt1;
       module_type i ppf mt2;
   | Pmty_with (mt, l) ->
@@ -708,7 +713,7 @@ and signature_item i ppf x =
       line i ppf "Psig_exception\n";
       type_exception i ppf te
   | Psig_module pmd ->
-      line i ppf "Psig_module %a\n" fmt_str_opt_loc pmd.pmd_name;
+      line i ppf "Psig_module %a\n" fmt_str_vala_opt_vala_loc pmd.pmd_name;
       attributes i ppf pmd.pmd_attributes;
       module_type i ppf pmd.pmd_type
   | Psig_modsubst pms ->
@@ -790,7 +795,7 @@ and module_expr i ppf x =
       line i ppf "Pmod_functor ()\n";
       module_expr i ppf me;
   | Pmod_functor (Named (s, mt), me) ->
-      line i ppf "Pmod_functor %a\n" fmt_str_opt_loc s;
+      line i ppf "Pmod_functor %a\n" fmt_str_vala_opt_vala_loc s;
       module_type i ppf mt;
       module_expr i ppf me;
   | Pmod_apply (me1, me2) ->
@@ -865,12 +870,12 @@ and structure_item i ppf x =
       attribute i ppf "Pstr_attribute" a
 
 and module_declaration i ppf pmd =
-  str_opt_loc i ppf pmd.pmd_name;
+  str_vala_opt_vala_loc i ppf pmd.pmd_name;
   attributes i ppf pmd.pmd_attributes;
   module_type (i+1) ppf pmd.pmd_type;
 
 and module_binding i ppf x =
-  str_opt_loc i ppf x.pmb_name;
+  str_vala_opt_vala_loc i ppf x.pmb_name;
   attributes i ppf x.pmb_attributes;
   module_expr (i+1) ppf x.pmb_expr
 

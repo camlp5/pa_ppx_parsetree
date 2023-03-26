@@ -22,6 +22,9 @@ let e1 = [%expression {| a * b |}]
 let e2 = [%expression {| a / b |}]
 let e3 = [%expression {| a - b |}]
 
+let me1 = [%module_expr {| M |}]
+let me2 = [%module_expr {| N |}]
+
 let p1 = [%pattern {| C(a, b) |}]
 let p2 = [%pattern {| [a :: b] |}]
 
@@ -368,6 +371,18 @@ let test_override ctxt =
           match [%expression {| {< $list:ll$ >} |}] with
             [%expression {| {< $list:ll'$ >} |}] -> ll')
 
+let test_letmodule ctxt =
+  assert_equal () (
+      match [%expression {| let module M = ME in e |}] with
+        [%expression {| let module M = ME in e |}] -> ())
+  ; assert_equal (m, me1, e1) (
+      match [%expression {| let module $uid:m$ = $me1$ in $e1$ |}] with
+        [%expression {| let module $uid:m'$ = $me1'$ in $e1'$ |}] -> (m', me1', e1'))
+  ; assert_equal (None, me1, e1) (
+        let uopt = None in
+      match [%expression {| let module $uidopt:uopt$ = $me1$ in $e1$ |}] with
+        [%expression {| let module $uidopt:uopt'$ = $me1'$ in $e1'$ |}] -> (uopt', me1', e1'))
+
 let test = "expression" >::: [
       "0"   >:: test0
     ; "1"   >:: test1
@@ -389,6 +404,21 @@ let test = "expression" >::: [
     ; "new"   >:: test_new
     ; "setinstvar"   >:: test_setinstvar
     ; "override"   >:: test_override
+    ; "letmodule"   >:: test_letmodule
+    ]
+
+end
+
+module ME = struct
+
+open Fixtures
+
+let test_ident ctxt = 
+  assert_equal () (match [%module_expr {| M |}] with
+                           [%module_expr {| M |}] -> ())
+
+let test = "module_expr" >::: [
+      "ident"   >:: test_ident
     ]
 
 end
@@ -522,6 +552,7 @@ let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
     ; "value_binding"   >:: VB.test
     ; "arg_label"   >:: AL.test
     ; EX.test
+    ; ME.test
     ; "core_type"   >:: TY.test
     ; "constructor_declaration"   >:: CD.test
     ; "field"   >:: FLD.test

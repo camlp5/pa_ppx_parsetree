@@ -14,13 +14,13 @@ Arg.(parse [
 
 Fmt.(pf stdout {|
 # Specifications for the "pa_ppx_parsetree" preprocessor:
-requires = "camlp5,fmt,pa_ppx_parsetree_pattern_parsetree,pa_ppx.base,camlp5.parser_quotations,pa_ppx_q_ast.runtime"
+requires = "camlp5,fmt,pa_ppx_parsetree_pattern_parsetree,pa_ppx.base,camlp5.parser_quotations_base,pa_ppx_q_ast.runtime"
 version = "%s"
 description = "pa_ppx_parsetree_via_parsetree: pa_ppx_parsetree_via_parsetree rewriter"
 
 # For linking
 package "link" (
-requires = "camlp5,fmt,pa_ppx_parsetree_pattern_parsetree,pa_ppx.base.link,camlp5.parser_quotations.link,,pa_ppx_q_ast.runtime"
+requires = "camlp5,fmt,pa_ppx_parsetree_pattern_parsetree,pa_ppx.base.link,camlp5.parser_quotations_base.link,,pa_ppx_q_ast.runtime"
 archive(byte) = "pa_ppx_parsetree_via_parsetree.cma"
 archive(native) = "pa_ppx_parsetree_via_parsetree.cmxa"
 )
@@ -29,7 +29,7 @@ archive(native) = "pa_ppx_parsetree_via_parsetree.cmxa"
 archive(byte,toploop) = "pa_ppx_parsetree_via_parsetree.cma"
 
   # For the preprocessor itself:
-  requires(syntax,preprocessor) = "camlp5,fmt,pa_ppx_parsetree_pattern_parsetree,pa_ppx.base,camlp5.parser_quotations,pa_ppx_q_ast.runtime"
+  requires(syntax,preprocessor) = "camlp5,fmt,pa_ppx_parsetree_pattern_parsetree,pa_ppx.base,camlp5.parser_quotations_base,pa_ppx_q_ast.runtime"
   archive(syntax,preprocessor,-native) = "pa_ppx_parsetree_via_parsetree.cma"
   archive(syntax,preprocessor,native) = "pa_ppx_parsetree_via_parsetree.cmxa"
 

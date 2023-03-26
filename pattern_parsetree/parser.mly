@@ -772,6 +772,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_ID
 %token <string> ANTI_LID
 %token <string> ANTI_UID
+%token <string> ANTI_UIDOPT
 %token <string> ANTI_LONGID
 %token <string> ANTI_TYP
 %token <string> ANTI_PRIV
@@ -933,6 +934,7 @@ The precedences must be listed from low to high.
 %type <Longident.t Ploc.vala Asttypes.loc * Parsetree.expression> record_expr_field
 %type <expression option Ploc.vala * (Longident.t Ploc.vala Asttypes.loc * expression) list Ploc.vala> record_expr_content
 %type <Asttypes.arg_label Ploc.vala * Parsetree.expression option Ploc.vala * Parsetree.pattern> labeled_simple_pattern
+%type <string Ploc.vala option Ploc.vala> module_name
 
 %%
 
@@ -1380,8 +1382,11 @@ functor_arg:
 ;
 
 module_name:
+    vala(module_name_, ANTI_UIDOPT) { $1 }
+;
+%inline module_name_:
     (* A named argument. *)
-    x = UIDENT
+    x = vala(UIDENT, ANTI_UID)
       { Some x }
   | (* An anonymous argument. *)
     UNDERSCORE
@@ -1416,6 +1421,7 @@ module_expr:
       (* A module identifier. *)
       x = mkrhs(mod_longident)
         { Pmod_ident x }
+    | ANTI { Pmod_xtr (Location.mkloc $1 (make_loc $sloc)) }
     | (* In a functor application, the actual argument must be parenthesized. *)
       me1 = module_expr me2 = paren_module_expr
         { Pmod_apply(me1, me2) }
@@ -1714,9 +1720,10 @@ module_type:
   | mkmty(
       mkrhs(mty_longident)
         { Pmty_ident $1 }
+    | ANTI { Pmty_xtr (Location.mkloc $1 (make_loc $sloc)) }
     | module_type MINUSGREATER module_type
         %prec below_WITH
-        { Pmty_functor(Named (mknoloc None, $1), $3) }
+        { Pmty_functor(Named (mknoloc (vaval None), $1), $3) }
     | module_type WITH separated_nonempty_llist(AND, with_constraint)
         { Pmty_with($1, $3) }
 /*  | LPAREN MODULE mkrhs(mod_longident) RPAREN

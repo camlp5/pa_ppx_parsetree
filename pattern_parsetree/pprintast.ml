@@ -463,10 +463,10 @@ and simple_pattern ctxt (f:Format.formatter) (x:pattern) : unit =
     | Ppat_var ({txt = txt;_}) -> protect_ident f (unvala txt)
     | Ppat_array l ->
         pp f "@[<2>[|%a|]@]"  (list (pattern1 ctxt) ~sep:";") l
-    | Ppat_unpack { txt = None } ->
+    | Ppat_unpack { txt = VaVal None } ->
         pp f "(module@ _)@ "
-    | Ppat_unpack { txt = Some s } ->
-        pp f "(module@ %s)@ " s
+    | Ppat_unpack { txt = VaVal (Some s) } ->
+        pp f "(module@ %s)@ " (unvala s)
     | Ppat_type li ->
         pp f "#%a" longident_loc li
     | Ppat_record (l, closed) ->
@@ -728,7 +728,7 @@ and expression ctxt f (x : expression) =
           (list string_vala_x_expression  ~sep:";"  )  (unvala l);
     | Pexp_letmodule (s, me, e) ->
         pp f "@[<hov2>let@ module@ %s@ =@ %a@ in@ %a@]"
-          (Option.value s.txt ~default:"_")
+          (unvala (Option.value (unvala s.txt) ~default:(vaval "_")))
           (module_expr reset_ctxt) me (expression ctxt) e
     | Pexp_letexception (cd, e) ->
         pp f "@[<hov2>let@ exception@ %a@ in@ %a@]"
@@ -1052,12 +1052,12 @@ and module_type ctxt f x =
     | Pmty_functor (Unit, mt2) ->
         pp f "@[<hov2>functor () ->@ %a@]" (module_type ctxt) mt2
     | Pmty_functor (Named (s, mt1), mt2) ->
-        begin match s.txt with
+        begin match unvala s.txt with
         | None ->
             pp f "@[<hov2>%a@ ->@ %a@]"
               (module_type1 ctxt) mt1 (module_type ctxt) mt2
         | Some name ->
-            pp f "@[<hov2>functor@ (%s@ :@ %a)@ ->@ %a@]" name
+            pp f "@[<hov2>functor@ (%s@ :@ %a)@ ->@ %a@]" (unvala name)
               (module_type ctxt) mt1 (module_type ctxt) mt2
         end
     | Pmty_with (mt, []) -> module_type ctxt f mt
@@ -1142,12 +1142,12 @@ and signature_item ctxt f x : unit =
   | Psig_module ({pmd_type={pmty_desc=Pmty_alias alias;
                             pmty_attributes=[]; _};_} as pmd) ->
       pp f "@[<hov>module@ %s@ =@ %a@]%a"
-        (Option.value pmd.pmd_name.txt ~default:"_")
+        (unvala (Option.value (unvala pmd.pmd_name.txt) ~default:(vaval "_")))
         longident_loc alias
         (item_attributes ctxt) pmd.pmd_attributes
   | Psig_module pmd ->
       pp f "@[<hov>module@ %s@ :@ %a@]%a"
-        (Option.value pmd.pmd_name.txt ~default:"_")
+        (unvala (Option.value (unvala pmd.pmd_name.txt) ~default:(vaval "_")))
         (module_type ctxt) pmd.pmd_type
         (item_attributes ctxt) pmd.pmd_attributes
   | Psig_modsubst pms ->
@@ -1188,12 +1188,12 @@ and signature_item ctxt f x : unit =
         | pmd :: tl ->
             if not first then
               pp f "@ @[<hov2>and@ %s:@ %a@]%a"
-                (Option.value pmd.pmd_name.txt ~default:"_")
+                (unvala (Option.value (unvala pmd.pmd_name.txt) ~default:(vaval "_")))
                 (module_type1 ctxt) pmd.pmd_type
                 (item_attributes ctxt) pmd.pmd_attributes
             else
               pp f "@[<hov2>module@ rec@ %s:@ %a@]%a"
-                (Option.value pmd.pmd_name.txt ~default:"_")
+                (unvala (Option.value (unvala pmd.pmd_name.txt) ~default:(vaval "_")))
                 (module_type1 ctxt) pmd.pmd_type
                 (item_attributes ctxt) pmd.pmd_attributes;
             string_x_module_type_list f ~first:false tl
@@ -1222,7 +1222,7 @@ and module_expr ctxt f x =
         pp f "functor ()@;->@;%a" (module_expr ctxt) me
     | Pmod_functor (Named (s, mt), me) ->
         pp f "functor@ (%s@ :@ %a)@;->@;%a"
-          (Option.value s.txt ~default:"_")
+          (unvala (Option.value (unvala s.txt) ~default:(vaval "_")))
           (module_type ctxt) mt (module_expr ctxt) me
     | Pmod_apply (me1, me2) ->
         pp f "(%a)(%a)" (module_expr ctxt) me1 (module_expr ctxt) me2
@@ -1367,14 +1367,14 @@ and structure_item ctxt f x =
             begin match arg_opt with
             | Unit -> pp f "()"
             | Named (s, mt) ->
-              pp f "(%s:%a)" (Option.value s.txt ~default:"_")
+              pp f "(%s:%a)" (unvala (Option.value (unvala s.txt) ~default:(vaval"_")))
                 (module_type ctxt) mt
             end;
             module_helper me'
         | me -> me
       in
       pp f "@[<hov2>module %s%a@]%a"
-        (Option.value x.pmb_name.txt ~default:"_")
+        (unvala (Option.value (unvala x.pmb_name.txt) ~default:(vaval "_")))
         (fun f me ->
            let me = module_helper me in
            match me with
@@ -1454,27 +1454,27 @@ and structure_item ctxt f x =
       let aux f = function
         | ({pmb_expr={pmod_desc=Pmod_constraint (expr, typ)}} as pmb) ->
             pp f "@[<hov2>@ and@ %s:%a@ =@ %a@]%a"
-              (Option.value pmb.pmb_name.txt ~default:"_")
+              (unvala (Option.value (unvala pmb.pmb_name.txt) ~default:(vaval "_")))
               (module_type ctxt) typ
               (module_expr ctxt) expr
               (item_attributes ctxt) pmb.pmb_attributes
         | pmb ->
             pp f "@[<hov2>@ and@ %s@ =@ %a@]%a"
-              (Option.value pmb.pmb_name.txt ~default:"_")
+              (unvala (Option.value (unvala pmb.pmb_name.txt) ~default:(vaval "_")))
               (module_expr ctxt) pmb.pmb_expr
               (item_attributes ctxt) pmb.pmb_attributes
       in
       begin match decls with
       | ({pmb_expr={pmod_desc=Pmod_constraint (expr, typ)}} as pmb) :: l2 ->
           pp f "@[<hv>@[<hov2>module@ rec@ %s:%a@ =@ %a@]%a@ %a@]"
-            (Option.value pmb.pmb_name.txt ~default:"_")
+            (unvala (Option.value (unvala pmb.pmb_name.txt) ~default:(vaval "_")))
             (module_type ctxt) typ
             (module_expr ctxt) expr
             (item_attributes ctxt) pmb.pmb_attributes
             (fun f l2 -> List.iter (aux f) l2) l2
       | pmb :: l2 ->
           pp f "@[<hv>@[<hov2>module@ rec@ %s@ =@ %a@]%a@ %a@]"
-            (Option.value pmb.pmb_name.txt ~default:"_")
+            (unvala (Option.value (unvala pmb.pmb_name.txt) ~default:(vaval "_")))
             (module_expr ctxt) pmb.pmb_expr
             (item_attributes ctxt) pmb.pmb_attributes
             (fun f l2 -> List.iter (aux f) l2) l2

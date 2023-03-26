@@ -26,7 +26,7 @@ archive(native) = "pa_ppx_parsetree_pattern_parsetree.cmxa"
 archive(byte,toploop) = "pa_ppx_parsetree_pattern_parsetree.cma"
 
   # For the preprocessor itself:
-  requires(syntax,preprocessor) = "camlp5,fmt,re,pa_ppx.base,camlp5.parser_quotations,pa_ppx_q_ast.runtime"
+  requires(syntax,preprocessor) = "camlp5,fmt,re,pa_ppx.base"
   archive(syntax,preprocessor,-native) = "pa_ppx_parsetree_pattern_parsetree.cma"
   archive(syntax,preprocessor,native) = "pa_ppx_parsetree_pattern_parsetree.cmxa"
 

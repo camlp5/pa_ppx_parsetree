@@ -123,6 +123,7 @@ type token =
   | AS
   | ANTI_WITHE of (string)
   | ANTI_WHENO of (string)
+  | ANTI_UIDOPT of (string)
   | ANTI_UID of (string)
   | ANTI_TYP of (string)
   | ANTI_TUPLELIST of (string)

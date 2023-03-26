@@ -27,6 +27,7 @@ type lid_vala = Longident.t Ploc.vala with_loc
 type str = string with_loc
 type str_vala = string Ploc.vala with_loc
 type str_opt = string option with_loc
+type str_vala_opt_vala = string Ploc.vala option Ploc.vala with_loc
 type attrs = attribute list
 
 type 'a vala = 'a Ploc.vala =

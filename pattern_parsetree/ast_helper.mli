@@ -32,6 +32,7 @@ type lid_vala = Longident.t Ploc.vala with_loc
 type str = string with_loc
 type str_vala = string Ploc.vala with_loc
 type str_opt = string option with_loc
+type str_vala_opt_vala = string Ploc.vala option Ploc.vala with_loc
 type attrs = attribute list
 
 type 'a vala = 'a Ploc.vala =
@@ -132,7 +133,7 @@ module Pat:
     val constraint_: ?loc:loc -> ?attrs:attrs -> pattern -> core_type -> pattern
     val type_: ?loc:loc -> ?attrs:attrs -> lid -> pattern
     val lazy_: ?loc:loc -> ?attrs:attrs -> pattern -> pattern
-    val unpack: ?loc:loc -> ?attrs:attrs -> str_opt -> pattern
+    val unpack: ?loc:loc -> ?attrs:attrs -> str_vala_opt_vala -> pattern
     val open_: ?loc:loc -> ?attrs:attrs  -> lid -> pattern -> pattern
     val exception_: ?loc:loc -> ?attrs:attrs -> pattern -> pattern
     val extension: ?loc:loc -> ?attrs:attrs -> extension -> pattern
@@ -184,7 +185,7 @@ module Exp:
     val setinstvar: ?loc:loc -> ?attrs:attrs -> str_vala -> expression -> expression
     val override: ?loc:loc -> ?attrs:attrs -> (str_vala * expression) list Ploc.vala
                   -> expression
-    val letmodule: ?loc:loc -> ?attrs:attrs -> str_opt -> module_expr
+    val letmodule: ?loc:loc -> ?attrs:attrs -> str_vala_opt_vala -> module_expr
                    -> expression -> expression
     val letexception:
       ?loc:loc -> ?attrs:attrs -> extension_constructor -> expression
@@ -340,7 +341,7 @@ module Str:
 module Md:
   sig
     val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?text:text ->
-      str_opt -> module_type -> module_declaration
+      str_vala_opt_vala -> module_type -> module_declaration
   end
 
 (** Module substitutions *)
@@ -361,7 +362,7 @@ module Mtd:
 module Mb:
   sig
     val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?text:text ->
-      str_opt -> module_expr -> module_binding
+      str_vala_opt_vala -> module_expr -> module_binding
   end
 
 (** Opens *)

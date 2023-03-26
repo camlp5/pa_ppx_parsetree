@@ -122,6 +122,7 @@ type token =
   | AS
   | ANTI_WITHE of string
   | ANTI_WHENO of string
+  | ANTI_UIDOPT of string
   | ANTI_UID of string
   | ANTI_TYP of string
   | ANTI_TUPLELIST of string
@@ -567,6 +568,8 @@ val xv_vala_nonempty_llist_labeled_simple_expr__ANTI_LIST_ :
   (Asttypes.arg_label * Parsetree.expression) list Ast_helper.vala
 val xv_vala_mutable_flag_ANTI_MUTABLE_ :
   Asttypes.mutable_flag Ast_helper.vala
+val xv_vala_module_name__ANTI_UIDOPT_ :
+  string Ast_helper.vala option Ast_helper.vala
 val xv_vala_mod_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_mod_ext_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_match_cases_ANTI_LIST_ : Parsetree.case list Ast_helper.vala
@@ -901,7 +904,8 @@ val xv_module_type_declaration :
 val xv_module_type : Parsetree.module_type
 val xv_module_subst :
   Parsetree.module_substitution * string Asttypes.loc option
-val xv_module_name : string option
+val xv_module_name_ : string Ast_helper.vala option
+val xv_module_name : string Ast_helper.vala option Ast_helper.vala
 val xv_module_expr_alias : Parsetree.module_type
 val xv_module_expr : Parsetree.module_expr
 val xv_module_declaration_body : Parsetree.module_type
@@ -942,7 +946,8 @@ val xv_mkrhs_val_ident_ : Ast_helper.str
 val xv_mkrhs_type_longident_ : Ast_helper.lid
 val xv_mkrhs_name_tag_ : Asttypes.label Ast_helper.with_loc
 val xv_mkrhs_mty_longident_ : Longident.t Asttypes.loc
-val xv_mkrhs_module_name_ : string option Asttypes.loc
+val xv_mkrhs_module_name_ :
+  string Ast_helper.vala option Ast_helper.vala Asttypes.loc
 val xv_mkrhs_mod_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_mod_ext_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_label_longident_ : Longident.t Asttypes.loc

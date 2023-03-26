@@ -262,7 +262,7 @@ and pattern_desc =
   | Ppat_constraint of pattern * core_type  (** Pattern [(P : T)] *)
   | Ppat_type of Longident.t loc  (** Pattern [#tconst] *)
   | Ppat_lazy of pattern  (** Pattern [lazy P] *)
-  | Ppat_unpack of string option loc
+  | Ppat_unpack of string Ploc.vala option Ploc.vala loc
       (** [Ppat_unpack(s)] represents:
             - [(module P)] when [s] is [Some "P"]
             - [(module _)] when [s] is [None]
@@ -387,7 +387,7 @@ and expression_desc =
   | Pexp_setinstvar of label Ploc.vala loc * expression  (** [x <- 2] *)
   | Pexp_override of (label Ploc.vala loc * expression) list Ploc.vala
       (** [{< x1 = E1; ...; xn = En >}] *)
-  | Pexp_letmodule of string option loc * module_expr * expression
+  | Pexp_letmodule of string Ploc.vala option Ploc.vala loc * module_expr * expression
       (** [let module M = ME in E] *)
   | Pexp_letexception of extension_constructor * expression
       (** [let exception C in E] *)
@@ -818,10 +818,11 @@ and module_type_desc =
   | Pmty_typeof of module_expr  (** [module type of ME] *)
   | Pmty_extension of extension  (** [[%id]] *)
   | Pmty_alias of Longident.t loc  (** [(module M)] *)
+  | Pmty_xtr of string loc
 
 and functor_parameter =
   | Unit  (** [()] *)
-  | Named of string option loc * module_type
+  | Named of string Ploc.vala option Ploc.vala loc * module_type
       (** [Named(name, MT)] represents:
             - [(X : MT)] when [name] is [Some X],
             - [(_ : MT)] when [name] is [None] *)
@@ -864,7 +865,7 @@ and signature_item_desc =
 
 and module_declaration =
     {
-     pmd_name: string option loc;
+     pmd_name: string Ploc.vala option Ploc.vala loc;
      pmd_type: module_type;
      pmd_attributes: attributes;  (** [... [\@\@id1] [\@\@id2]] *)
      pmd_loc: Location.t;
@@ -967,6 +968,7 @@ and module_expr_desc =
   | Pmod_constraint of module_expr * module_type  (** [(ME : MT)] *)
   | Pmod_unpack of expression  (** [(val E)] *)
   | Pmod_extension of extension  (** [[%id]] *)
+  | Pmod_xtr of string loc
 
 and structure = structure_item list
 
@@ -1017,7 +1019,7 @@ and value_binding =
 
 and module_binding =
     {
-     pmb_name: string option loc;
+     pmb_name: string Ploc.vala option Ploc.vala loc;
      pmb_expr: module_expr;
      pmb_attributes: attributes;
      pmb_loc: Location.t;
