@@ -174,14 +174,14 @@ let mkexp_cons ~loc consloc args =
   mkexp ~loc (mkexp_cons_desc consloc args)
 
 let mkpat_cons_desc consloc args =
-  Ppat_construct(mkrhs (vaval(Lident (vaval "::"))) consloc, vaval (Some ([], args)))
+  Ppat_construct(mkrhs (vaval(Lident (vaval "::"))) consloc, vaval (Some (vaval [], args)))
 let mkpat_cons ~loc consloc args =
   mkpat ~loc (mkpat_cons_desc consloc args)
 
 let ghexp_cons_desc consloc args =
   Pexp_construct(ghrhs (vaval(Lident (vaval "::"))) consloc, vaval (Some args))
 let ghpat_cons_desc consloc args =
-  Ppat_construct(ghrhs (vaval(Lident (vaval "::"))) consloc, vaval (Some ([], args)))
+  Ppat_construct(ghrhs (vaval(Lident (vaval "::"))) consloc, vaval (Some (vaval [], args)))
 
 let rec mktailexp nilloc = let open Location in function
     [] ->
@@ -414,7 +414,7 @@ let wrap_type_annotation ~loc newtypes core_type body =
   let mk_newtypes = mk_newtypes ~loc in
   let exp = mkexp(Pexp_constraint(body,core_type)) in
   let exp = mk_newtypes newtypes exp in
-  (exp, ghtyp(Ptyp_poly(newtypes, Typ.varify_constructors newtypes core_type)))
+  (exp, ghtyp(Ptyp_poly(vaval newtypes, Typ.varify_constructors newtypes core_type)))
 
 let wrap_exp_attrs ~loc body (ext, attrs) =
   let ghexp = ghexp ~loc in
@@ -2489,6 +2489,10 @@ expr:
         Pexp_fun(l, o, p, $4), $2 }
   | FUN ext_attributes LPAREN TYPE lident_list RPAREN fun_def
       { (mk_newtypes ~loc:$sloc $5 $7).pexp_desc, $2 }
+(*
+  | FUN ext_attributes LPAREN TYPE ANTI_LID RPAREN fun_def
+      { (mk_newtypes ~loc:$sloc [vaant $5] $7).pexp_desc, $2 }
+ *)
   | MATCH ext_attributes seq_expr WITH vala(match_cases, ANTI_LIST)
       { Pexp_match($3, $5), $2 }
   | TRY ext_attributes seq_expr WITH vala(match_cases, ANTI_LIST)
@@ -2684,7 +2688,7 @@ labeled_simple_expr:
       { (Optional (vaval $1), $2) }
 ;
 %inline lident_list:
-  xs = mkrhs(LIDENT)+
+  xs = mkrhs(vala(LIDENT, ANTI_LID))+
     { xs }
 ;
 %inline let_ident:
@@ -2702,7 +2706,7 @@ let_binding_body_no_punning:
           | _ -> assert false
         in
         let loc = Location.(t.ptyp_loc.loc_start, t.ptyp_loc.loc_end) in
-        let typ = ghtyp ~loc (Ptyp_poly([],t)) in
+        let typ = ghtyp ~loc (Ptyp_poly(vaval [],t)) in
         let patloc = ($startpos($1), $endpos($2)) in
         (ghpat ~loc:patloc (Ppat_constraint(v, typ)),
          mkexp_constraint ~loc:$sloc $4 $2) }
@@ -2960,10 +2964,10 @@ pattern_gen:
       { $1 }
   | mkpat(
       mkrhs(vala(constr_longident, ANTI_LONGID)) pattern %prec prec_constr_appl
-        { Ppat_construct($1, vaval(Some ([], $2))) }
+        { Ppat_construct($1, vaval(Some (vaval [], $2))) }
     | constr=mkrhs(vala(constr_longident, ANTI_LONGID)) LPAREN TYPE newtypes=lident_list RPAREN
         pat=simple_pattern
-        { Ppat_construct(constr, vaval(Some (newtypes, pat))) }
+        { Ppat_construct(constr, vaval(Some (vaval newtypes, pat))) }
     | constr=mkrhs(vala(constr_longident, ANTI_LONGID)) pattopt = ANTI_PATTOPT
         { Ppat_construct(constr, vaant pattopt) }
     | name_tag_vala pattern %prec prec_constr_appl
@@ -3477,7 +3481,7 @@ with_type_binder:
 /* Polymorphic types */
 
 %inline typevar:
-  QUOTE mkrhs(ident)
+  QUOTE mkrhs(vala(ident, ANTI_LID))
     { $2 }
 ;
 %inline typevar_list:
@@ -3486,7 +3490,7 @@ with_type_binder:
 ;
 %inline poly(X):
   typevar_list DOT X
-    { Ptyp_poly($1, $3) }
+    { Ptyp_poly(vaval $1, $3) }
 ;
 possibly_poly(X):
   X

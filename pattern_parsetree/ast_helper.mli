@@ -94,14 +94,14 @@ module Typ :
     val alias: ?loc:loc -> ?attrs:attrs -> core_type -> string -> core_type
     val variant: ?loc:loc -> ?attrs:attrs -> row_field list -> closed_flag
                  -> label Ploc.vala list option -> core_type
-    val poly: ?loc:loc -> ?attrs:attrs -> str list -> core_type -> core_type
+    val poly: ?loc:loc -> ?attrs:attrs -> str_vala list Ploc.vala -> core_type -> core_type
     val package: ?loc:loc -> ?attrs:attrs -> lid -> (lid * core_type) list
                  -> core_type
     val extension: ?loc:loc -> ?attrs:attrs -> extension -> core_type
 
     val force_poly: core_type -> core_type
 
-    val varify_constructors: str list -> core_type -> core_type
+    val varify_constructors: str_vala list -> core_type -> core_type
     (** [varify_constructors newtypes te] is type expression [te], of which
         any of nullary type constructor [tc] is replaced by type variable of
         the same name, if [tc]'s name appears in [newtypes].
@@ -124,7 +124,7 @@ module Pat:
     val interval: ?loc:loc -> ?attrs:attrs -> constant -> constant -> pattern
     val tuple: ?loc:loc -> ?attrs:attrs -> pattern list Ploc.vala -> pattern
     val construct: ?loc:loc -> ?attrs:attrs ->
-      lid_vala -> (str list * pattern) option Ploc.vala -> pattern
+      lid_vala -> (str_vala list Ploc.vala * pattern) option Ploc.vala -> pattern
     val variant: ?loc:loc -> ?attrs:attrs -> label Ploc.vala -> pattern option -> pattern
     val record: ?loc:loc -> ?attrs:attrs -> (lid * pattern) list -> closed_flag
                 -> pattern
@@ -195,7 +195,7 @@ module Exp:
     val poly: ?loc:loc -> ?attrs:attrs -> expression -> core_type option
               -> expression
     val object_: ?loc:loc -> ?attrs:attrs -> class_structure -> expression
-    val newtype: ?loc:loc -> ?attrs:attrs -> str -> expression -> expression
+    val newtype: ?loc:loc -> ?attrs:attrs -> str_vala -> expression -> expression
     val pack: ?loc:loc -> ?attrs:attrs -> module_expr -> expression
     val open_: ?loc:loc -> ?attrs:attrs -> open_declaration -> expression
                -> expression
@@ -225,7 +225,7 @@ module Type:
       type_declaration
 
     val constructor: ?loc:loc -> ?attrs:(attrs Ploc.vala) -> ?info:info ->
-      ?vars:str list -> ?args:constructor_arguments -> ?res:core_type ->
+      ?vars:str_vala list -> ?args:constructor_arguments -> ?res:core_type ->
       str_vala ->
       constructor_declaration
     val field: ?loc:loc -> ?attrs:attrs Ploc.vala -> ?info:info ->
@@ -246,7 +246,7 @@ module Te:
       str_vala -> extension_constructor_kind -> extension_constructor
 
     val decl: ?loc:loc -> ?attrs:attrs Ploc.vala -> ?docs:docs -> ?info:info ->
-      ?vars:str list -> ?args:constructor_arguments -> ?res:core_type ->
+      ?vars:str_vala list -> ?args:constructor_arguments -> ?res:core_type ->
       str_vala ->
       extension_constructor
     val rebind: ?loc:loc -> ?attrs:attrs Ploc.vala -> ?docs:docs -> ?info:info ->

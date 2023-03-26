@@ -96,6 +96,7 @@ let needs_spaces txt =
   first_is '*' txt || last_is '*' txt
 
 let string_loc ppf x = fprintf ppf "%s" x.txt
+let string_vala_loc ppf x = fprintf ppf "%s" (unvala x.txt)
 
 (* add parentheses to binders when they are in fact infix or prefix operators *)
 let protect_ident ppf txt =
@@ -277,7 +278,7 @@ let tyvar ppf s =
   else
     Format.fprintf ppf "'%s" s
 
-let tyvar_loc f str = tyvar f str.txt
+let tyvar_loc f str = tyvar f (unvala str.txt)
 let string_quot f x = pp f "`%s" x
 
 (* c ['a,'b] *)
@@ -304,15 +305,15 @@ and core_type ctxt f x =
           (type_with_label ctxt) (l,ct1) (core_type ctxt) ct2
     | Ptyp_alias (ct, s) ->
         pp f "@[<2>%a@;as@;%a@]" (core_type1 ctxt) ct tyvar s
-    | Ptyp_poly ([], ct) ->
+    | Ptyp_poly (VaVal [], ct) ->
         core_type ctxt f ct
-    | Ptyp_poly (sl, ct) ->
+    | Ptyp_poly (VaVal sl, ct) ->
         pp f "@[<2>%a%a@]"
           (fun f l ->
              pp f "%a"
                (fun f l -> match l with
                   | [] -> ()
-                  | _ ->
+                  | l ->
                       pp f "%a@;.@;"
                         (list tyvar_loc ~sep:"@;")  l)
                l)
@@ -426,7 +427,7 @@ and pattern1 ctxt (f:Format.formatter) (x:pattern) : unit =
     | {ppat_desc =
          Ppat_construct
            ({ txt = VaVal(Lident(Ploc.VaVal "::")) ;_},
-            VaVal (Some ([], {ppat_desc = Ppat_tuple(Ploc.VaVal [pat1; pat2]);_})));
+            VaVal (Some (VaVal [], {ppat_desc = Ppat_tuple(Ploc.VaVal [pat1; pat2]);_})));
        ppat_attributes = []}
 
       ->
@@ -445,11 +446,11 @@ and pattern1 ctxt (f:Format.formatter) (x:pattern) : unit =
           pp f "%a" pattern_list_helper x
         else
           (match unvala po with
-           | Some ([], x) ->
+           | Some (VaVal [], x) ->
                pp f "%a@;%a"  longident_vala_loc li (simple_pattern ctxt) x
-           | Some (vl, x) ->
+           | Some (VaVal vl, x) ->
                pp f "%a@ (type %a)@;%a" longident_vala_loc li
-                 (list ~sep:"@ " string_loc) vl
+                 (list ~sep:"@ " string_vala_loc) vl
                  (simple_pattern ctxt) x
            | None -> pp f "%a" longident_vala_loc li)
     | _ -> simple_pattern ctxt f x
@@ -629,7 +630,7 @@ and expression ctxt f (x : expression) =
           (label_exp ctxt) (unvala l, unvala e0, p)
           (expression ctxt) e
     | Pexp_newtype (lid, e) ->
-        pp f "@[<2>fun@;(type@;%s)@;->@;%a@]" lid.txt
+        pp f "@[<2>fun@;(type@;%s)@;->@;%a@]" (unvala lid.txt)
           (expression ctxt) e
     | Pexp_function l ->
         pp f "@[<hv>function%a@]" (case_list ctxt) (unvala l)
@@ -1259,7 +1260,7 @@ and binding ctxt f {pvb_pat=p; pvb_expr=x; _} =
             pp f "%a@ %a"
               (label_exp ctxt) (unvala label,unvala eo,p) pp_print_pexp_function e
       | Pexp_newtype (str,e) ->
-          pp f "(type@ %s)@ %a" str.txt pp_print_pexp_function e
+          pp f "(type@ %s)@ %a" (unvala str.txt) pp_print_pexp_function e
       | _ -> pp f "=@;%a" (expression ctxt) x
   in
   let tyvars_str tyvars = List.map (fun v -> v.txt) tyvars in
@@ -1281,7 +1282,7 @@ and binding ctxt f {pvb_pat=p; pvb_expr=x; _} =
     let gadt_exp = gadt_exp [] e in
     match gadt_pattern, gadt_exp with
     | Some (p, pt_tyvars, pt_ct), Some (e_tyvars, e, e_ct)
-      when tyvars_str pt_tyvars = tyvars_str e_tyvars ->
+      when tyvars_str (unvala pt_tyvars) = tyvars_str e_tyvars ->
       let ety = Typ.varify_constructors e_tyvars e_ct in
       if ety = pt_ct then
       Some (p, pt_tyvars, e_ct, e) else None
@@ -1298,13 +1299,13 @@ and binding ctxt f {pvb_pat=p; pvb_expr=x; _} =
         pp f "%a@;=@;%a" (pattern ctxt) p (expression ctxt) x
   else
   match is_desugared_gadt p x with
-  | Some (p, [], ct, e) ->
+  | Some (p, VaVal [], ct, e) ->
       pp f "%a@;: %a@;=@;%a"
         (simple_pattern ctxt) p (core_type ctxt) ct (expression ctxt) e
-  | Some (p, tyvars, ct, e) -> begin
+  | Some (p, VaVal tyvars, ct, e) -> begin
     pp f "%a@;: type@;%a.@;%a@;=@;%a"
     (simple_pattern ctxt) p (list pp_print_string ~sep:"@;")
-    (tyvars_str tyvars) (core_type ctxt) ct (expression ctxt) e
+    (List.map unvala (tyvars_str tyvars)) (core_type ctxt) ct (expression ctxt) e
     end
   | None -> begin
       match p with

@@ -138,6 +138,7 @@ let longident_loc i ppf li = line i ppf "%a\n" fmt_longident_loc li
 let longident_vala_loc i ppf li = line i ppf "%a\n" fmt_longident_vala_loc li
 let string i ppf s = line i ppf "\"%s\"\n" s
 let string_loc i ppf s = line i ppf "%a\n" fmt_string_loc s
+let string_vala_loc i ppf s = line i ppf "%a\n" fmt_string_vala_loc s
 let str_opt_loc i ppf s = line i ppf "%a\n" fmt_str_opt_loc s
 let str_vala_opt_vala_loc i ppf s = line i ppf "%a\n" fmt_str_vala_opt_vala_loc s
 let arg_label i ppf = function
@@ -146,7 +147,7 @@ let arg_label i ppf = function
   | Labelled s -> line i ppf "Labelled \"%s\"\n" (unvala s)
 
 let typevars ppf vs =
-  List.iter (fun x -> fprintf ppf " %a" Pprintast.tyvar x.txt) vs
+  List.iter (fun x -> fprintf ppf " %a" Pprintast.tyvar (unvala x.txt)) vs
 
 let rec core_type i ppf x =
   line i ppf "core_type %a\n" fmt_location x.ptyp_loc;
@@ -190,7 +191,7 @@ let rec core_type i ppf x =
       line i ppf "Ptyp_alias \"%s\"\n" s;
       core_type i ppf ct;
   | Ptyp_poly (sl, ct) ->
-      line i ppf "Ptyp_poly%a\n" typevars sl;
+      line i ppf "Ptyp_poly%a\n" typevars (unvala sl);
       core_type i ppf ct;
   | Ptyp_package (s, l) ->
       line i ppf "Ptyp_package %a\n" fmt_longident_loc s;
@@ -223,7 +224,7 @@ and pattern i ppf x =
       line i ppf "Ppat_construct %a\n" fmt_longident_vala_loc li;
       option i
         (fun i ppf (vl, p) ->
-          list i string_loc ppf vl;
+          list i string_vala_loc ppf (unvala vl);
           pattern i ppf p)
         ppf (unvala po)
   | Ppat_variant (l, po) ->
@@ -378,7 +379,7 @@ and expression i ppf x =
       line i ppf "Pexp_object\n";
       class_structure i ppf s
   | Pexp_newtype (s, e) ->
-      line i ppf "Pexp_newtype \"%s\"\n" s.txt;
+      line i ppf "Pexp_newtype \"%s\"\n" (unvala s.txt);
       expression i ppf e
   | Pexp_pack me ->
       line i ppf "Pexp_pack\n";

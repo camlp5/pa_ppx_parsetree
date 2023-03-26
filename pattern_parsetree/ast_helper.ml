@@ -97,25 +97,25 @@ module Typ = struct
   let force_poly t =
     match t.ptyp_desc with
     | Ptyp_poly _ -> t
-    | _ -> poly ~loc:t.ptyp_loc [] t (* -> ghost? *)
+    | _ -> poly ~loc:t.ptyp_loc (vaval[]) t (* -> ghost? *)
 
   let varify_constructors var_names t =
-    let check_variable vl loc v =
+    let check_variable vl loc (v: string Ploc.vala) =
       if List.mem v vl then
-        raise Syntaxerr.(Error(Variable_in_scope(loc,v))) in
-    let var_names = List.map (fun v -> v.txt) var_names in
+        raise Syntaxerr.(Error(Variable_in_scope(loc,unvala v))) in
+    let var_names : string Ploc.vala list = List.map (fun v -> v.txt) var_names in
     let rec loop t =
       let desc =
         match t.ptyp_desc with
         | Ptyp_any -> Ptyp_any
         | Ptyp_var x ->
-            Pcaml.vala_it (check_variable var_names t.ptyp_loc) x;
+            check_variable var_names t.ptyp_loc x;
             Ptyp_var x
         | Ptyp_arrow (label,core_type,core_type') ->
             Ptyp_arrow(label, loop core_type, loop core_type')
         | Ptyp_tuple lst -> Ptyp_tuple (Pcaml.vala_map (List.map loop) lst)
         | Ptyp_constr( { txt = Longident.Lident s }, Ploc.VaVal [])
-          when List.mem (unvala s) var_names ->
+          when List.mem s var_names ->
             Ptyp_var s
         | Ptyp_constr(longident, lst) ->
             Ptyp_constr(longident, Pcaml.vala_map (List.map loop) lst)
@@ -124,14 +124,14 @@ module Typ = struct
         | Ptyp_class (longident, lst) ->
             Ptyp_class (longident, List.map loop lst)
         | Ptyp_alias(core_type, string) ->
-            check_variable var_names t.ptyp_loc string;
+            check_variable var_names t.ptyp_loc (vaval string);
             Ptyp_alias(loop core_type, string)
         | Ptyp_variant(row_field_list, flag, lbl_lst_option) ->
             Ptyp_variant(List.map loop_row_field row_field_list,
                          flag, lbl_lst_option)
         | Ptyp_poly(string_lst, core_type) ->
-          List.iter (fun v ->
-            check_variable var_names t.ptyp_loc v.txt) string_lst;
+          Pcaml.vala_it (List.iter (fun v ->
+              check_variable var_names t.ptyp_loc v.txt)) string_lst;
             Ptyp_poly(string_lst, loop core_type)
         | Ptyp_package(longident,lst) ->
             Ptyp_package(longident,List.map (fun (n,typ) -> (n,loop typ) ) lst)
