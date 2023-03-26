@@ -52,3 +52,4 @@
 <:expression< let module _ = $me$ in $x2$ >>;
 <:expression< let module $uid:s$ = $me$ in $x2$ >>;
 <:expression< let module $uidopt:os$ = $me$ in $x2$ >>;
+<:expression< let $excon:x1$ in $x2$ >>;
