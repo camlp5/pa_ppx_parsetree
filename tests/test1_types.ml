@@ -46,6 +46,7 @@
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
           ]})
+        ; (Pexp_object, { class_structure = Auto })
         ]
       ; per_constructor_exprs = [
           (Pconst_integer, [
@@ -66,6 +67,7 @@
         ; located = Location
         ; longident_t = Longident
         ; direction_flag = Asttypes
+        ; class_structure = Parsetree
         }
       }
   ]

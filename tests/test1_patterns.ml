@@ -55,3 +55,7 @@
 <:expression< let $excon:x1$ in $x2$ >>;
 <:expression< assert $x$ >>;
 <:expression< lazy $x$ >>;
+{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 None; Parsetree.pexp_loc = __loc__; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
+{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 (Some x2); Parsetree.pexp_loc = __loc__; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
+{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 ox2; Parsetree.pexp_loc = __loc__; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
+<:expression< object $patt:x$ $list:lx$  end >>;

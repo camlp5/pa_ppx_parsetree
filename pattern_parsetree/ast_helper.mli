@@ -486,7 +486,7 @@ module Csig:
 (** Class structures *)
 module Cstr:
   sig
-    val mk: pattern -> class_field list -> class_structure
+    val mk: pattern Ploc.vala -> class_field list Ploc.vala -> class_structure
   end
 
 (** Row fields *)

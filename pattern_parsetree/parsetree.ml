@@ -735,8 +735,8 @@ and class_expr_desc =
 
 and class_structure =
     {
-     pcstr_self: pattern;
-     pcstr_fields: class_field list;
+     pcstr_self: pattern Ploc.vala;
+     pcstr_fields: class_field list Ploc.vala;
     }
 (** Values of type {!class_structure} represents:
     - [object(selfpat) ... end]

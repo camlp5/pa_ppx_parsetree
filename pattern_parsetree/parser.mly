@@ -2031,8 +2031,10 @@ class_fun_def:
   ) { $1 }
 ;
 %inline class_structure:
-  |  class_self_pattern extra_cstr(class_fields)
+  |  vaval(class_self_pattern) vala(extra_cstr(class_fields), ANTI_LIST)
        { Cstr.mk $1 $2 }
+  |  ANTI_PATT vala(extra_cstr(class_fields), ANTI_LIST)
+       { Cstr.mk (vaant $1) $2 }
 ;
 class_self_pattern:
     LPAREN pattern RPAREN

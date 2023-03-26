@@ -1005,8 +1005,8 @@ and class_structure ctxt f { pcstr_self = p; pcstr_fields =  l } =
     (fun f p -> match p.ppat_desc with
        | Ppat_any -> ()
        | Ppat_constraint _ -> pp f " %a" (pattern ctxt) p
-       | _ -> pp f " (%a)" (pattern ctxt) p) p
-    (list (class_field ctxt)) l
+       | _ -> pp f " (%a)" (pattern ctxt) p) (unvala p)
+    (list (class_field ctxt)) (unvala l)
 
 and class_expr ctxt f x =
   if x.pcl_attributes <> [] then begin

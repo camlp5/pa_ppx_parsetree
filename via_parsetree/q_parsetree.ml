@@ -248,6 +248,10 @@ let parse_lident_vala_loc s =
         data_source_module = Parsetree
       ; quotation_source_module = Reorg_parsetree
       }
+    ; class_structure = {
+        data_source_module = Parsetree
+      ; quotation_source_module = Reorg_parsetree
+      }
     ; str_vala = {
         data_source_module = Ast_helper
       ; quotation_source_module = Reorg_parsetree

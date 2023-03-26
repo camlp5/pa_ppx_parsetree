@@ -541,6 +541,7 @@ val xv_vaval_pattern_ : Parsetree.pattern Ast_helper.vala
 val xv_vaval_label_longident_ : Longident.t Ast_helper.vala
 val xv_vaval_ident_ : Asttypes.label Ast_helper.vala
 val xv_vaval_constr_extra_ident_ : string Ast_helper.vala
+val xv_vaval_class_self_pattern_ : Parsetree.pattern Ast_helper.vala
 val xv_vaval_class_longident_ : Longident.t Ast_helper.vala
 val xv_vaval_LIDENT_ : string Ast_helper.vala
 val xv_value_type :
@@ -586,6 +587,8 @@ val xv_vala_inline_private_flag_ANTI_PRIV_ :
   Asttypes.private_flag Ast_helper.vala
 val xv_vala_ident_ANTI_LID_ : Asttypes.label Ast_helper.vala
 val xv_vala_ident_ANTI_ID_ : Asttypes.label Ast_helper.vala
+val xv_vala_extra_cstr_class_fields__ANTI_LIST_ :
+  Parsetree.class_field list Ast_helper.vala
 val xv_vala_expr_semi_list_ANTI_LIST_ :
   Parsetree.expression list Ast_helper.vala
 val xv_vala_direction_flag_ANTI_DIRFLAG_ :

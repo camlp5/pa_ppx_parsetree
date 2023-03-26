@@ -611,8 +611,8 @@ and class_expr i ppf x =
 
 and class_structure i ppf { pcstr_self = p; pcstr_fields = l } =
   line i ppf "class_structure\n";
-  pattern (i+1) ppf p;
-  list (i+1) class_field ppf l;
+  pattern (i+1) ppf (unvala p);
+  list (i+1) class_field ppf (unvala l);
 
 and class_field i ppf x =
   line i ppf "class_field %a\n" fmt_location x.pcf_loc;
