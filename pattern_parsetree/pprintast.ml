@@ -732,7 +732,7 @@ and expression ctxt f (x : expression) =
           (module_expr reset_ctxt) me (expression ctxt) e
     | Pexp_letexception (cd, e) ->
         pp f "@[<hov2>let@ exception@ %a@ in@ %a@]"
-          (extension_constructor ctxt) cd
+          (extension_constructor ctxt) (unvala cd)
           (expression ctxt) e
     | Pexp_assert e ->
         pp f "@[<hov2>assert@ %a@]" (simple_expr ctxt) e

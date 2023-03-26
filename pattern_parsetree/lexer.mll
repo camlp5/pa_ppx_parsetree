@@ -731,6 +731,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_DIRFLAG (make_antiquotation "dirflag" loc payload)
      }
+  | "$" "excon:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_EXCON (make_antiquotation "excon" loc payload)
+     }
 
   | eof { EOF }
   | (_ as illegal_char)

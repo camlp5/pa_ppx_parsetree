@@ -50,6 +50,9 @@ let cases = [case1; case2]
 
 let vb1 = [%value_binding {| x = 1 |}]
 let vb2 = [%value_binding {| y = 2 |}]
+
+let excon1 = [%extension_constructor {| C of int |}]
+
 end
 
 module Helpers = struct
@@ -383,6 +386,15 @@ let test_letmodule ctxt =
       match [%expression {| let module $uidopt:uopt$ = $me1$ in $e1$ |}] with
         [%expression {| let module $uidopt:uopt'$ = $me1'$ in $e1'$ |}] -> (uopt', me1', e1'))
 
+let test_letexception ctxt =
+  assert_equal () (
+      match [%expression {| let exception C of int in e |}] with
+        [%expression {| let exception C of int in e |}] -> ())
+  ; assert_equal (excon1, e1) (
+        match [%expression {| let $excon:excon1$ in $e1$ |}] with
+          [%expression {| let $excon:excon1'$ in $e1'$ |}] -> (excon1', e1'))
+
+
 let test = "expression" >::: [
       "0"   >:: test0
     ; "1"   >:: test1
@@ -405,6 +417,7 @@ let test = "expression" >::: [
     ; "setinstvar"   >:: test_setinstvar
     ; "override"   >:: test_override
     ; "letmodule"   >:: test_letmodule
+    ; "letexception"   >:: test_letexception
     ]
 
 end
@@ -419,6 +432,20 @@ let test_ident ctxt =
 
 let test = "module_expr" >::: [
       "ident"   >:: test_ident
+    ]
+
+end
+
+module XC = struct
+
+open Fixtures
+
+let test_basic ctxt = 
+  assert_equal () (match [%extension_constructor {| C of int |}] with
+                     [%extension_constructor {| C of int |}] -> ())
+
+let test = "module_expr" >::: [
+      "basic"   >:: test_basic
     ]
 
 end
@@ -553,6 +580,7 @@ let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
     ; "arg_label"   >:: AL.test
     ; EX.test
     ; ME.test
+    ; XC.test
     ; "core_type"   >:: TY.test
     ; "constructor_declaration"   >:: CD.test
     ; "field"   >:: FLD.test

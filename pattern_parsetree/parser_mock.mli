@@ -143,6 +143,7 @@ type token =
   | ANTI_ID of string
   | ANTI_FLOAT of string
   | ANTI_EXPROPT of string
+  | ANTI_EXCON of string
   | ANTI_DIRFLAG of string
   | ANTI_DELIM of string
   | ANTI_CTYPOPT of string
@@ -836,6 +837,7 @@ val xv_parse_mod_ext_longident : Longident.t
 val xv_parse_match_case : Parsetree.case
 val xv_parse_lident_vala_loc : string Ast_helper.vala Location.loc
 val xv_parse_label_declaration : Parsetree.label_declaration
+val xv_parse_extension_constructor : Parsetree.extension_constructor
 val xv_parse_expression : Parsetree.expression
 val xv_parse_core_type : Parsetree.core_type
 val xv_parse_constructor_declaration : Parsetree.constructor_declaration

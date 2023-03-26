@@ -362,7 +362,7 @@ and expression i ppf x =
       expression i ppf e;
   | Pexp_letexception (cd, e) ->
       line i ppf "Pexp_letexception\n";
-      extension_constructor i ppf cd;
+      extension_constructor i ppf (unvala cd);
       expression i ppf e;
   | Pexp_assert (e) ->
       line i ppf "Pexp_assert\n";

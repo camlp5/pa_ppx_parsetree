@@ -389,7 +389,7 @@ and expression_desc =
       (** [{< x1 = E1; ...; xn = En >}] *)
   | Pexp_letmodule of string Ploc.vala option Ploc.vala loc * module_expr * expression
       (** [let module M = ME in E] *)
-  | Pexp_letexception of extension_constructor * expression
+  | Pexp_letexception of extension_constructor Ploc.vala * expression
       (** [let exception C in E] *)
   | Pexp_assert of expression
       (** [assert E].

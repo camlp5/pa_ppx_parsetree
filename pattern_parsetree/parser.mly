@@ -795,6 +795,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_FLOAT
 %token <string> ANTI_LABEL
 %token <string> ANTI_DIRFLAG
+%token <string> ANTI_EXCON
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -908,6 +909,8 @@ The precedences must be listed from low to high.
 %type <Parsetree.value_binding> parse_value_binding
 %start parse_arg_label
 %type <Asttypes.arg_label> parse_arg_label
+%start parse_extension_constructor
+%type <Parsetree.extension_constructor> parse_extension_constructor
 /* END AVOID */
 
 %type <Parsetree.expression list> expr_semi_list
@@ -1355,10 +1358,16 @@ parse_arg_label:
     { $1 }
 ;
 
+parse_extension_constructor:
+  extension_constructor(epsilon) EOF
+    { $1 }
+;
+
 parse_lident_vala_loc:
   mkloc(vala(LIDENT, ANTI_LID)) EOF
     { $1 }
 ;
+
 /* END AVOID */
 
 (* -------------------------------------------------------------------------- *)
@@ -2464,7 +2473,9 @@ expr:
   | LET MODULE ext_attributes mkrhs(module_name) module_binding_body IN seq_expr
       { Pexp_letmodule($4, $5, $7), $3 }
   | LET EXCEPTION ext_attributes let_exception_declaration IN seq_expr
-      { Pexp_letexception($4, $6), $3 }
+      { Pexp_letexception(vaval $4, $6), $3 }
+  | LET ANTI_EXCON IN seq_expr
+      { Pexp_letexception(vaant $2, $4), (None,[]) }
   | LET OPEN override_flag ext_attributes module_expr IN seq_expr
       { let open_loc = make_loc ($startpos($2), $endpos($5)) in
         let od = Opn.mk $5 ~override:$3 ~loc:open_loc in

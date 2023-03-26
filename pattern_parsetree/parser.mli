@@ -144,6 +144,7 @@ type token =
   | ANTI_ID of (string)
   | ANTI_FLOAT of (string)
   | ANTI_EXPROPT of (string)
+  | ANTI_EXCON of (string)
   | ANTI_DIRFLAG of (string)
   | ANTI_DELIM of (string)
   | ANTI_CTYPOPT of (string)
@@ -189,6 +190,8 @@ val parse_match_case: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.ca
 val parse_lident_vala_loc: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (string Ast_helper.vala Location.loc)
 
 val parse_label_declaration: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.label_declaration)
+
+val parse_extension_constructor: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.extension_constructor)
 
 val parse_expression: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.expression)
 

@@ -188,7 +188,7 @@ module Exp:
     val letmodule: ?loc:loc -> ?attrs:attrs -> str_vala_opt_vala -> module_expr
                    -> expression -> expression
     val letexception:
-      ?loc:loc -> ?attrs:attrs -> extension_constructor -> expression
+      ?loc:loc -> ?attrs:attrs -> extension_constructor Ploc.vala -> expression
       -> expression
     val assert_: ?loc:loc -> ?attrs:attrs -> expression -> expression
     val lazy_: ?loc:loc -> ?attrs:attrs -> expression -> expression

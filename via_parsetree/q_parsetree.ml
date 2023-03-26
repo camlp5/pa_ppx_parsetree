@@ -48,6 +48,9 @@ let parse_core_type s =
 let parse_longident s =
   Pa_ppx_parsetree_pattern_parsetree.Parse.longident (Lexing.from_string s)
 
+let parse_extension_constructor s =
+  Pa_ppx_parsetree_pattern_parsetree.Parse.extension_constructor (Lexing.from_string s)
+
 let parse_extended_module_path s =
   Pa_ppx_parsetree_pattern_parsetree.Parse.extended_module_path (Lexing.from_string s)
 
@@ -265,6 +268,7 @@ let parse_lident_vala_loc s =
     ; {name = "value_binding"; from_string = parse_value_binding ; type_name = value_binding }
     ; {name = "arg_label"; from_string = parse_arg_label ; type_name = arg_label }
     ; {name = "lident_loc"; from_string = parse_lident_vala_loc ; type_name = str_vala }
+    ; {name = "extension_constructor"; from_string = parse_extension_constructor ; type_name = extension_constructor }
     ]
  }]
 
