@@ -49,3 +49,6 @@
 <:expression< new $longid:x$ . $lid:s$ >>;
 <:expression< $lid:x$ <- $x2$ >>;
 <:expression< {< $list:lxx$ >} >>;
+<:expression< let module _ = $me$ in $x2$ >>;
+<:expression< let module $uid:s$ = $me$ in $x2$ >>;
+<:expression< let module $uidopt:os$ = $me$ in $x2$ >>;
