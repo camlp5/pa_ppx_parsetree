@@ -60,3 +60,4 @@
 {Parsetree.pexp_desc = Parsetree.Pexp_poly x1 ox2; Parsetree.pexp_loc = __loc__; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
 <:expression< object $patt:x$ $list:lx$  end >>;
 <:expression< fun (type $lid:s$) -> $x2$ >> ;
+<:expression< (module $me$) >> ;
