@@ -80,7 +80,8 @@ let parse_lident_vala_loc s =
 
 [%%import: Reorg_parsetree.attribute]
 [@@deriving q_ast {
-    default_data_source_module = Reorg_parsetree
+    default_data_source_module = Parsetree
+  ; default_quotation_source_module = Reorg_parsetree
   ; expr_meta_module = MetaE
   ; patt_meta_module = MetaP
   ; loc_mode = CustomLoc { loc_varname = __loc__ ; loc_type = [%typ: location] ; loc_function_name = location }
@@ -124,62 +125,12 @@ let parse_lident_vala_loc s =
         data_source_module = Asttypes
       ; quotation_source_module = Reorg_parsetree
       }
-    ; value_binding = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
-    ; letop = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
-    ; binding_op = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
-    ; case = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
-    ; attribute = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
-    ; payload = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
-    ; type_exception = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
-    ; extension_constructor = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
-    ; extension_constructor_kind = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
-    ; constructor_declaration = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
-    ; label_declaration = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
-    ; constructor_arguments = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
-    ; constant = {
-        data_source_module = Parsetree
+    ; override_flag = {
+        data_source_module = Asttypes
       ; quotation_source_module = Reorg_parsetree
       }
     ; expression = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      ; add_branches_patt_code = (function
+        add_branches_patt_code = (function
           | {pexp_desc=Pexp_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
                                  )
       ; add_branches_expr_code = (function
@@ -191,66 +142,29 @@ let parse_lident_vala_loc s =
       ; quotation_source_module = Reorg_parsetree
       }
     ; module_expr = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      ; add_branches_patt_code = (function
+        add_branches_patt_code = (function
           | {pmod_desc=Pmod_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
                                  )
       ; add_branches_expr_code = (function
           | {pmod_desc=Pmod_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
                                  )
       }
-    ; module_expr_desc = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
+
     ; pattern = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      ; add_branches_patt_code = (function
+        add_branches_patt_code = (function
           | {ppat_desc=Ppat_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
                                  )
       ; add_branches_expr_code = (function
           | {ppat_desc=Ppat_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
                                  )
-      }
-    ; pattern_desc = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
-    ; structure_item = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
-    ; structure_item_desc = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
-    ; type_kind = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
-    ; type_declaration = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
       }
     ; core_type = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      ; add_branches_patt_code = (function
+        add_branches_patt_code = (function
           | {ptyp_desc=Ptyp_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
                                  )
       ; add_branches_expr_code = (function
           | {ptyp_desc=Ptyp_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
                                  )
-      }
-    ; core_type_desc = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
-      }
-    ; class_structure = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
       }
     ; str_vala = {
         data_source_module = Ast_helper

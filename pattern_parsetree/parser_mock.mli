@@ -131,6 +131,7 @@ type token =
   | ANTI_PRIV of string
   | ANTI_PATTOPT of string
   | ANTI_PATT of string
+  | ANTI_OVERRIDEFLAG of string
   | ANTI_NATIVEINT of string
   | ANTI_MUTABLE of string
   | ANTI_LONGID of string
@@ -565,6 +566,8 @@ val xv_vala_separated_or_terminated_nonempty_list_SEMI_object_expr_field__ANTI_L
 val xv_vala_rec_flag_ANTI_RECFLAG_ : Asttypes.rec_flag Ast_helper.vala
 val xv_vala_private_flag_ANTI_PRIV_ : Asttypes.private_flag Ast_helper.vala
 val xv_vala_poly_type_no_attr_ANTI_TYP_ : Parsetree.core_type Ast_helper.vala
+val xv_vala_override_flag_ANTI_OVERRIDEFLAG_ :
+  Asttypes.override_flag Ast_helper.vala
 val xv_vala_opt_default_ANTI_EXPROPT_ :
   Parsetree.expression option Ast_helper.vala
 val xv_vala_nonempty_llist_labeled_simple_expr__ANTI_LIST_ :
@@ -852,6 +855,7 @@ val xv_parse_arg_label : Asttypes.arg_label
 val xv_parse_any_longident : Longident.t
 val xv_paren_module_expr : Parsetree.module_expr
 val xv_package_type : Parsetree.core_type
+val xv_override_flag_vala : Asttypes.override_flag Ast_helper.vala
 val xv_override_flag : Asttypes.override_flag
 val xv_optlabel : string Ast_helper.vala
 val xv_optional_use_file_standalone_expression :

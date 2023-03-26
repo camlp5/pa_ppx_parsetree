@@ -61,3 +61,4 @@
 <:expression< object $patt:x$ $list:lx$  end >>;
 <:expression< fun (type $lid:s$) -> $x2$ >> ;
 <:expression< (module $me$) >> ;
+<:expression< let open $overrideflag:x1$ $me$ in $x2$ >> ;

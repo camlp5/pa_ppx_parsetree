@@ -394,6 +394,24 @@ let test_letexception ctxt =
         match [%expression {| let $excon:excon1$ in $e1$ |}] with
           [%expression {| let $excon:excon1'$ in $e1'$ |}] -> (excon1', e1'))
 
+let test_open ctxt =
+  let open Asttypes in
+  assert_equal () (
+      match [%expression {| let open M in e |}] with
+        [%expression {| let open M in e |}] -> ())
+  ; assert_equal () (
+        match [%expression {| let open! M in e |}] with
+          [%expression {| let open! M in e |}] -> ())
+  ; assert_equal () (
+        match [%expression {| M.(e) |}] with
+          [%expression {| M.(e) |}] -> ())
+  ; assert_equal (me1, e1) (
+        match [%expression {| let open $me1$ in $e1$ |}] with
+          [%expression {| let open $me1'$ in $e1'$ |}] -> (me1', e1'))
+  ; assert_equal (Fresh, me1, e1) (
+        let ovf = Fresh in
+        match [%expression {| let open $overrideflag:ovf$ $me1$ in $e1$ |}] with
+          [%expression {| let open $overrideflag:ovf'$ $me1'$ in $e1'$ |}] -> (ovf', me1', e1'))
 
 let test = "expression" >::: [
       "0"   >:: test0
@@ -418,6 +436,7 @@ let test = "expression" >::: [
     ; "override"   >:: test_override
     ; "letmodule"   >:: test_letmodule
     ; "letexception"   >:: test_letexception
+    ; "open"   >:: test_open
     ]
 
 end

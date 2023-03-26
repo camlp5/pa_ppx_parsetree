@@ -482,7 +482,7 @@ end
 
 module Opn = struct
   let mk ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs)
-        ?(override = Fresh) expr =
+        ?(override = VaVal Fresh) expr =
     {
      popen_expr = expr;
      popen_override = override;

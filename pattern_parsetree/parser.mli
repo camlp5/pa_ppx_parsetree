@@ -132,6 +132,7 @@ type token =
   | ANTI_PRIV of (string)
   | ANTI_PATTOPT of (string)
   | ANTI_PATT of (string)
+  | ANTI_OVERRIDEFLAG of (string)
   | ANTI_NATIVEINT of (string)
   | ANTI_MUTABLE of (string)
   | ANTI_LONGID of (string)

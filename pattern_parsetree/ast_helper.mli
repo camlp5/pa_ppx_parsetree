@@ -369,7 +369,7 @@ module Mb:
 module Opn:
   sig
     val mk: ?loc: loc -> ?attrs:attrs -> ?docs:docs ->
-      ?override:override_flag -> 'a -> 'a open_infos
+      ?override:override_flag Ploc.vala -> 'a -> 'a open_infos
   end
 
 (** Includes *)

@@ -897,7 +897,7 @@ and module_type_declaration =
 and 'a open_infos =
     {
      popen_expr: 'a;
-     popen_override: override_flag;
+     popen_override: override_flag Ploc.vala;
      popen_loc: Location.t;
      popen_attributes: attributes;
     }

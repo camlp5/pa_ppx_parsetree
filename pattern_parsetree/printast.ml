@@ -95,6 +95,8 @@ let fmt_override_flag f x =
   | Override -> fprintf f "Override"
   | Fresh -> fprintf f "Fresh"
 
+let fmt_override_flag_vala f x = fmt_override_flag f (unvala x)
+
 let fmt_closed_flag f x =
   match x with
   | Closed -> fprintf f "Closed"
@@ -385,7 +387,7 @@ and expression i ppf x =
       line i ppf "Pexp_pack\n";
       module_expr i ppf me
   | Pexp_open (o, e) ->
-      line i ppf "Pexp_open %a\n" fmt_override_flag o.popen_override;
+      line i ppf "Pexp_open %a\n" fmt_override_flag_vala o.popen_override;
       module_expr i ppf o.popen_expr;
       expression i ppf e
   | Pexp_letop {let_; ands; body} ->
@@ -516,7 +518,7 @@ and class_type i ppf x =
       line i ppf "Pcty_extension \"%s\"\n" s.txt;
       payload i ppf arg
   | Pcty_open (o, e) ->
-      line i ppf "Pcty_open %a %a\n" fmt_override_flag o.popen_override
+      line i ppf "Pcty_open %a %a\n" fmt_override_flag_vala o.popen_override
         fmt_longident_loc o.popen_expr;
       class_type i ppf e
 
@@ -606,7 +608,7 @@ and class_expr i ppf x =
       line i ppf "Pcl_extension \"%s\"\n" s.txt;
       payload i ppf arg
   | Pcl_open (o, e) ->
-      line i ppf "Pcl_open %a %a\n" fmt_override_flag o.popen_override
+      line i ppf "Pcl_open %a %a\n" fmt_override_flag_vala o.popen_override
         fmt_longident_loc o.popen_expr;
       class_expr i ppf e
 
@@ -734,7 +736,7 @@ and signature_item i ppf x =
       attributes i ppf x.pmtd_attributes;
       modtype_declaration i ppf x.pmtd_type
   | Psig_open od ->
-      line i ppf "Psig_open %a %a\n" fmt_override_flag od.popen_override
+      line i ppf "Psig_open %a %a\n" fmt_override_flag_vala od.popen_override
         fmt_longident_loc od.popen_expr;
       attributes i ppf od.popen_attributes
   | Psig_include incl ->
@@ -850,7 +852,7 @@ and structure_item i ppf x =
       attributes i ppf x.pmtd_attributes;
       modtype_declaration i ppf x.pmtd_type
   | Pstr_open od ->
-      line i ppf "Pstr_open %a\n" fmt_override_flag od.popen_override;
+      line i ppf "Pstr_open %a\n" fmt_override_flag_vala od.popen_override;
       module_expr i ppf od.popen_expr;
       attributes i ppf od.popen_attributes
   | Pstr_class (l) ->

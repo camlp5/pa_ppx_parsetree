@@ -18,6 +18,8 @@
           expression_desc = Auto
         ; located = Auto
         ; constant = Auto
+        ; open_declaration = Auto
+        ; open_infos = Auto
         }
       ; expand_types_per_constructor = [
           (Pexp_ident,
@@ -68,6 +70,7 @@
         ; longident_t = Longident
         ; direction_flag = Asttypes
         ; class_structure = Parsetree
+        ; open_infos = Parsetree
         }
       }
   ]
