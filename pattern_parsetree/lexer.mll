@@ -741,6 +741,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_EXCON (make_antiquotation "excon" loc payload)
      }
+  | "$" "letop:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_LETOP (make_antiquotation "letop" loc payload)
+     }
 
   | eof { EOF }
   | (_ as illegal_char)

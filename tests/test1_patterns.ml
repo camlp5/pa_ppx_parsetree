@@ -62,3 +62,4 @@
 <:expression< fun (type $lid:s$) -> $x2$ >> ;
 <:expression< (module $me$) >> ;
 <:expression< let open $overrideflag:x1$ $me$ in $x2$ >> ;
+<:expression< $letop:x1$ $list:lx$ in $x2$ >>;

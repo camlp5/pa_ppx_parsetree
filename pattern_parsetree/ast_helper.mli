@@ -199,13 +199,13 @@ module Exp:
     val pack: ?loc:loc -> ?attrs:attrs -> module_expr -> expression
     val open_: ?loc:loc -> ?attrs:attrs -> open_declaration -> expression
                -> expression
-    val letop: ?loc:loc -> ?attrs:attrs -> binding_op
-               -> binding_op list -> expression -> expression
+    val letop: ?loc:loc -> ?attrs:attrs -> binding_op  Ploc.vala
+               -> binding_op list Ploc.vala -> expression -> expression
     val extension: ?loc:loc -> ?attrs:attrs -> extension -> expression
     val unreachable: ?loc:loc -> ?attrs:attrs -> unit -> expression
 
     val case: pattern Ploc.vala -> expression Ploc.vala option Ploc.vala -> expression Ploc.vala -> case
-    val binding_op: str -> pattern -> expression -> loc -> binding_op
+    val binding_op: str_vala -> pattern -> expression -> loc -> binding_op
   end
 
 (** Value declarations *)

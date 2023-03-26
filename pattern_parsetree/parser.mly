@@ -797,6 +797,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_LABEL
 %token <string> ANTI_DIRFLAG
 %token <string> ANTI_EXCON
+%token <string> ANTI_LETOP
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -912,6 +913,8 @@ The precedences must be listed from low to high.
 %type <Asttypes.arg_label> parse_arg_label
 %start parse_extension_constructor
 %type <Parsetree.extension_constructor> parse_extension_constructor
+%start parse_binding_op
+%type <Parsetree.binding_op> parse_binding_op
 /* END AVOID */
 
 %type <Parsetree.expression list> expr_semi_list
@@ -1362,6 +1365,22 @@ parse_arg_label:
 parse_extension_constructor:
   extension_constructor(epsilon) EOF
     { $1 }
+;
+
+parse_binding_op:
+  pbop_op = mkrhs(vaval(ANDOP)) body = letop_binding_body EOF
+    { let pbop_pat, pbop_exp = body in
+      let pbop_loc = make_loc $sloc in
+      {pbop_op; pbop_pat; pbop_exp; pbop_loc} }
+| pbop_op = mkrhs(vaval(LETOP)) body = letop_binding_body EOF
+    { let pbop_pat, pbop_exp = body in
+      let pbop_loc = make_loc $sloc in
+      {pbop_op; pbop_pat; pbop_exp; pbop_loc} }
+| pbop_op = ANTI_LID body = letop_binding_body EOF
+    { let pbop_pat, pbop_exp = body in
+      let pbop_loc = make_loc $sloc in
+      let pbop_op = mkrhs (vaant pbop_op) $sloc in
+      {pbop_op; pbop_pat; pbop_exp; pbop_loc} }
 ;
 
 parse_lident_vala_loc:
@@ -2449,12 +2468,14 @@ expr:
       { $1 }
   | let_bindings(ext) IN seq_expr
       { expr_of_let_bindings ~loc:$sloc $1 $3 }
-  | pbop_op = mkrhs(LETOP) bindings = letop_bindings IN body = seq_expr
+  | pbop_op = mkrhs(vaval(LETOP)) bindings = letop_bindings IN body = seq_expr
       { let (pbop_pat, pbop_exp, rev_ands) = bindings in
         let ands = List.rev rev_ands in
         let pbop_loc = make_loc $sloc in
         let let_ = {pbop_op; pbop_pat; pbop_exp; pbop_loc} in
-        mkexp ~loc:$sloc (Pexp_letop{ let_; ands; body}) }
+        mkexp ~loc:$sloc (Pexp_letop{ let_=vaval let_; ands = vaval ands; body}) }
+  | ANTI_LETOP ANTI_LIST IN body = seq_expr
+      { mkexp ~loc:$sloc (Pexp_letop{ let_=vaant $1; ands=vaant $2; body}) }
   | expr COLONCOLON expr
       { mkexp_cons ~loc:$sloc $loc($2) (ghexp ~loc:$sloc (Pexp_tuple(vaval[$1;$3]))) }
   | mkrhs(vala(label, ANTI_LID)) LESSMINUS expr
@@ -2799,7 +2820,7 @@ letop_bindings:
     body = letop_binding_body
       { let let_pat, let_exp = body in
         let_pat, let_exp, [] }
-  | bindings = letop_bindings pbop_op = mkrhs(ANDOP) body = letop_binding_body
+  | bindings = letop_bindings pbop_op = mkrhs(vaval(ANDOP)) body = letop_binding_body
       { let let_pat, let_exp, rev_ands = bindings in
         let pbop_pat, pbop_exp = body in
         let pbop_loc = make_loc $sloc in

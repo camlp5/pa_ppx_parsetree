@@ -137,6 +137,7 @@ type token =
   | ANTI_LONGID of string
   | ANTI_LIST of string
   | ANTI_LID of string
+  | ANTI_LETOP of string
   | ANTI_LABEL of string
   | ANTI_INT64 of string
   | ANTI_INT32 of string
@@ -546,6 +547,8 @@ val xv_vaval_constr_extra_ident_ : string Ast_helper.vala
 val xv_vaval_class_self_pattern_ : Parsetree.pattern Ast_helper.vala
 val xv_vaval_class_longident_ : Longident.t Ast_helper.vala
 val xv_vaval_LIDENT_ : string Ast_helper.vala
+val xv_vaval_LETOP_ : string Ast_helper.vala
+val xv_vaval_ANDOP_ : string Ast_helper.vala
 val xv_value_type :
   Asttypes.label Asttypes.loc * Asttypes.mutable_flag *
   Asttypes.virtual_flag * Parsetree.core_type
@@ -850,6 +853,7 @@ val xv_parse_expression : Parsetree.expression
 val xv_parse_core_type : Parsetree.core_type
 val xv_parse_constructor_declaration : Parsetree.constructor_declaration
 val xv_parse_constr_longident : Longident.t
+val xv_parse_binding_op : Parsetree.binding_op
 val xv_parse_attribute : Parsetree.attribute
 val xv_parse_arg_label : Asttypes.arg_label
 val xv_parse_any_longident : Longident.t
@@ -944,6 +948,8 @@ val xv_mkrhs_vaval_label_longident__ :
   Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vaval_class_longident__ :
   Longident.t Ast_helper.vala Asttypes.loc
+val xv_mkrhs_vaval_LETOP__ : string Ast_helper.vala Asttypes.loc
+val xv_mkrhs_vaval_ANDOP__ : string Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_val_ident_ANTI_LID__ : string Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_label_longident_ANTI_LONGID__ :
   Longident.t Ast_helper.vala Location.loc
@@ -976,8 +982,6 @@ val xv_mkrhs___anonymous_28_ : Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs___anonymous_27_ : Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs_UIDENT_ : Ast_helper.str
 val xv_mkrhs_LIDENT_ : Ast_helper.str
-val xv_mkrhs_LETOP_ : string Asttypes.loc
-val xv_mkrhs_ANDOP_ : string Asttypes.loc
 val xv_mkpat_simple_pattern_not_ident__ : Parsetree.pattern
 val xv_mkpat___anonymous_35_ : Parsetree.pattern
 val xv_mkpat___anonymous_32_ : Parsetree.pattern

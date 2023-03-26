@@ -392,8 +392,8 @@ and expression i ppf x =
       expression i ppf e
   | Pexp_letop {let_; ands; body} ->
       line i ppf "Pexp_letop\n";
-      binding_op i ppf let_;
-      list i binding_op ppf ands;
+      binding_op i ppf (unvala let_);
+      list i binding_op ppf (unvala ands);
       expression i ppf body
   | Pexp_extension (s, arg) ->
       line i ppf "Pexp_extension \"%s\"\n" s.txt;
@@ -928,7 +928,7 @@ and value_binding i ppf x =
 
 and binding_op i ppf x =
   line i ppf "<binding_op> %a %a"
-    fmt_string_loc x.pbop_op fmt_location x.pbop_loc;
+    fmt_string_vala_loc x.pbop_op fmt_location x.pbop_loc;
   pattern (i+1) ppf x.pbop_pat;
   expression (i+1) ppf x.pbop_exp;
 

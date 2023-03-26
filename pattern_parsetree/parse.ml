@@ -106,6 +106,7 @@ let value_binding = wrap Parser.parse_value_binding
 let arg_label = wrap Parser.parse_arg_label
 let lident_vala_loc = wrap Parser.parse_lident_vala_loc
 let extension_constructor = wrap Parser.parse_extension_constructor
+let binding_op = wrap Parser.parse_binding_op
 
 let longident = wrap Parser.parse_any_longident
 let val_ident = wrap Parser.parse_val_longident

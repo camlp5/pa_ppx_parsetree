@@ -138,6 +138,7 @@ type token =
   | ANTI_LONGID of (string)
   | ANTI_LIST of (string)
   | ANTI_LID of (string)
+  | ANTI_LETOP of (string)
   | ANTI_LABEL of (string)
   | ANTI_INT64 of (string)
   | ANTI_INT32 of (string)
@@ -201,6 +202,8 @@ val parse_core_type: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.cor
 val parse_constructor_declaration: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.constructor_declaration)
 
 val parse_constr_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longident.t)
+
+val parse_binding_op: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.binding_op)
 
 val parse_attribute: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.attribute)
 

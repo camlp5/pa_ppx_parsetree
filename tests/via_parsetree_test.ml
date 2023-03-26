@@ -129,6 +129,19 @@ let test ctxt =
                         [%arg_label {| ?  $lid:l'$: |}] -> l')
 end
 
+module BOP = struct
+
+open Fixtures
+
+let test ctxt =
+  assert_equal [%binding_op {| let* x = y |}] [%binding_op {| let* x = y |}]
+  ; assert_equal [%binding_op {| and* x = y |}] [%binding_op {| and* x = y |}]
+  ; assert_equal ("let*", p1, e1) (
+        let s = "let*" in
+        match [%binding_op {| $lid:s$ $p1$ = $e1$ |}]
+        with [%binding_op {| $lid:s'$ $p1'$ = $e1'$ |}] -> (s', p1', e1'))
+end
+
 module EX = struct
 
 open Fixtures
@@ -413,6 +426,21 @@ let test_open ctxt =
         match [%expression {| let open $overrideflag:ovf$ $me1$ in $e1$ |}] with
           [%expression {| let open $overrideflag:ovf'$ $me1'$ in $e1'$ |}] -> (ovf', me1', e1'))
 
+let test_letop ctxt =
+  let open Asttypes in
+  assert_equal () (
+      match [%expression {| let* x = y in e |}] with
+        [%expression {| let* x = y in e |}] -> ())
+  ; assert_equal () (
+        match [%expression {| let* x = y and* u = v in e |}] with
+          [%expression {| let* x = y and* u = v in e |}] -> ()) ;
+  let bop = [%binding_op {| let* x = y |}] in
+  let ands = [] in
+  assert_equal (bop, [], e1) (
+      match [%expression {| $letop:bop$ $list:ands$ in $e1$ |}] with
+        [%expression {| $letop:bop'$ $list:ands'$ in $e1'$ |}] -> (bop', ands', e1'))
+
+
 let test = "expression" >::: [
       "0"   >:: test0
     ; "1"   >:: test1
@@ -437,6 +465,7 @@ let test = "expression" >::: [
     ; "letmodule"   >:: test_letmodule
     ; "letexception"   >:: test_letexception
     ; "open"   >:: test_open
+    ; "letop"   >:: test_letop
     ]
 
 end
@@ -597,6 +626,7 @@ let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
     ; "extended_module_path"   >:: XM.test
     ; "value_binding"   >:: VB.test
     ; "arg_label"   >:: AL.test
+    ; "binding_op"   >:: BOP.test
     ; EX.test
     ; ME.test
     ; XC.test

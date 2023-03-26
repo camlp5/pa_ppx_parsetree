@@ -430,14 +430,14 @@ and case =
 
 and letop =
   {
-    let_ : binding_op;
-    ands : binding_op list;
+    let_ : binding_op Ploc.vala;
+    ands : binding_op list Ploc.vala;
     body : expression;
   }
 
 and binding_op =
   {
-    pbop_op : string loc;
+    pbop_op : string Ploc.vala loc;
     pbop_pat : pattern;
     pbop_exp : expression;
     pbop_loc : Location.t;

@@ -756,8 +756,8 @@ and expression ctxt f (x : expression) =
         pp f "@[<2>`%s@;%a@]" (unvala l) (simple_expr ctxt) eo
     | Pexp_letop {let_; ands; body} ->
         pp f "@[<2>@[<v>%a@,%a@] in@;<1 -2>%a@]"
-          (binding_op ctxt) let_
-          (list ~sep:"@," (binding_op ctxt)) ands
+          (binding_op ctxt) (unvala let_)
+          (list ~sep:"@," (binding_op ctxt)) (unvala ands)
           (expression ctxt) body
     | Pexp_extension e -> extension ctxt f e
     | Pexp_unreachable -> pp f "."
@@ -1346,10 +1346,10 @@ and binding_op ctxt f x =
   | {ppat_desc = Ppat_var { txt=pvar; _ }; ppat_attributes = []; _},
     {pexp_desc = Pexp_ident { txt=Lident evar; _}; pexp_attributes = []; _}
        when pvar = evar ->
-     pp f "@[<2>%s %s@]" x.pbop_op.txt (unvala evar)
+     pp f "@[<2>%s %s@]" (unvala x.pbop_op.txt) (unvala evar)
   | pat, exp ->
      pp f "@[<2>%s %a@;=@;%a@]"
-       x.pbop_op.txt (pattern ctxt) pat (expression ctxt) exp
+       (unvala x.pbop_op.txt) (pattern ctxt) pat (expression ctxt) exp
 
 and structure_item ctxt f x =
   match x.pstr_desc with
