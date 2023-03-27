@@ -85,7 +85,7 @@ type docs =
 
 let empty_docs = { docs_pre = None; docs_post = None }
 
-let doc_loc = {txt = "ocaml.doc"; loc = Location.none}
+let doc_loc = {txt = Ploc.VaVal "ocaml.doc"; loc = Location.none}
 
 let docs_attr ds =
   let open Parsetree in
@@ -101,7 +101,7 @@ let docs_attr ds =
     { pstr_desc = Pstr_eval (exp, []); pstr_loc = loc }
   in
   { attr_name = doc_loc;
-    attr_payload = PStr [item];
+    attr_payload = PStr (Ploc.VaVal [item]);
     attr_loc = loc }
 
 let add_docs_attrs docs attrs =
@@ -137,7 +137,7 @@ type text = docstring list
 let empty_text = []
 let empty_text_lazy = lazy []
 
-let text_loc = {txt = "ocaml.text"; loc = Location.none}
+let text_loc = {txt = Ploc.VaVal "ocaml.text"; loc = Location.none}
 
 let text_attr ds =
   let open Parsetree in
@@ -153,7 +153,7 @@ let text_attr ds =
     { pstr_desc = Pstr_eval (exp, []); pstr_loc = loc }
   in
   { attr_name = text_loc;
-    attr_payload = PStr [item];
+    attr_payload = PStr (Ploc.VaVal [item]);
     attr_loc = loc }
 
 let add_text_attrs dsl attrs =

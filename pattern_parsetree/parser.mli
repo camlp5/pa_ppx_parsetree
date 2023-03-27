@@ -152,6 +152,7 @@ type token =
   | ANTI_CTYPOPT of (string)
   | ANTI_CONSTRUCTORLIST of (string)
   | ANTI_CHAR of (string)
+  | ANTI_ATTRID of (string)
   | ANTI_ALGATTRS of (string)
   | ANTI of (string)
   | ANDOP of (string)
@@ -211,6 +212,6 @@ val parse_arg_label: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Asttypes.arg_
 
 val parse_any_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longident.t)
 
-val interface: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.signature)
+val interface: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.signature_item list Ast_helper.vala)
 
-val implementation: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.structure)
+val implementation: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.structure_item list Ast_helper.vala)

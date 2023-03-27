@@ -422,7 +422,7 @@ let wrap_exp_attrs ~loc body (ext, attrs) =
   let body = {body with pexp_attributes = attrs @ body.pexp_attributes} in
   match ext with
   | None -> body
-  | Some id -> ghexp(Pexp_extension (id, PStr [mkstrexp body []]))
+  | Some id -> ghexp(Pexp_extension (id, PStr (vaval[mkstrexp body []])))
 
 let mkexp_attrs ~loc d attrs =
   wrap_exp_attrs ~loc (mkexp ~loc d) attrs
@@ -439,7 +439,7 @@ let wrap_pat_attrs ~loc pat (ext, attrs) =
   let pat = {pat with ppat_attributes = attrs @ pat.ppat_attributes} in
   match ext with
   | None -> pat
-  | Some id -> ghpat ~loc (Ppat_extension (id, PPat (pat, None)))
+  | Some id -> ghpat ~loc (Ppat_extension (id, PPat (pat, vaval None)))
 
 let mkpat_attrs ~loc d attrs =
   wrap_pat_attrs ~loc (mkpat ~loc d) attrs
@@ -454,7 +454,7 @@ let wrap_mty_attrs ~loc:_ attrs body =
 let wrap_str_ext ~loc body ext =
   match ext with
   | None -> body
-  | Some id -> ghstr ~loc (Pstr_extension ((id, PStr [body]), []))
+  | Some id -> ghstr ~loc (Pstr_extension ((id, PStr (vaval[body])), []))
 
 let wrap_mkstr_ext ~loc (item, ext) =
   wrap_str_ext ~loc (mkstr ~loc item) ext
@@ -462,22 +462,22 @@ let wrap_mkstr_ext ~loc (item, ext) =
 let wrap_sig_ext ~loc body ext =
   match ext with
   | None -> body
-  | Some id -> ghsig ~loc (Psig_extension ((id, PSig [body]), []))
+  | Some id -> ghsig ~loc (Psig_extension ((id, PSig (vaval[body])), []))
 
 let wrap_mksig_ext ~loc (item, ext) =
   wrap_sig_ext ~loc (mksig ~loc item) ext
 
 let mk_quotedext ~loc (id, idloc, str, strloc, delim) =
-  let exp_id = mkloc id idloc in
+  let exp_id = mkloc (vaval id) idloc in
   let e = ghexp ~loc (Pexp_constant (Pconst_string (vaval str, strloc, Option.map vaval delim))) in
-  (exp_id, PStr [mkstrexp e []])
+  (exp_id, PStr (vaval[mkstrexp e []]))
 
 let text_str pos = Str.text (rhs_text pos)
 let text_sig pos = Sig.text (rhs_text pos)
 let text_cstr pos = Cf.text (rhs_text pos)
 let text_csig pos = Ctf.text (rhs_text pos)
 let text_def pos =
-  List.map (fun def -> Ptop_def [def]) (Str.text (rhs_text pos))
+  List.map (fun def -> Ptop_def (vaval[def])) (Str.text (rhs_text pos))
 
 let extra_text startpos endpos text items =
   match items with
@@ -496,7 +496,7 @@ let extra_cstr p1 p2 items = extra_text p1 p2 Cf.text items
 let extra_csig p1 p2 items = extra_text p1 p2 Ctf.text  items
 let extra_def p1 p2 items =
   extra_text p1 p2
-    (fun txt -> List.map (fun def -> Ptop_def [def]) (Str.text txt))
+    (fun txt -> List.map (fun def -> Ptop_def (vaval[def])) (Str.text txt))
     items
 
 let extra_rhs_core_type ct ~pos =
@@ -515,7 +515,7 @@ type let_binding =
 type let_bindings =
   { lbs_bindings: let_binding list Ploc.vala;
     lbs_rec: rec_flag Ploc.vala;
-    lbs_extension: string Asttypes.loc option }
+    lbs_extension: string Ploc.vala Asttypes.loc option }
 
 let mklb first ~loc (p, e, is_pun) attrs =
   {
@@ -558,7 +558,7 @@ let val_of_let_bindings ~loc lbs =
   let str = mkstr ~loc (Pstr_value(lbs.lbs_rec, Pcaml.vala_map List.rev bindings)) in
   match lbs.lbs_extension with
   | None -> str
-  | Some id -> ghstr ~loc (Pstr_extension((id, PStr [str]), []))
+  | Some id -> ghstr ~loc (Pstr_extension((id, PStr (vaval[str])), []))
 
 let expr_of_let_bindings ~loc lbs body =
   let bindings =
@@ -798,6 +798,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_DIRFLAG
 %token <string> ANTI_EXCON
 %token <string> ANTI_LETOP
+%token <string> ANTI_ATTRID
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -864,7 +865,7 @@ The precedences must be listed from low to high.
           NEW PREFIXOP STRING TRUE UIDENT
           LBRACKETPERCENT QUOTED_STRING_EXPR ANTI ANTI_UID ANTI_LID ANTI_LONGID
           ANTI_INT ANTI_INT32 ANTI_INT64 ANTI_NATIVEINT ANTI_CHAR ANTI_STRING ANTI_DELIM ANTI_FLOAT
-          ANTI_EXPROPT
+          ANTI_EXPROPT ANTI_PATTOPT
 
 /* Entry points */
 
@@ -942,12 +943,13 @@ The precedences must be listed from low to high.
 %type <expression option Ploc.vala * (Longident.t Ploc.vala Asttypes.loc * expression) list Ploc.vala> record_expr_content
 %type <Asttypes.arg_label Ploc.vala * Parsetree.expression option Ploc.vala * Parsetree.pattern> labeled_simple_pattern
 %type <string Ploc.vala option Ploc.vala> module_name
+%type <string Ploc.vala Location.loc> attr_id
 
 %%
 
 /* macros */
-%inline extra_str(symb): symb { extra_str $startpos $endpos $1 };
-%inline extra_sig(symb): symb { extra_sig $startpos $endpos $1 };
+%inline extra_str(symb): symb { vaval (extra_str $startpos $endpos $1) };
+%inline extra_sig(symb): symb { vaval (extra_sig $startpos $endpos $1) };
 %inline extra_cstr(symb): symb { extra_cstr $startpos $endpos $1 };
 %inline extra_csig(symb): symb { extra_csig $startpos $endpos $1 };
 %inline extra_def(symb): symb { extra_def $startpos $endpos $1 };
@@ -968,7 +970,7 @@ The precedences must be listed from low to high.
 %inline text_def(symb): symb
   { text_def $startpos @ [$1] }
 %inline top_def(symb): symb
-  { Ptop_def [$1] }
+  { Ptop_def (vaval[$1]) }
 %inline text_cstr(symb): symb
   { text_cstr $startpos @ [$1] }
 %inline text_csig(symb): symb
@@ -1457,7 +1459,7 @@ module_expr:
     | (* Application to unit is sugar for application to an empty structure. *)
       me1 = module_expr LPAREN RPAREN
         { (* TODO review mkmod location *)
-          Pmod_apply(me1, mkmod ~loc:$sloc (Pmod_structure [])) }
+          Pmod_apply(me1, mkmod ~loc:$sloc (Pmod_structure (vaval[]))) }
     | (* An extension. *)
       ex = extension
         { Pmod_extension ex }
@@ -1513,6 +1515,7 @@ structure:
     flatten(structure_element*)
   ))
   { $1 }
+| ANTI_LIST { vaant $1 }
 ;
 
 (* An optional standalone expression is just an expression with attributes
@@ -1767,6 +1770,7 @@ module_type:
 signature:
   extra_sig(flatten(signature_element*))
     { $1 }
+| ANTI_LIST { vaant $1 }
 ;
 
 (* A signature element is one of the following:
@@ -2193,7 +2197,8 @@ class_self_type:
       { $1 }
 ;
 %inline class_sig_fields:
-  flatten(text_csig(class_sig_field)*)
+  flatten
+    (text_csig(class_sig_field)*)
     { $1 }
 ;
 class_sig_field:
@@ -2326,7 +2331,7 @@ seq_expr:
     { $1 }
   | expr SEMI PERCENT attr_id seq_expr
     { let seq = mkexp ~loc:$sloc (Pexp_sequence ($1, $5)) in
-      let payload = PStr [mkstrexp seq []] in
+      let payload = PStr (vaval[mkstrexp seq []]) in
       mkexp ~loc:$sloc (Pexp_extension ($4, payload)) }
 ;
 labeled_simple_pattern:
@@ -4103,8 +4108,9 @@ single_attr_id:
 
 attr_id:
   mkloc(
-      single_attr_id { $1 }
-    | single_attr_id DOT attr_id { $1 ^ "." ^ $3.txt }
+      single_attr_id { vaval $1 }
+    | single_attr_id DOT attr_id { vaval ($1 ^ "." ^ (unvala $3.txt)) }
+    | ANTI_ATTRID { vaant $1 }
   ) { $1 }
 ;
 attribute:
@@ -4155,7 +4161,8 @@ payload:
     structure { PStr $1 }
   | COLON signature { PSig $2 }
   | COLON core_type { PTyp $2 }
-  | QUESTION pattern { PPat ($2, None) }
-  | QUESTION pattern WHEN seq_expr { PPat ($2, Some $4) }
+  | QUESTION pattern { PPat ($2, vaval None) }
+  | QUESTION pattern WHEN seq_expr { PPat ($2, vaval (Some $4)) }
+  | QUESTION pattern ANTI_EXPROPT { PPat ($2, vaant $3) }
 ;
 %%

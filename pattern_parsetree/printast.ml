@@ -199,7 +199,7 @@ let rec core_type i ppf x =
       line i ppf "Ptyp_package %a\n" fmt_longident_loc s;
       list i package_with ppf l;
   | Ptyp_extension (s, arg) ->
-      line i ppf "Ptyp_extension \"%s\"\n" s.txt;
+      line i ppf "Ptyp_extension \"%s\"\n" (unvala s.txt);
       payload i ppf arg
 
 and package_with i ppf (s, t) =
@@ -261,7 +261,7 @@ and pattern i ppf x =
       line i ppf "Ppat_open \"%a\"\n" fmt_longident_loc m;
       pattern i ppf p
   | Ppat_extension (s, arg) ->
-      line i ppf "Ppat_extension \"%s\"\n" s.txt;
+      line i ppf "Ppat_extension \"%s\"\n" (unvala s.txt);
       payload i ppf arg
 
 and expression i ppf x =
@@ -396,7 +396,7 @@ and expression i ppf x =
       list i binding_op ppf (unvala ands);
       expression i ppf body
   | Pexp_extension (s, arg) ->
-      line i ppf "Pexp_extension \"%s\"\n" s.txt;
+      line i ppf "Pexp_extension \"%s\"\n" (unvala s.txt);
       payload i ppf arg
   | Pexp_unreachable ->
       line i ppf "Pexp_unreachable"
@@ -426,13 +426,13 @@ and type_declaration i ppf x =
   option (i+1) core_type ppf (Option.map unvala x.ptype_manifest)
 
 and attribute i ppf k a =
-  line i ppf "%s \"%s\"\n" k a.attr_name.txt;
+  line i ppf "%s \"%s\"\n" k (unvala a.attr_name.txt);
   payload i ppf a.attr_payload;
 
 and attributes i ppf l =
   let i = i + 1 in
   List.iter (fun a ->
-    line i ppf "attribute \"%s\"\n" a.attr_name.txt;
+    line i ppf "attribute \"%s\"\n" (unvala a.attr_name.txt);
     payload (i + 1) ppf a.attr_payload;
   ) l;
 
@@ -440,8 +440,8 @@ and payload i ppf = function
   | PStr x -> structure i ppf x
   | PSig x -> signature i ppf x
   | PTyp x -> core_type i ppf x
-  | PPat (x, None) -> pattern i ppf x
-  | PPat (x, Some g) ->
+  | PPat (x, VaVal None) -> pattern i ppf x
+  | PPat (x, VaVal (Some g)) ->
     pattern i ppf x;
     line i ppf "<when>\n";
     expression (i + 1) ppf g
@@ -515,7 +515,7 @@ and class_type i ppf x =
       core_type i ppf co;
       class_type i ppf cl;
   | Pcty_extension (s, arg) ->
-      line i ppf "Pcty_extension \"%s\"\n" s.txt;
+      line i ppf "Pcty_extension \"%s\"\n" (unvala s.txt);
       payload i ppf arg
   | Pcty_open (o, e) ->
       line i ppf "Pcty_open %a %a\n" fmt_override_flag_vala o.popen_override
@@ -550,7 +550,7 @@ and class_type_field i ppf x =
   | Pctf_attribute a ->
       attribute i ppf "Pctf_attribute" a
   | Pctf_extension (s, arg) ->
-      line i ppf "Pctf_extension \"%s\"\n" s.txt;
+      line i ppf "Pctf_extension \"%s\"\n" (unvala s.txt);
      payload i ppf arg
 
 and class_description i ppf x =
@@ -605,7 +605,7 @@ and class_expr i ppf x =
       class_expr i ppf ce;
       class_type i ppf ct;
   | Pcl_extension (s, arg) ->
-      line i ppf "Pcl_extension \"%s\"\n" s.txt;
+      line i ppf "Pcl_extension \"%s\"\n" (unvala s.txt);
       payload i ppf arg
   | Pcl_open (o, e) ->
       line i ppf "Pcl_open %a %a\n" fmt_override_flag_vala o.popen_override
@@ -644,7 +644,7 @@ and class_field i ppf x =
   | Pcf_attribute a ->
       attribute i ppf "Pcf_attribute" a
   | Pcf_extension (s, arg) ->
-      line i ppf "Pcf_extension \"%s\"\n" s.txt;
+      line i ppf "Pcf_extension \"%s\"\n" (unvala s.txt);
       payload i ppf arg
 
 and class_field_kind i ppf = function
@@ -691,10 +691,10 @@ and module_type i ppf x =
       line i ppf "Pmty_typeof\n";
       module_expr i ppf m;
   | Pmty_extension (s, arg) ->
-      line i ppf "Pmod_extension \"%s\"\n" s.txt;
+      line i ppf "Pmod_extension \"%s\"\n" (unvala s.txt);
       payload i ppf arg
 
-and signature i ppf x = list i signature_item ppf x
+and signature i ppf x = list i signature_item ppf (unvala x)
 
 and signature_item i ppf x =
   line i ppf "signature_item %a\n" fmt_location x.psig_loc;
@@ -750,7 +750,7 @@ and signature_item i ppf x =
       line i ppf "Psig_class_type\n";
       list i class_type_declaration ppf l;
   | Psig_extension ((s, arg), attrs) ->
-      line i ppf "Psig_extension \"%s\"\n" s.txt;
+      line i ppf "Psig_extension \"%s\"\n" (unvala s.txt);
       attributes i ppf attrs;
       payload i ppf arg
   | Psig_attribute a ->
@@ -813,10 +813,10 @@ and module_expr i ppf x =
       line i ppf "Pmod_unpack\n";
       expression i ppf e;
   | Pmod_extension (s, arg) ->
-      line i ppf "Pmod_extension \"%s\"\n" s.txt;
+      line i ppf "Pmod_extension \"%s\"\n" (unvala s.txt);
       payload i ppf arg
 
-and structure i ppf x = list i structure_item ppf x
+and structure i ppf x = list i structure_item ppf (unvala x)
 
 and structure_item i ppf x =
   line i ppf "structure_item %a\n" fmt_location x.pstr_loc;
@@ -866,7 +866,7 @@ and structure_item i ppf x =
       attributes i ppf incl.pincl_attributes;
       module_expr i ppf incl.pincl_mod
   | Pstr_extension ((s, arg), attrs) ->
-      line i ppf "Pstr_extension \"%s\"\n" s.txt;
+      line i ppf "Pstr_extension \"%s\"\n" (unvala s.txt);
       attributes i ppf attrs;
       payload i ppf arg
   | Pstr_attribute a ->

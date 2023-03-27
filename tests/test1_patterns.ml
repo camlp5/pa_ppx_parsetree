@@ -8,6 +8,7 @@
 <:expression< $char:x$ >> ;
 <:expression< $string:s1$ >> ;
 <:expression< $string:s1$ $delim:s2$ >> ;
+{Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 __loc__ os2); Parsetree.pexp_loc = __loc__; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
 <:expression< $float:sxf1$ >> ;
 <:expression< let $recflag:x1$ $list:lx$ in $x2$ >>;
 <:expression< function $list:lx$ >>;
@@ -29,8 +30,10 @@
 <:expression< { $withe:ox$ $list:lxx$ } >>;
 <:expression< $x1$ . $lid:s$ >>;
 <:expression< $x1$ . $longid:x$ . $lid:s$ >>;
+{Parsetree.pexp_desc = Parsetree.Pexp_field x1 {Location.txt = x; Location.loc = __loc__}; Parsetree.pexp_loc = __loc__; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
 <:expression< $x1$ . $lid:s$ <- $x3$ >>;
 <:expression< $x1$ . $longid:x$ . $lid:s$ <- $x3$ >>;
+{Parsetree.pexp_desc = Parsetree.Pexp_setfield x1 {Location.txt = x; Location.loc = __loc__} x3; Parsetree.pexp_loc = __loc__; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
 <:expression< [| $list:lx$ |] >>;
 <:expression< if $x1$ then $x2$ >>;
 <:expression< if $x1$ then $x2$ else $x3$ >>;
@@ -47,6 +50,7 @@
 <:expression< $x1$ # $lid:x$ >>;
 <:expression< new $lid:s$ >>;
 <:expression< new $longid:x$ . $lid:s$ >>;
+{Parsetree.pexp_desc = Parsetree.Pexp_new {Location.txt = x; Location.loc = __loc__}; Parsetree.pexp_loc = __loc__; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
 <:expression< $lid:x$ <- $x2$ >>;
 <:expression< {< $list:lxx$ >} >>;
 <:expression< let module _ = $me$ in $x2$ >>;
@@ -63,3 +67,10 @@
 <:expression< (module $me$) >> ;
 <:expression< let open $overrideflag:x1$ $me$ in $x2$ >> ;
 <:expression< $letop:x1$ $list:lx$ in $x2$ >>;
+<:expression< [% $attrid:s$ $list:x$] >>;
+<:expression< [% $attrid:s$ : $list:x$] >>;
+<:expression< [% $attrid:s$ : $x$] >>;
+<:expression< [% $attrid:s$ ? $x1$] >>;
+<:expression< [% $attrid:s$ ? $x1$ when $x2$] >>;
+<:expression< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+{Parsetree.pexp_desc = Parsetree.Pexp_unreachable; Parsetree.pexp_loc = __loc__; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};

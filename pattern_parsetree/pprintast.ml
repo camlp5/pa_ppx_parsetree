@@ -841,13 +841,13 @@ and item_attributes ctxt f l =
   List.iter (item_attribute ctxt f) l
 
 and attribute ctxt f a =
-  pp f "@[<2>[@@%s@ %a]@]" a.attr_name.txt (payload ctxt) a.attr_payload
+  pp f "@[<2>[@@%s@ %a]@]" (unvala a.attr_name.txt) (payload ctxt) a.attr_payload
 
 and item_attribute ctxt f a =
-  pp f "@[<2>[@@@@%s@ %a]@]" a.attr_name.txt (payload ctxt) a.attr_payload
+  pp f "@[<2>[@@@@%s@ %a]@]" (unvala a.attr_name.txt) (payload ctxt) a.attr_payload
 
 and floating_attribute ctxt f a =
-  pp f "@[<2>[@@@@@@%s@ %a]@]" a.attr_name.txt (payload ctxt) a.attr_payload
+  pp f "@[<2>[@@@@@@%s@ %a]@]" (unvala a.attr_name.txt) (payload ctxt) a.attr_payload
 
 and value_description ctxt f x =
   (* note: value_description has an attribute field,
@@ -859,10 +859,10 @@ and value_description ctxt f x =
     ) x
 
 and extension ctxt f (s, e) =
-  pp f "@[<2>[%%%s@ %a]@]" s.txt (payload ctxt) e
+  pp f "@[<2>[%%%s@ %a]@]" (unvala s.txt) (payload ctxt) e
 
 and item_extension ctxt f (s, e) =
-  pp f "@[<2>[%%%%%s@ %a]@]" s.txt (payload ctxt) e
+  pp f "@[<2>[%%%%%s@ %a]@]" (unvala s.txt) (payload ctxt) e
 
 and exception_declaration ctxt f x =
   pp f "@[<hov2>exception@ %a@]%a"
@@ -1099,13 +1099,13 @@ and module_type1 ctxt f x =
         pp f "(module %a)" longident_loc li;
     | Pmty_signature (s) ->
         pp f "@[<hv0>@[<hv2>sig@ %a@]@ end@]" (* "@[<hov>sig@ %a@ end@]" *)
-          (list (signature_item ctxt)) s (* FIXME wrong indentation*)
+          (list (signature_item ctxt)) (unvala s) (* FIXME wrong indentation*)
     | Pmty_typeof me ->
         pp f "@[<hov2>module@ type@ of@ %a@]" (module_expr ctxt) me
     | Pmty_extension e -> extension ctxt f e
     | _ -> paren true (module_type ctxt) f x
 
-and signature ctxt f x =  list ~sep:"@\n" (signature_item ctxt) f x
+and signature ctxt f x =  list ~sep:"@\n" (signature_item ctxt) f (unvala x)
 
 and signature_item ctxt f x : unit =
   match x.psig_desc with
@@ -1214,7 +1214,7 @@ and module_expr ctxt f x =
   else match x.pmod_desc with
     | Pmod_structure (s) ->
         pp f "@[<hv2>struct@;@[<0>%a@]@;<1 -2>end@]"
-          (list (structure_item ctxt) ~sep:"@\n") s;
+          (list (structure_item ctxt) ~sep:"@\n") (unvala s);
     | Pmod_constraint (me, mt) ->
         pp f "@[<hov2>(%a@ :@ %a)@]"
           (module_expr ctxt) me
@@ -1234,18 +1234,18 @@ and module_expr ctxt f x =
         pp f "(val@ %a)" (expression ctxt) e
     | Pmod_extension e -> extension ctxt f e
 
-and structure ctxt f x = list ~sep:"@\n" (structure_item ctxt) f x
+and structure ctxt f x = list ~sep:"@\n" (structure_item ctxt) f (unvala x)
 
 and payload ctxt f = function
-  | PStr [{pstr_desc = Pstr_eval (e, attrs)}] ->
+  | PStr (VaVal [{pstr_desc = Pstr_eval (e, attrs)}]) ->
       pp f "@[<2>%a@]%a"
         (expression ctxt) e
         (item_attributes ctxt) attrs
   | PStr x -> structure ctxt f x
   | PTyp x -> pp f ":@ "; core_type ctxt f x
   | PSig x -> pp f ":@ "; signature ctxt f x
-  | PPat (x, None) -> pp f "?@ "; pattern ctxt f x
-  | PPat (x, Some e) ->
+  | PPat (x, VaVal None) -> pp f "?@ "; pattern ctxt f x
+  | PPat (x, VaVal (Some e)) ->
       pp f "?@ "; pattern ctxt f x;
       pp f " when "; expression ctxt f e
 
@@ -1673,7 +1673,7 @@ and directive_argument f x =
 
 let toplevel_phrase f x =
   match x with
-  | Ptop_def (s) ->pp f "@[<hov0>%a@]"  (list (structure_item reset_ctxt)) s
+  | Ptop_def (s) ->pp f "@[<hov0>%a@]"  (list (structure_item reset_ctxt)) (unvala s)
    (* pp_open_hvbox f 0; *)
    (* pp_print_list structure_item f s ; *)
    (* pp_close_box f (); *)

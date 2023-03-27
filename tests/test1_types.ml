@@ -21,6 +21,8 @@
         ; open_declaration = Auto
         ; open_infos = Auto
         ; letop = Auto
+        ; extension = Auto
+        ; payload = Auto
         }
       ; expand_types_per_constructor = [
           (Pexp_ident,
@@ -73,6 +75,7 @@
         ; class_structure = Parsetree
         ; open_infos = Parsetree
         ; letop = Parsetree
+        ; payload = Parsetree
         }
       }
   ]

@@ -440,6 +440,20 @@ let test_letop ctxt =
       match [%expression {| $letop:bop$ $list:ands$ in $e1$ |}] with
         [%expression {| $letop:bop'$ $list:ands'$ in $e1'$ |}] -> (bop', ands', e1'))
 
+let test_extension ctxt =
+  let open Asttypes in
+  assert_equal () (match [%expression {| [%foo] |}] with
+                     [%expression {| [%foo] |}] -> ())
+  ; assert_equal () (match [%expression {| [%foo: int] |}] with
+                     [%expression {| [%foo: int] |}] -> ())
+  ; assert_equal l (match [%expression {| [% $attrid:l$] |}] with
+                       [%expression {| [% $attrid:l'$] |}] -> l')
+  ; assert_equal (l, t1) (match [%expression {| [% $attrid:l$ : $t1$] |}] with
+                       [%expression {| [% $attrid:l'$ : $t1'$] |}] -> (l', t1'))
+  ; assert_equal (l, []) (
+        let sil = [] in
+        match [%expression {| [% $attrid:l$ $list:sil$] |}] with
+          [%expression {| [% $attrid:l'$ $list:sil'$] |}] -> (l', sil'))
 
 let test = "expression" >::: [
       "0"   >:: test0
@@ -466,6 +480,7 @@ let test = "expression" >::: [
     ; "letexception"   >:: test_letexception
     ; "open"   >:: test_open
     ; "letop"   >:: test_letop
+    ; "extension"   >:: test_extension
     ]
 
 end

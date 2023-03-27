@@ -746,6 +746,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_LETOP (make_antiquotation "letop" loc payload)
      }
+  | "$" "attrid:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_ATTRID (make_antiquotation "attrid" loc payload)
+     }
 
   | eof { EOF }
   | (_ as illegal_char)

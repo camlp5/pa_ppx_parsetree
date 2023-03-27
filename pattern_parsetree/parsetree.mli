@@ -48,7 +48,7 @@ type location_stack = Location.t list
 (** {1 Extension points} *)
 
 type attribute = {
-    attr_name : string loc;
+    attr_name : string Ploc.vala loc;
     attr_payload : payload;
     attr_loc : Location.t;
   }
@@ -58,7 +58,7 @@ type attribute = {
           The compiler ignores unknown attributes.
        *)
 
-and extension = string loc * payload
+and extension = string Ploc.vala loc * payload
 (** Extension points such as [[%id ARG] and [%%id ARG]].
 
          Sub-language placeholder -- rejected by the typechecker.
@@ -70,7 +70,7 @@ and payload =
   | PStr of structure
   | PSig of signature  (** [: SIG] in an attribute or an extension point *)
   | PTyp of core_type  (** [: T] in an attribute or an extension point *)
-  | PPat of pattern * expression option
+  | PPat of pattern * expression option Ploc.vala
       (** [? P]  or  [? P when E], in an attribute or an extension point *)
 
 (** {1 Core language} *)
@@ -827,7 +827,7 @@ and functor_parameter =
             - [(X : MT)] when [name] is [Some X],
             - [(_ : MT)] when [name] is [None] *)
 
-and signature = signature_item list
+and signature = signature_item list Ploc.vala
 
 and signature_item =
     {
@@ -970,7 +970,7 @@ and module_expr_desc =
   | Pmod_extension of extension  (** [[%id]] *)
   | Pmod_xtr of string loc
 
-and structure = structure_item list
+and structure = structure_item list Ploc.vala
 
 and structure_item =
     {
