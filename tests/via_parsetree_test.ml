@@ -584,6 +584,8 @@ let test ctxt =
 
   ; assert_equal l (match  [%core_type {| $lid:l$ |}] with
                       [%core_type {| $lid:s'$ |}] -> s')
+  ; assert_equal (li1, l) (match  [%core_type {| $longid:li1$ . $lid:l$ |}] with
+                      [%core_type {| $longid:li1'$ . $lid:s'$ |}] -> (li1', s'))
 
   ; assert_equal (t1,t2) (match [%core_type {| $t1$ * $t2$ |}] with
                             [%core_type {| $t1'$ * $t2'$ |}] -> (t1', t2'))
@@ -682,6 +684,7 @@ let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
     ; "value_binding"   >:: VB.test
     ; "arg_label"   >:: AL.test
     ; "binding_op"   >:: BOP.test
+    ; "pattern"   >:: PA.test
     ; EX.test
     ; ME.test
     ; XC.test

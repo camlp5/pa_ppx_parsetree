@@ -33,59 +33,63 @@ module MetaP = struct
                                Pp_MLast.pp_patt e))
 end
 
+let lexwrap paf s =
+  let s = Scanf.unescaped s in
+  paf (Lexing.from_string s)
+
 let parse_expression s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.expression (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.expression s
 
 let parse_module_expr s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.module_expr (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.module_expr s
 
 let parse_pattern s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.pattern (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.pattern s
 
 let parse_core_type s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.core_type (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.core_type s
 
 let parse_longident s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.longident (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.longident s
 
 let parse_extension_constructor s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.extension_constructor (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.extension_constructor s
 
 let parse_extended_module_path s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.extended_module_path (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.extended_module_path s
 
 let parse_structure_item s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.structure_item (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.structure_item s
 
 let parse_constructor_declaration s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.constructor_declaration (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.constructor_declaration s
 
 let parse_attribute s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.attribute (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.attribute s
 
 let parse_label_declaration s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.label_declaration (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.label_declaration s
 
 let parse_match_case s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.match_case (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.match_case s
 
 let parse_value_binding s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.value_binding (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.value_binding s
 
 let parse_arg_label s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.arg_label (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.arg_label s
 
 let parse_lident_vala_loc s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.lident_vala_loc (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.lident_vala_loc s
 
 let parse_binding_op s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.binding_op (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.binding_op s
 
 let parse_type_declaration s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.type_declaration (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.type_declaration s
 
 let parse_type_substitution s =
-  Pa_ppx_parsetree_pattern_parsetree.Parse.type_substitution (Lexing.from_string s)
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.type_substitution s
 
 [%%import: Reorg_parsetree.attribute]
 [@@deriving q_ast {
