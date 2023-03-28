@@ -29,6 +29,8 @@ IFDEF OCAML_VERSION >= OCAML_4_12_0 THEN
 [%%import: Asttypes.injectivity] [@@deriving show,eq]
 END
 end
+module Parsetree = struct
 [%%import: Parsetree.constant] [@@deriving show,eq]
 [%%import: Parsetree.location_stack] [@@deriving show,eq]
 [%%import: Parsetree.attribute] [@@deriving show,eq]
+end

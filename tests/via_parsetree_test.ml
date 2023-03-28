@@ -1,4 +1,4 @@
-(**pp -package pa_ppx_parsetree_via_parsetree,pa_ppx_quotation2extension -syntax camlp5o *)
+(**pp -package pa_ppx.deriving_plugins.std,pa_ppx_parsetree_via_parsetree,pa_ppx_quotation2extension -syntax camlp5o *)
 
 open OUnit2
 
@@ -80,7 +80,7 @@ let test ctxt =
                            [%longident_t {| $uid:m2$ . $lid:l2$ |}] -> (m2,l2))
   ; assert_equal (li1,l) (match [%longident_t {| $longid:li1$. $lid:l$ |}] with
                             [%longident_t {| $longid:li2$. $lid:l2$ |}] -> (li2,l2))
-
+  ; assert_equal ({| M.x |} |> Lexing.from_string |> Parse.longident) [%longident_t {| $uid:m$ . $lid:l$ |}]
 end
 
 module XM = struct
@@ -146,6 +146,11 @@ module EX = struct
 
 open Fixtures
 
+let test_equality ctxt =
+  assert_equal ~cmp:Helpers.Parsetree.equal_expression ({| x |} |>  Lexing.from_string |> Parse.expression) [%expression {| $lid:l$ |}]
+  ; assert_bool "builtin equality should fail here (b/c locations)"
+      (not (({| x |} |>  Lexing.from_string |> Parse.expression) = [%expression {| $lid:l$ |}]))
+
 let test0 ctxt = 
   assert_equal Location.none (
       let __loc__ = 1 in
@@ -162,6 +167,8 @@ let test1 ctxt =
                            [%expression {| $e1'$ + $e2'$ |}] -> (e1',e2'))
 ; assert_equal [e1;e2] (match [%expression {| $tuplelist:[e1;e2]$ |}] with
                           [%expression {| $tuplelist:l2$ |}] ->  l2)
+; assert_equal [e1;e2] (match [%expression {| $tuplelist:[e1;e2]$ |}] with
+                          [%expression {| $tuplelist:l2$ |}] ->  l2)
 
 ; assert_equal (e1,e2) (match [%expression {| ($e1$, $e2$) |}] with
                           [%expression {| ($e1'$, $e2'$) |}] ->  (e1', e2'))
@@ -175,13 +182,17 @@ let test1 ctxt =
 
 ; assert_equal (e1,cases) (match [%expression {| match $e1$ with $list:cases$ |}] with
                               [%expression {| match $e'$ with $list:cases'$ |}] -> (e',cases'))
+; assert_equal ~cmp:[%eq: Helpers.Parsetree.expression list]
+    [e1;e2] (match ({| (a*b, a/b) |} |> Lexing.from_string |> Parse.expression) with
+                          [%expression {| $tuplelist:l2$ |}] ->  l2)
+
 
 let e1 = [%expression {| { x = 1 } |}]
 let e2 =  {| { x = 1 } |} |> Lexing.from_string |> Parse.expression
 
 let test2 ctxt =
   assert_bool "builtin equality fails on expressions" (not (e1 = e2))
-  ; assert_equal ~cmp:Helpers.equal_expression e1 e2
+  ; assert_equal ~cmp:Helpers.Parsetree.equal_expression e1 e2
 
 let test3 ctxt =
   assert_equal ("x", [%expression {| 1 |}])
@@ -190,7 +201,7 @@ let test3 ctxt =
   ; assert_equal None
       (match e1 with
          [%expression {| { $withe:e$ $list:_$ } |}] -> e)
-  ; assert_equal ~cmp:Helpers.equal_expression
+  ; assert_equal ~cmp:Helpers.Parsetree.equal_expression
       ({| { e with y = 2 } |} |> Lexing.from_string |> Parse.expression)
       (let e = Some [%expression {| e |}] in
        [%expression {| { $withe:e$ y = 2 } |}])
@@ -456,7 +467,8 @@ let test_extension ctxt =
           [%expression {| [% $attrid:l'$ $list:sil'$] |}] -> (l', sil'))
 
 let test = "expression" >::: [
-      "0"   >:: test0
+      "equality"   >:: test_equality
+    ; "0"   >:: test0
     ; "1"   >:: test1
     ; "2"   >:: test2
     ; "3"   >:: test3
