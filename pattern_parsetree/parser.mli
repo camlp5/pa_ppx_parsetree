@@ -133,6 +133,7 @@ type token =
   | ANTI_PATTOPT of (string)
   | ANTI_PATT of (string)
   | ANTI_OVERRIDEFLAG of (string)
+  | ANTI_NONRECFLAG of (string)
   | ANTI_NATIVEINT of (string)
   | ANTI_MUTABLE of (string)
   | ANTI_LONGID of (string)
@@ -173,6 +174,10 @@ val toplevel_phrase: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.top
 val parse_value_binding: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.value_binding)
 
 val parse_val_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longident.t)
+
+val parse_type_substitution: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.type_declaration)
+
+val parse_type_declaration: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.type_declaration)
 
 val parse_structure_item: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.structure_item)
 

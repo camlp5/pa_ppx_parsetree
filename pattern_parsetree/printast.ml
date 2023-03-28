@@ -411,14 +411,14 @@ and value_description i ppf x =
 and type_parameter i ppf (x, _variance) = core_type i ppf x
 
 and type_declaration i ppf x =
-  line i ppf "type_declaration %a %a\n" fmt_string_loc x.ptype_name
+  line i ppf "type_declaration %a %a\n" fmt_string_vala_loc x.ptype_name
        fmt_location x.ptype_loc;
   attributes i ppf x.ptype_attributes;
   let i = i+1 in
   line i ppf "ptype_params =\n";
-  list (i+1) type_parameter ppf x.ptype_params;
+  list (i+1) type_parameter ppf (unvala x.ptype_params);
   line i ppf "ptype_cstrs =\n";
-  list (i+1) core_type_x_core_type_x_location ppf x.ptype_cstrs;
+  list (i+1) core_type_x_core_type_x_location ppf (unvala x.ptype_cstrs);
   line i ppf "ptype_kind =\n";
   type_kind (i+1) ppf x.ptype_kind;
   line i ppf "ptype_private = %a\n" fmt_private_flag (unvala x.ptype_private);
@@ -456,7 +456,7 @@ and type_kind i ppf x =
       list (i+1) constructor_decl ppf (unvala l);
   | Ptype_record l ->
       line i ppf "Ptype_record\n";
-      list (i+1) label_decl ppf l;
+      list (i+1) label_decl ppf (unvala l);
   | Ptype_open ->
       line i ppf "Ptype_open\n";
 
@@ -704,11 +704,11 @@ and signature_item i ppf x =
       line i ppf "Psig_value\n";
       value_description i ppf vd;
   | Psig_type (rf, l) ->
-      line i ppf "Psig_type %a\n" fmt_rec_flag rf;
-      list i type_declaration ppf l;
+      line i ppf "Psig_type %a\n" fmt_rec_flag (unvala rf);
+      list i type_declaration ppf (unvala l);
   | Psig_typesubst l ->
       line i ppf "Psig_typesubst\n";
-      list i type_declaration ppf l;
+      list i type_declaration ppf (unvala l);
   | Psig_typext te ->
       line i ppf "Psig_typext\n";
       type_extension i ppf te
@@ -833,8 +833,8 @@ and structure_item i ppf x =
       line i ppf "Pstr_primitive\n";
       value_description i ppf vd;
   | Pstr_type (rf, l) ->
-      line i ppf "Pstr_type %a\n" fmt_rec_flag rf;
-      list i type_declaration ppf l;
+      line i ppf "Pstr_type %a\n" fmt_rec_flag (unvala rf);
+      list i type_declaration ppf (unvala l);
   | Pstr_typext te ->
       line i ppf "Pstr_typext\n";
       type_extension i ppf te

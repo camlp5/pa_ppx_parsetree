@@ -219,9 +219,9 @@ module Val:
 module Type:
   sig
     val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?text:text ->
-      ?params:(core_type * (variance * injectivity)) list ->
-      ?cstrs:(core_type * core_type * loc) list ->
-      ?kind:type_kind -> ?priv:(private_flag Ploc.vala) -> ?manifest:(core_type Ploc.vala) -> str ->
+      ?params:(core_type * (variance * injectivity)) list Ploc.vala ->
+      ?cstrs:(core_type * core_type * loc) list Ploc.vala ->
+      ?kind:type_kind -> ?priv:(private_flag Ploc.vala) -> ?manifest:(core_type Ploc.vala) -> str_vala ->
       type_declaration
 
     val constructor: ?loc:loc -> ?attrs:(attrs Ploc.vala) -> ?info:info ->
@@ -296,8 +296,8 @@ module Sig:
     val mk: ?loc:loc -> signature_item_desc -> signature_item
 
     val value: ?loc:loc -> value_description -> signature_item
-    val type_: ?loc:loc -> rec_flag -> type_declaration list -> signature_item
-    val type_subst: ?loc:loc -> type_declaration list -> signature_item
+    val type_: ?loc:loc -> rec_flag Ploc.vala -> type_declaration list Ploc.vala -> signature_item
+    val type_subst: ?loc:loc -> type_declaration list Ploc.vala -> signature_item
     val type_extension: ?loc:loc -> type_extension -> signature_item
     val exception_: ?loc:loc -> type_exception -> signature_item
     val module_: ?loc:loc -> module_declaration -> signature_item
@@ -322,7 +322,7 @@ module Str:
     val eval: ?loc:loc -> ?attrs:attributes -> expression -> structure_item
     val value: ?loc:loc -> rec_flag Ploc.vala -> value_binding list Ploc.vala -> structure_item
     val primitive: ?loc:loc -> value_description -> structure_item
-    val type_: ?loc:loc -> rec_flag -> type_declaration list -> structure_item
+    val type_: ?loc:loc -> rec_flag Ploc.vala -> type_declaration list Ploc.vala -> structure_item
     val type_extension: ?loc:loc -> type_extension -> structure_item
     val exception_: ?loc:loc -> type_exception -> structure_item
     val module_: ?loc:loc -> module_binding -> structure_item

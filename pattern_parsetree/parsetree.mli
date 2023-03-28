@@ -464,10 +464,10 @@ and value_description =
 
 and type_declaration =
     {
-     ptype_name: string loc;
-     ptype_params: (core_type * (variance * injectivity)) list;
+     ptype_name: string Ploc.vala loc;
+     ptype_params: (core_type * (variance * injectivity)) list Ploc.vala;
       (** [('a1,...'an) t] *)
-     ptype_cstrs: (core_type * core_type * Location.t) list;
+     ptype_cstrs: (core_type * core_type * Location.t) list Ploc.vala;
       (** [... constraint T1=T1'  ... constraint Tn=Tn'] *)
      ptype_kind: type_kind;
      ptype_private: private_flag Ploc.vala;  (** for [= private ...] *)
@@ -504,7 +504,7 @@ and type_declaration =
 and type_kind =
   | Ptype_abstract
   | Ptype_variant of constructor_declaration list Ploc.vala
-  | Ptype_record of label_declaration list  (** Invariant: non-empty list *)
+  | Ptype_record of label_declaration list Ploc.vala (** Invariant: non-empty list *)
   | Ptype_open
 
 and label_declaration =
@@ -840,9 +840,9 @@ and signature_item_desc =
       (** - [val x: T]
             - [external x: T = "s1" ... "sn"]
          *)
-  | Psig_type of rec_flag * type_declaration list
+  | Psig_type of rec_flag Ploc.vala * type_declaration list Ploc.vala
       (** [type t1 = ... and ... and tn  = ...] *)
-  | Psig_typesubst of type_declaration list
+  | Psig_typesubst of type_declaration list Ploc.vala
       (** [type t1 := ... and ... and tn := ...]  *)
   | Psig_typext of type_extension  (** [type t1 += ...] *)
   | Psig_exception of type_exception  (** [exception C of T] *)
@@ -990,7 +990,7 @@ and structure_item_desc =
   | Pstr_primitive of value_description
       (** - [val x: T]
             - [external x: T = "s1" ... "sn" ]*)
-  | Pstr_type of rec_flag * type_declaration list
+  | Pstr_type of rec_flag Ploc.vala * type_declaration list Ploc.vala
       (** [type t1 = ... and ... and tn = ...] *)
   | Pstr_typext of type_extension  (** [type t1 += ...] *)
   | Pstr_exception of type_exception

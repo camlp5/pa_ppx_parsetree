@@ -587,9 +587,9 @@ let package_type_of_module_type pmty =
   let map_cstr = function
     | Pwith_type (lid, ptyp) ->
         let loc = ptyp.ptype_loc in
-        if ptyp.ptype_params <> [] then
+        if ptyp.ptype_params <> vaval [] then
           err loc "parametrized types are not supported";
-        if ptyp.ptype_cstrs <> [] then
+        if ptyp.ptype_cstrs <> vaval [] then
           err loc "constrained types are not supported";
         if unvala ptyp.ptype_private <> Public then
           err loc "private types are not supported";
@@ -781,6 +781,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_WHENO
 %token <string> ANTI_WITHE
 %token <string> ANTI_RECFLAG
+%token <string> ANTI_NONRECFLAG
 %token <string> ANTI_OVERRIDEFLAG
 %token <string> ANTI_EXPROPT
 %token <string> ANTI_PATTOPT
@@ -916,6 +917,10 @@ The precedences must be listed from low to high.
 %type <Parsetree.extension_constructor> parse_extension_constructor
 %start parse_binding_op
 %type <Parsetree.binding_op> parse_binding_op
+%start parse_type_declaration
+%type <Parsetree.type_declaration> parse_type_declaration
+%start parse_type_substitution
+%type <Parsetree.type_declaration> parse_type_substitution
 /* END AVOID */
 
 %type <Parsetree.expression list> expr_semi_list
@@ -944,6 +949,8 @@ The precedences must be listed from low to high.
 %type <Asttypes.arg_label Ploc.vala * Parsetree.expression option Ploc.vala * Parsetree.pattern> labeled_simple_pattern
 %type <string Ploc.vala option Ploc.vala> module_name
 %type <string Ploc.vala Location.loc> attr_id
+%type <(core_type * (variance * injectivity)) list> type_parameters
+%type <label_declaration list> label_declarations
 
 %%
 
@@ -1189,6 +1196,10 @@ reversed_bar_llist(X):
   a = A bs = B*
     { let (x, b) = a in x, b :: bs }
 
+%inline xlist_vala(A, B):
+  a = A bs = B*
+    { let (x, b) = a in x, vaval(b :: bs) }
+
 (* [listx(delimiter, X, Y)] recognizes a nonempty list of [X]s, optionally
    followed with a [Y], separated-or-terminated with [delimiter]s. The
    semantic value is a pair of a list of [X]s and an optional [Y]. *)
@@ -1356,6 +1367,16 @@ parse_match_case:
 
 parse_value_binding:
   value_binding EOF
+    { $1 }
+;
+
+parse_type_declaration:
+  core_type_declaration(type_kind) EOF
+    { $1 }
+;
+
+parse_type_substitution:
+  core_type_declaration(type_subst_kind) EOF
     { $1 }
 ;
 
@@ -1559,6 +1580,15 @@ structure_item:
         { pstr_primitive $1 }
     | type_declarations
         { pstr_type $1 }
+    | TYPE
+      ext = ext
+      attrs1 = attributes
+      nr = vala(nonrec_flag, ANTI_NONRECFLAG)
+      l = ANTI_LIST
+      { assert (ext = None) ;
+        assert (attrs1 = []) ;
+        pstr_type((nr, None), vaant l)
+      }
     | str_type_extension
         { pstr_typext $1 }
     | str_exception_declaration
@@ -3167,7 +3197,7 @@ primitive_declaration:
    sign, whereas in the second case, we expect [COLONEQUAL]. *)
 
 %inline type_declarations:
-  generic_type_declarations(nonrec_flag, type_kind)
+  generic_type_declarations(vala(nonrec_flag, ANTI_NONRECFLAG), type_kind)
     { $1 }
 ;
 
@@ -3181,26 +3211,42 @@ primitive_declaration:
    [generic_and_type_declaration]s. *)
 
 %inline generic_type_declarations(flag, kind):
-  xlist(
+  xlist_vala(
     generic_type_declaration(flag, kind),
     generic_and_type_declaration(kind)
   )
   { $1 }
 ;
 
+%inline core_type_declaration(kind):
+  params = vaval(type_parameters)
+  id = mkrhs(vala(LIDENT, ANTI_LID))
+  kind_priv_manifest = kind
+  cstrs = vaval(constraints)
+  attrs2 = post_item_attributes
+    {
+      let (kind, priv, manifest) = kind_priv_manifest in
+      let docs = symbol_docs $sloc in
+      let attrs = attrs2 in
+      let loc = make_loc $sloc in
+      Type.mk id ~params ~cstrs ~kind ~priv ?manifest ~attrs ~loc ~docs
+    }
+;
+
+
 (* [generic_type_declaration] and [generic_and_type_declaration] look similar,
    but are in reality different enough that it is difficult to share anything
    between them. *)
 
-generic_type_declaration(flag, kind):
+%inline generic_type_declaration(flag, kind):
   TYPE
   ext = ext
   attrs1 = attributes
   flag = flag
-  params = type_parameters
-  id = mkrhs(LIDENT)
+  params = vaval(type_parameters)
+  id = mkrhs(vala(LIDENT, ANTI_LID))
   kind_priv_manifest = kind
-  cstrs = constraints
+  cstrs = vaval(constraints)
   attrs2 = post_item_attributes
     {
       let (kind, priv, manifest) = kind_priv_manifest in
@@ -3214,10 +3260,10 @@ generic_type_declaration(flag, kind):
 %inline generic_and_type_declaration(kind):
   AND
   attrs1 = attributes
-  params = type_parameters
-  id = mkrhs(LIDENT)
+  params = vaval(type_parameters)
+  id = mkrhs(vala(LIDENT, ANTI_LID))
   kind_priv_manifest = kind
-  cstrs = constraints
+  cstrs = vaval(constraints)
   attrs2 = post_item_attributes
     {
       let (kind, priv, manifest) = kind_priv_manifest in
@@ -3250,7 +3296,7 @@ nonempty_type_kind:
       { (Ptype_open, priv, oty) }
   | oty = type_synonym
     priv = vala(inline_private_flag, ANTI_PRIV)
-    LBRACE ls = label_declarations RBRACE
+    LBRACE ls = vala(label_declarations, ANTI_LIST) RBRACE
       { (Ptype_record ls, priv, oty) }
 ;
 %inline type_synonym:
@@ -3469,12 +3515,12 @@ extension_constructor_rebind(opening):
 /* "with" constraints (additional type equations over signature components) */
 
 with_constraint:
-    TYPE type_parameters mkrhs(label_longident) with_type_binder
-    core_type_no_attr constraints
+    TYPE vaval(type_parameters) mkrhs(label_longident) with_type_binder
+    core_type_no_attr vaval(constraints)
       { let lident = loc_last $3 in
         Pwith_type
           ($3,
-           (Type.mk lident
+           (Type.mk (loc_map vaval lident)
               ~params:$2
               ~cstrs:$6
               ~manifest:(vaval $5)
@@ -3482,12 +3528,12 @@ with_constraint:
               ~loc:(make_loc $sloc))) }
     /* used label_longident instead of type_longident to disallow
        functor applications in type path */
-  | TYPE type_parameters mkrhs(label_longident)
+  | TYPE vaval(type_parameters) mkrhs(label_longident)
     COLONEQUAL core_type_no_attr
       { let lident = loc_last $3 in
         Pwith_typesubst
          ($3,
-           (Type.mk lident
+           (Type.mk (loc_map vaval lident)
               ~params:$2
               ~manifest:(vaval $5)
               ~loc:(make_loc $sloc))) }

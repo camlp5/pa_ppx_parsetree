@@ -531,8 +531,8 @@ end
 module Type = struct
   let mk ?(loc = !default_loc) ?(attrs = [])
         ?(docs = empty_docs) ?(text = [])
-      ?(params = [])
-      ?(cstrs = [])
+      ?(params = Ploc.VaVal [])
+      ?(cstrs = Ploc.VaVal [])
       ?(kind = Ptype_abstract)
       ?(priv = Ploc.VaVal Public)
       ?manifest

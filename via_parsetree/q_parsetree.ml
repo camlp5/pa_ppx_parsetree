@@ -81,6 +81,12 @@ let parse_lident_vala_loc s =
 let parse_binding_op s =
   Pa_ppx_parsetree_pattern_parsetree.Parse.binding_op (Lexing.from_string s)
 
+let parse_type_declaration s =
+  Pa_ppx_parsetree_pattern_parsetree.Parse.type_declaration (Lexing.from_string s)
+
+let parse_type_substitution s =
+  Pa_ppx_parsetree_pattern_parsetree.Parse.type_substitution (Lexing.from_string s)
+
 [%%import: Reorg_parsetree.attribute]
 [@@deriving q_ast {
     default_data_source_module = Parsetree
@@ -191,6 +197,8 @@ let parse_binding_op s =
     ; {name = "lident_loc"; from_string = parse_lident_vala_loc ; type_name = str_vala }
     ; {name = "extension_constructor"; from_string = parse_extension_constructor ; type_name = extension_constructor }
     ; {name = "binding_op"; from_string = parse_binding_op ; type_name = binding_op }
+    ; {name = "type_decl"; from_string = parse_type_declaration ; type_name = type_declaration }
+    ; {name = "type_subst"; from_string = parse_type_substitution ; type_name = type_declaration }
     ]
  }]
 

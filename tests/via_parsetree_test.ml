@@ -612,6 +612,27 @@ module FLD = struct
 
 end
 
+module TD = struct
+
+  open Fixtures
+  open Asttypes
+
+  let test ctxt =
+    assert_equal [%type_decl  {| t = int |}] [%type_decl  {| t = int |}]
+    ; assert_equal ("t", "int") (match [%type_decl  {| t = int |}] with
+                            [%type_decl  {| $lid:t$ = $lid:m$ |}] -> (t,m))
+    ; assert_equal [ [%constructor_declaration {| C of int |}] ]
+        (match [%type_decl  {| t = C of int |}] with
+           [%type_decl  {| t = $constructorlist:cl$ |}] -> cl)
+    ; assert_equal [ [%field {| mutable f : int |}] ]
+        (match [%type_decl  {| t = { mutable f : int } |}] with
+           [%type_decl  {| t = { $list:fl$ } |}] -> fl)
+    ; assert_equal ("C", [ [%field {| mutable f : int |}] ])
+        (match [%type_decl  {| t = C of { mutable f : int } |}] with
+           [%type_decl  {| t = $uid:cid$ of { $list:fl$ } |}] -> (cid, fl))
+
+end
+
 module STRI = struct
 
   open Fixtures
@@ -630,8 +651,10 @@ module STRI = struct
         (match  [%structure_item {| type t = $priv:Private$ $typ:t1$ |}] with
            [%structure_item {| type t = $priv:p'$ $typ:t'$ |}] -> (p', t'))
 
-    ; assert_equal (m,attrs) (match  [%structure_item {| type t = $uid:m$ of int $algattrs:attrs$ |}] with
-                                [%structure_item {| type t = $uid:cid$ of int $algattrs:l$ |}] -> (cid,l))
+    ; assert_equal (Recursive,m,attrs) (
+          let nr = Recursive in
+          match  [%structure_item {| type $nonrecflag:nr$ t = $uid:m$ of int $algattrs:attrs$ |}] with
+            [%structure_item {| type $nonrecflag:nr'$ t = $uid:cid$ of int $algattrs:l$ |}] -> (nr', cid,l))
 
     ; assert_equal (m, [t1;t2], attrs)
         (match [%structure_item {| exception $uid:m$ of $list:[t1;t2]$ $algattrs:attrs$ |}] with
@@ -660,6 +683,7 @@ let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
     ; "core_type"   >:: TY.test
     ; "constructor_declaration"   >:: CD.test
     ; "field"   >:: FLD.test
+    ; "type_decl"   >:: TD.test
     ; "structure_item"   >:: STRI.test
     ; "case"   >:: Case.test
     ]

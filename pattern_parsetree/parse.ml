@@ -107,6 +107,8 @@ let arg_label = wrap Parser.parse_arg_label
 let lident_vala_loc = wrap Parser.parse_lident_vala_loc
 let extension_constructor = wrap Parser.parse_extension_constructor
 let binding_op = wrap Parser.parse_binding_op
+let type_declaration = wrap Parser.parse_type_declaration
+let type_substitution = wrap Parser.parse_type_substitution
 
 let longident = wrap Parser.parse_any_longident
 let val_ident = wrap Parser.parse_val_longident

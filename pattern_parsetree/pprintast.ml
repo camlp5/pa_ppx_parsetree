@@ -1109,13 +1109,13 @@ and signature ctxt f x =  list ~sep:"@\n" (signature_item ctxt) f (unvala x)
 
 and signature_item ctxt f x : unit =
   match x.psig_desc with
-  | Psig_type (rf, l) ->
+  | Psig_type (rf, VaVal l) ->
       type_def_list ctxt f (rf, true, l)
-  | Psig_typesubst l ->
+  | Psig_typesubst (VaVal l) ->
       (* Psig_typesubst is never recursive, but we specify [Recursive] here to
          avoid printing a [nonrec] flag, which would be rejected by the parser.
       *)
-      type_def_list ctxt f (Recursive, false, l)
+      type_def_list ctxt f (vaval Recursive, false, l)
   | Psig_value vd ->
       let intro = if vd.pval_prim = [] then "val" else "external" in
       pp f "@[<2>%s@ %a@ :@ %a@]%a" intro
@@ -1357,8 +1357,8 @@ and structure_item ctxt f x =
       pp f "@[<hov2>;;%a@]%a"
         (expression ctxt) e
         (item_attributes ctxt) attrs
-  | Pstr_type (_, []) -> assert false
-  | Pstr_type (rf, l)  -> type_def_list ctxt f (rf, true, l)
+  | Pstr_type (_, VaVal []) -> assert false
+  | Pstr_type (rf, VaVal l)  -> type_def_list ctxt f (rf, true, l)
   | Pstr_value (rf, l) ->
       (* pp f "@[<hov2>let %a%a@]"  rec_flag rf bindings l *)
       pp f "@[<2>%a@]" (bindings ctxt) (rf,l)
@@ -1492,8 +1492,8 @@ and type_param ctxt f (ct, (a,b)) =
   pp f "%s%s%a" (type_variance a) (type_injectivity b) (core_type ctxt) ct
 
 and type_params ctxt f = function
-  | [] -> ()
-  | l -> pp f "%a " (list (type_param ctxt) ~first:"(" ~last:")" ~sep:",@;") l
+  | VaVal [] -> ()
+  | VaVal l -> pp f "%a " (list (type_param ctxt) ~first:"(" ~last:")" ~sep:",@;") l
 
 and type_def_list ctxt f (rf, exported, l) =
   let type_decl kwd rf f x =
@@ -1506,15 +1506,15 @@ and type_def_list ctxt f (rf, exported, l) =
     pp f "@[<2>%s %a%a%s%s%a@]%a" kwd
       nonrec_flag rf
       (type_params ctxt) x.ptype_params
-      x.ptype_name.txt eq
+      (unvala x.ptype_name.txt) eq
       (type_declaration ctxt) x
       (item_attributes ctxt) x.ptype_attributes
   in
   match l with
   | [] -> assert false
-  | [x] -> type_decl "type" rf f x
+  | [x] -> type_decl "type" (unvala rf) f x
   | x :: xs -> pp f "@[<v>%a@,%a@]"
-                 (type_decl "type" rf) x
+                 (type_decl "type" (unvala rf)) x
                  (list ~sep:"@," (type_decl "and" Recursive)) xs
 
 and record_declaration ctxt f lbls =
@@ -1564,7 +1564,7 @@ and type_declaration ctxt f x =
       in pp f "%t%t%a" intro priv variants (unvala xs)
     | Ptype_abstract -> ()
     | Ptype_record l ->
-        pp f "%t%t@;%a" intro priv (record_declaration ctxt) l
+        pp f "%t%t@;%a" intro priv (record_declaration ctxt) (unvala l)
     | Ptype_open -> pp f "%t%t@;.." intro priv
   in
   let constraints f =
@@ -1572,7 +1572,7 @@ and type_declaration ctxt f x =
       (fun (ct1,ct2,_) ->
          pp f "@[<hov2>@ constraint@ %a@ =@ %a@]"
            (core_type ctxt) ct1 (core_type ctxt) ct2)
-      x.ptype_cstrs
+      (unvala x.ptype_cstrs)
   in
   pp f "%t%t%t" manifest repr constraints
 

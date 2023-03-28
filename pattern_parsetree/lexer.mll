@@ -660,6 +660,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_RECFLAG (make_antiquotation "recflag" loc payload)
      }
+  | "$" "nonrecflag:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_NONRECFLAG (make_antiquotation "nonrecflag" loc payload)
+     }
   | "$" "overrideflag:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
