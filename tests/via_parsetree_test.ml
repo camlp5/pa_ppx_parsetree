@@ -667,6 +667,11 @@ module STRI = struct
         (match [%structure_item {| type t = { $mutable:Mutable$ $lid:l$ : $typ:t1$ } |}] with
            [%structure_item {| type t = { $mutable:f'$ $lid:name$ : $typ:t$ } |}] -> (f',  name, t))
 
+  
+    ; assert_equal [ [%type_decl {| t = int |} ] ]
+        (match [%structure_item {| type t = int |}] with
+           [%structure_item {| type $list:l$ |}] -> l)
+
 end
 
 
