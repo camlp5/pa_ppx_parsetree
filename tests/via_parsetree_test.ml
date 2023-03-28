@@ -555,6 +555,9 @@ let test ctxt =
 ; assert_equal l (match  [%pattern {| $lid:l$ |}] with
                     [%pattern {| $lid:m'$ |}] -> m')
 
+; assert_equal (l,p2) (match  [%pattern {| ( $lid:l$, $p2$ ) |}] with
+                    [%pattern {| ( $lid:l'$, $p2'$ ) |}] -> (l', p2'))
+
 ; assert_equal m (match [%pattern {| $uid:m$ |}] with
                      [%pattern {| $uid:m'$ |}] -> m')
 
