@@ -5,6 +5,8 @@ open Asttypes
 let si0txt = {|
 type t1 = int * bool * t2 option
 and t2 = { f : string ; g : bool }
+and t3 = C | D of int * int | E of { h : int ; j : string }
+and t4 = string
            |}
 
 let impl0 = si0txt |> Lexing.from_string |> Parse.implementation
@@ -39,7 +41,7 @@ let expr_applist e l =
 let rec core_type pfx = function
     [%core_type.loc {| int |}] -> [%expression {| int |}]
   | [%core_type.loc {| bool |}] -> [%expression {| bool |}]
-  | [%core_type.loc {| string |}] -> [%expression {| (quote Dump.string) |}]
+  | [%core_type.loc {| string |}] -> [%expression {| Dump.string |}]
   | [%core_type.loc {| $longid:li$ . $lid:tname$ |}] ->
      let pp_name = Fmt.(str "pp_%s" tname) in
      [%expression {| $longid:li$ . $lid:pp_name$ |}]
@@ -52,46 +54,75 @@ let rec core_type pfx = function
      let f = core_type pfx t in
      [%expression {| option ~none:(const string "None") ((const string "Some ") ++ $f$) |}]
   | [%core_type.loc {| $tuplelist:l$ |}] ->
-     let prefixes_types = l |> List.mapi (fun i t -> (Fmt.(str "%s_%d" pfx i), t)) in
-     let fmtstring = l |> List.map (fun _ -> "%a") |> String.concat "," in
-     let varspat =
-       let varpat_list = prefixes_types |> List.map (fun (id, _) -> [%pattern {| $lid:id$ |}]) in
-       [%pattern {| ( $tuplelist:varpat_list$ ) |}] in
-     let pplist =
-       prefixes_types
-       |> List.concat_map (fun (id, t) -> [ core_type id t ; [%expression {| $lid:id$ |}] ]) in
-     let body = expr_applist [%expression {| pf pps $string:fmtstring$ |}] pplist in
-     [%expression {| parens (fun pps $varspat$ -> $body$) |}]
+     let (varpat_list,_, body) = core_type_tuple __loc__ pfx l in
+     [%expression {| parens (fun pps ( $tuplelist:varpat_list$ ) -> $body$) |}]
+
+and core_type_tuple __loc__ pfx l =
+  let prefixes_types = l |> List.mapi (fun i t -> (Fmt.(str "%s_%d" pfx i), t)) in
+  let fmtstring = l |> List.map (fun _ -> "%a") |> String.concat "," in
+  let varpat_list = prefixes_types |> List.map (fun (id, _) -> [%pattern {| $lid:id$ |}]) in
+  let varexp_list = prefixes_types |> List.map (fun (id, _) -> [%expression {| $lid:id$ |}]) in
+  let pplist =
+    prefixes_types
+    |> List.concat_map (fun (id, t) -> [ core_type id t ; [%expression {| $lid:id$ |}] ]) in
+  let body = expr_applist [%expression {| pf pps $string:fmtstring$ |}] pplist in
+  (varpat_list, varexp_list, body)
+
+and constructor_decl = function
+    [%constructor_declaration.loc {| $uid:cid$ |}] ->
+     [%case {| $uid:cid$ -> const string $string:cid$ pps () |}]
+
+  | [%constructor_declaration.loc {| $uid:cid$ of $list:tyl$ |}] ->
+     let (varpat_list, varexp_list, body) = core_type_tuple __loc__ "_" tyl in
+     [%case {| $uid:cid$ ( $tuplelist:varpat_list$ ) ->
+             ((const string $string:cid$) ++ (const string " ") ++ (parens (fun pps ( $tuplelist:varpat_list$ ) -> $body$))) pps ( $tuplelist:varexp_list$ ) |}]
+
+  | [%constructor_declaration.loc {| $uid:cid$ of { $list:fields$ } |}] ->
+     let (patbinding_list, (varpat_list, varexp_list), body) = record_type __loc__ fields in
+     [%case {| $uid:cid$ { $list:patbinding_list$ } ->
+             ((const string $string:cid$) ++ (const string " ") ++ (braces (fun pps ( $tuplelist:varpat_list$ ) -> $body$)))
+             pps ( $tuplelist:varexp_list$ ) |}]
+
+and record_type __loc__ fields =
+  let ids_types =
+    fields
+    |>  List.map (function [%field {| $mutable:_$ $lid:l$ : $typ:t$ $algattrs:_$ |}] ->
+                    (l, t))  in
+  let patbinding_list =
+    ids_types |> List.map (fun (id,_) ->
+                     let li = [%longident_t {| $lid:id$ |}] in
+                     (Location.mkloc li __loc__,
+                      [%pattern {| $lid:id$ |}])) in
+
+  let varpat_list = ids_types |> List.map (fun (id, _) -> [%pattern {| $lid:id$ |}]) in
+  let varexp_list = ids_types |> List.map (fun (id, _) -> [%expression {| $lid:id$ |}]) in
+
+  let fmtstring = fields |> List.map (fun _ -> "%a") |> String.concat "; " in
+  let pplist =
+    ids_types
+    |> List.concat_map (fun (id, t) ->
+           let ppt = core_type "_" t in
+           [ [%expression {| (const string $string:id$) ++ (const string " = ") ++ $ppt$ |}]
+           ; [%expression {| $lid:id$ |}] ]) in
+  
+  let body = expr_applist [%expression {| (pf pps $string:fmtstring$) |}] pplist in
+  (patbinding_list, (varpat_list, varexp_list), body)
 
 let type_decl = function
     [%type_decl {| $lid:tname$ = $ty$ |}] ->
-    let pp_name = Fmt.(str "pp_%s" tname) in
-    let f = core_type "_" ty in
-    [%value_binding {| $lid:pp_name$ = fun pps x -> Fmt.(pf pps "%a" $f$ x) |}]
-
-  | [%type_decl {| $lid:tname$ = { $list:fields$ } |}] ->
      let pp_name = Fmt.(str "pp_%s" tname) in
-     let ids_types =
-       fields
-       |>  List.map (function [%field {| $mutable:_$ $lid:l$ : $typ:t$ $algattrs:_$ |}] ->
-                       (l, t))  in
-     let recpat =
-       let binding_list =
-         ids_types |> List.map (fun (id,_) ->
-                          let li = [%longident_t {| $lid:id$ |}] in
-                          (Location.mkloc li __loc__,
-                           [%pattern {| $lid:id$ |}])) in
-       [%pattern {| { $list:binding_list$ } |}] in
-     let fmtstring = fields |> List.map (fun _ -> "%a") |> String.concat "; " in
-     let pplist =
-       ids_types
-       |> List.concat_map (fun (id, t) ->
-              let ppt = core_type "_" t in
-              [ [%expression {| (const string $string:id$) ++ (const string " = ") ++ $ppt$ |}]
-              ; [%expression {| $lid:id$ |}] ]) in
-     
-     let body = expr_applist [%expression {| (pf pps $string:fmtstring$) |}] pplist in
-     [%value_binding {| $lid:pp_name$ = Fmt.(braces (fun pps $recpat$ -> $body$)) |}]
+     let f = core_type "_" ty in
+     [%value_binding {| $lid:pp_name$ = fun pps x -> Fmt.(pf pps "%a" $f$ x) |}]
+
+  | [%type_decl {| $lid:tname$ = $constructorlist:cl$ |}] ->
+     let pp_name = Fmt.(str "pp_%s" tname) in
+     let branches = List.map constructor_decl cl in
+     [%value_binding {| $lid:pp_name$ = fun pps ->  Fmt.(function $list:branches$) |}]
+
+  | [%type_decl.loc {| $lid:tname$ = { $list:fields$ } |}] ->
+     let pp_name = Fmt.(str "pp_%s" tname) in
+     let (patbinding_list, _, body) = record_type __loc__ fields in
+     [%value_binding {| $lid:pp_name$ = Fmt.(braces (fun pps { $list:patbinding_list$ } -> $body$)) |}]
 
 let top_si si = match si with
     [%structure_item {| type $nonrecflag:rf$ $list:tdl$ |}] ->

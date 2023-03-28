@@ -9,6 +9,7 @@ module Fixtures = struct
 let __loc__ = Location.none
 
 let l = "x" 
+let l' = "y"
 
 let l_loc = [%lident_loc {| $lid:l$ |}]
 
@@ -556,6 +557,11 @@ let test ctxt =
 
 ; assert_equal m (match [%pattern {| $uid:m$ |}] with
                      [%pattern {| $uid:m'$ |}] -> m')
+
+
+; let pats = [ [%pattern {| $lid:l$ |}] ; [%pattern {| $lid:l'$ |}] ] in
+  assert_equal (m, pats) (match [%pattern {| $uid:m$ ( $tuplelist:pats$ ) |}] with
+                            [%pattern {| $uid:m'$ ( $tuplelist:pats'$ ) |}] -> (m', pats'))
 
 end
 
