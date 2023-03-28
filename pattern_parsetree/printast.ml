@@ -233,8 +233,8 @@ and pattern i ppf x =
       line i ppf "Ppat_variant \"%s\"\n" (unvala l);
       option i pattern ppf po;
   | Ppat_record (l, c) ->
-      line i ppf "Ppat_record %a\n" fmt_closed_flag c;
-      list i longident_x_pattern ppf l;
+      line i ppf "Ppat_record %a\n" fmt_closed_flag (unvala c);
+      list i longident_vala_x_pattern ppf (unvala l);
   | Ppat_array (l) ->
       line i ppf "Ppat_array\n";
       list i pattern ppf l;
@@ -909,6 +909,10 @@ and label_decl i ppf {pld_name; pld_mutable; pld_type; pld_loc; pld_attributes}=
 
 and longident_x_pattern i ppf (li, p) =
   line i ppf "%a\n" fmt_longident_loc li;
+  pattern (i+1) ppf p;
+
+and longident_vala_x_pattern i ppf (li, p) =
+  line i ppf "%a\n" fmt_longident_vala_loc li;
   pattern (i+1) ppf p;
 
 and case i ppf {pc_lhs; pc_guard; pc_rhs} =

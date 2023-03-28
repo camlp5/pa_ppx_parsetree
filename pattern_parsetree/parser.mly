@@ -391,6 +391,9 @@ let make_ghost x = { x with loc = { x.loc with loc_ghost = true }}
 let loc_last (id : Longident.t Location.loc) : string Location.loc =
   loc_map Longident.last id
 
+let loc_vala_last (id : Longident.t Ploc.vala Location.loc) : string Ploc.vala Location.loc =
+  loc_map (Pcaml.vala_map Longident.last) id
+
 let loc_lident (id : string Location.loc) : Longident.t Location.loc =
   loc_map (fun x -> Lident (vaval x)) id
 
@@ -402,7 +405,7 @@ let exp_of_label lbl =
   Exp.mk ~loc:lbl.loc (Pexp_ident (loc_lident lbl))
 
 let pat_of_label lbl =
-  Pat.mk ~loc:lbl.loc  (Ppat_var (loc_map vaval (loc_last lbl)))
+  Pat.mk ~loc:lbl.loc  (Ppat_var (loc_vala_last lbl))
 
 let mk_newtypes ~loc newtypes exp =
   let mkexp = mkexp ~loc in
@@ -783,6 +786,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_RECFLAG
 %token <string> ANTI_NONRECFLAG
 %token <string> ANTI_OVERRIDEFLAG
+%token <string> ANTI_CLOSEDFLAG
 %token <string> ANTI_EXPROPT
 %token <string> ANTI_PATTOPT
 %token <string> ANTI_CTYPOPT
@@ -3129,10 +3133,15 @@ pattern_comma_list(self):
   listx(SEMI, record_pat_field, UNDERSCORE)
     { let fields, closed = $1 in
       let closed = match closed with Some () -> Open | None -> Closed in
-      fields, closed }
+      vaval(fields), vaval(closed) }
+| ANTI_LIST vala(UNDERSCORE?, ANTI_CLOSEDFLAG)
+    {
+      let closed = Pcaml.vala_map (function Some () -> Open | None -> Closed) $2 in
+      vaant $1, closed
+    }
 ;
 %inline record_pat_field:
-  label = mkrhs(label_longident)
+  label = mkrhs(vala(label_longident, ANTI_LONGID))
   octy = preceded(COLON, core_type)?
   opat = preceded(EQUAL, pattern)?
     { let constraint_loc, label, pat =

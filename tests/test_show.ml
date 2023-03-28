@@ -4,7 +4,7 @@ open Asttypes
 
 let si0txt = {|
 type t1 = int * bool * t2 option
-and t2 = string
+and t2 = { f : string ; g : bool }
            |}
 
 let si0 = si0txt |> Lexing.from_string |> Parse.implementation |> List.hd
@@ -48,11 +48,11 @@ let rec core_type pfx = function
   | [%core_type.loc {| string |}] -> [%expression {| (quote Dump.string) |}]
   | [%core_type.loc {| $longid:li$ . $lid:tname$ |}] ->
      let pp_name = Fmt.(str "pp_%s" tname) in
-     [%expression {| $longid:li$ . $lid:tname$ |}]
+     [%expression {| $longid:li$ . $lid:pp_name$ |}]
 
   | [%core_type.loc {| $lid:tname$ |}] ->
      let pp_name = Fmt.(str "pp_%s" tname) in
-     [%expression {| $lid:tname$ |}]
+     [%expression {| $lid:pp_name$ |}]
 
   | [%core_type.loc {| $t$ option |}] ->
      let f = core_type pfx t in
@@ -71,9 +71,33 @@ let rec core_type pfx = function
 
 let type_decl = function
     [%type_decl {| $lid:tname$ = $ty$ |}] ->
-    let f = core_type "_" ty in
     let pp_name = Fmt.(str "pp_%s" tname) in
+    let f = core_type "_" ty in
     [%value_binding {| $lid:pp_name$ = fun pps x -> Fmt.(pf pps "%a" $f$ x) |}]
+
+  | [%type_decl {| $lid:tname$ = { $list:fields$ } |}] ->
+     let pp_name = Fmt.(str "pp_%s" tname) in
+     let ids_types =
+       fields
+       |>  List.map (function [%field {| $mutable:_$ $lid:l$ : $typ:t$ $algattrs:_$ |}] ->
+                       (l, t))  in
+     let recpat =
+       let binding_list =
+         ids_types |> List.map (fun (id,_) ->
+                          let li = [%longident_t {| $lid:id$ |}] in
+                          (Location.mkloc li __loc__,
+                           [%pattern {| $lid:id$ |}])) in
+       [%pattern {| { $list:binding_list$ } |}] in
+     let fmtstring = fields |> List.map (fun _ -> "%a") |> String.concat "; " in
+     let pplist =
+       ids_types
+       |> List.concat_map (fun (id, t) ->
+              let ppt = core_type "_" t in
+              [ [%expression {| (const string $string:id$) ++ (const string " = ") ++ $ppt$ |}]
+              ; [%expression {| $lid:id$ |}] ]) in
+     
+     let body = expr_applist [%expression {| (pf pps $string:fmtstring$) |}] pplist in
+     [%value_binding {| $lid:pp_name$ = braces (fun pps $recpat$ -> $body$) |}]
 
 let top = function
     [%structure_item {| type $nonrecflag:rf$ $list:tdl$ |}] ->

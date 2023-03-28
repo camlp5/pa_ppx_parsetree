@@ -670,6 +670,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_OVERRIDEFLAG (make_antiquotation "overrideflag" loc payload)
      }
+  | "$" "closedflag:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_CLOSEDFLAG (make_antiquotation "closedflag" loc payload)
+     }
   | "$" "expropt:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in

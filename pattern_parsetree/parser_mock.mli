@@ -151,6 +151,7 @@ type token =
   | ANTI_DELIM of string
   | ANTI_CTYPOPT of string
   | ANTI_CONSTRUCTORLIST of string
+  | ANTI_CLOSEDFLAG of string
   | ANTI_CHAR of string
   | ANTI_ATTRID of string
   | ANTI_ALGATTRS of string
@@ -379,10 +380,12 @@ val lapply :
 val loc_map : ('a -> 'b) -> 'a Location.loc -> 'b Location.loc
 val make_ghost : 'a Asttypes.loc -> 'a Asttypes.loc
 val loc_last : Longident.t Location.loc -> string Location.loc
+val loc_vala_last :
+  Longident.t Ploc.vala Location.loc -> string Ploc.vala Location.loc
 val loc_lident : string Location.loc -> Longident.t Location.loc
 val exp_of_longident : Longident.t Location.loc -> Parsetree.expression
 val exp_of_label : string Asttypes.loc -> Parsetree.expression
-val pat_of_label : Longident.t Asttypes.loc -> Parsetree.pattern
+val pat_of_label : Longident.t Ploc.vala Asttypes.loc -> Parsetree.pattern
 val mk_newtypes :
   loc:Lexing.position * Lexing.position ->
   string Ploc.vala Asttypes.loc list ->
@@ -588,6 +591,7 @@ val xv_vala_private_flag_ANTI_PRIV_ : Asttypes.private_flag Ast_helper.vala
 val xv_vala_poly_type_no_attr_ANTI_TYP_ : Parsetree.core_type Ast_helper.vala
 val xv_vala_override_flag_ANTI_OVERRIDEFLAG_ :
   Asttypes.override_flag Ast_helper.vala
+val xv_vala_option_UNDERSCORE__ANTI_CLOSEDFLAG_ : unit option Ast_helper.vala
 val xv_vala_opt_default_ANTI_EXPROPT_ :
   Parsetree.expression option Ast_helper.vala
 val xv_vala_nonrec_flag_ANTI_NONRECFLAG_ : Asttypes.rec_flag Ast_helper.vala
@@ -801,9 +805,11 @@ val xv_rev_reversed_llist_preceded_CONSTRAINT_constrain___ :
   (Parsetree.core_type * Parsetree.core_type * Ast_helper.loc) list
 val xv_rev_inline_reversed_separated_nonempty_llist_STAR_atomic_type__ :
   Parsetree.core_type list
-val xv_record_pat_field : Longident.t Asttypes.loc * Parsetree.pattern
+val xv_record_pat_field :
+  Longident.t Ast_helper.vala Asttypes.loc * Parsetree.pattern
 val xv_record_pat_content :
-  (Longident.t Asttypes.loc * Parsetree.pattern) list * Asttypes.closed_flag
+  (Longident.t Ast_helper.vala Asttypes.loc * Parsetree.pattern) list
+  Ast_helper.vala * Asttypes.closed_flag Ast_helper.vala
 val xv_record_expr_field :
   Longident.t Ast_helper.vala Asttypes.loc * Parsetree.expression
 val xv_record_expr_content :
@@ -896,6 +902,7 @@ val xv_option_preceded_EQUAL_module_type__ : Parsetree.module_type option
 val xv_option_preceded_EQUAL_expr__ : Parsetree.expression option
 val xv_option_preceded_COLON_core_type__ : Parsetree.core_type option
 val xv_option_preceded_AS_mkrhs_LIDENT___ : string Asttypes.loc option
+val xv_option_UNDERSCORE_ : unit option
 val xv_option_SEMI_ : unit option
 val xv_option_BAR_ : unit option
 val xv_opt_default : Parsetree.expression option
@@ -976,7 +983,7 @@ val xv_mkrhs_vaval_LETOP__ : string Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vaval_ANDOP__ : string Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_val_ident_ANTI_LID__ : string Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_label_longident_ANTI_LONGID__ :
-  Longident.t Ast_helper.vala Location.loc
+  Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_label_ANTI_LID__ :
   Asttypes.label Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_ident_ANTI_LID__ :
@@ -1063,7 +1070,8 @@ val xv_mark_rhs_docs_text_str_str_exp__ : Parsetree.structure_item list
 val xv_llist_preceded_CONSTRAINT_constrain__ :
   (Parsetree.core_type * Parsetree.core_type * Ast_helper.loc) list
 val xv_listx_SEMI_record_pat_field_UNDERSCORE_ :
-  (Longident.t Asttypes.loc * Parsetree.pattern) list * unit option
+  (Longident.t Ast_helper.vala Asttypes.loc * Parsetree.pattern) list *
+  unit option
 val xv_list_use_file_element_ : Parsetree.toplevel_phrase list list
 val xv_list_text_str_structure_item__ : Parsetree.structure_item list list
 val xv_list_text_cstr_class_field__ : Parsetree.class_field list list

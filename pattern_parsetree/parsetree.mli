@@ -248,7 +248,7 @@ and pattern_desc =
             - [`A]   when [pat] is [None],
             - [`A P] when [pat] is [Some P]
          *)
-  | Ppat_record of (Longident.t loc * pattern) list * closed_flag
+  | Ppat_record of (Longident.t Ploc.vala loc * pattern) list Ploc.vala * closed_flag Ploc.vala
       (** [Ppat_record([(l1, P1) ; ... ; (ln, Pn)], flag)] represents:
             - [{ l1=P1; ...; ln=Pn }]
                  when [flag] is {{!Asttypes.closed_flag.Closed}[Closed]}

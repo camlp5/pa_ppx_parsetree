@@ -152,6 +152,7 @@ type token =
   | ANTI_DELIM of (string)
   | ANTI_CTYPOPT of (string)
   | ANTI_CONSTRUCTORLIST of (string)
+  | ANTI_CLOSEDFLAG of (string)
   | ANTI_CHAR of (string)
   | ANTI_ATTRID of (string)
   | ANTI_ALGATTRS of (string)

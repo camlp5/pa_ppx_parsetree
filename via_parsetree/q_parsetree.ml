@@ -142,6 +142,10 @@ let parse_type_substitution s =
         data_source_module = Asttypes
       ; quotation_source_module = Reorg_parsetree
       }
+    ; closed_flag = {
+        data_source_module = Asttypes
+      ; quotation_source_module = Reorg_parsetree
+      }
     ; expression = {
         add_branches_patt_code = (function
           | {pexp_desc=Pexp_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
