@@ -18,9 +18,6 @@ and 'a t2 = {it : 'a ; other : string }
 let impl1 = si1txt |> Lexing.from_string |> Parse.implementation
 
 let __loc__ = Location.none
-let t1 = [%core_type {| int |}]
-let t3 = [%core_type {| int * bool |}]
-let t3 = [%core_type {| int * bool * string option |}]
 
 let expr_applist0 e l =
   let rec exrec e = function
