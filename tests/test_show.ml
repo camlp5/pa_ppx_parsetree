@@ -3,7 +3,8 @@
 open Asttypes
 
 let si0txt = {|
-type t1 = int * bool * string option
+type t1 = int * bool * t2 option
+and t2 = string
            |}
 
 let si0 = si0txt |> Lexing.from_string |> Parse.implementation |> List.hd
@@ -68,11 +69,16 @@ let rec core_type pfx = function
      let body = expr_applist [%expression {| pf pps $string:fmtstring$ |}] pplist in
      [%expression {| parens (fun pps $varspat$ -> $body$) |}]
 
-let top = function
-    [%structure_item {| type $lid:tname$ = $ty$ |}] ->
+let type_decl = function
+    [%type_decl {| $lid:tname$ = $ty$ |}] ->
     let f = core_type "_" ty in
     let pp_name = Fmt.(str "pp_%s" tname) in
-    [%structure_item {| let $lid:pp_name$ pps x = Fmt.(pf pps "%a" $f$ x) |}]
+    [%value_binding {| $lid:pp_name$ = fun pps x -> Fmt.(pf pps "%a" $f$ x) |}]
+
+let top = function
+    [%structure_item {| type $nonrecflag:rf$ $list:tdl$ |}] ->
+    let bindings = List.map type_decl tdl in
+    [%structure_item {| let $recflag:rf$ $list:bindings$ |}]
 
 ;;
 Fmt.(pf stdout "%a\n%!" Pprintast.structure [top si0])
