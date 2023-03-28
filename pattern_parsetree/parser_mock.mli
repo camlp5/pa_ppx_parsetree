@@ -580,6 +580,9 @@ val xv_value :
    Parsetree.class_field_kind) *
   Parsetree.attributes
 val xv_vala_val_ident_ANTI_LID_ : string Ast_helper.vala
+val xv_vala_type_parameters_ANTI_LIST_ :
+  (Parsetree.core_type * (Asttypes.variance * Asttypes.injectivity)) list
+  Ast_helper.vala
 val xv_vala_separated_or_terminated_nonempty_list_SEMI_record_expr_field__ANTI_LIST_ :
   (Longident.t Ast_helper.vala Asttypes.loc * Parsetree.expression) list
   Ast_helper.vala

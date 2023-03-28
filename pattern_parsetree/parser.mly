@@ -3228,7 +3228,7 @@ primitive_declaration:
 ;
 
 %inline core_type_declaration(kind):
-  params = vaval(type_parameters)
+  params = vala(type_parameters, ANTI_LIST)
   id = mkrhs(vala(LIDENT, ANTI_LID))
   kind_priv_manifest = kind
   cstrs = vaval(constraints)
@@ -3252,7 +3252,7 @@ primitive_declaration:
   ext = ext
   attrs1 = attributes
   flag = flag
-  params = vaval(type_parameters)
+  params = vala(type_parameters, ANTI_LIST)
   id = mkrhs(vala(LIDENT, ANTI_LID))
   kind_priv_manifest = kind
   cstrs = vaval(constraints)
@@ -3269,7 +3269,7 @@ primitive_declaration:
 %inline generic_and_type_declaration(kind):
   AND
   attrs1 = attributes
-  params = vaval(type_parameters)
+  params = vala(type_parameters, ANTI_LIST)
   id = mkrhs(vala(LIDENT, ANTI_LID))
   kind_priv_manifest = kind
   cstrs = vaval(constraints)
