@@ -1,35 +1,9 @@
 (**pp -package pa_ppx.deriving_plugins.std,pa_ppx_parsetree_via_parsetree,pa_ppx_quotation2extension -syntax camlp5o *)
 
 open Asttypes
+open Parsetree
 
-let si0txt = {|
-type tint = int
-type tstring = string
-type ('a, 'b) choice = Left of 'a | Right of 'b
-type ('a, 'b) pair = 'a * 'b
-type t1 = int * bool * t2 option
-and t2 = { f : string ; g : bool }
-and t3 = C | D of int * int | E of { h : int ; j : string }
-and t4 = string
-           |}
-
-let impl0 = si0txt |> Lexing.from_string |> Parse.implementation
-
-
-let si1txt = {|
-type t1 = A of int | B of string list | C of bool t2 | D of int t2
-and 'a t2 = {it : 'a ; other : string }
-           |}
-
-let impl1 = si1txt |> Lexing.from_string |> Parse.implementation
-
-let __loc__ = Location.none
-
-let expr_applist0 e l =
-  let rec exrec e = function
-      [] -> e
-    | h::t -> exrec [%expression {| $e$ $h$ |}] t
-  in exrec e l
+let loc_of_expression e = e.pexp_loc
 
 let expr_unapplist e =
   let rec exrec e acc = match e with
@@ -37,7 +11,7 @@ let expr_unapplist e =
     | e ->  (e,acc)
   in exrec e []
 
-let expr_applist e l =
+let expr_applist __loc__ e l =
   let l = l |>  List.map (fun e -> (Nolabel,e)) in
   let (e,l0) = expr_unapplist e in
   [%expression {| $e$ $list:l0@l$ |}]
@@ -73,7 +47,7 @@ and core_type_tuple __loc__ pfx l =
   let pplist =
     prefixes_types
     |> List.concat_map (fun (id, t) -> [ core_type id t ; [%expression {| $lid:id$ |}] ]) in
-  let body = expr_applist [%expression {| pf pps $string:fmtstring$ |}] pplist in
+  let body = expr_applist __loc__ [%expression {| pf pps $string:fmtstring$ |}] pplist in
   (varpat_list, varexp_list, body)
 
 and constructor_decl = function
@@ -113,7 +87,7 @@ and record_type __loc__ fields =
            [ [%expression {| (const string $string:id$) ++ (const string " = ") ++ $ppt$ |}]
            ; [%expression {| $lid:id$ |}] ]) in
   
-  let body = expr_applist [%expression {| (pf pps $string:fmtstring$) |}] pplist in
+  let body = expr_applist __loc__ [%expression {| (pf pps $string:fmtstring$) |}] pplist in
   (patbinding_list, (varpat_list, varexp_list), body)
 
 let type_decl = function
@@ -152,5 +126,26 @@ let top_si si = match si with
     [si ; [%structure_item {| let $recflag:rf$ $list:bindings$ |}]]
 
 let top l = List.concat_map top_si l 
+
+let si0txt = {|
+type tint = int
+type tstring = string
+type ('a, 'b) choice = Left of 'a | Right of 'b
+type ('a, 'b) pair = 'a * 'b
+type t1 = int * bool * t2 option
+and t2 = { f : string ; g : bool }
+and t3 = C | D of int * int | E of { h : int ; j : string }
+and t4 = string
+           |}
+
+let impl0 = si0txt |> Lexing.from_string |> Parse.implementation
+
+
+let si1txt = {|
+type t1 = A of int | B of string list | C of bool t2 | D of int t2
+and 'a t2 = {it : 'a ; other : string }
+           |}
+
+let impl1 = si1txt |> Lexing.from_string |> Parse.implementation
 
 let _ = Fmt.(pf stdout "%a\n%!" Pprintast.structure (top impl0))
