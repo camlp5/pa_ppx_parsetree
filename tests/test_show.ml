@@ -7,7 +7,7 @@ type t1 = int * bool * t2 option
 and t2 = { f : string ; g : bool }
            |}
 
-let si0 = si0txt |> Lexing.from_string |> Parse.implementation |> List.hd
+let impl0 = si0txt |> Lexing.from_string |> Parse.implementation
 
 
 let si1txt = {|
@@ -15,10 +15,7 @@ type t1 = A of int | B of string list | C of bool t2 | D of int t2
 and 'a t2 = {it : 'a ; other : string }
            |}
 
-let si1 = si1txt |> Lexing.from_string |> Parse.implementation |> List.hd
-
-let tdl = match si0 with
-    [%structure_item {| type $list:l$ |}] -> l
+let impl1 = si1txt |> Lexing.from_string |> Parse.implementation
 
 let __loc__ = Location.none
 let t1 = [%core_type {| int |}]
@@ -97,12 +94,13 @@ let type_decl = function
               ; [%expression {| $lid:id$ |}] ]) in
      
      let body = expr_applist [%expression {| (pf pps $string:fmtstring$) |}] pplist in
-     [%value_binding {| $lid:pp_name$ = braces (fun pps $recpat$ -> $body$) |}]
+     [%value_binding {| $lid:pp_name$ = Fmt.(braces (fun pps $recpat$ -> $body$)) |}]
 
-let top = function
+let top_si si = match si with
     [%structure_item {| type $nonrecflag:rf$ $list:tdl$ |}] ->
     let bindings = List.map type_decl tdl in
-    [%structure_item {| let $recflag:rf$ $list:bindings$ |}]
+    [si ; [%structure_item {| let $recflag:rf$ $list:bindings$ |}]]
 
-;;
-Fmt.(pf stdout "%a\n%!" Pprintast.structure [top si0])
+let top l = List.concat_map top_si l 
+
+let _ = Fmt.(pf stdout "%a\n%!" Pprintast.structure (top impl0))
