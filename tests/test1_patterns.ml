@@ -224,6 +224,7 @@
 <:module_expr< functor $opt:x$ -> $me$ >>;
 <:module_expr< $me1$( $me2$ ) >>;
 <:module_expr< ( $me$ : $mt$ ) >>;
+<:module_expr< ( val $x$ ) >>;
 <:module_expr< [% $attrid:s$ $list:x$] >>;
 <:module_expr< [% $attrid:s$ : $list:x$] >>;
 <:module_expr< [% $attrid:s$ : $x$] >>;
