@@ -24,9 +24,9 @@
 <:core_type< < $list:lx$ $closedflag:x$ > >> ;
 <:core_type< $list:lx$ # $longid:x$ >> ;
 <:core_type< $x$ as ' $lid:s$ >> ;
-<:core_type< [ $closedflag:x$ $list:lx1$ $labellistopt:None$ ] >> ;
+<:core_type< [ $closedflag:x$ $list:lx1$ $opt:None$ ] >> ;
 <:core_type< [ $closedflag:x$ $list:lx1$ > $list:lx2$ ] >> ;
-<:core_type< [ $closedflag:x$ $list:lx1$ $labellistopt:olx2$ ] >> ;
+<:core_type< [ $closedflag:x$ $list:lx1$ $opt:olx2$ ] >> ;
 <:core_type< [< $list:lx1$ ] >> ;
 {Parsetree.ptyp_desc = Parsetree.Ptyp_poly lx x; Parsetree.ptyp_loc = __loc__; Parsetree.ptyp_loc_stack = []; Parsetree.ptyp_attributes = []};
 <:core_type< (module $longid:x$ with $list:xf2$) >>;
@@ -72,7 +72,7 @@
 <:pattern< lazy $x$ >>;
 <:pattern< (module _) >>;
 <:pattern< (module $uid:s$) >>;
-<:pattern< (module $uidopt:os$) >>;
+<:pattern< (module $opt:os$) >>;
 <:pattern< exception $x$ >> ;
 <:pattern< [% $attrid:s$ $list:x$] >>;
 <:pattern< [% $attrid:s$ : $list:x$] >>;
@@ -140,7 +140,7 @@
 <:expression< {< $list:lxx$ >} >>;
 <:expression< let module _ = $me$ in $x2$ >>;
 <:expression< let module $uid:s$ = $me$ in $x2$ >>;
-<:expression< let module $uidopt:os$ = $me$ in $x2$ >>;
+<:expression< let module $opt:os$ = $me$ in $x2$ >>;
 <:expression< let $excon:x1$ in $x2$ >>;
 <:expression< assert $x$ >>;
 <:expression< lazy $x$ >>;

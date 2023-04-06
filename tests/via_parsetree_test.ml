@@ -408,8 +408,8 @@ let test_letmodule ctxt =
         [%expression {| let module $uid:m'$ = $me1'$ in $e1'$ |}] -> (m', me1', e1'))
   ; assert_equal (None, me1, e1) (
         let uopt = None in
-      match [%expression {| let module $uidopt:uopt$ = $me1$ in $e1$ |}] with
-        [%expression {| let module $uidopt:uopt'$ = $me1'$ in $e1'$ |}] -> (uopt', me1', e1'))
+      match [%expression {| let module $opt:uopt$ = $me1$ in $e1$ |}] with
+        [%expression {| let module $opt:uopt'$ = $me1'$ in $e1'$ |}] -> (uopt', me1', e1'))
 
 let test_letexception ctxt =
   assert_equal () (

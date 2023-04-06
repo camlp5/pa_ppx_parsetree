@@ -769,6 +769,7 @@ let mk_directive ~loc name arg =
 %token <string * Location.t> COMMENT    "(* comment *)"
 %token <Docstrings.docstring> DOCSTRING "(** documentation *)"
 %token <string> ANTI
+%token <string> ANTI_OPT
 %token <string> ANTI_TUPLELIST
 %token <string> ANTI_LIST
 %token <string> ANTI_CONSTRUCTORLIST
@@ -805,7 +806,6 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_LETOP
 %token <string> ANTI_ATTRID
 %token <string> ANTI_CONSTANT
-%token <string> ANTI_LABELLISTOPT
 %token <string> ANTI_FUNCTORARGSOPT
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
@@ -1459,7 +1459,7 @@ functor_arg:
 ;
 
 module_name:
-    vala(module_name_, ANTI_UIDOPT) { $1 }
+    vala(module_name_, ANTI_OPT) { $1 }
 ;
 %inline module_name_:
     (* A named argument. *)
@@ -3745,9 +3745,9 @@ atomic_type:
         { Ptyp_variant($3, vaval Closed, vaval (Some(vaval []))) }
     | LBRACKETLESS BAR? vala(row_field_list, ANTI_LIST) GREATER vala(name_tag_list, ANTI_LIST) RBRACKET
         { Ptyp_variant($3, vaval Closed, vaval (Some $5)) }
-    | LBRACKETLESS BAR? vala(row_field_list, ANTI_LIST) ANTI_LABELLISTOPT RBRACKET
+    | LBRACKETLESS BAR? vala(row_field_list, ANTI_LIST) ANTI_OPT RBRACKET
         { Ptyp_variant($3, vaval Closed, vaant $4) }
-    | LBRACKET c = ANTI_CLOSEDFLAG r = ANTI_LIST l = ANTI_LABELLISTOPT RBRACKET
+    | LBRACKET c = ANTI_CLOSEDFLAG r = ANTI_LIST l = ANTI_OPT RBRACKET
         { Ptyp_variant(vaant r, vaant c, vaant l) }
     | LBRACKET c = ANTI_CLOSEDFLAG r = ANTI_LIST GREATER l = vala(name_tag_list, ANTI_LIST) RBRACKET
         { Ptyp_variant(vaant r, vaant c, vaval (Some l)) }

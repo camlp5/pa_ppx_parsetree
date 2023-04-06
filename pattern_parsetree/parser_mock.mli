@@ -132,6 +132,7 @@ type token =
   | ANTI_PATTOPT of string
   | ANTI_PATT of string
   | ANTI_OVERRIDEFLAG of string
+  | ANTI_OPT of string
   | ANTI_NONRECFLAG of string
   | ANTI_NATIVEINT of string
   | ANTI_MUTABLE of string
@@ -139,7 +140,6 @@ type token =
   | ANTI_LIST of string
   | ANTI_LID of string
   | ANTI_LETOP of string
-  | ANTI_LABELLISTOPT of string
   | ANTI_LABEL of string
   | ANTI_INT64 of string
   | ANTI_INT32 of string
@@ -616,7 +616,7 @@ val xv_vala_name_tag_list_ANTI_LIST_ : Asttypes.label list Ast_helper.vala
 val xv_vala_mutable_flag_ANTI_MUTABLE_ :
   Asttypes.mutable_flag Ast_helper.vala
 val xv_vala_mty_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
-val xv_vala_module_name__ANTI_UIDOPT_ :
+val xv_vala_module_name__ANTI_OPT_ :
   string Ast_helper.vala option Ast_helper.vala
 val xv_vala_mod_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_mod_ext_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala

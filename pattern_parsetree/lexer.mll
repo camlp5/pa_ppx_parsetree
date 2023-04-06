@@ -585,6 +585,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI (make_antiquotation "" loc payload)
      }
+  | "$" "opt:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_OPT (make_antiquotation "opt" loc payload)
+     }
   | "$" "tuplelist:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
@@ -765,11 +770,6 @@ rule token = parse
      {
        let loc = Location.curr lexbuf in
        ANTI_CONSTANT (make_antiquotation "constant" loc payload)
-     }
-  | "$" "labellistopt:" ([^ ':' '$']* as payload) "$"
-     {
-       let loc = Location.curr lexbuf in
-       ANTI_LABELLISTOPT (make_antiquotation "labellistopt" loc payload)
      }
   | "$" "functorargsopt:" ([^ ':' '$']* as payload) "$"
      {
