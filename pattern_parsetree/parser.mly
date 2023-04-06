@@ -3647,7 +3647,7 @@ function_type:
     %prec MINUSGREATER
       { ty }
   | mktyp(
-      label = arg_label
+      label = vala(arg_label, ANTI_LABEL)
       domain = extra_rhs(tuple_type)
       MINUSGREATER
       codomain = function_type

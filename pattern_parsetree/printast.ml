@@ -160,7 +160,7 @@ let rec core_type i ppf x =
   | Ptyp_var (s) -> line i ppf "Ptyp_var %s\n" (unvala s);
   | Ptyp_arrow (l, ct1, ct2) ->
       line i ppf "Ptyp_arrow\n";
-      arg_label i ppf l;
+      arg_label i ppf (unvala l);
       core_type i ppf ct1;
       core_type i ppf ct2;
   | Ptyp_tuple (Ploc.VaVal l) ->

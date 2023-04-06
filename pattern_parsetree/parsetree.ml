@@ -88,7 +88,7 @@ and core_type_desc =
   | Ptyp_xtr of string loc
   | Ptyp_any  (** [_] *)
   | Ptyp_var of string Ploc.vala  (** A type variable such as ['a] *)
-  | Ptyp_arrow of arg_label * core_type * core_type
+  | Ptyp_arrow of arg_label Ploc.vala * core_type * core_type
       (** [Ptyp_arrow(lbl, T1, T2)] represents:
             - [T1 -> T2]    when [lbl] is
                                      {{!Asttypes.arg_label.Nolabel}[Nolabel]},

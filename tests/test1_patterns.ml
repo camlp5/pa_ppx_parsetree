@@ -4,6 +4,10 @@
 [@@@"ocaml.text" "attributes";];
 [@@@"ocaml.text" "payload";];
 [@@@"ocaml.text" "core_type";];
+<:core_type< _ >> ;
+<:core_type< ' $lid:s$ >> ;
+<:core_type< $label:x1$ $x2$ -> $x3$ >> ;
+<:core_type< $tuplelist:lx$ >> ;
 [@@@"ocaml.text" "core_type_desc";];
 [@@@"ocaml.text" "package_type";];
 [@@@"ocaml.text" "row_field";];

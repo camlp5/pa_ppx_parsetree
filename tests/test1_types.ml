@@ -7,11 +7,13 @@
       ; superfluous_constructors = [
           Pexp_xtr
         ; Ppat_xtr
+        ; Ptyp_xtr
         ]
       ; test_types = [
           expression
         ; pattern
         ; constant
+        ; core_type
         ]
       ; default_expression = {
           location_stack = []
@@ -20,6 +22,7 @@
       ; expand_types = {
           expression_desc = Auto
         ; pattern_desc = Auto
+        ; core_type_desc = Auto
         ; located = Auto
         ; open_declaration = Auto
         ; open_infos = Auto
@@ -76,6 +79,8 @@
         ; expression_desc = Parsetree
         ; pattern = Parsetree
         ; pattern_desc = Parsetree
+        ; core_type = Parsetree
+        ; core_type_desc = Parsetree
         ; located = Location
         ; longident_t = Longident
         ; direction_flag = Asttypes

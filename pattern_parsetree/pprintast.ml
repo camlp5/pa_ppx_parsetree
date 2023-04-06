@@ -304,7 +304,7 @@ and core_type ctxt f x =
   else match x.ptyp_desc with
     | Ptyp_arrow (l, ct1, ct2) ->
         pp f "@[<2>%a@;->@;%a@]" (* FIXME remove parens later *)
-          (type_with_label ctxt) (l,ct1) (core_type ctxt) ct2
+          (type_with_label ctxt) (unvala l,ct1) (core_type ctxt) ct2
     | Ptyp_alias (ct, s) ->
         pp f "@[<2>%a@;as@;%a@]" (core_type1 ctxt) ct tyvar s
     | Ptyp_poly (VaVal [], ct) ->
