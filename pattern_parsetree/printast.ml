@@ -231,7 +231,7 @@ and pattern i ppf x =
         ppf (unvala po)
   | Ppat_variant (l, po) ->
       line i ppf "Ppat_variant \"%s\"\n" (unvala l);
-      option i pattern ppf po;
+      option i pattern ppf (unvala po);
   | Ppat_record (l, c) ->
       line i ppf "Ppat_record %a\n" fmt_closed_flag (unvala c);
       list i longident_vala_x_pattern ppf (unvala l);

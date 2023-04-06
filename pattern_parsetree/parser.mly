@@ -3040,7 +3040,9 @@ pattern_gen:
     | constr=mkrhs(vala(constr_longident, ANTI_LONGID)) pattopt = ANTI_PATTOPT
         { Ppat_construct(constr, vaant pattopt) }
     | name_tag_vala pattern %prec prec_constr_appl
-        { Ppat_variant($1, Some $2) }
+        { Ppat_variant($1, vaval(Some $2)) }
+    | name_tag_vala pattopt = ANTI_PATTOPT
+        { Ppat_variant($1, vaant pattopt) }
     ) { $1 }
   | LAZY ext_attributes simple_pattern
       { mkpat_attrs ~loc:$sloc (Ppat_lazy $3) $2}
@@ -3077,7 +3079,7 @@ simple_pattern_not_ident:
   | mkrhs(vala(constr_longident, ANTI_LONGID))
       { Ppat_construct($1, vaval None) }
   | name_tag_vala
-      { Ppat_variant($1, None) }
+      { Ppat_variant($1, vaval None) }
   | HASH mkrhs(type_longident)
       { Ppat_type ($2) }
   | mkrhs(mod_longident) DOT simple_delimited_pattern

@@ -243,7 +243,7 @@ and pattern_desc =
                                            [Some ([], Ppat_tuple [P1; ...; Pn])]
             - [C (type a b) P]  when [args] is [Some ([a; b], P)]
          *)
-  | Ppat_variant of label Ploc.vala * pattern option
+  | Ppat_variant of label Ploc.vala * pattern option Ploc.vala
       (** [Ppat_variant(`A, pat)] represents:
             - [`A]   when [pat] is [None],
             - [`A P] when [pat] is [Some P]

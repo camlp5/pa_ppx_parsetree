@@ -125,7 +125,7 @@ module Pat:
     val tuple: ?loc:loc -> ?attrs:attrs -> pattern list Ploc.vala -> pattern
     val construct: ?loc:loc -> ?attrs:attrs ->
       lid_vala -> (str_vala list Ploc.vala * pattern) option Ploc.vala -> pattern
-    val variant: ?loc:loc -> ?attrs:attrs -> label Ploc.vala -> pattern option -> pattern
+    val variant: ?loc:loc -> ?attrs:attrs -> label Ploc.vala -> pattern option Ploc.vala -> pattern
     val record: ?loc:loc -> ?attrs:attrs -> (lid_vala * pattern) list Ploc.vala -> closed_flag Ploc.vala
                 -> pattern
     val array: ?loc:loc -> ?attrs:attrs -> pattern list -> pattern

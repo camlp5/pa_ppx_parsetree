@@ -17,9 +17,9 @@
 <:pattern< $longid:x$ >>;
 <:pattern< $longid:x$ (type $list:lxxf1$) $lxxf2$ >>;
 <:pattern< $longid:x$ $pattopt:olxx$ >>;
-(*
-<:pattern< $longid:x$ $expropt:ox2$ >>;
- *)
+<:pattern< ` $id:x1$ >>;
+<:pattern< ` $id:x1$ $x2$ >>;
+<:pattern< ` $id:x1$ $pattopt:ox2$ >>;
 [@@@"ocaml.text" "pattern_desc";];
 [@@@"ocaml.text" "expression";];
 <:expression< $lid:s$ >>;
