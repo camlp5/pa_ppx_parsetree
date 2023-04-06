@@ -378,13 +378,13 @@ and core_type1 ctxt f x =
         let field_var f = function
           | Asttypes.Closed -> ()
           | Asttypes.Open ->
-              match l with
+              match unvala l with
               | [] -> pp f ".."
               | _ -> pp f " ;.."
         in
         pp f "@[<hov2><@ %a%a@ > @]"
-          (list core_field_type ~sep:";") l
-          field_var o (* Cf #7200 *)
+          (list core_field_type ~sep:";") (unvala l)
+          field_var (unvala o) (* Cf #7200 *)
     | Ptyp_class (li, l) ->   (*FIXME*)
         pp f "@[<hov2>%a#%a@]"
           (list (core_type ctxt) ~sep:"," ~first:"(" ~last:")") l

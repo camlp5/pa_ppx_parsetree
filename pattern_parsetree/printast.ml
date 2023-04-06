@@ -174,7 +174,7 @@ let rec core_type i ppf x =
       list i label_x_bool_x_core_type_list ppf l;
       option i (fun i -> list i string) ppf (Option.map (List.map unvala) low)
   | Ptyp_object (l, c) ->
-      line i ppf "Ptyp_object %a\n" fmt_closed_flag c;
+      line i ppf "Ptyp_object %a\n" fmt_closed_flag (unvala c);
       let i = i + 1 in
       List.iter (fun field ->
         match field.pof_desc with
@@ -185,7 +185,7 @@ let rec core_type i ppf x =
           | Oinherit ct ->
               line i ppf "Oinherit\n";
               core_type (i + 1) ppf ct
-      ) l
+      ) (unvala l)
   | Ptyp_class (li, l) ->
       line i ppf "Ptyp_class %a\n" fmt_longident_loc li;
       list i core_type ppf l

@@ -109,7 +109,7 @@ and core_type_desc =
             - [T tconstr]             when [l=[T]],
             - [(T1, ..., Tn) tconstr] when [l=[T1 ; ... ; Tn]].
          *)
-  | Ptyp_object of object_field list * closed_flag
+  | Ptyp_object of object_field list Ploc.vala * closed_flag Ploc.vala
       (** [Ptyp_object([ l1:T1; ...; ln:Tn ], flag)] represents:
             - [< l1:T1; ...; ln:Tn >]     when [flag] is
                                        {{!Asttypes.closed_flag.Closed}[Closed]},

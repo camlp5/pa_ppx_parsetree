@@ -120,7 +120,8 @@ module Typ = struct
         | Ptyp_constr(longident, lst) ->
             Ptyp_constr(longident, Pcaml.vala_map (List.map loop) lst)
         | Ptyp_object (lst, o) ->
-            Ptyp_object (List.map loop_object_field lst, o)
+           let lst = Pcaml.vala_map (List.map loop_object_field) lst in
+            Ptyp_object (lst, o)
         | Ptyp_class (longident, lst) ->
             Ptyp_class (longident, List.map loop lst)
         | Ptyp_alias(core_type, string) ->

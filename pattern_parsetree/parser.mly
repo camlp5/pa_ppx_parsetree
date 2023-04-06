@@ -3708,9 +3708,11 @@ atomic_type:
       tid = mkrhs(vala(type_longident,  ANTI_LONGID))
         { Ptyp_constr(tid, vaant $1) }
     | LESS meth_list GREATER
-        { let (f, c) = $2 in Ptyp_object (f, c) }
+        { let (f, c) = $2 in Ptyp_object (vaval f, vaval c) }
+    | LESS l = ANTI_LIST c = ANTI_CLOSEDFLAG GREATER
+        { Ptyp_object (vaant l, vaant c) }
     | LESS GREATER
-        { Ptyp_object ([], Closed) }
+        { Ptyp_object (vaval [], vaval Closed) }
     | tys = actual_type_parameters
       HASH
       cid = mkrhs(clty_longident)
