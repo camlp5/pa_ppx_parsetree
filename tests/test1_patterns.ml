@@ -30,6 +30,13 @@
 <:pattern< (module _) >>;
 <:pattern< (module $uid:s$) >>;
 <:pattern< (module $uidopt:os$) >>;
+<:pattern< exception $x$ >> ;
+<:pattern< [% $attrid:s$ $list:x$] >>;
+<:pattern< [% $attrid:s$ : $list:x$] >>;
+<:pattern< [% $attrid:s$ : $x$] >>;
+<:pattern< [% $attrid:s$ ? $x1$] >>;
+<:pattern< [% $attrid:s$ ? $x1$ when $x2$] >>;
+<:pattern< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
 [@@@"ocaml.text" "pattern_desc";];
 [@@@"ocaml.text" "expression";];
 <:expression< $lid:s$ >>;
