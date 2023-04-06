@@ -116,13 +116,13 @@ and core_type_desc =
             - [< l1:T1; ...; ln:Tn; .. >] when [flag] is
                                            {{!Asttypes.closed_flag.Open}[Open]}.
          *)
-  | Ptyp_class of Longident.t loc * core_type list
+  | Ptyp_class of Longident.t Ploc.vala loc * core_type list Ploc.vala
       (** [Ptyp_class(tconstr, l)] represents:
             - [#tconstr]               when [l=[]],
             - [T #tconstr]             when [l=[T]],
             - [(T1, ..., Tn) #tconstr] when [l=[T1 ; ... ; Tn]].
          *)
-  | Ptyp_alias of core_type * string  (** [T as 'a]. *)
+  | Ptyp_alias of core_type * string Ploc.vala  (** [T as 'a]. *)
   | Ptyp_variant of row_field list * closed_flag * label Ploc.vala list option
       (** [Ptyp_variant([`A;`B], flag, labels)] represents:
             - [[ `A|`B ]]

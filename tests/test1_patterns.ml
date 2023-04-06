@@ -10,6 +10,8 @@
 <:core_type< $tuplelist:lx$ >> ;
 <:core_type< $list:lx$ $longid:x$ >> ;
 <:core_type< < $list:lx$ $closedflag:x$ > >> ;
+<:core_type< $list:lx$ # $longid:x$ >> ;
+<:core_type< $x$ as ' $lid:s$ >> ;
 [@@@"ocaml.text" "core_type_desc";];
 [@@@"ocaml.text" "package_type";];
 [@@@"ocaml.text" "row_field";];

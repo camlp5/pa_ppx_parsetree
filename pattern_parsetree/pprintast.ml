@@ -306,7 +306,7 @@ and core_type ctxt f x =
         pp f "@[<2>%a@;->@;%a@]" (* FIXME remove parens later *)
           (type_with_label ctxt) (unvala l,ct1) (core_type ctxt) ct2
     | Ptyp_alias (ct, s) ->
-        pp f "@[<2>%a@;as@;%a@]" (core_type1 ctxt) ct tyvar s
+        pp f "@[<2>%a@;as@;%a@]" (core_type1 ctxt) ct tyvar (unvala s)
     | Ptyp_poly (VaVal [], ct) ->
         core_type ctxt f ct
     | Ptyp_poly (VaVal sl, ct) ->
@@ -387,8 +387,8 @@ and core_type1 ctxt f x =
           field_var (unvala o) (* Cf #7200 *)
     | Ptyp_class (li, l) ->   (*FIXME*)
         pp f "@[<hov2>%a#%a@]"
-          (list (core_type ctxt) ~sep:"," ~first:"(" ~last:")") l
-          longident_loc li
+          (list (core_type ctxt) ~sep:"," ~first:"(" ~last:")") (unvala l)
+          longident_vala_loc li
     | Ptyp_package (lid, cstrs) ->
         let aux f (s, ct) =
           pp f "type %a@ =@ %a" longident_loc s (core_type ctxt) ct  in

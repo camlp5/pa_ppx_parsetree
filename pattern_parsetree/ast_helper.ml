@@ -123,9 +123,10 @@ module Typ = struct
            let lst = Pcaml.vala_map (List.map loop_object_field) lst in
             Ptyp_object (lst, o)
         | Ptyp_class (longident, lst) ->
-            Ptyp_class (longident, List.map loop lst)
+           let lst = Pcaml.vala_map (List.map loop) lst in
+            Ptyp_class (longident, lst)
         | Ptyp_alias(core_type, string) ->
-            check_variable var_names t.ptyp_loc (vaval string);
+            check_variable var_names t.ptyp_loc string;
             Ptyp_alias(loop core_type, string)
         | Ptyp_variant(row_field_list, flag, lbl_lst_option) ->
             Ptyp_variant(List.map loop_row_field row_field_list,

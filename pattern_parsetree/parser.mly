@@ -3630,7 +3630,7 @@ alias_type:
     function_type
       { $1 }
   | mktyp(
-      ty = alias_type AS QUOTE tyvar = ident
+      ty = alias_type AS QUOTE tyvar = ident_vala
         { Ptyp_alias(ty, tyvar) }
     )
     { $1 }
@@ -3713,9 +3713,9 @@ atomic_type:
         { Ptyp_object (vaant l, vaant c) }
     | LESS GREATER
         { Ptyp_object (vaval [], vaval Closed) }
-    | tys = actual_type_parameters
+    | tys = vala(actual_type_parameters, ANTI_LIST)
       HASH
-      cid = mkrhs(clty_longident)
+      cid = mkrhs(vala(clty_longident, ANTI_LONGID))
         { Ptyp_class(cid, tys) }
     | LBRACKET tag_field RBRACKET
         (* not row_field; see CONFLICTS *)
