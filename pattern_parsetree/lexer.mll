@@ -771,6 +771,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_LABELLISTOPT (make_antiquotation "labellistopt" loc payload)
      }
+  | "$" "functorargsopt:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_FUNCTORARGSOPT (make_antiquotation "functorargsopt" loc payload)
+     }
 
   | eof { EOF }
   | (_ as illegal_char)

@@ -146,6 +146,7 @@ type token =
   | ANTI_INT32 of (string)
   | ANTI_INT of (string)
   | ANTI_ID of (string)
+  | ANTI_FUNCTORARGSOPT of (string)
   | ANTI_FLOAT of (string)
   | ANTI_EXPROPT of (string)
   | ANTI_EXCON of (string)

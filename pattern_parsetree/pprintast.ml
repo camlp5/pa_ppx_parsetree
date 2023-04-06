@@ -1052,9 +1052,9 @@ and module_type ctxt f x =
       (attributes ctxt) x.pmty_attributes
   end else
     match x.pmty_desc with
-    | Pmty_functor (Unit, mt2) ->
+    | Pmty_functor (Ploc.VaVal Unit, mt2) ->
         pp f "@[<hov2>functor () ->@ %a@]" (module_type ctxt) mt2
-    | Pmty_functor (Named (s, mt1), mt2) ->
+    | Pmty_functor (Ploc.VaVal (Named (s, mt1)), mt2) ->
         begin match unvala s.txt with
         | None ->
             pp f "@[<hov2>%a@ ->@ %a@]"
@@ -1221,9 +1221,9 @@ and module_expr ctxt f x =
           (module_type ctxt) mt
     | Pmod_ident (li) ->
         pp f "%a" longident_vala_loc li;
-    | Pmod_functor (Unit, me) ->
+    | Pmod_functor (Ploc.VaVal Unit, me) ->
         pp f "functor ()@;->@;%a" (module_expr ctxt) me
-    | Pmod_functor (Named (s, mt), me) ->
+    | Pmod_functor (Ploc.VaVal (Named (s, mt)), me) ->
         pp f "functor@ (%s@ :@ %a)@;->@;%a"
           (unvala (Option.value (unvala s.txt) ~default:(vaval "_")))
           (module_type ctxt) mt (module_expr ctxt) me
@@ -1368,8 +1368,8 @@ and structure_item ctxt f x =
       let rec module_helper = function
         | {pmod_desc=Pmod_functor(arg_opt,me'); pmod_attributes = []} ->
             begin match arg_opt with
-            | Unit -> pp f "()"
-            | Named (s, mt) ->
+            | Ploc.VaVal Unit -> pp f "()"
+            | Ploc.VaVal (Named (s, mt)) ->
               pp f "(%s:%a)" (unvala (Option.value (unvala s.txt) ~default:(vaval"_")))
                 (module_type ctxt) mt
             end;

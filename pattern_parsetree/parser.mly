@@ -806,6 +806,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_ATTRID
 %token <string> ANTI_CONSTANT
 %token <string> ANTI_LABELLISTOPT
+%token <string> ANTI_FUNCTORARGSOPT
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -1449,10 +1450,12 @@ parse_constant:
 functor_arg:
     (* An anonymous and untyped argument. *)
     LPAREN RPAREN
-      { $startpos, Unit }
+      { $startpos, vaval Unit }
   | (* An argument accompanied with an explicit type. *)
     LPAREN x = mkrhs(module_name) COLON mty = module_type RPAREN
-      { $startpos, Named (x, mty) }
+      { $startpos, vaval (Named (x, mty)) }
+  | ANTI_FUNCTORARGSOPT
+      { $startpos, vaant $1 }
 ;
 
 module_name:
@@ -1807,7 +1810,7 @@ module_type:
     | ANTI { Pmty_xtr (Location.mkloc $1 (make_loc $sloc)) }
     | module_type MINUSGREATER module_type
         %prec below_WITH
-        { Pmty_functor(Named (mknoloc (vaval None), $1), $3) }
+        { Pmty_functor(vaval (Named (mknoloc (vaval None), $1)), $3) }
     | module_type WITH vala(separated_nonempty_llist(AND, with_constraint),  ANTI_LIST)
         { Pmty_with($1, $3) }
 /*  | LPAREN MODULE mkrhs(mod_longident) RPAREN

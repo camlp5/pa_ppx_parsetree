@@ -8,6 +8,9 @@
           Pexp_xtr
         ; Ppat_xtr
         ; Ptyp_xtr
+        ; Pmod_xtr
+        ; Pmty_xtr
+        ; Pmty_alias
         ]
       ; test_types = [
           expression
@@ -103,7 +106,9 @@
         ; extension = Parsetree
         ; case = Parsetree
         ; module_type = Parsetree
+        ; module_type_desc = Parsetree
         ; module_expr = Parsetree
+        ; module_expr_desc = Parsetree
         }
       }
   ]

@@ -145,6 +145,7 @@ type token =
   | ANTI_INT32 of string
   | ANTI_INT of string
   | ANTI_ID of string
+  | ANTI_FUNCTORARGSOPT of string
   | ANTI_FLOAT of string
   | ANTI_EXPROPT of string
   | ANTI_EXCON of string
@@ -791,7 +792,7 @@ val xv_reversed_nonempty_llist_name_tag_ : Asttypes.label list
 val xv_reversed_nonempty_llist_labeled_simple_expr_ :
   (Asttypes.arg_label * Parsetree.expression) list
 val xv_reversed_nonempty_llist_functor_arg_ :
-  (Lexing.position * Parsetree.functor_parameter) list
+  (Lexing.position * Parsetree.functor_parameter Ast_helper.vala) list
 val xv_reversed_llist_preceded_CONSTRAINT_constrain__ :
   (Parsetree.core_type * Parsetree.core_type * Ast_helper.loc) list
 val xv_reversed_bar_llist_extension_constructor_declaration_ :
@@ -1227,8 +1228,10 @@ val xv_generic_and_type_declaration_type_kind_ : Parsetree.type_declaration
 val xv_generalized_constructor_arguments :
   Ast_helper.str_vala list * Parsetree.constructor_arguments *
   Parsetree.core_type option
-val xv_functor_args : (Lexing.position * Parsetree.functor_parameter) list
-val xv_functor_arg : Lexing.position * Parsetree.functor_parameter
+val xv_functor_args :
+  (Lexing.position * Parsetree.functor_parameter Ast_helper.vala) list
+val xv_functor_arg :
+  Lexing.position * Parsetree.functor_parameter Ast_helper.vala
 val xv_function_type : Parsetree.core_type
 val xv_fun_def : Parsetree.expression
 val xv_fun_binding : Parsetree.expression

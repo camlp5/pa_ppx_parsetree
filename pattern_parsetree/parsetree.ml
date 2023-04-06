@@ -812,7 +812,7 @@ and module_type =
 and module_type_desc =
   | Pmty_ident of Longident.t Ploc.vala loc  (** [Pmty_ident(S)] represents [S] *)
   | Pmty_signature of signature  (** [sig ... end] *)
-  | Pmty_functor of functor_parameter * module_type
+  | Pmty_functor of functor_parameter Ploc.vala * module_type
       (** [functor(X : MT1) -> MT2] *)
   | Pmty_with of module_type * with_constraint list Ploc.vala  (** [MT with ...] *)
   | Pmty_typeof of module_expr  (** [module type of ME] *)
@@ -962,7 +962,7 @@ and module_expr =
 and module_expr_desc =
   | Pmod_ident of Longident.t Ploc.vala loc  (** [X] *)
   | Pmod_structure of structure  (** [struct ... end] *)
-  | Pmod_functor of functor_parameter * module_expr
+  | Pmod_functor of functor_parameter Ploc.vala * module_expr
       (** [functor(X : MT1) -> ME] *)
   | Pmod_apply of module_expr * module_expr  (** [ME1(ME2)] *)
   | Pmod_constraint of module_expr * module_type  (** [(ME : MT)] *)

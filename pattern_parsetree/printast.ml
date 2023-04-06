@@ -676,10 +676,10 @@ and module_type i ppf x =
   | Pmty_signature (s) ->
       line i ppf "Pmty_signature\n";
       signature i ppf s;
-  | Pmty_functor (Unit, mt2) ->
+  | Pmty_functor (Ploc.VaVal Unit, mt2) ->
       line i ppf "Pmty_functor ()\n";
       module_type i ppf mt2;
-  | Pmty_functor (Named (s, mt1), mt2) ->
+  | Pmty_functor (Ploc.VaVal (Named (s, mt1)), mt2) ->
       line i ppf "Pmty_functor %a\n" fmt_str_vala_opt_vala_loc s;
       module_type i ppf mt1;
       module_type i ppf mt2;
@@ -794,10 +794,10 @@ and module_expr i ppf x =
   | Pmod_structure (s) ->
       line i ppf "Pmod_structure\n";
       structure i ppf s;
-  | Pmod_functor (Unit, me) ->
+  | Pmod_functor (Ploc.VaVal Unit, me) ->
       line i ppf "Pmod_functor ()\n";
       module_expr i ppf me;
-  | Pmod_functor (Named (s, mt), me) ->
+  | Pmod_functor (Ploc.VaVal (Named (s, mt)), me) ->
       line i ppf "Pmod_functor %a\n" fmt_str_vala_opt_vala_loc s;
       module_type i ppf mt;
       module_expr i ppf me;
