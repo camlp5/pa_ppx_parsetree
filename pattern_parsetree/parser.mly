@@ -3003,7 +3003,7 @@ pattern_no_exn:
   | pattern_gen
       { $1 }
   | mkpat(
-      self AS mkrhs(val_ident)
+      self AS mkrhs(vala(val_ident, ANTI_LID))
         { Ppat_alias($1, $3) }
     | self AS error
         { expecting $loc($3) "identifier" }

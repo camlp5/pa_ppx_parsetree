@@ -1,4 +1,17 @@
 (**pp -package pa_ppx_parsetree_via_parsetree -syntax camlp5r *)
+[@@@"ocaml.text" "pattern";];
+<:pattern< _ >> ;
+<:pattern<  $lid:s$ >> ;
+<:pattern< $x1$ as $lid:s$ >> ;
+<:pattern< $int:s$ >> ;
+<:pattern< $int32:s$ >> ;
+<:pattern< $int64:s$ >> ;
+<:pattern< $nativeint:s$ >> ;
+<:pattern< $char:x$ >> ;
+<:pattern< $string:s1$ >> ;
+<:pattern< $string:s1$ $delim:s2$ >> ;
+[@@@"ocaml.text" "pattern_desc";];
+[@@@"ocaml.text" "expression";];
 <:expression< $lid:s$ >>;
 <:expression< $longid:x$ . $lid:s$ >>;
 <:expression< $int:s$ >> ;

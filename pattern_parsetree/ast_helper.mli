@@ -119,7 +119,7 @@ module Pat:
 
     val any: ?loc:loc -> ?attrs:attrs -> unit -> pattern
     val var: ?loc:loc -> ?attrs:attrs -> str_vala -> pattern
-    val alias: ?loc:loc -> ?attrs:attrs -> pattern -> str -> pattern
+    val alias: ?loc:loc -> ?attrs:attrs -> pattern -> str_vala -> pattern
     val constant: ?loc:loc -> ?attrs:attrs -> constant -> pattern
     val interval: ?loc:loc -> ?attrs:attrs -> constant -> constant -> pattern
     val tuple: ?loc:loc -> ?attrs:attrs -> pattern list Ploc.vala -> pattern

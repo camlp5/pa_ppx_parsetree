@@ -214,7 +214,7 @@ and pattern i ppf x =
   | Ppat_any -> line i ppf "Ppat_any\n";
   | Ppat_var (s) -> line i ppf "Ppat_var %a\n" fmt_string_vala_loc s;
   | Ppat_alias (p, s) ->
-      line i ppf "Ppat_alias %a\n" fmt_string_loc s;
+      line i ppf "Ppat_alias %a\n" fmt_string_vala_loc s;
       pattern i ppf p;
   | Ppat_constant (c) -> line i ppf "Ppat_constant %a\n" fmt_constant c;
   | Ppat_interval (c1, c2) ->

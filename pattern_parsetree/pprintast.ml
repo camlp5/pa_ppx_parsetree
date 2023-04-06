@@ -409,7 +409,7 @@ and pattern ctxt f x =
   end
   else match x.ppat_desc with
     | Ppat_alias (p, s) ->
-        pp f "@[<2>%a@;as@;%a@]" (pattern ctxt) p protect_ident s.txt
+        pp f "@[<2>%a@;as@;%a@]" (pattern ctxt) p protect_ident (unvala s.txt)
     | _ -> pattern_or ctxt f x
 
 and pattern_or ctxt f x =

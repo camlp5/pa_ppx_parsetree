@@ -221,7 +221,7 @@ and pattern_desc =
   | Ppat_xtr of string loc
   | Ppat_any  (** The pattern [_]. *)
   | Ppat_var of string Ploc.vala loc  (** A variable pattern such as [x] *)
-  | Ppat_alias of pattern * string loc
+  | Ppat_alias of pattern * string Ploc.vala loc
       (** An alias pattern such as [P as 'a] *)
   | Ppat_constant of constant
       (** Patterns such as [1], ['a'], ["true"], [1.0], [1l], [1L], [1n] *)

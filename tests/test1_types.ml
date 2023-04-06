@@ -6,9 +6,11 @@
       ; loc_varname = __loc__
       ; superfluous_constructors = [
           Pexp_xtr
+        ; Ppat_xtr
         ]
       ; test_types = [
-        	expression
+          expression
+        ; pattern
         ]
       ; default_expression = {
           location_stack = []
@@ -16,6 +18,7 @@
         }
       ; expand_types = {
           expression_desc = Auto
+        ; pattern_desc = Auto
         ; located = Auto
         ; constant = Auto
         ; open_declaration = Auto
@@ -69,6 +72,8 @@
           constant = Parsetree
         ; expression = Parsetree
         ; expression_desc = Parsetree
+        ; pattern = Parsetree
+        ; pattern_desc = Parsetree
         ; located = Location
         ; longident_t = Longident
         ; direction_flag = Asttypes
