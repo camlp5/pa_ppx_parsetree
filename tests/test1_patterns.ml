@@ -21,6 +21,7 @@
 <:pattern< ` $id:x1$ >>;
 <:pattern< ` $id:x1$ $x2$ >>;
 <:pattern< ` $id:x1$ $pattopt:ox2$ >>;
+<:pattern< { $list:lxx$ $closedflag:x$ } >> ;
 [@@@"ocaml.text" "pattern_desc";];
 [@@@"ocaml.text" "expression";];
 <:expression< $lid:s$ >>;
