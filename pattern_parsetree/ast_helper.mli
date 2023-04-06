@@ -134,7 +134,7 @@ module Pat:
     val type_: ?loc:loc -> ?attrs:attrs -> lid_vala -> pattern
     val lazy_: ?loc:loc -> ?attrs:attrs -> pattern -> pattern
     val unpack: ?loc:loc -> ?attrs:attrs -> str_vala_opt_vala -> pattern
-    val open_: ?loc:loc -> ?attrs:attrs  -> lid -> pattern -> pattern
+    val open_: ?loc:loc -> ?attrs:attrs  -> lid_vala -> pattern -> pattern
     val exception_: ?loc:loc -> ?attrs:attrs -> pattern -> pattern
     val extension: ?loc:loc -> ?attrs:attrs -> extension -> pattern
   end

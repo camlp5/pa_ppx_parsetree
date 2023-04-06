@@ -507,7 +507,7 @@ and simple_pattern ctxt (f:Format.formatter) (x:pattern) : unit =
         | Ppat_array _ | Ppat_record _
         | Ppat_construct (({txt=VaVal(Lident (Ploc.VaVal ("()"|"[]")));_}), VaVal None) -> false
         | _ -> true in
-        pp f "@[<2>%a.%a @]" longident_loc lid
+        pp f "@[<2>%a.%a @]" longident_vala_loc lid
           (paren with_paren @@ pattern1 ctxt) p
     | _ -> paren true (pattern ctxt) f x
 

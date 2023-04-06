@@ -272,7 +272,7 @@ and pattern_desc =
          *)
   | Ppat_exception of pattern  (** Pattern [exception P] *)
   | Ppat_extension of extension  (** Pattern [[%id]] *)
-  | Ppat_open of Longident.t loc * pattern  (** Pattern [M.(P)] *)
+  | Ppat_open of Longident.t Ploc.vala loc * pattern  (** Pattern [M.(P)] *)
 
 (** {2 Value expressions} *)
 

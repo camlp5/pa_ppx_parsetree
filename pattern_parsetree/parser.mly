@@ -3082,13 +3082,15 @@ simple_pattern_not_ident:
       { Ppat_variant($1, vaval None) }
   | HASH mkrhs(vala(type_longident, ANTI_LONGID))
       { Ppat_type ($2) }
-  | mkrhs(mod_longident) DOT simple_delimited_pattern
+  | mkrhs(vala(mod_longident, ANTI_LONGID)) DOT simple_delimited_pattern
       { Ppat_open($1, $3) }
-  | mkrhs(mod_longident) DOT mkrhs(LBRACKET RBRACKET {vaval(Lident (vaval "[]"))})
+  | mkrhs(vala(mod_longident, ANTI_LONGID)) DOT ANTI
+      { Ppat_open($1, mkpat ~loc:$sloc (Ppat_xtr (Location.mkloc $3 (make_loc $sloc)))) }
+  | mkrhs(vala(mod_longident, ANTI_LONGID)) DOT mkrhs(LBRACKET RBRACKET {vaval(Lident (vaval "[]"))})
     { Ppat_open($1, mkpat ~loc:$sloc (Ppat_construct($3, vaval None))) }
-  | mkrhs(mod_longident) DOT mkrhs(LPAREN RPAREN {vaval(Lident (vaval "()"))})
+  | mkrhs(vala(mod_longident, ANTI_LONGID)) DOT mkrhs(LPAREN RPAREN {vaval(Lident (vaval "()"))})
     { Ppat_open($1, mkpat ~loc:$sloc (Ppat_construct($3, vaval None))) }
-  | mkrhs(mod_longident) DOT LPAREN pattern RPAREN
+  | mkrhs(vala(mod_longident, ANTI_LONGID)) DOT LPAREN pattern RPAREN
       { Ppat_open ($1, $4) }
   | mod_longident DOT LPAREN pattern error
       { unclosed "(" $loc($3) ")" $loc($5)  }
