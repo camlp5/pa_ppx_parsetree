@@ -16,13 +16,25 @@ Pcaml.inter_phrases := Some ";;\n";;
 #require "camlp5.pa_r";;
 Pcaml.inter_phrases := Some ";\n";;
  *)
-
-#require "camlp5.pr_o";;
-
 (*
+#require "camlp5.pr_o";;
+Pr_o.sep := Some ";;\n";;
+ *)
+
 #require "camlp5.pr_r";;
 Pcaml.inter_phrases := Some ";\n";;
- *)
+
+#require "pa_ppx.testutils";;
+open Pa_ppx_testutils ;;
+open Papr_util ;;
+
+let pp_ctyp ty = Fmt.(pf stdout "#<ctyp< %s >>" (Eprinter.apply Pcaml.pr_ctyp Pprintf.empty_pc ty));;
+let pp_expr ty = Fmt.(pf stdout "#<expr< %s >>" (Eprinter.apply Pcaml.pr_expr Pprintf.empty_pc ty));;
+let pp_patt ty = Fmt.(pf stdout "#<patt< %s >>" (Eprinter.apply Pcaml.pr_patt Pprintf.empty_pc ty));;
+
+#install_printer pp_ctyp ;;
+#install_printer pp_expr ;;
+#install_printer pp_patt ;;
 
 
 (*
@@ -33,7 +45,14 @@ Pcaml.inter_phrases := Some ";\n";;
 *)
 
 #require "camlp5.parser_quotations";;
-#require "pa_ppx.testutils";;
-#require "pa_ppx_static";;
-open Pa_ppx_testutils.Papr_util ;;
+#require "pa_ppx.import" ;;
+Pa_ppx_import.add_include "." ;;
+Pa_ppx_import.add_package "camlp5,pa_ppx_parsetree_via_parsetree" ;;
+Pr_r.set_flags "D" ;;
+Pretty.line_length := 400 ;;
+#require "pa_ppx_q_ast.quotation_test";;
+#require "pa_ppx_q_ast.test_cleanup";;
+#trace Pa_ppx_quotation_test.expr_of_cons_decl ;;
+#trace Pa_ppx_quotation_test.process_add_dels ;;
 
+"test1_types.ml" |> Fpath.v |> Bos.OS.File.read |> Rresult.R.get_ok |> PAPR.Implem.pa1 |> PAPR.Implem.pr |> print_string ;;

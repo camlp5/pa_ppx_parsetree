@@ -15,6 +15,7 @@
 <:core_type< [ $closedflag:x$ $list:lx1$ $labellistopt:None$ ] >> ;
 <:core_type< [ $closedflag:x$ $list:lx1$ > $list:lx2$ ] >> ;
 <:core_type< [ $closedflag:x$ $list:lx1$ $labellistopt:olx2$ ] >> ;
+<:core_type< [< $list:lx1$ ] >> ;
 {Parsetree.ptyp_desc = Parsetree.Ptyp_poly lx x; Parsetree.ptyp_loc = __loc__; Parsetree.ptyp_loc_stack = []; Parsetree.ptyp_attributes = []};
 <:core_type< (module $longid:x$ with $list:xf2$) >>;
 <:core_type< [% $attrid:s$ $list:x$] >>;

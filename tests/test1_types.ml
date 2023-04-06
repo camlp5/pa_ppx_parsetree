@@ -62,17 +62,20 @@
         ; (Pexp_constant, { constant = Auto })
         ; (Ppat_constant, { constant = Auto })
         ]
-      ; per_constructor_exprs = [
-          (Pconst_integer, [
+      ; per_constructor_expansion = [
+          (Pconst_integer, Explicit [
              (Parsetree.Pconst_integer (s, None))
            ; (Parsetree.Pconst_integer (s, Some 'l'))
            ; (Parsetree.Pconst_integer (s, Some 'L'))
            ; (Parsetree.Pconst_integer (s, Some 'n'))
            ])
-        ; (Pconst_float, [
+        ; (Pconst_float, Explicit [
              Parsetree.Pconst_float (sxf1, None)
           ])
-
+        ; (Ptyp_variant, AddDel (
+                             [Parsetree.Ptyp_variant(lx1, Asttypes.Closed, Some [])],
+                             [Parsetree.Ptyp_variant(lx1, x, Some [])]
+          ))
         ]
       ; type_module_map = {
           constant = Parsetree
