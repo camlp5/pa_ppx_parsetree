@@ -426,7 +426,7 @@ end
 
 module Val = struct
   let mk ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs)
-        ?(prim = []) name typ =
+        ?(prim = Ploc.VaVal []) name typ =
     {
      pval_name = name;
      pval_type = typ;

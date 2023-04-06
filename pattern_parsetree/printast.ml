@@ -402,11 +402,11 @@ and expression i ppf x =
       line i ppf "Pexp_unreachable"
 
 and value_description i ppf x =
-  line i ppf "value_description %a %a\n" fmt_string_loc
+  line i ppf "value_description %a %a\n" fmt_string_vala_loc
        x.pval_name fmt_location x.pval_loc;
   attributes i ppf x.pval_attributes;
   core_type (i+1) ppf x.pval_type;
-  list (i+1) string ppf x.pval_prim
+  list (i+1) string ppf (unvala x.pval_prim)
 
 and type_parameter i ppf (x, _variance) = core_type i ppf x
 

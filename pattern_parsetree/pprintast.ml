@@ -854,8 +854,8 @@ and value_description ctxt f x =
            but they're already printed by the callers this method *)
   pp f "@[<hov2>%a%a@]" (core_type ctxt) x.pval_type
     (fun f x ->
-       if x.pval_prim <> []
-       then pp f "@ =@ %a" (list constant_string) x.pval_prim
+       if unvala x.pval_prim <> []
+       then pp f "@ =@ %a" (list constant_string) (unvala x.pval_prim)
     ) x
 
 and extension ctxt f (s, e) =
@@ -1117,9 +1117,9 @@ and signature_item ctxt f x : unit =
       *)
       type_def_list ctxt f (vaval Recursive, false, l)
   | Psig_value vd ->
-      let intro = if vd.pval_prim = [] then "val" else "external" in
+      let intro = if unvala vd.pval_prim = [] then "val" else "external" in
       pp f "@[<2>%s@ %a@ :@ %a@]%a" intro
-        protect_ident vd.pval_name.txt
+        protect_ident (unvala vd.pval_name.txt)
         (value_description ctxt) vd
         (item_attributes ctxt) vd.pval_attributes
   | Psig_typext te ->
@@ -1446,7 +1446,7 @@ and structure_item ctxt f x =
   | Pstr_class_type l -> class_type_declaration_list ctxt f l
   | Pstr_primitive vd ->
       pp f "@[<hov2>external@ %a@ :@ %a@]%a"
-        protect_ident vd.pval_name.txt
+        protect_ident (unvala vd.pval_name.txt)
         (value_description ctxt) vd
         (item_attributes ctxt) vd.pval_attributes
   | Pstr_include incl ->

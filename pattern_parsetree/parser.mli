@@ -9,6 +9,7 @@ type token =
   | VAL
   | UNDERSCORE
   | UIDENT of (string)
+  | TYPESUBST
   | TYPE
   | TRY
   | TRUE

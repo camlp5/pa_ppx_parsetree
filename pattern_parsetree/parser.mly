@@ -759,6 +759,7 @@ let mk_directive ~loc name arg =
 %token TRUE                   "true"
 %token TRY                    "try"
 %token TYPE                   "type"
+%token TYPESUBST                   "typesubst"
 %token <string> UIDENT        "UIdent" (* just an example *)
 %token UNDERSCORE             "_"
 %token VAL                    "val"
@@ -1859,8 +1860,20 @@ signature_item:
         { psig_value $1 }
     | type_declarations
         { psig_type $1 }
+    | TYPE
+      ext = ext
+      attrs1 = attributes
+      nr = vala(nonrec_flag, ANTI_NONRECFLAG)
+      l = ANTI_LIST
+      { assert (ext = None) ;
+        assert (attrs1 = []) ;
+        psig_type((nr, None), vaant l)
+      }
     | type_subst_declarations
         { psig_typesubst $1 }
+    | TYPESUBST
+      l = ANTI_LIST
+      { psig_typesubst((Recursive, None), vaant l) }
     | sig_type_extension
         { psig_typext $1 }
     | sig_exception_declaration
@@ -3195,7 +3208,7 @@ value_description:
   VAL
   ext = ext
   attrs1 = attributes
-  id = mkrhs(val_ident)
+  id = mkrhs(val_ident_vala)
   COLON
   ty = possibly_poly(core_type)
   attrs2 = post_item_attributes
@@ -3212,11 +3225,11 @@ primitive_declaration:
   EXTERNAL
   ext = ext
   attrs1 = attributes
-  id = mkrhs(val_ident)
+  id = mkrhs(val_ident_vala)
   COLON
   ty = possibly_poly(core_type)
   EQUAL
-  prim = raw_string+
+  prim = vala(raw_string+, ANTI_LIST)
   attrs2 = post_item_attributes
     { let attrs = attrs1 @ attrs2 in
       let loc = make_loc $sloc in

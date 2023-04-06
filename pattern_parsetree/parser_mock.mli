@@ -6,6 +6,7 @@ type token =
   | VAL
   | UNDERSCORE
   | UIDENT of string
+  | TYPESUBST
   | TYPE
   | TRY
   | TRUE
@@ -610,6 +611,8 @@ val xv_vala_opt_default_ANTI_EXPROPT_ :
 val xv_vala_nonrec_flag_ANTI_NONRECFLAG_ : Asttypes.rec_flag Ast_helper.vala
 val xv_vala_nonempty_llist_labeled_simple_expr__ANTI_LIST_ :
   (Asttypes.arg_label * Parsetree.expression) list Ast_helper.vala
+val xv_vala_nonempty_list_raw_string__ANTI_LIST_ :
+  string list Ast_helper.vala
 val xv_vala_name_tag_list_ANTI_LIST_ : Asttypes.label list Ast_helper.vala
 val xv_vala_mutable_flag_ANTI_MUTABLE_ :
   Asttypes.mutable_flag Ast_helper.vala
@@ -1026,7 +1029,7 @@ val xv_mkrhs_vala_clty_longident_ANTI_LONGID__ :
   Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_LIDENT_ANTI_LID__ : Ast_helper.str_vala
 val xv_mkrhs_val_longident_ : Longident.t Asttypes.loc
-val xv_mkrhs_val_ident_ : Ast_helper.str
+val xv_mkrhs_val_ident_vala_ : Ast_helper.str_vala
 val xv_mkrhs_type_longident_ : Ast_helper.lid
 val xv_mkrhs_name_tag_ : Asttypes.label Ast_helper.with_loc
 val xv_mkrhs_module_name_ :

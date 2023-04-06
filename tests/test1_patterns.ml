@@ -207,6 +207,10 @@
 [@@@"ocaml.text" "functor_parameter";];
 [@@@"ocaml.text" "signature";];
 [@@@"ocaml.text" "signature_item";];
+<:signature_item< external $lid:s$ : $x2$ = $list:ls$ >> ;
+<:signature_item< val $lid:s$ : $x2$ >> ;
+<:signature_item< type $nonrecflag:x$ $list:lx$ >> ;
+<:signature_item< typesubst $list:lx$ >> ;
 [@@@"ocaml.text" "signature_item_desc";];
 [@@@"ocaml.text" "module_declaration";];
 [@@@"ocaml.text" "module_substitution";];

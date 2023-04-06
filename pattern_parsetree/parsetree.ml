@@ -447,9 +447,9 @@ and binding_op =
 
 and value_description =
     {
-     pval_name: string loc;
+     pval_name: string Ploc.vala loc;
      pval_type: core_type;
-     pval_prim: string list;
+     pval_prim: string list Ploc.vala;
      pval_attributes: attributes;  (** [... [\@\@id1] [\@\@id2]] *)
      pval_loc: Location.t;
     }

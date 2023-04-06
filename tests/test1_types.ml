@@ -46,6 +46,8 @@
         ; module_expr_desc = Auto
         ; signature_item_desc = Auto
         ; structure_item_desc = Auto
+        ; value_description = Auto
+        ; type_extension = Auto
         }
       ; expand_types_per_constructor = [
           (Pexp_ident,
@@ -92,6 +94,10 @@
                              [Parsetree.Ptyp_variant(lx1, Asttypes.Closed, Some [])],
                              [Parsetree.Ptyp_variant(lx1, x, Some [])]
           ))
+        ; (Psig_value, AddDel (
+                           [Parsetree.Psig_value {Parsetree.pval_name = {Location.txt = s; Location.loc = __loc__}; Parsetree.pval_type = x2; Parsetree.pval_prim = []; Parsetree.pval_attributes = []; Parsetree.pval_loc = __loc__}],
+                           []
+          ))
         ]
       ; type_module_map = {
           constant = Parsetree
@@ -119,6 +125,8 @@
         ; signature_item_desc = Parsetree
         ; structure_item = Parsetree
         ; structure_item_desc = Parsetree
+        ; value_description = Parsetree
+        ; type_extension = Parsetree
         }
       }
   ]
