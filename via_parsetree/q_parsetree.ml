@@ -70,6 +70,9 @@ let parse_constructor_declaration s =
 let parse_attribute s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.attribute s
 
+let parse_extension s =
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.extension s
+
 let parse_label_declaration s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.label_declaration s
 
@@ -202,6 +205,7 @@ let parse_type_substitution s =
     ; {name = "structure_item"; from_string = parse_structure_item ; type_name = structure_item }
     ; {name = "constructor_declaration"; from_string = parse_constructor_declaration ; type_name = constructor_declaration }
     ; {name = "attribute"; from_string = parse_attribute ; type_name = attribute }
+    ; {name = "extension"; from_string = parse_extension ; type_name = extension }
     ; {name = "field"; from_string = parse_label_declaration ; type_name = label_declaration }
     ; {name = "case"; from_string = parse_match_case ; type_name = case }
     ; {name = "value_binding"; from_string = parse_value_binding ; type_name = value_binding }

@@ -100,6 +100,7 @@ let module_expr = wrap Parser.parse_module_expr
 let structure_item = wrap Parser.parse_structure_item
 let constructor_declaration = wrap Parser.parse_constructor_declaration
 let attribute = wrap Parser.parse_attribute
+let extension = wrap Parser.parse_extension
 let label_declaration = wrap Parser.parse_label_declaration
 let match_case = wrap Parser.parse_match_case
 let value_binding = wrap Parser.parse_value_binding

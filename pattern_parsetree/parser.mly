@@ -945,6 +945,8 @@ The precedences must be listed from low to high.
 %type <Parsetree.constructor_declaration> parse_constructor_declaration
 %start parse_attribute
 %type <Parsetree.attribute> parse_attribute
+%start parse_extension
+%type <Parsetree.extension> parse_extension
 %start parse_label_declaration
 %type <Parsetree.label_declaration> parse_label_declaration
 %start parse_match_case
@@ -1362,6 +1364,11 @@ parse_constructor_declaration:
 
 parse_attribute:
   attribute EOF
+    { $1 }
+;
+
+parse_extension:
+  extension EOF
     { $1 }
 ;
 

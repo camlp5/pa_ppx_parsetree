@@ -1,6 +1,18 @@
 (**pp -package pa_ppx_parsetree_via_parsetree -syntax camlp5r *)
 [@@@"ocaml.text" "attribute";];
+<:attribute< [@ $attrid:s$ $list:x$] >>;
+<:attribute< [@ $attrid:s$ : $list:x$] >>;
+<:attribute< [@ $attrid:s$ : $x$] >>;
+<:attribute< [@ $attrid:s$ ? $x1$] >>;
+<:attribute< [@ $attrid:s$ ? $x1$ when $x2$] >>;
+<:attribute< [@ $attrid:s$ ? $x1$ $expropt:ox2$] >>;
 [@@@"ocaml.text" "extension";];
+<:extension< [% $attrid:s$ $list:x$] >>;
+<:extension< [% $attrid:s$ : $list:x$] >>;
+<:extension< [% $attrid:s$ : $x$] >>;
+<:extension< [% $attrid:s$ ? $x1$] >>;
+<:extension< [% $attrid:s$ ? $x1$ when $x2$] >>;
+<:extension< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
 [@@@"ocaml.text" "attributes";];
 [@@@"ocaml.text" "payload";];
 [@@@"ocaml.text" "core_type";];
@@ -149,6 +161,9 @@
 {Parsetree.pexp_desc = Parsetree.Pexp_unreachable; Parsetree.pexp_loc = __loc__; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
 [@@@"ocaml.text" "expression_desc";];
 [@@@"ocaml.text" "case";];
+<:case< $x1$ -> $x3$ >> ;
+<:case< $x1$ when $x2$ -> $x3$ >> ;
+<:case< $x1$ $wheno:ox2$ -> $x3$ >> ;
 [@@@"ocaml.text" "letop";];
 [@@@"ocaml.text" "binding_op";];
 [@@@"ocaml.text" "value_description";];

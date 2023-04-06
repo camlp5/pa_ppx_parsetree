@@ -204,6 +204,8 @@ val parse_label_declaration: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parse
 
 val parse_extension_constructor: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.extension_constructor)
 
+val parse_extension: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.extension)
+
 val parse_expression: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.expression)
 
 val parse_core_type: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.core_type)

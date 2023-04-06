@@ -32,6 +32,7 @@ val module_expr : Lexing.lexbuf -> Parsetree.module_expr
 val structure_item : Lexing.lexbuf -> Parsetree.structure_item
 val constructor_declaration : Lexing.lexbuf -> Parsetree.constructor_declaration
 val attribute : Lexing.lexbuf -> Parsetree.attribute
+val extension : Lexing.lexbuf -> Parsetree.extension
 val label_declaration : Lexing.lexbuf -> Parsetree.label_declaration
 val match_case : Lexing.lexbuf -> Parsetree.case
 val value_binding : Lexing.lexbuf -> Parsetree.value_binding

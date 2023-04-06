@@ -14,6 +14,9 @@
         ; pattern
         ; constant
         ; core_type
+        ; attribute
+        ; extension
+        ; case
         ]
       ; default_expression = {
           location_stack = []
@@ -92,6 +95,9 @@
         ; open_infos = Parsetree
         ; letop = Parsetree
         ; payload = Parsetree
+        ; attribute = Parsetree
+        ; extension = Parsetree
+        ; case = Parsetree
         }
       }
   ]
