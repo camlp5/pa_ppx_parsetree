@@ -194,7 +194,7 @@
 [@@@"ocaml.text" "module_type";];
 <:module_type< $longid:x$ >>;
 <:module_type< sig $list:x$ end >>;
-<:module_type< functor $functorargsopt:x$ -> $mt$ >>;
+<:module_type< functor $opt:x$ -> $mt$ >>;
 <:module_type< $mt$ with $list:lx$ >>;
 <:module_type< module type of $me$ >>;
 <:module_type< [% $attrid:s$ $list:x$] >>;
@@ -221,7 +221,7 @@
 [@@@"ocaml.text" "module_expr";];
 <:module_expr< $longid:x$ >>;
 <:module_expr< struct $list:x$ end >>;
-<:module_expr< functor $functorargsopt:x$ -> $me$ >>;
+<:module_expr< functor $opt:x$ -> $me$ >>;
 <:module_expr< $me1$( $me2$ ) >>;
 <:module_expr< ( $me$ : $mt$ ) >>;
 <:module_expr< [% $attrid:s$ $list:x$] >>;

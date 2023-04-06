@@ -15856,7 +15856,7 @@ and (xv_xlist_vala_generic_type_declaration_vala_nonrec_flag_ANTI_NONRECFLAG__ty
    _1
 # 16336 "parser_mock.ml"
    : (
-# 809 "parser.mly"
+# 772 "parser.mly"
        (string)
 # 16340 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->

@@ -1454,7 +1454,7 @@ functor_arg:
   | (* An argument accompanied with an explicit type. *)
     LPAREN x = mkrhs(module_name) COLON mty = module_type RPAREN
       { $startpos, vaval (Named (x, mty)) }
-  | ANTI_FUNCTORARGSOPT
+  | ANTI_OPT
       { $startpos, vaant $1 }
 ;
 
