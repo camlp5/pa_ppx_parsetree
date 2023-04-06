@@ -12,6 +12,7 @@
 <:pattern< $string:s1$ $delim:s2$ >> ;
 {Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 __loc__ os2); Parsetree.ppat_loc = __loc__; Parsetree.ppat_loc_stack = []; Parsetree.ppat_attributes = []};
 <:pattern< $float:sxf1$ >> ;
+{Parsetree.ppat_desc = Parsetree.Ppat_constant x; Parsetree.ppat_loc = __loc__; Parsetree.ppat_loc_stack = []; Parsetree.ppat_attributes = []};
 <:pattern< $constant:x1$ .. $constant:x2$ >> ;
 <:pattern<  $tuplelist:lx$ >>;
 <:pattern< $longid:x$ >>;
@@ -97,3 +98,13 @@
 <:expression< [% $attrid:s$ ? $x1$ when $x2$] >>;
 <:expression< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
 {Parsetree.pexp_desc = Parsetree.Pexp_unreachable; Parsetree.pexp_loc = __loc__; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
+[@@@"ocaml.text" "constant";];
+<:constant< $int:s$ >> ;
+<:constant< $int32:s$ >> ;
+<:constant< $int64:s$ >> ;
+<:constant< $nativeint:s$ >> ;
+<:constant< $char:x$ >> ;
+<:constant< $string:s1$ >> ;
+<:constant< $string:s1$ $delim:s2$ >> ;
+Parsetree.Pconst_string s1 __loc__ os2;
+<:constant< $float:sxf1$ >> ;

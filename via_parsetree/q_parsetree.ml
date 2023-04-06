@@ -46,6 +46,9 @@ let parse_module_expr s =
 let parse_pattern s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.pattern s
 
+let parse_constant s =
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.constant s
+
 let parse_core_type s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.core_type s
 
@@ -192,6 +195,7 @@ let parse_type_substitution s =
       {name = "expression"; from_string = parse_expression ; type_name = expression }
     ; {name = "module_expr"; from_string = parse_module_expr ; type_name = module_expr }
     ; {name = "pattern"; from_string = parse_pattern ; type_name = pattern }
+    ; {name = "constant"; from_string = parse_constant ; type_name = constant }
     ; {name = "core_type"; from_string = parse_core_type ; type_name = core_type }
     ; {name = "longident_t"; from_string = parse_longident ; type_name = longident_t }
     ; {name = "extended_module_path"; from_string = parse_extended_module_path ; type_name = longident_t }

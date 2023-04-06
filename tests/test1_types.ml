@@ -11,6 +11,7 @@
       ; test_types = [
           expression
         ; pattern
+        ; constant
         ]
       ; default_expression = {
           location_stack = []
