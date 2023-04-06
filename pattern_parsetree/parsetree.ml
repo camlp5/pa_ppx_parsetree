@@ -223,9 +223,9 @@ and pattern_desc =
   | Ppat_var of string Ploc.vala loc  (** A variable pattern such as [x] *)
   | Ppat_alias of pattern * string Ploc.vala loc
       (** An alias pattern such as [P as 'a] *)
-  | Ppat_constant of constant
+  | Ppat_constant of constant Ploc.vala
       (** Patterns such as [1], ['a'], ["true"], [1.0], [1l], [1L], [1n] *)
-  | Ppat_interval of constant * constant
+  | Ppat_interval of constant Ploc.vala * constant Ploc.vala
       (** Patterns such as ['a'..'z'].
 
            Other forms of interval are recognized by the parser
@@ -289,7 +289,7 @@ and expression_desc =
   | Pexp_ident of Longident.t loc
       (** Identifiers such as [x] and [M.x]
          *)
-  | Pexp_constant of constant
+  | Pexp_constant of constant Ploc.vala
       (** Expressions constant such as [1], ['a'], ["true"], [1.0], [1l],
             [1L], [1n] *)
   | Pexp_let of rec_flag Ploc.vala * value_binding list Ploc.vala  * expression

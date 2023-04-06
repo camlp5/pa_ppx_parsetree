@@ -120,8 +120,8 @@ module Pat:
     val any: ?loc:loc -> ?attrs:attrs -> unit -> pattern
     val var: ?loc:loc -> ?attrs:attrs -> str_vala -> pattern
     val alias: ?loc:loc -> ?attrs:attrs -> pattern -> str_vala -> pattern
-    val constant: ?loc:loc -> ?attrs:attrs -> constant -> pattern
-    val interval: ?loc:loc -> ?attrs:attrs -> constant -> constant -> pattern
+    val constant: ?loc:loc -> ?attrs:attrs -> constant Ploc.vala -> pattern
+    val interval: ?loc:loc -> ?attrs:attrs -> constant Ploc.vala -> constant Ploc.vala -> pattern
     val tuple: ?loc:loc -> ?attrs:attrs -> pattern list Ploc.vala -> pattern
     val construct: ?loc:loc -> ?attrs:attrs ->
       lid_vala -> (str_vala list Ploc.vala * pattern) option Ploc.vala -> pattern
@@ -146,7 +146,7 @@ module Exp:
     val attr: expression -> attribute -> expression
 
     val ident: ?loc:loc -> ?attrs:attrs -> lid -> expression
-    val constant: ?loc:loc -> ?attrs:attrs -> constant -> expression
+    val constant: ?loc:loc -> ?attrs:attrs -> constant Ploc.vala -> expression
     val let_: ?loc:loc -> ?attrs:attrs -> rec_flag Ploc.vala -> value_binding list Ploc.vala
               -> expression -> expression
     val fun_: ?loc:loc -> ?attrs:attrs -> arg_label Ploc.vala -> expression option Ploc.vala

@@ -761,6 +761,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_ATTRID (make_antiquotation "attrid" loc payload)
      }
+  | "$" "constant:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_CONSTANT (make_antiquotation "constant" loc payload)
+     }
 
   | eof { EOF }
   | (_ as illegal_char)

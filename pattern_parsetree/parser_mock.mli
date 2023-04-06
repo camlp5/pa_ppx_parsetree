@@ -151,6 +151,7 @@ type token =
   | ANTI_DELIM of string
   | ANTI_CTYPOPT of string
   | ANTI_CONSTRUCTORLIST of string
+  | ANTI_CONSTANT of string
   | ANTI_CLOSEDFLAG of string
   | ANTI_CHAR of string
   | ANTI_ATTRID of string
@@ -583,6 +584,8 @@ val xv_vala_val_ident_ANTI_LID_ : string Ast_helper.vala
 val xv_vala_type_parameters_ANTI_LIST_ :
   (Parsetree.core_type * (Asttypes.variance * Asttypes.injectivity)) list
   Ast_helper.vala
+val xv_vala_signed_constant_ANTI_CONSTANT_ :
+  Parsetree.constant Ast_helper.vala
 val xv_vala_separated_or_terminated_nonempty_list_SEMI_record_expr_field__ANTI_LIST_ :
   (Longident.t Ast_helper.vala Asttypes.loc * Parsetree.expression) list
   Ast_helper.vala
@@ -630,6 +633,7 @@ val xv_vala_constructor_declarations_ANTI_CONSTRUCTORLIST_ :
   Parsetree.constructor_declaration list Ast_helper.vala
 val xv_vala_constr_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_constr_ident_ANTI_UID_ : string Ast_helper.vala
+val xv_vala_constant_ANTI_CONSTANT_ : Parsetree.constant Ast_helper.vala
 val xv_vala_attributes_ANTI_ALGATTRS_ : Parsetree.attributes Ast_helper.vala
 val xv_vala_UIDENT_ANTI_UID_ : string Ast_helper.vala
 val xv_vala_LIDENT_ANTI_LID_ : string Ast_helper.vala
@@ -884,6 +888,7 @@ val xv_parse_expression : Parsetree.expression
 val xv_parse_core_type : Parsetree.core_type
 val xv_parse_constructor_declaration : Parsetree.constructor_declaration
 val xv_parse_constr_longident : Longident.t
+val xv_parse_constant : Parsetree.constant
 val xv_parse_binding_op : Parsetree.binding_op
 val xv_parse_attribute : Parsetree.attribute
 val xv_parse_arg_label : Asttypes.arg_label

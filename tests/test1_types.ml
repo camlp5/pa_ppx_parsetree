@@ -20,7 +20,6 @@
           expression_desc = Auto
         ; pattern_desc = Auto
         ; located = Auto
-        ; constant = Auto
         ; open_declaration = Auto
         ; open_infos = Auto
         ; letop = Auto
@@ -55,6 +54,8 @@
                              ; Longident.Ldot (x, s)
           ]})
         ; (Pexp_object, { class_structure = Auto })
+        ; (Pexp_constant, { constant = Auto })
+        ; (Ppat_constant, { constant = Auto })
         ]
       ; per_constructor_exprs = [
           (Pconst_integer, [

@@ -491,8 +491,8 @@ and simple_pattern ctxt (f:Format.formatter) (x:pattern) : unit =
         end
     | Ppat_tuple (Ploc.VaVal l) ->
         pp f "@[<1>(%a)@]" (list  ~sep:",@;" (pattern1 ctxt))  l (* level1*)
-    | Ppat_constant (c) -> pp f "%a" constant c
-    | Ppat_interval (c1, c2) -> pp f "%a..%a" constant c1 constant c2
+    | Ppat_constant (c) -> pp f "%a" constant (unvala c)
+    | Ppat_interval (c1, c2) -> pp f "%a..%a" constant (unvala c1) constant (unvala c2)
     | Ppat_variant (l,None) ->  pp f "`%s" (unvala l)
     | Ppat_constraint (p, ct) ->
         pp f "@[<2>(%a@;:@;%a)@]" (pattern1 ctxt) p (core_type ctxt) ct
@@ -796,7 +796,7 @@ and simple_expr ctxt f x =
     (* (match view_fixity_of_exp x with *)
     (* |`Normal -> longident_loc f li *)
     (* | `Prefix _ | `Infix _ -> pp f "( %a )" longident_loc li) *)
-    | Pexp_constant c -> constant f c;
+    | Pexp_constant c -> constant f (unvala c);
     | Pexp_pack me ->
         pp f "(module@;%a)" (module_expr ctxt) me
     | Pexp_tuple l ->

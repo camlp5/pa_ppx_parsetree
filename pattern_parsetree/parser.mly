@@ -149,18 +149,18 @@ let neg_string f =
 
 let mkuminus ~oploc name arg =
   match name, arg.pexp_desc with
-  | "-", Pexp_constant(Pconst_integer (Ploc.VaVal n,m)) ->
-      Pexp_constant(Pconst_integer(vaval(neg_string n),m))
-  | ("-" | "-."), Pexp_constant(Pconst_float (Ploc.VaVal f, m)) ->
-      Pexp_constant(Pconst_float(vaval(neg_string f), m))
+  | "-", Pexp_constant(Ploc.VaVal(Pconst_integer (Ploc.VaVal n,m))) ->
+      Pexp_constant(vaval(Pconst_integer(vaval(neg_string n),m)))
+  | ("-" | "-."), Pexp_constant(Ploc.VaVal(Pconst_float (Ploc.VaVal f, m))) ->
+      Pexp_constant(vaval(Pconst_float(vaval(neg_string f), m)))
   | _ ->
       Pexp_apply(mkoperator ~loc:oploc (vaval ("~" ^ name)), vaval[Nolabel, arg])
 
 let mkuplus ~oploc name arg =
   let desc = arg.pexp_desc in
   match name, desc with
-  | "+", Pexp_constant(Pconst_integer _)
-  | ("+" | "+."), Pexp_constant(Pconst_float _) -> desc
+  | "+", Pexp_constant(Ploc.VaVal(Pconst_integer _))
+  | ("+" | "+."), Pexp_constant(Ploc.VaVal (Pconst_float _)) -> desc
   | _ ->
       Pexp_apply(mkoperator ~loc:oploc (vaval ("~" ^ name)), vaval[Nolabel, arg])
 
@@ -472,7 +472,7 @@ let wrap_mksig_ext ~loc (item, ext) =
 
 let mk_quotedext ~loc (id, idloc, str, strloc, delim) =
   let exp_id = mkloc (vaval id) idloc in
-  let e = ghexp ~loc (Pexp_constant (Pconst_string (vaval str, strloc, Option.map vaval delim))) in
+  let e = ghexp ~loc (Pexp_constant (vaval(Pconst_string (vaval str, strloc, Option.map vaval delim)))) in
   (exp_id, PStr (vaval[mkstrexp e []]))
 
 let text_str pos = Str.text (rhs_text pos)
@@ -804,6 +804,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_EXCON
 %token <string> ANTI_LETOP
 %token <string> ANTI_ATTRID
+%token <string> ANTI_CONSTANT
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -870,7 +871,7 @@ The precedences must be listed from low to high.
           NEW PREFIXOP STRING TRUE UIDENT
           LBRACKETPERCENT QUOTED_STRING_EXPR ANTI ANTI_UID ANTI_LID ANTI_LONGID
           ANTI_INT ANTI_INT32 ANTI_INT64 ANTI_NATIVEINT ANTI_CHAR ANTI_STRING ANTI_DELIM ANTI_FLOAT
-          ANTI_EXPROPT ANTI_PATTOPT
+          ANTI_EXPROPT ANTI_PATTOPT ANTI_CONSTANT
 
 /* Entry points */
 
@@ -925,6 +926,8 @@ The precedences must be listed from low to high.
 %type <Parsetree.type_declaration> parse_type_declaration
 %start parse_type_substitution
 %type <Parsetree.type_declaration> parse_type_substitution
+%start parse_constant
+%type <Parsetree.constant> parse_constant
 /* END AVOID */
 
 %type <Parsetree.expression list> expr_semi_list
@@ -1412,6 +1415,11 @@ parse_binding_op:
 
 parse_lident_vala_loc:
   mkloc(vala(LIDENT, ANTI_LID)) EOF
+    { $1 }
+;
+
+parse_constant:
+  constant EOF
     { $1 }
 ;
 
@@ -2646,7 +2654,7 @@ simple_expr:
   | mkrhs(val_longident)
       { Pexp_ident ($1) }
   | ANTI { Pexp_xtr (Location.mkloc $1 (make_loc $sloc)) }
-  | constant
+  | vala(constant, ANTI_CONSTANT)
       { Pexp_constant $1 }
   | mkrhs(vala(constr_longident, ANTI_LONGID)) %prec prec_constant_constructor
       { Pexp_construct($1, vaval None) }
@@ -3062,9 +3070,9 @@ simple_pattern_not_ident:
   | ANTI { Ppat_xtr (Location.mkloc $1 (make_loc $sloc)) }
   | UNDERSCORE
       { Ppat_any }
-  | signed_constant
+  | vala(signed_constant, ANTI_CONSTANT)
       { Ppat_constant $1 }
-  | signed_constant DOTDOT signed_constant
+  | vala(signed_constant, ANTI_CONSTANT) DOTDOT vala(signed_constant, ANTI_CONSTANT)
       { Ppat_interval ($1, $3) }
   | mkrhs(vala(constr_longident, ANTI_LONGID))
       { Ppat_construct($1, vaval None) }

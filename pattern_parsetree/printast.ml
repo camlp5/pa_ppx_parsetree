@@ -216,9 +216,9 @@ and pattern i ppf x =
   | Ppat_alias (p, s) ->
       line i ppf "Ppat_alias %a\n" fmt_string_vala_loc s;
       pattern i ppf p;
-  | Ppat_constant (c) -> line i ppf "Ppat_constant %a\n" fmt_constant c;
+  | Ppat_constant (c) -> line i ppf "Ppat_constant %a\n" fmt_constant (unvala c);
   | Ppat_interval (c1, c2) ->
-      line i ppf "Ppat_interval %a..%a\n" fmt_constant c1 fmt_constant c2;
+      line i ppf "Ppat_interval %a..%a\n" fmt_constant (unvala c1) fmt_constant (unvala c2);
   | Ppat_tuple (Ploc.VaVal l) ->
       line i ppf "Ppat_tuple\n";
       list i pattern ppf l;
@@ -270,7 +270,7 @@ and expression i ppf x =
   let i = i+1 in
   match x.pexp_desc with
   | Pexp_ident (li) -> line i ppf "Pexp_ident %a\n" fmt_longident_loc li;
-  | Pexp_constant (c) -> line i ppf "Pexp_constant %a\n" fmt_constant c;
+  | Pexp_constant (c) -> line i ppf "Pexp_constant %a\n" fmt_constant (unvala c);
   | Pexp_let (rf, l, e) ->
       line i ppf "Pexp_let %a\n" fmt_rec_flag (unvala rf);
       list i value_binding ppf (unvala l);

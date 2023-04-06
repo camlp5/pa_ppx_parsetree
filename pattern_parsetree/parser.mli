@@ -152,6 +152,7 @@ type token =
   | ANTI_DELIM of (string)
   | ANTI_CTYPOPT of (string)
   | ANTI_CONSTRUCTORLIST of (string)
+  | ANTI_CONSTANT of (string)
   | ANTI_CLOSEDFLAG of (string)
   | ANTI_CHAR of (string)
   | ANTI_ATTRID of (string)
@@ -209,6 +210,8 @@ val parse_core_type: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.cor
 val parse_constructor_declaration: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.constructor_declaration)
 
 val parse_constr_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longident.t)
+
+val parse_constant: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.constant)
 
 val parse_binding_op: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.binding_op)
 
