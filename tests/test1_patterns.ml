@@ -24,6 +24,7 @@
 <:pattern< { $list:lxx$ $closedflag:x$ } >> ;
 <:pattern< [| $list:lx$ |] >>;
 <:pattern< $x1$ | $x2$ >>;
+<:pattern< ( $x1$ : $x2$ ) >>;
 [@@@"ocaml.text" "pattern_desc";];
 [@@@"ocaml.text" "expression";];
 <:expression< $lid:s$ >>;
