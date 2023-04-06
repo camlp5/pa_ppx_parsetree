@@ -24,7 +24,7 @@ depends: [
   "pa_ppx"      { >= "0.10" }
   "pa_ppx_q_ast"      { >= "0.10" }
   "not-ocamlfind" { >= "0.09" }
-  "ounit" {with-test}
+  "ounit" { >= "2.2.7" & with-test}
   "fmt"
   "mdx"
 ]

@@ -2,7 +2,7 @@ WD=$(shell pwd)
 TOP=..
 include $(TOP)/config/Makefile.sub
 
-PACKAGES := $(PACKAGES),ounit2,pa_ppx.utils,pa_ppx_parsetree_official_parsetree
+PACKAGES := $(PACKAGES),ounit,pa_ppx.utils,pa_ppx_parsetree_official_parsetree
 
 ML= \
 	via_camlp5_test.ml via_parsetree_test.ml test_show.ml
