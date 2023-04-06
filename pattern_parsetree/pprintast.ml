@@ -471,7 +471,7 @@ and simple_pattern ctxt (f:Format.formatter) (x:pattern) : unit =
     | Ppat_unpack { txt = VaVal (Some s) } ->
         pp f "(module@ %s)@ " (unvala s)
     | Ppat_type li ->
-        pp f "#%a" longident_loc li
+        pp f "#%a" longident_vala_loc li
     | Ppat_record (l, closed) ->
         let longident_vala_x_pattern f (li, p) =
           match (li,p) with

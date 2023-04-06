@@ -3080,7 +3080,7 @@ simple_pattern_not_ident:
       { Ppat_construct($1, vaval None) }
   | name_tag_vala
       { Ppat_variant($1, vaval None) }
-  | HASH mkrhs(type_longident)
+  | HASH mkrhs(vala(type_longident, ANTI_LONGID))
       { Ppat_type ($2) }
   | mkrhs(mod_longident) DOT simple_delimited_pattern
       { Ppat_open($1, $3) }

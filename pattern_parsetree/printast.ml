@@ -251,7 +251,7 @@ and pattern i ppf x =
       core_type i ppf ct;
   | Ppat_type (li) ->
       line i ppf "Ppat_type\n";
-      longident_loc i ppf li
+      longident_vala_loc i ppf li
   | Ppat_unpack s ->
       line i ppf "Ppat_unpack %a\n" fmt_str_vala_opt_vala_loc s;
   | Ppat_exception p ->

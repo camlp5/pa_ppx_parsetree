@@ -131,7 +131,7 @@ module Pat:
     val array: ?loc:loc -> ?attrs:attrs -> pattern list Ploc.vala -> pattern
     val or_: ?loc:loc -> ?attrs:attrs -> pattern -> pattern -> pattern
     val constraint_: ?loc:loc -> ?attrs:attrs -> pattern -> core_type -> pattern
-    val type_: ?loc:loc -> ?attrs:attrs -> lid -> pattern
+    val type_: ?loc:loc -> ?attrs:attrs -> lid_vala -> pattern
     val lazy_: ?loc:loc -> ?attrs:attrs -> pattern -> pattern
     val unpack: ?loc:loc -> ?attrs:attrs -> str_vala_opt_vala -> pattern
     val open_: ?loc:loc -> ?attrs:attrs  -> lid -> pattern -> pattern

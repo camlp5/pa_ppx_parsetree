@@ -25,6 +25,11 @@
 <:pattern< [| $list:lx$ |] >>;
 <:pattern< $x1$ | $x2$ >>;
 <:pattern< ( $x1$ : $x2$ ) >>;
+<:pattern< # $longid:x$ >>;
+<:pattern< lazy $x$ >>;
+<:pattern< (module _) >>;
+<:pattern< (module $uid:s$) >>;
+<:pattern< (module $uidopt:os$) >>;
 [@@@"ocaml.text" "pattern_desc";];
 [@@@"ocaml.text" "expression";];
 <:expression< $lid:s$ >>;

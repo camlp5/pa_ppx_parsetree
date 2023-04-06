@@ -584,6 +584,7 @@ val xv_vala_val_ident_ANTI_LID_ : string Ast_helper.vala
 val xv_vala_type_parameters_ANTI_LIST_ :
   (Parsetree.core_type * (Asttypes.variance * Asttypes.injectivity)) list
   Ast_helper.vala
+val xv_vala_type_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_signed_constant_ANTI_CONSTANT_ :
   Parsetree.constant Ast_helper.vala
 val xv_vala_separated_or_terminated_nonempty_list_SEMI_record_expr_field__ANTI_LIST_ :
@@ -994,6 +995,8 @@ val xv_mkrhs_vaval_class_longident__ :
 val xv_mkrhs_vaval_LETOP__ : string Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vaval_ANDOP__ : string Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_val_ident_ANTI_LID__ : string Ast_helper.vala Asttypes.loc
+val xv_mkrhs_vala_type_longident_ANTI_LONGID__ :
+  Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_label_longident_ANTI_LONGID__ :
   Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_label_ANTI_LID__ :
