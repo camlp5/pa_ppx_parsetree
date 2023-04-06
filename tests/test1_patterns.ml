@@ -219,6 +219,11 @@
 [@@@"ocaml.text" "include_declaration";];
 [@@@"ocaml.text" "with_constraint";];
 [@@@"ocaml.text" "module_expr";];
+<:module_expr< $longid:x$ >>;
+<:module_expr< struct $list:x$ end >>;
+<:module_expr< functor $functorargsopt:x$ -> $me$ >>;
+<:module_expr< $me1$( $me2$ ) >>;
+<:module_expr< ( $me$ : $mt$ ) >>;
 <:module_expr< [% $attrid:s$ $list:x$] >>;
 <:module_expr< [% $attrid:s$ : $list:x$] >>;
 <:module_expr< [% $attrid:s$ : $x$] >>;
