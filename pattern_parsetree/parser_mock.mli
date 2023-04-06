@@ -610,6 +610,8 @@ val xv_vala_module_name__ANTI_UIDOPT_ :
 val xv_vala_mod_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_mod_ext_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_match_cases_ANTI_LIST_ : Parsetree.case list Ast_helper.vala
+val xv_vala_lident_list_ANTI_LIST_ :
+  string Ploc.vala Asttypes.loc list Ast_helper.vala
 val xv_vala_label_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_label_declarations_ANTI_LIST_ :
   Parsetree.label_declaration list Ast_helper.vala

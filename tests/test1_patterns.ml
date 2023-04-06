@@ -13,6 +13,13 @@
 {Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 __loc__ os2); Parsetree.ppat_loc = __loc__; Parsetree.ppat_loc_stack = []; Parsetree.ppat_attributes = []};
 <:pattern< $float:sxf1$ >> ;
 <:pattern< $constant:x1$ .. $constant:x2$ >> ;
+<:pattern<  $tuplelist:lx$ >>;
+<:pattern< $longid:x$ >>;
+<:pattern< $longid:x$ (type $list:lxxf1$) $lxxf2$ >>;
+<:pattern< $longid:x$ $pattopt:olxx$ >>;
+(*
+<:pattern< $longid:x$ $expropt:ox2$ >>;
+ *)
 [@@@"ocaml.text" "pattern_desc";];
 [@@@"ocaml.text" "expression";];
 <:expression< $lid:s$ >>;

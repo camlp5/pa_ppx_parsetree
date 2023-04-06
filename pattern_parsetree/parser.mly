@@ -3034,9 +3034,9 @@ pattern_gen:
   | mkpat(
       mkrhs(vala(constr_longident, ANTI_LONGID)) pattern %prec prec_constr_appl
         { Ppat_construct($1, vaval(Some (vaval [], $2))) }
-    | constr=mkrhs(vala(constr_longident, ANTI_LONGID)) LPAREN TYPE newtypes=lident_list RPAREN
+    | constr=mkrhs(vala(constr_longident, ANTI_LONGID)) LPAREN TYPE newtypes=vala(lident_list, ANTI_LIST) RPAREN
         pat=simple_pattern
-        { Ppat_construct(constr, vaval(Some (vaval newtypes, pat))) }
+        { Ppat_construct(constr, vaval(Some (newtypes, pat))) }
     | constr=mkrhs(vala(constr_longident, ANTI_LONGID)) pattopt = ANTI_PATTOPT
         { Ppat_construct(constr, vaant pattopt) }
     | name_tag_vala pattern %prec prec_constr_appl
