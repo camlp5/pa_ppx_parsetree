@@ -776,7 +776,6 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_ID
 %token <string> ANTI_LID
 %token <string> ANTI_UID
-%token <string> ANTI_UIDOPT
 %token <string> ANTI_LONGID
 %token <string> ANTI_TYP
 %token <string> ANTI_PRIV
@@ -806,7 +805,6 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_LETOP
 %token <string> ANTI_ATTRID
 %token <string> ANTI_CONSTANT
-%token <string> ANTI_FUNCTORARGSOPT
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
