@@ -336,7 +336,7 @@ and core_type1 ctxt f x =
              | _ -> list ~first:"(" ~last:")@;" (core_type ctxt) ~sep:",@;" f l)
           l longident_vala_loc li
     | Ptyp_variant (l, closed, low) ->
-        let first_is_inherit = match l with
+        let first_is_inherit = match unvala l with
           | {Parsetree.prf_desc = Rinherit _}::_ -> true
           | _ -> false in
         let type_variant_helper f x =
@@ -351,21 +351,21 @@ and core_type1 ctxt f x =
           | Rinherit ct -> core_type ctxt f ct in
         pp f "@[<2>[%a%a]@]"
           (fun f l ->
-             match l, closed with
+             match unvala l, unvala closed with
              | [], Closed -> ()
              | [], Open -> pp f ">" (* Cf #7200: print [>] correctly *)
              | _ ->
                  pp f "%s@;%a"
-                   (match (closed,low) with
+                   (match (unvala closed,unvala low) with
                     | (Closed,None) -> if first_is_inherit then " |" else ""
                     | (Closed,Some _) -> "<" (* FIXME desugar the syntax sugar*)
                     | (Open,_) -> ">")
-                   (list type_variant_helper ~sep:"@;<1 -2>| ") l) l
+                   (list type_variant_helper ~sep:"@;<1 -2>| ") (unvala l)) l
           (fun f low -> match low with
              |Some [] |None -> ()
              |Some xs ->
                  pp f ">@ %a"
-                   (list string_quot) xs) (Option.map (List.map unvala) low)
+                   (list string_quot) xs) (Option.map unvala (unvala low))
     | Ptyp_object (l, o) ->
         let core_field_type f x = match x.pof_desc with
           | Otag (l, ct) ->

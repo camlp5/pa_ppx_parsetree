@@ -170,9 +170,9 @@ let rec core_type i ppf x =
       line i ppf "Ptyp_constr %a\n" fmt_longident_vala_loc li;
       list i core_type ppf l;
   | Ptyp_variant (l, closed, low) ->
-      line i ppf "Ptyp_variant closed=%a\n" fmt_closed_flag closed;
-      list i label_x_bool_x_core_type_list ppf l;
-      option i (fun i -> list i string) ppf (Option.map (List.map unvala) low)
+      line i ppf "Ptyp_variant closed=%a\n" fmt_closed_flag (unvala closed);
+      list i label_x_bool_x_core_type_list ppf (unvala l);
+      option i (fun i -> list i string) ppf (Option.map unvala (unvala low))
   | Ptyp_object (l, c) ->
       line i ppf "Ptyp_object %a\n" fmt_closed_flag (unvala c);
       let i = i + 1 in

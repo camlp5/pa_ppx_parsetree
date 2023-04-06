@@ -129,7 +129,8 @@ module Typ = struct
             check_variable var_names t.ptyp_loc string;
             Ptyp_alias(loop core_type, string)
         | Ptyp_variant(row_field_list, flag, lbl_lst_option) ->
-            Ptyp_variant(List.map loop_row_field row_field_list,
+           let row_field_list = Pcaml.vala_map (List.map loop_row_field) row_field_list in
+            Ptyp_variant(row_field_list,
                          flag, lbl_lst_option)
         | Ptyp_poly(string_lst, core_type) ->
           Pcaml.vala_it (List.iter (fun v ->

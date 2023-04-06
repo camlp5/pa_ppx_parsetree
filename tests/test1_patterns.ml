@@ -12,6 +12,9 @@
 <:core_type< < $list:lx$ $closedflag:x$ > >> ;
 <:core_type< $list:lx$ # $longid:x$ >> ;
 <:core_type< $x$ as ' $lid:s$ >> ;
+<:core_type< [ $closedflag:x$ $list:lx1$ $labellistopt:None$ ] >> ;
+<:core_type< [ $closedflag:x$ $list:lx1$ > $list:lx2$ ] >> ;
+<:core_type< [ $closedflag:x$ $list:lx1$ $labellistopt:olx2$ ] >> ;
 [@@@"ocaml.text" "core_type_desc";];
 [@@@"ocaml.text" "package_type";];
 [@@@"ocaml.text" "row_field";];

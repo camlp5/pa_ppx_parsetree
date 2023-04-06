@@ -140,6 +140,7 @@ type token =
   | ANTI_LIST of (string)
   | ANTI_LID of (string)
   | ANTI_LETOP of (string)
+  | ANTI_LABELLISTOPT of (string)
   | ANTI_LABEL of (string)
   | ANTI_INT64 of (string)
   | ANTI_INT32 of (string)

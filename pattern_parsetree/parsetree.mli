@@ -123,7 +123,7 @@ and core_type_desc =
             - [(T1, ..., Tn) #tconstr] when [l=[T1 ; ... ; Tn]].
          *)
   | Ptyp_alias of core_type * string Ploc.vala  (** [T as 'a]. *)
-  | Ptyp_variant of row_field list * closed_flag * label Ploc.vala list option
+  | Ptyp_variant of row_field list Ploc.vala * closed_flag Ploc.vala * label list Ploc.vala option Ploc.vala
       (** [Ptyp_variant([`A;`B], flag, labels)] represents:
             - [[ `A|`B ]]
                       when [flag]   is {{!Asttypes.closed_flag.Closed}[Closed]},

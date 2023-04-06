@@ -139,6 +139,7 @@ type token =
   | ANTI_LIST of string
   | ANTI_LID of string
   | ANTI_LETOP of string
+  | ANTI_LABELLISTOPT of string
   | ANTI_LABEL of string
   | ANTI_INT64 of string
   | ANTI_INT32 of string
@@ -593,6 +594,8 @@ val xv_vala_separated_or_terminated_nonempty_list_SEMI_record_expr_field__ANTI_L
 val xv_vala_separated_or_terminated_nonempty_list_SEMI_object_expr_field__ANTI_LIST_ :
   (Asttypes.label Ast_helper.vala Asttypes.loc * Parsetree.expression) list
   Ast_helper.vala
+val xv_vala_row_field_list_ANTI_LIST_ :
+  Parsetree.row_field list Ast_helper.vala
 val xv_vala_rec_flag_ANTI_RECFLAG_ : Asttypes.rec_flag Ast_helper.vala
 val xv_vala_private_flag_ANTI_PRIV_ : Asttypes.private_flag Ast_helper.vala
 val xv_vala_poly_type_no_attr_ANTI_TYP_ : Parsetree.core_type Ast_helper.vala
@@ -606,6 +609,7 @@ val xv_vala_opt_default_ANTI_EXPROPT_ :
 val xv_vala_nonrec_flag_ANTI_NONRECFLAG_ : Asttypes.rec_flag Ast_helper.vala
 val xv_vala_nonempty_llist_labeled_simple_expr__ANTI_LIST_ :
   (Asttypes.arg_label * Parsetree.expression) list Ast_helper.vala
+val xv_vala_name_tag_list_ANTI_LIST_ : Asttypes.label list Ast_helper.vala
 val xv_vala_mutable_flag_ANTI_MUTABLE_ :
   Asttypes.mutable_flag Ast_helper.vala
 val xv_vala_module_name__ANTI_UIDOPT_ :
@@ -780,8 +784,7 @@ val xv_reversed_preceded_or_separated_nonempty_llist_BAR_match_case_ :
   Parsetree.case list
 val xv_reversed_nonempty_llist_typevar_ :
   Asttypes.label Ast_helper.vala Asttypes.loc list
-val xv_reversed_nonempty_llist_name_tag_vala_ :
-  Asttypes.label Ast_helper.vala list
+val xv_reversed_nonempty_llist_name_tag_ : Asttypes.label list
 val xv_reversed_nonempty_llist_labeled_simple_expr_ :
   (Asttypes.arg_label * Parsetree.expression) list
 val xv_reversed_nonempty_llist_functor_arg_ :
@@ -813,8 +816,7 @@ val xv_rev_reversed_separated_nonempty_llist_AMPERSAND_core_type_no_attr__ :
 val xv_rev_reversed_preceded_or_separated_nonempty_llist_BAR_match_case__ :
   Parsetree.case list
 val xv_rev_reversed_nonempty_llist_typevar__ : Ast_helper.str_vala list
-val xv_rev_reversed_nonempty_llist_name_tag_vala__ :
-  Asttypes.label Ast_helper.vala list
+val xv_rev_reversed_nonempty_llist_name_tag__ : Asttypes.label list
 val xv_rev_reversed_nonempty_llist_labeled_simple_expr__ :
   (Asttypes.arg_label * Parsetree.expression) list
 val xv_rev_reversed_llist_preceded_CONSTRAINT_constrain___ :
@@ -944,7 +946,7 @@ val xv_nonempty_type_kind :
   Parsetree.type_kind * Asttypes.private_flag Ast_helper.vala *
   Parsetree.core_type Ast_helper.vala option
 val xv_nonempty_llist_typevar_ : Ast_helper.str_vala list
-val xv_nonempty_llist_name_tag_vala_ : Asttypes.label Ast_helper.vala list
+val xv_nonempty_llist_name_tag_ : Asttypes.label list
 val xv_nonempty_llist_labeled_simple_expr_ :
   (Asttypes.arg_label * Parsetree.expression) list
 val xv_nonempty_list_raw_string_ : string list
@@ -953,8 +955,8 @@ val xv_nonempty_list_mkrhs_vala_LIDENT_ANTI_LID___ :
 val xv_no_override_flag : Asttypes.override_flag
 val xv_no_nonrec_flag : Asttypes.rec_flag
 val xv_no_ext : string Ploc.vala Asttypes.loc option
-val xv_name_tag_vala_list : Asttypes.label Ast_helper.vala list
 val xv_name_tag_vala : Asttypes.label Ast_helper.vala
+val xv_name_tag_list : Asttypes.label list
 val xv_name_tag : Asttypes.label
 val xv_mutable_virtual_flags : Asttypes.mutable_flag * Asttypes.virtual_flag
 val xv_mutable_flag : Asttypes.mutable_flag

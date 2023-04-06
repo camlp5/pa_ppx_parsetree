@@ -805,6 +805,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_LETOP
 %token <string> ANTI_ATTRID
 %token <string> ANTI_CONSTANT
+%token <string> ANTI_LABELLISTOPT
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -3719,19 +3720,25 @@ atomic_type:
         { Ptyp_class(cid, tys) }
     | LBRACKET tag_field RBRACKET
         (* not row_field; see CONFLICTS *)
-        { Ptyp_variant([$2], Closed, None) }
-    | LBRACKET BAR row_field_list RBRACKET
-        { Ptyp_variant($3, Closed, None) }
+        { Ptyp_variant(vaval [$2], vaval Closed, vaval None) }
+    | LBRACKET BAR vala(row_field_list, ANTI_LIST) RBRACKET
+        { Ptyp_variant($3, vaval  Closed, vaval None) }
     | LBRACKET row_field BAR row_field_list RBRACKET
-        { Ptyp_variant($2 :: $4, Closed, None) }
-    | LBRACKETGREATER BAR? row_field_list RBRACKET
-        { Ptyp_variant($3, Open, None) }
+        { Ptyp_variant(vaval ($2 :: $4), vaval Closed, vaval None) }
+    | LBRACKETGREATER BAR? vala(row_field_list, ANTI_LIST) RBRACKET
+        { Ptyp_variant($3, vaval Open, vaval None) }
     | LBRACKETGREATER RBRACKET
-        { Ptyp_variant([], Open, None) }
-    | LBRACKETLESS BAR? row_field_list RBRACKET
-        { Ptyp_variant($3, Closed, Some []) }
-    | LBRACKETLESS BAR? row_field_list GREATER name_tag_vala_list RBRACKET
-        { Ptyp_variant($3, Closed, Some $5) }
+        { Ptyp_variant(vaval [], vaval Open, vaval None) }
+    | LBRACKETLESS BAR? vala(row_field_list, ANTI_LIST) RBRACKET
+        { Ptyp_variant($3, vaval Closed, vaval (Some(vaval []))) }
+    | LBRACKETLESS BAR? vala(row_field_list, ANTI_LIST) GREATER vala(name_tag_list, ANTI_LIST) RBRACKET
+        { Ptyp_variant($3, vaval Closed, vaval (Some $5)) }
+    | LBRACKETLESS BAR? vala(row_field_list, ANTI_LIST) ANTI_LABELLISTOPT RBRACKET
+        { Ptyp_variant($3, vaval Closed, vaant $4) }
+    | LBRACKET c = ANTI_CLOSEDFLAG r = ANTI_LIST l = ANTI_LABELLISTOPT RBRACKET
+        { Ptyp_variant(vaant r, vaant c, vaant l) }
+    | LBRACKET c = ANTI_CLOSEDFLAG r = ANTI_LIST GREATER l = vala(name_tag_list, ANTI_LIST) RBRACKET
+        { Ptyp_variant(vaant r, vaant c, vaval (Some l)) }
     | extension
         { Ptyp_extension $1 }
   )

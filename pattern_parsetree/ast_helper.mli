@@ -92,8 +92,8 @@ module Typ :
                    -> closed_flag Ploc.vala -> core_type
     val class_: ?loc:loc -> ?attrs:attrs -> lid_vala -> core_type list Ploc.vala -> core_type
     val alias: ?loc:loc -> ?attrs:attrs -> core_type -> string Ploc.vala -> core_type
-    val variant: ?loc:loc -> ?attrs:attrs -> row_field list -> closed_flag
-                 -> label Ploc.vala list option -> core_type
+    val variant: ?loc:loc -> ?attrs:attrs -> row_field list Ploc.vala -> closed_flag Ploc.vala
+                 -> label list Ploc.vala option Ploc.vala -> core_type
     val poly: ?loc:loc -> ?attrs:attrs -> str_vala list Ploc.vala -> core_type -> core_type
     val package: ?loc:loc -> ?attrs:attrs -> lid -> (lid * core_type) list
                  -> core_type
