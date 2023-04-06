@@ -595,6 +595,8 @@ val xv_vala_separated_or_terminated_nonempty_list_SEMI_object_expr_field__ANTI_L
 val xv_vala_rec_flag_ANTI_RECFLAG_ : Asttypes.rec_flag Ast_helper.vala
 val xv_vala_private_flag_ANTI_PRIV_ : Asttypes.private_flag Ast_helper.vala
 val xv_vala_poly_type_no_attr_ANTI_TYP_ : Parsetree.core_type Ast_helper.vala
+val xv_vala_pattern_semi_list_ANTI_LIST_ :
+  Parsetree.pattern list Ast_helper.vala
 val xv_vala_override_flag_ANTI_OVERRIDEFLAG_ :
   Asttypes.override_flag Ast_helper.vala
 val xv_vala_option_UNDERSCORE__ANTI_CLOSEDFLAG_ : unit option Ast_helper.vala

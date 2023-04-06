@@ -22,6 +22,8 @@
 <:pattern< ` $id:x1$ $x2$ >>;
 <:pattern< ` $id:x1$ $pattopt:ox2$ >>;
 <:pattern< { $list:lxx$ $closedflag:x$ } >> ;
+<:pattern< [| $list:lx$ |] >>;
+<:pattern< $x1$ | $x2$ >>;
 [@@@"ocaml.text" "pattern_desc";];
 [@@@"ocaml.text" "expression";];
 <:expression< $lid:s$ >>;
@@ -35,6 +37,7 @@
 <:expression< $string:s1$ $delim:s2$ >> ;
 {Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 __loc__ os2); Parsetree.pexp_loc = __loc__; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
 <:expression< $float:sxf1$ >> ;
+<:expression< $constant:x$ >> ;
 <:expression< let $recflag:x1$ $list:lx$ in $x2$ >>;
 <:expression< function $list:lx$ >>;
 <:expression< fun $label:x1$ ( $x3$ ) -> $x4$ >>;

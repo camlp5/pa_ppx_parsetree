@@ -465,7 +465,7 @@ and simple_pattern ctxt (f:Format.formatter) (x:pattern) : unit =
     | Ppat_any -> pp f "_";
     | Ppat_var ({txt = txt;_}) -> protect_ident f (unvala txt)
     | Ppat_array l ->
-        pp f "@[<2>[|%a|]@]"  (list (pattern1 ctxt) ~sep:";") l
+        pp f "@[<2>[|%a|]@]"  (list (pattern1 ctxt) ~sep:";") (unvala l)
     | Ppat_unpack { txt = VaVal None } ->
         pp f "(module@ _)@ "
     | Ppat_unpack { txt = VaVal (Some s) } ->

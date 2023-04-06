@@ -237,7 +237,7 @@ and pattern i ppf x =
       list i longident_vala_x_pattern ppf (unvala l);
   | Ppat_array (l) ->
       line i ppf "Ppat_array\n";
-      list i pattern ppf l;
+      list i pattern ppf (unvala l);
   | Ppat_or (p1, p2) ->
       line i ppf "Ppat_or\n";
       pattern i ppf p1;

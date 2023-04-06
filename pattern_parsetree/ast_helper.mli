@@ -128,7 +128,7 @@ module Pat:
     val variant: ?loc:loc -> ?attrs:attrs -> label Ploc.vala -> pattern option Ploc.vala -> pattern
     val record: ?loc:loc -> ?attrs:attrs -> (lid_vala * pattern) list Ploc.vala -> closed_flag Ploc.vala
                 -> pattern
-    val array: ?loc:loc -> ?attrs:attrs -> pattern list -> pattern
+    val array: ?loc:loc -> ?attrs:attrs -> pattern list Ploc.vala -> pattern
     val or_: ?loc:loc -> ?attrs:attrs -> pattern -> pattern -> pattern
     val constraint_: ?loc:loc -> ?attrs:attrs -> pattern -> core_type -> pattern
     val type_: ?loc:loc -> ?attrs:attrs -> lid -> pattern

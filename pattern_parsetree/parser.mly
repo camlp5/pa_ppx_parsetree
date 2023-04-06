@@ -3120,10 +3120,10 @@ simple_delimited_pattern:
       { fst (mktailpat $loc($3) $2) }
     | LBRACKET pattern_semi_list error
       { unclosed "[" $loc($1) "]" $loc($3) }
-    | LBRACKETBAR pattern_semi_list BARRBRACKET
+    | LBRACKETBAR vala(pattern_semi_list, ANTI_LIST) BARRBRACKET
       { Ppat_array $2 }
     | LBRACKETBAR BARRBRACKET
-      { Ppat_array [] }
+      { Ppat_array (vaval []) }
     | LBRACKETBAR pattern_semi_list error
       { unclosed "[|" $loc($1) "|]" $loc($3) }
   ) { $1 }
