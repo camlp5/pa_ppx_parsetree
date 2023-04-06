@@ -30,6 +30,7 @@ val pattern : Lexing.lexbuf -> Parsetree.pattern
 val module_type : Lexing.lexbuf -> Parsetree.module_type
 val module_expr : Lexing.lexbuf -> Parsetree.module_expr
 val structure_item : Lexing.lexbuf -> Parsetree.structure_item
+val signature_item : Lexing.lexbuf -> Parsetree.signature_item
 val constructor_declaration : Lexing.lexbuf -> Parsetree.constructor_declaration
 val attribute : Lexing.lexbuf -> Parsetree.attribute
 val extension : Lexing.lexbuf -> Parsetree.extension

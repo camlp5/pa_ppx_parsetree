@@ -67,6 +67,9 @@ let parse_extended_module_path s =
 let parse_structure_item s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.structure_item s
 
+let parse_signature_item s =
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.signature_item s
+
 let parse_constructor_declaration s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.constructor_declaration s
 
@@ -200,6 +203,23 @@ let parse_type_substitution s =
           | {ptyp_desc=Ptyp_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
                                  )
       }
+    ; signature_item = {
+        add_branches_patt_code = (function
+          | {psig_desc=Psig_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
+                                 )
+      ; add_branches_expr_code = (function
+          | {psig_desc=Psig_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
+                                 )
+      }
+    ; structure_item = {
+        add_branches_patt_code = (function
+          | {pstr_desc=Pstr_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
+                                 )
+      ; add_branches_expr_code = (function
+          | {pstr_desc=Pstr_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
+                                 )
+      }
+
     ; str_vala = {
         data_source_module = Ast_helper
       ; quotation_source_module = Reorg_parsetree
@@ -215,6 +235,7 @@ let parse_type_substitution s =
     ; {name = "longident_t"; from_string = parse_longident ; type_name = longident_t }
     ; {name = "extended_module_path"; from_string = parse_extended_module_path ; type_name = longident_t }
     ; {name = "structure_item"; from_string = parse_structure_item ; type_name = structure_item }
+    ; {name = "signature_item"; from_string = parse_signature_item ; type_name = signature_item }
     ; {name = "constructor_declaration"; from_string = parse_constructor_declaration ; type_name = constructor_declaration }
     ; {name = "attribute"; from_string = parse_attribute ; type_name = attribute }
     ; {name = "extension"; from_string = parse_extension ; type_name = extension }

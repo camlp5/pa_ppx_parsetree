@@ -183,6 +183,8 @@ val parse_type_declaration: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parset
 
 val parse_structure_item: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.structure_item)
 
+val parse_signature_item: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.signature_item)
+
 val parse_pattern: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.pattern)
 
 val parse_mty_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longident.t)

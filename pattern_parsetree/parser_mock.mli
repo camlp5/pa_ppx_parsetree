@@ -887,6 +887,7 @@ val xv_parse_val_longident : Longident.t
 val xv_parse_type_substitution : Parsetree.type_declaration
 val xv_parse_type_declaration : Parsetree.type_declaration
 val xv_parse_structure_item : Parsetree.structure_item
+val xv_parse_signature_item : Parsetree.signature_item
 val xv_parse_pattern : Parsetree.pattern
 val xv_parse_mty_longident : Longident.t
 val xv_parse_module_type : Parsetree.module_type

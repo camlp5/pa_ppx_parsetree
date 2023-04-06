@@ -928,6 +928,10 @@ The precedences must be listed from low to high.
 %type <Parsetree.type_declaration> parse_type_substitution
 %start parse_constant
 %type <Parsetree.constant> parse_constant
+%start parse_structure_item
+%type <Parsetree.structure_item> parse_structure_item
+%start parse_signature_item
+%type <Parsetree.signature_item> parse_signature_item
 /* END AVOID */
 
 %type <Parsetree.expression list> expr_semi_list
@@ -935,8 +939,6 @@ The precedences must be listed from low to high.
 %type <string> constr_extra_nonprefix_ident
 %type <string Ploc.vala> ident_vala name_tag_vala val_ident_vala
 %type <label> ident name_tag
-%start parse_structure_item
-%type <Parsetree.structure_item> parse_structure_item
 %type <Asttypes.private_flag> inline_private_flag private_flag
 %type <Parsetree.core_type> core_type core_type_no_attr
 %type <string> constr_ident
@@ -1353,6 +1355,11 @@ parse_any_longident:
 
 parse_structure_item:
   structure_item EOF
+    { $1 }
+;
+
+parse_signature_item:
+  signature_item EOF
     { $1 }
 ;
 

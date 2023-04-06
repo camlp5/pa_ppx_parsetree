@@ -11,6 +11,8 @@
         ; Pmod_xtr
         ; Pmty_xtr
         ; Pmty_alias
+        ; Psig_xtr
+        ; Pstr_xtr
         ]
       ; test_types = [
           expression
@@ -22,6 +24,8 @@
         ; case
         ; module_type
         ; module_expr
+        ; signature_item
+        ; structure_item
         ]
       ; default_expression = {
           location_stack = []
@@ -40,6 +44,8 @@
         ; package_type = Auto
         ; module_type_desc = Auto
         ; module_expr_desc = Auto
+        ; signature_item_desc = Auto
+        ; structure_item_desc = Auto
         }
       ; expand_types_per_constructor = [
           (Pexp_ident,
@@ -109,6 +115,10 @@
         ; module_type_desc = Parsetree
         ; module_expr = Parsetree
         ; module_expr_desc = Parsetree
+        ; signature_item = Parsetree
+        ; signature_item_desc = Parsetree
+        ; structure_item = Parsetree
+        ; structure_item_desc = Parsetree
         }
       }
   ]
