@@ -103,7 +103,7 @@ and core_type_desc =
 
            Invariant: [n >= 2].
         *)
-  | Ptyp_constr of Longident.t loc * core_type list Ploc.vala
+  | Ptyp_constr of Longident.t Ploc.vala loc * core_type list Ploc.vala
       (** [Ptyp_constr(lident, l)] represents:
             - [tconstr]               when [l=[]],
             - [T tconstr]             when [l=[T]],

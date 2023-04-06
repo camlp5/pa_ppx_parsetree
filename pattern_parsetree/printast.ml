@@ -167,7 +167,7 @@ let rec core_type i ppf x =
       line i ppf "Ptyp_tuple\n";
       list i core_type ppf l;
   | Ptyp_constr (li, Ploc.VaVal l) ->
-      line i ppf "Ptyp_constr %a\n" fmt_longident_loc li;
+      line i ppf "Ptyp_constr %a\n" fmt_longident_vala_loc li;
       list i core_type ppf l;
   | Ptyp_variant (l, closed, low) ->
       line i ppf "Ptyp_variant closed=%a\n" fmt_closed_flag closed;

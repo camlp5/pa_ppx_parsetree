@@ -87,7 +87,7 @@ module Typ :
     val arrow: ?loc:loc -> ?attrs:attrs -> arg_label Ploc.vala -> core_type -> core_type
                -> core_type
     val tuple: ?loc:loc -> ?attrs:attrs -> core_type list Ploc.vala -> core_type
-    val constr: ?loc:loc -> ?attrs:attrs -> lid -> core_type list Ploc.vala -> core_type
+    val constr: ?loc:loc -> ?attrs:attrs -> lid_vala -> core_type list Ploc.vala -> core_type
     val object_: ?loc:loc -> ?attrs:attrs -> object_field list
                    -> closed_flag -> core_type
     val class_: ?loc:loc -> ?attrs:attrs -> lid -> core_type list -> core_type

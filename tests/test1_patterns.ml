@@ -8,6 +8,7 @@
 <:core_type< ' $lid:s$ >> ;
 <:core_type< $label:x1$ $x2$ -> $x3$ >> ;
 <:core_type< $tuplelist:lx$ >> ;
+<:core_type< $list:lx$ $longid:x$ >> ;
 [@@@"ocaml.text" "core_type_desc";];
 [@@@"ocaml.text" "package_type";];
 [@@@"ocaml.text" "row_field";];

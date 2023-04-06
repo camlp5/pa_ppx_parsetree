@@ -3702,10 +3702,10 @@ atomic_type:
     | UNDERSCORE
         { Ptyp_any }
     | tys = actual_type_parameters
-      tid = mkrhs(type_longident)
+      tid = mkrhs(vala(type_longident, ANTI_LONGID))
         { Ptyp_constr(tid, vaval tys) }
     | ANTI_LIST
-      tid = mkrhs(type_longident)
+      tid = mkrhs(vala(type_longident,  ANTI_LONGID))
         { Ptyp_constr(tid, vaant $1) }
     | LESS meth_list GREATER
         { let (f, c) = $2 in Ptyp_object (f, c) }

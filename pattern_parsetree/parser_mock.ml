@@ -19761,7 +19761,7 @@ and (xv_xlist_vala_generic_type_declaration_vala_nonrec_flag_ANTI_NONRECFLAG__ty
 # 3708 "parser.mly"
       tid
 # 20395 "parser_mock.ml"
-   : 'tv_mkrhs_type_longident_) (_startpos_tid_ : Lexing.position) (_endpos_tid_ : Lexing.position) (_startofs_tid_ : int) (_endofs_tid_ : int) (_loc_tid_ : Lexing.position * Lexing.position) (
+   : 'tv_mkrhs_vala_type_longident_ANTI_LONGID__) (_startpos_tid_ : Lexing.position) (_endpos_tid_ : Lexing.position) (_startofs_tid_ : int) (_endofs_tid_ : int) (_loc_tid_ : Lexing.position * Lexing.position) (
 # 3707 "parser.mly"
      _1
 # 20399 "parser_mock.ml"
@@ -19779,7 +19779,7 @@ and (xv_xlist_vala_generic_type_declaration_vala_nonrec_flag_ANTI_NONRECFLAG__ty
 # 3705 "parser.mly"
       tid
 # 20413 "parser_mock.ml"
-   : 'tv_mkrhs_type_longident_) (_startpos_tid_ : Lexing.position) (_endpos_tid_ : Lexing.position) (_startofs_tid_ : int) (_endofs_tid_ : int) (_loc_tid_ : Lexing.position * Lexing.position) (
+   : 'tv_mkrhs_vala_type_longident_ANTI_LONGID__) (_startpos_tid_ : Lexing.position) (_endpos_tid_ : Lexing.position) (_startofs_tid_ : int) (_endofs_tid_ : int) (_loc_tid_ : Lexing.position * Lexing.position) (
 # 3704 "parser.mly"
       tys
 # 20417 "parser_mock.ml"

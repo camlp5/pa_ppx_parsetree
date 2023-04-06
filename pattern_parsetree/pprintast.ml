@@ -334,7 +334,7 @@ and core_type1 ctxt f x =
              |[] -> ()
              |[x]-> pp f "%a@;" (core_type1 ctxt)  x
              | _ -> list ~first:"(" ~last:")@;" (core_type ctxt) ~sep:",@;" f l)
-          l longident_loc li
+          l longident_vala_loc li
     | Ptyp_variant (l, closed, low) ->
         let first_is_inherit = match l with
           | {Parsetree.prf_desc = Rinherit _}::_ -> true
