@@ -17,6 +17,8 @@
         ; attribute
         ; extension
         ; case
+        ; module_type
+        ; module_expr
         ]
       ; default_expression = {
           location_stack = []
@@ -33,6 +35,8 @@
         ; extension = Auto
         ; payload = Auto
         ; package_type = Auto
+        ; module_type_desc = Auto
+        ; module_expr_desc = Auto
         }
       ; expand_types_per_constructor = [
           (Pexp_ident,
@@ -98,6 +102,8 @@
         ; attribute = Parsetree
         ; extension = Parsetree
         ; case = Parsetree
+        ; module_type = Parsetree
+        ; module_expr = Parsetree
         }
       }
   ]

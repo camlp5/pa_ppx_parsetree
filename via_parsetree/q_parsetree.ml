@@ -43,6 +43,9 @@ let parse_expression s =
 let parse_module_expr s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.module_expr s
 
+let parse_module_type s =
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.module_type s
+
 let parse_pattern s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.pattern s
 
@@ -172,6 +175,14 @@ let parse_type_substitution s =
           | {pmod_desc=Pmod_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
                                  )
       }
+    ; module_type = {
+        add_branches_patt_code = (function
+          | {pmty_desc=Pmty_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
+                                 )
+      ; add_branches_expr_code = (function
+          | {pmty_desc=Pmty_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
+                                 )
+      }
 
     ; pattern = {
         add_branches_patt_code = (function
@@ -197,6 +208,7 @@ let parse_type_substitution s =
   ; entrypoints = [
       {name = "expression"; from_string = parse_expression ; type_name = expression }
     ; {name = "module_expr"; from_string = parse_module_expr ; type_name = module_expr }
+    ; {name = "module_type"; from_string = parse_module_type ; type_name = module_type }
     ; {name = "pattern"; from_string = parse_pattern ; type_name = pattern }
     ; {name = "constant"; from_string = parse_constant ; type_name = constant }
     ; {name = "core_type"; from_string = parse_core_type ; type_name = core_type }
