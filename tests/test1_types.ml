@@ -79,6 +79,10 @@
         ; (Pexp_object, { class_structure = Auto })
         ; (Pexp_constant, { constant = Auto })
         ; (Ppat_constant, { constant = Auto })
+        ; (Psig_typext, { longident_t = Explicit [
+                                            Longident.Lident s
+                                          ; Longident.Ldot (x, s)
+          ]})
         ]
       ; per_constructor_expansion = [
           (Pconst_integer, Explicit [
@@ -127,6 +131,8 @@
         ; structure_item_desc = Parsetree
         ; value_description = Parsetree
         ; type_extension = Parsetree
+        ; extension_constructor = Parsetree
+        ; extension_constructor_kind = Parsetree
         }
       }
   ]

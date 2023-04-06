@@ -211,6 +211,8 @@
 <:signature_item< val $lid:s$ : $x2$ >> ;
 <:signature_item< type $nonrecflag:x$ $list:lx$ >> ;
 <:signature_item< typesubst $list:lx$ >> ;
+<:signature_item< type $list:lxxx$ $lid:s$ += $priv:x2$ $list:lx$ >> ;
+<:signature_item< type $list:lxxx$ $longid:x$ . $lid:s$ += $priv:x2$ $list:lx$ >> ;
 [@@@"ocaml.text" "signature_item_desc";];
 [@@@"ocaml.text" "module_declaration";];
 [@@@"ocaml.text" "module_substitution";];

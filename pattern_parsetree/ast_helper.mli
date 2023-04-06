@@ -236,8 +236,8 @@ module Type:
 module Te:
   sig
     val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs ->
-      ?params:(core_type * (variance * injectivity)) list ->
-      ?priv:(private_flag Ploc.vala) -> lid -> extension_constructor list -> type_extension
+      ?params:(core_type * (variance * injectivity)) list Ploc.vala ->
+      ?priv:(private_flag Ploc.vala) -> lid -> extension_constructor list Ploc.vala -> type_extension
 
     val mk_exception: ?loc:loc -> ?attrs:attrs -> ?docs:docs ->
       extension_constructor -> type_exception

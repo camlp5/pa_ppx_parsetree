@@ -579,7 +579,7 @@ end
 (** Type extensions *)
 module Te = struct
   let mk ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs)
-        ?(params = []) ?(priv = Ploc.VaVal Public) path constructors =
+        ?(params = Ploc.VaVal []) ?(priv = Ploc.VaVal Public) path constructors =
     {
      ptyext_path = path;
      ptyext_params = params;

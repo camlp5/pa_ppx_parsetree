@@ -1585,11 +1585,11 @@ and type_extension ctxt f x =
        | [] -> ()
        | l ->
            pp f "%a@;" (list (type_param ctxt) ~first:"(" ~last:")" ~sep:",") l)
-    x.ptyext_params
+    (unvala  x.ptyext_params)
     longident_loc x.ptyext_path
     private_flag (unvala x.ptyext_private) (* Cf: #7200 *)
     (list ~sep:"" extension_constructor)
-    x.ptyext_constructors
+    (unvala x.ptyext_constructors)
     (item_attributes ctxt) x.ptyext_attributes
 
 and constructor_declaration ctxt f (name, vars, args, res, attrs) =

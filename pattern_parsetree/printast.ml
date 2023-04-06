@@ -466,9 +466,9 @@ and type_extension i ppf x =
   let i = i+1 in
   line i ppf "ptyext_path = %a\n" fmt_longident_loc x.ptyext_path;
   line i ppf "ptyext_params =\n";
-  list (i+1) type_parameter ppf x.ptyext_params;
+  list (i+1) type_parameter ppf (unvala x.ptyext_params);
   line i ppf "ptyext_constructors =\n";
-  list (i+1) extension_constructor ppf x.ptyext_constructors;
+  list (i+1) extension_constructor ppf (unvala x.ptyext_constructors);
   line i ppf "ptyext_private = %a\n" fmt_private_flag (unvala x.ptyext_private);
 
 and type_exception i ppf x =

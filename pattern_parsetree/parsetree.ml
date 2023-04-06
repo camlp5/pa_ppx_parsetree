@@ -556,8 +556,8 @@ and constructor_arguments =
 and type_extension =
     {
      ptyext_path: Longident.t loc;
-     ptyext_params: (core_type * (variance * injectivity)) list;
-     ptyext_constructors: extension_constructor list;
+     ptyext_params: (core_type * (variance * injectivity)) list Ploc.vala;
+     ptyext_constructors: extension_constructor list Ploc.vala;
      ptyext_private: private_flag Ploc.vala;
      ptyext_loc: Location.t;
      ptyext_attributes: attributes;  (** ... [\@\@id1] [\@\@id2] *)

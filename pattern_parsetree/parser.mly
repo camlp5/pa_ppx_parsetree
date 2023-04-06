@@ -3530,11 +3530,11 @@ label_declaration_semi:
   ext = ext
   attrs1 = attributes
   no_nonrec_flag
-  params = type_parameters
+  params = vala(type_parameters, ANTI_LIST)
   tid = mkrhs(type_longident)
   PLUSEQ
   priv = vala(private_flag, ANTI_PRIV)
-  cs = bar_llist(declaration)
+  cs = vala(bar_llist(declaration), ANTI_LIST)
   attrs2 = post_item_attributes
     { let docs = symbol_docs $sloc in
       let attrs = attrs1 @ attrs2 in

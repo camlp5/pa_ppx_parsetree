@@ -649,6 +649,10 @@ val xv_vala_constr_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_constr_ident_ANTI_UID_ : string Ast_helper.vala
 val xv_vala_constant_ANTI_CONSTANT_ : Parsetree.constant Ast_helper.vala
 val xv_vala_clty_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
+val xv_vala_bar_llist_extension_constructor_declaration__ANTI_LIST_ :
+  Parsetree.extension_constructor list Ast_helper.vala
+val xv_vala_bar_llist_extension_constructor__ANTI_LIST_ :
+  Parsetree.extension_constructor list Ast_helper.vala
 val xv_vala_attributes_ANTI_ALGATTRS_ : Parsetree.attributes Ast_helper.vala
 val xv_vala_arg_label_ANTI_LABEL_ : Asttypes.arg_label Ast_helper.vala
 val xv_vala_actual_type_parameters_ANTI_LIST_ :
