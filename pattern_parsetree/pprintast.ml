@@ -392,11 +392,11 @@ and core_type1 ctxt f x =
     | Ptyp_package (lid, cstrs) ->
         let aux f (s, ct) =
           pp f "type %a@ =@ %a" longident_loc s (core_type ctxt) ct  in
-        (match cstrs with
-         |[] -> pp f "@[<hov2>(module@ %a)@]" longident_loc lid
+        (match unvala cstrs with
+         |[] -> pp f "@[<hov2>(module@ %a)@]" longident_vala_loc lid
          |_ ->
-             pp f "@[<hov2>(module@ %a@ with@ %a)@]" longident_loc lid
-               (list aux  ~sep:"@ and@ ")  cstrs)
+             pp f "@[<hov2>(module@ %a@ with@ %a)@]" longident_vala_loc lid
+               (list aux  ~sep:"@ and@ ")  (unvala cstrs))
     | Ptyp_extension e -> extension ctxt f e
     | _ -> paren true (core_type ctxt) f x
 
@@ -1063,11 +1063,11 @@ and module_type ctxt f x =
             pp f "@[<hov2>functor@ (%s@ :@ %a)@ ->@ %a@]" (unvala name)
               (module_type ctxt) mt1 (module_type ctxt) mt2
         end
-    | Pmty_with (mt, []) -> module_type ctxt f mt
+    | Pmty_with (mt, Ploc.VaVal []) -> module_type ctxt f mt
     | Pmty_with (mt, l) ->
         pp f "@[<hov2>%a@ with@ %a@]"
           (module_type1 ctxt) mt
-          (list (with_constraint ctxt) ~sep:"@ and@ ") l
+          (list (with_constraint ctxt) ~sep:"@ and@ ") (unvala l)
     | _ -> module_type1 ctxt f x
 
 and with_constraint ctxt f = function
@@ -1076,25 +1076,25 @@ and with_constraint ctxt f = function
         (type_params ctxt) ls
         longident_loc li (type_declaration ctxt) td
   | Pwith_module (li, li2) ->
-      pp f "module %a =@ %a" longident_loc li longident_loc li2;
+      pp f "module %a =@ %a" longident_vala_loc li longident_vala_loc li2;
   | Pwith_modtype (li, mty) ->
-      pp f "module type %a =@ %a" longident_loc li (module_type ctxt) mty;
+      pp f "module type %a =@ %a" longident_vala_loc li (module_type ctxt) mty;
   | Pwith_typesubst (li, ({ptype_params=ls;_} as td)) ->
       pp f "type@ %a %a :=@ %a"
         (type_params ctxt) ls
         longident_loc li
         (type_declaration ctxt) td
   | Pwith_modsubst (li, li2) ->
-      pp f "module %a :=@ %a" longident_loc li longident_loc li2
+      pp f "module %a :=@ %a" longident_vala_loc li longident_vala_loc li2
   | Pwith_modtypesubst (li, mty) ->
-      pp f "module type %a :=@ %a" longident_loc li (module_type ctxt) mty;
+      pp f "module type %a :=@ %a" longident_vala_loc li (module_type ctxt) mty;
 
 
 and module_type1 ctxt f x =
   if x.pmty_attributes <> [] then module_type ctxt f x
   else match x.pmty_desc with
     | Pmty_ident li ->
-        pp f "%a" longident_loc li;
+        pp f "%a" longident_vala_loc li;
     | Pmty_alias li ->
         pp f "(module %a)" longident_loc li;
     | Pmty_signature (s) ->
@@ -1220,7 +1220,7 @@ and module_expr ctxt f x =
           (module_expr ctxt) me
           (module_type ctxt) mt
     | Pmod_ident (li) ->
-        pp f "%a" longident_loc li;
+        pp f "%a" longident_vala_loc li;
     | Pmod_functor (Unit, me) ->
         pp f "functor ()@;->@;%a" (module_expr ctxt) me
     | Pmod_functor (Named (s, mt), me) ->

@@ -95,7 +95,7 @@ module Typ :
     val variant: ?loc:loc -> ?attrs:attrs -> row_field list Ploc.vala -> closed_flag Ploc.vala
                  -> label list Ploc.vala option Ploc.vala -> core_type
     val poly: ?loc:loc -> ?attrs:attrs -> str_vala list Ploc.vala -> core_type -> core_type
-    val package: ?loc:loc -> ?attrs:attrs -> lid -> (lid * core_type) list
+    val package: ?loc:loc -> ?attrs:attrs -> lid_vala -> (lid * core_type) list Ploc.vala
                  -> core_type
     val extension: ?loc:loc -> ?attrs:attrs -> extension -> core_type
 
@@ -261,13 +261,13 @@ module Mty:
     val mk: ?loc:loc -> ?attrs:attrs -> module_type_desc -> module_type
     val attr: module_type -> attribute -> module_type
 
-    val ident: ?loc:loc -> ?attrs:attrs -> lid -> module_type
+    val ident: ?loc:loc -> ?attrs:attrs -> lid_vala -> module_type
     val alias: ?loc:loc -> ?attrs:attrs -> lid -> module_type
     val signature: ?loc:loc -> ?attrs:attrs -> signature -> module_type
     val functor_: ?loc:loc -> ?attrs:attrs ->
       functor_parameter -> module_type -> module_type
     val with_: ?loc:loc -> ?attrs:attrs -> module_type ->
-      with_constraint list -> module_type
+      with_constraint list Ploc.vala -> module_type
     val typeof_: ?loc:loc -> ?attrs:attrs -> module_expr -> module_type
     val extension: ?loc:loc -> ?attrs:attrs -> extension -> module_type
   end
@@ -278,7 +278,7 @@ module Mod:
     val mk: ?loc:loc -> ?attrs:attrs -> module_expr_desc -> module_expr
     val attr: module_expr -> attribute -> module_expr
 
-    val ident: ?loc:loc -> ?attrs:attrs -> lid -> module_expr
+    val ident: ?loc:loc -> ?attrs:attrs -> lid_vala -> module_expr
     val structure: ?loc:loc -> ?attrs:attrs -> structure -> module_expr
     val functor_: ?loc:loc -> ?attrs:attrs ->
       functor_parameter -> module_expr -> module_expr

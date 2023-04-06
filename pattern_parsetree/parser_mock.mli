@@ -515,8 +515,8 @@ val class_of_let_bindings :
   let_bindings -> Parsetree.class_expr -> Parsetree.class_expr
 val package_type_of_module_type :
   Parsetree.module_type ->
-  Longident.t Asttypes.loc *
-  (Longident.t Asttypes.loc * Parsetree.core_type) list *
+  Longident.t Ploc.vala Asttypes.loc *
+  (Longident.t Asttypes.loc * Parsetree.core_type) list Ast_helper.vala *
   Parsetree.attributes
 val mk_directive_arg :
   loc:Lexing.position * Lexing.position ->
@@ -594,6 +594,8 @@ val xv_vala_separated_or_terminated_nonempty_list_SEMI_record_expr_field__ANTI_L
 val xv_vala_separated_or_terminated_nonempty_list_SEMI_object_expr_field__ANTI_LIST_ :
   (Asttypes.label Ast_helper.vala Asttypes.loc * Parsetree.expression) list
   Ast_helper.vala
+val xv_vala_separated_nonempty_llist_AND_with_constraint__ANTI_LIST_ :
+  Parsetree.with_constraint list Ast_helper.vala
 val xv_vala_row_field_list_ANTI_LIST_ :
   Parsetree.row_field list Ast_helper.vala
 val xv_vala_rec_flag_ANTI_RECFLAG_ : Asttypes.rec_flag Ast_helper.vala
@@ -612,6 +614,7 @@ val xv_vala_nonempty_llist_labeled_simple_expr__ANTI_LIST_ :
 val xv_vala_name_tag_list_ANTI_LIST_ : Asttypes.label list Ast_helper.vala
 val xv_vala_mutable_flag_ANTI_MUTABLE_ :
   Asttypes.mutable_flag Ast_helper.vala
+val xv_vala_mty_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_module_name__ANTI_UIDOPT_ :
   string Ast_helper.vala option Ast_helper.vala
 val xv_vala_mod_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
@@ -1003,7 +1006,11 @@ val xv_mkrhs_vaval_ANDOP__ : string Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_val_ident_ANTI_LID__ : string Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_type_longident_ANTI_LONGID__ :
   Longident.t Ast_helper.vala Asttypes.loc
+val xv_mkrhs_vala_mty_longident_ANTI_LONGID__ :
+  Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_mod_longident_ANTI_LONGID__ :
+  Longident.t Ast_helper.vala Asttypes.loc
+val xv_mkrhs_vala_mod_ext_longident_ANTI_LONGID__ :
   Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_label_longident_ANTI_LONGID__ :
   Longident.t Ast_helper.vala Asttypes.loc
@@ -1021,11 +1028,10 @@ val xv_mkrhs_val_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_val_ident_ : Ast_helper.str
 val xv_mkrhs_type_longident_ : Ast_helper.lid
 val xv_mkrhs_name_tag_ : Asttypes.label Ast_helper.with_loc
-val xv_mkrhs_mty_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_module_name_ :
   string Ast_helper.vala option Ast_helper.vala Asttypes.loc
-val xv_mkrhs_mod_longident_ : Longident.t Asttypes.loc
-val xv_mkrhs_mod_ext_longident_ : Longident.t Asttypes.loc
+val xv_mkrhs_mod_longident_ : Ast_helper.lid
+val xv_mkrhs_mod_ext_longident_ : Ast_helper.lid
 val xv_mkrhs_label_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_label_ : Asttypes.label Ast_helper.with_loc
 val xv_mkrhs_ident_ : Asttypes.label Asttypes.loc

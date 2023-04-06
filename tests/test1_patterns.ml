@@ -15,6 +15,14 @@
 <:core_type< [ $closedflag:x$ $list:lx1$ $labellistopt:None$ ] >> ;
 <:core_type< [ $closedflag:x$ $list:lx1$ > $list:lx2$ ] >> ;
 <:core_type< [ $closedflag:x$ $list:lx1$ $labellistopt:olx2$ ] >> ;
+{Parsetree.ptyp_desc = Parsetree.Ptyp_poly lx x; Parsetree.ptyp_loc = __loc__; Parsetree.ptyp_loc_stack = []; Parsetree.ptyp_attributes = []};
+<:core_type< (module $longid:x$ with $list:xf2$) >>;
+<:core_type< [% $attrid:s$ $list:x$] >>;
+<:core_type< [% $attrid:s$ : $list:x$] >>;
+<:core_type< [% $attrid:s$ : $x$] >>;
+<:core_type< [% $attrid:s$ ? $x1$] >>;
+<:core_type< [% $attrid:s$ ? $x1$ when $x2$] >>;
+<:core_type< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
 [@@@"ocaml.text" "core_type_desc";];
 [@@@"ocaml.text" "package_type";];
 [@@@"ocaml.text" "row_field";];

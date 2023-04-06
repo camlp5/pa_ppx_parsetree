@@ -196,8 +196,8 @@ let rec core_type i ppf x =
       line i ppf "Ptyp_poly%a\n" typevars (unvala sl);
       core_type i ppf ct;
   | Ptyp_package (s, l) ->
-      line i ppf "Ptyp_package %a\n" fmt_longident_loc s;
-      list i package_with ppf l;
+      line i ppf "Ptyp_package %a\n" fmt_longident_vala_loc s;
+      list i package_with ppf (unvala l);
   | Ptyp_extension (s, arg) ->
       line i ppf "Ptyp_extension \"%s\"\n" (unvala s.txt);
       payload i ppf arg
@@ -671,7 +671,7 @@ and module_type i ppf x =
   attributes i ppf x.pmty_attributes;
   let i = i+1 in
   match x.pmty_desc with
-  | Pmty_ident li -> line i ppf "Pmty_ident %a\n" fmt_longident_loc li;
+  | Pmty_ident li -> line i ppf "Pmty_ident %a\n" fmt_longident_vala_loc li;
   | Pmty_alias li -> line i ppf "Pmty_alias %a\n" fmt_longident_loc li;
   | Pmty_signature (s) ->
       line i ppf "Pmty_signature\n";
@@ -686,7 +686,7 @@ and module_type i ppf x =
   | Pmty_with (mt, l) ->
       line i ppf "Pmty_with\n";
       module_type i ppf mt;
-      list i with_constraint ppf l;
+      list i with_constraint ppf (unvala l);
   | Pmty_typeof m ->
       line i ppf "Pmty_typeof\n";
       module_expr i ppf m;
@@ -770,19 +770,19 @@ and with_constraint i ppf x =
       type_declaration (i+1) ppf td;
   | Pwith_module (lid1, lid2) ->
       line i ppf "Pwith_module %a = %a\n"
-        fmt_longident_loc lid1
-        fmt_longident_loc lid2;
+        fmt_longident_vala_loc lid1
+        fmt_longident_vala_loc lid2;
   | Pwith_modsubst (lid1, lid2) ->
       line i ppf "Pwith_modsubst %a = %a\n"
-        fmt_longident_loc lid1
-        fmt_longident_loc lid2;
+        fmt_longident_vala_loc lid1
+        fmt_longident_vala_loc lid2;
   | Pwith_modtype (lid1, mty) ->
       line i ppf "Pwith_modtype %a\n"
-        fmt_longident_loc lid1;
+        fmt_longident_vala_loc lid1;
       module_type (i+1) ppf mty
   | Pwith_modtypesubst (lid1, mty) ->
      line i ppf "Pwith_modtypesubst %a\n"
-        fmt_longident_loc lid1;
+        fmt_longident_vala_loc lid1;
       module_type (i+1) ppf mty
 
 and module_expr i ppf x =
@@ -790,7 +790,7 @@ and module_expr i ppf x =
   attributes i ppf x.pmod_attributes;
   let i = i+1 in
   match x.pmod_desc with
-  | Pmod_ident (li) -> line i ppf "Pmod_ident %a\n" fmt_longident_loc li;
+  | Pmod_ident (li) -> line i ppf "Pmod_ident %a\n" fmt_longident_vala_loc li;
   | Pmod_structure (s) ->
       line i ppf "Pmod_structure\n";
       structure i ppf s;

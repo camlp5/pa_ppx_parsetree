@@ -610,9 +610,9 @@ let package_type_of_module_type pmty =
         err pmty.pmty_loc "only 'with type t =' constraints are supported"
   in
   match pmty with
-  | {pmty_desc = Pmty_ident lid} -> (lid, [], pmty.pmty_attributes)
+  | {pmty_desc = Pmty_ident lid} -> (lid, vaval [], pmty.pmty_attributes)
   | {pmty_desc = Pmty_with({pmty_desc = Pmty_ident lid}, cstrs)} ->
-      (lid, List.map map_cstr cstrs, pmty.pmty_attributes)
+      (lid, Pcaml.vala_map (List.map map_cstr) cstrs, pmty.pmty_attributes)
   | _ ->
       err pmty.pmty_loc
         "only module type identifier and 'with type' constraints are supported"
@@ -952,6 +952,8 @@ The precedences must be listed from low to high.
 %start parse_lident_vala_loc
 %type <string Ploc.vala Location.loc> parse_lident_vala_loc
 
+%type <Longident.t> mod_ext_longident
+%type <Longident.t> mod_longident
 %type <Longident.t Ploc.vala Asttypes.loc * Parsetree.expression> record_expr_field
 %type <expression option Ploc.vala * (Longident.t Ploc.vala Asttypes.loc * expression) list Ploc.vala> record_expr_content
 %type <Asttypes.arg_label Ploc.vala * Parsetree.expression option Ploc.vala * Parsetree.pattern> labeled_simple_pattern
@@ -1484,7 +1486,7 @@ module_expr:
       { Mod.attr me attr }
   | mkmod(
       (* A module identifier. *)
-      x = mkrhs(mod_longident)
+      x = mkrhs(vala(mod_longident, ANTI_LONGID))
         { Pmod_ident x }
     | ANTI { Pmod_xtr (Location.mkloc $1 (make_loc $sloc)) }
     | (* In a functor application, the actual argument must be parenthesized. *)
@@ -1761,7 +1763,7 @@ open_description:
   }
 ;
 
-%inline open_dot_declaration: mkrhs(mod_longident)
+%inline open_dot_declaration: mkrhs(vala(mod_longident, ANTI_LONGID))
   { let loc = make_loc $loc($1) in
     let me = Mod.ident ~loc $1 in
     Opn.mk ~loc me }
@@ -1793,13 +1795,13 @@ module_type:
   | module_type attribute
       { Mty.attr $1 $2 }
   | mkmty(
-      mkrhs(mty_longident)
+      mkrhs(vala(mty_longident, ANTI_LONGID))
         { Pmty_ident $1 }
     | ANTI { Pmty_xtr (Location.mkloc $1 (make_loc $sloc)) }
     | module_type MINUSGREATER module_type
         %prec below_WITH
         { Pmty_functor(Named (mknoloc (vaval None), $1), $3) }
-    | module_type WITH separated_nonempty_llist(AND, with_constraint)
+    | module_type WITH vala(separated_nonempty_llist(AND, with_constraint),  ANTI_LIST)
         { Pmty_with($1, $3) }
 /*  | LPAREN MODULE mkrhs(mod_longident) RPAREN
         { Pmty_alias $3 } */
@@ -3559,13 +3561,13 @@ with_constraint:
               ~params:$2
               ~manifest:(vaval $5)
               ~loc:(make_loc $sloc))) }
-  | MODULE mkrhs(mod_longident) EQUAL mkrhs(mod_ext_longident)
+  | MODULE mkrhs(vala(mod_longident, ANTI_LONGID)) EQUAL mkrhs(vala(mod_ext_longident, ANTI_LONGID))
       { Pwith_module ($2, $4) }
-  | MODULE mkrhs(mod_longident) COLONEQUAL mkrhs(mod_ext_longident)
+  | MODULE mkrhs(vala(mod_longident, ANTI_LONGID)) COLONEQUAL mkrhs(vala(mod_ext_longident, ANTI_LONGID))
       { Pwith_modsubst ($2, $4) }
-  | MODULE TYPE l=mkrhs(mty_longident) EQUAL rhs=module_type
+  | MODULE TYPE l=mkrhs(vala(mty_longident, ANTI_LONGID)) EQUAL rhs=module_type
       { Pwith_modtype (l, rhs) }
-  | MODULE TYPE l=mkrhs(mty_longident) COLONEQUAL rhs=module_type
+  | MODULE TYPE l=mkrhs(vala(mty_longident, ANTI_LONGID)) COLONEQUAL rhs=module_type
       { Pwith_modtypesubst (l, rhs) }
 ;
 with_type_binder:

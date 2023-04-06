@@ -169,7 +169,7 @@ and core_type_desc =
   | Ptyp_package of package_type  (** [(module S)]. *)
   | Ptyp_extension of extension  (** [[%id]]. *)
 
-and package_type = Longident.t loc * (Longident.t loc * core_type) list
+and package_type = Longident.t Ploc.vala loc * (Longident.t loc * core_type) list Ploc.vala
 (** As {!package_type} typed values:
          - [(S, [])] represents [(module S)],
          - [(S, [(t1, T1) ; ... ; (tn, Tn)])]
@@ -810,11 +810,11 @@ and module_type =
     }
 
 and module_type_desc =
-  | Pmty_ident of Longident.t loc  (** [Pmty_ident(S)] represents [S] *)
+  | Pmty_ident of Longident.t Ploc.vala loc  (** [Pmty_ident(S)] represents [S] *)
   | Pmty_signature of signature  (** [sig ... end] *)
   | Pmty_functor of functor_parameter * module_type
       (** [functor(X : MT1) -> MT2] *)
-  | Pmty_with of module_type * with_constraint list  (** [MT with ...] *)
+  | Pmty_with of module_type * with_constraint list Ploc.vala  (** [MT with ...] *)
   | Pmty_typeof of module_expr  (** [module type of ME] *)
   | Pmty_extension of extension  (** [[%id]] *)
   | Pmty_alias of Longident.t loc  (** [(module M)] *)
@@ -939,15 +939,15 @@ and with_constraint =
 
             Note: the last component of the longident must match
             the name of the type_declaration. *)
-  | Pwith_module of Longident.t loc * Longident.t loc
+  | Pwith_module of Longident.t Ploc.vala loc * Longident.t Ploc.vala loc
       (** [with module X.Y = Z] *)
-  | Pwith_modtype of Longident.t loc * module_type
+  | Pwith_modtype of Longident.t Ploc.vala loc * module_type
       (** [with module type X.Y = Z] *)
-  | Pwith_modtypesubst of Longident.t loc * module_type
+  | Pwith_modtypesubst of Longident.t Ploc.vala loc * module_type
       (** [with module type X.Y := sig end] *)
   | Pwith_typesubst of Longident.t loc * type_declaration
       (** [with type X.t := ..., same format as [Pwith_type]] *)
-  | Pwith_modsubst of Longident.t loc * Longident.t loc
+  | Pwith_modsubst of Longident.t Ploc.vala loc * Longident.t Ploc.vala loc
       (** [with module X.Y := Z] *)
 
 (** {2 Value expressions for the module language} *)
@@ -960,7 +960,7 @@ and module_expr =
     }
 
 and module_expr_desc =
-  | Pmod_ident of Longident.t loc  (** [X] *)
+  | Pmod_ident of Longident.t Ploc.vala loc  (** [X] *)
   | Pmod_structure of structure  (** [struct ... end] *)
   | Pmod_functor of functor_parameter * module_expr
       (** [functor(X : MT1) -> ME] *)

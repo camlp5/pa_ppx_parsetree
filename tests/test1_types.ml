@@ -29,6 +29,7 @@
         ; letop = Auto
         ; extension = Auto
         ; payload = Auto
+        ; package_type = Auto
         }
       ; expand_types_per_constructor = [
           (Pexp_ident,

@@ -137,7 +137,8 @@ module Typ = struct
               check_variable var_names t.ptyp_loc v.txt)) string_lst;
             Ptyp_poly(string_lst, loop core_type)
         | Ptyp_package(longident,lst) ->
-            Ptyp_package(longident,List.map (fun (n,typ) -> (n,loop typ) ) lst)
+           let lst = Pcaml.vala_map (List.map (fun (n,typ) -> (n,loop typ) )) lst in
+           Ptyp_package(longident,lst)
         | Ptyp_extension (s, arg) ->
             Ptyp_extension (s, arg)
       in
