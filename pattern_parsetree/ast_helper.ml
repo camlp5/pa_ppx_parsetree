@@ -462,7 +462,7 @@ end
 
 module Mtd = struct
   let mk ?(loc = !default_loc) ?(attrs = [])
-        ?(docs = empty_docs) ?(text = []) ?typ name =
+        ?(docs = empty_docs) ?(text = []) ~typ name =
     {
      pmtd_name = name;
      pmtd_type = typ;

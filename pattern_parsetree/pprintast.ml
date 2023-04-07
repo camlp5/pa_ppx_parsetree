@@ -1168,20 +1168,20 @@ and signature_item ctxt f x : unit =
         (item_attributes ctxt) incl.pincl_attributes
   | Psig_modtype {pmtd_name=s; pmtd_type=md; pmtd_attributes=attrs} ->
       pp f "@[<hov2>module@ type@ %s%a@]%a"
-        s.txt
+        (unvala s.txt)
         (fun f md -> match md with
            | None -> ()
            | Some mt ->
                pp_print_space f () ;
                pp f "@ =@ %a" (module_type ctxt) mt
-        ) md
+        ) (unvala md)
         (item_attributes ctxt) attrs
   | Psig_modtypesubst {pmtd_name=s; pmtd_type=md; pmtd_attributes=attrs} ->
-      let md = match md with
+      let md = match unvala md with
         | None -> assert false (* ast invariant *)
         | Some mt -> mt in
       pp f "@[<hov2>module@ type@ %s@ :=@ %a@]%a"
-        s.txt (module_type ctxt) md
+        (unvala s.txt) (module_type ctxt) md
         (item_attributes ctxt) attrs
   | Psig_class_type (l) -> class_type_declaration_list ctxt f l
   | Psig_recmodule decls ->
@@ -1399,13 +1399,13 @@ and structure_item ctxt f x =
         (item_attributes ctxt) od.popen_attributes
   | Pstr_modtype {pmtd_name=s; pmtd_type=md; pmtd_attributes=attrs} ->
       pp f "@[<hov2>module@ type@ %s%a@]%a"
-        s.txt
+        (unvala s.txt)
         (fun f md -> match md with
            | None -> ()
            | Some mt ->
                pp_print_space f () ;
                pp f "@ =@ %a" (module_type ctxt) mt
-        ) md
+        ) (unvala md)
         (item_attributes ctxt) attrs
   | Pstr_class l ->
       let extract_class_args cl =

@@ -1043,6 +1043,7 @@ val xv_mkrhs_mod_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_mod_ext_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_label_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_label_ : Asttypes.label Ast_helper.with_loc
+val xv_mkrhs_ident_vala_ : Ast_helper.str_vala
 val xv_mkrhs_ident_ : Asttypes.label Asttypes.loc
 val xv_mkrhs_constr_longident_ : Ast_helper.lid
 val xv_mkrhs_clty_longident_ : Longident.t Asttypes.loc

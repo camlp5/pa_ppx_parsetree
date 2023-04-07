@@ -884,8 +884,8 @@ and module_substitution =
 
 and module_type_declaration =
     {
-     pmtd_name: string loc;
-     pmtd_type: module_type option;
+     pmtd_name: string Ploc.vala loc;
+     pmtd_type: module_type option Ploc.vala;
      pmtd_attributes: attributes;  (** [... [\@\@id1] [\@\@id2]] *)
      pmtd_loc: Location.t;
     }

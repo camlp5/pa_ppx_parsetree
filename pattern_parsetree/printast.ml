@@ -728,11 +728,11 @@ and signature_item i ppf x =
       line i ppf "Psig_recmodule\n";
       list i module_declaration ppf (unvala decls);
   | Psig_modtype x ->
-      line i ppf "Psig_modtype %a\n" fmt_string_loc x.pmtd_name;
+      line i ppf "Psig_modtype %a\n" fmt_string_vala_loc x.pmtd_name;
       attributes i ppf x.pmtd_attributes;
       modtype_declaration i ppf x.pmtd_type
   | Psig_modtypesubst x ->
-      line i ppf "Psig_modtypesubst %a\n" fmt_string_loc x.pmtd_name;
+      line i ppf "Psig_modtypesubst %a\n" fmt_string_vala_loc x.pmtd_name;
       attributes i ppf x.pmtd_attributes;
       modtype_declaration i ppf x.pmtd_type
   | Psig_open od ->
@@ -757,8 +757,8 @@ and signature_item i ppf x =
       attribute i ppf "Psig_attribute" a
 
 and modtype_declaration i ppf = function
-  | None -> line i ppf "#abstract"
-  | Some mt -> module_type (i+1) ppf mt
+  | Ploc.VaVal None -> line i ppf "#abstract"
+  | Ploc.VaVal (Some mt) -> module_type (i+1) ppf mt
 
 and with_constraint i ppf x =
   match x with
@@ -848,7 +848,7 @@ and structure_item i ppf x =
       line i ppf "Pstr_recmodule\n";
       list i module_binding ppf bindings;
   | Pstr_modtype x ->
-      line i ppf "Pstr_modtype %a\n" fmt_string_loc x.pmtd_name;
+      line i ppf "Pstr_modtype %a\n" fmt_string_vala_loc x.pmtd_name;
       attributes i ppf x.pmtd_attributes;
       modtype_declaration i ppf x.pmtd_type
   | Pstr_open od ->

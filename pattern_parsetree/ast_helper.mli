@@ -355,7 +355,7 @@ module Ms:
 module Mtd:
   sig
     val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?text:text ->
-      ?typ:module_type -> str -> module_type_declaration
+      typ:module_type option Ploc.vala -> str_vala -> module_type_declaration
   end
 
 (** Module bindings *)
