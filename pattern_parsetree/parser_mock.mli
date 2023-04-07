@@ -1038,7 +1038,7 @@ val xv_mkrhs_type_longident_ : Ast_helper.lid
 val xv_mkrhs_name_tag_ : Asttypes.label Ast_helper.with_loc
 val xv_mkrhs_module_name_ :
   string Ast_helper.vala option Ast_helper.vala Asttypes.loc
-val xv_mkrhs_mod_longident_ : Ast_helper.lid
+val xv_mkrhs_mod_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_mod_ext_longident_ : Ast_helper.lid
 val xv_mkrhs_label_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_label_ : Asttypes.label Ast_helper.with_loc

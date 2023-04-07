@@ -10,7 +10,6 @@
         ; Ptyp_xtr
         ; Pmod_xtr
         ; Pmty_xtr
-        ; Pmty_alias
         ; Psig_xtr
         ; Pstr_xtr
         ]
@@ -48,6 +47,8 @@
         ; structure_item_desc = Auto
         ; value_description = Auto
         ; type_extension = Auto
+        ; type_exception = Auto
+        ; module_declaration = Auto
         }
       ; expand_types_per_constructor = [
           (Pexp_ident,
@@ -133,6 +134,7 @@
         ; type_extension = Parsetree
         ; extension_constructor = Parsetree
         ; extension_constructor_kind = Parsetree
+        ; module_declaration = Parsetree
         }
       }
   ]

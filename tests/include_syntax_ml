@@ -39,8 +39,9 @@ let f = function
 #require "pa_ppx_parsetree_via_parsetree";;
 #require "pa_ppx_quotation2extension";;
 
-#trace Pa_ppx_parsetree_via_parsetree.Q_parsetree.Regular.parse_expression ;;
-#trace Pa_ppx_parsetree_via_parsetree.Q_parsetree.Regular.E.location_stack ;;
+open Pa_ppx_parsetree_via_parsetree.Q_parsetree.Regular ;;
+#trace parse_expression ;;
+#trace E.location_stack ;;
 
 
 (*

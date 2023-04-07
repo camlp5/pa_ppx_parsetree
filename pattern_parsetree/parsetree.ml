@@ -817,7 +817,7 @@ and module_type_desc =
   | Pmty_with of module_type * with_constraint list Ploc.vala  (** [MT with ...] *)
   | Pmty_typeof of module_expr  (** [module type of ME] *)
   | Pmty_extension of extension  (** [[%id]] *)
-  | Pmty_alias of Longident.t loc  (** [(module M)] *)
+  | Pmty_alias of Longident.t Ploc.vala loc  (** [(module M)] *)
   | Pmty_xtr of string loc
 
 and functor_parameter =

@@ -203,6 +203,7 @@
 <:module_type< [% $attrid:s$ ? $x1$] >>;
 <:module_type< [% $attrid:s$ ? $x1$ when $x2$] >>;
 <:module_type< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:module_type< (module $longid:x$) >>;
 [@@@"ocaml.text" "module_type_desc";];
 [@@@"ocaml.text" "functor_parameter";];
 [@@@"ocaml.text" "signature";];

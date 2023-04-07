@@ -1819,8 +1819,8 @@ module_type:
         { Pmty_functor(vaval (Named (mknoloc (vaval None), $1)), $3) }
     | module_type WITH vala(separated_nonempty_llist(AND, with_constraint),  ANTI_LIST)
         { Pmty_with($1, $3) }
-/*  | LPAREN MODULE mkrhs(mod_longident) RPAREN
-        { Pmty_alias $3 } */
+    | LPAREN MODULE mkrhs(vala(mod_longident,ANTI_LONGID)) RPAREN
+        { Pmty_alias $3 }
     | extension
         { Pmty_extension $1 }
     )
@@ -1944,7 +1944,7 @@ module_declaration_body:
   }
 ;
 %inline module_expr_alias:
-  id = mkrhs(mod_longident)
+  id = mkrhs(vala(mod_longident, ANTI_LONGID))
     { Mty.alias ~loc:(make_loc $sloc) id }
 ;
 (* A module substitution (in a signature). *)

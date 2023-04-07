@@ -1096,7 +1096,7 @@ and module_type1 ctxt f x =
     | Pmty_ident li ->
         pp f "%a" longident_vala_loc li;
     | Pmty_alias li ->
-        pp f "(module %a)" longident_loc li;
+        pp f "(module %a)" longident_vala_loc li;
     | Pmty_signature (s) ->
         pp f "@[<hv0>@[<hv2>sig@ %a@]@ end@]" (* "@[<hov>sig@ %a@ end@]" *)
           (list (signature_item ctxt)) (unvala s) (* FIXME wrong indentation*)
@@ -1146,7 +1146,7 @@ and signature_item ctxt f x : unit =
                             pmty_attributes=[]; _};_} as pmd) ->
       pp f "@[<hov>module@ %s@ =@ %a@]%a"
         (unvala (Option.value (unvala pmd.pmd_name.txt) ~default:(vaval "_")))
-        longident_loc alias
+        longident_vala_loc alias
         (item_attributes ctxt) pmd.pmd_attributes
   | Psig_module pmd ->
       pp f "@[<hov>module@ %s@ :@ %a@]%a"
