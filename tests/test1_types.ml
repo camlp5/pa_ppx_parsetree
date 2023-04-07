@@ -89,6 +89,10 @@
                                             Longident.Lident s
                                           ; Longident.Ldot (x, s)
           ]})
+        ; (Pstr_typext, { longident_t = Explicit [
+                                            Longident.Lident s
+                                          ; Longident.Ldot (x, s)
+          ]})
         ]
       ; per_constructor_expansion = [
           (Pconst_integer, Explicit [

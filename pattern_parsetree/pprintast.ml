@@ -1239,7 +1239,7 @@ and structure ctxt f x = list ~sep:"@\n" (structure_item ctxt) f (unvala x)
 and payload ctxt f = function
   | PStr (VaVal [{pstr_desc = Pstr_eval (e, attrs)}]) ->
       pp f "@[<2>%a@]%a"
-        (expression ctxt) e
+        (expression ctxt) (unvala e)
         (item_attributes ctxt) attrs
   | PStr x -> structure ctxt f x
   | PTyp x -> pp f ":@ "; core_type ctxt f x
@@ -1355,7 +1355,7 @@ and structure_item ctxt f x =
   match x.pstr_desc with
   | Pstr_eval (e, attrs) ->
       pp f "@[<hov2>;;%a@]%a"
-        (expression ctxt) e
+        (expression ctxt) (unvala e)
         (item_attributes ctxt) attrs
   | Pstr_type (_, VaVal []) -> assert false
   | Pstr_type (rf, VaVal l)  -> type_def_list ctxt f (rf, true, l)

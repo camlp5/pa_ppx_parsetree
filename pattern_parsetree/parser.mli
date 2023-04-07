@@ -148,6 +148,7 @@ type token =
   | ANTI_ID of (string)
   | ANTI_FLOAT of (string)
   | ANTI_EXPROPT of (string)
+  | ANTI_EXPR of (string)
   | ANTI_EXCON of (string)
   | ANTI_DIRFLAG of (string)
   | ANTI_DELIM of (string)

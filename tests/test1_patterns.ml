@@ -266,6 +266,11 @@
 [@@@"ocaml.text" "module_expr_desc";];
 [@@@"ocaml.text" "structure";];
 [@@@"ocaml.text" "structure_item";];
+<:structure_item< let $recflag:x$ $list:lx$ >>;
+<:structure_item< external $lid:s$ : $x2$ = $list:ls$ >>;
+<:structure_item< type $nonrecflag:x$ $list:lx$ >> ;
+<:structure_item< type $list:lxxx$ $lid:s$ += $priv:x2$ $list:lx$ >> ;
+<:structure_item< type $list:lxxx$ $longid:x$ . $lid:s$ += $priv:x2$ $list:lx$ >> ;
 [@@@"ocaml.text" "structure_item_desc";];
 [@@@"ocaml.text" "value_binding";];
 [@@@"ocaml.text" "module_binding";];

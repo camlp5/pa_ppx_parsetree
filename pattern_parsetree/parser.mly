@@ -203,8 +203,8 @@ let rec mktailpat nilloc = let open Location in function
       let arg = ghpat ~loc (Ppat_tuple (vaval [p1; ghpat ~loc:el_loc pat_pl])) in
       ghpat_cons_desc loc arg, loc
 
-let mkstrexp e attrs =
-  { pstr_desc = Pstr_eval (e, attrs); pstr_loc = e.pexp_loc }
+let mkstrexp ~loc e attrs =
+  { pstr_desc = Pstr_eval (e, attrs); pstr_loc = make_loc loc }
 
 let mkexp_constraint ~loc e (t1, t2) =
   match t1, t2 with
@@ -425,7 +425,7 @@ let wrap_exp_attrs ~loc body (ext, attrs) =
   let body = {body with pexp_attributes = attrs @ body.pexp_attributes} in
   match ext with
   | None -> body
-  | Some id -> ghexp(Pexp_extension (id, PStr (vaval[mkstrexp body []])))
+  | Some id -> ghexp(Pexp_extension (id, PStr (vaval[mkstrexp ~loc (vaval body) []])))
 
 let mkexp_attrs ~loc d attrs =
   wrap_exp_attrs ~loc (mkexp ~loc d) attrs
@@ -473,7 +473,7 @@ let wrap_mksig_ext ~loc (item, ext) =
 let mk_quotedext ~loc (id, idloc, str, strloc, delim) =
   let exp_id = mkloc (vaval id) idloc in
   let e = ghexp ~loc (Pexp_constant (vaval(Pconst_string (vaval str, strloc, Option.map vaval delim)))) in
-  (exp_id, PStr (vaval[mkstrexp e []]))
+  (exp_id, PStr (vaval[mkstrexp ~loc (vaval e) []]))
 
 let text_str pos = Str.text (rhs_text pos)
 let text_sig pos = Sig.text (rhs_text pos)
@@ -788,6 +788,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_NONRECFLAG
 %token <string> ANTI_OVERRIDEFLAG
 %token <string> ANTI_CLOSEDFLAG
+%token <string> ANTI_EXPR
 %token <string> ANTI_EXPROPT
 %token <string> ANTI_PATTOPT
 %token <string> ANTI_CTYPOPT
@@ -1579,9 +1580,9 @@ structure:
 
 (* An expression with attributes, wrapped as a structure item. *)
 %inline str_exp:
-  e = seq_expr
+  e = vala(seq_expr, ANTI_EXPR)
   attrs = post_item_attributes
-    { mkstrexp e attrs }
+    { mkstrexp ~loc:$sloc e attrs }
 ;
 
 (* A structure element is one of the following:
@@ -2431,7 +2432,7 @@ seq_expr:
     { $1 }
   | expr SEMI PERCENT attr_id seq_expr
     { let seq = mkexp ~loc:$sloc (Pexp_sequence ($1, $5)) in
-      let payload = PStr (vaval[mkstrexp seq []]) in
+      let payload = PStr (vaval[mkstrexp ~loc:$sloc (vaval seq) []]) in
       mkexp ~loc:$sloc (Pexp_extension ($4, payload)) }
 ;
 labeled_simple_pattern:

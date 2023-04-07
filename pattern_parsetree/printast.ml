@@ -825,7 +825,7 @@ and structure_item i ppf x =
   | Pstr_eval (e, attrs) ->
       line i ppf "Pstr_eval\n";
       attributes i ppf attrs;
-      expression i ppf e;
+      expression i ppf (unvala e);
   | Pstr_value (rf, l) ->
       line i ppf "Pstr_value %a\n" fmt_rec_flag (unvala rf);
       list i value_binding ppf (unvala l);

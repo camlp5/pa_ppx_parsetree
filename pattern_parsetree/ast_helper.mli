@@ -319,7 +319,7 @@ module Str:
   sig
     val mk: ?loc:loc -> structure_item_desc -> structure_item
 
-    val eval: ?loc:loc -> ?attrs:attributes -> expression -> structure_item
+    val eval: ?loc:loc -> ?attrs:attributes -> expression Ploc.vala -> structure_item
     val value: ?loc:loc -> rec_flag Ploc.vala -> value_binding list Ploc.vala -> structure_item
     val primitive: ?loc:loc -> value_description -> structure_item
     val type_: ?loc:loc -> rec_flag Ploc.vala -> type_declaration list Ploc.vala -> structure_item

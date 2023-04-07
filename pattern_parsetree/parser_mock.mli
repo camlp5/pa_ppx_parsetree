@@ -147,6 +147,7 @@ type token =
   | ANTI_ID of string
   | ANTI_FLOAT of string
   | ANTI_EXPROPT of string
+  | ANTI_EXPR of string
   | ANTI_EXCON of string
   | ANTI_DIRFLAG of string
   | ANTI_DELIM of string
@@ -311,7 +312,9 @@ val mktailpat :
   Parsetree.pattern list ->
   Parsetree.pattern_desc * (Lexing.position * Lexing.position)
 val mkstrexp :
-  Parsetree.expression -> Parsetree.attributes -> Parsetree.structure_item
+  loc:Lexing.position * Lexing.position ->
+  Parsetree.expression Ploc.vala ->
+  Parsetree.attributes -> Parsetree.structure_item
 val mkexp_constraint :
   loc:Lexing.position * Lexing.position ->
   Parsetree.expression ->
@@ -588,6 +591,7 @@ val xv_vala_type_parameters_ANTI_LIST_ :
 val xv_vala_type_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_signed_constant_ANTI_CONSTANT_ :
   Parsetree.constant Ast_helper.vala
+val xv_vala_seq_expr_ANTI_EXPR_ : Parsetree.expression Ast_helper.vala
 val xv_vala_separated_or_terminated_nonempty_list_SEMI_record_expr_field__ANTI_LIST_ :
   (Longident.t Ast_helper.vala Asttypes.loc * Parsetree.expression) list
   Ast_helper.vala
