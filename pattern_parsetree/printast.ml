@@ -726,7 +726,7 @@ and signature_item i ppf x =
       attributes i ppf pms.pms_attributes;
   | Psig_recmodule decls ->
       line i ppf "Psig_recmodule\n";
-      list i module_declaration ppf decls;
+      list i module_declaration ppf (unvala decls);
   | Psig_modtype x ->
       line i ppf "Psig_modtype %a\n" fmt_string_loc x.pmtd_name;
       attributes i ppf x.pmtd_attributes;

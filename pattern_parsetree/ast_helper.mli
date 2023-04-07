@@ -302,7 +302,7 @@ module Sig:
     val exception_: ?loc:loc -> type_exception -> signature_item
     val module_: ?loc:loc -> module_declaration -> signature_item
     val mod_subst: ?loc:loc -> module_substitution -> signature_item
-    val rec_module: ?loc:loc -> module_declaration list -> signature_item
+    val rec_module: ?loc:loc -> module_declaration list Ploc.vala -> signature_item
     val modtype: ?loc:loc -> module_type_declaration -> signature_item
     val modtype_subst: ?loc:loc -> module_type_declaration -> signature_item
     val open_: ?loc:loc -> open_description -> signature_item

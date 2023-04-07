@@ -1968,7 +1968,16 @@ module_subst:
 (* A group of recursive module declarations. *)
 %inline rec_module_declarations:
   xlist(rec_module_declaration, and_module_declaration)
-    { $1 }
+    { let a,b = $1 in a, vaval b }
+| MODULE
+  ext = ext
+  attrs1 = attributes
+  REC
+  l = ANTI_LIST
+  { assert (ext = None) ;
+    assert (attrs1 = []) ;
+    None, vaant l
+  }
 ;
 %inline rec_module_declaration:
   MODULE

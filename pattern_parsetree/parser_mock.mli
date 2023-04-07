@@ -845,7 +845,7 @@ val xv_record_expr_content :
   Ast_helper.vala
 val xv_rec_module_declarations :
   string Ast_helper.vala Asttypes.loc option *
-  Parsetree.module_declaration list
+  Parsetree.module_declaration list Ast_helper.vala
 val xv_rec_module_declaration :
   string Ast_helper.vala Asttypes.loc option * Parsetree.module_declaration
 val xv_rec_module_bindings :

@@ -849,7 +849,7 @@ and signature_item_desc =
   | Psig_exception of type_exception  (** [exception C of T] *)
   | Psig_module of module_declaration  (** [module X = M] and [module X : MT] *)
   | Psig_modsubst of module_substitution  (** [module X := M] *)
-  | Psig_recmodule of module_declaration list
+  | Psig_recmodule of module_declaration list Ploc.vala
       (** [module rec X1 : MT1 and ... and Xn : MTn] *)
   | Psig_modtype of module_type_declaration
       (** [module type S = MT] and [module type S] *)

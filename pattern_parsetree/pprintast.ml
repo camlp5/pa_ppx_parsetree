@@ -1201,7 +1201,7 @@ and signature_item ctxt f x : unit =
                 (item_attributes ctxt) pmd.pmd_attributes;
             string_x_module_type_list f ~first:false tl
       in
-      string_x_module_type_list f decls
+      string_x_module_type_list f (unvala decls)
   | Psig_attribute a -> floating_attribute ctxt f a
   | Psig_extension(e, a) ->
       item_extension ctxt f e;

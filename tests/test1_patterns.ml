@@ -218,6 +218,7 @@
 <:signature_item< module $uid:s$ : $mt$ >> ;
 <:signature_item< module $opt:os$ : $mt$ >> ;
 <:signature_item< module $uid:s$ := $longid:x$ >> ;
+<:signature_item< module rec $list:lx$ >> ;
 [@@@"ocaml.text" "signature_item_desc";];
 [@@@"ocaml.text" "module_declaration";];
 [@@@"ocaml.text" "module_substitution";];
