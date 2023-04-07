@@ -224,6 +224,7 @@
 <:signature_item< module type $uid:s$ $opt:omt$ >> ;
 <:signature_item< module type $uid:s$ := $mt$ >> ;
 <:signature_item< open $overrideflag:x2$ $longid:x$ >> ;
+<:signature_item< include $mt$ >> ;
 [@@@"ocaml.text" "signature_item_desc";];
 [@@@"ocaml.text" "module_declaration";];
 [@@@"ocaml.text" "module_substitution";];
