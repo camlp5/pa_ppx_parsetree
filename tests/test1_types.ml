@@ -50,6 +50,7 @@
         ; module_declaration = Auto
         ; module_type_declaration = Auto
         ; module_substitution = Auto
+        ; module_binding = Auto
         ; open_infos = Auto
         ; open_description = Auto
         ; include_infos = Auto
@@ -154,6 +155,7 @@
         ; module_declaration = Parsetree
         ; module_type_declaration = Parsetree
         ; module_substitution = Parsetree
+        ; module_binding = Parsetree
         ; open_infos = Parsetree
         ; include_infos = Parsetree
         }

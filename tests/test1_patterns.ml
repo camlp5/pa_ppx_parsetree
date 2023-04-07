@@ -271,6 +271,9 @@
 <:structure_item< type $nonrecflag:x$ $list:lx$ >> ;
 <:structure_item< type $list:lxxx$ $lid:s$ += $priv:x2$ $list:lx$ >> ;
 <:structure_item< type $list:lxxx$ $longid:x$ . $lid:s$ += $priv:x2$ $list:lx$ >> ;
+<:structure_item< module _ = $me$ >> ;
+<:structure_item< module $uid:s$ = $me$ >> ;
+<:structure_item< module $opt:os$ = $me$ >> ;
 [@@@"ocaml.text" "structure_item_desc";];
 [@@@"ocaml.text" "value_binding";];
 [@@@"ocaml.text" "module_binding";];
