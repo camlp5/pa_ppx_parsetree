@@ -172,6 +172,7 @@
 <:case< $x1$ $wheno:ox2$ -> $x3$ >> ;
 [@@@"ocaml.text" "letop";];
 [@@@"ocaml.text" "binding_op";];
+<:binding_op< $lid:s$ $x2$ = $x3$ >> ;
 [@@@"ocaml.text" "value_description";];
 [@@@"ocaml.text" "type_declaration";];
 [@@@"ocaml.text" "type_kind";];
