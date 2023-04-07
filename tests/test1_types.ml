@@ -132,6 +132,7 @@
         ; structure_item_desc = Parsetree
         ; value_description = Parsetree
         ; type_extension = Parsetree
+        ; type_exception = Parsetree
         ; extension_constructor = Parsetree
         ; extension_constructor_kind = Parsetree
         ; module_declaration = Parsetree

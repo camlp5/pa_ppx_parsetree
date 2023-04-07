@@ -214,6 +214,9 @@
 <:signature_item< typesubst $list:lx$ >> ;
 <:signature_item< type $list:lxxx$ $lid:s$ += $priv:x2$ $list:lx$ >> ;
 <:signature_item< type $list:lxxx$ $longid:x$ . $lid:s$ += $priv:x2$ $list:lx$ >> ;
+<:signature_item< module _ : $mt$ >> ;
+<:signature_item< module $uid:s$ : $mt$ >> ;
+<:signature_item< module $opt:os$ : $mt$ >> ;
 [@@@"ocaml.text" "signature_item_desc";];
 [@@@"ocaml.text" "module_declaration";];
 [@@@"ocaml.text" "module_substitution";];
