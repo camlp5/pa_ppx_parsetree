@@ -51,6 +51,8 @@
         ; module_declaration = Auto
         ; module_type_declaration = Auto
         ; module_substitution = Auto
+        ; open_infos = Auto
+        ; open_description = Auto
         }
       ; expand_types_per_constructor = [
           (Pexp_ident,
@@ -147,6 +149,7 @@
         ; module_declaration = Parsetree
         ; module_type_declaration = Parsetree
         ; module_substitution = Parsetree
+        ; open_infos = Parsetree
         }
       }
   ]

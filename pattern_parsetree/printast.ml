@@ -519,7 +519,7 @@ and class_type i ppf x =
       payload i ppf arg
   | Pcty_open (o, e) ->
       line i ppf "Pcty_open %a %a\n" fmt_override_flag_vala o.popen_override
-        fmt_longident_loc o.popen_expr;
+        fmt_longident_vala_loc o.popen_expr;
       class_type i ppf e
 
 and class_signature i ppf cs =
@@ -609,7 +609,7 @@ and class_expr i ppf x =
       payload i ppf arg
   | Pcl_open (o, e) ->
       line i ppf "Pcl_open %a %a\n" fmt_override_flag_vala o.popen_override
-        fmt_longident_loc o.popen_expr;
+        fmt_longident_vala_loc o.popen_expr;
       class_expr i ppf e
 
 and class_structure i ppf { pcstr_self = p; pcstr_fields = l } =
@@ -737,7 +737,7 @@ and signature_item i ppf x =
       modtype_declaration i ppf x.pmtd_type
   | Psig_open od ->
       line i ppf "Psig_open %a %a\n" fmt_override_flag_vala od.popen_override
-        fmt_longident_loc od.popen_expr;
+        fmt_longident_vala_loc od.popen_expr;
       attributes i ppf od.popen_attributes
   | Psig_include incl ->
       line i ppf "Psig_include\n";

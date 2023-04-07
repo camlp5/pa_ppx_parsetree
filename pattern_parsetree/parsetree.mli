@@ -910,7 +910,7 @@ and 'a open_infos =
                   is {{!Asttypes.override_flag.Fresh}[Fresh]}
 *)
 
-and open_description = Longident.t loc open_infos
+and open_description = Longident.t Ploc.vala loc open_infos
 (** Values of type [open_description] represents:
     - [open M.N]
     - [open M(N).O] *)

@@ -1781,7 +1781,7 @@ open_description:
   override = override_flag_vala
   ext = ext
   attrs1 = attributes
-  id = mkrhs(mod_ext_longident)
+  id = mkrhs(vala(mod_ext_longident, ANTI_LONGID))
   attrs2 = post_item_attributes
   {
     let attrs = attrs1 @ attrs2 in
@@ -2109,7 +2109,7 @@ class_expr:
       { wrap_class_attrs ~loc:$sloc $3 $2 }
   | let_bindings(no_ext) IN class_expr
       { class_of_let_bindings ~loc:$sloc $1 $3 }
-  | LET OPEN override_flag_vala attributes mkrhs(mod_longident) IN class_expr
+  | LET OPEN override_flag_vala attributes mkrhs(vala(mod_longident, ANTI_LONGID)) IN class_expr
       { let loc = ($startpos($2), $endpos($5)) in
         let od = Opn.mk ~override:$3 ~loc:(make_loc loc) $5 in
         mkclass ~loc:$sloc ~attrs:$4 (Pcl_open(od, $7)) }
@@ -2265,7 +2265,7 @@ class_signature:
       { unclosed "object" $loc($1) "end" $loc($4) }
   | class_signature attribute
       { Cty.attr $1 $2 }
-  | LET OPEN override_flag_vala attributes mkrhs(mod_longident) IN class_signature
+  | LET OPEN override_flag_vala attributes mkrhs(vala(mod_longident, ANTI_LONGID)) IN class_signature
       { let loc = ($startpos($2), $endpos($5)) in
         let od = Opn.mk ~override:$3 ~loc:(make_loc loc) $5 in
         mkcty ~loc:$sloc ~attrs:$4 (Pcty_open(od, $7)) }

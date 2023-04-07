@@ -920,7 +920,7 @@ and class_type ctxt f x =
       attributes ctxt f x.pcty_attributes
   | Pcty_open (o, e) ->
       pp f "@[<2>let open%s %a in@;%a@]"
-        (override_vala o.popen_override) longident_loc o.popen_expr
+        (override_vala o.popen_override) longident_vala_loc o.popen_expr
         (class_type ctxt) e
 
 (* [class type a = object end] *)
@@ -1043,7 +1043,7 @@ and class_expr ctxt f x =
     | Pcl_extension e -> extension ctxt f e
     | Pcl_open (o, e) ->
         pp f "@[<2>let open%s %a in@;%a@]"
-          (override_vala o.popen_override) longident_loc o.popen_expr
+          (override_vala o.popen_override) longident_vala_loc o.popen_expr
           (class_expr ctxt) e
 
 and module_type ctxt f x =
@@ -1160,7 +1160,7 @@ and signature_item ctxt f x : unit =
   | Psig_open od ->
       pp f "@[<hov2>open%s@ %a@]%a"
         (override_vala od.popen_override)
-        longident_loc od.popen_expr
+        longident_vala_loc od.popen_expr
         (item_attributes ctxt) od.popen_attributes
   | Psig_include incl ->
       pp f "@[<hov2>include@ %a@]%a"
