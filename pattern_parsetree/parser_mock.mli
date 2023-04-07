@@ -211,7 +211,8 @@ val pstr_exception :
 val pstr_include :
   Parsetree.include_declaration * 'a -> Parsetree.structure_item_desc * 'a
 val pstr_recmodule :
-  'a * Parsetree.module_binding list -> Parsetree.structure_item_desc * 'a
+  'a * Parsetree.module_binding list Ploc.vala ->
+  Parsetree.structure_item_desc * 'a
 val psig_typext :
   Parsetree.type_extension * 'a -> Parsetree.signature_item_desc * 'a
 val psig_value :
@@ -853,7 +854,8 @@ val xv_rec_module_declarations :
 val xv_rec_module_declaration :
   string Ast_helper.vala Asttypes.loc option * Parsetree.module_declaration
 val xv_rec_module_bindings :
-  string Ast_helper.vala Asttypes.loc option * Parsetree.module_binding list
+  string Ast_helper.vala Asttypes.loc option *
+  Parsetree.module_binding list Ast_helper.vala
 val xv_rec_module_binding :
   string Ast_helper.vala Asttypes.loc option * Parsetree.module_binding
 val xv_rec_flag : Asttypes.rec_flag

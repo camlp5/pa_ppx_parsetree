@@ -846,7 +846,7 @@ and structure_item i ppf x =
       module_binding i ppf x
   | Pstr_recmodule bindings ->
       line i ppf "Pstr_recmodule\n";
-      list i module_binding ppf bindings;
+      list i module_binding ppf (unvala bindings);
   | Pstr_modtype x ->
       line i ppf "Pstr_modtype %a\n" fmt_string_vala_loc x.pmtd_name;
       attributes i ppf x.pmtd_attributes;

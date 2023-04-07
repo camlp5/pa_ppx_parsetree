@@ -274,6 +274,10 @@
 <:structure_item< module _ = $me$ >> ;
 <:structure_item< module $uid:s$ = $me$ >> ;
 <:structure_item< module $opt:os$ = $me$ >> ;
+<:structure_item< module rec $list:lx$ >> ;
+<:structure_item< module type $uid:s$ >> ;
+<:structure_item< module type $uid:s$ = $mt$ >> ;
+<:structure_item< module type $uid:s$ $opt:omt$ >> ;
 [@@@"ocaml.text" "structure_item_desc";];
 [@@@"ocaml.text" "value_binding";];
 [@@@"ocaml.text" "module_binding";];

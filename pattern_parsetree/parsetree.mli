@@ -997,7 +997,7 @@ and structure_item_desc =
       (** - [exception C of T]
             - [exception C = M.X] *)
   | Pstr_module of module_binding  (** [module X = ME] *)
-  | Pstr_recmodule of module_binding list
+  | Pstr_recmodule of module_binding list Ploc.vala
       (** [module rec X1 = ME1 and ... and Xn = MEn] *)
   | Pstr_modtype of module_type_declaration  (** [module type S = MT] *)
   | Pstr_open of open_declaration  (** [open X] *)

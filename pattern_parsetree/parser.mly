@@ -1673,7 +1673,17 @@ module_binding_body:
 (* A group of recursive module bindings. *)
 %inline rec_module_bindings:
   xlist(rec_module_binding, and_module_binding)
-    { $1 }
+    { let (a,b) = $1 in a, vaval b }
+| MODULE
+  ext = ext
+  attrs1 = attributes
+  REC
+  l = ANTI_LIST
+  {
+    assert (ext = None) ;
+    assert (attrs1 = []) ;
+    None, vaant l
+  }
 ;
 
 (* The first binding in a group of recursive module bindings. *)

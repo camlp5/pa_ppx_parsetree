@@ -1467,7 +1467,7 @@ and structure_item ctxt f x =
               (module_expr ctxt) pmb.pmb_expr
               (item_attributes ctxt) pmb.pmb_attributes
       in
-      begin match decls with
+      begin match unvala decls with
       | ({pmb_expr={pmod_desc=Pmod_constraint (expr, typ)}} as pmb) :: l2 ->
           pp f "@[<hv>@[<hov2>module@ rec@ %s:%a@ =@ %a@]%a@ %a@]"
             (unvala (Option.value (unvala pmb.pmb_name.txt) ~default:(vaval "_")))

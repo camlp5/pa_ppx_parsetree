@@ -326,7 +326,7 @@ module Str:
     val type_extension: ?loc:loc -> type_extension -> structure_item
     val exception_: ?loc:loc -> type_exception -> structure_item
     val module_: ?loc:loc -> module_binding -> structure_item
-    val rec_module: ?loc:loc -> module_binding list -> structure_item
+    val rec_module: ?loc:loc -> module_binding list Ploc.vala -> structure_item
     val modtype: ?loc:loc -> module_type_declaration -> structure_item
     val open_: ?loc:loc -> open_declaration -> structure_item
     val class_: ?loc:loc -> class_declaration list Ploc.vala -> structure_item
