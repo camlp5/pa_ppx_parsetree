@@ -105,6 +105,13 @@
                            [Parsetree.Psig_value {Parsetree.pval_name = {Location.txt = s; Location.loc = __loc__}; Parsetree.pval_type = x2; Parsetree.pval_prim = []; Parsetree.pval_attributes = []; Parsetree.pval_loc = __loc__}],
                            []
           ))
+        ; (Psig_modtypesubst, AddDel (
+                                  [],
+                                  [
+                                    Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; Location.loc = __loc__}; Parsetree.pmtd_type = None; Parsetree.pmtd_attributes = []; Parsetree.pmtd_loc = __loc__}
+                                  ; Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; Location.loc = __loc__}; Parsetree.pmtd_type = omt; Parsetree.pmtd_attributes = []; Parsetree.pmtd_loc = __loc__}
+                                  ]
+          ))
         ]
       ; type_module_map = {
           constant = Parsetree

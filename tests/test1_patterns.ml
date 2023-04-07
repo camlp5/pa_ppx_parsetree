@@ -222,6 +222,7 @@
 <:signature_item< module type $uid:s$ >> ;
 <:signature_item< module type $uid:s$ = $mt$ >> ;
 <:signature_item< module type $uid:s$ $opt:omt$ >> ;
+<:signature_item< module type $uid:s$ := $mt$ >> ;
 [@@@"ocaml.text" "signature_item_desc";];
 [@@@"ocaml.text" "module_declaration";];
 [@@@"ocaml.text" "module_substitution";];
