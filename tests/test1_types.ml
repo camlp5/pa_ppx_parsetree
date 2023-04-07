@@ -10,8 +10,6 @@
         ; Ptyp_xtr
         ; Pmod_xtr
         ; Pmty_xtr
-        ; Psig_xtr
-        ; Pstr_xtr
         ]
       ; test_types = [
           expression

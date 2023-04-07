@@ -203,22 +203,6 @@ let parse_type_substitution s =
           | {ptyp_desc=Ptyp_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
                                  )
       }
-    ; signature_item = {
-        add_branches_patt_code = (function
-          | {psig_desc=Psig_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
-                                 )
-      ; add_branches_expr_code = (function
-          | {psig_desc=Psig_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
-                                 )
-      }
-    ; structure_item = {
-        add_branches_patt_code = (function
-          | {pstr_desc=Pstr_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
-                                 )
-      ; add_branches_expr_code = (function
-          | {pstr_desc=Pstr_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
-                                 )
-      }
 
     ; str_vala = {
         data_source_module = Ast_helper
