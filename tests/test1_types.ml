@@ -49,6 +49,7 @@
         ; type_extension = Auto
         ; type_exception = Auto
         ; module_declaration = Auto
+        ; module_substitution = Auto
         }
       ; expand_types_per_constructor = [
           (Pexp_ident,
@@ -136,6 +137,7 @@
         ; extension_constructor = Parsetree
         ; extension_constructor_kind = Parsetree
         ; module_declaration = Parsetree
+        ; module_substitution = Parsetree
         }
       }
   ]

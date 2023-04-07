@@ -721,8 +721,8 @@ and signature_item i ppf x =
       module_type i ppf pmd.pmd_type
   | Psig_modsubst pms ->
       line i ppf "Psig_modsubst %a = %a\n"
-        fmt_string_loc pms.pms_name
-        fmt_longident_loc pms.pms_manifest;
+        fmt_string_vala_loc pms.pms_name
+        fmt_longident_vala_loc pms.pms_manifest;
       attributes i ppf pms.pms_attributes;
   | Psig_recmodule decls ->
       line i ppf "Psig_recmodule\n";

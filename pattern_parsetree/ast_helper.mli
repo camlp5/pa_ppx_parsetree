@@ -348,7 +348,7 @@ module Md:
 module Ms:
   sig
     val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?text:text ->
-      str -> lid -> module_substitution
+      str_vala -> lid_vala -> module_substitution
   end
 
 (** Module type declarations *)

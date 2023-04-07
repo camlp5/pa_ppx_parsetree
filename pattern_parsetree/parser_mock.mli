@@ -1031,6 +1031,7 @@ val xv_mkrhs_vala_constr_longident_ANTI_LONGID__ :
 val xv_mkrhs_vala_constr_ident_ANTI_UID__ : Ast_helper.str_vala
 val xv_mkrhs_vala_clty_longident_ANTI_LONGID__ :
   Longident.t Ast_helper.vala Asttypes.loc
+val xv_mkrhs_vala_UIDENT_ANTI_UID__ : Ast_helper.str_vala
 val xv_mkrhs_vala_LIDENT_ANTI_LID__ : Ast_helper.str_vala
 val xv_mkrhs_val_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_val_ident_vala_ : Ast_helper.str_vala
@@ -1039,7 +1040,7 @@ val xv_mkrhs_name_tag_ : Asttypes.label Ast_helper.with_loc
 val xv_mkrhs_module_name_ :
   string Ast_helper.vala option Ast_helper.vala Asttypes.loc
 val xv_mkrhs_mod_longident_ : Longident.t Asttypes.loc
-val xv_mkrhs_mod_ext_longident_ : Ast_helper.lid
+val xv_mkrhs_mod_ext_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_label_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_label_ : Asttypes.label Ast_helper.with_loc
 val xv_mkrhs_ident_ : Asttypes.label Asttypes.loc
@@ -1050,7 +1051,7 @@ val xv_mkrhs___anonymous_34_ : Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs___anonymous_33_ : Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs___anonymous_28_ : Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs___anonymous_27_ : Longident.t Ast_helper.vala Asttypes.loc
-val xv_mkrhs_UIDENT_ : Ast_helper.str
+val xv_mkrhs_UIDENT_ : string Location.loc
 val xv_mkrhs_LIDENT_ : Ast_helper.str
 val xv_mkpat_simple_pattern_not_ident__ : Parsetree.pattern
 val xv_mkpat___anonymous_35_ : Parsetree.pattern

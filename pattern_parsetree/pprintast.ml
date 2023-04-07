@@ -1154,8 +1154,8 @@ and signature_item ctxt f x : unit =
         (module_type ctxt) pmd.pmd_type
         (item_attributes ctxt) pmd.pmd_attributes
   | Psig_modsubst pms ->
-      pp f "@[<hov>module@ %s@ :=@ %a@]%a" pms.pms_name.txt
-        longident_loc pms.pms_manifest
+      pp f "@[<hov>module@ %s@ :=@ %a@]%a" (unvala pms.pms_name.txt)
+        longident_vala_loc pms.pms_manifest
         (item_attributes ctxt) pms.pms_attributes
   | Psig_open od ->
       pp f "@[<hov2>open%s@ %a@]%a"

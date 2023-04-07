@@ -875,8 +875,8 @@ and module_declaration =
 
 and module_substitution =
     {
-     pms_name: string loc;
-     pms_manifest: Longident.t loc;
+     pms_name: string Ploc.vala loc;
+     pms_manifest: Longident.t Ploc.vala loc;
      pms_attributes: attributes;  (** [... [\@\@id1] [\@\@id2]] *)
      pms_loc: Location.t;
     }

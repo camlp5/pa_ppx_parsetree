@@ -1951,9 +1951,9 @@ module_declaration_body:
 module_subst:
   MODULE
   ext = ext attrs1 = attributes
-  uid = mkrhs(UIDENT)
+  uid = mkrhs(vala(UIDENT, ANTI_UID))
   COLONEQUAL
-  body = mkrhs(mod_ext_longident)
+  body = mkrhs(vala(mod_ext_longident, ANTI_LONGID))
   attrs2 = post_item_attributes
   {
     let attrs = attrs1 @ attrs2 in
