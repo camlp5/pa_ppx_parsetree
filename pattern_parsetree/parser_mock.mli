@@ -141,6 +141,7 @@ type token =
   | ANTI_LID of string
   | ANTI_LETOP of string
   | ANTI_LABEL of string
+  | ANTI_ISCONST of string
   | ANTI_INT64 of string
   | ANTI_INT32 of string
   | ANTI_INT of string
@@ -613,6 +614,7 @@ val xv_vala_override_flag_ANTI_OVERRIDEFLAG_ :
 val xv_vala_option_UNDERSCORE__ANTI_CLOSEDFLAG_ : unit option Ast_helper.vala
 val xv_vala_opt_default_ANTI_EXPROPT_ :
   Parsetree.expression option Ast_helper.vala
+val xv_vala_opt_ampersand_ANTI_ISCONST_ : bool Ast_helper.vala
 val xv_vala_nonrec_flag_ANTI_NONRECFLAG_ : Asttypes.rec_flag Ast_helper.vala
 val xv_vala_nonempty_llist_labeled_simple_expr__ANTI_LIST_ :
   (Asttypes.arg_label * Parsetree.expression) list Ast_helper.vala
@@ -660,6 +662,8 @@ val xv_vala_bar_llist_extension_constructor__ANTI_LIST_ :
   Parsetree.extension_constructor list Ast_helper.vala
 val xv_vala_attributes_ANTI_ALGATTRS_ : Parsetree.attributes Ast_helper.vala
 val xv_vala_arg_label_ANTI_LABEL_ : Asttypes.arg_label Ast_helper.vala
+val xv_vala_amper_type_list_ANTI_LIST_ :
+  Parsetree.core_type list Ast_helper.vala
 val xv_vala_actual_type_parameters_ANTI_LIST_ :
   Parsetree.core_type list Ast_helper.vala
 val xv_vala_UIDENT_ANTI_UID_ : string Ast_helper.vala
@@ -901,6 +905,7 @@ val xv_parse_type_substitution : Parsetree.type_declaration
 val xv_parse_type_declaration : Parsetree.type_declaration
 val xv_parse_structure_item : Parsetree.structure_item
 val xv_parse_signature_item : Parsetree.signature_item
+val xv_parse_row_field : Parsetree.row_field
 val xv_parse_pattern : Parsetree.pattern
 val xv_parse_mty_longident : Longident.t
 val xv_parse_module_type : Parsetree.module_type
@@ -1042,7 +1047,8 @@ val xv_mkrhs_vala_LIDENT_ANTI_LID__ : Ast_helper.str_vala
 val xv_mkrhs_val_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_val_ident_vala_ : Ast_helper.str_vala
 val xv_mkrhs_type_longident_ : Ast_helper.lid
-val xv_mkrhs_name_tag_ : Asttypes.label Ast_helper.with_loc
+val xv_mkrhs_name_tag_vala_ :
+  Asttypes.label Ast_helper.vala Ast_helper.with_loc
 val xv_mkrhs_module_name_ :
   string Ast_helper.vala option Ast_helper.vala Asttypes.loc
 val xv_mkrhs_label_longident_ : Longident.t Asttypes.loc

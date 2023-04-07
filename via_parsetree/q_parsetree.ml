@@ -103,6 +103,9 @@ let parse_type_declaration s =
 let parse_type_substitution s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.type_substitution s
 
+let parse_row_field s =
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.row_field s
+
 [%%import: Reorg_parsetree.attribute]
 [@@deriving q_ast {
     default_data_source_module = Parsetree
@@ -232,6 +235,7 @@ let parse_type_substitution s =
     ; {name = "binding_op"; from_string = parse_binding_op ; type_name = binding_op }
     ; {name = "type_decl"; from_string = parse_type_declaration ; type_name = type_declaration }
     ; {name = "type_subst"; from_string = parse_type_substitution ; type_name = type_declaration }
+    ; {name = "row_field"; from_string = parse_row_field ; type_name = row_field }
     ]
  }]
 

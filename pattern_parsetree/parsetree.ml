@@ -183,7 +183,7 @@ and row_field = {
 }
 
 and row_field_desc =
-  | Rtag of label loc * bool * core_type list
+  | Rtag of label Ploc.vala loc * bool Ploc.vala * core_type list Ploc.vala
       (** [Rtag(`A, b, l)] represents:
            - [`A]                   when [b] is [true]  and [l] is [[]],
            - [`A of T]              when [b] is [false] and [l] is [[T]],

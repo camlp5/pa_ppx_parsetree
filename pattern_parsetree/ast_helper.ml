@@ -146,7 +146,8 @@ module Typ = struct
     and loop_row_field field =
       let prf_desc = match field.prf_desc with
         | Rtag(label,flag,lst) ->
-            Rtag(label,flag,List.map loop lst)
+           let lst = Pcaml.vala_map (List.map loop) lst in
+           Rtag(label,flag,lst)
         | Rinherit t ->
             Rinherit (loop t)
       in

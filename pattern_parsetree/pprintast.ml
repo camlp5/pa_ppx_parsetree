@@ -269,6 +269,7 @@ let private_flag f = function
   | Private -> pp f "private@ "
 
 let iter_loc f ctxt {txt; loc = _} = f ctxt txt
+let iter_vala_loc f ctxt {txt; loc = _} = f ctxt (unvala txt)
 
 let constant_string f s = pp f "%S" s
 
@@ -342,11 +343,11 @@ and core_type1 ctxt f x =
         let type_variant_helper f x =
           match x.prf_desc with
           | Rtag (l, _, ctl) ->
-              pp f "@[<2>%a%a@;%a@]" (iter_loc string_quot) l
+              pp f "@[<2>%a%a@;%a@]" (iter_vala_loc string_quot) l
                 (fun f l -> match l with
                    |[] -> ()
                    | _ -> pp f "@;of@;%a"
-                            (list (core_type ctxt) ~sep:"&")  ctl) ctl
+                            (list (core_type ctxt) ~sep:"&")  (unvala ctl)) (unvala ctl)
                 (attributes ctxt) x.prf_attributes
           | Rinherit ct -> core_type ctxt f ct in
         pp f "@[<2>[%a%a]@]"

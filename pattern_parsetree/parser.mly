@@ -807,6 +807,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_LETOP
 %token <string> ANTI_ATTRID
 %token <string> ANTI_CONSTANT
+%token <string> ANTI_ISCONST
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -934,6 +935,8 @@ The precedences must be listed from low to high.
 %type <Parsetree.structure_item> parse_structure_item
 %start parse_signature_item
 %type <Parsetree.signature_item> parse_signature_item
+%start parse_row_field
+%type <Parsetree.row_field> parse_row_field
 /* END AVOID */
 
 %type <Parsetree.expression list> expr_semi_list
@@ -1438,6 +1441,11 @@ parse_lident_vala_loc:
 
 parse_constant:
   constant EOF
+    { $1 }
+;
+
+parse_row_field:
+  row_field EOF
     { $1 }
 ;
 
@@ -3848,14 +3856,14 @@ row_field:
       { Rf.inherit_ ~loc:(make_loc $sloc) $1 }
 ;
 tag_field:
-    mkrhs(name_tag) OF opt_ampersand amper_type_list attributes
+    mkrhs(name_tag_vala) OF vala(opt_ampersand, ANTI_ISCONST) vala(amper_type_list, ANTI_LIST) attributes
       { let info = symbol_info $endpos in
         let attrs = add_info_attrs info $5 in
         Rf.tag ~loc:(make_loc $sloc) ~attrs $1 $3 $4 }
-  | mkrhs(name_tag) attributes
+  | mkrhs(name_tag_vala) attributes
       { let info = symbol_info $endpos in
         let attrs = add_info_attrs info $2 in
-        Rf.tag ~loc:(make_loc $sloc) ~attrs $1 true [] }
+        Rf.tag ~loc:(make_loc $sloc) ~attrs $1 (vaval true) (vaval[]) }
 ;
 opt_ampersand:
     AMPERSAND                                   { true }

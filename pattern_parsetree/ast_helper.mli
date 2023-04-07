@@ -494,7 +494,7 @@ module Rf:
   sig
     val mk: ?loc:loc -> ?attrs:attrs -> row_field_desc -> row_field
     val tag: ?loc:loc -> ?attrs:attrs ->
-      label with_loc -> bool -> core_type list -> row_field
+      label Ploc.vala with_loc -> bool Ploc.vala -> core_type list Ploc.vala -> row_field
     val inherit_: ?loc:loc -> core_type -> row_field
   end
 

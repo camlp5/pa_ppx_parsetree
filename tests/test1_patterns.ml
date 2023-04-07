@@ -39,6 +39,10 @@
 [@@@"ocaml.text" "core_type_desc";];
 [@@@"ocaml.text" "package_type";];
 [@@@"ocaml.text" "row_field";];
+<:row_field< ` $id:x$ of & $list:lx$ >> ;
+<:row_field< ` $id:x$ of $list:lx$ >> ;
+<:row_field< ` $id:x$ of $isconst:b$ $list:lx$ >> ;
+<:row_field< $x$ >> ;
 [@@@"ocaml.text" "row_field_desc";];
 [@@@"ocaml.text" "object_field";];
 [@@@"ocaml.text" "object_field_desc";];

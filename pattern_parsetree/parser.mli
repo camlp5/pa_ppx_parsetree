@@ -142,6 +142,7 @@ type token =
   | ANTI_LID of (string)
   | ANTI_LETOP of (string)
   | ANTI_LABEL of (string)
+  | ANTI_ISCONST of (string)
   | ANTI_INT64 of (string)
   | ANTI_INT32 of (string)
   | ANTI_INT of (string)
@@ -186,6 +187,8 @@ val parse_type_declaration: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parset
 val parse_structure_item: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.structure_item)
 
 val parse_signature_item: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.signature_item)
+
+val parse_row_field: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.row_field)
 
 val parse_pattern: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.pattern)
 

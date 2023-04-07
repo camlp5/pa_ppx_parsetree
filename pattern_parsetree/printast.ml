@@ -956,9 +956,9 @@ and label_x_expression i ppf (l,e) =
 and label_x_bool_x_core_type_list i ppf x =
   match x.prf_desc with
     Rtag (l, b, ctl) ->
-      line i ppf "Rtag \"%s\" %s\n" l.txt (string_of_bool b);
+      line i ppf "Rtag \"%s\" %s\n" (unvala l.txt) (string_of_bool (unvala b));
       attributes (i+1) ppf x.prf_attributes;
-      list (i+1) core_type ppf ctl
+      list (i+1) core_type ppf (unvala ctl)
   | Rinherit (ct) ->
       line i ppf "Rinherit\n";
       core_type (i+1) ppf ct
