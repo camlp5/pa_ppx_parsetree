@@ -937,6 +937,8 @@ The precedences must be listed from low to high.
 %type <Parsetree.signature_item> parse_signature_item
 %start parse_row_field
 %type <Parsetree.row_field> parse_row_field
+%start parse_object_field
+%type <Parsetree.object_field> parse_object_field
 /* END AVOID */
 
 %type <Parsetree.expression list> expr_semi_list
@@ -1446,6 +1448,13 @@ parse_constant:
 
 parse_row_field:
   row_field EOF
+    { $1 }
+;
+
+parse_object_field:
+  field EOF
+    { $1 }
+| inherit_field EOF
     { $1 }
 ;
 
@@ -3896,14 +3905,14 @@ meth_list:
       { [], Open }
 ;
 %inline field:
-  mkrhs(label) COLON poly_type_no_attr attributes
+  mkrhs(vala(label, ANTI_LID)) COLON poly_type_no_attr attributes
     { let info = symbol_info $endpos in
       let attrs = add_info_attrs info $4 in
       Of.tag ~loc:(make_loc $sloc) ~attrs $1 $3 }
 ;
 
 %inline field_semi:
-  mkrhs(label) COLON poly_type_no_attr attributes SEMI attributes
+  mkrhs(vala(label, ANTI_LID)) COLON poly_type_no_attr attributes SEMI attributes
     { let info =
         match rhs_info $endpos($4) with
         | Some _ as info_before_semi -> info_before_semi

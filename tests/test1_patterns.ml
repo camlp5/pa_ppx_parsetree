@@ -45,6 +45,8 @@
 <:row_field< $x$ >> ;
 [@@@"ocaml.text" "row_field_desc";];
 [@@@"ocaml.text" "object_field";];
+<:object_field< $lid:x$ : $x2$ >> ;
+<:object_field< $x$ >> ;
 [@@@"ocaml.text" "object_field_desc";];
 [@@@"ocaml.text" "pattern";];
 <:pattern< _ >> ;

@@ -371,7 +371,7 @@ and core_type1 ctxt f x =
         let core_field_type f x = match x.pof_desc with
           | Otag (l, ct) ->
             (* Cf #7200 *)
-            pp f "@[<hov2>%s: %a@ %a@ @]" l.txt
+            pp f "@[<hov2>%s: %a@ %a@ @]" (unvala l.txt)
               (core_type ctxt) ct (attributes ctxt) x.pof_attributes
           | Oinherit ct ->
             pp f "@[<hov2>%a@ @]" (core_type ctxt) ct

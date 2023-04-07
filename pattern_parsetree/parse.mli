@@ -45,6 +45,7 @@ val type_declaration : Lexing.lexbuf -> Parsetree.type_declaration
 val type_substitution : Lexing.lexbuf -> Parsetree.type_declaration
 val constant : Lexing.lexbuf -> Parsetree.constant
 val row_field : Lexing.lexbuf -> Parsetree.row_field
+val object_field : Lexing.lexbuf -> Parsetree.object_field
 
 (** The functions below can be used to parse Longident safely. *)
 

@@ -504,6 +504,6 @@ module Of:
     val mk: ?loc:loc -> ?attrs:attrs ->
       object_field_desc -> object_field
     val tag: ?loc:loc -> ?attrs:attrs ->
-      label with_loc -> core_type -> object_field
+      label Ploc.vala with_loc -> core_type -> object_field
     val inherit_: ?loc:loc -> core_type -> object_field
   end

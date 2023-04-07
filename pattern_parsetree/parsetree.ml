@@ -204,7 +204,7 @@ and object_field = {
 }
 
 and object_field_desc =
-  | Otag of label loc * core_type
+  | Otag of label Ploc.vala loc * core_type
   | Oinherit of core_type
 
 (** {2 Patterns} *)

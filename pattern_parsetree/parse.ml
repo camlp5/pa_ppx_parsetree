@@ -120,6 +120,7 @@ let simple_module_path = wrap Parser.parse_mod_longident
 let type_ident = wrap Parser.parse_mty_longident
 let constant = wrap Parser.parse_constant
 let row_field = wrap Parser.parse_row_field
+let object_field = wrap Parser.parse_object_field
 
 (* Error reporting for Syntaxerr *)
 (* The code has been moved here so that one can reuse Pprintast.tyvar *)

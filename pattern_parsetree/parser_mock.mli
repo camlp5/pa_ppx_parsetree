@@ -907,6 +907,7 @@ val xv_parse_structure_item : Parsetree.structure_item
 val xv_parse_signature_item : Parsetree.signature_item
 val xv_parse_row_field : Parsetree.row_field
 val xv_parse_pattern : Parsetree.pattern
+val xv_parse_object_field : Parsetree.object_field
 val xv_parse_mty_longident : Longident.t
 val xv_parse_module_type : Parsetree.module_type
 val xv_parse_module_expr : Parsetree.module_expr
@@ -1052,7 +1053,7 @@ val xv_mkrhs_name_tag_vala_ :
 val xv_mkrhs_module_name_ :
   string Ast_helper.vala option Ast_helper.vala Asttypes.loc
 val xv_mkrhs_label_longident_ : Longident.t Asttypes.loc
-val xv_mkrhs_label_ : Asttypes.label Ast_helper.with_loc
+val xv_mkrhs_label_ : Asttypes.label Asttypes.loc
 val xv_mkrhs_ident_vala_ : Ast_helper.str_vala
 val xv_mkrhs_ident_ : Asttypes.label Asttypes.loc
 val xv_mkrhs_constr_longident_ : Ast_helper.lid

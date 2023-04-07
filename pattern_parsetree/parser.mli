@@ -192,6 +192,8 @@ val parse_row_field: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.row
 
 val parse_pattern: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.pattern)
 
+val parse_object_field: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.object_field)
+
 val parse_mty_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longident.t)
 
 val parse_module_type: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.module_type)

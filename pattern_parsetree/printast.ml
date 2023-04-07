@@ -179,7 +179,7 @@ let rec core_type i ppf x =
       List.iter (fun field ->
         match field.pof_desc with
           | Otag (l, t) ->
-            line i ppf "method %s\n" l.txt;
+            line i ppf "method %s\n" (unvala l.txt);
             attributes i ppf field.pof_attributes;
             core_type (i + 1) ppf t
           | Oinherit ct ->
