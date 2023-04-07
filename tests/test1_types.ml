@@ -12,50 +12,68 @@
         ; Pmty_xtr
         ]
       ; test_types = [
-          expression
-        ; pattern
-        ; constant
-        ; core_type
+          arg_label
         ; attribute
-        ; extension
+        ; binding_op
         ; case
-        ; module_type
+        ; class_description
+        ; class_field
+        ; class_type_declaration
+        ; constant
+        ; constructor_declaration
+        ; core_type
+        ; expression
+        ; extension
+        ; extension_constructor
+        ; functor_parameter
+        ; label_declaration
+        ; module_declaration
         ; module_expr
+        ; module_type
+        ; object_field
+        ; pattern
+        ; row_field
         ; signature_item
         ; structure_item
+        ; type_declaration
+        ; value_binding
+        ; with_constraint
         ]
       ; default_expression = {
-          location_stack = []
-        ; attributes = []
+          attributes = []
+        ; location_stack = []
         }
       ; expand_types = {
-          expression_desc = Auto
-        ; pattern_desc = Auto
+          attribute = Auto
         ; core_type_desc = Auto
-        ; located = Auto
-        ; open_declaration = Auto
-        ; open_infos = Auto
-        ; letop = Auto
-        ; attribute = Auto
+        ; expression_desc = Auto
         ; extension = Auto
-        ; payload = Auto
-        ; package_type = Auto
-        ; module_type_desc = Auto
+        ; extension_constructor_kind = Auto
+        ; include_declaration = Auto
+        ; include_description = Auto
+        ; include_infos = Auto
+        ; letop = Auto
+        ; located = Auto
+        ; module_binding = Auto
+        ; module_declaration = Auto
         ; module_expr_desc = Auto
+        ; module_substitution = Auto
+        ; module_type_declaration = Auto
+        ; module_type_desc = Auto
+        ; object_field_desc = Auto
+        ; open_declaration = Auto
+        ; open_description = Auto
+        ; open_infos = Auto
+        ; open_infos = Auto
+        ; package_type = Auto
+        ; pattern_desc = Auto
+        ; payload = Auto
+        ; row_field_desc = Auto
         ; signature_item_desc = Auto
         ; structure_item_desc = Auto
-        ; value_description = Auto
-        ; type_extension = Auto
         ; type_exception = Auto
-        ; module_declaration = Auto
-        ; module_type_declaration = Auto
-        ; module_substitution = Auto
-        ; module_binding = Auto
-        ; open_infos = Auto
-        ; open_description = Auto
-        ; include_infos = Auto
-        ; include_description = Auto
-        ; include_declaration = Auto
+        ; type_extension = Auto
+        ; value_description = Auto
         }
       ; expand_types_per_constructor = [
           (Pexp_ident,
@@ -123,42 +141,56 @@
           ))
         ]
       ; type_module_map = {
-          constant = Parsetree
-        ; expression = Parsetree
-        ; expression_desc = Parsetree
-        ; pattern = Parsetree
-        ; pattern_desc = Parsetree
-        ; core_type = Parsetree
+          arg_label = Parsetree
+        ; attribute = Parsetree
+        ; binding_op = Parsetree
+        ; case = Parsetree
+        ; class_field = Parsetree
+        ; class_field_desc = Parsetree
+        ; class_structure = Parsetree
+        ; constant = Parsetree
+        ; constructor_declaration = Parsetree
         ; core_type_desc = Parsetree
+        ; core_type = Parsetree
+        ; direction_flag = Asttypes
+        ; expression_desc = Parsetree
+        ; expression = Parsetree
+        ; extension_constructor_kind = Parsetree
+        ; extension_constructor = Parsetree
+        ; extension = Parsetree
+        ; functor_parameter = Parsetree
+        ; include_infos = Parsetree
+        ; label_declaration = Parsetree
+        ; letop = Parsetree
         ; located = Location
         ; longident_t = Longident
-        ; direction_flag = Asttypes
-        ; class_structure = Parsetree
-        ; open_infos = Parsetree
-        ; letop = Parsetree
-        ; payload = Parsetree
-        ; attribute = Parsetree
-        ; extension = Parsetree
-        ; case = Parsetree
-        ; module_type = Parsetree
-        ; module_type_desc = Parsetree
-        ; module_expr = Parsetree
-        ; module_expr_desc = Parsetree
-        ; signature_item = Parsetree
-        ; signature_item_desc = Parsetree
-        ; structure_item = Parsetree
-        ; structure_item_desc = Parsetree
-        ; value_description = Parsetree
-        ; type_extension = Parsetree
-        ; type_exception = Parsetree
-        ; extension_constructor = Parsetree
-        ; extension_constructor_kind = Parsetree
-        ; module_declaration = Parsetree
-        ; module_type_declaration = Parsetree
-        ; module_substitution = Parsetree
         ; module_binding = Parsetree
+        ; module_declaration = Parsetree
+        ; module_expr_desc = Parsetree
+        ; module_expr = Parsetree
+        ; module_substitution = Parsetree
+        ; module_type_declaration = Parsetree
+        ; module_type_desc = Parsetree
+        ; module_type = Parsetree
+        ; object_field = Parsetree
+        ; object_field_desc = Parsetree
         ; open_infos = Parsetree
-        ; include_infos = Parsetree
+        ; open_infos = Parsetree
+        ; pattern_desc = Parsetree
+        ; pattern = Parsetree
+        ; payload = Parsetree
+        ; row_field = Parsetree
+        ; row_field_desc = Parsetree
+        ; signature_item_desc = Parsetree
+        ; signature_item = Parsetree
+        ; structure_item_desc = Parsetree
+        ; structure_item = Parsetree
+        ; type_declaration = Parsetree
+        ; type_exception = Parsetree
+        ; type_extension = Parsetree
+        ; value_binding = Parsetree
+        ; value_description = Parsetree
+        ; with_constraint = Parsetree
         }
       }
   ]
