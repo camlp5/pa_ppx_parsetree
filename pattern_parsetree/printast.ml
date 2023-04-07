@@ -745,10 +745,10 @@ and signature_item i ppf x =
       attributes i ppf incl.pincl_attributes
   | Psig_class (l) ->
       line i ppf "Psig_class\n";
-      list i class_description ppf l;
+      list i class_description ppf (unvala l);
   | Psig_class_type (l) ->
       line i ppf "Psig_class_type\n";
-      list i class_type_declaration ppf l;
+      list i class_type_declaration ppf (unvala l);
   | Psig_extension ((s, arg), attrs) ->
       line i ppf "Psig_extension \"%s\"\n" (unvala s.txt);
       attributes i ppf attrs;
@@ -857,10 +857,10 @@ and structure_item i ppf x =
       attributes i ppf od.popen_attributes
   | Pstr_class (l) ->
       line i ppf "Pstr_class\n";
-      list i class_declaration ppf l;
+      list i class_declaration ppf (unvala l);
   | Pstr_class_type (l) ->
       line i ppf "Pstr_class_type\n";
-      list i class_type_declaration ppf l;
+      list i class_type_declaration ppf (unvala l);
   | Pstr_include incl ->
       line i ppf "Pstr_include";
       attributes i ppf incl.pincl_attributes;

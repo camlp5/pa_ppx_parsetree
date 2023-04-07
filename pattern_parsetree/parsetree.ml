@@ -857,9 +857,9 @@ and signature_item_desc =
       (** [module type S :=  ...]  *)
   | Psig_open of open_description  (** [open X] *)
   | Psig_include of include_description  (** [include MT] *)
-  | Psig_class of class_description list
+  | Psig_class of class_description list Ploc.vala
       (** [class c1 : ... and ... and cn : ...] *)
-  | Psig_class_type of class_type_declaration list
+  | Psig_class_type of class_type_declaration list Ploc.vala
       (** [class type ct1 = ... and ... and ctn = ...] *)
   | Psig_attribute of attribute  (** [[\@\@\@id]] *)
   | Psig_extension of extension * attributes  (** [[%%id]] *)
@@ -1003,9 +1003,9 @@ and structure_item_desc =
       (** [module rec X1 = ME1 and ... and Xn = MEn] *)
   | Pstr_modtype of module_type_declaration  (** [module type S = MT] *)
   | Pstr_open of open_declaration  (** [open X] *)
-  | Pstr_class of class_declaration list
+  | Pstr_class of class_declaration list Ploc.vala
       (** [class c1 = ... and ... and cn = ...] *)
-  | Pstr_class_type of class_type_declaration list
+  | Pstr_class_type of class_type_declaration list Ploc.vala
       (** [class type ct1 = ... and ... and ctn = ...] *)
   | Pstr_include of include_declaration  (** [include ME] *)
   | Pstr_attribute of attribute  (** [[\@\@\@id]] *)

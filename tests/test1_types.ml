@@ -38,6 +38,7 @@
         ; open_declaration = Auto
         ; open_infos = Auto
         ; letop = Auto
+        ; attribute = Auto
         ; extension = Auto
         ; payload = Auto
         ; package_type = Auto

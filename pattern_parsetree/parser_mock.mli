@@ -1309,7 +1309,7 @@ val xv_constant : Parsetree.constant
 val xv_clty_longident : Longident.t
 val xv_class_type_declarations :
   string Ast_helper.vala Asttypes.loc option *
-  Parsetree.class_type_declaration list
+  Parsetree.class_type_declaration list Ast_helper.vala
 val xv_class_type_declaration :
   string Ast_helper.vala Asttypes.loc option *
   Parsetree.class_type_declaration
@@ -1333,12 +1333,12 @@ val xv_class_field : Parsetree.class_field
 val xv_class_expr : Parsetree.class_expr
 val xv_class_descriptions :
   string Ast_helper.vala Asttypes.loc option *
-  Parsetree.class_description list
+  Parsetree.class_description list Ast_helper.vala
 val xv_class_description :
   string Ast_helper.vala Asttypes.loc option * Parsetree.class_description
 val xv_class_declarations :
   string Ast_helper.vala Asttypes.loc option *
-  Parsetree.class_declaration list
+  Parsetree.class_declaration list Ast_helper.vala
 val xv_class_declaration :
   string Ast_helper.vala Asttypes.loc option * Parsetree.class_declaration
 val xv_bar_llist_extension_constructor_declaration_ :

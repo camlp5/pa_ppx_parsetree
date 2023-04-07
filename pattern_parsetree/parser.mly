@@ -2046,7 +2046,9 @@ module_type_subst:
 
 %inline class_declarations:
   xlist(class_declaration, and_class_declaration)
-    { $1 }
+    { let (a,b) = $1 in a, vaval b }
+| CLASS ANTI_LIST
+   { None, vaant $2 }
 ;
 %inline class_declaration:
   CLASS
@@ -2338,7 +2340,9 @@ constrain_field:
 (* A group of class descriptions. *)
 %inline class_descriptions:
   xlist(class_description, and_class_description)
-    { $1 }
+    { let (a,b) = $1 in a, vaval b }
+| CLASS ANTI_LIST
+    { None, vaant $2 }
 ;
 %inline class_description:
   CLASS
@@ -2377,7 +2381,9 @@ constrain_field:
 ;
 class_type_declarations:
   xlist(class_type_declaration, and_class_type_declaration)
-    { $1 }
+    { let (a,b) =  $1 in a,vaval b }
+| CLASS TYPE ANTI_LIST
+    { None, vaant $3 }
 ;
 %inline class_type_declaration:
   CLASS TYPE

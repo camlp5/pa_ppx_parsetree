@@ -1134,7 +1134,7 @@ and signature_item ctxt f x : unit =
           (class_type ctxt) x.pci_expr
           (item_attributes ctxt) x.pci_attributes
       in begin
-        match l with
+        match unvala l with
         | [] -> ()
         | [x] -> class_description "class" f x
         | x :: xs ->
@@ -1183,7 +1183,7 @@ and signature_item ctxt f x : unit =
       pp f "@[<hov2>module@ type@ %s@ :=@ %a@]%a"
         (unvala s.txt) (module_type ctxt) md
         (item_attributes ctxt) attrs
-  | Psig_class_type (l) -> class_type_declaration_list ctxt f l
+  | Psig_class_type (l) -> class_type_declaration_list ctxt f (unvala l)
   | Psig_recmodule decls ->
       let rec  string_x_module_type_list f ?(first=true) l =
         match l with
@@ -1435,7 +1435,7 @@ and structure_item ctxt f x =
           (class_expr ctxt) cl
           (item_attributes ctxt) x.pci_attributes
       in begin
-        match l with
+        match unvala l with
         | [] -> ()
         | [x] -> class_declaration "class" f x
         | x :: xs ->
@@ -1443,7 +1443,7 @@ and structure_item ctxt f x =
               (class_declaration "class") x
               (list ~sep:"@," (class_declaration "and")) xs
       end
-  | Pstr_class_type l -> class_type_declaration_list ctxt f l
+  | Pstr_class_type l -> class_type_declaration_list ctxt f (unvala l)
   | Pstr_primitive vd ->
       pp f "@[<hov2>external@ %a@ :@ %a@]%a"
         protect_ident (unvala vd.pval_name.txt)

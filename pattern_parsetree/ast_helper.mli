@@ -307,8 +307,8 @@ module Sig:
     val modtype_subst: ?loc:loc -> module_type_declaration -> signature_item
     val open_: ?loc:loc -> open_description -> signature_item
     val include_: ?loc:loc -> include_description -> signature_item
-    val class_: ?loc:loc -> class_description list -> signature_item
-    val class_type: ?loc:loc -> class_type_declaration list -> signature_item
+    val class_: ?loc:loc -> class_description list Ploc.vala -> signature_item
+    val class_type: ?loc:loc -> class_type_declaration list Ploc.vala -> signature_item
     val extension: ?loc:loc -> ?attrs:attrs -> extension -> signature_item
     val attribute: ?loc:loc -> attribute -> signature_item
     val text: text -> signature_item list
@@ -329,8 +329,8 @@ module Str:
     val rec_module: ?loc:loc -> module_binding list -> structure_item
     val modtype: ?loc:loc -> module_type_declaration -> structure_item
     val open_: ?loc:loc -> open_declaration -> structure_item
-    val class_: ?loc:loc -> class_declaration list -> structure_item
-    val class_type: ?loc:loc -> class_type_declaration list -> structure_item
+    val class_: ?loc:loc -> class_declaration list Ploc.vala -> structure_item
+    val class_type: ?loc:loc -> class_type_declaration list Ploc.vala -> structure_item
     val include_: ?loc:loc -> include_declaration -> structure_item
     val extension: ?loc:loc -> ?attrs:attrs -> extension -> structure_item
     val attribute: ?loc:loc -> attribute -> structure_item
