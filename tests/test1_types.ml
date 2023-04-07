@@ -55,6 +55,7 @@
         ; open_description = Auto
         ; include_infos = Auto
         ; include_description = Auto
+        ; include_declaration = Auto
         }
       ; expand_types_per_constructor = [
           (Pexp_ident,
