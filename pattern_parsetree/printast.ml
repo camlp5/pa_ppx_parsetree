@@ -208,7 +208,7 @@ let rec core_type i ppf x =
       line i ppf "Ptyp_poly%a\n" typevars (unvala sl);
       core_type i ppf ct;
   | Ptyp_package (s, l) ->
-      line i ppf "Ptyp_package %a\n" fmt_longident_vala_loc s;
+      line i ppf "Ptyp_package %a\n" fmt_longident_loc s;
       list i package_with ppf (unvala l);
   | Ptyp_extension (s, arg) ->
       line i ppf "Ptyp_extension \"%s\"\n" (unvala s.txt);
@@ -683,7 +683,7 @@ and module_type i ppf x =
   attributes i ppf x.pmty_attributes;
   let i = i+1 in
   match x.pmty_desc with
-  | Pmty_ident li -> line i ppf "Pmty_ident %a\n" fmt_longident_vala_loc li;
+  | Pmty_ident li -> line i ppf "Pmty_ident %a\n" fmt_longident_loc li;
   | Pmty_alias li -> line i ppf "Pmty_alias %a\n" fmt_longident_vala_loc li;
   | Pmty_signature (s) ->
       line i ppf "Pmty_signature\n";
@@ -790,11 +790,11 @@ and with_constraint i ppf x =
         fmt_longident_vala_loc lid2;
   | Pwith_modtype (lid1, mty) ->
       line i ppf "Pwith_modtype %a\n"
-        fmt_longident_vala_loc lid1;
+        fmt_longident_loc lid1;
       module_type (i+1) ppf mty
   | Pwith_modtypesubst (lid1, mty) ->
      line i ppf "Pwith_modtypesubst %a\n"
-        fmt_longident_vala_loc lid1;
+        fmt_longident_loc lid1;
       module_type (i+1) ppf mty
 
 and module_expr i ppf x =

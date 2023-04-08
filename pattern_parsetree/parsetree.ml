@@ -169,7 +169,7 @@ and core_type_desc =
   | Ptyp_package of package_type  (** [(module S)]. *)
   | Ptyp_extension of extension  (** [[%id]]. *)
 
-and package_type = Longident.t Ploc.vala loc * (Longident.t loc * core_type) list Ploc.vala
+and package_type = Longident.t loc * (Longident.t loc * core_type) list Ploc.vala
 (** As {!package_type} typed values:
          - [(S, [])] represents [(module S)],
          - [(S, [(t1, T1) ; ... ; (tn, Tn)])]
@@ -812,7 +812,7 @@ and module_type =
     }
 
 and module_type_desc =
-  | Pmty_ident of Longident.t Ploc.vala loc  (** [Pmty_ident(S)] represents [S] *)
+  | Pmty_ident of Longident.t loc  (** [Pmty_ident(S)] represents [S] *)
   | Pmty_signature of signature  (** [sig ... end] *)
   | Pmty_functor of functor_parameter Ploc.vala * module_type
       (** [functor(X : MT1) -> MT2] *)
@@ -943,9 +943,9 @@ and with_constraint =
             the name of the type_declaration. *)
   | Pwith_module of Longident.t Ploc.vala loc * Longident.t Ploc.vala loc
       (** [with module X.Y = Z] *)
-  | Pwith_modtype of Longident.t Ploc.vala loc * module_type
+  | Pwith_modtype of Longident.t loc * module_type
       (** [with module type X.Y = Z] *)
-  | Pwith_modtypesubst of Longident.t Ploc.vala loc * module_type
+  | Pwith_modtypesubst of Longident.t loc * module_type
       (** [with module type X.Y := sig end] *)
   | Pwith_typesubst of Longident.t loc * type_declaration Ploc.vala
       (** [with type X.t := ..., same format as [Pwith_type]] *)

@@ -101,6 +101,16 @@
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
           ]})
+        ; (Ptyp_package,
+           { longident_t = Explicit [
+                               Longident.Lident s
+                             ; Longident.Ldot (x, s)
+          ]})
+        ; (Pmty_ident,
+           { longident_t = Explicit [
+                               Longident.Lident s
+                             ; Longident.Ldot (x, s)
+          ]})
         ; (Pexp_field,
            { longident_t = Explicit [
                                Longident.Lident s
@@ -144,6 +154,21 @@
                              ; Longident.Ldot (x, s)
           ]})
         ; (Pwith_type,
+           { longident_t = Explicit [
+                               Longident.Lident s
+                             ; Longident.Ldot (x, s)
+          ]})
+        ; (Pwith_typesubst,
+           { longident_t = Explicit [
+                               Longident.Lident s
+                             ; Longident.Ldot (x, s)
+          ]})
+        ; (Pwith_modtype,
+           { longident_t = Explicit [
+                               Longident.Lident s
+                             ; Longident.Ldot (x, s)
+          ]})
+        ; (Pwith_modtypesubst,
            { longident_t = Explicit [
                                Longident.Lident s
                              ; Longident.Ldot (x, s)

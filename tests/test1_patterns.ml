@@ -29,7 +29,8 @@
 <:core_type< [ $closedflag:x$ $list:lx1$ $opt:olx2$ ] >> ;
 <:core_type< [< $list:lx1$ ] >> ;
 {Parsetree.ptyp_desc = Parsetree.Ptyp_poly lx x; Parsetree.ptyp_loc = __loc__; Parsetree.ptyp_loc_stack = []; Parsetree.ptyp_attributes = []};
-<:core_type< (module $longid:x$ with $list:xf2$) >>;
+<:core_type< (module $lid:s$ with $list:xf2$) >>;
+<:core_type< (module $longid:x$ . $lid:s$ with $list:xf2$) >>;
 <:core_type< [% $attrid:s$ $list:x$] >>;
 <:core_type< [% $attrid:s$ : $list:x$] >>;
 <:core_type< [% $attrid:s$ : $x$] >>;
@@ -311,7 +312,8 @@
 [@@@"ocaml.text" "class_field_kind";];
 [@@@"ocaml.text" "class_declaration";];
 [@@@"ocaml.text" "module_type";];
-<:module_type< $longid:x$ >>;
+<:module_type< $lid:s$ >>;
+<:module_type< $longid:x$ . $lid:s$ >>;
 <:module_type< sig $list:x$ end >>;
 <:module_type< functor $opt:x$ -> $mt$ >>;
 <:module_type< $mt$ with $list:lx$ >>;
@@ -379,9 +381,12 @@
 <:with_constraint< type $lid:s$ = $typedecl:x2$ >> ;
 <:with_constraint< type $longid:x$ . $lid:s$ = $typedecl:x2$ >> ;
 <:with_constraint< module $longid:x$ = $longid:x$ >> ;
-<:with_constraint< module type $longid:x$ = $mt$ >> ;
-<:with_constraint< module type $longid:x$ := $mt$ >> ;
+<:with_constraint< module type $lid:s$ = $mt$ >> ;
+<:with_constraint< module type $longid:x$ . $lid:s$ = $mt$ >> ;
+<:with_constraint< module type $lid:s$ := $mt$ >> ;
+<:with_constraint< module type $longid:x$ . $lid:s$ := $mt$ >> ;
 <:with_constraint< type $lid:s$ := $typedecl:x2$ >> ;
+<:with_constraint< type $longid:x$ . $lid:s$ := $typedecl:x2$ >> ;
 <:with_constraint< module $longid:x$ := $longid:x$ >> ;
 [@@@"ocaml.text" "module_expr";];
 <:module_expr< $longid:x$ >>;

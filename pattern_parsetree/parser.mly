@@ -1914,7 +1914,7 @@ module_type:
   | module_type attribute
       { Mty.attr $1 $2 }
   | mkmty(
-      mkrhs(vala(mty_longident, ANTI_LONGID))
+      mkrhs(mty_longident)
         { Pmty_ident $1 }
     | ANTI { Pmty_xtr (Location.mkloc $1 (make_loc $sloc)) }
     | module_type MINUSGREATER module_type
@@ -3748,9 +3748,9 @@ with_constraint:
       { Pwith_module ($2, $4) }
   | MODULE mkrhs(mod_longident_vala) COLONEQUAL mkrhs(mod_ext_longident_vala)
       { Pwith_modsubst ($2, $4) }
-  | MODULE TYPE l=mkrhs(vala(mty_longident, ANTI_LONGID)) EQUAL rhs=module_type
+  | MODULE TYPE l=mkrhs(mty_longident) EQUAL rhs=module_type
       { Pwith_modtype (l, rhs) }
-  | MODULE TYPE l=mkrhs(vala(mty_longident, ANTI_LONGID)) COLONEQUAL rhs=module_type
+  | MODULE TYPE l=mkrhs(mty_longident) COLONEQUAL rhs=module_type
       { Pwith_modtypesubst (l, rhs) }
 ;
 with_type_binder:
@@ -4188,7 +4188,7 @@ mod_ext_longident:
    vala(mod_ext_longident, ANTI_LONGID) { $1 }
 ;
 mty_longident:
-    mk_longident(mod_ext_longident_vala,vaval(ident)) { $1 }
+    mk_longident(mod_ext_longident_vala,ident_vala) { $1 }
 ;
 clty_longident:
     mk_longident(mod_ext_longident_vala,lident_vala) { $1 }
