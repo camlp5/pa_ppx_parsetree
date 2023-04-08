@@ -115,6 +115,9 @@ let parse_class_description s =
 let parse_class_expr s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.class_expr s
 
+let parse_class_type s =
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.class_type s
+
 [%%import: Reorg_parsetree.attribute]
 [@@deriving q_ast {
     default_data_source_module = Parsetree
@@ -264,6 +267,7 @@ let parse_class_expr s =
     ; {name = "object_field"; from_string = parse_object_field ; type_name = object_field }
     ; {name = "class_description"; from_string = parse_class_description ; type_name = class_description }
     ; {name = "class_expr"; from_string = parse_class_expr ; type_name = class_expr }
+    ; {name = "class_type"; from_string = parse_class_type ; type_name = class_type }
     ]
  }]
 

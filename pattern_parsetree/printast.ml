@@ -505,13 +505,13 @@ and class_type i ppf x =
   match x.pcty_desc with
   | Pcty_constr (li, l) ->
       line i ppf "Pcty_constr %a\n" fmt_longident_loc li;
-      list i core_type ppf l;
+      list i core_type ppf (unvala l);
   | Pcty_signature (cs) ->
       line i ppf "Pcty_signature\n";
       class_signature i ppf cs;
   | Pcty_arrow (l, co, cl) ->
       line i ppf "Pcty_arrow\n";
-      arg_label i ppf l;
+      arg_label i ppf (unvala l);
       core_type i ppf co;
       class_type i ppf cl;
   | Pcty_extension (s, arg) ->
@@ -525,7 +525,7 @@ and class_type i ppf x =
 and class_signature i ppf cs =
   line i ppf "class_signature\n";
   core_type (i+1) ppf cs.pcsig_self;
-  list (i+1) class_type_field ppf cs.pcsig_fields;
+  list (i+1) class_type_field ppf (unvala cs.pcsig_fields);
 
 and class_type_field i ppf x =
   line i ppf "class_type_field %a\n" fmt_location x.pctf_loc;

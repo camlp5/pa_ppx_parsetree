@@ -619,11 +619,11 @@ and class_type =
 
 and class_type_desc =
   | Pcty_xtr of string loc
-  | Pcty_constr of Longident.t loc * core_type list
+  | Pcty_constr of Longident.t loc * core_type list Ploc.vala
       (** - [c]
             - [['a1, ..., 'an] c] *)
   | Pcty_signature of class_signature  (** [object ... end] *)
-  | Pcty_arrow of arg_label * core_type * class_type
+  | Pcty_arrow of arg_label Ploc.vala * core_type * class_type
       (** [Pcty_arrow(lbl, T, CT)] represents:
             - [T -> CT]
                      when [lbl] is {{!Asttypes.arg_label.Nolabel}[Nolabel]},
@@ -638,7 +638,7 @@ and class_type_desc =
 and class_signature =
     {
      pcsig_self: core_type;
-     pcsig_fields: class_type_field list;
+     pcsig_fields: class_type_field list Ploc.vala;
     }
 (** Values of type [class_signature] represents:
     - [object('selfpat) ... end]

@@ -947,6 +947,8 @@ The precedences must be listed from low to high.
 %type <Parsetree.class_description> parse_class_description
 %start parse_class_expr
 %type <Parsetree.class_expr> parse_class_expr
+%start parse_class_type
+%type <Parsetree.class_type> parse_class_type
 /* END AVOID */
 
 %type <Parsetree.expression list> expr_semi_list
@@ -1473,6 +1475,11 @@ parse_class_description:
 
 parse_class_expr:
   class_expr EOF
+    { $1 }
+;
+
+parse_class_type:
+  class_type EOF
     { $1 }
 ;
 
@@ -2295,7 +2302,7 @@ class_type:
     class_signature
       { $1 }
   | mkcty(
-      label = arg_label
+      label = vala(arg_label, ANTI_LABEL)
       domain = tuple_type
       MINUSGREATER
       codomain = class_type
@@ -2304,7 +2311,7 @@ class_type:
  ;
 class_signature:
     mkcty(
-      tys = actual_class_parameters cid = mkrhs(clty_longident)
+      tys = vala(actual_class_parameters, ANTI_LIST) cid = mkrhs(clty_longident)
         { Pcty_constr (cid, tys) }
     | extension
         { Pcty_extension $1 }
@@ -2333,7 +2340,7 @@ class_signature:
     { tys }
 ;
 %inline class_sig_body:
-    class_self_type extra_csig(class_sig_fields)
+    class_self_type vala(extra_csig(class_sig_fields), ANTI_LIST)
       { Csig.mk $1 $2 }
 ;
 class_self_type:
@@ -4094,7 +4101,7 @@ mty_longident:
     mk_longident(vala(mod_ext_longident, ANTI_LONGID),vaval(ident)) { $1 }
 ;
 clty_longident:
-    mk_longident(vala(mod_ext_longident, ANTI_LONGID),vaval(LIDENT)) { $1 }
+    mk_longident(vala(mod_ext_longident, ANTI_LONGID),vala(LIDENT, ANTI_LID)) { $1 }
 ;
 class_longident:
    mk_longident(vala(mod_longident, ANTI_LONGID),vala(LIDENT, ANTI_LID)) { $1 }

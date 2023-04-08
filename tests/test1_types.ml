@@ -21,6 +21,7 @@
         ; class_description
         ; class_expr
         ; class_field
+        ; class_type
         ; class_type_declaration
         ; constant
         ; constructor_declaration
@@ -51,7 +52,9 @@
         ; constructor_arguments = Auto
         ; class_expr_desc = Auto
         ; class_infos = Auto
+        ; class_signature = Auto
         ; class_structure = Auto
+        ; class_type_desc = Auto
         ; core_type_desc = Auto
         ; expression_desc = Auto
         ; extension = Auto
@@ -131,6 +134,11 @@
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
           ]})
+        ; (Pcty_constr,
+           { longident_t = Explicit [
+                               Longident.Lident s
+                             ; Longident.Ldot (x, s)
+          ]})
         ]
       ; per_constructor_expansion = [
           (Pconst_integer, Explicit [
@@ -168,8 +176,10 @@
         ; class_field = Parsetree
         ; class_field_desc = Parsetree
         ; class_infos = Parsetree
+        ; class_signature = Parsetree
         ; class_structure = Parsetree
         ; class_type = Parsetree
+        ; class_type_desc = Parsetree
         ; constant = Parsetree
         ; constructor_arguments = Parsetree
         ; constructor_declaration = Parsetree

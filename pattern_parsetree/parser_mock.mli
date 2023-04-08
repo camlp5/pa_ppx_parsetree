@@ -577,7 +577,6 @@ val xv_vaval_constraints_ :
 val xv_vaval_constr_extra_ident_ : string Ast_helper.vala
 val xv_vaval_class_self_pattern_ : Parsetree.pattern Ast_helper.vala
 val xv_vaval_class_longident_ : Longident.t Ast_helper.vala
-val xv_vaval_LIDENT_ : string Ast_helper.vala
 val xv_vaval_LETOP_ : string Ast_helper.vala
 val xv_vaval_ANDOP_ : string Ast_helper.vala
 val xv_value_type :
@@ -656,6 +655,8 @@ val xv_vala_formal_class_parameters_ANTI_LIST_ :
   Ast_helper.vala
 val xv_vala_extra_cstr_class_fields__ANTI_LIST_ :
   Parsetree.class_field list Ast_helper.vala
+val xv_vala_extra_csig_class_sig_fields__ANTI_LIST_ :
+  Parsetree.class_type_field list Ast_helper.vala
 val xv_vala_expr_semi_list_ANTI_LIST_ :
   Parsetree.expression list Ast_helper.vala
 val xv_vala_direction_flag_ANTI_DIRFLAG_ :
@@ -940,6 +941,7 @@ val xv_parse_core_type : Parsetree.core_type
 val xv_parse_constructor_declaration : Parsetree.constructor_declaration
 val xv_parse_constr_longident : Longident.t
 val xv_parse_constant : Parsetree.constant
+val xv_parse_class_type : Parsetree.class_type
 val xv_parse_class_expr : Parsetree.class_expr
 val xv_parse_class_description : Parsetree.class_description
 val xv_parse_binding_op : Parsetree.binding_op
@@ -1119,8 +1121,6 @@ val xv_mk_longident_vala_mod_longident_ANTI_LONGID__vala_LIDENT_ANTI_LID__ :
 val xv_mk_longident_vala_mod_longident_ANTI_LONGID__val_ident_vala_ :
   Longident.t
 val xv_mk_longident_vala_mod_ext_longident_ANTI_LONGID__vaval_ident__ :
-  Longident.t
-val xv_mk_longident_vala_mod_ext_longident_ANTI_LONGID__vaval_LIDENT__ :
   Longident.t
 val xv_mk_longident_vala_mod_ext_longident_ANTI_LONGID__vala_UIDENT_ANTI_UID__ :
   Longident.t

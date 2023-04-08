@@ -394,9 +394,9 @@ module Cty:
     val mk: ?loc:loc -> ?attrs:attrs -> class_type_desc -> class_type
     val attr: class_type -> attribute -> class_type
 
-    val constr: ?loc:loc -> ?attrs:attrs -> lid -> core_type list -> class_type
+    val constr: ?loc:loc -> ?attrs:attrs -> lid -> core_type list Ploc.vala -> class_type
     val signature: ?loc:loc -> ?attrs:attrs -> class_signature -> class_type
-    val arrow: ?loc:loc -> ?attrs:attrs -> arg_label -> core_type ->
+    val arrow: ?loc:loc -> ?attrs:attrs -> arg_label Ploc.vala -> core_type ->
       class_type -> class_type
     val extension: ?loc:loc -> ?attrs:attrs -> extension -> class_type
     val open_: ?loc:loc -> ?attrs:attrs -> open_description -> class_type
@@ -480,7 +480,7 @@ module Ci:
 (** Class signatures *)
 module Csig:
   sig
-    val mk: core_type -> class_type_field list -> class_signature
+    val mk: core_type -> class_type_field list Ploc.vala -> class_signature
   end
 
 (** Class structures *)

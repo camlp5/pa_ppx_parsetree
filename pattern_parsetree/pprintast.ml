@@ -897,7 +897,7 @@ and class_signature ctxt f { pcsig_self = ct; pcsig_fields = l ;_} =
     (fun f -> function
          {ptyp_desc=Ptyp_any; ptyp_attributes=[]; _} -> ()
        | ct -> pp f " (%a)" (core_type ctxt) ct) ct
-    (list (class_type_field ctxt) ~sep:"@;") l
+    (list (class_type_field ctxt) ~sep:"@;") (unvala l)
 
 (* call [class_signature] called by [class_signature] *)
 and class_type ctxt f x =
@@ -909,12 +909,12 @@ and class_type ctxt f x =
       pp f "%a%a%a"
         (fun f l -> match l with
            | [] -> ()
-           | _  -> pp f "[%a]@ " (list (core_type ctxt) ~sep:"," ) l) l
+           | _  -> pp f "[%a]@ " (list (core_type ctxt) ~sep:"," ) l) (unvala l)
         longident_loc li
         (attributes ctxt) x.pcty_attributes
   | Pcty_arrow (l, co, cl) ->
       pp f "@[<2>%a@;->@;%a@]" (* FIXME remove parens later *)
-        (type_with_label ctxt) (l,co)
+        (type_with_label ctxt) (unvala l,co)
         (class_type ctxt) cl
   | Pcty_extension e ->
       extension ctxt f e;

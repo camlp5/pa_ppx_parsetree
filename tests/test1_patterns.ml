@@ -222,6 +222,16 @@
 [@@@"ocaml.text" "type_exception";];
 [@@@"ocaml.text" "extension_constructor_kind";];
 [@@@"ocaml.text" "class_type";];
+<:class_type< $list:lx$ $lid:s$ >> ;
+<:class_type< $list:lx$ $longid:x$ . $lid:s$ >> ;
+<:class_type< object ($x$) $list:lx$ end >> ;
+<:class_type< $label:x1$ $x2$ -> $ct$ >> ;
+<:class_type< [% $attrid:s$ $list:x$] >>;
+<:class_type< [% $attrid:s$ : $list:x$] >>;
+<:class_type< [% $attrid:s$ : $x$] >>;
+<:class_type< [% $attrid:s$ ? $x1$] >>;
+<:class_type< [% $attrid:s$ ? $x1$ when $x2$] >>;
+<:class_type< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
 [@@@"ocaml.text" "class_type_desc";];
 [@@@"ocaml.text" "class_signature";];
 [@@@"ocaml.text" "class_type_field";];
