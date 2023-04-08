@@ -405,6 +405,7 @@
 <:structure_item< [%% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
 [@@@"ocaml.text" "structure_item_desc";];
 [@@@"ocaml.text" "value_binding";];
+<:value_binding< $x1$ = $x2$ >> ;
 [@@@"ocaml.text" "module_binding";];
 [@@@"ocaml.text" "position";];
 [@@@"ocaml.text" "location";];
