@@ -1695,7 +1695,7 @@ structure_item:
     | TYPE
       ext = ext
       attrs1 = attributes
-      nr = vala(nonrec_flag, ANTI_NONRECFLAG)
+      nr = nonrec_flag_vala
       l = ANTI_LIST
       { assert (ext = None) ;
         assert (attrs1 = []) ;
@@ -1966,7 +1966,7 @@ signature_item:
     | TYPE
       ext = ext
       attrs1 = attributes
-      nr = vala(nonrec_flag, ANTI_NONRECFLAG)
+      nr = nonrec_flag_vala
       l = ANTI_LIST
       { assert (ext = None) ;
         assert (attrs1 = []) ;
@@ -2145,7 +2145,7 @@ module_type_subst:
   CLASS
   ext = ext
   attrs1 = attributes
-  virt = vala(virtual_flag, ANTI_VIRTUAL)
+  virt = virtual_flag_vala
   params = vala(formal_class_parameters, ANTI_LIST)
   id = mkrhs(lident_vala)
   body = class_fun_binding
@@ -2161,7 +2161,7 @@ module_type_subst:
 %inline and_class_declaration:
   AND
   attrs1 = attributes
-  virt = vala(virtual_flag, ANTI_VIRTUAL)
+  virt = virtual_flag_vala
   params = vala(formal_class_parameters, ANTI_LIST)
   id = mkrhs(lident_vala)
   body = class_fun_binding
@@ -2295,9 +2295,9 @@ value:
     mutable_ = vala(virtual_with_mutable_flag, ANTI_MUTABLE)
     label = mkrhs(label_vala) COLON ty = core_type
       { (label, mutable_, Cfk_virtual ty), attrs }
-  | override_flag_vala attributes vala(mutable_flag, ANTI_MUTABLE) mkrhs(label_vala) EQUAL seq_expr
+  | override_flag_vala attributes mutable_flag_vala mkrhs(label_vala) EQUAL seq_expr
       { ($4, $3, Cfk_concrete ($1, $6)), $2 }
-  | override_flag_vala attributes vala(mutable_flag, ANTI_MUTABLE) mkrhs(label_vala) type_constraint
+  | override_flag_vala attributes mutable_flag_vala mkrhs(label_vala) type_constraint
     EQUAL seq_expr
       { let e = mkexp_constraint ~loc:$sloc $7 $5 in
         ($4, $3, Cfk_concrete ($1, e)), $2
@@ -2309,18 +2309,18 @@ method_:
     private_ = vala(virtual_with_private_flag, ANTI_PRIV)
     label = mkrhs(label_vala) COLON ty = poly_type
       { (label, private_, Cfk_virtual ty), attrs }
-  | vaval(override_flag) attributes vala(private_flag, ANTI_PRIV) mkrhs(label_vala) strict_binding
+  | vaval(override_flag) attributes private_flag_vala mkrhs(label_vala) strict_binding
       { let e = $5 in
         let loc = Location.(e.pexp_loc.loc_start, e.pexp_loc.loc_end) in
         ($4, $3,
         Cfk_concrete ($1, ghexp ~loc (Pexp_poly (e, None)))), $2 }
-  | vaval(override_flag) attributes vala(private_flag, ANTI_PRIV) mkrhs(label_vala)
+  | vaval(override_flag) attributes private_flag_vala mkrhs(label_vala)
     COLON poly_type EQUAL seq_expr
       { let poly_exp =
           let loc = ($startpos($6), $endpos($8)) in
           ghexp ~loc (Pexp_poly($8, Some $6)) in
         ($4, $3, Cfk_concrete ($1, poly_exp)), $2 }
-  | vaval(override_flag) attributes vala(private_flag, ANTI_PRIV) mkrhs(label_vala) COLON TYPE lident_list
+  | vaval(override_flag) attributes private_flag_vala mkrhs(label_vala) COLON TYPE lident_list
     DOT core_type EQUAL seq_expr
       { let poly_exp_loc = ($startpos($7), $endpos($11)) in
         let poly_exp =
@@ -2332,7 +2332,7 @@ method_:
           ghexp ~loc:poly_exp_loc (Pexp_poly(exp, Some poly)) in
         ($4, $3,
         Cfk_concrete ($1, poly_exp)), $2 }
-  | ANTI_OVERRIDEFLAG vala(private_flag, ANTI_PRIV) mkrhs(label_vala) EQUAL ANTI
+  | ANTI_OVERRIDEFLAG private_flag_vala mkrhs(label_vala) EQUAL ANTI
      {
        let e = mkexp ~loc:$sloc (Pexp_xtr (Location.mkloc $5 (make_loc $sloc))) in
        (($3, $2, Cfk_concrete(vaant $1, e)), [])
@@ -2460,7 +2460,7 @@ constrain_field:
   CLASS
   ext = ext
   attrs1 = attributes
-  virt = vala(virtual_flag, ANTI_VIRTUAL)
+  virt = virtual_flag_vala
   params = vala(formal_class_parameters, ANTI_LIST)
   id = mkrhs(lident_vala)
   COLON
@@ -2477,7 +2477,7 @@ constrain_field:
 %inline and_class_description:
   AND
   attrs1 = attributes
-  virt = vala(virtual_flag, ANTI_VIRTUAL)
+  virt = virtual_flag_vala
   params = vala(formal_class_parameters, ANTI_LIST)
   id = mkrhs(lident_vala)
   COLON
@@ -2501,7 +2501,7 @@ class_type_declarations:
   CLASS TYPE
   ext = ext
   attrs1 = attributes
-  virt = vala(virtual_flag, ANTI_VIRTUAL)
+  virt = virtual_flag_vala
   params = vala(formal_class_parameters, ANTI_LIST)
   id = mkrhs(lident_vala)
   EQUAL
@@ -2518,7 +2518,7 @@ class_type_declarations:
 %inline and_class_type_declaration:
   AND
   attrs1 = attributes
-  virt = vala(virtual_flag, ANTI_VIRTUAL)
+  virt = virtual_flag_vala
   params = vala(formal_class_parameters, ANTI_LIST)
   id = mkrhs(lident_vala)
   EQUAL
@@ -3388,7 +3388,7 @@ primitive_declaration:
    sign, whereas in the second case, we expect [COLONEQUAL]. *)
 
 %inline type_declarations:
-  generic_type_declarations(vala(nonrec_flag, ANTI_NONRECFLAG), type_kind)
+  generic_type_declarations(nonrec_flag_vala, type_kind)
     { $1 }
 ;
 
@@ -3645,12 +3645,12 @@ label_declarations:
   | label_declaration_semi label_declarations   { $1 :: $2 }
 ;
 label_declaration:
-    vala(mutable_flag, ANTI_MUTABLE) mkrhs(label_vala) COLON vala(poly_type_no_attr, ANTI_TYP) attributes
+    mutable_flag_vala mkrhs(label_vala) COLON vala(poly_type_no_attr, ANTI_TYP) attributes
       { let info = symbol_info $endpos in
         Type.field $2 $4 ~mut:$1 ~attrs:$5 ~loc:(make_loc $sloc) ~info }
 ;
 label_declaration_semi:
-    vala(mutable_flag, ANTI_MUTABLE) mkrhs(label_vala) COLON vala(poly_type_no_attr, ANTI_TYP) attributes SEMI attributes
+    mutable_flag_vala mkrhs(label_vala) COLON vala(poly_type_no_attr, ANTI_TYP) attributes SEMI attributes
       { let info =
           match rhs_info $endpos($5) with
           | Some _ as info_before_semi -> info_before_semi
@@ -3677,7 +3677,7 @@ label_declaration_semi:
   params = vala(type_parameters, ANTI_LIST)
   tid = mkrhs(type_longident)
   PLUSEQ
-  priv = vala(private_flag, ANTI_PRIV)
+  priv = private_flag_vala
   cs = vala(bar_llist(declaration), ANTI_LIST)
   attrs2 = post_item_attributes
     { let docs = symbol_docs $sloc in
@@ -4256,6 +4256,9 @@ rec_flag:
     /* empty */                                 { Recursive }
   | NONREC                                      { Nonrecursive }
 ;
+%inline nonrec_flag_vala:
+   vala(nonrec_flag, ANTI_NONRECFLAG) { $1 }
+;
 %inline no_nonrec_flag:
     /* empty */ { Recursive }
 /* BEGIN AVOID */
@@ -4270,6 +4273,9 @@ private_flag:
   inline_private_flag
     { $1 }
 ;
+%inline private_flag_vala:
+   vala(private_flag, ANTI_PRIV) { $1 }
+;
 %inline inline_private_flag:
     /* empty */                                 { Public }
   | PRIVATE                                     { Private }
@@ -4278,9 +4284,15 @@ mutable_flag:
     /* empty */                                 { Immutable }
   | MUTABLE                                     { Mutable }
 ;
+%inline mutable_flag_vala:
+   vala(mutable_flag, ANTI_MUTABLE) { $1 }
+;
 virtual_flag:
     /* empty */                                 { Concrete }
   | VIRTUAL                                     { Virtual }
+;
+%inline virtual_flag_vala:
+   vala(virtual_flag, ANTI_VIRTUAL) { $1 }
 ;
 mutable_virtual_flags:
     /* empty */
