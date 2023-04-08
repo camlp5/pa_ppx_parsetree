@@ -2345,7 +2345,7 @@ class_type:
     class_signature
       { $1 }
   | mkcty(
-      label = vala(arg_label, ANTI_LABEL)
+      label = arg_label_vala
       domain = tuple_type
       MINUSGREATER
       codomain = class_type
@@ -2746,7 +2746,7 @@ expr:
       { Pexp_ifthenelse($3, $5, vaval None), $2 }
   | WHILE ext_attributes seq_expr DO seq_expr DONE
       { Pexp_while($3, $5), $2 }
-  | FOR ext_attributes pattern EQUAL seq_expr vala(direction_flag, ANTI_DIRFLAG) seq_expr DO
+  | FOR ext_attributes pattern EQUAL seq_expr direction_flag_vala seq_expr DO
     seq_expr DONE
       { Pexp_for($3, $5, $7, $6, $9), $2 }
   | ASSERT ext_attributes simple_expr %prec below_HASH
@@ -2931,7 +2931,7 @@ labeled_simple_expr:
     { xs }
 ;
 %inline let_ident:
-    vala(val_ident, ANTI_LID) { mkpatvar ~loc:$sloc $1 }
+    val_ident_vala { mkpatvar ~loc:$sloc $1 }
 ;
 let_binding_body_no_punning:
     let_ident strict_binding
@@ -2969,7 +2969,7 @@ let_binding_body:
   | let_binding_body_no_punning
       { let p,e = $1 in (p,e,false) }
 /* BEGIN AVOID */
-  | vala(val_ident, ANTI_LID) %prec below_HASH
+  | val_ident_vala %prec below_HASH
       { (mkpatvar ~loc:$loc $1, mkexpvar ~loc:$loc $1, true) }
   (* The production that allows puns is marked so that [make list-parse-errors]
      does not attempt to exploit it. That would be problematic because it
@@ -2989,7 +2989,7 @@ let_bindings(EXT):
   | LET
     ext = EXT
     attrs1 = attributes
-    rec_flag = vala(rec_flag, ANTI_RECFLAG)
+    rec_flag = rec_flag_vala
     list = vaant(ANTI_LIST)
     {
       match (ext, attrs1) with
@@ -3003,7 +3003,7 @@ let_bindings(EXT):
   LET
   ext = EXT
   attrs1 = attributes
-  rec_flag = vala(rec_flag, ANTI_RECFLAG)
+  rec_flag = rec_flag_vala
   body = let_binding_body
   attrs2 = post_item_attributes
     {
@@ -3024,7 +3024,7 @@ and_let_binding:
 letop_binding_body:
     pat = let_ident exp = strict_binding
       { (pat, exp) }
-  | vala(val_ident, ANTI_LID)
+  | val_ident_vala
       (* Let-punning *)
       { (mkpatvar ~loc:$loc $1, mkexpvar ~loc:$loc $1) }
   | pat = simple_pattern COLON typ = core_type EQUAL exp = seq_expr
@@ -3181,7 +3181,7 @@ pattern_no_exn:
   | pattern_gen
       { $1 }
   | mkpat(
-      self AS mkrhs(vala(val_ident, ANTI_LID))
+      self AS mkrhs(val_ident_vala)
         { Ppat_alias($1, $3) }
     | self AS error
         { expecting $loc($3) "identifier" }
@@ -3218,7 +3218,7 @@ pattern_gen:
       { mkpat_attrs ~loc:$sloc (Ppat_lazy $3) $2}
 ;
 simple_pattern:
-    mkpat(mkrhs(vala(val_ident, ANTI_LID)) %prec below_EQUAL
+    mkpat(mkrhs(val_ident_vala) %prec below_EQUAL
       { Ppat_var ($1) })
       { $1 }
   | simple_pattern_not_ident { $1 }
@@ -3833,7 +3833,7 @@ function_type:
     %prec MINUSGREATER
       { ty }
   | mktyp(
-      label = vala(arg_label, ANTI_LABEL)
+      label = arg_label_vala
       domain = extra_rhs(tuple_type)
       MINUSGREATER
       codomain = function_type
@@ -3848,6 +3848,9 @@ function_type:
       { Labelled label }
   | /* empty */
       { Nolabel }
+;
+%inline arg_label_vala:
+   vala(arg_label, ANTI_LABEL) { $1 }
 ;
 (* Tuple types include:
    - atomic types (see below);
@@ -4089,10 +4092,15 @@ val_ident:
     LIDENT                    { $1 }
   | val_extra_ident           { $1 }
 ;
+%inline val_ident_vala:
+   vala(val_ident, ANTI_LID) { $1 }
+;
+/*
 val_ident_vala:
     lident_vala    { $1 }
   | val_extra_ident           { vaval $1 }
 ;
+*/
 operator:
     PREFIXOP                                    { $1 }
   | LETOP                                       { $1 }
@@ -4252,6 +4260,9 @@ rec_flag:
     /* empty */                                 { Nonrecursive }
   | REC                                         { Recursive }
 ;
+%inline rec_flag_vala:
+   vala(rec_flag, ANTI_RECFLAG) { $1 }
+;
 %inline nonrec_flag:
     /* empty */                                 { Recursive }
   | NONREC                                      { Nonrecursive }
@@ -4268,6 +4279,9 @@ rec_flag:
 direction_flag:
     TO                                          { Upto }
   | DOWNTO                                      { Downto }
+;
+%inline direction_flag_vala:
+   vala(direction_flag, ANTI_DIRFLAG) { $1 }
 ;
 private_flag:
   inline_private_flag

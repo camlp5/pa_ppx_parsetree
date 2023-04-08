@@ -884,6 +884,7 @@ val xv_rec_module_bindings :
   Parsetree.module_binding list Ast_helper.vala
 val xv_rec_module_binding :
   string Ast_helper.vala Asttypes.loc option * Parsetree.module_binding
+val xv_rec_flag_vala : Asttypes.rec_flag Ast_helper.vala
 val xv_rec_flag : Asttypes.rec_flag
 val xv_raw_string : string
 val xv_qualified_dotop : Longident.t Ast_helper.vala option * string
@@ -1058,8 +1059,6 @@ val xv_mkrhs_vaval_class_longident__ :
   Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vaval_LETOP__ : string Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vaval_ANDOP__ : string Ast_helper.vala Asttypes.loc
-val xv_mkrhs_vala_val_ident_ANTI_LID__ :
-  Asttypes.label Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_ident_ANTI_LID__ :
   Asttypes.label Ast_helper.vala Asttypes.loc
 val xv_mkrhs_val_longident_ : Longident.t Asttypes.loc
@@ -1321,6 +1320,7 @@ val xv_expr_attrs :
 val xv_expr_ : Parsetree.expression_desc
 val xv_expr : Parsetree.expression
 val xv_epsilon : unit
+val xv_direction_flag_vala : Asttypes.direction_flag Ast_helper.vala
 val xv_direction_flag : Asttypes.direction_flag
 val xv_core_type_no_attr : Parsetree.core_type
 val xv_core_type_declaration_type_subst_kind_ : Parsetree.type_declaration
@@ -1386,6 +1386,7 @@ val xv_attributes : Parsetree.attributes
 val xv_attribute : Parsetree.attribute
 val xv_attr_id : string Ast_helper.vala Asttypes.loc
 val xv_atomic_type : Parsetree.core_type
+val xv_arg_label_vala : Asttypes.arg_label Ast_helper.vala
 val xv_arg_label : Asttypes.arg_label
 val xv_append_text_str_SEMISEMI_optional_structure_standalone_expression_ :
   Parsetree.structure_item list
