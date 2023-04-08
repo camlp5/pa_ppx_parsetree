@@ -106,6 +106,11 @@
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
           ]})
+        ; (Ptyp_class,
+           { longident_t = Explicit [
+                               Longident.Lident s
+                             ; Longident.Ldot (x, s)
+          ]})
         ; (Ptyp_constr,
            { longident_t = Explicit [
                                Longident.Lident s

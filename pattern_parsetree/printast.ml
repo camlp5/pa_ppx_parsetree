@@ -199,7 +199,7 @@ let rec core_type i ppf x =
               core_type (i + 1) ppf ct
       ) (unvala l)
   | Ptyp_class (li, l) ->
-      line i ppf "Ptyp_class %a\n" fmt_longident_vala_loc li;
+      line i ppf "Ptyp_class %a\n" fmt_longident_loc li;
       list i core_type ppf (unvala l)
   | Ptyp_alias (ct, s) ->
       line i ppf "Ptyp_alias \"%s\"\n" (unvala s);

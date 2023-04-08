@@ -3901,7 +3901,7 @@ atomic_type:
         { Ptyp_object (vaval [], vaval Closed) }
     | tys = vala(actual_type_parameters, ANTI_LIST)
       HASH
-      cid = mkrhs(vala(clty_longident, ANTI_LONGID))
+      cid = mkrhs(clty_longident)
         { Ptyp_class(cid, tys) }
     | LBRACKET tag_field RBRACKET
         (* not row_field; see CONFLICTS *)

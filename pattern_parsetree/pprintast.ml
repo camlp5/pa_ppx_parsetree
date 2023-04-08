@@ -399,7 +399,7 @@ and core_type1 ctxt f x =
     | Ptyp_class (li, l) ->   (*FIXME*)
         pp f "@[<hov2>%a#%a@]"
           (list (core_type ctxt) ~sep:"," ~first:"(" ~last:")") (unvala l)
-          longident_vala_loc li
+          longident_loc li
     | Ptyp_package (lid, cstrs) ->
         let aux f (s, ct) =
           pp f "type %a@ =@ %a" longident_loc s (core_type ctxt) ct  in

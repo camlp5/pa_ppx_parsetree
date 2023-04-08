@@ -90,7 +90,7 @@ module Typ :
     val constr: ?loc:loc -> ?attrs:attrs -> lid -> core_type list Ploc.vala -> core_type
     val object_: ?loc:loc -> ?attrs:attrs -> object_field list Ploc.vala
                    -> closed_flag Ploc.vala -> core_type
-    val class_: ?loc:loc -> ?attrs:attrs -> lid_vala -> core_type list Ploc.vala -> core_type
+    val class_: ?loc:loc -> ?attrs:attrs -> lid -> core_type list Ploc.vala -> core_type
     val alias: ?loc:loc -> ?attrs:attrs -> core_type -> string Ploc.vala -> core_type
     val variant: ?loc:loc -> ?attrs:attrs -> row_field list Ploc.vala -> closed_flag Ploc.vala
                  -> label list Ploc.vala option Ploc.vala -> core_type

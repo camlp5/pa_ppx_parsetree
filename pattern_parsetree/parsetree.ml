@@ -116,7 +116,7 @@ and core_type_desc =
             - [< l1:T1; ...; ln:Tn; .. >] when [flag] is
                                            {{!Asttypes.closed_flag.Open}[Open]}.
          *)
-  | Ptyp_class of Longident.t Ploc.vala loc * core_type list Ploc.vala
+  | Ptyp_class of Longident.t loc * core_type list Ploc.vala
       (** [Ptyp_class(tconstr, l)] represents:
             - [#tconstr]               when [l=[]],
             - [T #tconstr]             when [l=[T]],

@@ -23,7 +23,8 @@
 <:core_type< $list:lx$ $lid:s$ >> ;
 <:core_type< $list:lx$ $longid:x$ . $lid:s$ >> ;
 <:core_type< < $list:lx$ $closedflag:x$ > >> ;
-<:core_type< $list:lx$ # $longid:x$ >> ;
+<:core_type< $list:lx$ # $lid:s$ >> ;
+<:core_type< $list:lx$ # $longid:x$ . $lid:s$ >> ;
 <:core_type< $x$ as ' $lid:s$ >> ;
 <:core_type< [ $closedflag:x$ $list:lx1$ $opt:None$ ] >> ;
 <:core_type< [ $closedflag:x$ $list:lx1$ > $list:lx2$ ] >> ;
