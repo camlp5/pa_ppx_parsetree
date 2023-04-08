@@ -601,7 +601,7 @@ let package_type_of_module_type pmty =
         assert (ptyp.ptype_kind = Ptype_abstract);
         assert (ptyp.ptype_attributes = []);
         let ty =
-          match ptyp.ptype_manifest with
+          match unvala ptyp.ptype_manifest with
           | Some (Ploc.VaVal ty) -> ty
           | None -> assert false
         in
@@ -3329,14 +3329,14 @@ primitive_declaration:
   params = vala(type_parameters, ANTI_LIST)
   id = mkrhs(vala(LIDENT, ANTI_LID))
   kind_priv_manifest = kind
-  cstrs = vaval(constraints)
+  cstrs = vala(constraints, ANTI_LIST)
   attrs2 = post_item_attributes
     {
       let (kind, priv, manifest) = kind_priv_manifest in
       let docs = symbol_docs $sloc in
       let attrs = attrs2 in
       let loc = make_loc $sloc in
-      Type.mk id ~params ~cstrs ~kind ~priv ?manifest ~attrs ~loc ~docs
+      Type.mk id ~params ~cstrs ~kind ~priv ~manifest ~attrs ~loc ~docs
     }
 ;
 
@@ -3361,7 +3361,7 @@ primitive_declaration:
       let attrs = attrs1 @ attrs2 in
       let loc = make_loc $sloc in
       (flag, ext),
-      Type.mk id ~params ~cstrs ~kind ~priv ?manifest ~attrs ~loc ~docs
+      Type.mk id ~params ~cstrs ~kind ~priv ~manifest ~attrs ~loc ~docs
     }
 ;
 %inline generic_and_type_declaration(kind):
@@ -3378,7 +3378,7 @@ primitive_declaration:
       let attrs = attrs1 @ attrs2 in
       let loc = make_loc $sloc in
       let text = symbol_text $symbolstartpos in
-      Type.mk id ~params ~cstrs ~kind ~priv ?manifest ~attrs ~loc ~docs ~text
+      Type.mk id ~params ~cstrs ~kind ~priv ~manifest ~attrs ~loc ~docs ~text
     }
 ;
 %inline constraints:
@@ -3392,7 +3392,7 @@ primitive_declaration:
 nonempty_type_kind:
   | priv = vala(inline_private_flag, ANTI_PRIV)
     ty = vala(core_type, ANTI_TYP)
-      { (Ptype_abstract, priv, Some ty) }
+      { (Ptype_abstract, priv, vaval (Some ty)) }
   | oty = type_synonym
     priv = vala(inline_private_flag,  ANTI_PRIV)
     cs = vala(constructor_declarations, ANTI_CONSTRUCTORLIST)
@@ -3408,11 +3408,13 @@ nonempty_type_kind:
 ;
 %inline type_synonym:
   ioption(terminated(vala(core_type, ANTI_TYP), EQUAL))
-    { $1 }
+    { vaval $1 }
+| ANTI_OPT
+    { vaant $1 }
 ;
 type_kind:
     /*empty*/
-      { (Ptype_abstract, vaval Public, None) }
+      { (Ptype_abstract, vaval Public, vaval None) }
   | EQUAL nonempty_type_kind
       { $2 }
 ;
@@ -3630,7 +3632,7 @@ with_constraint:
            (Type.mk (loc_map vaval lident)
               ~params:$2
               ~cstrs:$6
-              ~manifest:(vaval $5)
+              ~manifest:(vaval (Some (vaval $5)))
               ~priv:(vaval $4)
               ~loc:(make_loc $sloc))) }
     /* used label_longident instead of type_longident to disallow
@@ -3642,7 +3644,7 @@ with_constraint:
          ($3,
            (Type.mk (loc_map vaval lident)
               ~params:$2
-              ~manifest:(vaval $5)
+              ~manifest:(vaval (Some (vaval $5)))
               ~loc:(make_loc $sloc))) }
   | MODULE mkrhs(vala(mod_longident, ANTI_LONGID)) EQUAL mkrhs(vala(mod_ext_longident, ANTI_LONGID))
       { Pwith_module ($2, $4) }

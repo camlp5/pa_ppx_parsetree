@@ -540,7 +540,7 @@ module Type = struct
       ?(cstrs = Ploc.VaVal [])
       ?(kind = Ptype_abstract)
       ?(priv = Ploc.VaVal Public)
-      ?manifest
+      ~manifest
       name =
     {
      ptype_name = name;

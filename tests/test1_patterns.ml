@@ -175,6 +175,39 @@
 <:binding_op< $lid:s$ $x2$ = $x3$ >> ;
 [@@@"ocaml.text" "value_description";];
 [@@@"ocaml.text" "type_declaration";];
+<:type_decl< $list:lxxx$ $lid:s$ = private $constructorlist:lx$ $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $x4$ = private $constructorlist:lx$ $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $opt:ox4$ private $constructorlist:lx$ $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $constructorlist:lx$ $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $x4$ = $constructorlist:lx$ $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $opt:ox4$ $constructorlist:lx$ $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $priv:x3$ $constructorlist:lx$ $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $x4$ = $priv:x3$ $constructorlist:lx$ $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $opt:ox4$ $priv:x3$ $constructorlist:lx$ $list:lxxl$ >> ;
+
+<:type_decl< $list:lxxx$ $lid:s$ = private { $list:lx$ } $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $x4$ = private { $list:lx$ } $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $opt:ox4$ private { $list:lx$ } $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = { $list:lx$ } $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $x4$ = { $list:lx$ } $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $opt:ox4$ { $list:lx$ } $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $priv:x3$ { $list:lx$ } $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $x4$ = $priv:x3$ { $list:lx$ } $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $opt:ox4$ $priv:x3$ { $list:lx$ } $list:lxxl$ >> ;
+
+<:type_decl< $list:lxxx$ $lid:s$ = private .. $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $x4$ = private .. $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $opt:ox4$ private .. $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = .. $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $x4$ = .. $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $opt:ox4$ .. $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $priv:x3$ .. $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $x4$ = $priv:x3$ .. $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $opt:ox4$ $priv:x3$ .. $list:lxxl$ >> ;
+
+(*
+<:type_decl< $list:lxxx$ $lid:s$ = $constructorlist:l$ $list:lxxl$ >> ;
+ *)
 [@@@"ocaml.text" "type_kind";];
 [@@@"ocaml.text" "label_declaration";];
 [@@@"ocaml.text" "constructor_declaration";];

@@ -423,7 +423,7 @@ and type_declaration i ppf x =
   type_kind (i+1) ppf x.ptype_kind;
   line i ppf "ptype_private = %a\n" fmt_private_flag (unvala x.ptype_private);
   line i ppf "ptype_manifest =\n";
-  option (i+1) core_type ppf (Option.map unvala x.ptype_manifest)
+  option (i+1) core_type ppf (Option.map unvala (unvala x.ptype_manifest))
 
 and attribute i ppf k a =
   line i ppf "%s \"%s\"\n" k (unvala a.attr_name.txt);

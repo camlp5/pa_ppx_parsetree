@@ -652,6 +652,9 @@ val xv_vala_direction_flag_ANTI_DIRFLAG_ :
 val xv_vala_core_type_ANTI_TYP_ : Parsetree.core_type Ast_helper.vala
 val xv_vala_constructor_declarations_ANTI_CONSTRUCTORLIST_ :
   Parsetree.constructor_declaration list Ast_helper.vala
+val xv_vala_constraints_ANTI_LIST_ :
+  (Parsetree.core_type * Parsetree.core_type * Ast_helper.loc) list
+  Ast_helper.vala
 val xv_vala_constr_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_constr_ident_ANTI_UID_ : string Ast_helper.vala
 val xv_vala_constant_ANTI_CONSTANT_ : Parsetree.constant Ast_helper.vala
@@ -683,10 +686,11 @@ val xv_typevar_list : Ast_helper.str_vala list
 val xv_typevar : Asttypes.label Ast_helper.vala Asttypes.loc
 val xv_type_variance : Asttypes.variance * Asttypes.injectivity
 val xv_type_variable : Parsetree.core_type
-val xv_type_synonym : Parsetree.core_type Ast_helper.vala option
+val xv_type_synonym :
+  Parsetree.core_type Ast_helper.vala option Ast_helper.vala
 val xv_type_subst_kind :
   Parsetree.type_kind * Asttypes.private_flag Ast_helper.vala *
-  Parsetree.core_type Ast_helper.vala option
+  Parsetree.core_type Ast_helper.vala option Ast_helper.vala
 val xv_type_subst_declarations :
   (Asttypes.rec_flag * string Ast_helper.vala Asttypes.loc option) *
   Parsetree.type_declaration list Ast_helper.vala
@@ -697,7 +701,7 @@ val xv_type_parameter :
 val xv_type_longident : Longident.t
 val xv_type_kind :
   Parsetree.type_kind * Asttypes.private_flag Ast_helper.vala *
-  Parsetree.core_type Ast_helper.vala option
+  Parsetree.core_type Ast_helper.vala option Ast_helper.vala
 val xv_type_extension_extension_constructor_declaration_ :
   Parsetree.type_extension * string Ast_helper.vala Asttypes.loc option
 val xv_type_extension_extension_constructor_ :
@@ -967,7 +971,7 @@ val xv_object_expr_content :
 val xv_nonrec_flag : Asttypes.rec_flag
 val xv_nonempty_type_kind :
   Parsetree.type_kind * Asttypes.private_flag Ast_helper.vala *
-  Parsetree.core_type Ast_helper.vala option
+  Parsetree.core_type Ast_helper.vala option Ast_helper.vala
 val xv_nonempty_llist_typevar_ : Ast_helper.str_vala list
 val xv_nonempty_llist_name_tag_ : Asttypes.label list
 val xv_nonempty_llist_labeled_simple_expr_ :

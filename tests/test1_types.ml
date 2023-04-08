@@ -73,7 +73,13 @@
         ; structure_item_desc = Auto
         ; type_exception = Auto
         ; type_extension = Auto
+        ; type_kind = Auto
         ; value_description = Auto
+        }
+      ; expand_types_per_type = {
+          type_declaration = {
+            private_flag = Auto
+          }
         }
       ; expand_types_per_constructor = [
           (Pexp_ident,
@@ -179,6 +185,7 @@
         ; pattern_desc = Parsetree
         ; pattern = Parsetree
         ; payload = Parsetree
+        ; private_flag = Asttypes
         ; row_field = Parsetree
         ; row_field_desc = Parsetree
         ; signature_item_desc = Parsetree
@@ -188,6 +195,7 @@
         ; type_declaration = Parsetree
         ; type_exception = Parsetree
         ; type_extension = Parsetree
+        ; type_kind = Parsetree
         ; value_binding = Parsetree
         ; value_description = Parsetree
         ; with_constraint = Parsetree
