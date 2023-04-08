@@ -1460,7 +1460,7 @@ parse_binding_op:
 ;
 
 parse_lident_vala_loc:
-  mkloc(vala(LIDENT, ANTI_LID)) EOF
+  mkloc(lident_vala) EOF
     { $1 }
 ;
 
@@ -1550,7 +1550,7 @@ module_name:
 ;
 %inline module_name_:
     (* A named argument. *)
-    x = vala(UIDENT, ANTI_UID)
+    x = uident_vala
       { Some x }
   | (* An anonymous argument. *)
     UNDERSCORE
@@ -1583,7 +1583,7 @@ module_expr:
       { Mod.attr me attr }
   | mkmod(
       (* A module identifier. *)
-      x = mkrhs(vala(mod_longident, ANTI_LONGID))
+      x = mkrhs(mod_longident_vala)
         { Pmod_ident x }
     | ANTI { Pmod_xtr (Location.mkloc $1 (make_loc $sloc)) }
     | (* In a functor application, the actual argument must be parenthesized. *)
@@ -1872,7 +1872,7 @@ open_description:
   override = override_flag_vala
   ext = ext
   attrs1 = attributes
-  id = mkrhs(vala(mod_ext_longident, ANTI_LONGID))
+  id = mkrhs(mod_ext_longident_vala)
   attrs2 = post_item_attributes
   {
     let attrs = attrs1 @ attrs2 in
@@ -1882,7 +1882,7 @@ open_description:
   }
 ;
 
-%inline open_dot_declaration: mkrhs(vala(mod_longident, ANTI_LONGID))
+%inline open_dot_declaration: mkrhs(mod_longident_vala)
   { let loc = make_loc $loc($1) in
     let me = Mod.ident ~loc $1 in
     Opn.mk ~loc me }
@@ -2047,16 +2047,16 @@ module_declaration_body:
   }
 ;
 %inline module_expr_alias:
-  id = mkrhs(vala(mod_longident, ANTI_LONGID))
+  id = mkrhs(mod_longident_vala)
     { Mty.alias ~loc:(make_loc $sloc) id }
 ;
 (* A module substitution (in a signature). *)
 module_subst:
   MODULE
   ext = ext attrs1 = attributes
-  uid = mkrhs(vala(UIDENT, ANTI_UID))
+  uid = mkrhs(uident_vala)
   COLONEQUAL
-  body = mkrhs(vala(mod_ext_longident, ANTI_LONGID))
+  body = mkrhs(mod_ext_longident_vala)
   attrs2 = post_item_attributes
   {
     let attrs = attrs1 @ attrs2 in
@@ -2147,7 +2147,7 @@ module_type_subst:
   attrs1 = attributes
   virt = vala(virtual_flag, ANTI_VIRTUAL)
   params = vala(formal_class_parameters, ANTI_LIST)
-  id = mkrhs(vala(LIDENT, ANTI_LID))
+  id = mkrhs(lident_vala)
   body = class_fun_binding
   attrs2 = post_item_attributes
   {
@@ -2163,7 +2163,7 @@ module_type_subst:
   attrs1 = attributes
   virt = vala(virtual_flag, ANTI_VIRTUAL)
   params = vala(formal_class_parameters, ANTI_LIST)
-  id = mkrhs(vala(LIDENT, ANTI_LID))
+  id = mkrhs(lident_vala)
   body = class_fun_binding
   attrs2 = post_item_attributes
   {
@@ -2202,7 +2202,7 @@ class_expr:
       { wrap_class_attrs ~loc:$sloc $3 $2 }
   | let_bindings(no_ext) IN class_expr
       { class_of_let_bindings ~loc:$sloc $1 $3 }
-  | LET OPEN override_flag_vala attributes mkrhs(vala(mod_longident, ANTI_LONGID)) IN class_expr
+  | LET OPEN override_flag_vala attributes mkrhs(mod_longident_vala) IN class_expr
       { let loc = ($startpos($2), $endpos($5)) in
         let od = Opn.mk ~override:$3 ~loc:(make_loc loc) $5 in
         mkclass ~loc:$sloc ~attrs:$4 (Pcl_open(od, $7)) }
@@ -2264,7 +2264,7 @@ class_self_pattern:
 ;
 class_field:
   | INHERIT override_flag_vala attributes class_expr
-    self = vala(preceded(AS, mkrhs(vala(LIDENT, ANTI_LID)))?, ANTI_OPT)
+    self = vala(preceded(AS, mkrhs(lident_vala))?, ANTI_OPT)
     post_item_attributes
       { let docs = symbol_docs $sloc in
         mkcf ~loc:$sloc (Pcf_inherit ($2, $4, self)) ~attrs:($3@$6) ~docs }
@@ -2365,7 +2365,7 @@ class_signature:
       { unclosed "object" $loc($1) "end" $loc($4) }
   | class_signature attribute
       { Cty.attr $1 $2 }
-  | LET OPEN override_flag_vala attributes mkrhs(vala(mod_longident, ANTI_LONGID)) IN class_signature
+  | LET OPEN override_flag_vala attributes mkrhs(mod_longident_vala) IN class_signature
       { let loc = ($startpos($2), $endpos($5)) in
         let od = Opn.mk ~override:$3 ~loc:(make_loc loc) $5 in
         mkcty ~loc:$sloc ~attrs:$4 (Pcty_open(od, $7)) }
@@ -2462,7 +2462,7 @@ constrain_field:
   attrs1 = attributes
   virt = vala(virtual_flag, ANTI_VIRTUAL)
   params = vala(formal_class_parameters, ANTI_LIST)
-  id = mkrhs(vala(LIDENT, ANTI_LID))
+  id = mkrhs(lident_vala)
   COLON
   cty = class_type
   attrs2 = post_item_attributes
@@ -2479,7 +2479,7 @@ constrain_field:
   attrs1 = attributes
   virt = vala(virtual_flag, ANTI_VIRTUAL)
   params = vala(formal_class_parameters, ANTI_LIST)
-  id = mkrhs(vala(LIDENT, ANTI_LID))
+  id = mkrhs(lident_vala)
   COLON
   cty = class_type
   attrs2 = post_item_attributes
@@ -2503,7 +2503,7 @@ class_type_declarations:
   attrs1 = attributes
   virt = vala(virtual_flag, ANTI_VIRTUAL)
   params = vala(formal_class_parameters, ANTI_LIST)
-  id = mkrhs(vala(LIDENT, ANTI_LID))
+  id = mkrhs(lident_vala)
   EQUAL
   csig = class_signature
   attrs2 = post_item_attributes
@@ -2520,7 +2520,7 @@ class_type_declarations:
   attrs1 = attributes
   virt = vala(virtual_flag, ANTI_VIRTUAL)
   params = vala(formal_class_parameters, ANTI_LIST)
-  id = mkrhs(vala(LIDENT, ANTI_LID))
+  id = mkrhs(lident_vala)
   EQUAL
   csig = class_signature
   attrs2 = post_item_attributes
@@ -2573,7 +2573,7 @@ labeled_simple_pattern:
 
 pattern_var:
   mkpat(
-      mkrhs(vala(LIDENT, ANTI_LID))     { Ppat_var $1 }
+      mkrhs(lident_vala)     { Ppat_var $1 }
     | UNDERSCORE        { Ppat_any }
   ) { $1 }
 ;
@@ -2761,9 +2761,9 @@ expr:
       { Pexp_tuple $1 }
   | expr_comma_list %prec below_COMMA
       { Pexp_tuple(vaval($1)) }
-  | mkrhs(vala(constr_longident, ANTI_LONGID)) simple_expr %prec below_HASH
+  | mkrhs(constr_longident_vala) simple_expr %prec below_HASH
       { Pexp_construct($1, vaval(Some $2)) }
-  | mkrhs(vala(constr_longident, ANTI_LONGID)) vaant(ANTI_EXPROPT) %prec below_HASH
+  | mkrhs(constr_longident_vala) vaant(ANTI_EXPROPT) %prec below_HASH
       { Pexp_construct($1, $2) }
   | name_tag_vala simple_expr %prec below_HASH
       { Pexp_variant($1, vaval(Some $2)) }
@@ -2826,7 +2826,7 @@ simple_expr:
   | ANTI { Pexp_xtr (Location.mkloc $1 (make_loc $sloc)) }
   | vala(constant, ANTI_CONSTANT)
       { Pexp_constant $1 }
-  | mkrhs(vala(constr_longident, ANTI_LONGID)) %prec prec_constant_constructor
+  | mkrhs(constr_longident_vala) %prec prec_constant_constructor
       { Pexp_construct($1, vaval None) }
   | name_tag_vala %prec prec_constant_constructor
       { Pexp_variant($1, vaval None) }
@@ -2927,7 +2927,7 @@ labeled_simple_expr:
       { (Optional (vaval $1), $2) }
 ;
 %inline lident_list:
-  xs = mkrhs(vala(LIDENT, ANTI_LID))+
+  xs = mkrhs(lident_vala)+
     { xs }
 ;
 %inline let_ident:
@@ -3202,12 +3202,12 @@ pattern_gen:
     simple_pattern
       { $1 }
   | mkpat(
-      mkrhs(vala(constr_longident, ANTI_LONGID)) pattern %prec prec_constr_appl
+      mkrhs(constr_longident_vala) pattern %prec prec_constr_appl
         { Ppat_construct($1, vaval(Some (vaval [], $2))) }
-    | constr=mkrhs(vala(constr_longident, ANTI_LONGID)) LPAREN TYPE newtypes=vala(lident_list, ANTI_LIST) RPAREN
+    | constr=mkrhs(constr_longident_vala) LPAREN TYPE newtypes=vala(lident_list, ANTI_LIST) RPAREN
         pat=simple_pattern
         { Ppat_construct(constr, vaval(Some (newtypes, pat))) }
-    | constr=mkrhs(vala(constr_longident, ANTI_LONGID)) pattopt = ANTI_PATTOPT
+    | constr=mkrhs(constr_longident_vala) pattopt = ANTI_PATTOPT
         { Ppat_construct(constr, vaant pattopt) }
     | name_tag_vala pattern %prec prec_constr_appl
         { Ppat_variant($1, vaval(Some $2)) }
@@ -3246,21 +3246,21 @@ simple_pattern_not_ident:
       { Ppat_constant $1 }
   | vala(signed_constant, ANTI_CONSTANT) DOTDOT vala(signed_constant, ANTI_CONSTANT)
       { Ppat_interval ($1, $3) }
-  | mkrhs(vala(constr_longident, ANTI_LONGID))
+  | mkrhs(constr_longident_vala)
       { Ppat_construct($1, vaval None) }
   | name_tag_vala
       { Ppat_variant($1, vaval None) }
   | HASH mkrhs(vala(type_longident, ANTI_LONGID))
       { Ppat_type ($2) }
-  | mkrhs(vala(mod_longident, ANTI_LONGID)) DOT simple_delimited_pattern
+  | mkrhs(mod_longident_vala) DOT simple_delimited_pattern
       { Ppat_open($1, $3) }
-  | mkrhs(vala(mod_longident, ANTI_LONGID)) DOT ANTI
+  | mkrhs(mod_longident_vala) DOT ANTI
       { Ppat_open($1, mkpat ~loc:$sloc (Ppat_xtr (Location.mkloc $3 (make_loc $sloc)))) }
-  | mkrhs(vala(mod_longident, ANTI_LONGID)) DOT mkrhs(LBRACKET RBRACKET {vaval(Lident (vaval "[]"))})
+  | mkrhs(mod_longident_vala) DOT mkrhs(LBRACKET RBRACKET {vaval(Lident (vaval "[]"))})
     { Ppat_open($1, mkpat ~loc:$sloc (Ppat_construct($3, vaval None))) }
-  | mkrhs(vala(mod_longident, ANTI_LONGID)) DOT mkrhs(LPAREN RPAREN {vaval(Lident (vaval "()"))})
+  | mkrhs(mod_longident_vala) DOT mkrhs(LPAREN RPAREN {vaval(Lident (vaval "()"))})
     { Ppat_open($1, mkpat ~loc:$sloc (Ppat_construct($3, vaval None))) }
-  | mkrhs(vala(mod_longident, ANTI_LONGID)) DOT LPAREN pattern RPAREN
+  | mkrhs(mod_longident_vala) DOT LPAREN pattern RPAREN
       { Ppat_open ($1, $4) }
   | mod_longident DOT LPAREN pattern error
       { unclosed "(" $loc($3) ")" $loc($5)  }
@@ -3411,7 +3411,7 @@ primitive_declaration:
 
 %inline core_type_declaration(kind):
   params = vala(type_parameters, ANTI_LIST)
-  id = mkrhs(vala(LIDENT, ANTI_LID))
+  id = mkrhs(lident_vala)
   kind_priv_manifest = kind
   cstrs = vala(constraints, ANTI_LIST)
   attrs2 = post_item_attributes
@@ -3435,7 +3435,7 @@ primitive_declaration:
   attrs1 = attributes
   flag = flag
   params = vala(type_parameters, ANTI_LIST)
-  id = mkrhs(vala(LIDENT, ANTI_LID))
+  id = mkrhs(lident_vala)
   kind_priv_manifest = kind
   cstrs = vaval(constraints)
   attrs2 = post_item_attributes
@@ -3452,7 +3452,7 @@ primitive_declaration:
   AND
   attrs1 = attributes
   params = vala(type_parameters, ANTI_LIST)
-  id = mkrhs(vala(LIDENT, ANTI_LID))
+  id = mkrhs(lident_vala)
   kind_priv_manifest = kind
   cstrs = vaval(constraints)
   attrs2 = post_item_attributes
@@ -3586,7 +3586,7 @@ str_exception_declaration:
   attrs1 = attributes
   id = mkrhs(vala(constr_ident, ANTI_UID))
   EQUAL
-  lid = mkrhs(vala(constr_longident, ANTI_LONGID))
+  lid = mkrhs(constr_longident_vala)
   attrs2 = attributes
   attrs = post_item_attributes
   { let loc = make_loc $sloc in
@@ -3702,7 +3702,7 @@ extension_constructor_rebind(opening):
   opening
   cid = mkrhs(vala(constr_ident, ANTI_UID))
   EQUAL
-  lid = mkrhs(vala(constr_longident, ANTI_LONGID))
+  lid = mkrhs(constr_longident_vala)
   attrs = attributes
       { let info = symbol_info $endpos in
         Te.rebind cid lid ~attrs ~loc:(make_loc $sloc) ~info }
@@ -3744,9 +3744,9 @@ with_constraint:
         assert (tpl = []) ;
         Pwith_typesubst (li, vaant td)
       }
-  | MODULE mkrhs(vala(mod_longident, ANTI_LONGID)) EQUAL mkrhs(vala(mod_ext_longident, ANTI_LONGID))
+  | MODULE mkrhs(mod_longident_vala) EQUAL mkrhs(mod_ext_longident_vala)
       { Pwith_module ($2, $4) }
-  | MODULE mkrhs(vala(mod_longident, ANTI_LONGID)) COLONEQUAL mkrhs(vala(mod_ext_longident, ANTI_LONGID))
+  | MODULE mkrhs(mod_longident_vala) COLONEQUAL mkrhs(mod_ext_longident_vala)
       { Pwith_modsubst ($2, $4) }
   | MODULE TYPE l=mkrhs(vala(mty_longident, ANTI_LONGID)) EQUAL rhs=module_type
       { Pwith_modtype (l, rhs) }
@@ -3844,7 +3844,7 @@ function_type:
 %inline arg_label:
   | label = optlabel
       { Optional label }
-  | label = vala(LIDENT, ANTI_LID) COLON
+  | label = lident_vala COLON
       { Labelled label }
   | /* empty */
       { Nolabel }
@@ -4061,13 +4061,23 @@ signed_constant:
 
 /* Identifiers and long identifiers */
 
+%inline lident_vala:
+  vala(LIDENT, ANTI_LID)
+    { $1 }
+;
+
+%inline uident_vala:
+  vala(UIDENT, ANTI_UID)
+    { $1 }
+;
+
 ident:
     UIDENT    { $1 }
   | LIDENT    { $1 }
 ;
 ident_vala:
-    vala(UIDENT, ANTI_UID)    { $1 }
-  | vala(LIDENT, ANTI_LID)    { $1 }
+    uident_vala    { $1 }
+  | lident_vala    { $1 }
 ;
 val_extra_ident:
   | LPAREN operator RPAREN    { $2 }
@@ -4080,7 +4090,7 @@ val_ident:
   | val_extra_ident           { $1 }
 ;
 val_ident_vala:
-    vala(LIDENT, ANTI_LID)    { $1 }
+    lident_vala    { $1 }
   | val_extra_ident           { vaval $1 }
 ;
 operator:
@@ -4140,41 +4150,51 @@ constr_ident:
 ;
 constr_longident:
     mod_longident       %prec below_DOT  { $1 } /* A.B.x vs (A).B.x */
-  | vala(mod_longident, ANTI_LONGID) DOT constr_extra_ident { Ldot($1,vaval $3) }
+  | mod_longident_vala DOT constr_extra_ident { Ldot($1,vaval $3) }
   | constr_extra_ident                   { Lident (vaval $1) }
   | constr_extra_nonprefix_ident         { Lident (vaval $1) }
 ;
+%inline constr_longident_vala:
+  vala(constr_longident, ANTI_LONGID) { $1 }
+;
+
 mk_longident(prefix,final):
    | final            { Lident ($1) }
    | prefix DOT final { Ldot($1,$3) }
 ;
 val_longident:
-    mk_longident(vala(mod_longident, ANTI_LONGID), val_ident_vala) { $1 }
+    mk_longident(mod_longident_vala, val_ident_vala) { $1 }
 ;
 label_longident:
-    mk_longident(vala(mod_longident, ANTI_LONGID), vala(LIDENT, ANTI_LID)) { $1 }
+    mk_longident(mod_longident_vala, lident_vala) { $1 }
 ;
 type_longident:
-    mk_longident(vala(mod_ext_longident, ANTI_LONGID), vala(LIDENT, ANTI_LID))  { $1 }
+    mk_longident(mod_ext_longident_vala, lident_vala)  { $1 }
 ;
 mod_longident:
-    mk_longident(vala(mod_longident, ANTI_LONGID), vala(UIDENT, ANTI_UID))  { $1 }
+    mk_longident(mod_longident_vala, uident_vala)  { $1 }
+;
+%inline mod_longident_vala:
+  vala(mod_longident, ANTI_LONGID) { $1 }
 ;
 mod_ext_longident:
-    mk_longident(vala(mod_ext_longident, ANTI_LONGID), vala(UIDENT, ANTI_UID)) { $1 }
-  | vala(mod_ext_longident, ANTI_LONGID) LPAREN vala(mod_ext_longident, ANTI_LONGID) RPAREN
+    mk_longident(mod_ext_longident_vala, uident_vala) { $1 }
+  | mod_ext_longident_vala LPAREN mod_ext_longident_vala RPAREN
       { lapply ~loc:$sloc $1 $3 }
   | vala(mod_ext_longident,ANTI_LONGID) LPAREN error
       { expecting $loc($3) "module path" }
 ;
+%inline mod_ext_longident_vala:
+   vala(mod_ext_longident, ANTI_LONGID) { $1 }
+;
 mty_longident:
-    mk_longident(vala(mod_ext_longident, ANTI_LONGID),vaval(ident)) { $1 }
+    mk_longident(mod_ext_longident_vala,vaval(ident)) { $1 }
 ;
 clty_longident:
-    mk_longident(vala(mod_ext_longident, ANTI_LONGID),vala(LIDENT, ANTI_LID)) { $1 }
+    mk_longident(mod_ext_longident_vala,lident_vala) { $1 }
 ;
 class_longident:
-   mk_longident(vala(mod_longident, ANTI_LONGID),vala(LIDENT, ANTI_LID)) { $1 }
+   mk_longident(mod_longident_vala,lident_vala) { $1 }
 ;
 
 /* BEGIN AVOID */
@@ -4182,7 +4202,7 @@ class_longident:
    final identifiers which are value specific are accepted even when
    the path prefix is only valid for types: (e.g. F(X).(::)) */
 any_longident:
-  | mk_longident (vala(mod_ext_longident, ANTI_LONGID),
+  | mk_longident (mod_ext_longident_vala,
      ident_vala | vaval(constr_extra_ident) | vaval(val_extra_ident) { $1 }
     ) { $1 }
   | constr_extra_nonprefix_ident { Lident (vaval $1) }
@@ -4311,7 +4331,7 @@ additive:
 ;
 optlabel:
    | OPTLABEL                                   { vaval($1) }
-   | QUESTION vala(LIDENT, ANTI_LID) COLON      { $2 }
+   | QUESTION lident_vala COLON      { $2 }
 ;
 
 /* Attributes and extensions */
