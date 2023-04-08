@@ -106,6 +106,16 @@
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
           ]})
+        ; (Ptyp_constr,
+           { longident_t = Explicit [
+                               Longident.Lident s
+                             ; Longident.Ldot (x, s)
+          ]})
+        ; (Ppat_type,
+           { longident_t = Explicit [
+                               Longident.Lident s
+                             ; Longident.Ldot (x, s)
+          ]})
         ; (Pmty_ident,
            { longident_t = Explicit [
                                Longident.Lident s

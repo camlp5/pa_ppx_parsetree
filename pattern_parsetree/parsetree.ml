@@ -103,7 +103,7 @@ and core_type_desc =
 
            Invariant: [n >= 2].
         *)
-  | Ptyp_constr of Longident.t Ploc.vala loc * core_type list Ploc.vala
+  | Ptyp_constr of Longident.t loc * core_type list Ploc.vala
       (** [Ptyp_constr(lident, l)] represents:
             - [tconstr]               when [l=[]],
             - [T tconstr]             when [l=[T]],
@@ -260,7 +260,7 @@ and pattern_desc =
   | Ppat_array of pattern list Ploc.vala  (** Pattern [[| P1; ...; Pn |]] *)
   | Ppat_or of pattern * pattern  (** Pattern [P1 | P2] *)
   | Ppat_constraint of pattern * core_type  (** Pattern [(P : T)] *)
-  | Ppat_type of Longident.t Ploc.vala loc  (** Pattern [#tconst] *)
+  | Ppat_type of Longident.t loc  (** Pattern [#tconst] *)
   | Ppat_lazy of pattern  (** Pattern [lazy P] *)
   | Ppat_unpack of string Ploc.vala option Ploc.vala loc
       (** [Ppat_unpack(s)] represents:

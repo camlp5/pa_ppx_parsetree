@@ -20,7 +20,8 @@
 <:core_type< ' $lid:s$ >> ;
 <:core_type< $label:x1$ $x2$ -> $x3$ >> ;
 <:core_type< $tuplelist:lx$ >> ;
-<:core_type< $list:lx$ $longid:x$ >> ;
+<:core_type< $list:lx$ $lid:s$ >> ;
+<:core_type< $list:lx$ $longid:x$ . $lid:s$ >> ;
 <:core_type< < $list:lx$ $closedflag:x$ > >> ;
 <:core_type< $list:lx$ # $longid:x$ >> ;
 <:core_type< $x$ as ' $lid:s$ >> ;
@@ -75,7 +76,8 @@
 <:pattern< [| $list:lx$ |] >>;
 <:pattern< $x1$ | $x2$ >>;
 <:pattern< ( $x1$ : $x2$ ) >>;
-<:pattern< # $longid:x$ >>;
+<:pattern< # $lid:s$ >>;
+<:pattern< # $longid:x$ . $lid:s$ >>;
 <:pattern< lazy $x$ >>;
 <:pattern< (module _) >>;
 <:pattern< (module $uid:s$) >>;

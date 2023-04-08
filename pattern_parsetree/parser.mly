@@ -1922,7 +1922,7 @@ module_type:
         { Pmty_functor(vaval (Named (mknoloc (vaval None), $1)), $3) }
     | module_type WITH vala(separated_nonempty_llist(AND, with_constraint),  ANTI_LIST)
         { Pmty_with($1, $3) }
-    | LPAREN MODULE mkrhs(vala(mod_longident,ANTI_LONGID)) RPAREN
+    | LPAREN MODULE mkrhs(mod_longident_vala) RPAREN
         { Pmty_alias $3 }
     | extension
         { Pmty_extension $1 }
@@ -3250,7 +3250,7 @@ simple_pattern_not_ident:
       { Ppat_construct($1, vaval None) }
   | name_tag_vala
       { Ppat_variant($1, vaval None) }
-  | HASH mkrhs(vala(type_longident, ANTI_LONGID))
+  | HASH mkrhs(type_longident)
       { Ppat_type ($2) }
   | mkrhs(mod_longident_vala) DOT simple_delimited_pattern
       { Ppat_open($1, $3) }
@@ -3888,10 +3888,10 @@ atomic_type:
     | UNDERSCORE
         { Ptyp_any }
     | tys = actual_type_parameters
-      tid = mkrhs(vala(type_longident, ANTI_LONGID))
+      tid = mkrhs(type_longident)
         { Ptyp_constr(tid, vaval tys) }
     | ANTI_LIST
-      tid = mkrhs(vala(type_longident,  ANTI_LONGID))
+      tid = mkrhs(type_longident)
         { Ptyp_constr(tid, vaant $1) }
     | LESS meth_list GREATER
         { let (f, c) = $2 in Ptyp_object (vaval f, vaval c) }
