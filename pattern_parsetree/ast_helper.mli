@@ -225,7 +225,7 @@ module Type:
       type_declaration
 
     val constructor: ?loc:loc -> ?attrs:attrs -> ?info:info ->
-      ?vars:str_vala list -> ?args:constructor_arguments -> ?res:core_type ->
+      ?vars:str_vala list Ploc.vala -> ?args:constructor_arguments -> res:core_type option Ploc.vala ->
       str_vala ->
       constructor_declaration
     val field: ?loc:loc -> ?attrs:attrs -> ?info:info ->
@@ -246,7 +246,7 @@ module Te:
       str_vala -> extension_constructor_kind -> extension_constructor
 
     val decl: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?info:info ->
-      ?vars:str_vala list -> ?args:constructor_arguments -> ?res:core_type ->
+      ?vars:str_vala list Ploc.vala -> ?args:constructor_arguments -> res:core_type option Ploc.vala ->
       str_vala ->
       extension_constructor
     val rebind: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?info:info ->

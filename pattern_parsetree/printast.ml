@@ -491,9 +491,9 @@ and extension_constructor_kind i ppf x =
   match x with
       Pext_decl(v, a, r) ->
         line i ppf "Pext_decl\n";
-        if v <> [] then line (i+1) ppf "vars%a\n" typevars v;
+        if unvala v <> [] then line (i+1) ppf "vars%a\n" typevars (unvala v);
         constructor_arguments (i+1) ppf a;
-        option (i+1) core_type ppf r;
+        option (i+1) core_type ppf (unvala r);
     | Pext_rebind li ->
         line i ppf "Pext_rebind\n";
         line (i+1) ppf "%a\n" fmt_longident_loc li;
@@ -891,10 +891,10 @@ and constructor_decl i ppf
      {pcd_name; pcd_vars; pcd_args; pcd_res; pcd_loc; pcd_attributes} =
   line i ppf "%a\n" fmt_location pcd_loc;
   line (i+1) ppf "%a\n" fmt_string_loc (loc_map unvala pcd_name);
-  if pcd_vars <> [] then line (i+1) ppf "pcd_vars =%a\n" typevars pcd_vars;
+  if unvala pcd_vars <> [] then line (i+1) ppf "pcd_vars =%a\n" typevars (unvala pcd_vars);
   attributes i ppf pcd_attributes;
   constructor_arguments (i+1) ppf pcd_args;
-  option (i+1) core_type ppf pcd_res
+  option (i+1) core_type ppf (unvala pcd_res)
 
 and constructor_arguments i ppf = function
   | Pcstr_tuple l -> list i core_type ppf (unvala l)

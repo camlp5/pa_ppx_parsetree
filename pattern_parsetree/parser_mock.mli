@@ -587,6 +587,8 @@ val xv_value :
    Parsetree.class_field_kind) *
   Parsetree.attributes
 val xv_vala_val_ident_ANTI_LID_ : string Ast_helper.vala
+val xv_vala_typevar_list_ANTI_LIST_ :
+  Asttypes.label Ast_helper.vala Asttypes.loc list Ast_helper.vala
 val xv_vala_type_parameters_ANTI_LIST_ :
   (Parsetree.core_type * (Asttypes.variance * Asttypes.injectivity)) list
   Ast_helper.vala
@@ -681,7 +683,7 @@ val xv_vaant_ANTI_LIST_ : let_binding list Ast_helper.vala
 val xv_vaant_ANTI_EXPROPT_ : Parsetree.expression option Ast_helper.vala
 val xv_use_file_element : Parsetree.toplevel_phrase list
 val xv_use_file : Parsetree.toplevel_phrase list
-val xv_typevar_list : Ast_helper.str_vala list
+val xv_typevar_list : Asttypes.label Ast_helper.vala Asttypes.loc list
 val xv_typevar : Asttypes.label Ast_helper.vala Asttypes.loc
 val xv_type_variance : Asttypes.variance * Asttypes.injectivity
 val xv_type_variable : Parsetree.core_type
@@ -836,7 +838,8 @@ val xv_rev_reversed_separated_nonempty_llist_AMPERSAND_core_type_no_attr__ :
   Parsetree.core_type list
 val xv_rev_reversed_preceded_or_separated_nonempty_llist_BAR_match_case__ :
   Parsetree.case list
-val xv_rev_reversed_nonempty_llist_typevar__ : Ast_helper.str_vala list
+val xv_rev_reversed_nonempty_llist_typevar__ :
+  Asttypes.label Ast_helper.vala Asttypes.loc list
 val xv_rev_reversed_nonempty_llist_name_tag__ : Asttypes.label list
 val xv_rev_reversed_nonempty_llist_labeled_simple_expr__ :
   (Asttypes.arg_label * Parsetree.expression) list
@@ -971,7 +974,8 @@ val xv_nonrec_flag : Asttypes.rec_flag
 val xv_nonempty_type_kind :
   Parsetree.type_kind * Asttypes.private_flag Ast_helper.vala *
   Parsetree.core_type Ast_helper.vala option Ast_helper.vala
-val xv_nonempty_llist_typevar_ : Ast_helper.str_vala list
+val xv_nonempty_llist_typevar_ :
+  Asttypes.label Ast_helper.vala Asttypes.loc list
 val xv_nonempty_llist_name_tag_ : Asttypes.label list
 val xv_nonempty_llist_labeled_simple_expr_ :
   (Asttypes.arg_label * Parsetree.expression) list
@@ -1237,19 +1241,24 @@ val xv_generic_type_declaration_no_nonrec_flag_type_subst_kind_ :
   (Asttypes.rec_flag * string Ast_helper.vala Asttypes.loc option) *
   Parsetree.type_declaration
 val xv_generic_constructor_declaration_epsilon_ :
-  Ast_helper.str_vala * Ast_helper.str_vala list *
-  Parsetree.constructor_arguments * Parsetree.core_type option *
-  Parsetree.attributes * Location.t * Docstrings.info
+  Ast_helper.str_vala *
+  Asttypes.label Ast_helper.vala Asttypes.loc list Ast_helper.vala *
+  Parsetree.constructor_arguments *
+  Parsetree.core_type option Ast_helper.vala * Parsetree.attributes *
+  Location.t * Docstrings.info
 val xv_generic_constructor_declaration_BAR_ :
-  Ast_helper.str_vala * Ast_helper.str_vala list *
-  Parsetree.constructor_arguments * Parsetree.core_type option *
-  Parsetree.attributes * Location.t * Docstrings.info
+  Ast_helper.str_vala *
+  Asttypes.label Ast_helper.vala Asttypes.loc list Ast_helper.vala *
+  Parsetree.constructor_arguments *
+  Parsetree.core_type option Ast_helper.vala * Parsetree.attributes *
+  Location.t * Docstrings.info
 val xv_generic_and_type_declaration_type_subst_kind_ :
   Parsetree.type_declaration
 val xv_generic_and_type_declaration_type_kind_ : Parsetree.type_declaration
 val xv_generalized_constructor_arguments :
-  Ast_helper.str_vala list * Parsetree.constructor_arguments *
-  Parsetree.core_type option
+  Asttypes.label Ast_helper.vala Asttypes.loc list Ast_helper.vala *
+  Parsetree.constructor_arguments *
+  Parsetree.core_type option Ast_helper.vala
 val xv_functor_args :
   (Lexing.position * Parsetree.functor_parameter Ast_helper.vala) list
 val xv_functor_arg :

@@ -1602,7 +1602,7 @@ and constructor_declaration ctxt f (name, vars, args, res, attrs) =
     match vs with
     | [] -> ()
     | vs -> pp f "%a@;.@;" (list tyvar_loc ~sep:"@;") vs in
-  match res with
+  match unvala res with
   | None ->
       pp f "%s%a@;%a" name
         (fun f -> function
@@ -1614,7 +1614,7 @@ and constructor_declaration ctxt f (name, vars, args, res, attrs) =
         (attributes ctxt) attrs
   | Some r ->
       pp f "%s:@;%a%a@;%a" name
-        pp_vars vars
+        pp_vars (unvala vars)
         (fun f -> function
            | Pcstr_tuple (Ploc.VaVal []) -> core_type1 ctxt f r
            | Pcstr_tuple l -> pp f "%a@;->@;%a"

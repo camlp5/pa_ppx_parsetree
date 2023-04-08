@@ -3491,7 +3491,7 @@ generic_constructor_declaration(opening):
   d = generic_constructor_declaration(opening)
     {
       let cid, vars, args, res, attrs, loc, info = d in
-      Type.constructor cid ~vars ~args ?res ~attrs ~loc ~info
+      Type.constructor cid ~vars ~args ~res ~attrs ~loc ~info
     }
 ;
 str_exception_declaration:
@@ -3523,26 +3523,29 @@ sig_exception_declaration:
       let loc = make_loc ($startpos, $endpos(attrs2)) in
       let docs = symbol_docs $sloc in
       Te.mk_exception ~attrs
-        (Te.decl id ~vars ~args ?res ~attrs:(attrs1 @ attrs2) ~loc ~docs)
+        (Te.decl id ~vars ~args ~res ~attrs:(attrs1 @ attrs2) ~loc ~docs)
       , ext }
 ;
 %inline let_exception_declaration:
     mkrhs(vala(constr_ident, ANTI_UID)) generalized_constructor_arguments attributes
       { let vars, args, res = $2 in
-        Te.decl $1 ~vars ~args ?res ~attrs:$3 ~loc:(make_loc $sloc) }
+        Te.decl $1 ~vars ~args ~res ~attrs:$3 ~loc:(make_loc $sloc) }
 ;
 generalized_constructor_arguments:
-    /*empty*/                     { ([],Pcstr_tuple (Ploc.VaVal []),None) }
-  | OF constructor_arguments      { ([],$2,None) }
+    /*empty*/                     { (vaval [],Pcstr_tuple (Ploc.VaVal []),vaval None) }
+  | OF constructor_arguments      { (vaval [],$2,vaval None) }
   | COLON constructor_arguments MINUSGREATER atomic_type %prec below_HASH
-                                  { ([],$2,Some $4) }
-  | COLON typevar_list DOT constructor_arguments MINUSGREATER atomic_type
+                                  { (vaval [],$2,vaval (Some $4)) }
+  | COLON vala(typevar_list,ANTI_LIST) DOT constructor_arguments MINUSGREATER atomic_type
      %prec below_HASH
-                                  { ($2,$4,Some $6) }
+                                  { ($2,$4,vaval (Some $6)) }
+  | COLON vala(typevar_list,ANTI_LIST) DOT constructor_arguments ANTI_OPT
+     %prec below_HASH
+                                  { ($2,$4,vaant $5) }
   | COLON atomic_type %prec below_HASH
-                                  { ([],Pcstr_tuple (Ploc.VaVal []),Some $2) }
-  | COLON typevar_list DOT atomic_type %prec below_HASH
-                                  { ($2,Pcstr_tuple (Ploc.VaVal []),Some $4) }
+                                  { (vaval [],Pcstr_tuple (Ploc.VaVal []),vaval (Some $2)) }
+  | COLON vala(typevar_list, ANTI_LIST) DOT atomic_type %prec below_HASH
+                                  { ($2,Pcstr_tuple (Ploc.VaVal []),vaval (Some $4)) }
 ;
 
 constructor_arguments:
@@ -3608,7 +3611,7 @@ label_declaration_semi:
   d = generic_constructor_declaration(opening)
     {
       let cid, vars, args, res, attrs, loc, info = d in
-      Te.decl cid ~vars ~args ?res ~attrs ~loc ~info
+      Te.decl cid ~vars ~args ~res ~attrs ~loc ~info
     }
 ;
 extension_constructor_rebind(opening):

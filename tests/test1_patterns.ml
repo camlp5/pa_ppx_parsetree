@@ -212,6 +212,10 @@
 [@@@"ocaml.text" "label_declaration";];
 <:label_declaration< $mutable:x2$ $lid:s$ : $x3$ >> ;
 [@@@"ocaml.text" "constructor_declaration";];
+<:constructor_declaration< $uid:s$ : $list:lx$ . $list:lx$ -> $x3$ >>;
+<:constructor_declaration< $uid:s$ : $list:lx$ . $list:lx$ $opt:ox3$ >>;
+<:constructor_declaration< $uid:s$ : $list:lx$ . { $list:lx$} -> $x3$ >>;
+<:constructor_declaration< $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox3$ >>;
 [@@@"ocaml.text" "constructor_arguments";];
 [@@@"ocaml.text" "type_extension";];
 [@@@"ocaml.text" "extension_constructor";];

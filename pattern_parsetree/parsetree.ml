@@ -529,9 +529,9 @@ and label_declaration =
 and constructor_declaration =
     {
      pcd_name: string Ploc.vala loc;
-     pcd_vars: string Ploc.vala loc list;
+     pcd_vars: string Ploc.vala loc list Ploc.vala;
      pcd_args: constructor_arguments;
-     pcd_res: core_type option;
+     pcd_res: core_type option Ploc.vala;
      pcd_loc: Location.t;
      pcd_attributes: attributes;  (** [C of ... [\@id1] [\@id2]] *)
     }
@@ -584,7 +584,7 @@ and type_exception =
 (** Definition of a new exception ([exception E]). *)
 
 and extension_constructor_kind =
-  | Pext_decl of string Ploc.vala loc list * constructor_arguments * core_type option
+  | Pext_decl of string Ploc.vala loc list Ploc.vala * constructor_arguments * core_type option Ploc.vala
       (** [Pext_decl(existentials, c_args, t_opt)]
           describes a new extension constructor. It can be:
           - [C of T1 * ... * Tn] when:
