@@ -398,7 +398,7 @@ val loc_vala_last :
 val loc_lident : string Location.loc -> Longident.t Location.loc
 val exp_of_longident : Longident.t Location.loc -> Parsetree.expression
 val exp_of_label : string Asttypes.loc -> Parsetree.expression
-val pat_of_label : Longident.t Ploc.vala Asttypes.loc -> Parsetree.pattern
+val pat_of_label : Longident.t Asttypes.loc -> Parsetree.pattern
 val mk_newtypes :
   loc:Lexing.position * Lexing.position ->
   string Ploc.vala Asttypes.loc list ->
@@ -612,8 +612,7 @@ val xv_vala_signed_constant_ANTI_CONSTANT_ :
   Parsetree.constant Ast_helper.vala
 val xv_vala_seq_expr_ANTI_EXPR_ : Parsetree.expression Ast_helper.vala
 val xv_vala_separated_or_terminated_nonempty_list_SEMI_record_expr_field__ANTI_LIST_ :
-  (Longident.t Ast_helper.vala Asttypes.loc * Parsetree.expression) list
-  Ast_helper.vala
+  (Longident.t Asttypes.loc * Parsetree.expression) list Ast_helper.vala
 val xv_vala_separated_or_terminated_nonempty_list_SEMI_object_expr_field__ANTI_LIST_ :
   (Asttypes.label Ast_helper.vala Asttypes.loc * Parsetree.expression) list
   Ast_helper.vala
@@ -650,7 +649,6 @@ val xv_vala_mod_ext_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_match_cases_ANTI_LIST_ : Parsetree.case list Ast_helper.vala
 val xv_vala_lident_list_ANTI_LIST_ :
   string Ploc.vala Asttypes.loc list Ast_helper.vala
-val xv_vala_label_longident_ANTI_LONGID_ : Longident.t Ast_helper.vala
 val xv_vala_label_declarations_ANTI_LIST_ :
   Parsetree.label_declaration list Ast_helper.vala
 val xv_vala_ioption_terminated_simple_expr_WITH___ANTI_WITHE_ :
@@ -787,7 +785,7 @@ val xv_sig_exception_declaration :
   Parsetree.type_exception * string Ast_helper.vala Asttypes.loc option
 val xv_seq_expr : Parsetree.expression
 val xv_separated_or_terminated_nonempty_list_SEMI_record_expr_field_ :
-  (Longident.t Ast_helper.vala Asttypes.loc * Parsetree.expression) list
+  (Longident.t Asttypes.loc * Parsetree.expression) list
 val xv_separated_or_terminated_nonempty_list_SEMI_pattern_ :
   Parsetree.pattern list
 val xv_separated_or_terminated_nonempty_list_SEMI_object_expr_field_ :
@@ -870,17 +868,14 @@ val xv_rev_reversed_llist_preceded_CONSTRAINT_constrain___ :
   (Parsetree.core_type * Parsetree.core_type * Ast_helper.loc) list
 val xv_rev_inline_reversed_separated_nonempty_llist_STAR_atomic_type__ :
   Parsetree.core_type list
-val xv_record_pat_field :
-  Longident.t Ast_helper.vala Asttypes.loc * Parsetree.pattern
+val xv_record_pat_field : Longident.t Asttypes.loc * Parsetree.pattern
 val xv_record_pat_content :
-  (Longident.t Ast_helper.vala Asttypes.loc * Parsetree.pattern) list
-  Ast_helper.vala * Asttypes.closed_flag Ast_helper.vala
-val xv_record_expr_field :
-  Longident.t Ast_helper.vala Asttypes.loc * Parsetree.expression
+  (Longident.t Asttypes.loc * Parsetree.pattern) list Ast_helper.vala *
+  Asttypes.closed_flag Ast_helper.vala
+val xv_record_expr_field : Longident.t Asttypes.loc * Parsetree.expression
 val xv_record_expr_content :
   Parsetree.expression option Ast_helper.vala *
-  (Longident.t Ast_helper.vala Asttypes.loc * Parsetree.expression) list
-  Ast_helper.vala
+  (Longident.t Asttypes.loc * Parsetree.expression) list Ast_helper.vala
 val xv_rec_module_declarations :
   string Ast_helper.vala Asttypes.loc option *
   Parsetree.module_declaration list Ast_helper.vala
@@ -1072,8 +1067,6 @@ val xv_mkrhs_vala_mod_longident_ANTI_LONGID__ :
   Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_mod_ext_longident_ANTI_LONGID__ :
   Longident.t Ast_helper.vala Asttypes.loc
-val xv_mkrhs_vala_label_longident_ANTI_LONGID__ :
-  Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_ident_ANTI_LID__ :
   Asttypes.label Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_constr_longident_ANTI_LONGID__ : Ast_helper.lid_vala
@@ -1157,8 +1150,7 @@ val xv_mark_rhs_docs_text_str_str_exp__ : Parsetree.structure_item list
 val xv_llist_preceded_CONSTRAINT_constrain__ :
   (Parsetree.core_type * Parsetree.core_type * Ast_helper.loc) list
 val xv_listx_SEMI_record_pat_field_UNDERSCORE_ :
-  (Longident.t Ast_helper.vala Asttypes.loc * Parsetree.pattern) list *
-  unit option
+  (Longident.t Asttypes.loc * Parsetree.pattern) list * unit option
 val xv_list_use_file_element_ : Parsetree.toplevel_phrase list list
 val xv_list_text_str_structure_item__ : Parsetree.structure_item list list
 val xv_list_text_cstr_class_field__ : Parsetree.class_field list list

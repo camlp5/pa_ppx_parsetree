@@ -126,7 +126,7 @@ module Pat:
     val construct: ?loc:loc -> ?attrs:attrs ->
       lid_vala -> (str_vala list Ploc.vala * pattern) option Ploc.vala -> pattern
     val variant: ?loc:loc -> ?attrs:attrs -> label Ploc.vala -> pattern option Ploc.vala -> pattern
-    val record: ?loc:loc -> ?attrs:attrs -> (lid_vala * pattern) list Ploc.vala -> closed_flag Ploc.vala
+    val record: ?loc:loc -> ?attrs:attrs -> (lid * pattern) list Ploc.vala -> closed_flag Ploc.vala
                 -> pattern
     val array: ?loc:loc -> ?attrs:attrs -> pattern list Ploc.vala -> pattern
     val or_: ?loc:loc -> ?attrs:attrs -> pattern -> pattern -> pattern
@@ -162,7 +162,7 @@ module Exp:
                    -> expression
     val variant: ?loc:loc -> ?attrs:attrs -> label Ploc.vala -> expression option Ploc.vala
                  -> expression
-    val record: ?loc:loc -> ?attrs:attrs -> (lid_vala * expression) list Ploc.vala
+    val record: ?loc:loc -> ?attrs:attrs -> (lid * expression) list Ploc.vala
                 -> expression option Ploc.vala -> expression
     val field: ?loc:loc -> ?attrs:attrs -> expression -> lid_vala -> expression
     val setfield: ?loc:loc -> ?attrs:attrs -> expression -> lid_vala -> expression

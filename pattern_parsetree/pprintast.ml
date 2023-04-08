@@ -484,21 +484,21 @@ and simple_pattern ctxt (f:Format.formatter) (x:pattern) : unit =
     | Ppat_type li ->
         pp f "#%a" longident_vala_loc li
     | Ppat_record (l, closed) ->
-        let longident_vala_x_pattern f (li, p) =
+        let longident_x_pattern f (li, p) =
           match (li,p) with
-          | ({txt=VaVal (Lident s);_ },
+          | ({txt=(Lident s);_ },
              {ppat_desc=Ppat_var {txt;_};
               ppat_attributes=[]; _})
             when s = txt ->
-              pp f "@[<2>%a@]"  longident_vala_loc li
+              pp f "@[<2>%a@]"  longident_loc li
           | _ ->
-              pp f "@[<2>%a@;=@;%a@]" longident_vala_loc li (pattern1 ctxt) p
+              pp f "@[<2>%a@;=@;%a@]" longident_loc li (pattern1 ctxt) p
         in
         begin match unvala closed with
         | Closed ->
-            pp f "@[<2>{@;%a@;}@]" (list longident_vala_x_pattern ~sep:";@;") (unvala l)
+            pp f "@[<2>{@;%a@;}@]" (list longident_x_pattern ~sep:";@;") (unvala l)
         | _ ->
-            pp f "@[<2>{@;%a;_}@]" (list longident_vala_x_pattern ~sep:";@;") (unvala l)
+            pp f "@[<2>{@;%a;_}@]" (list longident_x_pattern ~sep:";@;") (unvala l)
         end
     | Ppat_tuple (Ploc.VaVal l) ->
         pp f "@[<1>(%a)@]" (list  ~sep:",@;" (pattern1 ctxt))  l (* level1*)
@@ -830,7 +830,7 @@ and simple_expr ctxt f x =
         in
         pp f "@[<hv0>@[<hv2>{@;%a%a@]@;}@]"(* "@[<hov2>{%a%a}@]" *)
           (option ~last:" with@;" (simple_expr ctxt)) (unvala eo)
-          (list longident_x_expression ~sep:";@;") (List.map (fun (a,b) -> (loc_map unvala a, b)) (unvala l))
+          (list longident_x_expression ~sep:";@;") (unvala l)
     | Pexp_array (l) ->
         pp f "@[<0>@[<2>[|%a|]@]@]"
           (list (simple_expr (under_semi ctxt)) ~sep:";") (unvala l)

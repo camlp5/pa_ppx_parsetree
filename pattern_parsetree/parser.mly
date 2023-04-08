@@ -408,7 +408,7 @@ let exp_of_label lbl =
   Exp.mk ~loc:lbl.loc (Pexp_ident (loc_lident lbl))
 
 let pat_of_label lbl =
-  Pat.mk ~loc:lbl.loc  (Ppat_var (loc_vala_last lbl))
+  Pat.mk ~loc:lbl.loc  (Ppat_var (loc_last_vala lbl))
 
 let mk_newtypes ~loc newtypes exp =
   let mkexp = mkexp ~loc in
@@ -988,8 +988,7 @@ The precedences must be listed from low to high.
 
 %type <Longident.t> mod_ext_longident
 %type <Longident.t> mod_longident
-%type <Longident.t Ploc.vala Asttypes.loc * Parsetree.expression> record_expr_field
-%type <expression option Ploc.vala * (Longident.t Ploc.vala Asttypes.loc * expression) list Ploc.vala> record_expr_content
+%type <Longident.t Asttypes.loc * Parsetree.expression> record_expr_field
 %type <Asttypes.arg_label Ploc.vala * Parsetree.expression option Ploc.vala * Parsetree.pattern> labeled_simple_pattern
 %type <string Ploc.vala option Ploc.vala> module_name
 %type <string Ploc.vala Location.loc> attr_id
@@ -3098,15 +3097,15 @@ record_expr_content:
     { eo, fields }
 ;
 %inline record_expr_field:
-  | label = mkrhs(vala(label_longident, ANTI_LONGID))
+  | label = mkrhs(label_longident)
     c = type_constraint?
     eo = preceded(EQUAL, expr)?
-      { let label : Longident.t vala Location.loc = label  in
+      { let label : Longident.t Location.loc = label  in
         let constraint_loc, label, e =
           match eo with
           | None ->
               (* No pattern; this is a pun. Desugar it. *)
-              $sloc, loc_map vaval (make_ghost (loc_map unvala  label)), exp_of_longident (loc_map unvala label)
+              $sloc, (make_ghost label), exp_of_longident label
           | Some e ->
               ($startpos(c), $endpos), label, e
         in
@@ -3324,7 +3323,7 @@ pattern_comma_list(self):
     }
 ;
 %inline record_pat_field:
-  label = mkrhs(vala(label_longident, ANTI_LONGID))
+  label = mkrhs(label_longident)
   octy = preceded(COLON, core_type)?
   opat = preceded(EQUAL, pattern)?
     { let constraint_loc, label, pat =

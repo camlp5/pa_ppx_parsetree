@@ -924,7 +924,7 @@ and longident_x_pattern i ppf (li, p) =
   pattern (i+1) ppf p;
 
 and longident_vala_x_pattern i ppf (li, p) =
-  line i ppf "%a\n" fmt_longident_vala_loc li;
+  line i ppf "%a\n" fmt_longident_loc li;
   pattern (i+1) ppf p;
 
 and case i ppf {pc_lhs; pc_guard; pc_rhs} =
@@ -957,7 +957,7 @@ and string_vala_x_expression i ppf (s, e) =
   expression (i+1) ppf e;
 
 and longident_x_expression i ppf (li, e) =
-  line i ppf "%a\n" fmt_longident_loc (loc_map unvala li);
+  line i ppf "%a\n" fmt_longident_loc li;
   expression (i+1) ppf e;
 
 and label_x_expression i ppf (l,e) =

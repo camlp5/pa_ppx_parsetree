@@ -199,6 +199,9 @@ let test3 ctxt =
   assert_equal ("x", [%expression {| 1 |}])
     (match e1 with
        [%expression {| { $lid:x$ = $e$ } |}] -> (x,e))
+  ; assert_equal (li1, "x", [%expression {| 1 |}])
+    (match [%expression {| { M.x = 1 } |}] with
+       [%expression {| { $longid:m'$ . $lid:x$ = $e$ } |}] -> (m', x,e))
   ; assert_equal None
       (match e1 with
          [%expression {| { $withe:e$ $list:_$ } |}] -> e)
