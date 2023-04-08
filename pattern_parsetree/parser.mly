@@ -3561,7 +3561,7 @@ constructor_declarations:
    merely returns a tuple. *)
 generic_constructor_declaration(opening):
   opening
-  cid = mkrhs(vala(constr_ident, ANTI_UID))
+  cid = mkrhs(constr_ident_vala)
   vars_args_res = generalized_constructor_arguments
   attrs = attributes
     {
@@ -3584,7 +3584,7 @@ str_exception_declaration:
 | EXCEPTION
   ext = ext
   attrs1 = attributes
-  id = mkrhs(vala(constr_ident, ANTI_UID))
+  id = mkrhs(constr_ident_vala)
   EQUAL
   lid = mkrhs(constr_longident_vala)
   attrs2 = attributes
@@ -3599,7 +3599,7 @@ sig_exception_declaration:
   EXCEPTION
   ext = ext
   attrs1 = attributes
-  id = mkrhs(vala(constr_ident, ANTI_UID))
+  id = mkrhs(constr_ident_vala)
   vars_args_res = generalized_constructor_arguments
   attrs2 = attributes
   attrs = post_item_attributes
@@ -3611,7 +3611,7 @@ sig_exception_declaration:
       , ext }
 ;
 %inline let_exception_declaration:
-    mkrhs(vala(constr_ident, ANTI_UID)) generalized_constructor_arguments attributes
+    mkrhs(constr_ident_vala) generalized_constructor_arguments attributes
       { let vars, args, res = $2 in
         Te.decl $1 ~vars ~args ~res ~attrs:$3 ~loc:(make_loc $sloc) }
 ;
@@ -3700,7 +3700,7 @@ label_declaration_semi:
 ;
 extension_constructor_rebind(opening):
   opening
-  cid = mkrhs(vala(constr_ident, ANTI_UID))
+  cid = mkrhs(constr_ident_vala)
   EQUAL
   lid = mkrhs(constr_longident_vala)
   attrs = attributes
@@ -4147,6 +4147,9 @@ constr_ident:
     UIDENT                                      { $1 }
   | constr_extra_ident                          { $1 }
   | constr_extra_nonprefix_ident                { $1 }
+;
+%inline constr_ident_vala:
+   vala(constr_ident, ANTI_UID) { $1 }
 ;
 constr_longident:
     mod_longident       %prec below_DOT  { $1 } /* A.B.x vs (A).B.x */
