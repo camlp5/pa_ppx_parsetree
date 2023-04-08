@@ -3474,19 +3474,19 @@ primitive_declaration:
    definition that leads to a smaller grammar (after expansion) and therefore
    a smaller automaton. *)
 nonempty_type_kind:
-  | priv = vala(inline_private_flag, ANTI_PRIV)
+  | priv = inline_private_flag_vala
     ty = vala(core_type, ANTI_TYP)
       { (Ptype_abstract, priv, vaval (Some ty)) }
   | oty = type_synonym
-    priv = vala(inline_private_flag,  ANTI_PRIV)
+    priv = inline_private_flag_vala
     cs = vala(constructor_declarations, ANTI_CONSTRUCTORLIST)
       { (Ptype_variant cs, priv, oty) }
   | oty = type_synonym
-    priv = vala(inline_private_flag, ANTI_PRIV)
+    priv = inline_private_flag_vala
     DOTDOT
       { (Ptype_open, priv, oty) }
   | oty = type_synonym
-    priv = vala(inline_private_flag, ANTI_PRIV)
+    priv = inline_private_flag_vala
     LBRACE ls = vala(label_declarations, ANTI_LIST) RBRACE
       { (Ptype_record ls, priv, oty) }
 ;
@@ -3519,7 +3519,7 @@ type_parameter:
 ;
 type_variable:
   mktyp(
-    QUOTE tyvar = vala(ident, ANTI_LID)
+    QUOTE tyvar = ident_vala
       { Ptyp_var tyvar }
   | UNDERSCORE
       { Ptyp_any }
@@ -3761,7 +3761,7 @@ with_type_binder:
 /* Polymorphic types */
 
 %inline typevar:
-  QUOTE mkrhs(vala(ident, ANTI_LID))
+  QUOTE mkrhs(ident_vala)
     { $2 }
 ;
 %inline typevar_list:
@@ -3885,7 +3885,7 @@ atomic_type:
   | LPAREN MODULE ext_attributes package_type RPAREN
       { wrap_typ_attrs ~loc:$sloc (reloc_typ ~loc:$sloc $4) $3 }
   | mktyp( /* begin mktyp group */
-      QUOTE vala(ident, ANTI_LID)
+      QUOTE ident_vala
         { Ptyp_var $2 }
     | ANTI { Ptyp_xtr (Location.mkloc $1 (make_loc $sloc)) }
     | UNDERSCORE
@@ -4035,7 +4035,7 @@ meth_list:
 ;
 
 %inline label_vala:
-    vala(LIDENT,ANTI_LID)                      { $1 }
+    vala(label, ANTI_LID)                      { $1 }
 ;
 
 /* Constants */
@@ -4293,6 +4293,9 @@ private_flag:
 %inline inline_private_flag:
     /* empty */                                 { Public }
   | PRIVATE                                     { Private }
+;
+%inline inline_private_flag_vala:
+  vala(inline_private_flag, ANTI_PRIV) { $1 }
 ;
 mutable_flag:
     /* empty */                                 { Immutable }
