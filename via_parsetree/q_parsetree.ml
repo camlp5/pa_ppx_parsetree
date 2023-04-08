@@ -112,6 +112,9 @@ let parse_object_field s =
 let parse_class_description s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.class_description s
 
+let parse_class_expr s =
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.class_expr s
+
 [%%import: Reorg_parsetree.attribute]
 [@@deriving q_ast {
     default_data_source_module = Parsetree
@@ -220,6 +223,14 @@ let parse_class_description s =
           | {pcty_desc=Pcty_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
                                  )
       }
+    ; class_expr = {
+        add_branches_patt_code = (function
+          | {pcl_desc=Pcl_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
+                                 )
+      ; add_branches_expr_code = (function
+          | {pcl_desc=Pcl_xtr{txt;loc};} -> C.xtr (ploc_of_location loc) txt
+                                 )
+      }
 
     ; str_vala = {
         data_source_module = Ast_helper
@@ -252,6 +263,7 @@ let parse_class_description s =
     ; {name = "row_field"; from_string = parse_row_field ; type_name = row_field }
     ; {name = "object_field"; from_string = parse_object_field ; type_name = object_field }
     ; {name = "class_description"; from_string = parse_class_description ; type_name = class_description }
+    ; {name = "class_expr"; from_string = parse_class_expr ; type_name = class_expr }
     ]
  }]
 

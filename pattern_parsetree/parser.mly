@@ -945,6 +945,8 @@ The precedences must be listed from low to high.
 %type <Parsetree.object_field> parse_object_field
 %start parse_class_description
 %type <Parsetree.class_description> parse_class_description
+%start parse_class_expr
+%type <Parsetree.class_expr> parse_class_expr
 /* END AVOID */
 
 %type <Parsetree.expression list> expr_semi_list
@@ -1467,6 +1469,11 @@ parse_object_field:
 parse_class_description:
   class_description EOF
     { snd $1 }
+;
+
+parse_class_expr:
+  class_expr EOF
+    { $1 }
 ;
 
 /* END AVOID */
@@ -2169,7 +2176,7 @@ class_simple_expr:
   | LPAREN class_expr error
       { unclosed "(" $loc($1) ")" $loc($3) }
   | mkclass(
-      tys = actual_class_parameters cid = mkrhs(class_longident)
+      tys = vala(actual_class_parameters, ANTI_LIST) cid = mkrhs(class_longident)
         { Pcl_constr(cid, tys) }
     | OBJECT attributes class_structure error
         { unclosed "object" $loc($1) "end" $loc($4) }
@@ -2180,6 +2187,8 @@ class_simple_expr:
     ) { $1 }
   | OBJECT attributes class_structure END
     { mkclass ~loc:$sloc ~attrs:$2 (Pcl_structure $3) }
+  | ANTI
+      { mkclass ~loc:$sloc (Pcl_xtr (Location.mkloc $1 (make_loc $sloc))) }
 ;
 
 class_fun_def:

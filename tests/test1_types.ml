@@ -10,6 +10,8 @@
         ; Ptyp_xtr
         ; Pmod_xtr
         ; Pmty_xtr
+        ; Pcl_xtr
+        ; Pcty_xtr
         ]
       ; test_types = [
           arg_label
@@ -17,6 +19,7 @@
         ; binding_op
         ; case
         ; class_description
+        ; class_expr
         ; class_field
         ; class_type_declaration
         ; constant
@@ -46,7 +49,9 @@
       ; expand_types = {
           attribute = Auto
         ; constructor_arguments = Auto
+        ; class_expr_desc = Auto
         ; class_infos = Auto
+        ; class_structure = Auto
         ; core_type_desc = Auto
         ; expression_desc = Auto
         ; extension = Auto
@@ -121,6 +126,11 @@
                                             Longident.Lident s
                                           ; Longident.Ldot (x, s)
           ]})
+        ; (Pcl_constr,
+           { longident_t = Explicit [
+                               Longident.Lident s
+                             ; Longident.Ldot (x, s)
+          ]})
         ]
       ; per_constructor_expansion = [
           (Pconst_integer, Explicit [
@@ -153,6 +163,8 @@
         ; attribute = Parsetree
         ; binding_op = Parsetree
         ; case = Parsetree
+        ; class_expr = Parsetree
+        ; class_expr_desc = Parsetree
         ; class_field = Parsetree
         ; class_field_desc = Parsetree
         ; class_infos = Parsetree

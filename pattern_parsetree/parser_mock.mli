@@ -679,6 +679,8 @@ val xv_vala_amper_type_list_ANTI_LIST_ :
   Parsetree.core_type list Ast_helper.vala
 val xv_vala_actual_type_parameters_ANTI_LIST_ :
   Parsetree.core_type list Ast_helper.vala
+val xv_vala_actual_class_parameters_ANTI_LIST_ :
+  Parsetree.core_type list Ast_helper.vala
 val xv_vala_UIDENT_ANTI_UID_ : string Ast_helper.vala
 val xv_vala_LIDENT_ANTI_LID_ : string Ast_helper.vala
 val xv_val_longident : Longident.t
@@ -938,6 +940,7 @@ val xv_parse_core_type : Parsetree.core_type
 val xv_parse_constructor_declaration : Parsetree.constructor_declaration
 val xv_parse_constr_longident : Longident.t
 val xv_parse_constant : Parsetree.constant
+val xv_parse_class_expr : Parsetree.class_expr
 val xv_parse_class_description : Parsetree.class_description
 val xv_parse_binding_op : Parsetree.binding_op
 val xv_parse_attribute : Parsetree.attribute

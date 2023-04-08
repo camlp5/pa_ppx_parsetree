@@ -582,7 +582,7 @@ and class_expr i ppf x =
   match x.pcl_desc with
   | Pcl_constr (li, l) ->
       line i ppf "Pcl_constr %a\n" fmt_longident_loc li;
-      list i core_type ppf l;
+      list i core_type ppf (unvala l);
   | Pcl_structure (cs) ->
       line i ppf "Pcl_structure\n";
       class_structure i ppf cs;

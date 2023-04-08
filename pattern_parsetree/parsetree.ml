@@ -697,7 +697,8 @@ and class_expr =
     }
 
 and class_expr_desc =
-  | Pcl_constr of Longident.t loc * core_type list
+  | Pcl_xtr of string loc
+  | Pcl_constr of Longident.t loc * core_type list Ploc.vala
       (** [c] and [['a1, ..., 'an] c] *)
   | Pcl_structure of class_structure  (** [object ... end] *)
   | Pcl_fun of arg_label Ploc.vala * expression option Ploc.vala * pattern * class_expr

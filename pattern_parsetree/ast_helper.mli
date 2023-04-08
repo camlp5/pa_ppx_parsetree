@@ -428,7 +428,7 @@ module Cl:
     val mk: ?loc:loc -> ?attrs:attrs -> class_expr_desc -> class_expr
     val attr: class_expr -> attribute -> class_expr
 
-    val constr: ?loc:loc -> ?attrs:attrs -> lid -> core_type list -> class_expr
+    val constr: ?loc:loc -> ?attrs:attrs -> lid -> core_type list Ploc.vala -> class_expr
     val structure: ?loc:loc -> ?attrs:attrs -> class_structure -> class_expr
     val fun_: ?loc:loc -> ?attrs:attrs -> arg_label Ploc.vala -> expression option Ploc.vala ->
       pattern -> class_expr -> class_expr

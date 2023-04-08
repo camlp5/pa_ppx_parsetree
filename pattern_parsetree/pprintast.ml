@@ -1035,7 +1035,7 @@ and class_expr ctxt f x =
         pp f "%a%a"
           (fun f l-> if l <>[] then
               pp f "[%a]@ "
-                (list (core_type ctxt) ~sep:",") l) l
+                (list (core_type ctxt) ~sep:",") l) (unvala l)
           longident_loc li
     | Pcl_constraint (ce, ct) ->
         pp f "(%a@ :@ %a)"

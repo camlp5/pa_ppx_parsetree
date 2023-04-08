@@ -230,7 +230,14 @@
 [@@@"ocaml.text" "class_description";];
 <:class_description< class $virtual:x1$ $list:lxxx$ $lid:s$ : $ct$ >> ;
 [@@@"ocaml.text" "class_type_declaration";];
+<:class_description< class $virtual:x1$ $list:lxxx$ $lid:s$ : $ct$ >> ;
 [@@@"ocaml.text" "class_expr";];
+<:class_expr< $list:lx$ $lid:s$ >> ;
+<:class_expr< $list:lx$ $longid:x$ . $lid:s$ >> ;
+<:class_expr< object $patt:x$ $list:lx$ end >> ;
+<:class_expr< fun $label:x1$ ( $x3$ ) -> $ce$ >> ;
+<:class_expr< fun $label:x1$ ( $x3$ = $x2$ ) -> $ce$ >> ;
+<:class_expr< fun $label:x1$ ( $x3$ $expropt:ox2$ ) -> $ce$ >> ;
 [@@@"ocaml.text" "class_expr_desc";];
 [@@@"ocaml.text" "class_structure";];
 [@@@"ocaml.text" "class_field";];

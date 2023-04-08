@@ -122,6 +122,7 @@ let constant = wrap Parser.parse_constant
 let row_field = wrap Parser.parse_row_field
 let object_field = wrap Parser.parse_object_field
 let class_description = wrap Parser.parse_class_description
+let class_expr = wrap Parser.parse_class_expr
 
 (* Error reporting for Syntaxerr *)
 (* The code has been moved here so that one can reuse Pprintast.tyvar *)
