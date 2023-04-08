@@ -3543,7 +3543,7 @@ str_exception_declaration:
   attrs1 = attributes
   id = mkrhs(vala(constr_ident, ANTI_UID))
   EQUAL
-  lid = mkrhs(constr_longident)
+  lid = mkrhs(vala(constr_longident, ANTI_LONGID))
   attrs2 = attributes
   attrs = post_item_attributes
   { let loc = make_loc $sloc in
@@ -3659,7 +3659,7 @@ extension_constructor_rebind(opening):
   opening
   cid = mkrhs(vala(constr_ident, ANTI_UID))
   EQUAL
-  lid = mkrhs(constr_longident)
+  lid = mkrhs(vala(constr_longident, ANTI_LONGID))
   attrs = attributes
       { let info = symbol_info $endpos in
         Te.rebind cid lid ~attrs ~loc:(make_loc $sloc) ~info }

@@ -1634,7 +1634,7 @@ and extension_constructor ctxt f x =
         (x.pext_name.txt, v, l, r, x.pext_attributes)
   | Pext_rebind li ->
       pp f "%s@;=@;%a%a" (unvala x.pext_name.txt)
-        longident_loc li
+        longident_vala_loc li
         (attributes ctxt) x.pext_attributes
 
 and case_list ctxt f l : unit =

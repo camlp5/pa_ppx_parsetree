@@ -496,7 +496,7 @@ and extension_constructor_kind i ppf x =
         option (i+1) core_type ppf (unvala r);
     | Pext_rebind li ->
         line i ppf "Pext_rebind\n";
-        line (i+1) ppf "%a\n" fmt_longident_loc li;
+        line (i+1) ppf "%a\n" fmt_longident_vala_loc li;
 
 and class_type i ppf x =
   line i ppf "class_type %a\n" fmt_location x.pcty_loc;

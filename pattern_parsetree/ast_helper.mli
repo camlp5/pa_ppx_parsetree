@@ -250,7 +250,7 @@ module Te:
       str_vala ->
       extension_constructor
     val rebind: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?info:info ->
-      str_vala -> lid -> extension_constructor
+      str_vala -> lid_vala -> extension_constructor
   end
 
 (** {1 Module language} *)

@@ -604,7 +604,7 @@ and extension_constructor_kind =
                    {- [c_args] is [[T1; ... ; Tn]],}
                    {- [t_opt] is [Some T0].}}
        *)
-  | Pext_rebind of Longident.t loc
+  | Pext_rebind of Longident.t Ploc.vala loc
   (** [Pext_rebind(D)] re-export the constructor [D] with the new name [C] *)
 
 (** {1 Class language} *)

@@ -1069,8 +1069,7 @@ val xv_mkrhs_vala_label_ANTI_LID__ :
   Asttypes.label Ast_helper.vala Asttypes.loc
 val xv_mkrhs_vala_ident_ANTI_LID__ :
   Asttypes.label Ast_helper.vala Asttypes.loc
-val xv_mkrhs_vala_constr_longident_ANTI_LONGID__ :
-  Longident.t Ast_helper.vala Asttypes.loc
+val xv_mkrhs_vala_constr_longident_ANTI_LONGID__ : Ast_helper.lid_vala
 val xv_mkrhs_vala_constr_ident_ANTI_UID__ : Ast_helper.str_vala
 val xv_mkrhs_vala_clty_longident_ANTI_LONGID__ :
   Longident.t Ast_helper.vala Asttypes.loc
@@ -1087,7 +1086,6 @@ val xv_mkrhs_label_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_label_ : Asttypes.label Asttypes.loc
 val xv_mkrhs_ident_vala_ : Ast_helper.str_vala
 val xv_mkrhs_ident_ : Asttypes.label Asttypes.loc
-val xv_mkrhs_constr_longident_ : Ast_helper.lid
 val xv_mkrhs_clty_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs_class_longident_ : Longident.t Asttypes.loc
 val xv_mkrhs___anonymous_34_ : Longident.t Ast_helper.vala Asttypes.loc
