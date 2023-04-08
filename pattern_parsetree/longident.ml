@@ -30,6 +30,11 @@ let last = function
   | Ldot(_, Ploc.VaVal s) -> s
   | Lapply(_, _) -> Misc.fatal_error "Longident.last"
 
+let last_vala = function
+    Lident s -> s
+  | Ldot(_, s) -> s
+  | Lapply(_, _) -> Misc.fatal_error "Longident.last_vala"
+
 
 let rec split_at_dots s pos =
   try

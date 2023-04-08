@@ -1072,7 +1072,7 @@ and module_type ctxt f x =
     | _ -> module_type1 ctxt f x
 
 and with_constraint ctxt f = function
-  | Pwith_type (li, ({ptype_params= ls ;_} as td)) ->
+  | Pwith_type (li, (Ploc.VaVal ({ptype_params= ls ;_} as td))) ->
       pp f "type@ %a %a =@ %a"
         (type_params ctxt) ls
         longident_loc li (type_declaration ctxt) td
@@ -1080,7 +1080,7 @@ and with_constraint ctxt f = function
       pp f "module %a =@ %a" longident_vala_loc li longident_vala_loc li2;
   | Pwith_modtype (li, mty) ->
       pp f "module type %a =@ %a" longident_vala_loc li (module_type ctxt) mty;
-  | Pwith_typesubst (li, ({ptype_params=ls;_} as td)) ->
+  | Pwith_typesubst (li, (Ploc.VaVal ({ptype_params=ls;_} as td))) ->
       pp f "type@ %a %a :=@ %a"
         (type_params ctxt) ls
         longident_loc li

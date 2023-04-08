@@ -52,6 +52,7 @@ val class_type : Lexing.lexbuf -> Parsetree.class_type
 val class_field : Lexing.lexbuf -> Parsetree.class_field
 val functor_parameter : Lexing.lexbuf -> Parsetree.functor_parameter Ploc.vala
 val module_declaration : Lexing.lexbuf -> Parsetree.module_declaration
+val with_constraint : Lexing.lexbuf -> Parsetree.with_constraint
 
 (** The functions below can be used to parse Longident safely. *)
 

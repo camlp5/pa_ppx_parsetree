@@ -936,7 +936,7 @@ and include_declaration = module_expr include_infos
 (** Values of type [include_declaration] represents [include ME] *)
 
 and with_constraint =
-  | Pwith_type of Longident.t loc * type_declaration
+  | Pwith_type of Longident.t loc * type_declaration Ploc.vala
       (** [with type X.t = ...]
 
             Note: the last component of the longident must match
@@ -947,7 +947,7 @@ and with_constraint =
       (** [with module type X.Y = Z] *)
   | Pwith_modtypesubst of Longident.t Ploc.vala loc * module_type
       (** [with module type X.Y := sig end] *)
-  | Pwith_typesubst of Longident.t loc * type_declaration
+  | Pwith_typesubst of Longident.t loc * type_declaration Ploc.vala
       (** [with type X.t := ..., same format as [Pwith_type]] *)
   | Pwith_modsubst of Longident.t Ploc.vala loc * Longident.t Ploc.vala loc
       (** [with module X.Y := Z] *)

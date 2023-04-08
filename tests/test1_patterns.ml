@@ -359,6 +359,13 @@
 [@@@"ocaml.text" "include_description";];
 [@@@"ocaml.text" "include_declaration";];
 [@@@"ocaml.text" "with_constraint";];
+<:with_constraint< type $lid:s$ = $typedecl:x2$ >> ;
+<:with_constraint< type $longid:x$ . $lid:s$ = $typedecl:x2$ >> ;
+<:with_constraint< module $longid:x$ = $longid:x$ >> ;
+<:with_constraint< module type $longid:x$ = $mt$ >> ;
+<:with_constraint< module type $longid:x$ := $mt$ >> ;
+<:with_constraint< type $lid:s$ := $typedecl:x2$ >> ;
+<:with_constraint< module $longid:x$ := $longid:x$ >> ;
 [@@@"ocaml.text" "module_expr";];
 <:module_expr< $longid:x$ >>;
 <:module_expr< struct $list:x$ end >>;

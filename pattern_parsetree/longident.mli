@@ -37,6 +37,7 @@ val unflatten: string list -> t option
 *)
 
 val last: t -> string
+val last_vala: t -> string Ploc.vala
 val parse: string -> t
 [@@deprecated "this function may misparse its input,\n\
 use \"Parse.longident\" or \"Longident.unflatten\""]

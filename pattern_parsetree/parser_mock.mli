@@ -125,6 +125,7 @@ type token =
   | ANTI_WHENO of string
   | ANTI_VIRTUAL of string
   | ANTI_UID of string
+  | ANTI_TYPEDECL of string
   | ANTI_TYP of string
   | ANTI_TUPLELIST of string
   | ANTI_STRING of string
@@ -391,6 +392,7 @@ val lapply :
 val loc_map : ('a -> 'b) -> 'a Location.loc -> 'b Location.loc
 val make_ghost : 'a Asttypes.loc -> 'a Asttypes.loc
 val loc_last : Longident.t Location.loc -> string Location.loc
+val loc_last_vala : Longident.t Location.loc -> string Ploc.vala Location.loc
 val loc_vala_last :
   Longident.t Ploc.vala Location.loc -> string Ploc.vala Location.loc
 val loc_lident : string Location.loc -> Longident.t Location.loc
@@ -590,6 +592,8 @@ val xv_value :
   (Asttypes.label Ast_helper.vala Asttypes.loc *
    Asttypes.mutable_flag Ast_helper.vala * Parsetree.class_field_kind) *
   Parsetree.attributes
+val xv_vala_with_type_binder_ANTI_PRIV_ :
+  Asttypes.private_flag Ast_helper.vala
 val xv_vala_virtual_with_private_flag_ANTI_PRIV_ :
   Asttypes.private_flag Ast_helper.vala
 val xv_vala_virtual_with_mutable_flag_ANTI_MUTABLE_ :
@@ -924,6 +928,7 @@ val xv_pattern_comma_list_pattern_ : Parsetree.pattern list
 val xv_pattern__pattern_no_exn_ : Parsetree.pattern
 val xv_pattern__pattern_ : Parsetree.pattern
 val xv_pattern : Parsetree.pattern
+val xv_parse_with_constraint : Parsetree.with_constraint
 val xv_parse_value_binding : Parsetree.value_binding
 val xv_parse_val_longident : Longident.t
 val xv_parse_type_substitution : Parsetree.type_declaration

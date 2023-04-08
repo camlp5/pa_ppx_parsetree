@@ -126,6 +126,7 @@ type token =
   | ANTI_WHENO of (string)
   | ANTI_VIRTUAL of (string)
   | ANTI_UID of (string)
+  | ANTI_TYPEDECL of (string)
   | ANTI_TYP of (string)
   | ANTI_TUPLELIST of (string)
   | ANTI_STRING of (string)
@@ -179,6 +180,8 @@ exception Error
 val use_file: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.toplevel_phrase list)
 
 val toplevel_phrase: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.toplevel_phrase)
+
+val parse_with_constraint: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.with_constraint)
 
 val parse_value_binding: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.value_binding)
 

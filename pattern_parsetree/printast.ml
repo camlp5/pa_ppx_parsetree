@@ -764,10 +764,10 @@ and with_constraint i ppf x =
   match x with
   | Pwith_type (lid, td) ->
       line i ppf "Pwith_type %a\n" fmt_longident_loc lid;
-      type_declaration (i+1) ppf td;
+      type_declaration (i+1) ppf (unvala td);
   | Pwith_typesubst (lid, td) ->
       line i ppf "Pwith_typesubst %a\n" fmt_longident_loc lid;
-      type_declaration (i+1) ppf td;
+      type_declaration (i+1) ppf (unvala td);
   | Pwith_module (lid1, lid2) ->
       line i ppf "Pwith_module %a = %a\n"
         fmt_longident_vala_loc lid1

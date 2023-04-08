@@ -391,6 +391,9 @@ let make_ghost x = { x with loc = { x.loc with loc_ghost = true }}
 let loc_last (id : Longident.t Location.loc) : string Location.loc =
   loc_map Longident.last id
 
+let loc_last_vala (id : Longident.t Location.loc) : string Ploc.vala Location.loc =
+  loc_map Longident.last_vala id
+
 let loc_vala_last (id : Longident.t Ploc.vala Location.loc) : string Ploc.vala Location.loc =
   loc_map (Pcaml.vala_map Longident.last) id
 
@@ -588,7 +591,7 @@ let package_type_of_module_type pmty =
     raise (Syntaxerr.Error (Syntaxerr.Invalid_package_type (loc, s)))
   in
   let map_cstr = function
-    | Pwith_type (lid, ptyp) ->
+    | Pwith_type (lid, Ploc.VaVal ptyp) ->
         let loc = ptyp.ptype_loc in
         if ptyp.ptype_params <> vaval [] then
           err loc "parametrized types are not supported";
@@ -812,6 +815,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_CONSTANT
 %token <string> ANTI_ISCONST
 %token <string> ANTI_VIRTUAL
+%token <string> ANTI_TYPEDECL
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -955,6 +959,8 @@ The precedences must be listed from low to high.
 %type <Parsetree.functor_parameter Ploc.vala> parse_functor_parameter
 %start parse_module_declaration
 %type <Parsetree.module_declaration> parse_module_declaration
+%start parse_with_constraint
+%type <Parsetree.with_constraint> parse_with_constraint
 /* END AVOID */
 
 %type <Parsetree.expression list> expr_semi_list
@@ -1502,6 +1508,11 @@ parse_functor_parameter:
 parse_module_declaration:
   module_declaration EOF
     { fst $1 }
+;
+
+parse_with_constraint:
+  with_constraint EOF
+    { $1 }
 ;
 
 /* END AVOID */
@@ -3682,28 +3693,39 @@ extension_constructor_rebind(opening):
 /* "with" constraints (additional type equations over signature components) */
 
 with_constraint:
-    TYPE vaval(type_parameters) mkrhs(label_longident) with_type_binder
-    core_type_no_attr vaval(constraints)
-      { let lident = loc_last $3 in
+    TYPE vala(type_parameters, ANTI_LIST) mkrhs(label_longident) vala(with_type_binder, ANTI_PRIV)
+    core_type_no_attr vala(constraints, ANTI_LIST)
+      { let lident = loc_last_vala $3 in
         Pwith_type
           ($3,
-           (Type.mk (loc_map vaval lident)
+           vaval (Type.mk lident
               ~params:$2
               ~cstrs:$6
               ~manifest:(vaval (Some (vaval $5)))
-              ~priv:(vaval $4)
+              ~priv:$4
               ~loc:(make_loc $sloc))) }
     /* used label_longident instead of type_longident to disallow
        functor applications in type path */
+
+  | TYPE tpl = type_parameters li = mkrhs(label_longident) EQUAL td = ANTI_TYPEDECL
+      {
+        assert (tpl = []) ;
+        Pwith_type (li, vaant td)
+      }
   | TYPE vaval(type_parameters) mkrhs(label_longident)
     COLONEQUAL core_type_no_attr
       { let lident = loc_last $3 in
         Pwith_typesubst
          ($3,
-           (Type.mk (loc_map vaval lident)
+           vaval (Type.mk (loc_map vaval lident)
               ~params:$2
               ~manifest:(vaval (Some (vaval $5)))
               ~loc:(make_loc $sloc))) }
+  | TYPE tpl = type_parameters li = mkrhs(label_longident) COLONEQUAL td = ANTI_TYPEDECL
+      {
+        assert (tpl = []) ;
+        Pwith_typesubst (li, vaant td)
+      }
   | MODULE mkrhs(vala(mod_longident, ANTI_LONGID)) EQUAL mkrhs(vala(mod_ext_longident, ANTI_LONGID))
       { Pwith_module ($2, $4) }
   | MODULE mkrhs(vala(mod_longident, ANTI_LONGID)) COLONEQUAL mkrhs(vala(mod_ext_longident, ANTI_LONGID))

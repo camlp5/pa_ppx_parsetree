@@ -798,6 +798,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_VIRTUAL (make_antiquotation "virtual" loc payload)
      }
+  | "$" "typedecl:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_TYPEDECL (make_antiquotation "typedecl" loc payload)
+     }
 
   | eof { EOF }
   | (_ as illegal_char)
