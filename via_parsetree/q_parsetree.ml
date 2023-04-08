@@ -130,6 +130,9 @@ let parse_module_declaration s =
 let parse_with_constraint s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.with_constraint s
 
+let parse_class_type_field s =
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.class_type_field s
+
 [%%import: Reorg_parsetree.attribute]
 [@@deriving q_ast {
     default_data_source_module = Parsetree
@@ -284,6 +287,7 @@ let parse_with_constraint s =
     ; {name = "functor_parameter"; from_string = parse_functor_parameter ; type_name = functor_parameter_vala }
     ; {name = "module_declaration"; from_string = parse_module_declaration ; type_name = module_declaration }
     ; {name = "with_constraint"; from_string = parse_with_constraint ; type_name = with_constraint }
+    ; {name = "class_type_field"; from_string = parse_class_type_field ; type_name = class_type_field }
     ]
  }]
 

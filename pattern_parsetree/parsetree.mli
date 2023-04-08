@@ -655,9 +655,9 @@ and class_type_field =
 
 and class_type_field_desc =
   | Pctf_inherit of class_type  (** [inherit CT] *)
-  | Pctf_val of (label loc * mutable_flag * virtual_flag * core_type)
+  | Pctf_val of (label Ploc.vala loc * mutable_flag Ploc.vala * virtual_flag Ploc.vala * core_type)
       (** [val x: T] *)
-  | Pctf_method of (label loc * private_flag * virtual_flag * core_type)
+  | Pctf_method of (label Ploc.vala loc * private_flag Ploc.vala * virtual_flag Ploc.vala * core_type)
       (** [method x: T]
 
             Note: [T] can be a {{!core_type_desc.Ptyp_poly}[Ptyp_poly]}.

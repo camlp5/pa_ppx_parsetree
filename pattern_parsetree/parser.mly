@@ -961,6 +961,8 @@ The precedences must be listed from low to high.
 %type <Parsetree.module_declaration> parse_module_declaration
 %start parse_with_constraint
 %type <Parsetree.with_constraint> parse_with_constraint
+%start parse_class_type_field
+%type <Parsetree.class_type_field> parse_class_type_field
 /* END AVOID */
 
 %type <Parsetree.expression list> expr_semi_list
@@ -1512,6 +1514,11 @@ parse_module_declaration:
 
 parse_with_constraint:
   with_constraint EOF
+    { $1 }
+;
+
+parse_class_type_field:
+  class_sig_field EOF
     { $1 }
 ;
 
@@ -2398,11 +2405,15 @@ class_sig_field:
   | VAL attributes value_type post_item_attributes
       { let docs = symbol_docs $sloc in
         mkctf ~loc:$sloc (Pctf_val $3) ~attrs:($2@$4) ~docs }
-  | METHOD attributes private_virtual_flags mkrhs(label) COLON poly_type
+  | METHOD attributes private_virtual_flags mkrhs(vala(label, ANTI_LID)) COLON poly_type
     post_item_attributes
       { let (p, v) = $3 in
         let docs = symbol_docs $sloc in
-        mkctf ~loc:$sloc (Pctf_method ($4, p, v, $6)) ~attrs:($2@$7) ~docs }
+        mkctf ~loc:$sloc (Pctf_method ($4, vaval p, vaval v, $6)) ~attrs:($2@$7) ~docs }
+  | METHOD attributes p = ANTI_PRIV v = ANTI_VIRTUAL mkrhs(vala(label, ANTI_LID)) COLON poly_type
+    post_item_attributes
+      { let docs = symbol_docs $sloc in
+        mkctf ~loc:$sloc (Pctf_method ($5, vaant p, vaant v, $7)) ~attrs:($2@$8) ~docs }
   | CONSTRAINT attributes constrain_field post_item_attributes
       { let docs = symbol_docs $sloc in
         mkctf ~loc:$sloc (Pctf_constraint $3) ~attrs:($2@$4) ~docs }
@@ -2415,12 +2426,20 @@ class_sig_field:
 ;
 %inline value_type:
   flags = mutable_virtual_flags
-  label = mkrhs(label)
+  label = mkrhs(vala(label, ANTI_LID))
   COLON
   ty = core_type
   {
     let mut, virt = flags in
-    label, mut, virt, ty
+    label, vaval mut, vaval virt, ty
+  }
+| mut = ANTI_MUTABLE
+  virt = ANTI_VIRTUAL
+  label = mkrhs(vala(label, ANTI_LID))
+  COLON
+  ty = core_type
+  {
+    label, vaant mut, vaant virt, ty
   }
 ;
 %inline constrain:

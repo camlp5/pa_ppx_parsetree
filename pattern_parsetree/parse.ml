@@ -128,6 +128,7 @@ let class_field = wrap Parser.parse_class_field
 let functor_parameter = wrap Parser.parse_functor_parameter
 let module_declaration = wrap Parser.parse_module_declaration
 let with_constraint = wrap Parser.parse_with_constraint
+let class_type_field = wrap Parser.parse_class_type_field
 
 (* Error reporting for Syntaxerr *)
 (* The code has been moved here so that one can reuse Pprintast.tyvar *)

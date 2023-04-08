@@ -23,6 +23,7 @@
         ; class_field
         ; class_type
         ; class_type_declaration
+        ; class_type_field
         ; constant
         ; constructor_declaration
         ; core_type
@@ -57,6 +58,7 @@
         ; class_signature = Auto
         ; class_structure = Auto
         ; class_type_desc = Auto
+        ; class_type_field_desc = Auto
         ; core_type_desc = Auto
         ; expression_desc = Auto
         ; extension = Auto
@@ -188,6 +190,8 @@
         ; class_structure = Parsetree
         ; class_type = Parsetree
         ; class_type_desc = Parsetree
+        ; class_type_field = Parsetree
+        ; class_type_field_desc = Parsetree
         ; constant = Parsetree
         ; constructor_arguments = Parsetree
         ; constructor_declaration = Parsetree

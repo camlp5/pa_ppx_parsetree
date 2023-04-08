@@ -244,6 +244,23 @@
 [@@@"ocaml.text" "class_type_desc";];
 [@@@"ocaml.text" "class_signature";];
 [@@@"ocaml.text" "class_type_field";];
+<:class_type_field< inherit $ct$ >>  ;
+<:class_type_field< val $mutable:xxxxf2$ $virtual:xxxxf3$ $lid:x$ : $xxxxf4$ >>  ;
+<:class_type_field< method $priv:xxxxf2$ $virtual:xxxxf3$ $lid:x$ : $xxxxf4$ >>  ;
+<:class_type_field< constraint $xxf1$ = $xxf2$ >>  ;
+<:class_type_field< [@@@ $attrid:s$ $list:x$] >>;
+<:class_type_field< [@@@ $attrid:s$ : $list:x$] >>;
+<:class_type_field< [@@@ $attrid:s$ : $x$] >>;
+<:class_type_field< [@@@ $attrid:s$ ? $x1$] >>;
+<:class_type_field< [@@@ $attrid:s$ ? $x1$ when $x2$] >>;
+<:class_type_field< [@@@ $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:class_type_field< [%% $attrid:s$ $list:x$] >>;
+<:class_type_field< [%% $attrid:s$ : $list:x$] >>;
+<:class_type_field< [%% $attrid:s$ : $x$] >>;
+<:class_type_field< [%% $attrid:s$ ? $x1$] >>;
+<:class_type_field< [%% $attrid:s$ ? $x1$ when $x2$] >>;
+<:class_type_field< [%% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+
 [@@@"ocaml.text" "class_type_field_desc";];
 [@@@"ocaml.text" "class_infos";];
 [@@@"ocaml.text" "class_description";];
@@ -312,6 +329,7 @@
 <:functor_parameter< () >> ;
 <:functor_parameter< ( _ : $mt$ ) >> ;
 <:functor_parameter< ( $uid:s$ : $mt$ ) >> ;
+<:functor_parameter< ( $opt:os$ : $mt$ ) >> ;
 [@@@"ocaml.text" "signature";];
 [@@@"ocaml.text" "signature_item";];
 <:signature_item< external $lid:s$ : $x2$ = $list:ls$ >> ;

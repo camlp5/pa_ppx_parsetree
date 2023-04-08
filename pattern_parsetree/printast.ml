@@ -85,10 +85,14 @@ let fmt_mutable_flag f x =
   | Immutable -> fprintf f "Immutable"
   | Mutable -> fprintf f "Mutable"
 
+let fmt_mutable_flag_vala f x = fmt_mutable_flag f (unvala x)
+
 let fmt_virtual_flag f x =
   match x with
   | Virtual -> fprintf f "Virtual"
   | Concrete -> fprintf f "Concrete"
+
+let fmt_virtual_flag_vala f x = fmt_virtual_flag f (unvala x)
 
 let fmt_override_flag f x =
   match x with
@@ -102,20 +106,28 @@ let fmt_closed_flag f x =
   | Closed -> fprintf f "Closed"
   | Open -> fprintf f "Open"
 
+let fmt_closed_flag_vala f x = fmt_closed_flag f (unvala x)
+
 let fmt_rec_flag f x =
   match x with
   | Nonrecursive -> fprintf f "Nonrec"
   | Recursive -> fprintf f "Rec"
+
+let fmt_rec_flag_vala f x = fmt_rec_flag f (unvala x)
 
 let fmt_direction_flag f x =
   match x with
   | Upto -> fprintf f "Up"
   | Downto -> fprintf f "Down"
 
+let fmt_direction_flag_vala f x = fmt_direction_flag f (unvala x)
+
 let fmt_private_flag f x =
   match x with
   | Public -> fprintf f "Public"
   | Private -> fprintf f "Private"
+
+let fmt_private_flag_vala f x = fmt_private_flag f (unvala x)
 
 let line i f s (*...*) =
   fprintf f "%s" (String.make ((2*i) mod 72) ' ');
@@ -536,12 +548,12 @@ and class_type_field i ppf x =
       line i ppf "Pctf_inherit\n";
       class_type i ppf ct;
   | Pctf_val (s, mf, vf, ct) ->
-      line i ppf "Pctf_val \"%s\" %a %a\n" s.txt fmt_mutable_flag mf
-           fmt_virtual_flag vf;
+      line i ppf "Pctf_val \"%s\" %a %a\n" (unvala s.txt) fmt_mutable_flag_vala mf
+           fmt_virtual_flag_vala vf;
       core_type (i+1) ppf ct;
   | Pctf_method (s, pf, vf, ct) ->
-      line i ppf "Pctf_method \"%s\" %a %a\n" s.txt fmt_private_flag pf
-           fmt_virtual_flag vf;
+      line i ppf "Pctf_method \"%s\" %a %a\n" (unvala s.txt) fmt_private_flag_vala pf
+           fmt_virtual_flag_vala vf;
       core_type (i+1) ppf ct;
   | Pctf_constraint (ct1, ct2) ->
       line i ppf "Pctf_constraint\n";

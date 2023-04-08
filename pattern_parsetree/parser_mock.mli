@@ -583,8 +583,9 @@ val xv_vaval_class_longident_ : Longident.t Ast_helper.vala
 val xv_vaval_LETOP_ : string Ast_helper.vala
 val xv_vaval_ANDOP_ : string Ast_helper.vala
 val xv_value_type :
-  Asttypes.label Asttypes.loc * Asttypes.mutable_flag *
-  Asttypes.virtual_flag * Parsetree.core_type
+  Asttypes.label Ast_helper.vala Asttypes.loc *
+  Asttypes.mutable_flag Ast_helper.vala *
+  Asttypes.virtual_flag Ast_helper.vala * Parsetree.core_type
 val xv_value_description :
   Parsetree.value_description * string Ast_helper.vala Asttypes.loc option
 val xv_value_binding : Parsetree.value_binding
@@ -955,6 +956,7 @@ val xv_parse_core_type : Parsetree.core_type
 val xv_parse_constructor_declaration : Parsetree.constructor_declaration
 val xv_parse_constr_longident : Longident.t
 val xv_parse_constant : Parsetree.constant
+val xv_parse_class_type_field : Parsetree.class_type_field
 val xv_parse_class_type : Parsetree.class_type
 val xv_parse_class_field : Parsetree.class_field
 val xv_parse_class_expr : Parsetree.class_expr
@@ -1090,7 +1092,6 @@ val xv_mkrhs_name_tag_vala_ :
 val xv_mkrhs_module_name_ :
   string Ast_helper.vala option Ast_helper.vala Asttypes.loc
 val xv_mkrhs_label_longident_ : Longident.t Asttypes.loc
-val xv_mkrhs_label_ : Asttypes.label Asttypes.loc
 val xv_mkrhs_ident_vala_ : Ast_helper.str_vala
 val xv_mkrhs_ident_ : Asttypes.label Asttypes.loc
 val xv_mkrhs_clty_longident_ : Longident.t Asttypes.loc

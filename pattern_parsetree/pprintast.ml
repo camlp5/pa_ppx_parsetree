@@ -248,25 +248,35 @@ let constant f = function
 let mutable_flag f = function
   | Immutable -> ()
   | Mutable -> pp f "mutable@;"
+let mutable_flag_vala f x = mutable_flag f (unvala x)
+
 let virtual_flag f  = function
   | Concrete -> ()
   | Virtual -> pp f "virtual@;"
+let virtual_flag_vala f x = virtual_flag f (unvala x)
 
 (* trailing space added *)
 let rec_flag f rf =
   match rf with
   | Nonrecursive -> ()
   | Recursive -> pp f "rec "
+let rec_flag_vala f x = rec_flag f (unvala x)
+
 let nonrec_flag f rf =
   match rf with
   | Nonrecursive -> pp f "nonrec "
   | Recursive -> ()
+let nonrec_flag_vala f x = nonrec_flag f (unvala x)
+
 let direction_flag f = function
   | Upto -> pp f "to@ "
   | Downto -> pp f "downto@ "
+let direction_flag_vala f x = direction_flag f (unvala x)
+
 let private_flag f = function
   | Public -> ()
   | Private -> pp f "private@ "
+let private_flag_vala f x = private_flag f (unvala x)
 
 let iter_loc f ctxt {txt; loc = _} = f ctxt txt
 let iter_vala_loc f ctxt {txt; loc = _} = f ctxt (unvala txt)
@@ -877,11 +887,11 @@ and class_type_field ctxt f x =
         (item_attributes ctxt) x.pctf_attributes
   | Pctf_val (s, mf, vf, ct) ->
       pp f "@[<2>val @ %a%a%s@ :@ %a@]%a"
-        mutable_flag mf virtual_flag vf s.txt (core_type ctxt) ct
+        mutable_flag_vala mf virtual_flag_vala vf (unvala s.txt) (core_type ctxt) ct
         (item_attributes ctxt) x.pctf_attributes
   | Pctf_method (s, pf, vf, ct) ->
       pp f "@[<2>method %a %a%s :@;%a@]%a"
-        private_flag pf virtual_flag vf s.txt (core_type ctxt) ct
+        private_flag_vala pf virtual_flag_vala vf (unvala s.txt) (core_type ctxt) ct
         (item_attributes ctxt) x.pctf_attributes
   | Pctf_constraint (ct1, ct2) ->
       pp f "@[<2>constraint@ %a@ =@ %a@]%a"
