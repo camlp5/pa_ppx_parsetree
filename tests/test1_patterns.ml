@@ -309,6 +309,9 @@
 <:module_type< (module $longid:x$) >>;
 [@@@"ocaml.text" "module_type_desc";];
 [@@@"ocaml.text" "functor_parameter";];
+<:functor_parameter< () >> ;
+<:functor_parameter< ( _ : $mt$ ) >> ;
+<:functor_parameter< ( $uid:s$ : $mt$ ) >> ;
 [@@@"ocaml.text" "signature";];
 [@@@"ocaml.text" "signature_item";];
 <:signature_item< external $lid:s$ : $x2$ = $list:ls$ >> ;
@@ -435,3 +438,4 @@ Parsetree.Pconst_string s1 __loc__ os2;
 [@@@"ocaml.text" "toplevel_directive";];
 [@@@"ocaml.text" "directive_argument";];
 [@@@"ocaml.text" "directive_argument_desc";];
+[@@@"ocaml.text" "functor_parameter_vala";];

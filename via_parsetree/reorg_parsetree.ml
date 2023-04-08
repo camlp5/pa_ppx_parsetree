@@ -40,6 +40,7 @@
                    [@with Asttypes.loc := located]
                    [@with Longident.t := longident_t]
             ]
+      type functor_parameter_vala = functor_parameter Ploc.vala
   ]
  [@with Location.t := location]
  [@with Asttypes.loc := located]

@@ -941,6 +941,7 @@ val xv_parse_mod_ext_longident : Longident.t
 val xv_parse_match_case : Parsetree.case
 val xv_parse_lident_vala_loc : string Ast_helper.vala Location.loc
 val xv_parse_label_declaration : Parsetree.label_declaration
+val xv_parse_functor_parameter : Parsetree.functor_parameter Ast_helper.vala
 val xv_parse_extension_constructor : Parsetree.extension_constructor
 val xv_parse_extension : Parsetree.extension
 val xv_parse_expression : Parsetree.expression

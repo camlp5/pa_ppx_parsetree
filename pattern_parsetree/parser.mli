@@ -214,6 +214,8 @@ val parse_lident_vala_loc: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (string 
 
 val parse_label_declaration: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.label_declaration)
 
+val parse_functor_parameter: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.functor_parameter Ast_helper.vala)
+
 val parse_extension_constructor: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.extension_constructor)
 
 val parse_extension: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.extension)
