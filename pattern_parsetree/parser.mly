@@ -953,6 +953,8 @@ The precedences must be listed from low to high.
 %type <Parsetree.class_field> parse_class_field
 %start parse_functor_parameter
 %type <Parsetree.functor_parameter Ploc.vala> parse_functor_parameter
+%start parse_module_declaration
+%type <Parsetree.module_declaration> parse_module_declaration
 /* END AVOID */
 
 %type <Parsetree.expression list> expr_semi_list
@@ -1497,7 +1499,10 @@ parse_functor_parameter:
     { snd $1 }
 ;
 
-
+parse_module_declaration:
+  module_declaration EOF
+    { fst $1 }
+;
 
 /* END AVOID */
 

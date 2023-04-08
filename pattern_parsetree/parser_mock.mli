@@ -936,6 +936,7 @@ val xv_parse_object_field : Parsetree.object_field
 val xv_parse_mty_longident : Longident.t
 val xv_parse_module_type : Parsetree.module_type
 val xv_parse_module_expr : Parsetree.module_expr
+val xv_parse_module_declaration : Parsetree.module_declaration
 val xv_parse_mod_longident : Longident.t
 val xv_parse_mod_ext_longident : Longident.t
 val xv_parse_match_case : Parsetree.case

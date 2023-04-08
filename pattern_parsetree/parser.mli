@@ -204,6 +204,8 @@ val parse_module_type: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.m
 
 val parse_module_expr: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.module_expr)
 
+val parse_module_declaration: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.module_declaration)
+
 val parse_mod_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longident.t)
 
 val parse_mod_ext_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longident.t)

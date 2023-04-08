@@ -347,6 +347,9 @@
 <:signature_item< [%% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
 [@@@"ocaml.text" "signature_item_desc";];
 [@@@"ocaml.text" "module_declaration";];
+<:module_declaration< module _ : $mt$ >> ;
+<:module_declaration< module $uid:s$ : $mt$ >> ;
+<:module_declaration< module $opt:os$ : $mt$ >> ;
 [@@@"ocaml.text" "module_substitution";];
 [@@@"ocaml.text" "module_type_declaration";];
 [@@@"ocaml.text" "open_infos";];

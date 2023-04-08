@@ -124,6 +124,9 @@ let parse_class_field s =
 let parse_functor_parameter s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.functor_parameter s
 
+let parse_module_declaration s =
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.module_declaration s
+
 [%%import: Reorg_parsetree.attribute]
 [@@deriving q_ast {
     default_data_source_module = Parsetree
@@ -276,6 +279,7 @@ let parse_functor_parameter s =
     ; {name = "class_type"; from_string = parse_class_type ; type_name = class_type }
     ; {name = "class_field"; from_string = parse_class_field ; type_name = class_field }
     ; {name = "functor_parameter"; from_string = parse_functor_parameter ; type_name = functor_parameter_vala }
+    ; {name = "module_declaration"; from_string = parse_module_declaration ; type_name = module_declaration }
     ]
  }]
 
