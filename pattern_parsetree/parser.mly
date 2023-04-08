@@ -2294,11 +2294,11 @@ value:
     no_override_flag
     attrs = attributes
     mutable_ = vala(virtual_with_mutable_flag, ANTI_MUTABLE)
-    label = mkrhs(vala(label, ANTI_LID)) COLON ty = core_type
+    label = mkrhs(label_vala) COLON ty = core_type
       { (label, mutable_, Cfk_virtual ty), attrs }
-  | override_flag_vala attributes vala(mutable_flag, ANTI_MUTABLE) mkrhs(vala(label, ANTI_LID)) EQUAL seq_expr
+  | override_flag_vala attributes vala(mutable_flag, ANTI_MUTABLE) mkrhs(label_vala) EQUAL seq_expr
       { ($4, $3, Cfk_concrete ($1, $6)), $2 }
-  | override_flag_vala attributes vala(mutable_flag, ANTI_MUTABLE) mkrhs(vala(label, ANTI_LID)) type_constraint
+  | override_flag_vala attributes vala(mutable_flag, ANTI_MUTABLE) mkrhs(label_vala) type_constraint
     EQUAL seq_expr
       { let e = mkexp_constraint ~loc:$sloc $7 $5 in
         ($4, $3, Cfk_concrete ($1, e)), $2
@@ -2308,20 +2308,20 @@ method_:
     no_override_flag
     attrs = attributes
     private_ = vala(virtual_with_private_flag, ANTI_PRIV)
-    label = mkrhs(vala(label, ANTI_LID)) COLON ty = poly_type
+    label = mkrhs(label_vala) COLON ty = poly_type
       { (label, private_, Cfk_virtual ty), attrs }
-  | vaval(override_flag) attributes vala(private_flag, ANTI_PRIV) mkrhs(vala(label, ANTI_LID)) strict_binding
+  | vaval(override_flag) attributes vala(private_flag, ANTI_PRIV) mkrhs(label_vala) strict_binding
       { let e = $5 in
         let loc = Location.(e.pexp_loc.loc_start, e.pexp_loc.loc_end) in
         ($4, $3,
         Cfk_concrete ($1, ghexp ~loc (Pexp_poly (e, None)))), $2 }
-  | vaval(override_flag) attributes vala(private_flag, ANTI_PRIV) mkrhs(vala(label, ANTI_LID))
+  | vaval(override_flag) attributes vala(private_flag, ANTI_PRIV) mkrhs(label_vala)
     COLON poly_type EQUAL seq_expr
       { let poly_exp =
           let loc = ($startpos($6), $endpos($8)) in
           ghexp ~loc (Pexp_poly($8, Some $6)) in
         ($4, $3, Cfk_concrete ($1, poly_exp)), $2 }
-  | vaval(override_flag) attributes vala(private_flag, ANTI_PRIV) mkrhs(vala(label, ANTI_LID)) COLON TYPE lident_list
+  | vaval(override_flag) attributes vala(private_flag, ANTI_PRIV) mkrhs(label_vala) COLON TYPE lident_list
     DOT core_type EQUAL seq_expr
       { let poly_exp_loc = ($startpos($7), $endpos($11)) in
         let poly_exp =
@@ -2333,7 +2333,7 @@ method_:
           ghexp ~loc:poly_exp_loc (Pexp_poly(exp, Some poly)) in
         ($4, $3,
         Cfk_concrete ($1, poly_exp)), $2 }
-  | ANTI_OVERRIDEFLAG vala(private_flag, ANTI_PRIV) mkrhs(vala(label, ANTI_LID)) EQUAL ANTI
+  | ANTI_OVERRIDEFLAG vala(private_flag, ANTI_PRIV) mkrhs(label_vala) EQUAL ANTI
      {
        let e = mkexp ~loc:$sloc (Pexp_xtr (Location.mkloc $5 (make_loc $sloc))) in
        (($3, $2, Cfk_concrete(vaant $1, e)), [])
@@ -2405,12 +2405,12 @@ class_sig_field:
   | VAL attributes value_type post_item_attributes
       { let docs = symbol_docs $sloc in
         mkctf ~loc:$sloc (Pctf_val $3) ~attrs:($2@$4) ~docs }
-  | METHOD attributes private_virtual_flags mkrhs(vala(label, ANTI_LID)) COLON poly_type
+  | METHOD attributes private_virtual_flags mkrhs(label_vala) COLON poly_type
     post_item_attributes
       { let (p, v) = $3 in
         let docs = symbol_docs $sloc in
         mkctf ~loc:$sloc (Pctf_method ($4, vaval p, vaval v, $6)) ~attrs:($2@$7) ~docs }
-  | METHOD attributes p = ANTI_PRIV v = ANTI_VIRTUAL mkrhs(vala(label, ANTI_LID)) COLON poly_type
+  | METHOD attributes p = ANTI_PRIV v = ANTI_VIRTUAL mkrhs(label_vala) COLON poly_type
     post_item_attributes
       { let docs = symbol_docs $sloc in
         mkctf ~loc:$sloc (Pctf_method ($5, vaant p, vaant v, $7)) ~attrs:($2@$8) ~docs }
@@ -2426,7 +2426,7 @@ class_sig_field:
 ;
 %inline value_type:
   flags = mutable_virtual_flags
-  label = mkrhs(vala(label, ANTI_LID))
+  label = mkrhs(label_vala)
   COLON
   ty = core_type
   {
@@ -2435,7 +2435,7 @@ class_sig_field:
   }
 | mut = ANTI_MUTABLE
   virt = ANTI_VIRTUAL
-  label = mkrhs(vala(label, ANTI_LID))
+  label = mkrhs(label_vala)
   COLON
   ty = core_type
   {
@@ -2696,7 +2696,7 @@ expr:
       { mkexp ~loc:$sloc (Pexp_letop{ let_=vaant $1; ands=vaant $2; body}) }
   | expr COLONCOLON expr
       { mkexp_cons ~loc:$sloc $loc($2) (ghexp ~loc:$sloc (Pexp_tuple(vaval[$1;$3]))) }
-  | mkrhs(vala(label, ANTI_LID)) LESSMINUS expr
+  | mkrhs(label_vala) LESSMINUS expr
       { mkexp ~loc:$sloc (Pexp_setinstvar($1, $3)) }
   | simple_expr DOT mkrhs(vaval(label_longident)) LESSMINUS expr
       { mkexp ~loc:$sloc (Pexp_setfield($1, $3, $5)) }
@@ -2850,7 +2850,7 @@ simple_expr:
         Pexp_open(od, mkexp ~loc:$sloc (Pexp_override $4)) }
   | mod_longident DOT LBRACELESS object_expr_content error
       { unclosed "{<" $loc($3) ">}" $loc($5) }
-  | simple_expr HASH mkrhs(vala(label, ANTI_LID))
+  | simple_expr HASH mkrhs(label_vala)
       { Pexp_send($1, $3) }
   | simple_expr op(HASHOP) simple_expr
       { mkinfix $1 $2 $3 }
@@ -3117,7 +3117,7 @@ record_expr_content:
     { xs }
 ;
 %inline object_expr_field:
-    label = mkrhs(vala(label, ANTI_LID))
+    label = mkrhs(label_vala)
     oe = preceded(EQUAL, expr)?
       { let label, e =
           match oe with
@@ -3646,12 +3646,12 @@ label_declarations:
   | label_declaration_semi label_declarations   { $1 :: $2 }
 ;
 label_declaration:
-    vala(mutable_flag, ANTI_MUTABLE) mkrhs(vala(label, ANTI_LID)) COLON vala(poly_type_no_attr, ANTI_TYP) attributes
+    vala(mutable_flag, ANTI_MUTABLE) mkrhs(label_vala) COLON vala(poly_type_no_attr, ANTI_TYP) attributes
       { let info = symbol_info $endpos in
         Type.field $2 $4 ~mut:$1 ~attrs:$5 ~loc:(make_loc $sloc) ~info }
 ;
 label_declaration_semi:
-    vala(mutable_flag, ANTI_MUTABLE) mkrhs(vala(label, ANTI_LID)) COLON vala(poly_type_no_attr, ANTI_TYP) attributes SEMI attributes
+    vala(mutable_flag, ANTI_MUTABLE) mkrhs(label_vala) COLON vala(poly_type_no_attr, ANTI_TYP) attributes SEMI attributes
       { let info =
           match rhs_info $endpos($5) with
           | Some _ as info_before_semi -> info_before_semi
@@ -4006,14 +4006,14 @@ meth_list:
       { [], Open }
 ;
 %inline field:
-  mkrhs(vala(label, ANTI_LID)) COLON poly_type_no_attr attributes
+  mkrhs(label_vala) COLON poly_type_no_attr attributes
     { let info = symbol_info $endpos in
       let attrs = add_info_attrs info $4 in
       Of.tag ~loc:(make_loc $sloc) ~attrs $1 $3 }
 ;
 
 %inline field_semi:
-  mkrhs(vala(label, ANTI_LID)) COLON poly_type_no_attr attributes SEMI attributes
+  mkrhs(label_vala) COLON poly_type_no_attr attributes SEMI attributes
     { let info =
         match rhs_info $endpos($4) with
         | Some _ as info_before_semi -> info_before_semi
@@ -4030,6 +4030,10 @@ meth_list:
 
 %inline label:
     LIDENT                                      { $1 }
+;
+
+%inline label_vala:
+    vala(LIDENT,ANTI_LID)                      { $1 }
 ;
 
 /* Constants */

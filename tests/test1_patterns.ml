@@ -260,7 +260,6 @@
 <:class_type_field< [%% $attrid:s$ ? $x1$] >>;
 <:class_type_field< [%% $attrid:s$ ? $x1$ when $x2$] >>;
 <:class_type_field< [%% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
-
 [@@@"ocaml.text" "class_type_field_desc";];
 [@@@"ocaml.text" "class_infos";];
 [@@@"ocaml.text" "class_description";];
