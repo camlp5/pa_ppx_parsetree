@@ -663,7 +663,6 @@ val xv_vala_bar_llist_extension_constructor_declaration__ANTI_LIST_ :
   Parsetree.extension_constructor list Ast_helper.vala
 val xv_vala_bar_llist_extension_constructor__ANTI_LIST_ :
   Parsetree.extension_constructor list Ast_helper.vala
-val xv_vala_attributes_ANTI_ALGATTRS_ : Parsetree.attributes Ast_helper.vala
 val xv_vala_arg_label_ANTI_LABEL_ : Asttypes.arg_label Ast_helper.vala
 val xv_vala_amper_type_list_ANTI_LIST_ :
   Parsetree.core_type list Ast_helper.vala
@@ -1240,11 +1239,11 @@ val xv_generic_type_declaration_no_nonrec_flag_type_subst_kind_ :
 val xv_generic_constructor_declaration_epsilon_ :
   Ast_helper.str_vala * Ast_helper.str_vala list *
   Parsetree.constructor_arguments * Parsetree.core_type option *
-  Parsetree.attributes Ast_helper.vala * Location.t * Docstrings.info
+  Parsetree.attributes * Location.t * Docstrings.info
 val xv_generic_constructor_declaration_BAR_ :
   Ast_helper.str_vala * Ast_helper.str_vala list *
   Parsetree.constructor_arguments * Parsetree.core_type option *
-  Parsetree.attributes Ast_helper.vala * Location.t * Docstrings.info
+  Parsetree.attributes * Location.t * Docstrings.info
 val xv_generic_and_type_declaration_type_subst_kind_ :
   Parsetree.type_declaration
 val xv_generic_and_type_declaration_type_kind_ : Parsetree.type_declaration

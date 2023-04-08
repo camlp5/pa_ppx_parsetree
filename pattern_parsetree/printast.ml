@@ -481,7 +481,7 @@ and type_exception i ppf x =
 
 and extension_constructor i ppf x =
   line i ppf "extension_constructor %a\n" fmt_location x.pext_loc;
-  attributes i ppf (unvala x.pext_attributes);
+  attributes i ppf x.pext_attributes;
   let i = i + 1 in
   line i ppf "pext_name = \"%s\"\n" (unvala x.pext_name.txt);
   line i ppf "pext_kind =\n";
@@ -892,7 +892,7 @@ and constructor_decl i ppf
   line i ppf "%a\n" fmt_location pcd_loc;
   line (i+1) ppf "%a\n" fmt_string_loc (loc_map unvala pcd_name);
   if pcd_vars <> [] then line (i+1) ppf "pcd_vars =%a\n" typevars pcd_vars;
-  attributes i ppf (unvala pcd_attributes);
+  attributes i ppf pcd_attributes;
   constructor_arguments (i+1) ppf pcd_args;
   option (i+1) core_type ppf pcd_res
 
@@ -902,7 +902,7 @@ and constructor_arguments i ppf = function
 
 and label_decl i ppf {pld_name; pld_mutable; pld_type; pld_loc; pld_attributes}=
   line i ppf "%a\n" fmt_location pld_loc;
-  attributes i ppf (unvala pld_attributes);
+  attributes i ppf pld_attributes;
   line (i+1) ppf "%a\n" fmt_mutable_flag (unvala pld_mutable);
   line (i+1) ppf "%a" fmt_string_loc (loc_map unvala pld_name);
   core_type (i+1) ppf (unvala pld_type)

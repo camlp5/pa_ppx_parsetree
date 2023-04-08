@@ -224,11 +224,11 @@ module Type:
       ?kind:type_kind -> ?priv:(private_flag Ploc.vala) -> manifest:(core_type Ploc.vala option Ploc.vala) -> str_vala ->
       type_declaration
 
-    val constructor: ?loc:loc -> ?attrs:(attrs Ploc.vala) -> ?info:info ->
+    val constructor: ?loc:loc -> ?attrs:attrs -> ?info:info ->
       ?vars:str_vala list -> ?args:constructor_arguments -> ?res:core_type ->
       str_vala ->
       constructor_declaration
-    val field: ?loc:loc -> ?attrs:attrs Ploc.vala -> ?info:info ->
+    val field: ?loc:loc -> ?attrs:attrs -> ?info:info ->
       ?mut:mutable_flag Ploc.vala -> str_vala -> core_type Ploc.vala -> label_declaration
   end
 
@@ -242,14 +242,14 @@ module Te:
     val mk_exception: ?loc:loc -> ?attrs:attrs -> ?docs:docs ->
       extension_constructor -> type_exception
 
-    val constructor: ?loc:loc -> ?attrs:attrs Ploc.vala -> ?docs:docs -> ?info:info ->
+    val constructor: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?info:info ->
       str_vala -> extension_constructor_kind -> extension_constructor
 
-    val decl: ?loc:loc -> ?attrs:attrs Ploc.vala -> ?docs:docs -> ?info:info ->
+    val decl: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?info:info ->
       ?vars:str_vala list -> ?args:constructor_arguments -> ?res:core_type ->
       str_vala ->
       extension_constructor
-    val rebind: ?loc:loc -> ?attrs:attrs Ploc.vala -> ?docs:docs -> ?info:info ->
+    val rebind: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?info:info ->
       str_vala -> lid -> extension_constructor
   end
 

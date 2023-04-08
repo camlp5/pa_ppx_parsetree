@@ -41,8 +41,8 @@ let attr1 = [%attribute {| [@foo] |}]
 let attr2 = [%attribute {| [@bar] |}]
 let attrs = [attr1;attr2]
 
-let fld1 = [%field {| x : int |}]
-let fld2 = [%field {| mutable y : int |}]
+let fld1 = [%label_declaration {| x : int |}]
+let fld2 = [%label_declaration {| mutable y : int |}]
 let fields = [fld1; fld2]
 
 let case1 = [%case {| C x -> f x |}]
@@ -617,9 +617,9 @@ module FLD = struct
   open Asttypes
 
   let test ctxt =
-    assert_equal (Mutable, l, t1, attrs)
-      (match  [%field {| $mutable:Mutable$ $lid:l$ : $typ:t1$ $algattrs:attrs$ |}] with
-         [%field {| $mutable:f'$ $lid:l'$ : $typ:t'$ $algattrs:attrs'$ |}] -> (f', l', t', attrs'))
+    assert_equal (Mutable, l, t1)
+      (match  [%label_declaration {| $mutable:Mutable$ $lid:l$ : $typ:t1$ |}] with
+         [%label_declaration {| $mutable:f'$ $lid:l'$ : $typ:t'$ |}] -> (f', l', t'))
 
 end
 
@@ -635,10 +635,10 @@ module TD = struct
     ; assert_equal [ [%constructor_declaration {| C of int |}] ]
         (match [%type_decl  {| t = C of int |}] with
            [%type_decl  {| t = $constructorlist:cl$ |}] -> cl)
-    ; assert_equal [ [%field {| mutable f : int |}] ]
+    ; assert_equal [ [%label_declaration {| mutable f : int |}] ]
         (match [%type_decl  {| t = { mutable f : int } |}] with
            [%type_decl  {| t = { $list:fl$ } |}] -> fl)
-    ; assert_equal ("C", [ [%field {| mutable f : int |}] ])
+    ; assert_equal ("C", [ [%label_declaration {| mutable f : int |}] ])
         (match [%type_decl  {| t = C of { mutable f : int } |}] with
            [%type_decl  {| t = $uid:cid$ of { $list:fl$ } |}] -> (cid, fl))
 
@@ -662,17 +662,17 @@ module STRI = struct
         (match  [%structure_item {| type t = $priv:Private$ $typ:t1$ |}] with
            [%structure_item {| type t = $priv:p'$ $typ:t'$ |}] -> (p', t'))
 
-    ; assert_equal (Recursive,m,attrs) (
+    ; assert_equal (Recursive,m) (
           let nr = Recursive in
-          match  [%structure_item {| type $nonrecflag:nr$ t = $uid:m$ of int $algattrs:attrs$ |}] with
-            [%structure_item {| type $nonrecflag:nr'$ t = $uid:cid$ of int $algattrs:l$ |}] -> (nr', cid,l))
+          match  [%structure_item {| type $nonrecflag:nr$ t = $uid:m$ of int |}] with
+            [%structure_item {| type $nonrecflag:nr'$ t = $uid:cid$ of int |}] -> (nr', cid))
 
-    ; assert_equal (m, [t1;t2], attrs)
-        (match [%structure_item {| exception $uid:m$ of $list:[t1;t2]$ $algattrs:attrs$ |}] with
-           [%structure_item {| exception $uid:cid$ of $list:tl'$ $algattrs:l$ |}] -> (cid, tl', l))
+    ; assert_equal (m, [t1;t2])
+        (match [%structure_item {| exception $uid:m$ of $list:[t1;t2]$ |}] with
+           [%structure_item {| exception $uid:cid$ of $list:tl'$ |}] -> (cid, tl'))
 
-    ; assert_equal (m, fields, attrs) (match [%structure_item {| exception $uid:m$ of { $list:fields$ } $algattrs:attrs$ |}] with
-                                         [%structure_item {| exception $uid:cid$ of { $list:fl$ } $algattrs:l$ |}] -> (cid, fl, l))
+    ; assert_equal (m, fields) (match [%structure_item {| exception $uid:m$ of { $list:fields$ } |}] with
+                                         [%structure_item {| exception $uid:cid$ of { $list:fl$ } |}] -> (cid, fl))
 
     ; assert_equal (Mutable, l, t1)
         (match [%structure_item {| type t = { $mutable:Mutable$ $lid:l$ : $typ:t1$ } |}] with

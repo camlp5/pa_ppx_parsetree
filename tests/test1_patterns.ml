@@ -210,6 +210,7 @@
  *)
 [@@@"ocaml.text" "type_kind";];
 [@@@"ocaml.text" "label_declaration";];
+<:label_declaration< $mutable:x2$ $lid:s$ : $x3$ >> ;
 [@@@"ocaml.text" "constructor_declaration";];
 [@@@"ocaml.text" "constructor_arguments";];
 [@@@"ocaml.text" "type_extension";];

@@ -554,7 +554,7 @@ module Type = struct
      ptype_loc = loc;
     }
 
-  let constructor ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) ?(info = empty_info)
+  let constructor ?(loc = !default_loc) ?(attrs = []) ?(info = empty_info)
         ?(vars = []) ?(args = Pcstr_tuple (Ploc.VaVal [])) ?res name =
     {
      pcd_name = name;
@@ -562,17 +562,17 @@ module Type = struct
      pcd_args = args;
      pcd_res = res;
      pcd_loc = loc;
-     pcd_attributes = Pcaml.vala_map (add_info_attrs info) attrs;
+     pcd_attributes = add_info_attrs info attrs;
     }
 
-  let field ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) ?(info = empty_info)
+  let field ?(loc = !default_loc) ?(attrs = []) ?(info = empty_info)
         ?(mut = Ploc.VaVal Immutable) name typ =
     {
      pld_name = name;
      pld_mutable = mut;
      pld_type = typ;
      pld_loc = loc;
-     pld_attributes = Pcaml.vala_map (add_info_attrs info) attrs;
+     pld_attributes = add_info_attrs info attrs;
     }
 
 end
@@ -598,31 +598,31 @@ module Te = struct
      ptyexn_attributes = add_docs_attrs docs attrs;
     }
 
-  let constructor ?(loc = !default_loc) ?(attrs = Ploc.VaVal [])
+  let constructor ?(loc = !default_loc) ?(attrs = [])
         ?(docs = empty_docs) ?(info = empty_info) name kind =
     {
      pext_name = name;
      pext_kind = kind;
      pext_loc = loc;
-     pext_attributes = attrs |> Pcaml.vala_map (add_info_attrs info) |> Pcaml.vala_map (add_docs_attrs docs);
+     pext_attributes = attrs |> (add_info_attrs info) |> (add_docs_attrs docs);
     }
 
-  let decl ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) ?(docs = empty_docs)
+  let decl ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs)
          ?(info = empty_info) ?(vars = []) ?(args = Pcstr_tuple (Ploc.VaVal [])) ?res name =
     {
      pext_name = name;
      pext_kind = Pext_decl(vars, args, res);
      pext_loc = loc;
-     pext_attributes = attrs |> Pcaml.vala_map (add_info_attrs info) |> Pcaml.vala_map (add_docs_attrs docs);
+     pext_attributes = attrs |> (add_info_attrs info) |> (add_docs_attrs docs);
     }
 
-  let rebind ?(loc = !default_loc) ?(attrs = Ploc.VaVal [])
+  let rebind ?(loc = !default_loc) ?(attrs = [])
         ?(docs = empty_docs) ?(info = empty_info) name lid =
     {
      pext_name = name;
      pext_kind = Pext_rebind lid;
      pext_loc = loc;
-     pext_attributes = attrs |> Pcaml.vala_map (add_info_attrs info) |> Pcaml.vala_map (add_docs_attrs docs);
+     pext_attributes = attrs |> (add_info_attrs info) |> (add_docs_attrs docs);
     }
 
 end

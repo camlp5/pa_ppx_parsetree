@@ -68,7 +68,7 @@ and constructor_decl = function
 and record_type __loc__ fields =
   let ids_types =
     fields
-    |>  List.map (function [%field {| $mutable:_$ $lid:l$ : $typ:t$ $algattrs:_$ |}] ->
+    |>  List.map (function [%label_declaration {| $mutable:_$ $lid:l$ : $typ:t$ |}] ->
                     (l, t))  in
   let patbinding_list =
     ids_types |> List.map (fun (id,_) ->

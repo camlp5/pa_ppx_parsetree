@@ -3479,7 +3479,7 @@ generic_constructor_declaration(opening):
   opening
   cid = mkrhs(vala(constr_ident, ANTI_UID))
   vars_args_res = generalized_constructor_arguments
-  attrs = vala(attributes, ANTI_ALGATTRS)
+  attrs = attributes
     {
       let vars, args, res = vars_args_res in
       let info = symbol_info $endpos in
@@ -3499,35 +3499,35 @@ str_exception_declaration:
     { $1 }
 | EXCEPTION
   ext = ext
-  attrs1 = vala(attributes, ANTI_ALGATTRS)
+  attrs1 = attributes
   id = mkrhs(vala(constr_ident, ANTI_UID))
   EQUAL
   lid = mkrhs(constr_longident)
-  attrs2 = vala(attributes,  ANTI_ALGATTRS)
+  attrs2 = attributes
   attrs = post_item_attributes
   { let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Te.mk_exception ~attrs
-      (Te.rebind id lid ~attrs:(append_list_vala attrs1 attrs2) ~loc ~docs)
+      (Te.rebind id lid ~attrs:( attrs1 @ attrs2) ~loc ~docs)
     , ext }
 ;
 sig_exception_declaration:
   EXCEPTION
   ext = ext
-  attrs1 = vala(attributes, ANTI_ALGATTRS)
+  attrs1 = attributes
   id = mkrhs(vala(constr_ident, ANTI_UID))
   vars_args_res = generalized_constructor_arguments
-  attrs2 = vala(attributes, ANTI_ALGATTRS)
+  attrs2 = attributes
   attrs = post_item_attributes
     { let vars, args, res = vars_args_res in
       let loc = make_loc ($startpos, $endpos(attrs2)) in
       let docs = symbol_docs $sloc in
       Te.mk_exception ~attrs
-        (Te.decl id ~vars ~args ?res ~attrs:(append_list_vala attrs1 attrs2) ~loc ~docs)
+        (Te.decl id ~vars ~args ?res ~attrs:(attrs1 @ attrs2) ~loc ~docs)
       , ext }
 ;
 %inline let_exception_declaration:
-    mkrhs(vala(constr_ident, ANTI_UID)) generalized_constructor_arguments vala(attributes, ANTI_ALGATTRS)
+    mkrhs(vala(constr_ident, ANTI_UID)) generalized_constructor_arguments attributes
       { let vars, args, res = $2 in
         Te.decl $1 ~vars ~args ?res ~attrs:$3 ~loc:(make_loc $sloc) }
 ;
@@ -3558,18 +3558,18 @@ label_declarations:
   | label_declaration_semi label_declarations   { $1 :: $2 }
 ;
 label_declaration:
-    vala(mutable_flag, ANTI_MUTABLE) mkrhs(vala(label, ANTI_LID)) COLON vala(poly_type_no_attr, ANTI_TYP) vala(attributes, ANTI_ALGATTRS)
+    vala(mutable_flag, ANTI_MUTABLE) mkrhs(vala(label, ANTI_LID)) COLON vala(poly_type_no_attr, ANTI_TYP) attributes
       { let info = symbol_info $endpos in
         Type.field $2 $4 ~mut:$1 ~attrs:$5 ~loc:(make_loc $sloc) ~info }
 ;
 label_declaration_semi:
-    vala(mutable_flag, ANTI_MUTABLE) mkrhs(vala(label, ANTI_LID)) COLON vala(poly_type_no_attr, ANTI_TYP) vala(attributes, ANTI_ALGATTRS) SEMI vala(attributes, ANTI_ALGATTRS)
+    vala(mutable_flag, ANTI_MUTABLE) mkrhs(vala(label, ANTI_LID)) COLON vala(poly_type_no_attr, ANTI_TYP) attributes SEMI attributes
       { let info =
           match rhs_info $endpos($5) with
           | Some _ as info_before_semi -> info_before_semi
           | None -> symbol_info $endpos
        in
-       Type.field $2 $4 ~mut:$1 ~attrs:(append_list_vala $5 $7) ~loc:(make_loc $sloc) ~info }
+       Type.field $2 $4 ~mut:$1 ~attrs:($5 @ $7) ~loc:(make_loc $sloc) ~info }
 ;
 
 /* Type Extensions */
@@ -3616,7 +3616,7 @@ extension_constructor_rebind(opening):
   cid = mkrhs(vala(constr_ident, ANTI_UID))
   EQUAL
   lid = mkrhs(constr_longident)
-  attrs = vala(attributes, ANTI_ALGATTRS)
+  attrs = attributes
       { let info = symbol_info $endpos in
         Te.rebind cid lid ~attrs ~loc:(make_loc $sloc) ~info }
 ;

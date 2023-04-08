@@ -229,7 +229,7 @@ let parse_object_field s =
     ; {name = "constructor_declaration"; from_string = parse_constructor_declaration ; type_name = constructor_declaration }
     ; {name = "attribute"; from_string = parse_attribute ; type_name = attribute }
     ; {name = "extension"; from_string = parse_extension ; type_name = extension }
-    ; {name = "field"; from_string = parse_label_declaration ; type_name = label_declaration }
+    ; {name = "label_declaration"; from_string = parse_label_declaration ; type_name = label_declaration }
     ; {name = "case"; from_string = parse_match_case ; type_name = case }
     ; {name = "value_binding"; from_string = parse_value_binding ; type_name = value_binding }
     ; {name = "arg_label"; from_string = parse_arg_label ; type_name = arg_label }

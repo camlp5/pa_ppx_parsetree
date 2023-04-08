@@ -1524,7 +1524,7 @@ and record_declaration ctxt f lbls =
       mutable_flag (unvala pld.pld_mutable)
       (unvala pld.pld_name.txt)
       (core_type ctxt) (unvala pld.pld_type)
-      (attributes ctxt) (unvala pld.pld_attributes)
+      (attributes ctxt) pld.pld_attributes
   in
   pp f "{@\n%a}"
     (list type_record_field ~sep:";@\n" )  lbls
@@ -1611,7 +1611,7 @@ and constructor_declaration ctxt f (name, vars, args, res, attrs) =
              pp f "@;of@;%a" (list (core_type1 ctxt) ~sep:"@;*@;") (unvala l)
            | Pcstr_record l -> pp f "@;of@;%a" (record_declaration ctxt) (unvala l)
         ) args
-        (attributes ctxt) (unvala attrs)
+        (attributes ctxt) attrs
   | Some r ->
       pp f "%s:@;%a%a@;%a" name
         pp_vars vars
@@ -1624,7 +1624,7 @@ and constructor_declaration ctxt f (name, vars, args, res, attrs) =
                pp f "%a@;->@;%a" (record_declaration ctxt) (unvala l) (core_type1 ctxt) r
         )
         args
-        (attributes ctxt) (unvala attrs)
+        (attributes ctxt) attrs
 
 and extension_constructor ctxt f x =
   (* Cf: #7200 *)
@@ -1635,7 +1635,7 @@ and extension_constructor ctxt f x =
   | Pext_rebind li ->
       pp f "%s@;=@;%a%a" (unvala x.pext_name.txt)
         longident_loc li
-        (attributes ctxt) (unvala x.pext_attributes)
+        (attributes ctxt) x.pext_attributes
 
 and case_list ctxt f l : unit =
   let aux f {pc_lhs; pc_guard; pc_rhs} =

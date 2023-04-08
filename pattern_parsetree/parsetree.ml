@@ -513,7 +513,7 @@ and label_declaration =
      pld_mutable: mutable_flag Ploc.vala;
      pld_type: core_type Ploc.vala;
      pld_loc: Location.t;
-     pld_attributes: attributes Ploc.vala;  (** [l : T [\@id1] [\@id2]] *)
+     pld_attributes: attributes;  (** [l : T [\@id1] [\@id2]] *)
     }
 (**
    - [{ ...; l: T; ... }]
@@ -533,7 +533,7 @@ and constructor_declaration =
      pcd_args: constructor_arguments;
      pcd_res: core_type option;
      pcd_loc: Location.t;
-     pcd_attributes: attributes Ploc.vala;  (** [C of ... [\@id1] [\@id2]] *)
+     pcd_attributes: attributes;  (** [C of ... [\@id1] [\@id2]] *)
     }
 
 and constructor_arguments =
@@ -572,7 +572,7 @@ and extension_constructor =
      pext_name: string Ploc.vala loc;
      pext_kind: extension_constructor_kind;
      pext_loc: Location.t;
-     pext_attributes: attributes Ploc.vala;  (** [C of ... [\@id1] [\@id2]] *)
+     pext_attributes: attributes;  (** [C of ... [\@id1] [\@id2]] *)
    }
 
 and type_exception =
