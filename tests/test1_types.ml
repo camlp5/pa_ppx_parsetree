@@ -46,6 +46,7 @@
       ; expand_types = {
           attribute = Auto
         ; constructor_arguments = Auto
+        ; class_infos = Auto
         ; core_type_desc = Auto
         ; expression_desc = Auto
         ; extension = Auto
@@ -154,7 +155,9 @@
         ; case = Parsetree
         ; class_field = Parsetree
         ; class_field_desc = Parsetree
+        ; class_infos = Parsetree
         ; class_structure = Parsetree
+        ; class_type = Parsetree
         ; constant = Parsetree
         ; constructor_arguments = Parsetree
         ; constructor_declaration = Parsetree

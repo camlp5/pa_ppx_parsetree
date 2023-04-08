@@ -929,8 +929,8 @@ and class_type_declaration_list ctxt f l =
   let class_type_declaration kwd f x =
     let { pci_params=ls; pci_name={ txt; _ }; _ } = x in
     pp f "@[<2>%s %a%a%s@ =@ %a@]%a" kwd
-      virtual_flag x.pci_virt
-      (class_params_def ctxt) ls txt
+      virtual_flag (unvala x.pci_virt)
+      (class_params_def ctxt) (unvala ls) (unvala txt)
       (class_type ctxt) x.pci_expr
       (item_attributes ctxt) x.pci_attributes
   in
@@ -1130,8 +1130,8 @@ and signature_item ctxt f x : unit =
   | Psig_class l ->
       let class_description kwd f ({pci_params=ls;pci_name={txt;_};_} as x) =
         pp f "@[<2>%s %a%a%s@;:@;%a@]%a" kwd
-          virtual_flag x.pci_virt
-          (class_params_def ctxt) ls txt
+          virtual_flag (unvala x.pci_virt)
+          (class_params_def ctxt) (unvala ls) (unvala txt)
           (class_type ctxt) x.pci_expr
           (item_attributes ctxt) x.pci_attributes
       in begin
@@ -1429,8 +1429,8 @@ and structure_item ctxt f x =
           ({pci_params=ls; pci_name={txt;_}; _} as x) =
         let args, constr, cl = extract_class_args x.pci_expr in
         pp f "@[<2>%s %a%a%s %a%a=@;%a@]%a" kwd
-          virtual_flag x.pci_virt
-          (class_params_def ctxt) ls txt
+          virtual_flag (unvala x.pci_virt)
+          (class_params_def ctxt) (unvala ls) (unvala txt)
           (list (label_exp ctxt)) args
           (option class_constraint) constr
           (class_expr ctxt) cl

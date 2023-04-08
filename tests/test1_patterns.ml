@@ -228,6 +228,7 @@
 [@@@"ocaml.text" "class_type_field_desc";];
 [@@@"ocaml.text" "class_infos";];
 [@@@"ocaml.text" "class_description";];
+<:class_description< class $virtual:x1$ $list:lxxx$ $lid:s$ : $ct$ >> ;
 [@@@"ocaml.text" "class_type_declaration";];
 [@@@"ocaml.text" "class_expr";];
 [@@@"ocaml.text" "class_expr_desc";];
@@ -270,8 +271,8 @@
 <:signature_item< module type $uid:s$ := $mt$ >> ;
 <:signature_item< open $overrideflag:x2$ $longid:x$ >> ;
 <:signature_item< include $mt$ >> ;
-<:signature_item< class $list:lx$ >> ;
-<:signature_item< class type $list:lx$ >> ;
+<:signature_item< class $classdesclist:lx$ >> ;
+<:signature_item< class type $classtypelist:lx$ >> ;
 <:signature_item< [@@@ $attrid:s$ $list:x$] >>;
 <:signature_item< [@@@ $attrid:s$ : $list:x$] >>;
 <:signature_item< [@@@ $attrid:s$ : $x$] >>;
@@ -324,10 +325,9 @@
 <:structure_item< module type $uid:s$ = $mt$ >> ;
 <:structure_item< module type $uid:s$ $opt:omt$ >> ;
 <:structure_item< open $overrideflag:x1$ $me$ >> ;
-<:structure_item< class $list:lx$ >> ;
-<:structure_item< class type $list:lx$ >> ;
+<:structure_item< class $classlist:lx$ >> ;
+<:structure_item< class type $classtypelist:lx$ >> ;
 <:structure_item< include $me$ >> ;
-<:structure_item< class type $list:lx$ >> ;
 <:structure_item< [@@@ $attrid:s$ $list:x$] >>;
 <:structure_item< [@@@ $attrid:s$ : $list:x$] >>;
 <:structure_item< [@@@ $attrid:s$ : $x$] >>;

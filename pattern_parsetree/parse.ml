@@ -121,6 +121,7 @@ let type_ident = wrap Parser.parse_mty_longident
 let constant = wrap Parser.parse_constant
 let row_field = wrap Parser.parse_row_field
 let object_field = wrap Parser.parse_object_field
+let class_description = wrap Parser.parse_class_description
 
 (* Error reporting for Syntaxerr *)
 (* The code has been moved here so that one can reuse Pprintast.tyvar *)

@@ -472,9 +472,9 @@ module Cf:
 module Ci:
   sig
     val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?text:text ->
-      ?virt:virtual_flag ->
-      ?params:(core_type * (variance * injectivity)) list ->
-      str -> 'a -> 'a class_infos
+      ?virt:virtual_flag Ploc.vala ->
+      ?params:(core_type * (variance * injectivity)) list Ploc.vala ->
+      str_vala -> 'a -> 'a class_infos
   end
 
 (** Class signatures *)

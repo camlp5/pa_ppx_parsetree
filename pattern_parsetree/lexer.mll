@@ -606,6 +606,22 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_LIST (make_antiquotation "list" loc payload)
      }
+  | "$" "classlist:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_CLASSLIST (make_antiquotation "classlist" loc payload)
+     }
+  | "$" "classdesclist:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_CLASSDESCLIST (make_antiquotation "classdesclist" loc payload)
+     }
+  | "$" "classtypelist:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_CLASSTYPELIST (make_antiquotation "classtypelist" loc payload)
+     }
+
   | "$" "lid:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
@@ -776,6 +792,11 @@ rule token = parse
      {
        let loc = Location.curr lexbuf in
        ANTI_ISCONST (make_antiquotation "isconst" loc payload)
+     }
+  | "$" "virtual:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_VIRTUAL (make_antiquotation "virtual" loc payload)
      }
 
   | eof { EOF }

@@ -618,6 +618,7 @@ and class_type =
     }
 
 and class_type_desc =
+  | Pcty_xtr of string loc
   | Pcty_constr of Longident.t loc * core_type list
       (** - [c]
             - [['a1, ..., 'an] c] *)
@@ -667,9 +668,9 @@ and class_type_field_desc =
 
 and 'a class_infos =
     {
-     pci_virt: virtual_flag;
-     pci_params: (core_type * (variance * injectivity)) list;
-     pci_name: string loc;
+     pci_virt: virtual_flag Ploc.vala;
+     pci_params: (core_type * (variance * injectivity)) list Ploc.vala;
+     pci_name: string Ploc.vala loc;
      pci_expr: 'a;
      pci_loc: Location.t;
      pci_attributes: attributes;  (** [... [\@\@id1] [\@\@id2]] *)

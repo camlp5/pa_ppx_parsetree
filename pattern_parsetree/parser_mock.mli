@@ -123,6 +123,7 @@ type token =
   | AS
   | ANTI_WITHE of string
   | ANTI_WHENO of string
+  | ANTI_VIRTUAL of string
   | ANTI_UID of string
   | ANTI_TYP of string
   | ANTI_TUPLELIST of string
@@ -156,6 +157,9 @@ type token =
   | ANTI_CONSTRUCTORLIST of string
   | ANTI_CONSTANT of string
   | ANTI_CLOSEDFLAG of string
+  | ANTI_CLASSTYPELIST of string
+  | ANTI_CLASSLIST of string
+  | ANTI_CLASSDESCLIST of string
   | ANTI_CHAR of string
   | ANTI_ATTRID of string
   | ANTI_ALGATTRS of string
@@ -586,6 +590,8 @@ val xv_value :
   (Asttypes.label Asttypes.loc * Asttypes.mutable_flag *
    Parsetree.class_field_kind) *
   Parsetree.attributes
+val xv_vala_virtual_flag_ANTI_VIRTUAL_ :
+  Asttypes.virtual_flag Ast_helper.vala
 val xv_vala_val_ident_ANTI_LID_ : string Ast_helper.vala
 val xv_vala_typevar_list_ANTI_LIST_ :
   Asttypes.label Ast_helper.vala Asttypes.loc list Ast_helper.vala
@@ -645,6 +651,9 @@ val xv_vala_inline_private_flag_ANTI_PRIV_ :
   Asttypes.private_flag Ast_helper.vala
 val xv_vala_ident_ANTI_LID_ : Asttypes.label Ast_helper.vala
 val xv_vala_ident_ANTI_ID_ : Asttypes.label Ast_helper.vala
+val xv_vala_formal_class_parameters_ANTI_LIST_ :
+  (Parsetree.core_type * (Asttypes.variance * Asttypes.injectivity)) list
+  Ast_helper.vala
 val xv_vala_extra_cstr_class_fields__ANTI_LIST_ :
   Parsetree.class_field list Ast_helper.vala
 val xv_vala_expr_semi_list_ANTI_LIST_ :
@@ -886,7 +895,7 @@ val xv_preceded_EQUAL_expr_ : Parsetree.expression
 val xv_preceded_CONSTRAINT_constrain_ :
   Parsetree.core_type * Parsetree.core_type * Ast_helper.loc
 val xv_preceded_COLON_core_type_ : Parsetree.core_type
-val xv_preceded_AS_mkrhs_LIDENT__ : Ast_helper.str
+val xv_preceded_AS_mkrhs_LIDENT__ : string Asttypes.loc
 val xv_post_item_attributes : Parsetree.attributes
 val xv_post_item_attribute : Parsetree.attribute
 val xv_possibly_poly_core_type_no_attr_ : Parsetree.core_type
@@ -929,6 +938,7 @@ val xv_parse_core_type : Parsetree.core_type
 val xv_parse_constructor_declaration : Parsetree.constructor_declaration
 val xv_parse_constr_longident : Longident.t
 val xv_parse_constant : Parsetree.constant
+val xv_parse_class_description : Parsetree.class_description
 val xv_parse_binding_op : Parsetree.binding_op
 val xv_parse_attribute : Parsetree.attribute
 val xv_parse_arg_label : Asttypes.arg_label
@@ -1071,7 +1081,7 @@ val xv_mkrhs___anonymous_33_ : Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs___anonymous_28_ : Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs___anonymous_27_ : Longident.t Ast_helper.vala Asttypes.loc
 val xv_mkrhs_UIDENT_ : string Location.loc
-val xv_mkrhs_LIDENT_ : Ast_helper.str
+val xv_mkrhs_LIDENT_ : string Asttypes.loc
 val xv_mkpat_simple_pattern_not_ident__ : Parsetree.pattern
 val xv_mkpat___anonymous_35_ : Parsetree.pattern
 val xv_mkpat___anonymous_32_ : Parsetree.pattern

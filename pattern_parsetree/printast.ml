@@ -557,10 +557,10 @@ and class_description i ppf x =
   line i ppf "class_description %a\n" fmt_location x.pci_loc;
   attributes i ppf x.pci_attributes;
   let i = i+1 in
-  line i ppf "pci_virt = %a\n" fmt_virtual_flag x.pci_virt;
+  line i ppf "pci_virt = %a\n" fmt_virtual_flag (unvala x.pci_virt);
   line i ppf "pci_params =\n";
-  list (i+1) type_parameter ppf x.pci_params;
-  line i ppf "pci_name = %a\n" fmt_string_loc x.pci_name;
+  list (i+1) type_parameter ppf (unvala x.pci_params);
+  line i ppf "pci_name = %a\n" fmt_string_vala_loc x.pci_name;
   line i ppf "pci_expr =\n";
   class_type (i+1) ppf x.pci_expr;
 
@@ -568,10 +568,10 @@ and class_type_declaration i ppf x =
   line i ppf "class_type_declaration %a\n" fmt_location x.pci_loc;
   attributes i ppf x.pci_attributes;
   let i = i+1 in
-  line i ppf "pci_virt = %a\n" fmt_virtual_flag x.pci_virt;
+  line i ppf "pci_virt = %a\n" fmt_virtual_flag (unvala x.pci_virt);
   line i ppf "pci_params =\n";
-  list (i+1) type_parameter ppf x.pci_params;
-  line i ppf "pci_name = %a\n" fmt_string_loc x.pci_name;
+  list (i+1) type_parameter ppf (unvala x.pci_params);
+  line i ppf "pci_name = %a\n" fmt_string_vala_loc x.pci_name;
   line i ppf "pci_expr =\n";
   class_type (i+1) ppf x.pci_expr;
 
@@ -659,10 +659,10 @@ and class_declaration i ppf x =
   line i ppf "class_declaration %a\n" fmt_location x.pci_loc;
   attributes i ppf x.pci_attributes;
   let i = i+1 in
-  line i ppf "pci_virt = %a\n" fmt_virtual_flag x.pci_virt;
+  line i ppf "pci_virt = %a\n" fmt_virtual_flag (unvala x.pci_virt);
   line i ppf "pci_params =\n";
-  list (i+1) type_parameter ppf x.pci_params;
-  line i ppf "pci_name = %a\n" fmt_string_loc x.pci_name;
+  list (i+1) type_parameter ppf (unvala x.pci_params);
+  line i ppf "pci_name = %a\n" fmt_string_vala_loc x.pci_name;
   line i ppf "pci_expr =\n";
   class_expr (i+1) ppf x.pci_expr;
 

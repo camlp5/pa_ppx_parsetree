@@ -773,6 +773,9 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_OPT
 %token <string> ANTI_TUPLELIST
 %token <string> ANTI_LIST
+%token <string> ANTI_CLASSLIST
+%token <string> ANTI_CLASSDESCLIST
+%token <string> ANTI_CLASSTYPELIST
 %token <string> ANTI_CONSTRUCTORLIST
 %token <string> ANTI_ID
 %token <string> ANTI_LID
@@ -808,6 +811,7 @@ let mk_directive ~loc name arg =
 %token <string> ANTI_ATTRID
 %token <string> ANTI_CONSTANT
 %token <string> ANTI_ISCONST
+%token <string> ANTI_VIRTUAL
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -939,6 +943,8 @@ The precedences must be listed from low to high.
 %type <Parsetree.row_field> parse_row_field
 %start parse_object_field
 %type <Parsetree.object_field> parse_object_field
+%start parse_class_description
+%type <Parsetree.class_description> parse_class_description
 /* END AVOID */
 
 %type <Parsetree.expression list> expr_semi_list
@@ -1456,6 +1462,11 @@ parse_object_field:
     { $1 }
 | inherit_field EOF
     { $1 }
+;
+
+parse_class_description:
+  class_description EOF
+    { snd $1 }
 ;
 
 /* END AVOID */
@@ -2075,16 +2086,16 @@ module_type_subst:
 %inline class_declarations:
   xlist(class_declaration, and_class_declaration)
     { let (a,b) = $1 in a, vaval b }
-| CLASS ANTI_LIST
+| CLASS ANTI_CLASSLIST
    { None, vaant $2 }
 ;
 %inline class_declaration:
   CLASS
   ext = ext
   attrs1 = attributes
-  virt = virtual_flag
-  params = formal_class_parameters
-  id = mkrhs(LIDENT)
+  virt = vala(virtual_flag, ANTI_VIRTUAL)
+  params = vala(formal_class_parameters, ANTI_LIST)
+  id = mkrhs(vala(LIDENT, ANTI_LID))
   body = class_fun_binding
   attrs2 = post_item_attributes
   {
@@ -2098,9 +2109,9 @@ module_type_subst:
 %inline and_class_declaration:
   AND
   attrs1 = attributes
-  virt = virtual_flag
-  params = formal_class_parameters
-  id = mkrhs(LIDENT)
+  virt = vala(virtual_flag, ANTI_VIRTUAL)
+  params = vala(formal_class_parameters, ANTI_LIST)
+  id = mkrhs(vala(LIDENT, ANTI_LID))
   body = class_fun_binding
   attrs2 = post_item_attributes
   {
@@ -2299,6 +2310,8 @@ class_signature:
       { let loc = ($startpos($2), $endpos($5)) in
         let od = Opn.mk ~override:$3 ~loc:(make_loc loc) $5 in
         mkcty ~loc:$sloc ~attrs:$4 (Pcty_open(od, $7)) }
+  | ANTI
+      { mkcty ~loc:$sloc (Pcty_xtr (Location.mkloc $1 (make_loc $sloc))) }
 ;
 %inline class_parameters(parameter):
   | /* empty */
@@ -2369,16 +2382,16 @@ constrain_field:
 %inline class_descriptions:
   xlist(class_description, and_class_description)
     { let (a,b) = $1 in a, vaval b }
-| CLASS ANTI_LIST
+| CLASS ANTI_CLASSDESCLIST
     { None, vaant $2 }
 ;
 %inline class_description:
   CLASS
   ext = ext
   attrs1 = attributes
-  virt = virtual_flag
-  params = formal_class_parameters
-  id = mkrhs(LIDENT)
+  virt = vala(virtual_flag, ANTI_VIRTUAL)
+  params = vala(formal_class_parameters, ANTI_LIST)
+  id = mkrhs(vala(LIDENT, ANTI_LID))
   COLON
   cty = class_type
   attrs2 = post_item_attributes
@@ -2393,9 +2406,9 @@ constrain_field:
 %inline and_class_description:
   AND
   attrs1 = attributes
-  virt = virtual_flag
-  params = formal_class_parameters
-  id = mkrhs(LIDENT)
+  virt = vala(virtual_flag, ANTI_VIRTUAL)
+  params = vala(formal_class_parameters, ANTI_LIST)
+  id = mkrhs(vala(LIDENT, ANTI_LID))
   COLON
   cty = class_type
   attrs2 = post_item_attributes
@@ -2410,16 +2423,16 @@ constrain_field:
 class_type_declarations:
   xlist(class_type_declaration, and_class_type_declaration)
     { let (a,b) =  $1 in a,vaval b }
-| CLASS TYPE ANTI_LIST
+| CLASS TYPE ANTI_CLASSTYPELIST
     { None, vaant $3 }
 ;
 %inline class_type_declaration:
   CLASS TYPE
   ext = ext
   attrs1 = attributes
-  virt = virtual_flag
-  params = formal_class_parameters
-  id = mkrhs(LIDENT)
+  virt = vala(virtual_flag, ANTI_VIRTUAL)
+  params = vala(formal_class_parameters, ANTI_LIST)
+  id = mkrhs(vala(LIDENT, ANTI_LID))
   EQUAL
   csig = class_signature
   attrs2 = post_item_attributes
@@ -2434,9 +2447,9 @@ class_type_declarations:
 %inline and_class_type_declaration:
   AND
   attrs1 = attributes
-  virt = virtual_flag
-  params = formal_class_parameters
-  id = mkrhs(LIDENT)
+  virt = vala(virtual_flag, ANTI_VIRTUAL)
+  params = vala(formal_class_parameters, ANTI_LIST)
+  id = mkrhs(vala(LIDENT, ANTI_LID))
   EQUAL
   csig = class_signature
   attrs2 = post_item_attributes

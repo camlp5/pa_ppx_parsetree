@@ -521,7 +521,7 @@ end
 module Ci = struct
   let mk ?(loc = !default_loc) ?(attrs = [])
         ?(docs = empty_docs) ?(text = [])
-        ?(virt = Concrete) ?(params = []) name expr =
+        ?(virt = Ploc.VaVal Concrete) ?(params = Ploc.VaVal []) name expr =
     {
      pci_virt = virt;
      pci_params = params;

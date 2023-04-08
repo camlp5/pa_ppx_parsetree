@@ -124,6 +124,7 @@ type token =
   | AS
   | ANTI_WITHE of (string)
   | ANTI_WHENO of (string)
+  | ANTI_VIRTUAL of (string)
   | ANTI_UID of (string)
   | ANTI_TYP of (string)
   | ANTI_TUPLELIST of (string)
@@ -157,6 +158,9 @@ type token =
   | ANTI_CONSTRUCTORLIST of (string)
   | ANTI_CONSTANT of (string)
   | ANTI_CLOSEDFLAG of (string)
+  | ANTI_CLASSTYPELIST of (string)
+  | ANTI_CLASSLIST of (string)
+  | ANTI_CLASSDESCLIST of (string)
   | ANTI_CHAR of (string)
   | ANTI_ATTRID of (string)
   | ANTI_ALGATTRS of (string)
@@ -223,6 +227,8 @@ val parse_constructor_declaration: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> 
 val parse_constr_longident: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Longident.t)
 
 val parse_constant: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.constant)
+
+val parse_class_description: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.class_description)
 
 val parse_binding_op: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.binding_op)
 
