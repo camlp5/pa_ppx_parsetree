@@ -20111,14 +20111,14 @@ and (xv_xlist_vala_generic_type_declaration_vala_nonrec_flag_ANTI_NONRECFLAG__ty
 # 2167 "parser.mly"
                        _2
 # 20782 "parser_mock.ml"
-   : 'tv_nonempty_llist_labeled_simple_expr_) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+   : 'tv_vala_nonempty_llist_labeled_simple_expr__ANTI_LIST_) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
 # 2166 "parser.mly"
             _1
 # 20787 "parser_mock.ml"
    : 'tv_class_simple_expr) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
 # 2168 "parser.mly"
-        ( Pcl_apply(_1, List.map (fun (a,b) -> (a, b)) _2) )
+        ( Pcl_apply(_1, Pcaml.vala_map (List.map (fun (a,b) -> (a, b))) _2) )
 # 20792 "parser_mock.ml"
      : 'tv___anonymous_9) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (

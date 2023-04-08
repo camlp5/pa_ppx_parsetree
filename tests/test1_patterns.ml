@@ -238,6 +238,16 @@
 <:class_expr< fun $label:x1$ ( $x3$ ) -> $ce$ >> ;
 <:class_expr< fun $label:x1$ ( $x3$ = $x2$ ) -> $ce$ >> ;
 <:class_expr< fun $label:x1$ ( $x3$ $expropt:ox2$ ) -> $ce$ >> ;
+<:class_expr< $ce$ $list:lxx$ >> ;
+<:class_expr< let $recflag:x$ $list:lx$ in $ce$ >> ;
+<:class_expr< ( $ce$ : $ct$ ) >> ;
+<:class_expr< [% $attrid:s$ $list:x$] >>;
+<:class_expr< [% $attrid:s$ : $list:x$] >>;
+<:class_expr< [% $attrid:s$ : $x$] >>;
+<:class_expr< [% $attrid:s$ ? $x1$] >>;
+<:class_expr< [% $attrid:s$ ? $x1$ when $x2$] >>;
+<:class_expr< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:class_expr< let open $overrideflag:x2$ $longid:x$ in $ce$ >>;
 [@@@"ocaml.text" "class_expr_desc";];
 [@@@"ocaml.text" "class_structure";];
 [@@@"ocaml.text" "class_field";];

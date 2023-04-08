@@ -2164,8 +2164,8 @@ class_expr:
   | class_expr attribute
       { Cl.attr $1 $2 }
   | mkclass(
-      class_simple_expr nonempty_llist(labeled_simple_expr)
-        { Pcl_apply($1, List.map (fun (a,b) -> (a, b)) $2) }
+      class_simple_expr vala(nonempty_llist(labeled_simple_expr), ANTI_LIST)
+        { Pcl_apply($1, Pcaml.vala_map (List.map (fun (a,b) -> (a, b))) $2) }
     | extension
         { Pcl_extension $1 }
     ) { $1 }

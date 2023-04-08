@@ -595,7 +595,7 @@ and class_expr i ppf x =
   | Pcl_apply (ce, l) ->
       line i ppf "Pcl_apply\n";
       class_expr i ppf ce;
-      list i label_x_expression ppf l;
+      list i label_x_expression ppf (unvala l);
   | Pcl_let (rf, l, ce) ->
       line i ppf "Pcl_let %a\n" fmt_rec_flag (unvala rf);
       list i value_binding ppf (unvala l);

@@ -716,7 +716,7 @@ and class_expr_desc =
                      when [lbl]  is {{!Asttypes.arg_label.Optional}[Optional l]}
                       and [exp0] is [Some E0].
         *)
-  | Pcl_apply of class_expr * (arg_label * expression) list
+  | Pcl_apply of class_expr * (arg_label * expression) list Ploc.vala
       (** [Pcl_apply(CE, [(l1,E1) ; ... ; (ln,En)])]
             represents [CE ~l1:E1 ... ~ln:En].
             [li] can be empty (non labeled argument) or start with [?]

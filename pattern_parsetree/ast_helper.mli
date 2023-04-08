@@ -433,7 +433,7 @@ module Cl:
     val fun_: ?loc:loc -> ?attrs:attrs -> arg_label Ploc.vala -> expression option Ploc.vala ->
       pattern -> class_expr -> class_expr
     val apply: ?loc:loc -> ?attrs:attrs -> class_expr ->
-      (arg_label * expression) list -> class_expr
+      (arg_label * expression) list Ploc.vala -> class_expr
     val let_: ?loc:loc -> ?attrs:attrs -> rec_flag Ploc.vala -> value_binding list Ploc.vala ->
       class_expr -> class_expr
     val constraint_: ?loc:loc -> ?attrs:attrs -> class_expr -> class_type ->
