@@ -49,6 +49,7 @@ val object_field : Lexing.lexbuf -> Parsetree.object_field
 val class_description : Lexing.lexbuf -> Parsetree.class_description
 val class_expr : Lexing.lexbuf -> Parsetree.class_expr
 val class_type : Lexing.lexbuf -> Parsetree.class_type
+val class_field : Lexing.lexbuf -> Parsetree.class_field
 
 (** The functions below can be used to parse Longident safely. *)
 

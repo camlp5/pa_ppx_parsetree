@@ -623,16 +623,16 @@ and class_field i ppf x =
   attributes i ppf x.pcf_attributes;
   match x.pcf_desc with
   | Pcf_inherit (ovf, ce, so) ->
-      line i ppf "Pcf_inherit %a\n" fmt_override_flag ovf;
+      line i ppf "Pcf_inherit %a\n" fmt_override_flag_vala ovf;
       class_expr (i+1) ppf ce;
-      option (i+1) string_loc ppf so;
+      option (i+1) string_vala_loc ppf (unvala so);
   | Pcf_val (s, mf, k) ->
-      line i ppf "Pcf_val %a\n" fmt_mutable_flag mf;
-      line (i+1) ppf "%a\n" fmt_string_loc s;
+      line i ppf "Pcf_val %a\n" fmt_mutable_flag (unvala mf);
+      line (i+1) ppf "%a\n" fmt_string_vala_loc s;
       class_field_kind (i+1) ppf k
   | Pcf_method (s, pf, k) ->
-      line i ppf "Pcf_method %a\n" fmt_private_flag pf;
-      line (i+1) ppf "%a\n" fmt_string_loc s;
+      line i ppf "Pcf_method %a\n" fmt_private_flag (unvala pf);
+      line (i+1) ppf "%a\n" fmt_string_vala_loc s;
       class_field_kind (i+1) ppf k
   | Pcf_constraint (ct1, ct2) ->
       line i ppf "Pcf_constraint\n";
@@ -649,7 +649,7 @@ and class_field i ppf x =
 
 and class_field_kind i ppf = function
   | Cfk_concrete (o, e) ->
-      line i ppf "Concrete %a\n" fmt_override_flag o;
+      line i ppf "Concrete %a\n" fmt_override_flag_vala o;
       expression i ppf e
   | Cfk_virtual t ->
       line i ppf "Virtual\n";

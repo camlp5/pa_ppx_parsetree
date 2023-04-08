@@ -949,6 +949,8 @@ The precedences must be listed from low to high.
 %type <Parsetree.class_expr> parse_class_expr
 %start parse_class_type
 %type <Parsetree.class_type> parse_class_type
+%start parse_class_field
+%type <Parsetree.class_field> parse_class_field
 /* END AVOID */
 
 %type <Parsetree.expression list> expr_semi_list
@@ -1480,6 +1482,11 @@ parse_class_expr:
 
 parse_class_type:
   class_type EOF
+    { $1 }
+;
+
+parse_class_field:
+  class_field EOF
     { $1 }
 ;
 
@@ -2225,8 +2232,8 @@ class_self_pattern:
     { $1 }
 ;
 class_field:
-  | INHERIT override_flag attributes class_expr
-    self = preceded(AS, mkrhs(LIDENT))?
+  | INHERIT override_flag_vala attributes class_expr
+    self = vala(preceded(AS, mkrhs(vala(LIDENT, ANTI_LID)))?, ANTI_OPT)
     post_item_attributes
       { let docs = symbol_docs $sloc in
         mkcf ~loc:$sloc (Pcf_inherit ($2, $4, self)) ~attrs:($3@$6) ~docs }
@@ -2254,12 +2261,12 @@ class_field:
 value:
     no_override_flag
     attrs = attributes
-    mutable_ = virtual_with_mutable_flag
-    label = mkrhs(label) COLON ty = core_type
+    mutable_ = vala(virtual_with_mutable_flag, ANTI_MUTABLE)
+    label = mkrhs(vala(label, ANTI_LID)) COLON ty = core_type
       { (label, mutable_, Cfk_virtual ty), attrs }
-  | override_flag attributes mutable_flag mkrhs(label) EQUAL seq_expr
+  | override_flag_vala attributes vala(mutable_flag, ANTI_MUTABLE) mkrhs(vala(label, ANTI_LID)) EQUAL seq_expr
       { ($4, $3, Cfk_concrete ($1, $6)), $2 }
-  | override_flag attributes mutable_flag mkrhs(label) type_constraint
+  | override_flag_vala attributes vala(mutable_flag, ANTI_MUTABLE) mkrhs(vala(label, ANTI_LID)) type_constraint
     EQUAL seq_expr
       { let e = mkexp_constraint ~loc:$sloc $7 $5 in
         ($4, $3, Cfk_concrete ($1, e)), $2
@@ -2268,21 +2275,21 @@ value:
 method_:
     no_override_flag
     attrs = attributes
-    private_ = virtual_with_private_flag
-    label = mkrhs(label) COLON ty = poly_type
+    private_ = vala(virtual_with_private_flag, ANTI_PRIV)
+    label = mkrhs(vala(label, ANTI_LID)) COLON ty = poly_type
       { (label, private_, Cfk_virtual ty), attrs }
-  | override_flag attributes private_flag mkrhs(label) strict_binding
+  | vaval(override_flag) attributes vala(private_flag, ANTI_PRIV) mkrhs(vala(label, ANTI_LID)) strict_binding
       { let e = $5 in
         let loc = Location.(e.pexp_loc.loc_start, e.pexp_loc.loc_end) in
         ($4, $3,
         Cfk_concrete ($1, ghexp ~loc (Pexp_poly (e, None)))), $2 }
-  | override_flag attributes private_flag mkrhs(label)
+  | vaval(override_flag) attributes vala(private_flag, ANTI_PRIV) mkrhs(vala(label, ANTI_LID))
     COLON poly_type EQUAL seq_expr
       { let poly_exp =
           let loc = ($startpos($6), $endpos($8)) in
           ghexp ~loc (Pexp_poly($8, Some $6)) in
         ($4, $3, Cfk_concrete ($1, poly_exp)), $2 }
-  | override_flag attributes private_flag mkrhs(label) COLON TYPE lident_list
+  | vaval(override_flag) attributes vala(private_flag, ANTI_PRIV) mkrhs(vala(label, ANTI_LID)) COLON TYPE lident_list
     DOT core_type EQUAL seq_expr
       { let poly_exp_loc = ($startpos($7), $endpos($11)) in
         let poly_exp =
@@ -2294,6 +2301,11 @@ method_:
           ghexp ~loc:poly_exp_loc (Pexp_poly(exp, Some poly)) in
         ($4, $3,
         Cfk_concrete ($1, poly_exp)), $2 }
+  | ANTI_OVERRIDEFLAG vala(private_flag, ANTI_PRIV) mkrhs(vala(label, ANTI_LID)) EQUAL ANTI
+     {
+       let e = mkexp ~loc:$sloc (Pexp_xtr (Location.mkloc $5 (make_loc $sloc))) in
+       (($3, $2, Cfk_concrete(vaant $1, e)), [])
+     }
 ;
 
 /* Class types */

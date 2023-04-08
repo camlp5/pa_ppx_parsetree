@@ -754,7 +754,7 @@ and class_field =
     }
 
 and class_field_desc =
-  | Pcf_inherit of override_flag * class_expr * string loc option
+  | Pcf_inherit of override_flag Ploc.vala * class_expr * string Ploc.vala loc option Ploc.vala
       (** [Pcf_inherit(flag, CE, s)] represents:
             - [inherit CE]
                     when [flag] is {{!Asttypes.override_flag.Fresh}[Fresh]}
@@ -769,7 +769,7 @@ and class_field_desc =
                    when [flag] is {{!Asttypes.override_flag.Override}[Override]}
                     and [s] is [Some x]
   *)
-  | Pcf_val of (label loc * mutable_flag * class_field_kind)
+  | Pcf_val of (label Ploc.vala loc * mutable_flag Ploc.vala * class_field_kind)
       (** [Pcf_val(x,flag, kind)] represents:
             - [val x = E]
        when [flag] is {{!Asttypes.mutable_flag.Immutable}[Immutable]}
@@ -784,7 +784,7 @@ and class_field_desc =
        when [flag] is {{!Asttypes.mutable_flag.Mutable}[Mutable]}
         and [kind] is {{!class_field_kind.Cfk_virtual}[Cfk_virtual(T)]}
   *)
-  | Pcf_method of (label loc * private_flag * class_field_kind)
+  | Pcf_method of (label Ploc.vala loc * private_flag Ploc.vala * class_field_kind)
       (** - [method x = E]
                         ([E] can be a {{!expression_desc.Pexp_poly}[Pexp_poly]})
             - [method virtual x: T]
@@ -797,7 +797,7 @@ and class_field_desc =
 
 and class_field_kind =
   | Cfk_virtual of core_type
-  | Cfk_concrete of override_flag * expression
+  | Cfk_concrete of override_flag Ploc.vala * expression
 
 and class_declaration = class_expr class_infos
 

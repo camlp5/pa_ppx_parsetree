@@ -230,6 +230,8 @@ val parse_constant: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.cons
 
 val parse_class_type: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.class_type)
 
+val parse_class_field: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.class_field)
+
 val parse_class_expr: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.class_expr)
 
 val parse_class_description: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Parsetree.class_description)

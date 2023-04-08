@@ -450,11 +450,11 @@ module Cf:
       class_field
     val attr: class_field -> attribute -> class_field
 
-    val inherit_: ?loc:loc -> ?attrs:attrs -> override_flag -> class_expr ->
-      str option -> class_field
-    val val_: ?loc:loc -> ?attrs:attrs -> str -> mutable_flag ->
+    val inherit_: ?loc:loc -> ?attrs:attrs -> override_flag Ploc.vala -> class_expr ->
+      str_vala option Ploc.vala -> class_field
+    val val_: ?loc:loc -> ?attrs:attrs -> str_vala -> mutable_flag Ploc.vala ->
       class_field_kind -> class_field
-    val method_: ?loc:loc -> ?attrs:attrs -> str -> private_flag ->
+    val method_: ?loc:loc -> ?attrs:attrs -> str_vala -> private_flag Ploc.vala ->
       class_field_kind -> class_field
     val constraint_: ?loc:loc -> ?attrs:attrs -> core_type -> core_type ->
       class_field
@@ -464,7 +464,7 @@ module Cf:
     val text: text -> class_field list
 
     val virtual_: core_type -> class_field_kind
-    val concrete: override_flag -> expression -> class_field_kind
+    val concrete: override_flag Ploc.vala -> expression -> class_field_kind
 
   end
 

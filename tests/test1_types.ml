@@ -51,6 +51,8 @@
           attribute = Auto
         ; constructor_arguments = Auto
         ; class_expr_desc = Auto
+        ; class_field_desc = Auto
+        ; class_field_kind = Auto
         ; class_infos = Auto
         ; class_signature = Auto
         ; class_structure = Auto
@@ -167,7 +169,7 @@
           ))
         ]
       ; type_module_map = {
-          arg_label = Parsetree
+          arg_label = Asttypes
         ; attribute = Parsetree
         ; binding_op = Parsetree
         ; case = Parsetree
@@ -175,6 +177,7 @@
         ; class_expr_desc = Parsetree
         ; class_field = Parsetree
         ; class_field_desc = Parsetree
+        ; class_field_kind = Parsetree
         ; class_infos = Parsetree
         ; class_signature = Parsetree
         ; class_structure = Parsetree

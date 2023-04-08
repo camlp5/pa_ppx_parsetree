@@ -945,32 +945,32 @@ and class_type_declaration_list ctxt f l =
 and class_field ctxt f x =
   match x.pcf_desc with
   | Pcf_inherit (ovf, ce, so) ->
-      pp f "@[<2>inherit@ %s@ %a%a@]%a" (override ovf)
+      pp f "@[<2>inherit@ %s@ %a%a@]%a" (override_vala ovf)
         (class_expr ctxt) ce
         (fun f so -> match so with
            | None -> ();
-           | Some (s) -> pp f "@ as %s" s.txt ) so
+           | Some (s) -> pp f "@ as %s" (unvala s.txt) ) (unvala so)
         (item_attributes ctxt) x.pcf_attributes
   | Pcf_val (s, mf, Cfk_concrete (ovf, e)) ->
-      pp f "@[<2>val%s %a%s =@;%a@]%a" (override ovf)
-        mutable_flag mf s.txt
+      pp f "@[<2>val%s %a%s =@;%a@]%a" (override_vala ovf)
+        mutable_flag (unvala mf) (unvala s.txt)
         (expression ctxt) e
         (item_attributes ctxt) x.pcf_attributes
   | Pcf_method (s, pf, Cfk_virtual ct) ->
       pp f "@[<2>method virtual %a %s :@;%a@]%a"
-        private_flag pf s.txt
+        private_flag (unvala pf) (unvala s.txt)
         (core_type ctxt) ct
         (item_attributes ctxt) x.pcf_attributes
   | Pcf_val (s, mf, Cfk_virtual ct) ->
       pp f "@[<2>val virtual %a%s :@ %a@]%a"
-        mutable_flag mf s.txt
+        mutable_flag (unvala mf) (unvala s.txt)
         (core_type ctxt) ct
         (item_attributes ctxt) x.pcf_attributes
   | Pcf_method (s, pf, Cfk_concrete (ovf, e)) ->
       let bind e =
         binding ctxt f
           {pvb_pat=
-             {ppat_desc=Ppat_var (loc_map vaval s);
+             {ppat_desc=Ppat_var s;
               ppat_loc=Location.none;
               ppat_loc_stack=[];
               ppat_attributes=[]};
@@ -980,12 +980,12 @@ and class_field ctxt f x =
           }
       in
       pp f "@[<2>method%s %a%a@]%a"
-        (override ovf)
-        private_flag pf
+        (override_vala ovf)
+        private_flag (unvala pf)
         (fun f -> function
            | {pexp_desc=Pexp_poly (e, Some ct); pexp_attributes=[]; _} ->
                pp f "%s :@;%a=@;%a"
-                 s.txt (core_type ctxt) ct (expression ctxt) e
+                 (unvala s.txt) (core_type ctxt) ct (expression ctxt) e
            | {pexp_desc=Pexp_poly (e, None); pexp_attributes=[]; _} ->
                bind e
            | _ -> bind e) e
