@@ -7,7 +7,7 @@ include $(TOP)/config/Makefile.top
 WD=$(shell pwd)
 DESTDIR=
 
-SYSDIRS= pattern_parsetree official_parsetree runtime via_camlp5 via_parsetree
+SYSDIRS= pattern_parsetree.5.0.0 official_parsetree runtime via_camlp5 via_parsetree
 
 TESTDIRS= tests
 
