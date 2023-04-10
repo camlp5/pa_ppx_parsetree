@@ -1207,16 +1207,16 @@ val xv_inline_private_flag_vala : Asttypes.private_flag Ast_helper.vala
 val xv_inline_private_flag : Asttypes.private_flag
 val xv_inherit_field : Parsetree.object_field
 val xv_infix_operator : string
-val xv_indexop_expr_4_qualified_dotop_expr_semi_list___anonymous_25_ :
+val xv_indexop_expr_qualified_dotop_expr_semi_list___anonymous_25_ :
   Parsetree.expression * (Longident.t Ast_helper.vala option * string) *
   paren_kind * Parsetree.expression list * Parsetree.expression option
-val xv_indexop_expr_3_DOT_seq_expr___anonymous_24_ :
+val xv_indexop_expr_qualified_dotop_expr_semi_list___anonymous_23_ :
+  Parsetree.expression * (Longident.t Ast_helper.vala option * string) *
+  paren_kind * Parsetree.expression list * Parsetree.expression option
+val xv_indexop_expr_DOT_seq_expr___anonymous_24_ :
   Parsetree.expression * unit * paren_kind * Parsetree.expression *
   Parsetree.expression option
-val xv_indexop_expr_2_qualified_dotop_expr_semi_list___anonymous_23_ :
-  Parsetree.expression * (Longident.t Ast_helper.vala option * string) *
-  paren_kind * Parsetree.expression list * Parsetree.expression option
-val xv_indexop_expr_1_DOT_seq_expr___anonymous_22_ :
+val xv_indexop_expr_DOT_seq_expr___anonymous_22_ :
   Parsetree.expression * unit * paren_kind * Parsetree.expression *
   Parsetree.expression option
 val xv_indexop_error_qualified_dotop_expr_semi_list_ : Parsetree.expression

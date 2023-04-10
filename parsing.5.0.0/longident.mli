@@ -24,9 +24,9 @@
 *)
 
 type t =
-    Lident of string Ploc.vala
-  | Ldot of t Ploc.vala * string Ploc.vala
-  | Lapply of t Ploc.vala * t Ploc.vala
+    Lident of string
+  | Ldot of t * string
+  | Lapply of t * t
 
 val flatten: t -> string list
 val unflatten: string list -> t option
@@ -37,7 +37,6 @@ val unflatten: string list -> t option
 *)
 
 val last: t -> string
-(*-*)val last_vala: t -> string Ploc.vala
 val parse: string -> t
 [@@deprecated "this function may misparse its input,\n\
 use \"Parse.longident\" or \"Longident.unflatten\""]

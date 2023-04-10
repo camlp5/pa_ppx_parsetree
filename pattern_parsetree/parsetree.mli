@@ -85,7 +85,7 @@ and core_type =
     }
 
 and core_type_desc =
-  | Ptyp_xtr of string loc
+(*-*)  | Ptyp_xtr of string loc
   | Ptyp_any  (** [_] *)
   | Ptyp_var of string Ploc.vala  (** A type variable such as ['a] *)
   | Ptyp_arrow of arg_label Ploc.vala * core_type * core_type
@@ -218,7 +218,7 @@ and pattern =
     }
 
 and pattern_desc =
-  | Ppat_xtr of string loc
+(*-*)  | Ppat_xtr of string loc
   | Ppat_any  (** The pattern [_]. *)
   | Ppat_var of string Ploc.vala loc  (** A variable pattern such as [x] *)
   | Ppat_alias of pattern * string Ploc.vala loc
@@ -285,7 +285,7 @@ and expression =
     }
 
 and expression_desc =
-  | Pexp_xtr of string loc
+(*-*)  | Pexp_xtr of string loc
   | Pexp_ident of Longident.t loc
       (** Identifiers such as [x] and [M.x]
          *)
@@ -618,7 +618,7 @@ and class_type =
     }
 
 and class_type_desc =
-  | Pcty_xtr of string loc
+(*-*)  | Pcty_xtr of string loc
   | Pcty_constr of Longident.t loc * core_type list Ploc.vala
       (** - [c]
             - [['a1, ..., 'an] c] *)
@@ -697,7 +697,7 @@ and class_expr =
     }
 
 and class_expr_desc =
-  | Pcl_xtr of string loc
+(*-*)  | Pcl_xtr of string loc
   | Pcl_constr of Longident.t loc * core_type list Ploc.vala
       (** [c] and [['a1, ..., 'an] c] *)
   | Pcl_structure of class_structure  (** [object ... end] *)
@@ -820,7 +820,7 @@ and module_type_desc =
   | Pmty_typeof of module_expr  (** [module type of ME] *)
   | Pmty_extension of extension  (** [[%id]] *)
   | Pmty_alias of Longident.t Ploc.vala loc  (** [(module M)] *)
-  | Pmty_xtr of string loc
+(*-*)  | Pmty_xtr of string loc
 
 and functor_parameter =
   | Unit  (** [()] *)
@@ -970,7 +970,7 @@ and module_expr_desc =
   | Pmod_constraint of module_expr * module_type  (** [(ME : MT)] *)
   | Pmod_unpack of expression  (** [(val E)] *)
   | Pmod_extension of extension  (** [[%id]] *)
-  | Pmod_xtr of string loc
+(*-*)  | Pmod_xtr of string loc
 
 and structure = structure_item list Ploc.vala
 

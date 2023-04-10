@@ -1,0 +1,113 @@
+#!/bin/perl
+
+our %valamap = (
+  'LIDENT' =>  'LIDENT' ,
+  'UIDENT' =>  'UIDENT' ,
+  'module_name_' =>  'module_name_' ,
+  'seq_expr' =>  'seq_expr' ,
+  'separated_nonempty_llist(AND, with_constraint)' => 'separated_nonempty_llist(AND, with_constraint)' ,
+  'formal_class_parameters' => 'formal_class_parameters' ,
+  'nonempty_llist(labeled_simple_expr)' => 'nonempty_llist(labeled_simple_expr)' ,
+  'actual_class_parameters' => 'actual_class_parameters' ,
+  'extra_cstr(class_fields)' => 'extra_cstr(class_fields)' ,
+  'preceded(AS, mkrhs(lident_vala))?' => 'preceded(AS, mkrhs(lident_vala))?' ,
+  'virtual_with_mutable_flag' => 'virtual_with_mutable_flag' ,
+  'virtual_with_private_flag' => 'virtual_with_private_flag' ,
+  'extra_csig(class_sig_fields)' => 'extra_csig(class_sig_fields)' ,
+  'opt_default' => 'opt_default' ,
+  'match_cases' => 'match_cases' ,
+  'constant' => 'constant' ,
+  'expr_semi_list' => 'expr_semi_list' ,
+  'ioption(terminated(simple_expr, WITH))' => 'ioption(terminated(simple_expr, WITH))' ,
+  'separated_or_terminated_nonempty_list(SEMI, record_expr_field)' => 'separated_or_terminated_nonempty_list(SEMI, record_expr_field)' ,
+  'separated_or_terminated_nonempty_list(SEMI, object_expr_field)' => 'separated_or_terminated_nonempty_list(SEMI, object_expr_field)' ,
+  'lident_list' => 'lident_list' ,
+  'signed_constant' => 'signed_constant' ,
+  'pattern_semi_list' => 'pattern_semi_list' ,
+  'UNDERSCORE?' => 'UNDERSCORE?' ,
+  'raw_string+' => 'raw_string+' ,
+  'type_parameters' => 'type_parameters' ,
+  'constraints' => 'constraints' ,
+  'core_type' => 'core_type' ,
+  'constructor_declarations' => 'constructor_declarations' ,
+  'label_declarations' => 'label_declarations' ,
+  'typevar_list' => 'typevar_list' ,
+  'inline_separated_nonempty_llist(STAR, atomic_type)' => 'inline_separated_nonempty_llist(STAR, atomic_type)' ,
+  'poly_type_no_attr' => 'poly_type_no_attr' ,
+  'bar_llist(declaration)' => 'bar_llist(declaration)' ,
+  'with_type_binder' => 'with_type_binder' ,
+  'arg_label' => 'arg_label' ,
+  'actual_type_parameters' => 'actual_type_parameters' ,
+  'row_field_list' => 'row_field_list' ,
+  'name_tag_list' => 'name_tag_list' ,
+  'opt_ampersand' => 'opt_ampersand' ,
+  'amper_type_list' => 'amper_type_list' ,
+  'label' => 'label' ,
+  'val_ident' =>  'val_ident' ,
+  'constr_ident' => 'constr_ident' ,
+  'constr_longident' => 'constr_longident' ,
+  'mod_longident' => 'mod_longident' ,
+  'mod_ext_longident' => 'mod_ext_longident' ,
+  'ident' => 'ident' ,
+  'rec_flag' => 'rec_flag' ,
+  'nonrec_flag' => 'nonrec_flag' ,
+  'direction_flag' => 'direction_flag' ,
+  'private_flag' => 'private_flag' ,
+  'inline_private_flag' => 'inline_private_flag' ,
+  'mutable_flag' => 'mutable_flag' ,
+  'virtual_flag' => 'virtual_flag' ,
+  'override_flag' => 'override_flag' ,
+    );
+
+{
+  my $fname = shift @ARGV ;
+  my $txt = f_read($fname) ;
+
+  $txt =~ s,\(\*-\*\)[^\n]*\n,,gs ;
+  $txt =~ s,/\*-\*/[^\n]*\n,,gs ;
+  $txt =~ s, Ploc\.vala,,gs ;
+  $txt =~ s,\(Ploc\.VaVal ([a-z][a-z0-9_]*)\),$1,gs ;
+  $txt =~ s,\(Pcaml\.unvala ([a-z][a-z0-9_]*)\),$1,gs ;
+  $txt =~ s|vala\(([^\n]*), ANTI_[A-Z_]*\)| map_vala($1) |gse ;
+  $txt =~ s,Ploc\.VaVal ,,gs ;
+  $txt =~ s,Pcaml\.vala_map ,,gs ;
+  $txt =~ s,Pcaml\.vala_it ,,gs ;
+  $txt =~ s,Option.map vaval ,,gs ;
+  $txt =~ s,Option.map unvala ,,gs ;
+  $txt =~ s,loc_map vaval ,,gs ;
+  $txt =~ s,vaval ,,gs ;
+  $txt =~ s,str_vala,str,gs ;
+  $txt =~ s,str_opt_vala,str_opt,gs ;
+  $txt =~ s,lid_vala,lid,gs ;
+  $txt =~ s,unvala ,,gs ;
+  $txt =~ s,loc_last_vala,loc_last,gs ;
+  $txt =~ s,append_list_vala,List.append,gs ;
+  $txt =~ s,uident_vala,UIDENT,gs ;
+  $txt =~ s,lident_vala,LIDENT,gs ;
+  $txt =~ s,ident_vala,ident,gs ;
+  $txt =~ s,mod_longident_vala,mod_longident,gs ;
+  $txt =~ s,override_flag_vala,override_flag,gs ;
+  $txt =~ s,virtual_flag_vala,virtual_flag,gs ;
+  $txt =~ s,mutable_flag_vala,mutable_flag,gs ;
+  $txt =~ s,private_flag_vala,private_flag,gs ;
+  $txt =~ s,direction_flag_vala,direction_flag,gs ;
+  $txt =~ s,rec_flag_vala,rec_flag,gs ;
+  $txt =~ s,nonrec_flag_vala,nonrec_flag,gs ;
+  $txt =~ s,label_vala,label,gs ;
+  $txt =~ s,name_tag_vala,name_tag,gs ;
+  $txt =~ s,vaval,,gs ;
+  print $txt ;
+}
+
+sub map_vala {
+  my $id = shift ;
+  return $valamap{$id} if (exists $valamap{$id}) ;
+  die "map_vala: cannot find ID <<$id>>" ;
+}
+
+sub f_read {
+  my $f = shift ;
+  open(F, "<$f") || die "cannot open $f for read" ;
+  @l = <F> ;
+  return join('',@l);
+}

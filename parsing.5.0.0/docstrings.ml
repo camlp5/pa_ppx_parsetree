@@ -85,23 +85,23 @@ type docs =
 
 let empty_docs = { docs_pre = None; docs_post = None }
 
-let doc_loc = {txt = Ploc.VaVal "ocaml.doc"; loc = Location.none}
+let doc_loc = {txt = "ocaml.doc"; loc = Location.none}
 
 let docs_attr ds =
   let open Parsetree in
   let body = ds.ds_body in
   let loc = ds.ds_loc in
   let exp =
-    { pexp_desc = Pexp_constant (Ploc.VaVal (Pconst_string(Ploc.VaVal body, loc, None)));
+    { pexp_desc = Pexp_constant ((Pconst_string(body, loc, None)));
       pexp_loc = loc;
       pexp_loc_stack = [];
       pexp_attributes = []; }
   in
   let item =
-    { pstr_desc = Pstr_eval (Ploc.VaVal exp, []); pstr_loc = loc }
+    { pstr_desc = Pstr_eval (exp, []); pstr_loc = loc }
   in
   { attr_name = doc_loc;
-    attr_payload = PStr (Ploc.VaVal [item]);
+    attr_payload = PStr ([item]);
     attr_loc = loc }
 
 let add_docs_attrs docs attrs =
@@ -137,23 +137,23 @@ type text = docstring list
 let empty_text = []
 let empty_text_lazy = lazy []
 
-let text_loc = {txt = Ploc.VaVal "ocaml.text"; loc = Location.none}
+let text_loc = {txt = "ocaml.text"; loc = Location.none}
 
 let text_attr ds =
   let open Parsetree in
   let body = ds.ds_body in
   let loc = ds.ds_loc in
   let exp =
-    { pexp_desc = Pexp_constant (Ploc.VaVal (Pconst_string(Ploc.VaVal body, loc, None)));
+    { pexp_desc = Pexp_constant ((Pconst_string(body, loc, None)));
       pexp_loc = loc;
       pexp_loc_stack = [];
       pexp_attributes = []; }
   in
   let item =
-    { pstr_desc = Pstr_eval (Ploc.VaVal exp, []); pstr_loc = loc }
+    { pstr_desc = Pstr_eval (exp, []); pstr_loc = loc }
   in
   { attr_name = text_loc;
-    attr_payload = PStr (Ploc.VaVal [item]);
+    attr_payload = PStr ([item]);
     attr_loc = loc }
 
 let add_text_attrs dsl attrs =

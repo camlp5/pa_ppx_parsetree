@@ -23,46 +23,25 @@ type 'a with_loc = 'a Location.loc
 type loc = Location.t
 
 type lid = Longident.t with_loc
-(*-*)type lid_vala = Longident.t Ploc.vala with_loc
 type str = string with_loc
-(*-*)type str_vala = string Ploc.vala with_loc
 type str_opt = string option with_loc
-(*-*)type str_vala_opt_vala = string Ploc.vala option Ploc.vala with_loc
 type attrs = attribute list
-(*-*)
-(*-*)type 'a vala = 'a Ploc.vala =
-(*-*)   VaAnt of string
-(*-*)  | VaVal of 'a
-(*-*)
-(*-*)let vaval x = Ploc.VaVal x
-(*-*)let vaant x = Ploc.VaAnt x
-(*-*)
-(*-*)let unvala = Pcaml.unvala
-(*-*)let append_list_vala a1 a2 =
-(*-*)  match (a1, a2) with
-(*-*)    (Ploc.VaVal l1, Ploc.VaVal l2) -> vaval(l1@l2)
-(*-*)  | (Ploc.VaVal [], a) -> a
-(*-*)  | (a, Ploc.VaVal []) -> a
-(*-*)  | _ -> assert false
 
 let default_loc = ref Location.none
 
 let with_default_loc l f =
   Misc.protect_refs [Misc.R (default_loc, l)] f
 
-(*-*)let loc_map (f : 'a -> 'b) (x : 'a Location.loc) : 'b Location.loc =
-(*-*)  { x with txt = f x.txt }
-
 module Const = struct
-  let integer ?suffix i = Pconst_integer (Ploc.VaVal i, suffix)
+  let integer ?suffix i = Pconst_integer (i, suffix)
   let int ?suffix i = integer ?suffix (Int.to_string i)
   let int32 ?(suffix='l') i = integer ~suffix (Int32.to_string i)
   let int64 ?(suffix='L') i = integer ~suffix (Int64.to_string i)
   let nativeint ?(suffix='n') i = integer ~suffix (Nativeint.to_string i)
-  let float ?suffix f = Pconst_float (Ploc.VaVal f, suffix)
-  let char c = Pconst_char (vaval c)
+  let float ?suffix f = Pconst_float (f, suffix)
+  let char c = Pconst_char (c)
   let string ?quotation_delimiter ?(loc= !default_loc) s =
-    Pconst_string (vaval s, loc, Option.map vaval quotation_delimiter)
+    Pconst_string (s, loc, quotation_delimiter)
 end
 
 module Attr = struct
@@ -97,12 +76,12 @@ module Typ = struct
   let force_poly t =
     match t.ptyp_desc with
     | Ptyp_poly _ -> t
-    | _ -> poly ~loc:t.ptyp_loc (vaval []) t (* -> ghost? *)
+    | _ -> poly ~loc:t.ptyp_loc ([]) t (* -> ghost? *)
 
   let varify_constructors var_names t =
     let check_variable vl loc v =
       if List.mem v vl then
-        raise Syntaxerr.(Error(Variable_in_scope(loc,unvala v))) in
+        raise Syntaxerr.(Error(Variable_in_scope(loc,v))) in
     let var_names = List.map (fun v -> v.txt) var_names in
     let rec loop t =
       let desc =
@@ -113,32 +92,32 @@ module Typ = struct
             Ptyp_var x
         | Ptyp_arrow (label,core_type,core_type') ->
             Ptyp_arrow(label, loop core_type, loop core_type')
-        | Ptyp_tuple lst -> Ptyp_tuple (Pcaml.vala_map (List.map loop) lst)
-        | Ptyp_constr( { txt = Longident.Lident s }, Ploc.VaVal [])
+        | Ptyp_tuple lst -> Ptyp_tuple ((List.map loop) lst)
+        | Ptyp_constr( { txt = Longident.Lident s }, [])
           when List.mem s var_names ->
             Ptyp_var s
         | Ptyp_constr(longident, lst) ->
-            Ptyp_constr(longident, Pcaml.vala_map (List.map loop) lst)
+            Ptyp_constr(longident, (List.map loop) lst)
         | Ptyp_object (lst, o) ->
-           let lst = Pcaml.vala_map (List.map loop_object_field) lst in
+           let lst = (List.map loop_object_field) lst in
             Ptyp_object (lst, o)
         | Ptyp_class (longident, lst) ->
-           let lst = Pcaml.vala_map (List.map loop) lst in
+           let lst = (List.map loop) lst in
             Ptyp_class (longident, lst)
         | Ptyp_alias(core_type, string) ->
             check_variable var_names t.ptyp_loc string;
             Ptyp_alias(loop core_type, string)
         | Ptyp_variant(row_field_list, flag, lbl_lst_option) ->
-           let row_field_list = Pcaml.vala_map (List.map loop_row_field) row_field_list in
+           let row_field_list = (List.map loop_row_field) row_field_list in
             Ptyp_variant(row_field_list,
                          flag, lbl_lst_option)
         | Ptyp_poly(string_lst, core_type) ->
-          Pcaml.vala_it (List.iter (fun v ->
-              check_variable var_names t.ptyp_loc v.txt)) string_lst;
+          (List.iter (fun v ->
+            check_variable var_names t.ptyp_loc v.txt)) string_lst;
             Ptyp_poly(string_lst, loop core_type)
         | Ptyp_package(longident,lst) ->
-           let lst = Pcaml.vala_map (List.map (fun (n,typ) -> (n,loop typ) )) lst in
-           Ptyp_package(longident,lst)
+           let lst = (List.map (fun (n,typ) -> (n,loop typ) )) lst in
+            Ptyp_package(longident, lst)
         | Ptyp_extension (s, arg) ->
             Ptyp_extension (s, arg)
       in
@@ -146,8 +125,8 @@ module Typ = struct
     and loop_row_field field =
       let prf_desc = match field.prf_desc with
         | Rtag(label,flag,lst) ->
-           let lst = Pcaml.vala_map (List.map loop) lst in
-           Rtag(label,flag,lst)
+           let lst = (List.map loop) lst in
+            Rtag(label,flag, lst)
         | Rinherit t ->
             Rinherit (loop t)
       in
@@ -427,7 +406,7 @@ end
 
 module Val = struct
   let mk ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs)
-        ?(prim = Ploc.VaVal []) name typ =
+        ?(prim = []) name typ =
     {
      pval_name = name;
      pval_type = typ;
@@ -487,7 +466,7 @@ end
 
 module Opn = struct
   let mk ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs)
-        ?(override = Ploc.VaVal Fresh) expr =
+        ?(override = Fresh) expr =
     {
      popen_expr = expr;
      popen_override = override;
@@ -521,7 +500,7 @@ end
 module Ci = struct
   let mk ?(loc = !default_loc) ?(attrs = [])
         ?(docs = empty_docs) ?(text = [])
-        ?(virt = Ploc.VaVal Concrete) ?(params = Ploc.VaVal []) name expr =
+        ?(virt = Concrete) ?(params = []) name expr =
     {
      pci_virt = virt;
      pci_params = params;
@@ -536,10 +515,10 @@ end
 module Type = struct
   let mk ?(loc = !default_loc) ?(attrs = [])
         ?(docs = empty_docs) ?(text = [])
-      ?(params = Ploc.VaVal [])
-      ?(cstrs = Ploc.VaVal [])
+      ?(params = [])
+      ?(cstrs = [])
       ?(kind = Ptype_abstract)
-      ?(priv = Ploc.VaVal Public)
+      ?(priv = Public)
       ~manifest
       name =
     {
@@ -555,7 +534,7 @@ module Type = struct
     }
 
   let constructor ?(loc = !default_loc) ?(attrs = []) ?(info = empty_info)
-        ?(vars = Ploc.VaVal []) ?(args = Pcstr_tuple (Ploc.VaVal [])) ~res name =
+        ?(vars = []) ?(args = Pcstr_tuple ([])) ~res name =
     {
      pcd_name = name;
      pcd_vars = vars;
@@ -566,7 +545,7 @@ module Type = struct
     }
 
   let field ?(loc = !default_loc) ?(attrs = []) ?(info = empty_info)
-        ?(mut = Ploc.VaVal Immutable) name typ =
+        ?(mut = Immutable) name typ =
     {
      pld_name = name;
      pld_mutable = mut;
@@ -580,7 +559,7 @@ end
 (** Type extensions *)
 module Te = struct
   let mk ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs)
-        ?(params = Ploc.VaVal []) ?(priv = Ploc.VaVal Public) path constructors =
+        ?(params = []) ?(priv = Public) path constructors =
     {
      ptyext_path = path;
      ptyext_params = params;
@@ -604,16 +583,16 @@ module Te = struct
      pext_name = name;
      pext_kind = kind;
      pext_loc = loc;
-     pext_attributes = attrs |> (add_info_attrs info) |> (add_docs_attrs docs);
+     pext_attributes = attrs |> (add_info_attrs info) |> (add_docs_attrs docs) ;
     }
 
   let decl ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs)
-         ?(info = empty_info) ?(vars = Ploc.VaVal []) ?(args = Pcstr_tuple (Ploc.VaVal [])) ~res name =
+         ?(info = empty_info) ?(vars = []) ?(args = Pcstr_tuple ([])) ~res name =
     {
      pext_name = name;
      pext_kind = Pext_decl(vars, args, res);
      pext_loc = loc;
-     pext_attributes = attrs |> (add_info_attrs info) |> (add_docs_attrs docs);
+     pext_attributes = attrs |> (add_info_attrs info) |> (add_docs_attrs docs) ;
     }
 
   let rebind ?(loc = !default_loc) ?(attrs = [])
@@ -622,7 +601,7 @@ module Te = struct
      pext_name = name;
      pext_kind = Pext_rebind lid;
      pext_loc = loc;
-     pext_attributes = attrs |> (add_info_attrs info) |> (add_docs_attrs docs);
+     pext_attributes = attrs |> (add_info_attrs info) |>  (add_docs_attrs docs) ;
     }
 
 end

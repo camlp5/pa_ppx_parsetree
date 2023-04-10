@@ -53,6 +53,24 @@ parser.ml: parser.mly
 lexer.ml: lexer.mll
 	ocamllex lexer.mll
 
+PARSINGSRC=../parsing.5.0.0
+%.COMPARE: %
+	$(TOP)/tools/erase-vala $< | diff -Bbwiu $(PARSINGSRC)/$< -
+
+COMPARE= \
+	location.ml.COMPARE location.mli.COMPARE \
+	longident.ml.COMPARE longident.mli.COMPARE \
+	asttypes.mli.COMPARE \
+	parsetree.mli.COMPARE \
+	docstrings.ml.COMPARE docstrings.mli.COMPARE \
+	syntaxerr.ml.COMPARE syntaxerr.mli.COMPARE \
+	ast_helper.ml.COMPARE ast_helper.mli.COMPARE \
+	parser.mly.COMPARE parser.mly.COMPARE \
+
+compare:: $(COMPARE)
+
+.SUFFIXES: .COMPARE
+
 $(TARGET_PACKAGE).cmo $(TARGET_PACKAGE).cmi: $(CMO)
 	$(OCAMLFIND) ocamlc $(DEBUG) -pack -o $(TARGET_PACKAGE).cmo $^
 
