@@ -1,0 +1,3 @@
+parser.ml
+*.conflicts
+*.dump
