@@ -67,6 +67,7 @@ COMPARE= \
 	ast_helper.ml.COMPARE ast_helper.mli.COMPARE \
 	parser.mly.COMPARE parser.mly.COMPARE \
 	pprintast.ml.COMPARE pprintast.mli.COMPARE \
+	printast.ml.COMPARE printast.mli.COMPARE \
 
 compare:: $(COMPARE)
 

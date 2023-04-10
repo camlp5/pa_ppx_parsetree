@@ -19,9 +19,9 @@ open Lexing
 open Location
 open Parsetree
 
-let unvala = Ast_helper.unvala
-let vaval = Ast_helper.vaval
-let loc_map = Ast_helper.loc_map
+(*-*)let unvala = Ast_helper.unvala
+(*-*)let vaval = Ast_helper.vaval
+(*-*)let loc_map = Ast_helper.loc_map
 
 let fmt_position with_name f l =
   let fname = if with_name then l.pos_fname else "" in
@@ -51,20 +51,20 @@ let fmt_longident f x = fprintf f "\"%a\"" fmt_longident_aux x
 let fmt_longident_loc f (x : Longident.t loc) =
   fprintf f "\"%a\" %a" fmt_longident_aux x.txt fmt_location x.loc
 
-let fmt_longident_vala_loc f (x : Longident.t Ploc.vala loc) =
-  fprintf f "\"%a\" %a" fmt_longident_aux (unvala x.txt) fmt_location x.loc
+(*-*)let fmt_longident_vala_loc f (x : Longident.t Ploc.vala loc) =
+  (*-*)  fprintf f "\"%a\" %a" fmt_longident_aux (unvala x.txt) fmt_location x.loc
 
 let fmt_string_loc f (x : string loc) =
   fprintf f "\"%s\" %a" x.txt fmt_location x.loc
 
-let fmt_string_vala_loc f (x : string Ploc.vala loc) =
-  fprintf f "\"%s\" %a" (unvala x.txt) fmt_location x.loc
+(*-*)let fmt_string_vala_loc f (x : string Ploc.vala loc) =
+  (*-*)  fprintf f "\"%s\" %a" (unvala x.txt) fmt_location x.loc
 
 let fmt_str_opt_loc f (x : string option loc) =
   fprintf f "\"%s\" %a" (Option.value x.txt ~default:"_") fmt_location x.loc
 
-let fmt_str_vala_opt_vala_loc f (x : string Ploc.vala option Ploc.vala loc) =
-  fprintf f "\"%s\" %a" (unvala (Option.value (unvala x.txt) ~default:(vaval "_"))) fmt_location x.loc
+(*-*)let fmt_str_vala_opt_vala_loc f (x : string Ploc.vala option Ploc.vala loc) =
+  (*-*)  fprintf f "\"%s\" %a" (unvala (Option.value (unvala x.txt) ~default:(vaval "_"))) fmt_location x.loc
 
 let fmt_char_option f = function
   | None -> fprintf f "None"
@@ -85,49 +85,49 @@ let fmt_mutable_flag f x =
   | Immutable -> fprintf f "Immutable"
   | Mutable -> fprintf f "Mutable"
 
-let fmt_mutable_flag_vala f x = fmt_mutable_flag f (unvala x)
+(*-*)let fmt_mutable_flag_vala f x = fmt_mutable_flag f (unvala x)
 
 let fmt_virtual_flag f x =
   match x with
   | Virtual -> fprintf f "Virtual"
   | Concrete -> fprintf f "Concrete"
 
-let fmt_virtual_flag_vala f x = fmt_virtual_flag f (unvala x)
+(*-*)let fmt_virtual_flag_vala f x = fmt_virtual_flag f (unvala x)
 
 let fmt_override_flag f x =
   match x with
   | Override -> fprintf f "Override"
   | Fresh -> fprintf f "Fresh"
 
-let fmt_override_flag_vala f x = fmt_override_flag f (unvala x)
+(*-*)let fmt_override_flag_vala f x = fmt_override_flag f (unvala x)
 
 let fmt_closed_flag f x =
   match x with
   | Closed -> fprintf f "Closed"
   | Open -> fprintf f "Open"
 
-let fmt_closed_flag_vala f x = fmt_closed_flag f (unvala x)
+(*-*)let fmt_closed_flag_vala f x = fmt_closed_flag f (unvala x)
 
 let fmt_rec_flag f x =
   match x with
   | Nonrecursive -> fprintf f "Nonrec"
   | Recursive -> fprintf f "Rec"
 
-let fmt_rec_flag_vala f x = fmt_rec_flag f (unvala x)
+(*-*)let fmt_rec_flag_vala f x = fmt_rec_flag f (unvala x)
 
 let fmt_direction_flag f x =
   match x with
   | Upto -> fprintf f "Up"
   | Downto -> fprintf f "Down"
 
-let fmt_direction_flag_vala f x = fmt_direction_flag f (unvala x)
+(*-*)let fmt_direction_flag_vala f x = fmt_direction_flag f (unvala x)
 
 let fmt_private_flag f x =
   match x with
   | Public -> fprintf f "Public"
   | Private -> fprintf f "Private"
 
-let fmt_private_flag_vala f x = fmt_private_flag f (unvala x)
+(*-*)let fmt_private_flag_vala f x = fmt_private_flag f (unvala x)
 
 let line i f s (*...*) =
   fprintf f "%s" (String.make ((2*i) mod 72) ' ');
@@ -149,12 +149,12 @@ let option i f ppf x =
       f (i+1) ppf x
 
 let longident_loc i ppf li = line i ppf "%a\n" fmt_longident_loc li
-let longident_vala_loc i ppf li = line i ppf "%a\n" fmt_longident_vala_loc li
+(*-*)let longident_vala_loc i ppf li = line i ppf "%a\n" fmt_longident_vala_loc li
 let string i ppf s = line i ppf "\"%s\"\n" s
 let string_loc i ppf s = line i ppf "%a\n" fmt_string_loc s
-let string_vala_loc i ppf s = line i ppf "%a\n" fmt_string_vala_loc s
+(*-*)let string_vala_loc i ppf s = line i ppf "%a\n" fmt_string_vala_loc s
 let str_opt_loc i ppf s = line i ppf "%a\n" fmt_str_opt_loc s
-let str_vala_opt_vala_loc i ppf s = line i ppf "%a\n" fmt_str_vala_opt_vala_loc s
+(*-*)let str_vala_opt_vala_loc i ppf s = line i ppf "%a\n" fmt_str_vala_opt_vala_loc s
 let arg_label i ppf = function
   | Nolabel -> line i ppf "Nolabel\n"
   | Optional s -> line i ppf "Optional \"%s\"\n" (unvala s)
@@ -452,8 +452,8 @@ and payload i ppf = function
   | PStr x -> structure i ppf x
   | PSig x -> signature i ppf x
   | PTyp x -> core_type i ppf x
-  | PPat (x, VaVal None) -> pattern i ppf x
-  | PPat (x, VaVal (Some g)) ->
+  | PPat (x, Ploc.VaVal None) -> pattern i ppf x
+  | PPat (x, Ploc.VaVal (Some g)) ->
     pattern i ppf x;
     line i ppf "<when>\n";
     expression (i + 1) ppf g
@@ -923,10 +923,10 @@ and longident_x_pattern i ppf (li, p) =
   line i ppf "%a\n" fmt_longident_loc li;
   pattern (i+1) ppf p;
 
-and longident_vala_x_pattern i ppf (li, p) =
-  line i ppf "%a\n" fmt_longident_loc li;
-  pattern (i+1) ppf p;
-
+(*-*)and longident_vala_x_pattern i ppf (li, p) =
+(*-*)  line i ppf "%a\n" fmt_longident_loc li;
+(*-*)  pattern (i+1) ppf p;
+(*-*)
 and case i ppf {pc_lhs; pc_guard; pc_rhs} =
   line i ppf "<case>\n";
   pattern (i+1) ppf (unvala pc_lhs);
@@ -952,10 +952,10 @@ and string_x_expression i ppf (s, e) =
   line i ppf "<override> %a\n" fmt_string_loc s;
   expression (i+1) ppf e;
 
-and string_vala_x_expression i ppf (s, e) =
-  line i ppf "<override> %a\n" fmt_string_vala_loc s;
-  expression (i+1) ppf e;
-
+(*-*)and string_vala_x_expression i ppf (s, e) =
+(*-*)  line i ppf "<override> %a\n" fmt_string_vala_loc s;
+(*-*)  expression (i+1) ppf e;
+(*-*)
 and longident_x_expression i ppf (li, e) =
   line i ppf "%a\n" fmt_longident_loc li;
   expression (i+1) ppf e;
