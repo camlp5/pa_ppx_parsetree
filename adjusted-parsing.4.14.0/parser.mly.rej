@@ -1,0 +1,13 @@
+--- parser.mly	2023-04-09 23:34:40.403776641 -0700
++++ parser.mly	2023-04-09 23:34:55.236272466 -0700
+@@ -304,9 +301,7 @@
+   let opname = if !Clflags.unsafe then "unsafe_" ^ opname else opname in
+   let prefix = match paren_kind with
+     | Paren -> Lident "Array"
+-    | Bracket ->
+-        if assign then removed_string_set loc
+-        else Lident "String"
++    | Bracket -> Lident "String"
+     | Brace ->
+        let submodule_name = match n with
+          | One -> "Array1"
