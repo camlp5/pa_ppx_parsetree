@@ -92,7 +92,7 @@ let docs_attr ds =
   let body = ds.ds_body in
   let loc = ds.ds_loc in
   let exp =
-    { pexp_desc = Pexp_constant ((Pconst_string(body, loc, None)));
+    { pexp_desc = Pexp_constant (Pconst_string(body, loc, None));
       pexp_loc = loc;
       pexp_loc_stack = [];
       pexp_attributes = []; }
@@ -101,7 +101,7 @@ let docs_attr ds =
     { pstr_desc = Pstr_eval (exp, []); pstr_loc = loc }
   in
   { attr_name = doc_loc;
-    attr_payload = PStr ([item]);
+    attr_payload = PStr [item];
     attr_loc = loc }
 
 let add_docs_attrs docs attrs =
@@ -144,7 +144,7 @@ let text_attr ds =
   let body = ds.ds_body in
   let loc = ds.ds_loc in
   let exp =
-    { pexp_desc = Pexp_constant ((Pconst_string(body, loc, None)));
+    { pexp_desc = Pexp_constant (Pconst_string(body, loc, None));
       pexp_loc = loc;
       pexp_loc_stack = [];
       pexp_attributes = []; }
@@ -153,7 +153,7 @@ let text_attr ds =
     { pstr_desc = Pstr_eval (exp, []); pstr_loc = loc }
   in
   { attr_name = text_loc;
-    attr_payload = PStr ([item]);
+    attr_payload = PStr [item];
     attr_loc = loc }
 
 let add_text_attrs dsl attrs =

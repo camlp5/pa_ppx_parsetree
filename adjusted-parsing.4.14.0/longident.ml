@@ -45,6 +45,6 @@ let unflatten l =
 
 let parse s =
   match unflatten (split_at_dots s 0) with
-  | None -> Lident ("")  (* should not happen, but don't put assert false
+  | None -> Lident ""  (* should not happen, but don't put assert false
                           so as not to crash the toplevel (see Genprintval) *)
   | Some v -> v
