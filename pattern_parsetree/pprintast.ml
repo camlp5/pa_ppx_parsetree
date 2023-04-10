@@ -96,7 +96,7 @@ let needs_spaces txt =
   first_is '*' txt || last_is '*' txt
 
 let string_loc ppf x = fprintf ppf "%s" x.txt
-let string_vala_loc ppf x = fprintf ppf "%s" (unvala x.txt)
+(*-*)let string_vala_loc ppf x = fprintf ppf "%s" (unvala x.txt)
 
 (* add parentheses to binders when they are in fact infix or prefix operators *)
 let protect_ident ppf txt =
@@ -119,7 +119,7 @@ let override = function
   | Override -> "!"
   | Fresh -> ""
 
-let override_vala x = override (unvala x)
+(*-*)let override_vala x = override (unvala x)
 
 (* variance encoding: need to sync up with the [parser.mly] *)
 let type_variance = function
@@ -141,16 +141,16 @@ type construct =
 
 let view_expr x =
   match x.pexp_desc with
-  | Pexp_construct ( {txt= VaVal (Lident (Ploc.VaVal "()")); _},_) -> `tuple
-  | Pexp_construct ( {txt= VaVal (Lident (Ploc.VaVal "[]"));_},_) -> `nil
-  | Pexp_construct ( {txt= VaVal (Lident (Ploc.VaVal "::"));_},VaVal (Some _)) ->
+  | Pexp_construct ( {txt= Ploc.VaVal (Lident (Ploc.VaVal "()")); _},_) -> `tuple
+  | Pexp_construct ( {txt= Ploc.VaVal (Lident (Ploc.VaVal "[]"));_},_) -> `nil
+  | Pexp_construct ( {txt= Ploc.VaVal (Lident (Ploc.VaVal "::"));_},Ploc.VaVal (Some _)) ->
       let rec loop exp acc = match exp with
-          | {pexp_desc=Pexp_construct ({txt=VaVal (Lident (Ploc.VaVal "[]"));_},_);
+          | {pexp_desc=Pexp_construct ({txt=Ploc.VaVal (Lident (Ploc.VaVal "[]"));_},_);
              pexp_attributes = []} ->
               (List.rev acc,true)
           | {pexp_desc=
-             Pexp_construct ({txt=VaVal (Lident (Ploc.VaVal "::"));_},
-                             VaVal (Some ({pexp_desc= Pexp_tuple(Ploc.VaVal[e1;e2]);
+             Pexp_construct ({txt=Ploc.VaVal (Lident (Ploc.VaVal "::"));_},
+                             Ploc.VaVal (Some ({pexp_desc= Pexp_tuple(Ploc.VaVal [e1;e2]);
                                            pexp_attributes = []})));
              pexp_attributes = []}
             ->
@@ -160,7 +160,7 @@ let view_expr x =
       if b then
         `list ls
       else `cons ls
-  | Pexp_construct (x,VaVal None) -> `simple (x.txt)
+  | Pexp_construct (x,Ploc.VaVal None) -> `simple (x.txt)
   | _ -> `normal
 
 let is_simple_construct :construct -> bool = function
@@ -226,7 +226,7 @@ let rec longident f = function
       pp f "%a(%a)" longident (unvala y) longident (unvala s)
 
 let longident_loc f x = pp f "%a" longident x.txt
-let longident_vala_loc f x = pp f "%a" longident (unvala x.txt)
+(*-*)let longident_vala_loc f x = pp f "%a" longident (unvala x.txt)
 
 let constant f = function
   | Pconst_char (Ploc.VaVal i) ->
@@ -248,38 +248,38 @@ let constant f = function
 let mutable_flag f = function
   | Immutable -> ()
   | Mutable -> pp f "mutable@;"
-let mutable_flag_vala f x = mutable_flag f (unvala x)
+(*-*)let mutable_flag_vala f x = mutable_flag f (unvala x)
 
 let virtual_flag f  = function
   | Concrete -> ()
   | Virtual -> pp f "virtual@;"
-let virtual_flag_vala f x = virtual_flag f (unvala x)
+(*-*)let virtual_flag_vala f x = virtual_flag f (unvala x)
 
 (* trailing space added *)
 let rec_flag f rf =
   match rf with
   | Nonrecursive -> ()
   | Recursive -> pp f "rec "
-let rec_flag_vala f x = rec_flag f (unvala x)
+(*-*)let rec_flag_vala f x = rec_flag f (unvala x)
 
 let nonrec_flag f rf =
   match rf with
   | Nonrecursive -> pp f "nonrec "
   | Recursive -> ()
-let nonrec_flag_vala f x = nonrec_flag f (unvala x)
+(*-*)let nonrec_flag_vala f x = nonrec_flag f (unvala x)
 
 let direction_flag f = function
   | Upto -> pp f "to@ "
   | Downto -> pp f "downto@ "
-let direction_flag_vala f x = direction_flag f (unvala x)
+(*-*)let direction_flag_vala f x = direction_flag f (unvala x)
 
 let private_flag f = function
   | Public -> ()
   | Private -> pp f "private@ "
-let private_flag_vala f x = private_flag f (unvala x)
+(*-*)let private_flag_vala f x = private_flag f (unvala x)
 
 let iter_loc f ctxt {txt; loc = _} = f ctxt txt
-let iter_vala_loc f ctxt {txt; loc = _} = f ctxt (unvala txt)
+(*-*)let iter_vala_loc f ctxt {txt; loc = _} = f ctxt (unvala txt)
 
 let constant_string f s = pp f "%S" s
 
@@ -318,15 +318,15 @@ and core_type ctxt f x =
           (type_with_label ctxt) (unvala l,ct1) (core_type ctxt) ct2
     | Ptyp_alias (ct, s) ->
         pp f "@[<2>%a@;as@;%a@]" (core_type1 ctxt) ct tyvar (unvala s)
-    | Ptyp_poly (VaVal [], ct) ->
+    | Ptyp_poly (Ploc.VaVal [], ct) ->
         core_type ctxt f ct
-    | Ptyp_poly (VaVal sl, ct) ->
+    | Ptyp_poly (Ploc.VaVal sl, ct) ->
         pp f "@[<2>%a%a@]"
           (fun f l ->
              pp f "%a"
                (fun f l -> match l with
                   | [] -> ()
-                  | l ->
+                  | _ ->
                       pp f "%a@;.@;"
                         (list tyvar_loc ~sep:"@;")  l)
                l)
@@ -439,8 +439,8 @@ and pattern1 ctxt (f:Format.formatter) (x:pattern) : unit =
   let rec pattern_list_helper f = function
     | {ppat_desc =
          Ppat_construct
-           ({ txt = VaVal(Lident(Ploc.VaVal "::")) ;_},
-            VaVal (Some (VaVal [], {ppat_desc = Ppat_tuple(Ploc.VaVal [pat1; pat2]);_})));
+           ({ txt = Ploc.VaVal (Lident(Ploc.VaVal "::")) ;_},
+            Ploc.VaVal (Some (Ploc.VaVal [], {ppat_desc = Ppat_tuple(Ploc.VaVal [pat1; pat2]);_})));
        ppat_attributes = []}
 
       ->
@@ -451,7 +451,7 @@ and pattern1 ctxt (f:Format.formatter) (x:pattern) : unit =
   else match x.ppat_desc with
     | Ppat_variant (l, Ploc.VaVal (Some p)) ->
         pp f "@[<2>`%s@;%a@]" (unvala l) (simple_pattern ctxt) p
-    | Ppat_construct (({txt=VaVal(Lident(Ploc.VaVal ("()"|"[]")));_}), _) ->
+    | Ppat_construct (({txt=Ploc.VaVal (Lident(Ploc.VaVal ("()"|"[]")));_}), _) ->
         simple_pattern ctxt f x
     | Ppat_construct (({txt;_} as li), po) ->
         (* FIXME The third field always false *)
@@ -459,9 +459,9 @@ and pattern1 ctxt (f:Format.formatter) (x:pattern) : unit =
           pp f "%a" pattern_list_helper x
         else
           (match unvala po with
-           | Some (VaVal [], x) ->
+           | Some (Ploc.VaVal [], x) ->
                pp f "%a@;%a"  longident_vala_loc li (simple_pattern ctxt) x
-           | Some (VaVal vl, x) ->
+           | Some (Ploc.VaVal vl, x) ->
                pp f "%a@ (type %a)@;%a" longident_vala_loc li
                  (list ~sep:"@ " string_vala_loc) vl
                  (simple_pattern ctxt) x
@@ -471,15 +471,15 @@ and pattern1 ctxt (f:Format.formatter) (x:pattern) : unit =
 and simple_pattern ctxt (f:Format.formatter) (x:pattern) : unit =
   if x.ppat_attributes <> [] then pattern ctxt f x
   else match x.ppat_desc with
-    | Ppat_construct (({txt=VaVal(Lident (Ploc.VaVal ("()"|"[]" as x)));_}), VaVal None) ->
+    | Ppat_construct (({txt=Ploc.VaVal (Lident (Ploc.VaVal ("()"|"[]" as x)));_}), Ploc.VaVal None) ->
         pp f  "%s" x
     | Ppat_any -> pp f "_";
     | Ppat_var ({txt = txt;_}) -> protect_ident f (unvala txt)
     | Ppat_array l ->
         pp f "@[<2>[|%a|]@]"  (list (pattern1 ctxt) ~sep:";") (unvala l)
-    | Ppat_unpack { txt = VaVal None } ->
+    | Ppat_unpack { txt = Ploc.VaVal None } ->
         pp f "(module@ _)@ "
-    | Ppat_unpack { txt = VaVal (Some s) } ->
+    | Ppat_unpack { txt = Ploc.VaVal (Some s) } ->
         pp f "(module@ %s)@ " (unvala s)
     | Ppat_type li ->
         pp f "#%a" longident_loc li
@@ -516,13 +516,13 @@ and simple_pattern ctxt (f:Format.formatter) (x:pattern) : unit =
         let with_paren =
         match p.ppat_desc with
         | Ppat_array _ | Ppat_record _
-        | Ppat_construct (({txt=VaVal(Lident (Ploc.VaVal ("()"|"[]")));_}), VaVal None) -> false
+        | Ppat_construct (({txt=Ploc.VaVal (Lident (Ploc.VaVal ("()"|"[]")));_}), Ploc.VaVal None) -> false
         | _ -> true in
         pp f "@[<2>%a.%a @]" longident_vala_loc lid
           (paren with_paren @@ pattern1 ctxt) p
     | _ -> paren true (pattern ctxt) f x
 
-and label_exp ctxt f (l,(opt : expression option),p) =
+and label_exp ctxt f (l,opt,p) =
   match l with
   | Nolabel ->
       (* single case pattern parens needed here *)
@@ -554,14 +554,14 @@ and sugar_expr ctxt f e =
                   pexp_attributes=[]; _}, args)
     when List.for_all (fun (lab, _) -> lab = Nolabel) (unvala args) -> begin
       let print_indexop a path_prefix assign left sep right print_index indices
-          (rem_args : expression list) =
+          rem_args =
         let print_path ppf = function
           | None -> ()
           | Some m -> pp ppf ".%a" longident m in
         match assign, rem_args with
             | false, [] ->
               pp f "@[%a%a%s%a%s@]"
-                (simple_expr ctxt) (a : expression) print_path path_prefix
+                (simple_expr ctxt) a print_path path_prefix
                 left (list ~sep print_index) indices right; true
             | true, [v] ->
               pp f "@[%a%a%s%a%s@ <-@;<1 2>%a@]"
@@ -623,7 +623,7 @@ and sugar_expr ctxt f e =
     end
   | _ -> false
 
-and expression ctxt f (x : expression) =
+and expression ctxt f x =
   if x.pexp_attributes <> [] then
     pp f "((%a)@,%a)" (expression ctxt) {x with pexp_attributes=[]}
       (attributes ctxt) x.pexp_attributes
@@ -703,7 +703,7 @@ and expression ctxt f (x : expression) =
                 end (e,unvala l)
         end
 
-    | Pexp_construct (li, VaVal (Some eo))
+    | Pexp_construct (li, Ploc.VaVal (Some eo))
       when not (is_simple_construct (view_expr x))-> (* Not efficient FIXME*)
         (match view_expr x with
          | `cons ls -> list (simple_expr ctxt) f ls ~sep:"@;::@;"
@@ -763,7 +763,7 @@ and expression ctxt f (x : expression) =
         pp f "@[<2>let open%s %a in@;%a@]"
           (override_vala o.popen_override) (module_expr ctxt) o.popen_expr
           (expression ctxt) e
-    | Pexp_variant (l,VaVal (Some eo)) ->
+    | Pexp_variant (l,Ploc.VaVal (Some eo)) ->
         pp f "@[<2>`%s@;%a@]" (unvala l) (simple_expr ctxt) eo
     | Pexp_letop {let_; ands; body} ->
         pp f "@[<2>@[<v>%a@,%a@] in@;<1 -2>%a@]"
@@ -818,7 +818,7 @@ and simple_expr ctxt f x =
         pp f "(%a%a :> %a)" (expression ctxt) e
           (option (core_type ctxt) ~first:" : " ~last:" ") (unvala cto1) (* no sep hint*)
           (core_type ctxt) ct
-    | Pexp_variant (l, VaVal None) -> pp f "`%s" (unvala l)
+    | Pexp_variant (l, Ploc.VaVal None) -> pp f "`%s" (unvala l)
     | Pexp_record (l, eo) ->
         let longident_x_expression f ( li, e) =
           match e with
@@ -1120,9 +1120,9 @@ and signature ctxt f x =  list ~sep:"@\n" (signature_item ctxt) f (unvala x)
 
 and signature_item ctxt f x : unit =
   match x.psig_desc with
-  | Psig_type (rf, VaVal l) ->
+  | Psig_type (rf, Ploc.VaVal l) ->
       type_def_list ctxt f (rf, true, l)
-  | Psig_typesubst (VaVal l) ->
+  | Psig_typesubst (Ploc.VaVal l) ->
       (* Psig_typesubst is never recursive, but we specify [Recursive] here to
          avoid printing a [nonrec] flag, which would be rejected by the parser.
       *)
@@ -1248,15 +1248,15 @@ and module_expr ctxt f x =
 and structure ctxt f x = list ~sep:"@\n" (structure_item ctxt) f (unvala x)
 
 and payload ctxt f = function
-  | PStr (VaVal [{pstr_desc = Pstr_eval (e, attrs)}]) ->
+  | PStr (Ploc.VaVal [{pstr_desc = Pstr_eval (e, attrs)}]) ->
       pp f "@[<2>%a@]%a"
         (expression ctxt) (unvala e)
         (item_attributes ctxt) attrs
   | PStr x -> structure ctxt f x
   | PTyp x -> pp f ":@ "; core_type ctxt f x
   | PSig x -> pp f ":@ "; signature ctxt f x
-  | PPat (x, VaVal None) -> pp f "?@ "; pattern ctxt f x
-  | PPat (x, VaVal (Some e)) ->
+  | PPat (x, Ploc.VaVal None) -> pp f "?@ "; pattern ctxt f x
+  | PPat (x, Ploc.VaVal (Some e)) ->
       pp f "?@ "; pattern ctxt f x;
       pp f " when "; expression ctxt f e
 
@@ -1312,10 +1312,10 @@ and binding ctxt f {pvb_pat=p; pvb_expr=x; _} =
         pp f "%a@;=@;%a" (pattern ctxt) p (expression ctxt) x
   else
   match is_desugared_gadt p x with
-  | Some (p, VaVal [], ct, e) ->
+  | Some (p, Ploc.VaVal [], ct, e) ->
       pp f "%a@;: %a@;=@;%a"
         (simple_pattern ctxt) p (core_type ctxt) ct (expression ctxt) e
-  | Some (p, VaVal tyvars, ct, e) -> begin
+  | Some (p, Ploc.VaVal tyvars, ct, e) -> begin
     pp f "%a@;: type@;%a.@;%a@;=@;%a"
     (simple_pattern ctxt) p (list pp_print_string ~sep:"@;")
     (List.map unvala (tyvars_str tyvars)) (core_type ctxt) ct (expression ctxt) e
@@ -1368,8 +1368,8 @@ and structure_item ctxt f x =
       pp f "@[<hov2>;;%a@]%a"
         (expression ctxt) (unvala e)
         (item_attributes ctxt) attrs
-  | Pstr_type (_, VaVal []) -> assert false
-  | Pstr_type (rf, VaVal l)  -> type_def_list ctxt f (rf, true, l)
+  | Pstr_type (_, Ploc.VaVal []) -> assert false
+  | Pstr_type (rf, Ploc.VaVal l)  -> type_def_list ctxt f (rf, true, l)
   | Pstr_value (rf, l) ->
       (* pp f "@[<hov2>let %a%a@]"  rec_flag rf bindings l *)
       pp f "@[<2>%a@]" (bindings ctxt) (rf,l)
@@ -1503,8 +1503,8 @@ and type_param ctxt f (ct, (a,b)) =
   pp f "%s%s%a" (type_variance a) (type_injectivity b) (core_type ctxt) ct
 
 and type_params ctxt f = function
-  | VaVal [] -> ()
-  | VaVal l -> pp f "%a " (list (type_param ctxt) ~first:"(" ~last:")" ~sep:",@;") l
+  | Ploc.VaVal [] -> ()
+  | Ploc.VaVal l -> pp f "%a " (list (type_param ctxt) ~first:"(" ~last:")" ~sep:",@;") l
 
 and type_def_list ctxt f (rf, exported, l) =
   let type_decl kwd rf f x =
