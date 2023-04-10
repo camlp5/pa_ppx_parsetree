@@ -206,222 +206,222 @@ type token =
   | AS
   | ANTI_WITHE of (
 # 792 "parser.mly"
-       (string)
+            (string)
 # 211 "parser_mock.ml"
 )
   | ANTI_WHENO of (
 # 791 "parser.mly"
-       (string)
+            (string)
 # 216 "parser_mock.ml"
 )
   | ANTI_VIRTUAL of (
 # 817 "parser.mly"
-       (string)
+            (string)
 # 221 "parser_mock.ml"
 )
   | ANTI_UID of (
 # 785 "parser.mly"
-       (string)
+            (string)
 # 226 "parser_mock.ml"
 )
   | ANTI_TYPEDECL of (
 # 818 "parser.mly"
-       (string)
+            (string)
 # 231 "parser_mock.ml"
 )
   | ANTI_TYP of (
 # 787 "parser.mly"
-       (string)
+            (string)
 # 236 "parser_mock.ml"
 )
   | ANTI_TUPLELIST of (
 # 777 "parser.mly"
-       (string)
+            (string)
 # 241 "parser_mock.ml"
 )
   | ANTI_STRING of (
 # 807 "parser.mly"
-       (string)
+            (string)
 # 246 "parser_mock.ml"
 )
   | ANTI_RECFLAG of (
 # 793 "parser.mly"
-       (string)
+            (string)
 # 251 "parser_mock.ml"
 )
   | ANTI_PRIV of (
 # 788 "parser.mly"
-       (string)
+            (string)
 # 256 "parser_mock.ml"
 )
   | ANTI_PATTOPT of (
 # 799 "parser.mly"
-       (string)
+            (string)
 # 261 "parser_mock.ml"
 )
   | ANTI_PATT of (
 # 801 "parser.mly"
-       (string)
+            (string)
 # 266 "parser_mock.ml"
 )
   | ANTI_OVERRIDEFLAG of (
 # 795 "parser.mly"
-       (string)
+            (string)
 # 271 "parser_mock.ml"
 )
   | ANTI_OPT of (
 # 776 "parser.mly"
-       (string)
+            (string)
 # 276 "parser_mock.ml"
 )
   | ANTI_NONRECFLAG of (
 # 794 "parser.mly"
-       (string)
+            (string)
 # 281 "parser_mock.ml"
 )
   | ANTI_NATIVEINT of (
 # 805 "parser.mly"
-       (string)
+            (string)
 # 286 "parser_mock.ml"
 )
   | ANTI_MUTABLE of (
 # 790 "parser.mly"
-       (string)
+            (string)
 # 291 "parser_mock.ml"
 )
   | ANTI_LONGID of (
 # 786 "parser.mly"
-       (string)
+            (string)
 # 296 "parser_mock.ml"
 )
   | ANTI_LIST of (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 301 "parser_mock.ml"
 )
   | ANTI_LID of (
 # 784 "parser.mly"
-       (string)
+            (string)
 # 306 "parser_mock.ml"
 )
   | ANTI_LETOP of (
 # 813 "parser.mly"
-       (string)
+            (string)
 # 311 "parser_mock.ml"
 )
   | ANTI_LABEL of (
 # 810 "parser.mly"
-       (string)
+            (string)
 # 316 "parser_mock.ml"
 )
   | ANTI_ISCONST of (
 # 816 "parser.mly"
-       (string)
+            (string)
 # 321 "parser_mock.ml"
 )
   | ANTI_INT64 of (
 # 804 "parser.mly"
-       (string)
+            (string)
 # 326 "parser_mock.ml"
 )
   | ANTI_INT32 of (
 # 803 "parser.mly"
-       (string)
+            (string)
 # 331 "parser_mock.ml"
 )
   | ANTI_INT of (
 # 802 "parser.mly"
-       (string)
+            (string)
 # 336 "parser_mock.ml"
 )
   | ANTI_ID of (
 # 783 "parser.mly"
-       (string)
+            (string)
 # 341 "parser_mock.ml"
 )
   | ANTI_FLOAT of (
 # 809 "parser.mly"
-       (string)
+            (string)
 # 346 "parser_mock.ml"
 )
   | ANTI_EXPROPT of (
 # 798 "parser.mly"
-       (string)
+            (string)
 # 351 "parser_mock.ml"
 )
   | ANTI_EXPR of (
 # 797 "parser.mly"
-       (string)
+            (string)
 # 356 "parser_mock.ml"
 )
   | ANTI_EXCON of (
 # 812 "parser.mly"
-       (string)
+            (string)
 # 361 "parser_mock.ml"
 )
   | ANTI_DIRFLAG of (
 # 811 "parser.mly"
-       (string)
+            (string)
 # 366 "parser_mock.ml"
 )
   | ANTI_DELIM of (
 # 808 "parser.mly"
-       (string)
+            (string)
 # 371 "parser_mock.ml"
 )
   | ANTI_CTYPOPT of (
 # 800 "parser.mly"
-       (string)
+            (string)
 # 376 "parser_mock.ml"
 )
   | ANTI_CONSTRUCTORLIST of (
 # 782 "parser.mly"
-       (string)
+            (string)
 # 381 "parser_mock.ml"
 )
   | ANTI_CONSTANT of (
 # 815 "parser.mly"
-       (string)
+            (string)
 # 386 "parser_mock.ml"
 )
   | ANTI_CLOSEDFLAG of (
 # 796 "parser.mly"
-       (string)
+            (string)
 # 391 "parser_mock.ml"
 )
   | ANTI_CLASSTYPELIST of (
 # 781 "parser.mly"
-       (string)
+            (string)
 # 396 "parser_mock.ml"
 )
   | ANTI_CLASSLIST of (
 # 779 "parser.mly"
-       (string)
+            (string)
 # 401 "parser_mock.ml"
 )
   | ANTI_CLASSDESCLIST of (
 # 780 "parser.mly"
-       (string)
+            (string)
 # 406 "parser_mock.ml"
 )
   | ANTI_CHAR of (
 # 806 "parser.mly"
-       (string)
+            (string)
 # 411 "parser_mock.ml"
 )
   | ANTI_ATTRID of (
 # 814 "parser.mly"
-       (string)
+            (string)
 # 416 "parser_mock.ml"
 )
   | ANTI_ALGATTRS of (
 # 789 "parser.mly"
-       (string)
+            (string)
 # 421 "parser_mock.ml"
 )
   | ANTI of (
 # 775 "parser.mly"
-       (string)
+            (string)
 # 426 "parser_mock.ml"
 )
   | ANDOP of (
@@ -2289,7 +2289,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 2299 "parser_mock.ml"
    : (
 # 818 "parser.mly"
-       (string)
+            (string)
 # 2303 "parser_mock.ml"
   )) (_startpos_td_ : Lexing.position) (_endpos_td_ : Lexing.position) (_startofs_td_ : int) (_endofs_td_ : int) (_loc_td_ : Lexing.position * Lexing.position) (
 # 3695 "parser.mly"
@@ -2362,7 +2362,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 2373 "parser_mock.ml"
    : (
 # 818 "parser.mly"
-       (string)
+            (string)
 # 2377 "parser_mock.ml"
   )) (_startpos_td_ : Lexing.position) (_endpos_td_ : Lexing.position) (_startofs_td_ : int) (_endofs_td_ : int) (_loc_td_ : Lexing.position * Lexing.position) (
 # 3681 "parser.mly"
@@ -2691,7 +2691,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 2719 "parser_mock.ml"
    : (
 # 817 "parser.mly"
-       (string)
+            (string)
 # 2723 "parser_mock.ml"
   )) (_startpos_virt_ : Lexing.position) (_endpos_virt_ : Lexing.position) (_startofs_virt_ : int) (_endofs_virt_ : int) (_loc_virt_ : Lexing.position * Lexing.position) (
 # 2434 "parser.mly"
@@ -2699,7 +2699,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 2727 "parser_mock.ml"
    : (
 # 790 "parser.mly"
-       (string)
+            (string)
 # 2731 "parser_mock.ml"
   )) (_startpos_mut_ : Lexing.position) (_endpos_mut_ : Lexing.position) (_startofs_mut_ : int) (_endofs_mut_ : int) (_loc_mut_ : Lexing.position * Lexing.position) ->
     (
@@ -2896,7 +2896,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 2929 "parser_mock.ml"
    : (
 # 788 "parser.mly"
-       (string)
+            (string)
 # 2933 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -2920,7 +2920,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 2954 "parser_mock.ml"
    : (
 # 788 "parser.mly"
-       (string)
+            (string)
 # 2958 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -2944,7 +2944,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 2979 "parser_mock.ml"
    : (
 # 790 "parser.mly"
-       (string)
+            (string)
 # 2983 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -2968,7 +2968,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3004 "parser_mock.ml"
    : (
 # 817 "parser.mly"
-       (string)
+            (string)
 # 3008 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -2992,7 +2992,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3029 "parser_mock.ml"
    : (
 # 784 "parser.mly"
-       (string)
+            (string)
 # 3033 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3016,7 +3016,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3054 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3058 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3040,7 +3040,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3079 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3083 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3068,7 +3068,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3108 "parser_mock.ml"
    : (
 # 815 "parser.mly"
-       (string)
+            (string)
 # 3112 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3092,7 +3092,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3133 "parser_mock.ml"
    : (
 # 797 "parser.mly"
-       (string)
+            (string)
 # 3137 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3116,7 +3116,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3158 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3162 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3140,7 +3140,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3183 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3187 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3164,7 +3164,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3208 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3212 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3188,7 +3188,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3233 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3237 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3212,7 +3212,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3258 "parser_mock.ml"
    : (
 # 793 "parser.mly"
-       (string)
+            (string)
 # 3262 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3236,7 +3236,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3283 "parser_mock.ml"
    : (
 # 788 "parser.mly"
-       (string)
+            (string)
 # 3287 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3264,7 +3264,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3312 "parser_mock.ml"
    : (
 # 787 "parser.mly"
-       (string)
+            (string)
 # 3316 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3288,7 +3288,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3337 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3341 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3312,7 +3312,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3362 "parser_mock.ml"
    : (
 # 795 "parser.mly"
-       (string)
+            (string)
 # 3366 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3336,7 +3336,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3387 "parser_mock.ml"
    : (
 # 776 "parser.mly"
-       (string)
+            (string)
 # 3391 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3360,7 +3360,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3412 "parser_mock.ml"
    : (
 # 796 "parser.mly"
-       (string)
+            (string)
 # 3416 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3384,7 +3384,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3437 "parser_mock.ml"
    : (
 # 798 "parser.mly"
-       (string)
+            (string)
 # 3441 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3408,7 +3408,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3462 "parser_mock.ml"
    : (
 # 816 "parser.mly"
-       (string)
+            (string)
 # 3466 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3432,7 +3432,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3487 "parser_mock.ml"
    : (
 # 794 "parser.mly"
-       (string)
+            (string)
 # 3491 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3456,7 +3456,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3512 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3516 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3480,7 +3480,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3537 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3541 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3504,7 +3504,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3562 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3566 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3528,7 +3528,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3587 "parser_mock.ml"
    : (
 # 790 "parser.mly"
-       (string)
+            (string)
 # 3591 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3552,7 +3552,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3612 "parser_mock.ml"
    : (
 # 776 "parser.mly"
-       (string)
+            (string)
 # 3616 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3576,7 +3576,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3637 "parser_mock.ml"
    : (
 # 786 "parser.mly"
-       (string)
+            (string)
 # 3641 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3604,7 +3604,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3666 "parser_mock.ml"
    : (
 # 786 "parser.mly"
-       (string)
+            (string)
 # 3670 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3632,7 +3632,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3695 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3699 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3656,7 +3656,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3720 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3724 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3680,7 +3680,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3745 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3749 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3708,7 +3708,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3774 "parser_mock.ml"
    : (
 # 784 "parser.mly"
-       (string)
+            (string)
 # 3778 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3732,7 +3732,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3799 "parser_mock.ml"
    : (
 # 792 "parser.mly"
-       (string)
+            (string)
 # 3803 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3756,7 +3756,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3824 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3828 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3780,7 +3780,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3849 "parser_mock.ml"
    : (
 # 788 "parser.mly"
-       (string)
+            (string)
 # 3853 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3808,7 +3808,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3878 "parser_mock.ml"
    : (
 # 783 "parser.mly"
-       (string)
+            (string)
 # 3882 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3836,7 +3836,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3907 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3911 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3860,7 +3860,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3932 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3936 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3884,7 +3884,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3957 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3961 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3908,7 +3908,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 3982 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 3986 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3936,7 +3936,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4011 "parser_mock.ml"
    : (
 # 811 "parser.mly"
-       (string)
+            (string)
 # 4015 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3960,7 +3960,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4036 "parser_mock.ml"
    : (
 # 787 "parser.mly"
-       (string)
+            (string)
 # 4040 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -3988,7 +3988,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4065 "parser_mock.ml"
    : (
 # 782 "parser.mly"
-       (string)
+            (string)
 # 4069 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -4012,7 +4012,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4090 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 4094 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -4036,7 +4036,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4115 "parser_mock.ml"
    : (
 # 786 "parser.mly"
-       (string)
+            (string)
 # 4119 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -4060,7 +4060,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4140 "parser_mock.ml"
    : (
 # 785 "parser.mly"
-       (string)
+            (string)
 # 4144 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -4088,7 +4088,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4169 "parser_mock.ml"
    : (
 # 815 "parser.mly"
-       (string)
+            (string)
 # 4173 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -4112,7 +4112,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4194 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 4198 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -4136,7 +4136,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4219 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 4223 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -4160,7 +4160,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4244 "parser_mock.ml"
    : (
 # 810 "parser.mly"
-       (string)
+            (string)
 # 4248 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -4184,7 +4184,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4269 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 4273 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -4208,7 +4208,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4294 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 4298 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -4232,7 +4232,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4319 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 4323 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -4256,7 +4256,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4344 "parser_mock.ml"
    : (
 # 785 "parser.mly"
-       (string)
+            (string)
 # 4348 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -4284,7 +4284,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4373 "parser_mock.ml"
    : (
 # 784 "parser.mly"
-       (string)
+            (string)
 # 4377 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -4428,7 +4428,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4522 "parser_mock.ml"
    : (
 # 791 "parser.mly"
-       (string)
+            (string)
 # 4526 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -4442,7 +4442,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4537 "parser_mock.ml"
    : (
 # 777 "parser.mly"
-       (string)
+            (string)
 # 4541 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -4456,7 +4456,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4552 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 4556 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -4470,7 +4470,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4567 "parser_mock.ml"
    : (
 # 798 "parser.mly"
-       (string)
+            (string)
 # 4571 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -4700,7 +4700,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 4815 "parser_mock.ml"
    : (
 # 776 "parser.mly"
-       (string)
+            (string)
 # 4819 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -5452,7 +5452,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 5638 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 5642 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -6394,7 +6394,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 6590 "parser_mock.ml"
    : (
 # 775 "parser.mly"
-       (string)
+            (string)
 # 6594 "parser_mock.ml"
   )) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
 # 3210 "parser.mly"
@@ -6510,7 +6510,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 6707 "parser_mock.ml"
    : (
 # 775 "parser.mly"
-       (string)
+            (string)
 # 6711 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -7646,7 +7646,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 7849 "parser_mock.ml"
    : (
 # 775 "parser.mly"
-       (string)
+            (string)
 # 7853 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -7771,7 +7771,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 7974 "parser_mock.ml"
    : (
 # 800 "parser.mly"
-       (string)
+            (string)
 # 7978 "parser_mock.ml"
   )) (_startpos_ty1opt_ : Lexing.position) (_endpos_ty1opt_ : Lexing.position) (_startofs_ty1opt_ : int) (_endofs_ty1opt_ : int) (_loc_ty1opt_ : Lexing.position * Lexing.position) (
 # 2742 "parser.mly"
@@ -8014,7 +8014,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 8284 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 8288 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -8875,7 +8875,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 9163 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 9167 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -8948,7 +8948,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 9237 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 9241 "parser_mock.ml"
   )) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
 # 2077 "parser.mly"
@@ -9034,7 +9034,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 9328 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 9332 "parser_mock.ml"
   )) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
 # 1760 "parser.mly"
@@ -9462,7 +9462,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 9774 "parser_mock.ml"
    : (
 # 798 "parser.mly"
-       (string)
+            (string)
 # 9778 "parser_mock.ml"
   )) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
 # 4427 "parser.mly"
@@ -10484,7 +10484,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 10880 "parser_mock.ml"
    : (
 # 784 "parser.mly"
-       (string)
+            (string)
 # 10884 "parser_mock.ml"
   )) (_startpos_pbop_op_ : Lexing.position) (_endpos_pbop_op_ : Lexing.position) (_startofs_pbop_op_ : int) (_endofs_pbop_op_ : int) (_loc_pbop_op_ : Lexing.position * Lexing.position) ->
     ((
@@ -11690,7 +11690,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 12111 "parser_mock.ml"
    : (
 # 776 "parser.mly"
-       (string)
+            (string)
 # 12115 "parser_mock.ml"
   )) (_startpos_typ_ : Lexing.position) (_endpos_typ_ : Lexing.position) (_startofs_typ_ : int) (_endofs_typ_ : int) (_loc_typ_ : Lexing.position * Lexing.position) (
 # 1841 "parser.mly"
@@ -13301,7 +13301,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 13776 "parser_mock.ml"
    : (
 # 775 "parser.mly"
-       (string)
+            (string)
 # 13780 "parser_mock.ml"
   )) (_startpos__5_ : Lexing.position) (_endpos__5_ : Lexing.position) (_startofs__5_ : int) (_endofs__5_ : int) (_loc__5_ : Lexing.position * Lexing.position) (
 # 2335 "parser.mly"
@@ -13321,7 +13321,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 13796 "parser_mock.ml"
    : (
 # 795 "parser.mly"
-       (string)
+            (string)
 # 13800 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -14337,7 +14337,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 14827 "parser_mock.ml"
    : (
 # 810 "parser.mly"
-       (string)
+            (string)
 # 14831 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     ((
@@ -16486,7 +16486,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 17012 "parser_mock.ml"
    : (
 # 776 "parser.mly"
-       (string)
+            (string)
 # 17016 "parser_mock.ml"
   )) (_startpos__5_ : Lexing.position) (_endpos__5_ : Lexing.position) (_startofs__5_ : int) (_endofs__5_ : int) (_loc__5_ : Lexing.position * Lexing.position) (
 # 3579 "parser.mly"
@@ -16598,7 +16598,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 17125 "parser_mock.ml"
    : (
 # 776 "parser.mly"
-       (string)
+            (string)
 # 17129 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -17422,7 +17422,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 17972 "parser_mock.ml"
    : (
 # 798 "parser.mly"
-       (string)
+            (string)
 # 17976 "parser_mock.ml"
   )) (_startpos__6_ : Lexing.position) (_endpos__6_ : Lexing.position) (_startofs__6_ : int) (_endofs__6_ : int) (_loc__6_ : Lexing.position * Lexing.position) (
 # 2696 "parser.mly"
@@ -17657,7 +17657,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 18207 "parser_mock.ml"
    : (
 # 812 "parser.mly"
-       (string)
+            (string)
 # 18211 "parser_mock.ml"
   )) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
 # 2677 "parser.mly"
@@ -17785,7 +17785,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 18335 "parser_mock.ml"
    : (
 # 798 "parser.mly"
-       (string)
+            (string)
 # 18339 "parser_mock.ml"
   )) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) ((
 # 2725 "parser.mly"
@@ -18017,7 +18017,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 18567 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 18571 "parser_mock.ml"
   )) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
 # 2653 "parser.mly"
@@ -18025,7 +18025,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 18575 "parser_mock.ml"
    : (
 # 813 "parser.mly"
-       (string)
+            (string)
 # 18579 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -18616,7 +18616,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 19178 "parser_mock.ml"
    : (
 # 809 "parser.mly"
-       (string)
+            (string)
 # 19182 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -18630,7 +18630,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 19192 "parser_mock.ml"
    : (
 # 808 "parser.mly"
-       (string)
+            (string)
 # 19196 "parser_mock.ml"
   )) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
 # 4004 "parser.mly"
@@ -18638,7 +18638,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 19200 "parser_mock.ml"
    : (
 # 807 "parser.mly"
-       (string)
+            (string)
 # 19204 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -18652,7 +18652,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 19214 "parser_mock.ml"
    : (
 # 807 "parser.mly"
-       (string)
+            (string)
 # 19218 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -18666,7 +18666,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 19228 "parser_mock.ml"
    : (
 # 806 "parser.mly"
-       (string)
+            (string)
 # 19232 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -18680,7 +18680,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 19242 "parser_mock.ml"
    : (
 # 805 "parser.mly"
-       (string)
+            (string)
 # 19246 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -18694,7 +18694,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 19256 "parser_mock.ml"
    : (
 # 804 "parser.mly"
-       (string)
+            (string)
 # 19260 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -18708,7 +18708,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 19270 "parser_mock.ml"
    : (
 # 803 "parser.mly"
-       (string)
+            (string)
 # 19274 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -18722,7 +18722,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 19284 "parser_mock.ml"
    : (
 # 802 "parser.mly"
-       (string)
+            (string)
 # 19288 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -18802,7 +18802,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 19365 "parser_mock.ml"
    : (
 # 781 "parser.mly"
-       (string)
+            (string)
 # 19369 "parser_mock.ml"
   )) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
 # 2496 "parser.mly"
@@ -18910,7 +18910,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 19483 "parser_mock.ml"
    : (
 # 801 "parser.mly"
-       (string)
+            (string)
 # 19487 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -18938,7 +18938,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 19511 "parser_mock.ml"
    : (
 # 775 "parser.mly"
-       (string)
+            (string)
 # 19515 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -19020,7 +19020,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 19602 "parser_mock.ml"
    : (
 # 775 "parser.mly"
-       (string)
+            (string)
 # 19606 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -19212,7 +19212,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 19803 "parser_mock.ml"
    : (
 # 817 "parser.mly"
-       (string)
+            (string)
 # 19807 "parser_mock.ml"
   )) (_startpos_v_ : Lexing.position) (_endpos_v_ : Lexing.position) (_startofs_v_ : int) (_endofs_v_ : int) (_loc_v_ : Lexing.position * Lexing.position) (
 # 2411 "parser.mly"
@@ -19220,7 +19220,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 19811 "parser_mock.ml"
    : (
 # 788 "parser.mly"
-       (string)
+            (string)
 # 19815 "parser_mock.ml"
   )) (_startpos_p_ : Lexing.position) (_endpos_p_ : Lexing.position) (_startofs_p_ : int) (_endofs_p_ : int) (_loc_p_ : Lexing.position * Lexing.position) (
 # 2411 "parser.mly"
@@ -19755,7 +19755,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 20373 "parser_mock.ml"
    : (
 # 780 "parser.mly"
-       (string)
+            (string)
 # 20377 "parser_mock.ml"
   )) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
 # 2455 "parser.mly"
@@ -19831,7 +19831,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 20452 "parser_mock.ml"
    : (
 # 779 "parser.mly"
-       (string)
+            (string)
 # 20456 "parser_mock.ml"
   )) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
 # 2141 "parser.mly"
@@ -20619,7 +20619,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 21314 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 21318 "parser_mock.ml"
   )) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
 # 1977 "parser.mly"
@@ -20647,7 +20647,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 21342 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 21346 "parser_mock.ml"
   )) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
 # 1969 "parser.mly"
@@ -20720,7 +20720,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 21417 "parser_mock.ml"
    : (
 # 814 "parser.mly"
-       (string)
+            (string)
 # 21421 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -20822,7 +20822,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 21521 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 21525 "parser_mock.ml"
   )) (_startpos_r_ : Lexing.position) (_endpos_r_ : Lexing.position) (_startofs_r_ : int) (_endofs_r_ : int) (_loc_r_ : Lexing.position * Lexing.position) (
 # 3881 "parser.mly"
@@ -20830,7 +20830,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 21529 "parser_mock.ml"
    : (
 # 796 "parser.mly"
-       (string)
+            (string)
 # 21533 "parser_mock.ml"
   )) (_startpos_c_ : Lexing.position) (_endpos_c_ : Lexing.position) (_startofs_c_ : int) (_endofs_c_ : int) (_loc_c_ : Lexing.position * Lexing.position) (
 # 3881 "parser.mly"
@@ -20852,7 +20852,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 21551 "parser_mock.ml"
    : (
 # 776 "parser.mly"
-       (string)
+            (string)
 # 21555 "parser_mock.ml"
   )) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
 # 3879 "parser.mly"
@@ -20860,7 +20860,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 21559 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 21563 "parser_mock.ml"
   )) (_startpos_r_ : Lexing.position) (_endpos_r_ : Lexing.position) (_startofs_r_ : int) (_endofs_r_ : int) (_loc_r_ : Lexing.position * Lexing.position) (
 # 3879 "parser.mly"
@@ -20868,7 +20868,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 21567 "parser_mock.ml"
    : (
 # 796 "parser.mly"
-       (string)
+            (string)
 # 21571 "parser_mock.ml"
   )) (_startpos_c_ : Lexing.position) (_endpos_c_ : Lexing.position) (_startofs_c_ : int) (_endofs_c_ : int) (_loc_c_ : Lexing.position * Lexing.position) (
 # 3879 "parser.mly"
@@ -20890,7 +20890,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 21589 "parser_mock.ml"
    : (
 # 776 "parser.mly"
-       (string)
+            (string)
 # 21593 "parser_mock.ml"
   )) (_startpos__4_ : Lexing.position) (_endpos__4_ : Lexing.position) (_startofs__4_ : int) (_endofs__4_ : int) (_loc__4_ : Lexing.position * Lexing.position) (
 # 3877 "parser.mly"
@@ -21106,7 +21106,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 21807 "parser_mock.ml"
    : (
 # 796 "parser.mly"
-       (string)
+            (string)
 # 21811 "parser_mock.ml"
   )) (_startpos_c_ : Lexing.position) (_endpos_c_ : Lexing.position) (_startofs_c_ : int) (_endofs_c_ : int) (_loc_c_ : Lexing.position * Lexing.position) (
 # 3853 "parser.mly"
@@ -21114,7 +21114,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 21815 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 21819 "parser_mock.ml"
   )) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
 # 3853 "parser.mly"
@@ -21154,7 +21154,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 21855 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 21859 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -21192,7 +21192,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 21893 "parser_mock.ml"
    : (
 # 775 "parser.mly"
-       (string)
+            (string)
 # 21897 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -21292,7 +21292,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 21994 "parser_mock.ml"
    : (
 # 775 "parser.mly"
-       (string)
+            (string)
 # 21998 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -21316,7 +21316,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 22019 "parser_mock.ml"
    : (
 # 777 "parser.mly"
-       (string)
+            (string)
 # 22023 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -21577,7 +21577,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 22283 "parser_mock.ml"
    : (
 # 799 "parser.mly"
-       (string)
+            (string)
 # 22287 "parser_mock.ml"
   )) (_startpos_pattopt_ : Lexing.position) (_endpos_pattopt_ : Lexing.position) (_startofs_pattopt_ : int) (_endofs_pattopt_ : int) (_loc_pattopt_ : Lexing.position * Lexing.position) ((
 # 3166 "parser.mly"
@@ -21617,7 +21617,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 22323 "parser_mock.ml"
    : (
 # 799 "parser.mly"
-       (string)
+            (string)
 # 22327 "parser_mock.ml"
   )) (_startpos_pattopt_ : Lexing.position) (_endpos_pattopt_ : Lexing.position) (_startofs_pattopt_ : int) (_endofs_pattopt_ : int) (_loc_pattopt_ : Lexing.position * Lexing.position) (
 # 3162 "parser.mly"
@@ -21733,7 +21733,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 22440 "parser_mock.ml"
    : (
 # 777 "parser.mly"
-       (string)
+            (string)
 # 22444 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -21847,7 +21847,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 22555 "parser_mock.ml"
    : (
 # 777 "parser.mly"
-       (string)
+            (string)
 # 22559 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (
@@ -22174,7 +22174,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 22884 "parser_mock.ml"
    : (
 # 778 "parser.mly"
-       (string)
+            (string)
 # 22888 "parser_mock.ml"
   )) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
 # 1699 "parser.mly"
@@ -22573,7 +22573,7 @@ and (xv_xlist_vala_generic_type_declaration_nonrec_flag_vala_type_kind__generic_
 # 23288 "parser_mock.ml"
    : (
 # 775 "parser.mly"
-       (string)
+            (string)
 # 23292 "parser_mock.ml"
   )) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
     (

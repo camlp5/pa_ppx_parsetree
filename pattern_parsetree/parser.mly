@@ -762,7 +762,7 @@ let mk_directive ~loc name arg =
 %token TRUE                   "true"
 %token TRY                    "try"
 %token TYPE                   "type"
-%token TYPESUBST                   "typesubst"
+/*-*/%token TYPESUBST                   "typesubst"
 %token <string> UIDENT        "UIdent" (* just an example *)
 %token UNDERSCORE             "_"
 %token VAL                    "val"
@@ -772,50 +772,50 @@ let mk_directive ~loc name arg =
 %token WITH                   "with"
 %token <string * Location.t> COMMENT    "(* comment *)"
 %token <Docstrings.docstring> DOCSTRING "(** documentation *)"
-%token <string> ANTI
-%token <string> ANTI_OPT
-%token <string> ANTI_TUPLELIST
-%token <string> ANTI_LIST
-%token <string> ANTI_CLASSLIST
-%token <string> ANTI_CLASSDESCLIST
-%token <string> ANTI_CLASSTYPELIST
-%token <string> ANTI_CONSTRUCTORLIST
-%token <string> ANTI_ID
-%token <string> ANTI_LID
-%token <string> ANTI_UID
-%token <string> ANTI_LONGID
-%token <string> ANTI_TYP
-%token <string> ANTI_PRIV
-%token <string> ANTI_ALGATTRS
-%token <string> ANTI_MUTABLE
-%token <string> ANTI_WHENO
-%token <string> ANTI_WITHE
-%token <string> ANTI_RECFLAG
-%token <string> ANTI_NONRECFLAG
-%token <string> ANTI_OVERRIDEFLAG
-%token <string> ANTI_CLOSEDFLAG
-%token <string> ANTI_EXPR
-%token <string> ANTI_EXPROPT
-%token <string> ANTI_PATTOPT
-%token <string> ANTI_CTYPOPT
-%token <string> ANTI_PATT
-%token <string> ANTI_INT
-%token <string> ANTI_INT32
-%token <string> ANTI_INT64
-%token <string> ANTI_NATIVEINT
-%token <string> ANTI_CHAR
-%token <string> ANTI_STRING
-%token <string> ANTI_DELIM
-%token <string> ANTI_FLOAT
-%token <string> ANTI_LABEL
-%token <string> ANTI_DIRFLAG
-%token <string> ANTI_EXCON
-%token <string> ANTI_LETOP
-%token <string> ANTI_ATTRID
-%token <string> ANTI_CONSTANT
-%token <string> ANTI_ISCONST
-%token <string> ANTI_VIRTUAL
-%token <string> ANTI_TYPEDECL
+/*-*/%token <string> ANTI
+/*-*/%token <string> ANTI_OPT
+/*-*/%token <string> ANTI_TUPLELIST
+/*-*/%token <string> ANTI_LIST
+/*-*/%token <string> ANTI_CLASSLIST
+/*-*/%token <string> ANTI_CLASSDESCLIST
+/*-*/%token <string> ANTI_CLASSTYPELIST
+/*-*/%token <string> ANTI_CONSTRUCTORLIST
+/*-*/%token <string> ANTI_ID
+/*-*/%token <string> ANTI_LID
+/*-*/%token <string> ANTI_UID
+/*-*/%token <string> ANTI_LONGID
+/*-*/%token <string> ANTI_TYP
+/*-*/%token <string> ANTI_PRIV
+/*-*/%token <string> ANTI_ALGATTRS
+/*-*/%token <string> ANTI_MUTABLE
+/*-*/%token <string> ANTI_WHENO
+/*-*/%token <string> ANTI_WITHE
+/*-*/%token <string> ANTI_RECFLAG
+/*-*/%token <string> ANTI_NONRECFLAG
+/*-*/%token <string> ANTI_OVERRIDEFLAG
+/*-*/%token <string> ANTI_CLOSEDFLAG
+/*-*/%token <string> ANTI_EXPR
+/*-*/%token <string> ANTI_EXPROPT
+/*-*/%token <string> ANTI_PATTOPT
+/*-*/%token <string> ANTI_CTYPOPT
+/*-*/%token <string> ANTI_PATT
+/*-*/%token <string> ANTI_INT
+/*-*/%token <string> ANTI_INT32
+/*-*/%token <string> ANTI_INT64
+/*-*/%token <string> ANTI_NATIVEINT
+/*-*/%token <string> ANTI_CHAR
+/*-*/%token <string> ANTI_STRING
+/*-*/%token <string> ANTI_DELIM
+/*-*/%token <string> ANTI_FLOAT
+/*-*/%token <string> ANTI_LABEL
+/*-*/%token <string> ANTI_DIRFLAG
+/*-*/%token <string> ANTI_EXCON
+/*-*/%token <string> ANTI_LETOP
+/*-*/%token <string> ANTI_ATTRID
+/*-*/%token <string> ANTI_CONSTANT
+/*-*/%token <string> ANTI_ISCONST
+/*-*/%token <string> ANTI_VIRTUAL
+/*-*/%token <string> ANTI_TYPEDECL
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -881,9 +881,9 @@ The precedences must be listed from low to high.
           LBRACE LBRACELESS LBRACKET LBRACKETBAR LIDENT LPAREN
           NEW PREFIXOP STRING TRUE UIDENT
           LBRACKETPERCENT QUOTED_STRING_EXPR
-          ANTI ANTI_UID ANTI_LID ANTI_LONGID
-          ANTI_INT ANTI_INT32 ANTI_INT64 ANTI_NATIVEINT ANTI_CHAR ANTI_STRING ANTI_DELIM ANTI_FLOAT
-          ANTI_EXPROPT ANTI_PATTOPT ANTI_CONSTANT
+/*-*/          ANTI ANTI_UID ANTI_LID ANTI_LONGID
+/*-*/          ANTI_INT ANTI_INT32 ANTI_INT64 ANTI_NATIVEINT ANTI_CHAR ANTI_STRING ANTI_DELIM ANTI_FLOAT
+/*-*/          ANTI_EXPROPT ANTI_PATTOPT ANTI_CONSTANT
 
 /* Entry points */
 
