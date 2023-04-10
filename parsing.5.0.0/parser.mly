@@ -2858,7 +2858,7 @@ pattern_comma_list(self):
   listx(SEMI, record_pat_field, UNDERSCORE)
     { let fields, closed = $1 in
       let closed = match closed with Some () -> Open | None -> Closed in
-      (fields), (closed) }
+      fields, closed }
 ;
 %inline record_pat_field:
   label = mkrhs(label_longident)
