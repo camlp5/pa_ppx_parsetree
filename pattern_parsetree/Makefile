@@ -1,6 +1,7 @@
 # Makefile,v
 # Copyright (c) INRIA 2007-2017
 
+SHELL := /bin/bash
 WD=$(shell pwd)
 TOP=..
 include $(TOP)/config/Makefile.sub
@@ -55,7 +56,7 @@ lexer.ml: lexer.mll
 
 PARSINGSRC=../adjusted-parsing.5.0.0
 %.COMPARE: %
-	$(TOP)/tools/erase-vala $< | diff -Bbwiu $(PARSINGSRC)/$< -
+	$(TOP)/tools/erase-vala $< | $(TOP)/tools/paren2ws | diff -Bbwiu <( $(TOP)/tools/paren2ws $(PARSINGSRC)/$< ) -
 
 COMPARE= \
 	location.ml.COMPARE location.mli.COMPARE \

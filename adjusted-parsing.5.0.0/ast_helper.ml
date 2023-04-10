@@ -39,7 +39,7 @@ module Const = struct
   let int64 ?(suffix='L') i = integer ~suffix (Int64.to_string i)
   let nativeint ?(suffix='n') i = integer ~suffix (Nativeint.to_string i)
   let float ?suffix f = Pconst_float (f, suffix)
-  let char c = Pconst_char (c)
+  let char c = Pconst_char c
   let string ?quotation_delimiter ?(loc= !default_loc) s =
     Pconst_string (s, loc, quotation_delimiter)
 end
@@ -76,7 +76,7 @@ module Typ = struct
   let force_poly t =
     match t.ptyp_desc with
     | Ptyp_poly _ -> t
-    | _ -> poly ~loc:t.ptyp_loc ([]) t (* -> ghost? *)
+    | _ -> poly ~loc:t.ptyp_loc [] t (* -> ghost? *)
 
   let varify_constructors var_names t =
     let check_variable vl loc v =
@@ -92,32 +92,32 @@ module Typ = struct
             Ptyp_var x
         | Ptyp_arrow (label,core_type,core_type') ->
             Ptyp_arrow(label, loop core_type, loop core_type')
-        | Ptyp_tuple lst -> Ptyp_tuple ((List.map loop) lst)
+        | Ptyp_tuple lst -> Ptyp_tuple (List.map loop lst)
         | Ptyp_constr( { txt = Longident.Lident s }, [])
           when List.mem s var_names ->
             Ptyp_var s
         | Ptyp_constr(longident, lst) ->
-            Ptyp_constr(longident, (List.map loop) lst)
+            Ptyp_constr(longident, List.map loop lst)
         | Ptyp_object (lst, o) ->
-           let lst = (List.map loop_object_field) lst in
+           let lst = List.map loop_object_field lst in
             Ptyp_object (lst, o)
         | Ptyp_class (longident, lst) ->
-           let lst = (List.map loop) lst in
+           let lst = List.map loop lst in
             Ptyp_class (longident, lst)
         | Ptyp_alias(core_type, string) ->
             check_variable var_names t.ptyp_loc string;
             Ptyp_alias(loop core_type, string)
         | Ptyp_variant(row_field_list, flag, lbl_lst_option) ->
-           let row_field_list = (List.map loop_row_field) row_field_list in
+           let row_field_list = List.map loop_row_field row_field_list in
             Ptyp_variant(row_field_list,
                          flag, lbl_lst_option)
         | Ptyp_poly(string_lst, core_type) ->
-          (List.iter (fun v ->
-            check_variable var_names t.ptyp_loc v.txt)) string_lst;
+          List.iter (fun v ->
+            check_variable var_names t.ptyp_loc v.txt) string_lst;
             Ptyp_poly(string_lst, loop core_type)
         | Ptyp_package(longident,lst) ->
-           let lst = (List.map (fun (n,typ) -> (n,loop typ) )) lst in
-            Ptyp_package(longident, lst)
+           let lst = List.map (fun (n,typ) -> (n,loop typ) ) lst in
+            Ptyp_package(longident,lst)
         | Ptyp_extension (s, arg) ->
             Ptyp_extension (s, arg)
       in
@@ -125,8 +125,8 @@ module Typ = struct
     and loop_row_field field =
       let prf_desc = match field.prf_desc with
         | Rtag(label,flag,lst) ->
-           let lst = (List.map loop) lst in
-            Rtag(label,flag, lst)
+           let lst = List.map loop lst in
+            Rtag(label,flag,lst)
         | Rinherit t ->
             Rinherit (loop t)
       in
@@ -534,7 +534,7 @@ module Type = struct
     }
 
   let constructor ?(loc = !default_loc) ?(attrs = []) ?(info = empty_info)
-        ?(vars = []) ?(args = Pcstr_tuple ([])) ~res name =
+        ?(vars = []) ?(args = Pcstr_tuple []) ~res name =
     {
      pcd_name = name;
      pcd_vars = vars;
@@ -587,12 +587,12 @@ module Te = struct
     }
 
   let decl ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs)
-         ?(info = empty_info) ?(vars = []) ?(args = Pcstr_tuple ([])) ~res name =
+         ?(info = empty_info) ?(vars = []) ?(args = Pcstr_tuple []) ~res name =
     {
      pext_name = name;
      pext_kind = Pext_decl(vars, args, res);
      pext_loc = loc;
-     pext_attributes = attrs |> (add_info_attrs info) |> (add_docs_attrs docs) ;
+     pext_attributes = attrs |> (add_info_attrs info) |> (add_docs_attrs docs);
     }
 
   let rebind ?(loc = !default_loc) ?(attrs = [])
@@ -601,7 +601,7 @@ module Te = struct
      pext_name = name;
      pext_kind = Pext_rebind lid;
      pext_loc = loc;
-     pext_attributes = attrs |> (add_info_attrs info) |>  (add_docs_attrs docs) ;
+     pext_attributes = attrs |> (add_info_attrs info) |> add_docs_attrs docs;
     }
 
 end
