@@ -53,7 +53,7 @@ parser.ml: parser.mly
 lexer.ml: lexer.mll
 	ocamllex lexer.mll
 
-PARSINGSRC=../parsing.5.0.0
+PARSINGSRC=../adjusted-parsing.5.0.0
 %.COMPARE: %
 	$(TOP)/tools/erase-vala $< | diff -Bbwiu $(PARSINGSRC)/$< -
 
