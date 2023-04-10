@@ -2656,7 +2656,7 @@ record_expr_content:
           match eo with
           | None ->
               (* No pattern; this is a pun. Desugar it. *)
-              $sloc, make_ghost label, exp_of_longident label
+              $sloc, (make_ghost label), exp_of_longident label
           | Some e ->
               ($startpos(c), $endpos), label, e
         in
@@ -2673,7 +2673,7 @@ record_expr_content:
           match oe with
           | None ->
               (* No expression; this is a pun. Desugar it. *)
-              make_ghost label, exp_of_label label
+              make_ghost label, exp_of_label (label)
           | Some e ->
               label, e
         in
@@ -2726,7 +2726,7 @@ pattern_no_exn:
 
 %inline pattern_(self):
   | self COLONCOLON pattern
-      { mkpat_cons ~loc:$sloc $loc($2) (ghpat ~loc:$sloc (Ppat_tuple[$1;$3])) }
+      { mkpat_cons ~loc:$sloc $loc($2) (ghpat ~loc:$sloc (Ppat_tuple ([$1;$3]))) }
   | self attribute
       { Pat.attr $1 $2 }
   | pattern_gen
@@ -2737,7 +2737,7 @@ pattern_no_exn:
     | self AS error
         { expecting $loc($3) "identifier" }
     | pattern_comma_list(self) %prec below_COMMA
-        { Ppat_tuple(List.rev $1) }
+        { Ppat_tuple((List.rev $1)) }
     | self COLONCOLON error
         { expecting $loc($3) "pattern" }
     | self BAR pattern
@@ -2752,12 +2752,12 @@ pattern_gen:
       { $1 }
   | mkpat(
       mkrhs(constr_longident) pattern %prec prec_constr_appl
-        { Ppat_construct($1, Some ([], $2)) }
+        { Ppat_construct($1, (Some ([], $2))) }
     | constr=mkrhs(constr_longident) LPAREN TYPE newtypes=lident_list RPAREN
         pat=simple_pattern
-        { Ppat_construct(constr, Some (newtypes, pat)) }
+        { Ppat_construct(constr, (Some (newtypes, pat))) }
     | name_tag pattern %prec prec_constr_appl
-        { Ppat_variant($1, Some $2) }
+        { Ppat_variant($1, (Some $2)) }
     ) { $1 }
   | LAZY ext_attributes simple_pattern
       { mkpat_attrs ~loc:$sloc (Ppat_lazy $3) $2}
@@ -2788,7 +2788,8 @@ simple_pattern_not_ident:
       { Ppat_any }
   | signed_constant
       { Ppat_constant $1 }
-  | signed_constant DOTDOT signed_constant
+  | signed_constant DOTDOT
+      signed_constant
       { Ppat_interval ($1, $3) }
   | mkrhs(constr_longident)
       { Ppat_construct($1, None) }
@@ -2798,9 +2799,9 @@ simple_pattern_not_ident:
       { Ppat_type ($2) }
   | mkrhs(mod_longident) DOT simple_delimited_pattern
       { Ppat_open($1, $3) }
-  | mkrhs(mod_longident) DOT mkrhs(LBRACKET RBRACKET {Lident "[]"})
+  | mkrhs(mod_longident) DOT mkrhs(LBRACKET RBRACKET {(Lident ("[]"))})
     { Ppat_open($1, mkpat ~loc:$sloc (Ppat_construct($3, None))) }
-  | mkrhs(mod_longident) DOT mkrhs(LPAREN RPAREN {Lident "()"})
+  | mkrhs(mod_longident) DOT mkrhs(LPAREN RPAREN {(Lident ("()"))})
     { Ppat_open($1, mkpat ~loc:$sloc (Ppat_construct($3, None))) }
   | mkrhs(mod_longident) DOT LPAREN pattern RPAREN
       { Ppat_open ($1, $4) }
@@ -2837,7 +2838,7 @@ simple_delimited_pattern:
     | LBRACKETBAR pattern_semi_list BARRBRACKET
       { Ppat_array $2 }
     | LBRACKETBAR BARRBRACKET
-      { Ppat_array [] }
+      { Ppat_array ([]) }
     | LBRACKETBAR pattern_semi_list error
       { unclosed "[|" $loc($1) "|]" $loc($3) }
   ) { $1 }
@@ -2857,7 +2858,7 @@ pattern_comma_list(self):
   listx(SEMI, record_pat_field, UNDERSCORE)
     { let fields, closed = $1 in
       let closed = match closed with Some () -> Open | None -> Closed in
-      fields, closed }
+      (fields), (closed) }
 ;
 %inline record_pat_field:
   label = mkrhs(label_longident)
@@ -2950,7 +2951,7 @@ primitive_declaration:
    but are in reality different enough that it is difficult to share anything
    between them. *)
 
-generic_type_declaration(flag, kind):
+%inline generic_type_declaration(flag, kind):
   TYPE
   ext = ext
   attrs1 = attributes
@@ -2958,7 +2959,7 @@ generic_type_declaration(flag, kind):
   params = type_parameters
   id = mkrhs(LIDENT)
   kind_priv_manifest = kind
-  cstrs = constraints
+  cstrs = (constraints)
   attrs2 = post_item_attributes
     {
       let (kind, priv, manifest) = kind_priv_manifest in
@@ -2966,7 +2967,7 @@ generic_type_declaration(flag, kind):
       let attrs = attrs1 @ attrs2 in
       let loc = make_loc $sloc in
       (flag, ext),
-      Type.mk id ~params ~cstrs ~kind ~priv ?manifest ~attrs ~loc ~docs
+      Type.mk id ~params ~cstrs ~kind ~priv ~manifest ~attrs ~loc ~docs
     }
 ;
 %inline generic_and_type_declaration(kind):
@@ -2975,7 +2976,7 @@ generic_type_declaration(flag, kind):
   params = type_parameters
   id = mkrhs(LIDENT)
   kind_priv_manifest = kind
-  cstrs = constraints
+  cstrs = (constraints)
   attrs2 = post_item_attributes
     {
       let (kind, priv, manifest) = kind_priv_manifest in
@@ -2983,7 +2984,7 @@ generic_type_declaration(flag, kind):
       let attrs = attrs1 @ attrs2 in
       let loc = make_loc $sloc in
       let text = symbol_text $symbolstartpos in
-      Type.mk id ~params ~cstrs ~kind ~priv ?manifest ~attrs ~loc ~docs ~text
+      Type.mk id ~params ~cstrs ~kind ~priv ~manifest ~attrs ~loc ~docs ~text
     }
 ;
 %inline constraints:
@@ -2997,7 +2998,7 @@ generic_type_declaration(flag, kind):
 nonempty_type_kind:
   | priv = inline_private_flag
     ty = core_type
-      { (Ptype_abstract, priv, Some ty) }
+      { (Ptype_abstract, priv, (Some ty)) }
   | oty = type_synonym
     priv = inline_private_flag
     cs = constructor_declarations
@@ -3094,7 +3095,7 @@ generic_constructor_declaration(opening):
   d = generic_constructor_declaration(opening)
     {
       let cid, vars, args, res, attrs, loc, info = d in
-      Type.constructor cid ~vars ~args ?res ~attrs ~loc ~info
+      Type.constructor cid ~vars ~args ~res ~attrs ~loc ~info
     }
 ;
 str_exception_declaration:
@@ -3126,26 +3127,26 @@ sig_exception_declaration:
       let loc = make_loc ($startpos, $endpos(attrs2)) in
       let docs = symbol_docs $sloc in
       Te.mk_exception ~attrs
-        (Te.decl id ~vars ~args ?res ~attrs:(attrs1 @ attrs2) ~loc ~docs)
+        (Te.decl id ~vars ~args ~res ~attrs:(attrs1 @ attrs2) ~loc ~docs)
       , ext }
 ;
 %inline let_exception_declaration:
     mkrhs(constr_ident) generalized_constructor_arguments attributes
       { let vars, args, res = $2 in
-        Te.decl $1 ~vars ~args ?res ~attrs:$3 ~loc:(make_loc $sloc) }
+        Te.decl $1 ~vars ~args ~res ~attrs:$3 ~loc:(make_loc $sloc) }
 ;
 generalized_constructor_arguments:
-    /*empty*/                     { ([],Pcstr_tuple [],None) }
+    /*empty*/                     { ([],Pcstr_tuple ([]),None) }
   | OF constructor_arguments      { ([],$2,None) }
   | COLON constructor_arguments MINUSGREATER atomic_type %prec below_HASH
-                                  { ([],$2,Some $4) }
+                                  { ([],$2,(Some $4)) }
   | COLON typevar_list DOT constructor_arguments MINUSGREATER atomic_type
      %prec below_HASH
-                                  { ($2,$4,Some $6) }
+                                  { ($2,$4,(Some $6)) }
   | COLON atomic_type %prec below_HASH
-                                  { ([],Pcstr_tuple [],Some $2) }
+                                  { ([],Pcstr_tuple ([]),(Some $2)) }
   | COLON typevar_list DOT atomic_type %prec below_HASH
-                                  { ($2,Pcstr_tuple [],Some $4) }
+                                  { ($2,Pcstr_tuple ([]),(Some $4)) }
 ;
 
 constructor_arguments:
@@ -3211,7 +3212,7 @@ label_declaration_semi:
   d = generic_constructor_declaration(opening)
     {
       let cid, vars, args, res, attrs, loc, info = d in
-      Te.decl cid ~vars ~args ?res ~attrs ~loc ~info
+      Te.decl cid ~vars ~args ~res ~attrs ~loc ~info
     }
 ;
 extension_constructor_rebind(opening):
@@ -3227,7 +3228,8 @@ extension_constructor_rebind(opening):
 /* "with" constraints (additional type equations over signature components) */
 
 with_constraint:
-    TYPE type_parameters mkrhs(label_longident) with_type_binder
+    TYPE type_parameters
+      mkrhs(label_longident) with_type_binder
     core_type_no_attr constraints
       { let lident = loc_last $3 in
         Pwith_type
@@ -3235,19 +3237,19 @@ with_constraint:
            (Type.mk lident
               ~params:$2
               ~cstrs:$6
-              ~manifest:$5
+              ~manifest:((Some ($5)))
               ~priv:$4
               ~loc:(make_loc $sloc))) }
     /* used label_longident instead of type_longident to disallow
        functor applications in type path */
-  | TYPE type_parameters mkrhs(label_longident)
+  | TYPE (type_parameters) mkrhs(label_longident)
     COLONEQUAL core_type_no_attr
       { let lident = loc_last $3 in
         Pwith_typesubst
          ($3,
-           (Type.mk lident
+           (Type.mk (lident)
               ~params:$2
-              ~manifest:$5
+              ~manifest:((Some ($5)))
               ~loc:(make_loc $sloc))) }
   | MODULE mkrhs(mod_longident) EQUAL mkrhs(mod_ext_longident)
       { Pwith_module ($2, $4) }
@@ -3365,7 +3367,7 @@ tuple_type:
       { ty }
   | mktyp(
       tys = separated_nontrivial_llist(STAR, atomic_type)
-        { Ptyp_tuple tys }
+        { Ptyp_tuple (tys) }
     )
     { $1 }
 ;
@@ -3405,15 +3407,16 @@ atomic_type:
     | LBRACKET BAR row_field_list RBRACKET
         { Ptyp_variant($3, Closed, None) }
     | LBRACKET row_field BAR row_field_list RBRACKET
-        { Ptyp_variant($2 :: $4, Closed, None) }
+        { Ptyp_variant(($2 :: $4), Closed, None) }
     | LBRACKETGREATER BAR? row_field_list RBRACKET
         { Ptyp_variant($3, Open, None) }
     | LBRACKETGREATER RBRACKET
         { Ptyp_variant([], Open, None) }
     | LBRACKETLESS BAR? row_field_list RBRACKET
-        { Ptyp_variant($3, Closed, Some []) }
-    | LBRACKETLESS BAR? row_field_list GREATER name_tag_list RBRACKET
-        { Ptyp_variant($3, Closed, Some $5) }
+        { Ptyp_variant($3, Closed, (Some ([]))) }
+    | LBRACKETLESS BAR? row_field_list
+        GREATER name_tag_list RBRACKET
+        { Ptyp_variant($3, Closed, (Some $5)) }
     | extension
         { Ptyp_extension $1 }
   )
@@ -3455,14 +3458,15 @@ row_field:
       { Rf.inherit_ ~loc:(make_loc $sloc) $1 }
 ;
 tag_field:
-    mkrhs(name_tag) OF opt_ampersand amper_type_list attributes
+    mkrhs(name_tag) OF opt_ampersand
+      amper_type_list attributes
       { let info = symbol_info $endpos in
         let attrs = add_info_attrs info $5 in
         Rf.tag ~loc:(make_loc $sloc) ~attrs $1 $3 $4 }
   | mkrhs(name_tag) attributes
       { let info = symbol_info $endpos in
         let attrs = add_info_attrs info $2 in
-        Rf.tag ~loc:(make_loc $sloc) ~attrs $1 true [] }
+        Rf.tag ~loc:(make_loc $sloc) ~attrs $1 (true) ([]) }
 ;
 opt_ampersand:
     AMPERSAND                                   { true }
@@ -3521,14 +3525,14 @@ meth_list:
 
 constant:
   | INT          { let (n, m) = $1 in Pconst_integer (n, m) }
-  | CHAR         { Pconst_char $1 }
+  | CHAR         { Pconst_char ($1) }
   | STRING       { let (s, strloc, d) = $1 in Pconst_string (s, strloc, d) }
   | FLOAT        { let (f, m) = $1 in Pconst_float (f, m) }
 ;
 signed_constant:
     constant     { $1 }
-  | MINUS INT    { let (n, m) = $2 in Pconst_integer("-" ^ n, m) }
-  | MINUS FLOAT  { let (f, m) = $2 in Pconst_float("-" ^ f, m) }
+  | MINUS INT    { let (n, m) = $2 in Pconst_integer(("-" ^ n), m) }
+  | MINUS FLOAT  { let (f, m) = $2 in Pconst_float(("-" ^ f), m) }
   | PLUS INT     { let (n, m) = $2 in Pconst_integer (n, m) }
   | PLUS FLOAT   { let (f, m) = $2 in Pconst_float(f, m) }
 ;
@@ -3607,11 +3611,11 @@ constr_ident:
 constr_longident:
     mod_longident       %prec below_DOT  { $1 } /* A.B.x vs (A).B.x */
   | mod_longident DOT constr_extra_ident { Ldot($1,$3) }
-  | constr_extra_ident                   { Lident $1 }
-  | constr_extra_nonprefix_ident         { Lident $1 }
+  | constr_extra_ident                   { Lident ($1) }
+  | constr_extra_nonprefix_ident         { Lident ($1) }
 ;
 mk_longident(prefix,final):
-   | final            { Lident $1 }
+   | final            { Lident ($1) }
    | prefix DOT final { Ldot($1,$3) }
 ;
 val_longident:
@@ -3649,9 +3653,9 @@ class_longident:
    the path prefix is only valid for types: (e.g. F(X).(::)) */
 any_longident:
   | mk_longident (mod_ext_longident,
-     ident | constr_extra_ident | val_extra_ident { $1 }
+     ident | (constr_extra_ident) | (val_extra_ident) { $1 }
     ) { $1 }
-  | constr_extra_nonprefix_ident { Lident $1 }
+  | constr_extra_nonprefix_ident { Lident ($1) }
 ;
 /* END AVOID */
 
@@ -3770,7 +3774,7 @@ additive:
   | PLUSDOT                                     { "+." }
 ;
 optlabel:
-   | OPTLABEL                                   { $1 }
+   | OPTLABEL                                   { ($1) }
    | QUESTION LIDENT COLON                      { $2 }
 ;
 
@@ -3834,7 +3838,7 @@ single_attr_id:
 attr_id:
   mkloc(
       single_attr_id { $1 }
-    | single_attr_id DOT attr_id { $1 ^ "." ^ $3.txt }
+    | single_attr_id DOT attr_id { ($1 ^ "." ^ ($3.txt)) }
   ) { $1 }
 ;
 attribute:
@@ -3886,6 +3890,6 @@ payload:
   | COLON signature { PSig $2 }
   | COLON core_type { PTyp $2 }
   | QUESTION pattern { PPat ($2, None) }
-  | QUESTION pattern WHEN seq_expr { PPat ($2, Some $4) }
+  | QUESTION pattern WHEN seq_expr { PPat ($2, (Some $4)) }
 ;
 %%

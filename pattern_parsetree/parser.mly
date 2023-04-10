@@ -3127,7 +3127,7 @@ pattern_no_exn:
 
 %inline pattern_(self):
   | self COLONCOLON pattern
-      { mkpat_cons ~loc:$sloc $loc($2) (ghpat ~loc:$sloc (Ppat_tuple (vaval[$1;$3]))) }
+      { mkpat_cons ~loc:$sloc $loc($2) (ghpat ~loc:$sloc (Ppat_tuple (vaval [$1;$3]))) }
   | self attribute
       { Pat.attr $1 $2 }
   | pattern_gen
@@ -3139,8 +3139,8 @@ pattern_no_exn:
         { expecting $loc($3) "identifier" }
     | pattern_comma_list(self) %prec below_COMMA
         { Ppat_tuple(vaval (List.rev $1)) }
-  | ANTI_TUPLELIST
-      { Ppat_tuple (vaant $1) }
+/*-*/  | ANTI_TUPLELIST
+/*-*/      { Ppat_tuple (vaant $1) }
     | self COLONCOLON error
         { expecting $loc($3) "pattern" }
     | self BAR pattern
@@ -3159,12 +3159,12 @@ pattern_gen:
     | constr=mkrhs(constr_longident_vala) LPAREN TYPE newtypes=vala(lident_list, ANTI_LIST) RPAREN
         pat=simple_pattern
         { Ppat_construct(constr, vaval(Some (newtypes, pat))) }
-    | constr=mkrhs(constr_longident_vala) pattopt = ANTI_PATTOPT
-        { Ppat_construct(constr, vaant pattopt) }
+/*-*/    | constr=mkrhs(constr_longident_vala) pattopt = ANTI_PATTOPT
+/*-*/        { Ppat_construct(constr, vaant pattopt) }
     | name_tag_vala pattern %prec prec_constr_appl
         { Ppat_variant($1, vaval(Some $2)) }
-    | name_tag_vala pattopt = ANTI_PATTOPT
-        { Ppat_variant($1, vaant pattopt) }
+/*-*/    | name_tag_vala pattopt = ANTI_PATTOPT
+/*-*/        { Ppat_variant($1, vaant pattopt) }
     ) { $1 }
   | LAZY ext_attributes simple_pattern
       { mkpat_attrs ~loc:$sloc (Ppat_lazy $3) $2}
@@ -3191,7 +3191,7 @@ simple_pattern_not_ident:
       { $1 }
 ;
 %inline simple_pattern_not_ident_:
-  | ANTI { Ppat_xtr (Location.mkloc $1 (make_loc $sloc)) }
+/*-*/  | ANTI { Ppat_xtr (Location.mkloc $1 (make_loc $sloc)) }
   | UNDERSCORE
       { Ppat_any }
   | vala(signed_constant, ANTI_CONSTANT)
@@ -3207,8 +3207,8 @@ simple_pattern_not_ident:
       { Ppat_type ($2) }
   | mkrhs(mod_longident_vala) DOT simple_delimited_pattern
       { Ppat_open($1, $3) }
-  | mkrhs(mod_longident_vala) DOT ANTI
-      { Ppat_open($1, mkpat ~loc:$sloc (Ppat_xtr (Location.mkloc $3 (make_loc $sloc)))) }
+/*-*/  | mkrhs(mod_longident_vala) DOT ANTI
+/*-*/      { Ppat_open($1, mkpat ~loc:$sloc (Ppat_xtr (Location.mkloc $3 (make_loc $sloc)))) }
   | mkrhs(mod_longident_vala) DOT mkrhs(LBRACKET RBRACKET {vaval(Lident (vaval "[]"))})
     { Ppat_open($1, mkpat ~loc:$sloc (Ppat_construct($3, vaval None))) }
   | mkrhs(mod_longident_vala) DOT mkrhs(LPAREN RPAREN {vaval(Lident (vaval "()"))})
@@ -3269,11 +3269,11 @@ pattern_comma_list(self):
     { let fields, closed = $1 in
       let closed = match closed with Some () -> Open | None -> Closed in
       vaval(fields), vaval(closed) }
-| ANTI_LIST vala(UNDERSCORE?, ANTI_CLOSEDFLAG)
-    {
-      let closed = Pcaml.vala_map (function Some () -> Open | None -> Closed) $2 in
-      vaant $1, closed
-    }
+/*-*/| ANTI_LIST vala(UNDERSCORE?, ANTI_CLOSEDFLAG)
+/*-*/    {
+(*-*)      let closed = Pcaml.vala_map (function Some () -> Open | None -> Closed) $2 in
+(*-*)      vaant $1, closed
+(*-*)    }
 ;
 %inline record_pat_field:
   label = mkrhs(label_longident)
@@ -3362,22 +3362,22 @@ primitive_declaration:
   { $1 }
 ;
 
-%inline core_type_declaration(kind):
-  params = vala(type_parameters, ANTI_LIST)
-  id = mkrhs(lident_vala)
-  kind_priv_manifest = kind
-  cstrs = vala(constraints, ANTI_LIST)
-  attrs2 = post_item_attributes
-    {
-      let (kind, priv, manifest) = kind_priv_manifest in
-      let docs = symbol_docs $sloc in
-      let attrs = attrs2 in
-      let loc = make_loc $sloc in
-      Type.mk id ~params ~cstrs ~kind ~priv ~manifest ~attrs ~loc ~docs
-    }
-;
-
-
+/*-*/%inline core_type_declaration(kind):
+/*-*/  params = vala(type_parameters, ANTI_LIST)
+/*-*/  id = mkrhs(lident_vala)
+/*-*/  kind_priv_manifest = kind
+/*-*/  cstrs = vala(constraints, ANTI_LIST)
+/*-*/  attrs2 = post_item_attributes
+/*-*/    {
+(*-*)      let (kind, priv, manifest) = kind_priv_manifest in
+(*-*)      let docs = symbol_docs $sloc in
+(*-*)      let attrs = attrs2 in
+(*-*)      let loc = make_loc $sloc in
+(*-*)      Type.mk id ~params ~cstrs ~kind ~priv ~manifest ~attrs ~loc ~docs
+(*-*)    }
+/*-*/;
+/*-*/
+/*-*/
 (* [generic_type_declaration] and [generic_and_type_declaration] look similar,
    but are in reality different enough that it is difficult to share anything
    between them. *)
@@ -3446,8 +3446,8 @@ nonempty_type_kind:
 %inline type_synonym:
   ioption(terminated(vala(core_type, ANTI_TYP), EQUAL))
     { vaval $1 }
-| ANTI_OPT
-    { vaant $1 }
+/*-*/| ANTI_OPT
+/*-*/    { vaant $1 }
 ;
 type_kind:
     /*empty*/
@@ -3573,12 +3573,12 @@ generalized_constructor_arguments:
   | OF constructor_arguments      { (vaval [],$2,vaval None) }
   | COLON constructor_arguments MINUSGREATER atomic_type %prec below_HASH
                                   { (vaval [],$2,vaval (Some $4)) }
-  | COLON vala(typevar_list,ANTI_LIST) DOT constructor_arguments MINUSGREATER atomic_type
+  | COLON vala(typevar_list, ANTI_LIST) DOT constructor_arguments MINUSGREATER atomic_type
      %prec below_HASH
                                   { ($2,$4,vaval (Some $6)) }
-  | COLON vala(typevar_list,ANTI_LIST) DOT constructor_arguments ANTI_OPT
-     %prec below_HASH
-                                  { ($2,$4,vaant $5) }
+/*-*/  | COLON vala(typevar_list, ANTI_LIST) DOT constructor_arguments ANTI_OPT
+/*-*/     %prec below_HASH
+/*-*/                                  { ($2,$4,vaant $5) }
   | COLON atomic_type %prec below_HASH
                                   { (vaval [],Pcstr_tuple (Ploc.VaVal []),vaval (Some $2)) }
   | COLON vala(typevar_list, ANTI_LIST) DOT atomic_type %prec below_HASH
@@ -3678,12 +3678,11 @@ with_constraint:
               ~loc:(make_loc $sloc))) }
     /* used label_longident instead of type_longident to disallow
        functor applications in type path */
-
-  | TYPE tpl = type_parameters li = mkrhs(label_longident) EQUAL td = ANTI_TYPEDECL
-      {
-        assert (tpl = []) ;
-        Pwith_type (li, vaant td)
-      }
+/*-*/  | TYPE tpl = type_parameters li = mkrhs(label_longident) EQUAL td = ANTI_TYPEDECL
+/*-*/      {
+(*-*)        assert (tpl = []) ;
+(*-*)        Pwith_type (li, vaant td)
+(*-*)      }
   | TYPE vaval(type_parameters) mkrhs(label_longident)
     COLONEQUAL core_type_no_attr
       { let lident = loc_last $3 in
@@ -3693,11 +3692,11 @@ with_constraint:
               ~params:$2
               ~manifest:(vaval (Some (vaval $5)))
               ~loc:(make_loc $sloc))) }
-  | TYPE tpl = type_parameters li = mkrhs(label_longident) COLONEQUAL td = ANTI_TYPEDECL
-      {
-        assert (tpl = []) ;
-        Pwith_typesubst (li, vaant td)
-      }
+/*-*/  | TYPE tpl = type_parameters li = mkrhs(label_longident) COLONEQUAL td = ANTI_TYPEDECL
+(*-*)      {
+(*-*)        assert (tpl = []) ;
+(*-*)        Pwith_typesubst (li, vaant td)
+(*-*)      }
   | MODULE mkrhs(mod_longident_vala) EQUAL mkrhs(mod_ext_longident_vala)
       { Pwith_module ($2, $4) }
   | MODULE mkrhs(mod_longident_vala) COLONEQUAL mkrhs(mod_ext_longident_vala)
@@ -3803,9 +3802,9 @@ function_type:
   | /* empty */
       { Nolabel }
 ;
-%inline arg_label_vala:
-   vala(arg_label, ANTI_LABEL) { $1 }
-;
+/*-*/%inline arg_label_vala:
+/*-*/   vala(arg_label, ANTI_LABEL) { $1 }
+/*-*/;
 (* Tuple types include:
    - atomic types (see below);
    - proper tuple types:                  int * int * int list
@@ -3818,9 +3817,8 @@ tuple_type:
   | mktyp(
       tys = separated_nontrivial_llist(STAR, atomic_type)
         { Ptyp_tuple (vaval tys) }
-    | ANTI_TUPLELIST
-      { Ptyp_tuple (vaant $1) }
-
+/*-*/    | ANTI_TUPLELIST
+/*-*/      { Ptyp_tuple (vaant $1) }
     )
     { $1 }
 ;
@@ -3841,19 +3839,19 @@ atomic_type:
   | mktyp( /* begin mktyp group */
       QUOTE ident_vala
         { Ptyp_var $2 }
-    | ANTI { Ptyp_xtr (Location.mkloc $1 (make_loc $sloc)) }
+/*-*/    | ANTI { Ptyp_xtr (Location.mkloc $1 (make_loc $sloc)) }
     | UNDERSCORE
         { Ptyp_any }
     | tys = actual_type_parameters
       tid = mkrhs(type_longident)
         { Ptyp_constr(tid, vaval tys) }
-    | ANTI_LIST
-      tid = mkrhs(type_longident)
-        { Ptyp_constr(tid, vaant $1) }
+/*-*/    | ANTI_LIST
+/*-*/      tid = mkrhs(type_longident)
+/*-*/        { Ptyp_constr(tid, vaant $1) }
     | LESS meth_list GREATER
         { let (f, c) = $2 in Ptyp_object (vaval f, vaval c) }
-    | LESS l = ANTI_LIST c = ANTI_CLOSEDFLAG GREATER
-        { Ptyp_object (vaant l, vaant c) }
+/*-*/    | LESS l = ANTI_LIST c = ANTI_CLOSEDFLAG GREATER
+/*-*/        { Ptyp_object (vaant l, vaant c) }
     | LESS GREATER
         { Ptyp_object (vaval [], vaval Closed) }
     | tys = vala(actual_type_parameters, ANTI_LIST)
@@ -3876,12 +3874,12 @@ atomic_type:
     | LBRACKETLESS BAR? vala(row_field_list, ANTI_LIST)
         GREATER vala(name_tag_list, ANTI_LIST) RBRACKET
         { Ptyp_variant($3, vaval Closed, vaval (Some $5)) }
-    | LBRACKETLESS BAR? vala(row_field_list, ANTI_LIST) ANTI_OPT RBRACKET
-        { Ptyp_variant($3, vaval Closed, vaant $4) }
-    | LBRACKET c = ANTI_CLOSEDFLAG r = ANTI_LIST l = ANTI_OPT RBRACKET
-        { Ptyp_variant(vaant r, vaant c, vaant l) }
-    | LBRACKET c = ANTI_CLOSEDFLAG r = ANTI_LIST GREATER l = vala(name_tag_list, ANTI_LIST) RBRACKET
-        { Ptyp_variant(vaant r, vaant c, vaval (Some l)) }
+/*-*/    | LBRACKETLESS BAR? vala(row_field_list, ANTI_LIST) ANTI_OPT RBRACKET
+/*-*/        { Ptyp_variant($3, vaval Closed, vaant $4) }
+/*-*/    | LBRACKET c = ANTI_CLOSEDFLAG r = ANTI_LIST l = ANTI_OPT RBRACKET
+/*-*/        { Ptyp_variant(vaant r, vaant c, vaant l) }
+/*-*/    | LBRACKET c = ANTI_CLOSEDFLAG r = ANTI_LIST GREATER l = vala(name_tag_list, ANTI_LIST) RBRACKET
+/*-*/        { Ptyp_variant(vaant r, vaant c, vaval (Some l)) }
     | extension
         { Ptyp_extension $1 }
   )
@@ -3945,10 +3943,6 @@ opt_ampersand:
   nonempty_llist(name_tag)
     { $1 }
 ;
-%inline name_tag_vala_list:
-  nonempty_llist(name_tag_vala)
-    { $1 }
-;
 (* A method list (in an object type). *)
 meth_list:
     head = field_semi         tail = meth_list
@@ -3990,10 +3984,10 @@ meth_list:
     LIDENT                                      { $1 }
 ;
 
-%inline label_vala:
-    vala(label, ANTI_LID)                      { $1 }
-;
-
+/*-*/%inline label_vala:
+/*-*/    vala(label, ANTI_LID)                      { $1 }
+/*-*/;
+/*-*/
 /* Constants */
 
 constant:
@@ -4001,14 +3995,14 @@ constant:
   | CHAR         { Pconst_char (vaval $1) }
   | STRING       { let (s, strloc, d) = $1 in Pconst_string (vaval s, strloc, Option.map vaval d) }
   | FLOAT        { let (f, m) = $1 in Pconst_float (vaval f, m) }
-  | ANTI_INT     { Pconst_integer (vaant $1, None) }
-  | ANTI_INT32     { Pconst_integer (vaant $1, Some 'l') }
-  | ANTI_INT64     { Pconst_integer (vaant $1, Some 'L') }
-  | ANTI_NATIVEINT     { Pconst_integer (vaant $1, Some 'n') }
-  | ANTI_CHAR     { Pconst_char (vaant $1) }
-  | ANTI_STRING     { Pconst_string (vaant $1, make_loc $sloc, None) }
-  | ANTI_STRING ANTI_DELIM     { Pconst_string (vaant $1, make_loc $sloc, Some (vaant $2)) }
-  | ANTI_FLOAT     { Pconst_float (vaant $1, None) }
+/*-*/  | ANTI_INT     { Pconst_integer (vaant $1, None) }
+/*-*/  | ANTI_INT32     { Pconst_integer (vaant $1, Some 'l') }
+/*-*/  | ANTI_INT64     { Pconst_integer (vaant $1, Some 'L') }
+/*-*/  | ANTI_NATIVEINT     { Pconst_integer (vaant $1, Some 'n') }
+/*-*/  | ANTI_CHAR     { Pconst_char (vaant $1) }
+/*-*/  | ANTI_STRING     { Pconst_string (vaant $1, make_loc $sloc, None) }
+/*-*/  | ANTI_STRING ANTI_DELIM     { Pconst_string (vaant $1, make_loc $sloc, Some (vaant $2)) }
+/*-*/  | ANTI_FLOAT     { Pconst_float (vaant $1, None) }
 ;
 signed_constant:
     constant     { $1 }
@@ -4020,24 +4014,24 @@ signed_constant:
 
 /* Identifiers and long identifiers */
 
-%inline lident_vala:
-  vala(LIDENT, ANTI_LID)
-    { $1 }
-;
-
-%inline uident_vala:
-  vala(UIDENT, ANTI_UID)
-    { $1 }
-;
-
+/*-*/%inline lident_vala:
+/*-*/  vala(LIDENT, ANTI_LID)
+/*-*/    { $1 }
+/*-*/;
+/*-*/
+/*-*/%inline uident_vala:
+/*-*/  vala(UIDENT, ANTI_UID)
+/*-*/    { $1 }
+/*-*/;
+/*-*/
 ident:
     UIDENT    { $1 }
   | LIDENT    { $1 }
 ;
-ident_vala:
-    uident_vala    { $1 }
-  | lident_vala    { $1 }
-;
+/*-*/ident_vala:
+/*-*/    uident_vala    { $1 }
+/*-*/  | lident_vala    { $1 }
+/*-*/;
 val_extra_ident:
   | LPAREN operator RPAREN    { $2 }
   | LPAREN operator error     { unclosed "(" $loc($1) ")" $loc($3) }
@@ -4048,15 +4042,9 @@ val_ident:
     LIDENT                    { $1 }
   | val_extra_ident           { $1 }
 ;
-%inline val_ident_vala:
-   vala(val_ident, ANTI_LID) { $1 }
-;
-/*
-val_ident_vala:
-    lident_vala    { $1 }
-  | val_extra_ident           { vaval $1 }
-;
-*/
+/*-*/%inline val_ident_vala:
+/*-*/   vala(val_ident, ANTI_LID) { $1 }
+/*-*/;
 operator:
     PREFIXOP                                    { $1 }
   | LETOP                                       { $1 }
@@ -4112,18 +4100,18 @@ constr_ident:
   | constr_extra_ident                          { $1 }
   | constr_extra_nonprefix_ident                { $1 }
 ;
-%inline constr_ident_vala:
-   vala(constr_ident, ANTI_UID) { $1 }
-;
+/*-*/%inline constr_ident_vala:
+/*-*/   vala(constr_ident, ANTI_UID) { $1 }
+/*-*/;
 constr_longident:
     mod_longident       %prec below_DOT  { $1 } /* A.B.x vs (A).B.x */
   | mod_longident_vala DOT constr_extra_ident { Ldot($1,vaval $3) }
   | constr_extra_ident                   { Lident (vaval $1) }
   | constr_extra_nonprefix_ident         { Lident (vaval $1) }
 ;
-%inline constr_longident_vala:
-  vala(constr_longident, ANTI_LONGID) { $1 }
-;
+/*-*/%inline constr_longident_vala:
+/*-*/  vala(constr_longident, ANTI_LONGID) { $1 }
+/*-*/;
 
 mk_longident(prefix,final):
    | final            { Lident ($1) }
@@ -4141,19 +4129,19 @@ type_longident:
 mod_longident:
     mk_longident(mod_longident_vala, uident_vala)  { $1 }
 ;
-%inline mod_longident_vala:
-  vala(mod_longident, ANTI_LONGID) { $1 }
-;
+/*-*/%inline mod_longident_vala:
+/*-*/  vala(mod_longident, ANTI_LONGID) { $1 }
+/*-*/;
 mod_ext_longident:
     mk_longident(mod_ext_longident_vala, uident_vala) { $1 }
   | mod_ext_longident_vala LPAREN mod_ext_longident_vala RPAREN
       { lapply ~loc:$sloc $1 $3 }
-  | vala(mod_ext_longident,ANTI_LONGID) LPAREN error
+  | vala(mod_ext_longident, ANTI_LONGID) LPAREN error
       { expecting $loc($3) "module path" }
 ;
-%inline mod_ext_longident_vala:
-   vala(mod_ext_longident, ANTI_LONGID) { $1 }
-;
+/*-*/%inline mod_ext_longident_vala:
+/*-*/   vala(mod_ext_longident, ANTI_LONGID) { $1 }
+/*-*/;
 mty_longident:
     mk_longident(mod_ext_longident_vala,ident_vala) { $1 }
 ;
@@ -4209,23 +4197,23 @@ toplevel_directive:
 name_tag:
     BACKQUOTE ident                             { $2 }
 ;
-name_tag_vala:
-    BACKQUOTE vala(ident, ANTI_ID)              { $2 }
-;
+/*-*/name_tag_vala:
+/*-*/    BACKQUOTE vala(ident, ANTI_ID)              { $2 }
+/*-*/;
 rec_flag:
     /* empty */                                 { Nonrecursive }
   | REC                                         { Recursive }
 ;
-%inline rec_flag_vala:
-   vala(rec_flag, ANTI_RECFLAG) { $1 }
-;
+/*-*/%inline rec_flag_vala:
+/*-*/   vala(rec_flag, ANTI_RECFLAG) { $1 }
+/*-*/;
 %inline nonrec_flag:
     /* empty */                                 { Recursive }
   | NONREC                                      { Nonrecursive }
 ;
-%inline nonrec_flag_vala:
-   vala(nonrec_flag, ANTI_NONRECFLAG) { $1 }
-;
+/*-*/%inline nonrec_flag_vala:
+/*-*/   vala(nonrec_flag, ANTI_NONRECFLAG) { $1 }
+/*-*/;
 %inline no_nonrec_flag:
     /* empty */ { Recursive }
 /* BEGIN AVOID */
@@ -4236,37 +4224,37 @@ direction_flag:
     TO                                          { Upto }
   | DOWNTO                                      { Downto }
 ;
-%inline direction_flag_vala:
-   vala(direction_flag, ANTI_DIRFLAG) { $1 }
-;
+/*-*/%inline direction_flag_vala:
+/*-*/   vala(direction_flag, ANTI_DIRFLAG) { $1 }
+/*-*/;
 private_flag:
   inline_private_flag
     { $1 }
 ;
-%inline private_flag_vala:
-   vala(private_flag, ANTI_PRIV) { $1 }
-;
+/*-*/%inline private_flag_vala:
+/*-*/   vala(private_flag, ANTI_PRIV) { $1 }
+/*-*/;
 %inline inline_private_flag:
     /* empty */                                 { Public }
   | PRIVATE                                     { Private }
 ;
-%inline inline_private_flag_vala:
-  vala(inline_private_flag, ANTI_PRIV) { $1 }
-;
+/*-*/%inline inline_private_flag_vala:
+/*-*/  vala(inline_private_flag, ANTI_PRIV) { $1 }
+/*-*/;
 mutable_flag:
     /* empty */                                 { Immutable }
   | MUTABLE                                     { Mutable }
 ;
-%inline mutable_flag_vala:
-   vala(mutable_flag, ANTI_MUTABLE) { $1 }
-;
+/*-*/%inline mutable_flag_vala:
+/*-*/   vala(mutable_flag, ANTI_MUTABLE) { $1 }
+/*-*/;
 virtual_flag:
     /* empty */                                 { Concrete }
   | VIRTUAL                                     { Virtual }
 ;
-%inline virtual_flag_vala:
-   vala(virtual_flag, ANTI_VIRTUAL) { $1 }
-;
+/*-*/%inline virtual_flag_vala:
+/*-*/   vala(virtual_flag, ANTI_VIRTUAL) { $1 }
+/*-*/;
 mutable_virtual_flags:
     /* empty */
       { Immutable, Concrete }
@@ -4306,9 +4294,9 @@ virtual_with_private_flag:
     /* empty */                                 { Fresh }
   | BANG                                        { Override }
 ;
-%inline override_flag_vala:
-    vala(override_flag, ANTI_OVERRIDEFLAG)      { $1 }
-;
+/*-*/%inline override_flag_vala:
+/*-*/    vala(override_flag, ANTI_OVERRIDEFLAG)      { $1 }
+/*-*/;
 subtractive:
   | MINUS                                       { "-" }
   | MINUSDOT                                    { "-." }
@@ -4383,7 +4371,7 @@ attr_id:
   mkloc(
       single_attr_id { vaval $1 }
     | single_attr_id DOT attr_id { vaval ($1 ^ "." ^ (unvala $3.txt)) }
-    | ANTI_ATTRID { vaant $1 }
+/*-*/    | ANTI_ATTRID { vaant $1 }
   ) { $1 }
 ;
 attribute:
@@ -4436,6 +4424,6 @@ payload:
   | COLON core_type { PTyp $2 }
   | QUESTION pattern { PPat ($2, vaval None) }
   | QUESTION pattern WHEN seq_expr { PPat ($2, vaval (Some $4)) }
-  | QUESTION pattern ANTI_EXPROPT { PPat ($2, vaant $3) }
+/*-*/  | QUESTION pattern ANTI_EXPROPT { PPat ($2, vaant $3) }
 ;
 %%
