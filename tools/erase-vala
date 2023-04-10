@@ -66,6 +66,7 @@ our %valamap = (
   $txt =~ s,\(\*-\*\)[^\n]*\n,,gs ;
   $txt =~ s,/\*-\*/[^\n]*\n,,gs ;
   $txt =~ s, Ploc\.vala,,gs ;
+  $txt =~ s,vaval\(([a-z][a-z0-9_]*)\),$1,gsi ;
   $txt =~ s,\(Ploc\.VaVal ([a-z][a-z0-9_]*)\),$1,gs ;
   $txt =~ s,\(Pcaml\.unvala ([a-z][a-z0-9_]*)\),$1,gs ;
   $txt =~ s|vala\(([^\n]*), ANTI_[A-Z_]*\)| map_vala($1) |gse ;

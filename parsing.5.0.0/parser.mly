@@ -1920,7 +1920,7 @@ class_fun_def:
   ) { $1 }
 ;
 %inline class_structure:
-  |  (class_self_pattern) extra_cstr(class_fields)
+  |  class_self_pattern extra_cstr(class_fields)
        { Cstr.mk $1 $2 }
 ;
 class_self_pattern:
@@ -1983,18 +1983,18 @@ method_:
     private_ = virtual_with_private_flag
     label = mkrhs(label) COLON ty = poly_type
       { (label, private_, Cfk_virtual ty), attrs }
-  | (override_flag) attributes private_flag mkrhs(label) strict_binding
+  | override_flag attributes private_flag mkrhs(label) strict_binding
       { let e = $5 in
         let loc = Location.(e.pexp_loc.loc_start, e.pexp_loc.loc_end) in
         ($4, $3,
         Cfk_concrete ($1, ghexp ~loc (Pexp_poly (e, None)))), $2 }
-  | (override_flag) attributes private_flag mkrhs(label)
+  | override_flag attributes private_flag mkrhs(label)
     COLON poly_type EQUAL seq_expr
       { let poly_exp =
           let loc = ($startpos($6), $endpos($8)) in
           ghexp ~loc (Pexp_poly($8, Some $6)) in
         ($4, $3, Cfk_concrete ($1, poly_exp)), $2 }
-  | (override_flag) attributes private_flag mkrhs(label) COLON TYPE lident_list
+  | override_flag attributes private_flag mkrhs(label) COLON TYPE lident_list
     DOT core_type EQUAL seq_expr
       { let poly_exp_loc = ($startpos($7), $endpos($11)) in
         let poly_exp =
@@ -2276,7 +2276,7 @@ expr:
       { $1 }
   | let_bindings(ext) IN seq_expr
       { expr_of_let_bindings ~loc:$sloc $1 $3 }
-  | pbop_op = mkrhs((LETOP)) bindings = letop_bindings IN body = seq_expr
+  | pbop_op = mkrhs(LETOP) bindings = letop_bindings IN body = seq_expr
       { let (pbop_pat, pbop_exp, rev_ands) = bindings in
         let ands = List.rev rev_ands in
         let pbop_loc = make_loc $sloc in
@@ -2286,7 +2286,7 @@ expr:
       { mkexp_cons ~loc:$sloc $loc($2) (ghexp ~loc:$sloc (Pexp_tuple([$1;$3]))) }
   | mkrhs(label) LESSMINUS expr
       { mkexp ~loc:$sloc (Pexp_setinstvar($1, $3)) }
-  | simple_expr DOT mkrhs((label_longident)) LESSMINUS expr
+  | simple_expr DOT mkrhs(label_longident) LESSMINUS expr
       { mkexp ~loc:$sloc (Pexp_setfield($1, $3, $5)) }
   | indexop_expr(DOT, seq_expr, LESSMINUS v=expr {Some v})
     { mk_indexop_expr builtin_indexing_operators ~loc:$sloc $1 }
@@ -2378,7 +2378,7 @@ simple_expr:
       { Pexp_construct (mkloc ((Lident ("()"))) (make_loc $sloc), None), $2 }
   | BEGIN ext_attributes seq_expr error
       { unclosed "begin" $loc($1) "end" $loc($4) }
-  | NEW ext_attributes mkrhs((class_longident))
+  | NEW ext_attributes mkrhs(class_longident)
       { Pexp_new($3), $2 }
   | LPAREN MODULE ext_attributes module_expr RPAREN
       { Pexp_pack $4, $3 }
@@ -2410,7 +2410,7 @@ simple_expr:
       { unclosed "{<" $loc($1) ">}" $loc($3) }
   | LBRACELESS GREATERRBRACE
       { Pexp_override ([]) }
-  | simple_expr DOT mkrhs((label_longident))
+  | simple_expr DOT mkrhs(label_longident)
       { Pexp_field($1, $3) }
   | od=open_dot_declaration DOT LPAREN seq_expr RPAREN
       { Pexp_open(od, $4) }
@@ -2591,7 +2591,7 @@ letop_bindings:
     body = letop_binding_body
       { let let_pat, let_exp = body in
         let_pat, let_exp, [] }
-  | bindings = letop_bindings pbop_op = mkrhs((ANDOP)) body = letop_binding_body
+  | bindings = letop_bindings pbop_op = mkrhs(ANDOP) body = letop_binding_body
       { let let_pat, let_exp, rev_ands = bindings in
         let pbop_pat, pbop_exp = body in
         let pbop_loc = make_loc $sloc in
@@ -2617,11 +2617,11 @@ strict_binding:
     { xs }
 ;
 match_case:
-  | (pattern) MINUSGREATER (seq_expr)
+  | pattern MINUSGREATER seq_expr
       { Exp.case $1 ~guard:(None) $3 }
-  | (pattern) WHEN seq_expr MINUSGREATER (seq_expr)
+  | pattern WHEN seq_expr MINUSGREATER seq_expr
       { Exp.case $1 ~guard:((Some ($3))) $5 }
-  | (pattern) MINUSGREATER DOT
+  | pattern MINUSGREATER DOT
       { Exp.case $1 ~guard:(None) ((Exp.unreachable ~loc:(make_loc $loc($3)) ())) }
 ;
 fun_def:
@@ -2959,7 +2959,7 @@ primitive_declaration:
   params = type_parameters
   id = mkrhs(LIDENT)
   kind_priv_manifest = kind
-  cstrs = (constraints)
+  cstrs = constraints
   attrs2 = post_item_attributes
     {
       let (kind, priv, manifest) = kind_priv_manifest in
@@ -2976,7 +2976,7 @@ primitive_declaration:
   params = type_parameters
   id = mkrhs(LIDENT)
   kind_priv_manifest = kind
-  cstrs = (constraints)
+  cstrs = constraints
   attrs2 = post_item_attributes
     {
       let (kind, priv, manifest) = kind_priv_manifest in
@@ -3242,7 +3242,7 @@ with_constraint:
               ~loc:(make_loc $sloc))) }
     /* used label_longident instead of type_longident to disallow
        functor applications in type path */
-  | TYPE (type_parameters) mkrhs(label_longident)
+  | TYPE type_parameters mkrhs(label_longident)
     COLONEQUAL core_type_no_attr
       { let lident = loc_last $3 in
         Pwith_typesubst
@@ -3653,7 +3653,7 @@ class_longident:
    the path prefix is only valid for types: (e.g. F(X).(::)) */
 any_longident:
   | mk_longident (mod_ext_longident,
-     ident | (constr_extra_ident) | (val_extra_ident) { $1 }
+     ident | constr_extra_ident | val_extra_ident { $1 }
     ) { $1 }
   | constr_extra_nonprefix_ident { Lident ($1) }
 ;
