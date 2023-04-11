@@ -1083,22 +1083,22 @@ and module_type ctxt f x =
 
 and with_constraint ctxt f = function
   | Pwith_type (li, (Ploc.VaVal ({ptype_params= ls ;_} as td))) ->
-      let ls = List.map fst ls in
+      let ls = List.map fst (unvala ls) in
       pp f "type@ %a %a =@ %a"
         (list (core_type ctxt) ~sep:"," ~first:"(" ~last:")")
         ls longident_loc li (type_declaration ctxt) td
   | Pwith_module (li, li2) ->
-      pp f "module %a =@ %a" longident_loc li longident_loc li2;
+      pp f "module %a =@ %a" longident_vala_loc li longident_vala_loc li2;
   | Pwith_modtype (li, mty) ->
       pp f "module type %a =@ %a" longident_loc li (module_type ctxt) mty;
   | Pwith_typesubst (li, (Ploc.VaVal ({ptype_params=ls;_} as td))) ->
-      let ls = List.map fst ls in
+      let ls = List.map fst (unvala ls) in
       pp f "type@ %a %a :=@ %a"
         (list (core_type ctxt) ~sep:"," ~first:"(" ~last:")")
         ls longident_loc li
         (type_declaration ctxt) td
   | Pwith_modsubst (li, li2) ->
-      pp f "module %a :=@ %a" longident_loc li longident_loc li2
+      pp f "module %a :=@ %a" longident_vala_loc li longident_vala_loc li2
   | Pwith_modtypesubst (li, mty) ->
       pp f "module type %a :=@ %a" longident_loc li (module_type ctxt) mty;
 
