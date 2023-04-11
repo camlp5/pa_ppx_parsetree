@@ -1,6 +1,9 @@
 # Makefile,v
 # Copyright (c) INRIA 2007-2017
 
+ocamlVERSION=$(shell ocamlc --version)
+camlp5VERSION=$(shell camlp5 -version)
+
 RM=rm
 
 DEBUG=-g

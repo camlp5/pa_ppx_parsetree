@@ -7,7 +7,10 @@ include $(TOP)/config/Makefile.top
 WD=$(shell pwd)
 DESTDIR=
 
-SYSDIRS= pattern_parsetree.5.0.0 official_parsetree runtime via_camlp5 via_parsetree
+SYSDIRS= pattern_parsetree.$(ocamlVERSION) official_parsetree runtime via_camlp5 via_parsetree
+OTHERCLEANDIRS=\
+	adjusted-parsing.4.14.0 adjusted-parsing.5.0.0 \
+	pattern_parsetree.4.14.0 pattern_parsetree.5.0.0 \
 
 TESTDIRS= tests
 
@@ -42,7 +45,7 @@ uninstall:
 	$(OCAMLFIND) remove pa_ppx_parsetree || true
 
 clean::
-	set -e; for i in $(SYSDIRS) $(TESTDIRS); do cd $$i; $(MAKE) clean; cd ..; done
+	set -e; for i in $(SYSDIRS) $(TESTDIRS) $(OTHERCLEANDIRS); do cd $$i; $(MAKE) clean; cd ..; done
 	rm -rf docs local-install $(BATCHTOP) META *.corrected
 
 depend:
