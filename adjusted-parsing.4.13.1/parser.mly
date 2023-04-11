@@ -208,8 +208,8 @@ let mkstrexp ~loc e attrs =
 
 let mkexp_constraint ~loc e (t1, t2) =
   match t1, t2 with
-  | Some t, None -> mkexp ~loc (Pexp_constraint(e, t))
-  | _, Some t -> mkexp ~loc (Pexp_coerce(e, t1, t))
+  | Some t, None -> ghexp ~loc (Pexp_constraint(e, t))
+  | _, Some t -> ghexp ~loc (Pexp_coerce(e, t1, t))
   | None, None -> assert false
 
 let mkexp_opt_constraint ~loc e = function
@@ -218,7 +218,7 @@ let mkexp_opt_constraint ~loc e = function
 
 let mkpat_opt_constraint ~loc p = function
   | None -> p
-  | Some typ -> mkpat ~loc (Ppat_constraint(p, typ))
+  | Some typ -> ghpat ~loc (Ppat_constraint(p, typ))
 
 let syntax_error () =
   raise Syntaxerr.Escape_error
@@ -389,12 +389,12 @@ let loc_last (id : Longident.t Location.loc) : string Location.loc =
 let loc_lident (id : string Location.loc) : Longident.t Location.loc =
   loc_map (fun x -> Lident x) id
 
-let exp_of_longident lid =
-  let lid = loc_map (fun id -> Lident (Longident.last id)) lid in
-  Exp.mk ~loc:lid.loc (Pexp_ident lid)
+let exp_of_longident ~loc lid =
+  let lid = make_ghost (loc_map (fun id -> Lident (Longident.last id)) lid) in
+  ghexp ~loc (Pexp_ident lid)
 
-let exp_of_label lbl =
-  Exp.mk ~loc:lbl.loc (Pexp_ident (loc_lident lbl))
+let exp_of_label ~loc lbl =
+  mkexp ~loc (Pexp_ident (loc_lident lbl))
 
 let pat_of_label lbl =
   Pat.mk ~loc:lbl.loc  (Ppat_var (loc_last lbl))
@@ -822,7 +822,7 @@ The precedences must be listed from low to high.
 %nonassoc below_DOT
 %nonassoc DOT DOTOP
 /* Finally, the first tokens of simple_expr are above everything else. */
-%nonassoc BACKQUOTE BANG BEGIN CHAR FALSE FLOAT INT OBJECT
+%nonassoc BACKQUOTE BANG BEGIN CHAR FALSE FLOAT INT
           LBRACE LBRACELESS LBRACKET LBRACKETBAR LIDENT LPAREN
           NEW PREFIXOP STRING TRUE UIDENT
           LBRACKETPERCENT QUOTED_STRING_EXPR
@@ -847,10 +847,6 @@ The precedences must be listed from low to high.
 %start use_file                         /* for the #use directive */
 %type <Parsetree.toplevel_phrase list> use_file
 /* BEGIN AVOID */
-%start parse_module_type
-%type <Parsetree.module_type> parse_module_type
-%start parse_module_expr
-%type <Parsetree.module_expr> parse_module_expr
 %start parse_core_type
 %type <Parsetree.core_type> parse_core_type
 %start parse_expression
@@ -1200,16 +1196,6 @@ use_file:
 ;
 
 /* BEGIN AVOID */
-parse_module_type:
-  module_type EOF
-    { $1 }
-;
-
-parse_module_expr:
-  module_expr EOF
-    { $1 }
-;
-
 parse_core_type:
   core_type EOF
     { $1 }
@@ -2329,6 +2315,10 @@ expr:
       { Pexp_assert $3, $2 }
   | LAZY ext_attributes simple_expr %prec below_HASH
       { Pexp_lazy $3, $2 }
+  | OBJECT ext_attributes class_structure END
+      { Pexp_object $3, $2 }
+  | OBJECT ext_attributes class_structure error
+      { unclosed "object" $loc($1) "end" $loc($4) }
 ;
 %inline expr_:
   | simple_expr nonempty_llist(labeled_simple_expr)
@@ -2381,10 +2371,6 @@ simple_expr:
       { Pexp_constraint (ghexp ~loc:$sloc (Pexp_pack $4), $6), $3 }
   | LPAREN MODULE ext_attributes module_expr COLON error
       { unclosed "(" $loc($1) ")" $loc($6) }
-  | OBJECT ext_attributes class_structure END
-      { Pexp_object $3, $2 }
-  | OBJECT ext_attributes class_structure error
-      { unclosed "object" $loc($1) "end" $loc($4) }
 ;
 %inline simple_expr_:
   | mkrhs(val_longident)
@@ -2482,9 +2468,6 @@ labeled_simple_expr:
   | TILDE label = LIDENT
       { let loc = $loc(label) in
         (Labelled label, mkexpvar ~loc label) }
-  | TILDE LPAREN label = LIDENT ty = type_constraint RPAREN
-      { (Labelled label, mkexp_constraint ~loc:($startpos($2), $endpos)
-                           (mkexpvar ~loc:$loc(label) label) ty) }
   | QUESTION label = LIDENT
       { let loc = $loc(label) in
         (Optional label, mkexpvar ~loc label) }
@@ -2514,11 +2497,15 @@ let_binding_body_no_punning:
         let patloc = ($startpos($1), $endpos($2)) in
         (ghpat ~loc:patloc (Ppat_constraint(v, typ)),
          mkexp_constraint ~loc:$sloc $4 $2) }
-  | let_ident COLON poly(core_type) EQUAL seq_expr
-      { let patloc = ($startpos($1), $endpos($3)) in
+  | let_ident COLON typevar_list DOT core_type EQUAL seq_expr
+      (* TODO: could replace [typevar_list DOT core_type]
+               with [mktyp(poly(core_type))]
+               and simplify the semantic action? *)
+      { let typloc = ($startpos($3), $endpos($5)) in
+        let patloc = ($startpos($1), $endpos($5)) in
         (ghpat ~loc:patloc
-           (Ppat_constraint($1, ghtyp ~loc:($loc($3)) $3)),
-         $5) }
+           (Ppat_constraint($1, ghtyp ~loc:typloc (Ptyp_poly($3,$5)))),
+         $7) }
   | let_ident COLON TYPE lident_list DOT core_type EQUAL seq_expr
       { let exp, poly =
           wrap_type_annotation ~loc:$sloc $4 $6 $8 in
@@ -2647,15 +2634,15 @@ record_expr_content:
   | label = mkrhs(label_longident)
     c = type_constraint?
     eo = preceded(EQUAL, expr)?
-      { let constraint_loc, label, e =
+      { let e =
           match eo with
           | None ->
               (* No pattern; this is a pun. Desugar it. *)
-              $sloc, make_ghost label, exp_of_longident label
+              exp_of_longident ~loc:$sloc label
           | Some e ->
-              ($startpos(c), $endpos), label, e
+              e
         in
-        label, mkexp_opt_constraint ~loc:constraint_loc e c }
+        label, mkexp_opt_constraint ~loc:$sloc e c }
 ;
 %inline object_expr_content:
   xs = separated_or_terminated_nonempty_list(SEMI, object_expr_field)
@@ -2664,13 +2651,13 @@ record_expr_content:
 %inline object_expr_field:
     label = mkrhs(label)
     oe = preceded(EQUAL, expr)?
-      { let label, e =
+      { let e =
           match oe with
           | None ->
               (* No expression; this is a pun. Desugar it. *)
-              make_ghost label, exp_of_label label
+              exp_of_label ~loc:$sloc label
           | Some e ->
-              label, e
+              e
         in
         label, e }
 ;
@@ -2859,18 +2846,18 @@ pattern_comma_list(self):
   label = mkrhs(label_longident)
   octy = preceded(COLON, core_type)?
   opat = preceded(EQUAL, pattern)?
-    { let constraint_loc, label, pat =
+    { let label, pat =
         match opat with
         | None ->
             (* No pattern; this is a pun. Desugar it.
                But that the pattern was there and the label reconstructed (which
                piece of AST is marked as ghost is important for warning
                emission). *)
-            $sloc, make_ghost label, pat_of_label label
+            make_ghost label, pat_of_label label
         | Some pat ->
-            ($startpos(octy), $endpos), label, pat
+            label, pat
       in
-      label, mkpat_opt_constraint ~loc:constraint_loc pat octy
+      label, mkpat_opt_constraint ~loc:$sloc pat octy
     }
 ;
 
@@ -2882,7 +2869,7 @@ value_description:
   attrs1 = attributes
   id = mkrhs(val_ident)
   COLON
-  ty = possibly_poly(core_type)
+  ty = core_type
   attrs2 = post_item_attributes
     { let attrs = attrs1 @ attrs2 in
       let loc = make_loc $sloc in
@@ -2899,7 +2886,7 @@ primitive_declaration:
   attrs1 = attributes
   id = mkrhs(val_ident)
   COLON
-  ty = possibly_poly(core_type)
+  ty = core_type
   EQUAL
   prim = raw_string+
   attrs2 = post_item_attributes
@@ -3077,20 +3064,20 @@ constructor_declarations:
 generic_constructor_declaration(opening):
   opening
   cid = mkrhs(constr_ident)
-  vars_args_res = generalized_constructor_arguments
+  args_res = generalized_constructor_arguments
   attrs = attributes
     {
-      let vars, args, res = vars_args_res in
+      let args, res = args_res in
       let info = symbol_info $endpos in
       let loc = make_loc $sloc in
-      cid, vars, args, res, attrs, loc, info
+      cid, args, res, attrs, loc, info
     }
 ;
 %inline constructor_declaration(opening):
   d = generic_constructor_declaration(opening)
     {
-      let cid, vars, args, res, attrs, loc, info = d in
-      Type.constructor cid ~vars ~args ~res ~attrs ~loc ~info
+      let cid, args, res, attrs, loc, info = d in
+      Type.constructor cid ~args ~res ~attrs ~loc ~info
     }
 ;
 str_exception_declaration:
@@ -3115,33 +3102,28 @@ sig_exception_declaration:
   ext = ext
   attrs1 = attributes
   id = mkrhs(constr_ident)
-  vars_args_res = generalized_constructor_arguments
+  args_res = generalized_constructor_arguments
   attrs2 = attributes
   attrs = post_item_attributes
-    { let vars, args, res = vars_args_res in
+    { let args, res = args_res in
       let loc = make_loc ($startpos, $endpos(attrs2)) in
       let docs = symbol_docs $sloc in
       Te.mk_exception ~attrs
-        (Te.decl id ~vars ~args ~res ~attrs:(attrs1 @ attrs2) ~loc ~docs)
+        (Te.decl id ~args ~res ~attrs:(attrs1 @ attrs2) ~loc ~docs)
       , ext }
 ;
 %inline let_exception_declaration:
     mkrhs(constr_ident) generalized_constructor_arguments attributes
-      { let vars, args, res = $2 in
-        Te.decl $1 ~vars ~args ~res ~attrs:$3 ~loc:(make_loc $sloc) }
+      { let args, res = $2 in
+        Te.decl $1 ~args ~res ~attrs:$3 ~loc:(make_loc $sloc) }
 ;
 generalized_constructor_arguments:
-    /*empty*/                     { ([],Pcstr_tuple [],None) }
-  | OF constructor_arguments      { ([],$2,None) }
+    /*empty*/                     { (Pcstr_tuple [],None) }
+  | OF constructor_arguments      { ($2,None) }
   | COLON constructor_arguments MINUSGREATER atomic_type %prec below_HASH
-                                  { ([],$2,Some $4) }
-  | COLON typevar_list DOT constructor_arguments MINUSGREATER atomic_type
-     %prec below_HASH
-                                  { ($2,$4,Some $6) }
+                                  { ($2,Some $4) }
   | COLON atomic_type %prec below_HASH
-                                  { ([],Pcstr_tuple [],Some $2) }
-  | COLON typevar_list DOT atomic_type %prec below_HASH
-                                  { ($2,Pcstr_tuple [],Some $4) }
+                                  { (Pcstr_tuple [],Some $2) }
 ;
 
 constructor_arguments:
@@ -3206,8 +3188,8 @@ label_declaration_semi:
 %inline extension_constructor_declaration(opening):
   d = generic_constructor_declaration(opening)
     {
-      let cid, vars, args, res, attrs, loc, info = d in
-      Te.decl cid ~vars ~args ~res ~attrs ~loc ~info
+      let cid, args, res, attrs, loc, info = d in
+      Te.decl cid ~args ~res ~attrs ~loc ~info
     }
 ;
 extension_constructor_rebind(opening):

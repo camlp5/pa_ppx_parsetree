@@ -27,8 +27,6 @@ val use_file : Lexing.lexbuf -> Parsetree.toplevel_phrase list
 val core_type : Lexing.lexbuf -> Parsetree.core_type
 val expression : Lexing.lexbuf -> Parsetree.expression
 val pattern : Lexing.lexbuf -> Parsetree.pattern
-val module_type : Lexing.lexbuf -> Parsetree.module_type
-val module_expr : Lexing.lexbuf -> Parsetree.module_expr
 
 (** The functions below can be used to parse Longident safely. *)
 
