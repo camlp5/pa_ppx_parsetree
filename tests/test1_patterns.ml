@@ -1,3 +1,4 @@
+# 1 "test1_patterns.ML"
 (**pp -package pa_ppx_parsetree_via_parsetree -syntax camlp5r *)
 [@@@"ocaml.text" "attribute";];
 <:attribute< [@ $attrid:s$ $list:x$] >>;
@@ -216,22 +217,26 @@
 [@@@"ocaml.text" "label_declaration";];
 <:label_declaration< $mutable:x2$ $lid:s$ : $x3$ >> ;
 [@@@"ocaml.text" "constructor_declaration";];
-<:constructor_declaration< $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ >>;
-<:constructor_declaration< $uid:s$ : $list:lx$ . $list:lx$ -> $x3$ >>;
-<:constructor_declaration< $uid:s$ : $list:lx$ . $list:lx$ $opt:ox3$ >>;
-<:constructor_declaration< $uid:s$ : $list:lx$ . { $list:lx$} $opt:None$ >>;
-<:constructor_declaration< $uid:s$ : $list:lx$ . { $list:lx$} -> $x3$ >>;
-<:constructor_declaration< $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox3$ >>;
+# 227 "test1_patterns.ML"
+<:constructor_declaration< $uid:s$ : $list:lx$ $opt:None$ >>;
+<:constructor_declaration< $uid:s$ : $list:lx$ -> $x3$ >>;
+<:constructor_declaration< $uid:s$ : $list:lx$ $opt:ox3$ >>;
+<:constructor_declaration< $uid:s$ : { $list:lx$} $opt:None$ >>;
+<:constructor_declaration< $uid:s$ : { $list:lx$} -> $x3$ >>;
+<:constructor_declaration< $uid:s$ : { $list:lx$} $opt:ox3$ >>;
+# 234 "test1_patterns.ML"
 [@@@"ocaml.text" "constructor_arguments";];
 [@@@"ocaml.text" "type_extension";];
 [@@@"ocaml.text" "extension_constructor";];
-<:extension_constructor< $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ >>;
-<:extension_constructor< $uid:s$ : $list:lx$ . $list:lx$ -> $x2$ >>;
-<:extension_constructor< $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ >>;
-<:extension_constructor< $uid:s$ : $list:lx$ . { $list:lx$} $opt:None$ >>;
-<:extension_constructor< $uid:s$ : $list:lx$ . { $list:lx$} -> $x2$ >>;
-<:extension_constructor< $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ >>;
+# 246 "test1_patterns.ML"
+<:extension_constructor< $uid:s$ : $list:lx$ $opt:None$ >>;
+<:extension_constructor< $uid:s$ : $list:lx$ -> $x2$ >>;
+<:extension_constructor< $uid:s$ : $list:lx$ $opt:ox2$ >>;
+<:extension_constructor< $uid:s$ : { $list:lx$} $opt:None$ >>;
+<:extension_constructor< $uid:s$ : { $list:lx$} -> $x2$ >>;
+<:extension_constructor< $uid:s$ : { $list:lx$} $opt:ox2$ >>;
 <:extension_constructor< $uid:s$ = $longid:x$ >>;
+# 254 "test1_patterns.ML"
 [@@@"ocaml.text" "type_exception";];
 [@@@"ocaml.text" "extension_constructor_kind";];
 [@@@"ocaml.text" "class_type";];
