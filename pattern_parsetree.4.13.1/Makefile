@@ -67,6 +67,8 @@ COMPARE= \
 	syntaxerr.ml.COMPARE syntaxerr.mli.COMPARE \
 	ast_helper.ml.COMPARE ast_helper.mli.COMPARE \
 	parser.mly.COMPARE parser.mly.COMPARE \
+	parse.ml.COMPARE parse.ml.COMPARE \
+	parse.mli.COMPARE parse.mli.COMPARE \
 	pprintast.ml.COMPARE pprintast.mli.COMPARE \
 	printast.ml.COMPARE printast.mli.COMPARE \
 
