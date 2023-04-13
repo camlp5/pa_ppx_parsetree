@@ -68,8 +68,13 @@
 <:pattern< $constant:x1$ .. $constant:x2$ >> ;
 <:pattern<  $tuplelist:lx$ >>;
 <:pattern< $longid:x$ >>;
+#if OCAML_VERSION >= (4,13,0)
 <:pattern< $longid:x$ (type $list:lxxf1$) $lxxf2$ >>;
 <:pattern< $longid:x$ $pattopt:olxx$ >>;
+#else
+<:pattern< $longid:x$ $x2$ >>;
+<:pattern< $longid:x$ $pattopt:ox2$ >>;
+#endif
 <:pattern< ` $id:x1$ >>;
 <:pattern< ` $id:x1$ $x2$ >>;
 <:pattern< ` $id:x1$ $pattopt:ox2$ >>;
@@ -369,7 +374,9 @@
 <:signature_item< module type $uid:s$ >> ;
 <:signature_item< module type $uid:s$ = $mt$ >> ;
 <:signature_item< module type $uid:s$ $opt:omt$ >> ;
+#if OCAML_VERSION >= (4,13,0)
 <:signature_item< module type $uid:s$ := $mt$ >> ;
+#endif
 <:signature_item< open $overrideflag:x2$ $longid:x$ >> ;
 <:signature_item< include $mt$ >> ;
 <:signature_item< class $classdesclist:lx$ >> ;
@@ -403,10 +410,14 @@
 <:with_constraint< type $lid:s$ = $typedecl:x2$ >> ;
 <:with_constraint< type $longid:x$ . $lid:s$ = $typedecl:x2$ >> ;
 <:with_constraint< module $longid:x$ = $longid:x$ >> ;
+#if OCAML_VERSION >= (4,13,0)
 <:with_constraint< module type $lid:s$ = $mt$ >> ;
 <:with_constraint< module type $longid:x$ . $lid:s$ = $mt$ >> ;
+#endif
+#if OCAML_VERSION >= (4,13,0)
 <:with_constraint< module type $lid:s$ := $mt$ >> ;
 <:with_constraint< module type $longid:x$ . $lid:s$ := $mt$ >> ;
+#endif
 <:with_constraint< type $lid:s$ := $typedecl:x2$ >> ;
 <:with_constraint< type $longid:x$ . $lid:s$ := $typedecl:x2$ >> ;
 <:with_constraint< module $longid:x$ := $longid:x$ >> ;

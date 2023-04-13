@@ -54,5 +54,5 @@ test1_patterns.ml: test1_patterns.ML
 	cppo -V OCAML:$(ocamlVERSION) $< > $@
 
 clean::
-	rm -rf *.cm* _build *.exe *_out
+	rm -rf *.cm* _build *.exe *_out test1_patterns.ml
 
