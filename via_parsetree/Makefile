@@ -35,7 +35,7 @@ TARGET_INSTALL_FILES= $(ARCHIVE_TARGET_INSTALL_FILES)
 install:: default_install
 
 clean::
-	rm -rf META mk_meta mk_meta.ml
+	rm -rf META mk_meta mk_meta.ml reorg_parsetree.ml
 
 realclean:: clean
 	rm -f parser.ml parser.mli lexer.ml *_mock.ml* *.conflicts
@@ -53,6 +53,9 @@ parser.ml: parser.mly
 
 lexer.ml: lexer.mll
 	ocamllex lexer.mll
+
+reorg_parsetree.ml: reorg_parsetree.ML
+	cppo -V OCAML:$(ocamlVERSION) $< > $@
 
 $(TARGET_PACKAGE).cmo $(TARGET_PACKAGE).cmi: $(CMO)
 	$(OCAMLFIND) ocamlc $(DEBUG) -pack -o $(TARGET_PACKAGE).cmo $^

@@ -1,4 +1,4 @@
-(**pp $(MIGRATE_OCAMLCFLAGS) -ppopt -pa_import-redeclare -package pa_ppx.import,compiler-libs.common -syntax camlp5o *)
+(**pp $(MIGRATE_OCAMLCFLAGS) -ppopt -pa_import-redeclare -package camlp5.macro,pa_ppx.import,compiler-libs.common -syntax camlp5o *)
 
 module Lexing = struct
 [%%import: Lexing.position] [@@deriving show]
@@ -22,7 +22,9 @@ module Asttypes = struct
 [%%import: Asttypes.virtual_flag] [@@deriving show]
 [%%import: Asttypes.override_flag] [@@deriving show]
 [%%import: Asttypes.variance] [@@deriving show]
-[%%import: Asttypes.injectivity] [@@deriving show]
+IFDEF OCAML_VERSION >= OCAML_4_12_0 THEN
+[%%import: Asttypes.injectivity] [@@deriving show,eq]
+END
 end
 module Parsetree = struct
 [%%import: Parsetree.constant] [@@deriving show]
