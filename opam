@@ -26,6 +26,8 @@ depends: [
   "not-ocamlfind" { >= "0.09" }
   "ounit" { >= "2.2.7" & with-test}
   "fmt"
+  "conf-bash"
+  "cppo"
   "mdx"
 ]
 build: [
