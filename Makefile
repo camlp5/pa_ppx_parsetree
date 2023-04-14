@@ -9,8 +9,8 @@ DESTDIR=
 
 SYSDIRS= pattern_parsetree.$(ocamlVERSION) official_parsetree runtime via_camlp5 via_parsetree
 OTHERCLEANDIRS=\
-	adjusted-parsing.4.13.1 adjusted-parsing.4.14.0 adjusted-parsing.5.0.0 \
-	pattern_parsetree.4.13.1 pattern_parsetree.4.14.0 pattern_parsetree.5.0.0 \
+	adjusted-parsing.4.10.2 adjusted-parsing.4.11.2 adjusted-parsing.4.12.1 adjusted-parsing.4.13.1 adjusted-parsing.4.14.0 adjusted-parsing.5.0.0 \
+	pattern_parsetree.4.10.2 pattern_parsetree.4.11.2 pattern_parsetree.4.12.1 pattern_parsetree.4.13.1 pattern_parsetree.4.14.0 pattern_parsetree.5.0.0 \
 
 TESTDIRS= tests
 
