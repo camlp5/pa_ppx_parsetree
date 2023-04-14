@@ -199,6 +199,10 @@
 <:binding_op< $lid:s$ $x2$ = $x3$ >> ;
 [@@@"ocaml.text" "value_description";];
 [@@@"ocaml.text" "type_declaration";];
+<:type_decl< $list:lxxx$ $lid:s$ = private $x4$ $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $x4$ $list:lxxl$ >> ;
+<:type_decl< $list:lxxx$ $lid:s$ = $priv:x3$ $x4$ $list:lxxl$ >> ;
 <:type_decl< $list:lxxx$ $lid:s$ = private $constructorlist:lx$ $list:lxxl$ >> ;
 <:type_decl< $list:lxxx$ $lid:s$ = $x4$ = private $constructorlist:lx$ $list:lxxl$ >> ;
 <:type_decl< $list:lxxx$ $lid:s$ = $opt:ox4$ private $constructorlist:lx$ $list:lxxl$ >> ;

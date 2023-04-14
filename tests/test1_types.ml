@@ -97,6 +97,16 @@
       ; expand_types_per_type = {
           type_declaration = {
             private_flag = Auto
+          ; type_declaration = AddDel(
+                                   [],
+                                   [
+                                     {Parsetree.ptype_name = {Location.txt = s; Location.loc = __loc__}; Parsetree.ptype_params = lxxx; Parsetree.ptype_cstrs = lxxl; Parsetree.ptype_kind = Parsetree.Ptype_abstract; Parsetree.ptype_private = Asttypes.Private; Parsetree.ptype_manifest = None; Parsetree.ptype_attributes = []; Parsetree.ptype_loc = __loc__};
+                                     {Parsetree.ptype_name = {Location.txt = s; Location.loc = __loc__}; Parsetree.ptype_params = lxxx; Parsetree.ptype_cstrs = lxxl; Parsetree.ptype_kind = Parsetree.Ptype_abstract; Parsetree.ptype_private = Asttypes.Private; Parsetree.ptype_manifest = ox4; Parsetree.ptype_attributes = []; Parsetree.ptype_loc = __loc__};
+                                     {Parsetree.ptype_name = {Location.txt = s; Location.loc = __loc__}; Parsetree.ptype_params = lxxx; Parsetree.ptype_cstrs = lxxl; Parsetree.ptype_kind = Parsetree.Ptype_abstract; Parsetree.ptype_private = Asttypes.Public; Parsetree.ptype_manifest = ox4; Parsetree.ptype_attributes = []; Parsetree.ptype_loc = __loc__};
+                                     {Parsetree.ptype_name = {Location.txt = s; Location.loc = __loc__}; Parsetree.ptype_params = lxxx; Parsetree.ptype_cstrs = lxxl; Parsetree.ptype_kind = Parsetree.Ptype_abstract; Parsetree.ptype_private = x3; Parsetree.ptype_manifest = None; Parsetree.ptype_attributes = []; Parsetree.ptype_loc = __loc__};
+                                     {Parsetree.ptype_name = {Location.txt = s; Location.loc = __loc__}; Parsetree.ptype_params = lxxx; Parsetree.ptype_cstrs = lxxl; Parsetree.ptype_kind = Parsetree.Ptype_abstract; Parsetree.ptype_private = x3; Parsetree.ptype_manifest = ox4; Parsetree.ptype_attributes = []; Parsetree.ptype_loc = __loc__};
+                                   ]
+                                 )
           }
         }
       ; expand_types_per_constructor = [

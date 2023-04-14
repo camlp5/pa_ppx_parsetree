@@ -3443,7 +3443,7 @@ primitive_declaration:
    a smaller automaton. *)
 nonempty_type_kind:
   | priv = inline_private_flag_vala
-    ty = vala(core_type, ANTI_TYP)
+    ty = vaval(core_type)
       { (Ptype_abstract, priv, vaval (Some ty)) }
   | oty = type_synonym
     priv = inline_private_flag_vala
@@ -3459,7 +3459,7 @@ nonempty_type_kind:
       { (Ptype_record ls, priv, oty) }
 ;
 %inline type_synonym:
-  ioption(terminated(vala(core_type, ANTI_TYP), EQUAL))
+  ioption(terminated(vaval(core_type), EQUAL))
     { vaval $1 }
 /*-*/| ANTI_OPT
 /*-*/    { vaant $1 }

@@ -662,8 +662,8 @@ module STRI = struct
            [%structure_item {| type t = $priv:p'$ $constructorlist:l'$ |}] -> (p',l'))
 
     ; assert_equal (Private,  t1)
-        (match  [%structure_item {| type t = $priv:Private$ $typ:t1$ |}] with
-           [%structure_item {| type t = $priv:p'$ $typ:t'$ |}] -> (p', t'))
+        (match  [%structure_item {| type t = $priv:Private$ $t1$ |}] with
+           [%structure_item {| type t = $priv:p'$ $t'$ |}] -> (p', t'))
 
     ; assert_equal (Recursive,m) (
           let nr = Recursive in
