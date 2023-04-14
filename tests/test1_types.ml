@@ -62,6 +62,7 @@
         ; core_type_desc = Auto
         ; expression_desc = Auto
         ; extension = Auto
+        ; extension_constructor = Auto
         ; extension_constructor_kind = Auto
         ; include_declaration = Auto
         ; include_description = Auto
@@ -215,6 +216,18 @@
                                   [
                                     Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; Location.loc = __loc__}; Parsetree.pmtd_type = None; Parsetree.pmtd_attributes = []; Parsetree.pmtd_loc = __loc__}
                                   ; Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; Location.loc = __loc__}; Parsetree.pmtd_type = omt; Parsetree.pmtd_attributes = []; Parsetree.pmtd_loc = __loc__}
+                                  ]
+          ))
+        ; (Psig_exception, AddDel (
+                                  [],
+                                  [
+                                    Parsetree.Psig_exception {Parsetree.ptyexn_constructor = {Parsetree.pext_name = {Location.txt = s; Location.loc = __loc__}; Parsetree.pext_kind = Parsetree.Pext_rebind {Location.txt = x; Location.loc = __loc__}; Parsetree.pext_loc = __loc__; Parsetree.pext_attributes = []}; Parsetree.ptyexn_loc = __loc__; Parsetree.ptyexn_attributes = []}
+                                  ]
+          ))
+        ; (Pexp_letexception, AddDel (
+                                  [],
+                                  [
+                                    Parsetree.Pexp_letexception( {Parsetree.pext_name = {Location.txt = s; Location.loc = __loc__}; Parsetree.pext_kind = Parsetree.Pext_rebind {Location.txt = x; Location.loc = __loc__}; Parsetree.pext_loc = __loc__; Parsetree.pext_attributes = []}, x2)
                                   ]
           ))
         ]

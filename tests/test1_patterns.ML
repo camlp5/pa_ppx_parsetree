@@ -156,6 +156,21 @@
 <:expression< let module _ = $me$ in $x2$ >>;
 <:expression< let module $uid:s$ = $me$ in $x2$ >>;
 <:expression< let module $opt:os$ = $me$ in $x2$ >>;
+#if OCAML_VERSION >= (4,14,0)
+<:expression< let exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ in $x2$ >>;
+<:expression< let exception $uid:s$ : $list:lx$ . $list:lx$ -> $x2$ in $x2$ >>;
+<:expression< let exception $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ in $x2$ >>;
+<:expression< let exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:None$ in $x2$ >>;
+<:expression< let exception $uid:s$ : $list:lx$ . { $list:lx$} -> $x2$ in $x2$ >>;
+<:expression< let exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ in $x2$ >>;
+#else
+<:structure_item< let exception $uid:s$ : $list:lx$ $opt:None$ in $x2$ >>;
+<:structure_item< let exception $uid:s$ : $list:lx$ -> $x2$ in $x2$ >>;
+<:structure_item< let exception $uid:s$ : $list:lx$ $opt:ox2$ in $x2$ >>;
+<:structure_item< let exception $uid:s$ : { $list:lx$} $opt:None$ in $x2$ >>;
+<:structure_item< let exception $uid:s$ : { $list:lx$} -> $x2$ in $x2$ >>;
+<:structure_item< let exception $uid:s$ : { $list:lx$} $opt:ox2$ in $x2$ >>;
+#endif
 <:expression< let $excon:x1$ in $x2$ >>;
 <:expression< assert $x$ >>;
 <:expression< lazy $x$ >>;
@@ -367,6 +382,21 @@
 <:signature_item< typesubst $list:lx$ >> ;
 <:signature_item< type $list:lxxx$ $lid:s$ += $priv:x2$ $list:lx$ >> ;
 <:signature_item< type $list:lxxx$ $longid:x$ . $lid:s$ += $priv:x2$ $list:lx$ >> ;
+#if OCAML_VERSION >= (4,14,0)
+<:signature_item< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ >>;
+<:signature_item< exception $uid:s$ : $list:lx$ . $list:lx$ -> $x2$ >>;
+<:signature_item< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ >>;
+<:signature_item< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:None$ >>;
+<:signature_item< exception $uid:s$ : $list:lx$ . { $list:lx$} -> $x2$ >>;
+<:signature_item< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ >>;
+#else
+<:signature_item< exception $uid:s$ : $list:lx$ $opt:None$ >>;
+<:signature_item< exception $uid:s$ : $list:lx$ -> $x2$ >>;
+<:signature_item< exception $uid:s$ : $list:lx$ $opt:ox2$ >>;
+<:signature_item< exception $uid:s$ : { $list:lx$} $opt:None$ >>;
+<:signature_item< exception $uid:s$ : { $list:lx$} -> $x2$ >>;
+<:signature_item< exception $uid:s$ : { $list:lx$} $opt:ox2$ >>;
+#endif
 <:signature_item< module _ : $mt$ >> ;
 <:signature_item< module $uid:s$ : $mt$ >> ;
 <:signature_item< module $opt:os$ : $mt$ >> ;
@@ -443,6 +473,23 @@
 <:structure_item< type $nonrecflag:x$ $list:lx$ >> ;
 <:structure_item< type $list:lxxx$ $lid:s$ += $priv:x2$ $list:lx$ >> ;
 <:structure_item< type $list:lxxx$ $longid:x$ . $lid:s$ += $priv:x2$ $list:lx$ >> ;
+#if OCAML_VERSION >= (4,14,0)
+<:structure_item< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ >>;
+<:structure_item< exception $uid:s$ : $list:lx$ . $list:lx$ -> $x2$ >>;
+<:structure_item< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ >>;
+<:structure_item< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:None$ >>;
+<:structure_item< exception $uid:s$ : $list:lx$ . { $list:lx$} -> $x2$ >>;
+<:structure_item< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ >>;
+<:structure_item< exception $uid:s$ = $longid:x$ >>;
+#else
+<:structure_item< exception $uid:s$ : $list:lx$ $opt:None$ >>;
+<:structure_item< exception $uid:s$ : $list:lx$ -> $x2$ >>;
+<:structure_item< exception $uid:s$ : $list:lx$ $opt:ox2$ >>;
+<:structure_item< exception $uid:s$ : { $list:lx$} $opt:None$ >>;
+<:structure_item< exception $uid:s$ : { $list:lx$} -> $x2$ >>;
+<:structure_item< exception $uid:s$ : { $list:lx$} $opt:ox2$ >>;
+<:structure_item< exception $uid:s$ = $longid:x$ >>;
+#endif
 <:structure_item< module _ = $me$ >> ;
 <:structure_item< module $uid:s$ = $me$ >> ;
 <:structure_item< module $opt:os$ = $me$ >> ;
