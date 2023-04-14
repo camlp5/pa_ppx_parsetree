@@ -28,7 +28,7 @@ type str = string with_loc
 (*-*)type str_vala = string Ploc.vala with_loc
 type str_opt = string option with_loc
 (*-*)type str_vala_opt_vala = string Ploc.vala option Ploc.vala with_loc
-type attrs = attribute list
+type attrs = attribute list Ploc.vala
 (*-*)
 (*-*)type 'a vala = 'a Ploc.vala =
 (*-*)   VaAnt of string
@@ -73,13 +73,14 @@ module Attr = struct
 end
 
 module Typ = struct
-  let mk ?(loc = !default_loc) ?(attrs = []) d =
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) d =
     {ptyp_desc = d;
      ptyp_loc = loc;
      ptyp_loc_stack = [];
      ptyp_attributes = attrs}
 
-  let attr d a = {d with ptyp_attributes = d.ptyp_attributes @ [a]}
+  let attr d a = {d with ptyp_attributes = append_list_vala d.ptyp_attributes (vaval [a])}
+(*-*)  let attrs d attrs = {d with ptyp_attributes = append_list_vala d.ptyp_attributes attrs}
 
   let any ?loc ?attrs () = mk ?loc ?attrs Ptyp_any
   let var ?loc ?attrs a = mk ?loc ?attrs (Ptyp_var a)
@@ -166,12 +167,12 @@ module Typ = struct
 end
 
 module Pat = struct
-  let mk ?(loc = !default_loc) ?(attrs = []) d =
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) d =
     {ppat_desc = d;
      ppat_loc = loc;
      ppat_loc_stack = [];
      ppat_attributes = attrs}
-  let attr d a = {d with ppat_attributes = d.ppat_attributes @ [a]}
+  let attr d a = {d with ppat_attributes = append_list_vala d.ppat_attributes (vaval [a])}
 
   let any ?loc ?attrs () = mk ?loc ?attrs Ppat_any
   let var ?loc ?attrs a = mk ?loc ?attrs (Ppat_var a)
@@ -194,12 +195,12 @@ module Pat = struct
 end
 
 module Exp = struct
-  let mk ?(loc = !default_loc) ?(attrs = []) d =
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) d =
     {pexp_desc = d;
      pexp_loc = loc;
      pexp_loc_stack = [];
      pexp_attributes = attrs}
-  let attr d a = {d with pexp_attributes = d.pexp_attributes @ [a]}
+  let attr d a = {d with pexp_attributes = append_list_vala d.pexp_attributes (vaval [a])}
 
   let ident ?loc ?attrs a = mk ?loc ?attrs (Pexp_ident a)
   let constant ?loc ?attrs a = mk ?loc ?attrs (Pexp_constant a)
@@ -257,9 +258,9 @@ module Exp = struct
 end
 
 module Mty = struct
-  let mk ?(loc = !default_loc) ?(attrs = []) d =
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) d =
     {pmty_desc = d; pmty_loc = loc; pmty_attributes = attrs}
-  let attr d a = {d with pmty_attributes = d.pmty_attributes @ [a]}
+  let attr d a = {d with pmty_attributes = append_list_vala d.pmty_attributes (vaval [a])}
 
   let ident ?loc ?attrs a = mk ?loc ?attrs (Pmty_ident a)
   let alias ?loc ?attrs a = mk ?loc ?attrs (Pmty_alias a)
@@ -271,9 +272,9 @@ module Mty = struct
 end
 
 module Mod = struct
-let mk ?(loc = !default_loc) ?(attrs = []) d =
+let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) d =
   {pmod_desc = d; pmod_loc = loc; pmod_attributes = attrs}
-  let attr d a = {d with pmod_attributes = d.pmod_attributes @ [a]}
+  let attr d a = {d with pmod_attributes = append_list_vala d.pmod_attributes (vaval [a])}
 
   let ident ?loc ?attrs x = mk ?loc ?attrs (Pmod_ident x)
   let structure ?loc ?attrs x = mk ?loc ?attrs (Pmod_structure x)
@@ -302,7 +303,7 @@ module Sig = struct
   let include_ ?loc a = mk ?loc (Psig_include a)
   let class_ ?loc a = mk ?loc (Psig_class a)
   let class_type ?loc a = mk ?loc (Psig_class_type a)
-  let extension ?loc ?(attrs = []) a = mk ?loc (Psig_extension (a, attrs))
+  let extension ?loc ?(attrs = Ploc.VaVal []) a = mk ?loc (Psig_extension (a, attrs))
   let attribute ?loc a = mk ?loc (Psig_attribute a)
   let text txt =
     let f_txt = List.filter (fun ds -> docstring_body ds <> "") txt in
@@ -314,7 +315,7 @@ end
 module Str = struct
   let mk ?(loc = !default_loc) d = {pstr_desc = d; pstr_loc = loc}
 
-  let eval ?loc ?(attrs = []) a = mk ?loc (Pstr_eval (a, attrs))
+  let eval ?loc ?(attrs = Ploc.VaVal []) a = mk ?loc (Pstr_eval (a, attrs))
   let value ?loc a b = mk ?loc (Pstr_value (a, b))
   let primitive ?loc a = mk ?loc (Pstr_primitive a)
   let type_ ?loc rec_flag a = mk ?loc (Pstr_type (rec_flag, a))
@@ -327,7 +328,7 @@ module Str = struct
   let class_ ?loc a = mk ?loc (Pstr_class a)
   let class_type ?loc a = mk ?loc (Pstr_class_type a)
   let include_ ?loc a = mk ?loc (Pstr_include a)
-  let extension ?loc ?(attrs = []) a = mk ?loc (Pstr_extension (a, attrs))
+  let extension ?loc ?(attrs = Ploc.VaVal []) a = mk ?loc (Pstr_extension (a, attrs))
   let attribute ?loc a = mk ?loc (Pstr_attribute a)
   let text txt =
     let f_txt = List.filter (fun ds -> docstring_body ds <> "") txt in
@@ -337,13 +338,13 @@ module Str = struct
 end
 
 module Cl = struct
-  let mk ?(loc = !default_loc) ?(attrs = []) d =
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) d =
     {
      pcl_desc = d;
      pcl_loc = loc;
      pcl_attributes = attrs;
     }
-  let attr d a = {d with pcl_attributes = d.pcl_attributes @ [a]}
+  let attr d a = {d with pcl_attributes = append_list_vala d.pcl_attributes (vaval [a])}
 
   let constr ?loc ?attrs a b = mk ?loc ?attrs (Pcl_constr (a, b))
   let structure ?loc ?attrs a = mk ?loc ?attrs (Pcl_structure a)
@@ -356,13 +357,13 @@ module Cl = struct
 end
 
 module Cty = struct
-  let mk ?(loc = !default_loc) ?(attrs = []) d =
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) d =
     {
      pcty_desc = d;
      pcty_loc = loc;
      pcty_attributes = attrs;
     }
-  let attr d a = {d with pcty_attributes = d.pcty_attributes @ [a]}
+  let attr d a = {d with pcty_attributes = append_list_vala d.pcty_attributes (vaval [a])}
 
   let constr ?loc ?attrs a b = mk ?loc ?attrs (Pcty_constr (a, b))
   let signature ?loc ?attrs a = mk ?loc ?attrs (Pcty_signature a)
@@ -372,7 +373,7 @@ module Cty = struct
 end
 
 module Ctf = struct
-  let mk ?(loc = !default_loc) ?(attrs = [])
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal [])
            ?(docs = empty_docs) d =
     {
      pctf_desc = d;
@@ -392,12 +393,12 @@ module Ctf = struct
       (fun ds -> attribute ~loc:(docstring_loc ds) (text_attr ds))
       f_txt
 
-  let attr d a = {d with pctf_attributes = d.pctf_attributes @ [a]}
+  let attr d a = {d with pctf_attributes = append_list_vala d.pctf_attributes (vaval [a])}
 
 end
 
 module Cf = struct
-  let mk ?(loc = !default_loc) ?(attrs = [])
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal [])
         ?(docs = empty_docs) d =
     {
      pcf_desc = d;
@@ -421,12 +422,12 @@ module Cf = struct
   let virtual_ ct = Cfk_virtual ct
   let concrete o e = Cfk_concrete (o, e)
 
-  let attr d a = {d with pcf_attributes = d.pcf_attributes @ [a]}
+  let attr d a = {d with pcf_attributes = append_list_vala d.pcf_attributes (vaval [a])}
 
 end
 
 module Val = struct
-  let mk ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs)
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) ?(docs = empty_docs)
         ?(prim = Ploc.VaVal []) name typ =
     {
      pval_name = name;
@@ -438,7 +439,7 @@ module Val = struct
 end
 
 module Md = struct
-  let mk ?(loc = !default_loc) ?(attrs = [])
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal [])
         ?(docs = empty_docs) ?(text = []) name typ =
     {
      pmd_name = name;
@@ -450,7 +451,7 @@ module Md = struct
 end
 
 module Ms = struct
-  let mk ?(loc = !default_loc) ?(attrs = [])
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal [])
         ?(docs = empty_docs) ?(text = []) name syn =
     {
      pms_name = name;
@@ -462,7 +463,7 @@ module Ms = struct
 end
 
 module Mtd = struct
-  let mk ?(loc = !default_loc) ?(attrs = [])
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal [])
         ?(docs = empty_docs) ?(text = []) ~typ name =
     {
      pmtd_name = name;
@@ -474,7 +475,7 @@ module Mtd = struct
 end
 
 module Mb = struct
-  let mk ?(loc = !default_loc) ?(attrs = [])
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal [])
         ?(docs = empty_docs) ?(text = []) name expr =
     {
      pmb_name = name;
@@ -486,7 +487,7 @@ module Mb = struct
 end
 
 module Opn = struct
-  let mk ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs)
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) ?(docs = empty_docs)
         ?(override = Ploc.VaVal Fresh) expr =
     {
      popen_expr = expr;
@@ -497,7 +498,7 @@ module Opn = struct
 end
 
 module Incl = struct
-  let mk ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs) mexpr =
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) ?(docs = empty_docs) mexpr =
     {
      pincl_mod = mexpr;
      pincl_loc = loc;
@@ -507,7 +508,7 @@ module Incl = struct
 end
 
 module Vb = struct
-  let mk ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs)
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) ?(docs = empty_docs)
         ?(text = []) pat expr =
     {
      pvb_pat = pat;
@@ -519,7 +520,7 @@ module Vb = struct
 end
 
 module Ci = struct
-  let mk ?(loc = !default_loc) ?(attrs = [])
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal [])
         ?(docs = empty_docs) ?(text = [])
         ?(virt = Ploc.VaVal Concrete) ?(params = Ploc.VaVal []) name expr =
     {
@@ -534,7 +535,7 @@ module Ci = struct
 end
 
 module Type = struct
-  let mk ?(loc = !default_loc) ?(attrs = [])
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal [])
         ?(docs = empty_docs) ?(text = [])
       ?(params = Ploc.VaVal [])
       ?(cstrs = Ploc.VaVal [])
@@ -554,7 +555,7 @@ module Type = struct
      ptype_loc = loc;
     }
 
-  let constructor ?(loc = !default_loc) ?(attrs = []) ?(info = empty_info)
+  let constructor ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) ?(info = empty_info)
         ?(vars = Ploc.VaVal []) ?(args = Pcstr_tuple (Ploc.VaVal [])) ~res name =
     {
      pcd_name = name;
@@ -565,7 +566,7 @@ module Type = struct
      pcd_attributes = add_info_attrs info attrs;
     }
 
-  let field ?(loc = !default_loc) ?(attrs = []) ?(info = empty_info)
+  let field ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) ?(info = empty_info)
         ?(mut = Ploc.VaVal Immutable) name typ =
     {
      pld_name = name;
@@ -579,7 +580,7 @@ end
 
 (** Type extensions *)
 module Te = struct
-  let mk ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs)
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) ?(docs = empty_docs)
         ?(params = Ploc.VaVal []) ?(priv = Ploc.VaVal Public) path constructors =
     {
      ptyext_path = path;
@@ -590,7 +591,7 @@ module Te = struct
      ptyext_attributes = add_docs_attrs docs attrs;
     }
 
-  let mk_exception ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs)
+  let mk_exception ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) ?(docs = empty_docs)
       constructor =
     {
      ptyexn_constructor = constructor;
@@ -598,7 +599,7 @@ module Te = struct
      ptyexn_attributes = add_docs_attrs docs attrs;
     }
 
-  let constructor ?(loc = !default_loc) ?(attrs = [])
+  let constructor ?(loc = !default_loc) ?(attrs = Ploc.VaVal [])
         ?(docs = empty_docs) ?(info = empty_info) name kind =
     {
      pext_name = name;
@@ -607,7 +608,7 @@ module Te = struct
      pext_attributes = attrs |> (add_info_attrs info) |> (add_docs_attrs docs);
     }
 
-  let decl ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs)
+  let decl ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) ?(docs = empty_docs)
          ?(info = empty_info) ?(vars = Ploc.VaVal []) ?(args = Pcstr_tuple (Ploc.VaVal [])) ~res name =
     {
      pext_name = name;
@@ -616,7 +617,7 @@ module Te = struct
      pext_attributes = attrs |> (add_info_attrs info) |> (add_docs_attrs docs);
     }
 
-  let rebind ?(loc = !default_loc) ?(attrs = [])
+  let rebind ?(loc = !default_loc) ?(attrs = Ploc.VaVal [])
         ?(docs = empty_docs) ?(info = empty_info) name lid =
     {
      pext_name = name;
@@ -645,7 +646,7 @@ end
 
 (** Row fields *)
 module Rf = struct
-  let mk ?(loc = !default_loc) ?(attrs = []) desc = {
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) desc = {
     prf_desc = desc;
     prf_loc = loc;
     prf_attributes = attrs;
@@ -658,7 +659,7 @@ end
 
 (** Object fields *)
 module Of = struct
-  let mk ?(loc = !default_loc) ?(attrs=[]) desc = {
+  let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) desc = {
     pof_desc = desc;
     pof_loc = loc;
     pof_attributes = attrs;

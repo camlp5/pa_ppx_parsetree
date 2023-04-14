@@ -45,11 +45,14 @@
         ; with_constraint
         ]
       ; default_expression = {
-          attributes = []
-        ; location_stack = []
+          location_stack = []
         }
       ; expand_types = {
           attribute = Auto
+        ; attributes = Explicit [
+                           attrs ;
+                           []
+                         ]
         ; constructor_arguments = Auto
         ; class_expr_desc = Auto
         ; class_field_desc = Auto

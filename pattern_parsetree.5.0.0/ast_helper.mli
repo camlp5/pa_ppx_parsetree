@@ -33,7 +33,7 @@ type str = string with_loc
 (*-*)type str_vala = string Ploc.vala with_loc
 type str_opt = string option with_loc
 (*-*)type str_vala_opt_vala = string Ploc.vala option Ploc.vala with_loc
-type attrs = attribute list
+type attrs = attribute list Ploc.vala
 (*-*)
 (*-*)type 'a vala = 'a Ploc.vala =
 (*-*)   VaAnt of string
@@ -81,6 +81,7 @@ module Typ :
   sig
     val mk: ?loc:loc -> ?attrs:attrs -> core_type_desc -> core_type
     val attr: core_type -> attribute -> core_type
+    val attrs: core_type -> attrs -> core_type
 
     val any: ?loc:loc -> ?attrs:attrs -> unit -> core_type
     val var: ?loc:loc -> ?attrs:attrs -> string Ploc.vala -> core_type

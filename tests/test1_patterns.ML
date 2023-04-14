@@ -16,6 +16,7 @@
 [@@@"ocaml.text" "attributes";];
 [@@@"ocaml.text" "payload";];
 [@@@"ocaml.text" "core_type";];
+<:core_type< _ $algattrs:attrs$ >> ;
 <:core_type< _ >> ;
 <:core_type< ' $lid:s$ >> ;
 <:core_type< $label:x1$ $x2$ -> $x3$ >> ;
