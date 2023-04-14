@@ -67,8 +67,14 @@ let parse_extended_module_path s =
 let parse_structure_item s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.structure_item s
 
+let parse_structure s =
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.structure s
+
 let parse_signature_item s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.signature_item s
+
+let parse_signature s =
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.signature s
 
 let parse_constructor_declaration s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.constructor_declaration s
@@ -265,7 +271,9 @@ let parse_class_type_field s =
     ; {name = "longident_t"; from_string = parse_longident ; type_name = longident_t }
     ; {name = "extended_module_path"; from_string = parse_extended_module_path ; type_name = longident_t }
     ; {name = "structure_item"; from_string = parse_structure_item ; type_name = structure_item }
+    ; {name = "structure"; from_string = parse_structure ; type_name = structure }
     ; {name = "signature_item"; from_string = parse_signature_item ; type_name = signature_item }
+    ; {name = "signature"; from_string = parse_signature ; type_name = signature }
     ; {name = "constructor_declaration"; from_string = parse_constructor_declaration ; type_name = constructor_declaration }
     ; {name = "attribute"; from_string = parse_attribute ; type_name = attribute }
     ; {name = "extension"; from_string = parse_extension ; type_name = extension }

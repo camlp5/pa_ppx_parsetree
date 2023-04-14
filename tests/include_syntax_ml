@@ -38,12 +38,24 @@ let f = function
 
 #require "pa_ppx_parsetree_via_parsetree";;
 #require "pa_ppx_quotation2extension";;
+#require "pa_ppx.import" ;;
+Pa_ppx_import.add_package "pa_ppx_parsetree_via_parsetree";;
+
+#require "pa_ppx_parsetree_official_parsetree" ;;
+#require "pa_ppx_q_ast.quotation_test" ;;
+#require "pa_ppx_q_ast.test_cleanup" ;;
+(*
+#trace Pa_ppx_quotation_test.expand_type_p ;;
+#trace Pa_ppx_quotation_test.do_expand_type ;;
+#trace Pa_ppx_quotation_test.expr_list_of_type_decl ;;
+ *)
+#trace Pa_ppx_quotation_test.process_add_dels ;;
 
 open Pa_ppx_parsetree_via_parsetree.Q_parsetree.Regular ;;
 #trace parse_expression ;;
 #trace E.location_stack ;;
 
-
+"foo.ml" |> Fpath.v |> Bos.OS.File.read |> Rresult.R.get_ok |> PAPR.Implem.pa1 |> PAPR.Implem.pr |> print_string ;;
 (*
 ;;; Local Variables: ***
 ;;; mode:tuareg ***

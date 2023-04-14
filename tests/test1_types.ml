@@ -84,7 +84,10 @@
         ; payload = Auto
         ; row_field_desc = Auto
         ; signature_item_desc = Auto
-        ; structure_item_desc = Auto
+        ; structure_item_desc = AddDel (
+                                    [],
+                                    [Parsetree.Pstr_eval(x1, [])]
+                                  )
         ; type_exception = Auto
         ; type_extension = Auto
         ; type_kind = Auto

@@ -269,6 +269,7 @@
 <:class_type< [% $attrid:s$ ? $x1$] >>;
 <:class_type< [% $attrid:s$ ? $x1$ when $x2$] >>;
 <:class_type< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:class_type< let open $overrideflag:x2$ $longid:x$ in $ct$ >>;
 [@@@"ocaml.text" "class_type_desc";];
 [@@@"ocaml.text" "class_signature";];
 [@@@"ocaml.text" "class_type_field";];

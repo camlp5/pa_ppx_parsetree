@@ -686,8 +686,11 @@ module STRI = struct
         (match [%structure_item {| type t = int |}] with
            [%structure_item {| type $list:l$ |}] -> l)
 
-end
+    ; assert_equal e1
+        (match [%structure_item {| $expr:e1$ |}] with
+           [%structure_item {| $expr:e1'$ |}] -> e1')
 
+end
 
 let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
       "str_vala"   >:: SV.test
