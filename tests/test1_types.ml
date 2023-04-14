@@ -279,5 +279,8 @@
         ; value_description = Parsetree
         ; with_constraint = Parsetree
         }
+      ; prefix_of_type = [
+          ([%typ: (core_type * variance) list Ploc.vala], lxxx)
+        ]
       }
   ]
