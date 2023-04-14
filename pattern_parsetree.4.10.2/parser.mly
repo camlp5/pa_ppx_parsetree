@@ -859,8 +859,12 @@ The precedences must be listed from low to high.
 /*-*/%type <Parsetree.constant> parse_constant
 /*-*/%start parse_structure_item
 /*-*/%type <Parsetree.structure_item> parse_structure_item
+/*-*/%start parse_structure
+/*-*/%type <Parsetree.structure> parse_structure
 /*-*/%start parse_signature_item
 /*-*/%type <Parsetree.signature_item> parse_signature_item
+/*-*/%start parse_signature
+/*-*/%type <Parsetree.signature> parse_signature
 /*-*/%start parse_row_field
 /*-*/%type <Parsetree.row_field> parse_row_field
 /*-*/%start parse_object_field
@@ -1285,8 +1289,18 @@ parse_pattern:
 /*-*/    { $1 }
 /*-*/;
 /*-*/
+/*-*/parse_structure:
+/*-*/  structure EOF
+/*-*/    { $1 }
+/*-*/;
+/*-*/
 /*-*/parse_signature_item:
 /*-*/  signature_item EOF
+/*-*/    { $1 }
+/*-*/;
+/*-*/
+/*-*/parse_signature:
+/*-*/  signature EOF
 /*-*/    { $1 }
 /*-*/;
 /*-*/
@@ -1566,7 +1580,7 @@ structure:
 
 (* An expression with attributes, wrapped as a structure item. *)
 %inline str_exp:
-  e = vala(seq_expr, ANTI_EXPR)
+  e = vaval(seq_expr)
   attrs = post_item_attributes
     { mkstrexp ~loc:$sloc e attrs }
 ;
@@ -1625,6 +1639,7 @@ structure_item:
         { let (ext, l) = $1 in (Pstr_class_type l, ext) }
     | include_statement(module_expr)
         { pstr_include $1 }
+    | ANTI_EXPR { Pstr_eval (vaant $1, []), None }
     )
     { $1 }
 ;
@@ -3324,7 +3339,7 @@ primitive_declaration:
    a smaller automaton. *)
 nonempty_type_kind:
   | priv = inline_private_flag_vala
-    ty = vala(core_type, ANTI_TYP)
+    ty = vaval(core_type)
       { (Ptype_abstract, priv, vaval (Some ty)) }
   | oty = type_synonym
     priv = inline_private_flag_vala
@@ -3340,7 +3355,7 @@ nonempty_type_kind:
       { (Ptype_record ls, priv, oty) }
 ;
 %inline type_synonym:
-  ioption(terminated(vala(core_type, ANTI_TYP), EQUAL))
+  ioption(terminated(vaval(core_type), EQUAL))
     { vaval $1 }
 /*-*/| ANTI_OPT
 /*-*/    { vaant $1 }

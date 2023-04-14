@@ -27,10 +27,19 @@ val use_file : Lexing.lexbuf -> Parsetree.toplevel_phrase list
 val core_type : Lexing.lexbuf -> Parsetree.core_type
 val expression : Lexing.lexbuf -> Parsetree.expression
 val pattern : Lexing.lexbuf -> Parsetree.pattern
+
+(*-*)val longident: Lexing.lexbuf -> Longident.t
+(*-*)val val_ident: Lexing.lexbuf -> Longident.t
+(*-*)val constr_ident: Lexing.lexbuf -> Longident.t
+(*-*)val simple_module_path: Lexing.lexbuf -> Longident.t
+(*-*)val extended_module_path: Lexing.lexbuf -> Longident.t
+(*-*)val type_ident: Lexing.lexbuf -> Longident.t
 (*-*)val module_type : Lexing.lexbuf -> Parsetree.module_type
 (*-*)val module_expr : Lexing.lexbuf -> Parsetree.module_expr
 (*-*)val structure_item : Lexing.lexbuf -> Parsetree.structure_item
+(*-*)val structure : Lexing.lexbuf -> Parsetree.structure
 (*-*)val signature_item : Lexing.lexbuf -> Parsetree.signature_item
+(*-*)val signature : Lexing.lexbuf -> Parsetree.signature
 (*-*)val constructor_declaration : Lexing.lexbuf -> Parsetree.constructor_declaration
 (*-*)val attribute : Lexing.lexbuf -> Parsetree.attribute
 (*-*)val extension : Lexing.lexbuf -> Parsetree.extension

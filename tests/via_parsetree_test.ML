@@ -57,6 +57,13 @@ let excon1 = [%extension_constructor {| C of int |}]
 end
 
 module Helpers = struct
+
+#if OCAML_VERSION >= (4,11,0)
+let parse_longident s = s |> Lexing.from_string |> Parse.longident
+#else
+let parse_longident = Longident.parse
+#endif
+
   include Pa_ppx_parsetree_official_parsetree.Derive_parsetree
 end
 
@@ -81,7 +88,7 @@ let test ctxt =
                            [%longident_t {| $uid:m2$ . $lid:l2$ |}] -> (m2,l2))
   ; assert_equal (li1,l) (match [%longident_t {| $longid:li1$. $lid:l$ |}] with
                             [%longident_t {| $longid:li2$. $lid:l2$ |}] -> (li2,l2))
-  ; assert_equal ({| M.x |} |> Lexing.from_string |> Parse.longident) [%longident_t {| $uid:m$ . $lid:l$ |}]
+  ; assert_equal ({|M.x|} |> Helpers.parse_longident) [%longident_t {| $uid:m$ . $lid:l$ |}]
 end
 
 module XM = struct

@@ -62,7 +62,11 @@
 <:pattern< $char:x$ >> ;
 <:pattern< $string:s1$ >> ;
 <:pattern< $string:s1$ $delim:s2$ >> ;
+#if OCAML_VERSION >= (4,12,0)
 {Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 __loc__ os2); Parsetree.ppat_loc = __loc__; Parsetree.ppat_loc_stack = []; Parsetree.ppat_attributes = []};
+#else
+{Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 os2); Parsetree.ppat_loc = __loc__; Parsetree.ppat_loc_stack = []; Parsetree.ppat_attributes = []};
+#endif
 <:pattern< $float:sxf1$ >> ;
 {Parsetree.ppat_desc = Parsetree.Ppat_constant x; Parsetree.ppat_loc = __loc__; Parsetree.ppat_loc_stack = []; Parsetree.ppat_attributes = []};
 <:pattern< $constant:x1$ .. $constant:x2$ >> ;
@@ -107,7 +111,11 @@
 <:expression< $char:x$ >> ;
 <:expression< $string:s1$ >> ;
 <:expression< $string:s1$ $delim:s2$ >> ;
+#if OCAML_VERSION >= (4,12,0)
 {Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 __loc__ os2); Parsetree.pexp_loc = __loc__; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
+#else
+{Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 os2); Parsetree.pexp_loc = __loc__; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
+#endif
 <:expression< $float:sxf1$ >> ;
 <:expression< $constant:x$ >> ;
 <:expression< let $recflag:x1$ $list:lx$ in $x2$ >>;
@@ -164,12 +172,12 @@
 <:expression< let exception $uid:s$ : $list:lx$ . { $list:lx$} -> $x2$ in $x2$ >>;
 <:expression< let exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ in $x2$ >>;
 #else
-<:structure_item< let exception $uid:s$ : $list:lx$ $opt:None$ in $x2$ >>;
-<:structure_item< let exception $uid:s$ : $list:lx$ -> $x2$ in $x2$ >>;
-<:structure_item< let exception $uid:s$ : $list:lx$ $opt:ox2$ in $x2$ >>;
-<:structure_item< let exception $uid:s$ : { $list:lx$} $opt:None$ in $x2$ >>;
-<:structure_item< let exception $uid:s$ : { $list:lx$} -> $x2$ in $x2$ >>;
-<:structure_item< let exception $uid:s$ : { $list:lx$} $opt:ox2$ in $x2$ >>;
+<:expression< let exception $uid:s$ : $list:lx$ $opt:None$ in $x2$ >>;
+<:expression< let exception $uid:s$ : $list:lx$ -> $x2$ in $x2$ >>;
+<:expression< let exception $uid:s$ : $list:lx$ $opt:ox2$ in $x2$ >>;
+<:expression< let exception $uid:s$ : { $list:lx$} $opt:None$ in $x2$ >>;
+<:expression< let exception $uid:s$ : { $list:lx$} -> $x2$ in $x2$ >>;
+<:expression< let exception $uid:s$ : { $list:lx$} $opt:ox2$ in $x2$ >>;
 #endif
 <:expression< let $excon:x1$ in $x2$ >>;
 <:expression< assert $x$ >>;
@@ -540,7 +548,9 @@
 [@@@"ocaml.text" "virtual_flag";];
 [@@@"ocaml.text" "override_flag";];
 [@@@"ocaml.text" "variance";];
+#if OCAML_VERSION >= (4,12,0)
 [@@@"ocaml.text" "injectivity";];
+#endif
 [@@@"ocaml.text" "constant";];
 <:constant< $int:s$ >> ;
 <:constant< $int32:s$ >> ;
@@ -549,7 +559,11 @@
 <:constant< $char:x$ >> ;
 <:constant< $string:s1$ >> ;
 <:constant< $string:s1$ $delim:s2$ >> ;
+#if OCAML_VERSION >= (4,12,0)
 Parsetree.Pconst_string s1 __loc__ os2;
+#else
+Parsetree.Pconst_string s1 os2;
+#endif
 <:constant< $float:sxf1$ >> ;
 [@@@"ocaml.text" "location_stack";];
 [@@@"ocaml.text" "toplevel_phrase";];

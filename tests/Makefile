@@ -53,6 +53,9 @@ QUOTPACKAGES=pa_ppx_q_ast.quotation_test,pa_ppx_q_ast.test_cleanup
 test1_patterns.ml: test1_patterns.ML
 	cppo -V OCAML:$(ocamlVERSION) $< > $@
 
+via_parsetree_test.ml: via_parsetree_test.ML
+	cppo -V OCAML:$(ocamlVERSION) $< > $@
+
 clean::
-	rm -rf *.cm* _build *.exe *_out test1_patterns.ml
+	rm -rf *.cm* _build *.exe *_out test1_patterns.ml via_parsetree_test.ml
 
