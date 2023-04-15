@@ -23,12 +23,14 @@ ALLPACKAGES=$(PACKAGES)
 
 OCAMLCFLAGS := $(OCAMLCFLAGS) -linkall -for-pack Pa_ppx_parsetree_pattern_parsetree
 
-all: $(TARGET) $(TARGET:.cma=.cmxa) META
+#all: $(TARGET) $(TARGET:.cma=.cmxa) META
+all: $(TARGET) META
 	$(MAKE) DESTDIR=$(WD)/$(TOP)/local-install/ install
 
 doc: $(CMT) $(CMTI)
 
-TARGET_INSTALL_FILES= $(ARCHIVE_TARGET_INSTALL_FILES)
+#TARGET_INSTALL_FILES= $(ARCHIVE_TARGET_INSTALL_FILES)
+TARGET_INSTALL_FILES= $(BYTE_ARCHIVE_TARGET_INSTALL_FILES)
 install:: default_install
 
 clean::

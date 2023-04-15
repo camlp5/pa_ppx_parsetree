@@ -461,7 +461,7 @@ and attributes i ppf l =
   List.iter (fun a ->
     line i ppf "attribute \"%s\"\n" (unvala a.attr_name.txt);
     payload (i + 1) ppf a.attr_payload;
-  ) l;
+  ) (unvala l);
 
 and payload i ppf = function
   | PStr x -> structure i ppf x

@@ -124,7 +124,7 @@
 <:pattern< $longid:x$ $pattopt:olxx$ $algattrs:attrs$ >>;
 <:pattern< $longid:x$ $pattopt:olxx$ >>;
 #else
-<:pattern< $longid:x$ $x2$ $algattrs:attrs$ >>;
+<:pattern< ($longid:x$ $x2$) $algattrs:attrs$ >>;
 <:pattern< $longid:x$ $x2$ >>;
 <:pattern< $longid:x$ $pattopt:ox2$ $algattrs:attrs$ >>;
 <:pattern< $longid:x$ $pattopt:ox2$ >>;
