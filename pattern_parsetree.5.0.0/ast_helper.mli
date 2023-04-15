@@ -117,6 +117,7 @@ module Pat:
   sig
     val mk: ?loc:loc -> ?attrs:attrs -> pattern_desc -> pattern
     val attr:pattern -> attribute -> pattern
+    val attrs:pattern -> attributes -> pattern
 
     val any: ?loc:loc -> ?attrs:attrs -> unit -> pattern
     val var: ?loc:loc -> ?attrs:attrs -> str_vala -> pattern
@@ -145,6 +146,7 @@ module Exp:
   sig
     val mk: ?loc:loc -> ?attrs:attrs -> expression_desc -> expression
     val attr: expression -> attribute -> expression
+    val attrs: expression -> attrs -> expression
 
     val ident: ?loc:loc -> ?attrs:attrs -> lid -> expression
     val constant: ?loc:loc -> ?attrs:attrs -> constant Ploc.vala -> expression
@@ -261,6 +263,7 @@ module Mty:
   sig
     val mk: ?loc:loc -> ?attrs:attrs -> module_type_desc -> module_type
     val attr: module_type -> attribute -> module_type
+    val attrs: module_type -> attrs -> module_type
 
     val ident: ?loc:loc -> ?attrs:attrs -> lid -> module_type
     val alias: ?loc:loc -> ?attrs:attrs -> lid_vala -> module_type
@@ -278,6 +281,7 @@ module Mod:
   sig
     val mk: ?loc:loc -> ?attrs:attrs -> module_expr_desc -> module_expr
     val attr: module_expr -> attribute -> module_expr
+    val attrs: module_expr -> attrs -> module_expr
 
     val ident: ?loc:loc -> ?attrs:attrs -> lid_vala -> module_expr
     val structure: ?loc:loc -> ?attrs:attrs -> structure -> module_expr
@@ -394,6 +398,7 @@ module Cty:
   sig
     val mk: ?loc:loc -> ?attrs:attrs -> class_type_desc -> class_type
     val attr: class_type -> attribute -> class_type
+    val attrs: class_type -> attrs -> class_type
 
     val constr: ?loc:loc -> ?attrs:attrs -> lid -> core_type list Ploc.vala -> class_type
     val signature: ?loc:loc -> ?attrs:attrs -> class_signature -> class_type
@@ -428,6 +433,7 @@ module Cl:
   sig
     val mk: ?loc:loc -> ?attrs:attrs -> class_expr_desc -> class_expr
     val attr: class_expr -> attribute -> class_expr
+    val attrs: class_expr -> attrs -> class_expr
 
     val constr: ?loc:loc -> ?attrs:attrs -> lid -> core_type list Ploc.vala -> class_expr
     val structure: ?loc:loc -> ?attrs:attrs -> class_structure -> class_expr

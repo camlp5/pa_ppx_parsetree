@@ -884,7 +884,7 @@ The precedences must be listed from low to high.
           LBRACKETPERCENT QUOTED_STRING_EXPR
 /*-*/          ANTI ANTI_UID ANTI_LID ANTI_LONGID
 /*-*/          ANTI_INT ANTI_INT32 ANTI_INT64 ANTI_NATIVEINT ANTI_CHAR ANTI_STRING ANTI_DELIM ANTI_FLOAT
-/*-*/          ANTI_EXPROPT ANTI_PATTOPT ANTI_CONSTANT
+/*-*/          ANTI_EXPROPT ANTI_PATTOPT ANTI_CONSTANT ANTI_ALGATTRS
 
 /* Entry points */
 
@@ -1597,6 +1597,8 @@ module_expr:
       { me }
   | me = module_expr attr = attribute
       { Mod.attr me attr }
+  | me = module_expr ANTI_ALGATTRS
+      { Mod.attrs me (vaant $2) }
   | mkmod(
       (* A module identifier. *)
       x = mkrhs(mod_longident_vala)
@@ -1856,8 +1858,9 @@ module_type_declaration:
 /*-*/  attrs1 = vaval(attributes)
 /*-*/  id = mkrhs(ident_vala)
 /*-*/  typ = ANTI_OPT
+/*-*/  attrs2 = post_item_attributes_vala
 /*-*/  {
-(*-*)    let attrs = attrs1 in
+(*-*)    let attrs = append_list_vala attrs1 attrs2 in
 (*-*)    let loc = make_loc $sloc in
 (*-*)    let docs = symbol_docs $sloc in
 (*-*)    Mtd.mk id ~typ:(vaant typ) ~attrs ~loc ~docs, ext
@@ -1929,6 +1932,8 @@ module_type:
       { unclosed "(" $loc($1) ")" $loc($3) }
   | module_type attribute
       { Mty.attr $1 $2 }
+  | module_type ANTI_ALGATTRS
+      { Mty.attrs $1 (vaant $2) }
   | mkmty(
       mkrhs(mty_longident)
         { Pmty_ident $1 }
@@ -2224,6 +2229,8 @@ class_expr:
         mkclass ~loc:$sloc ~attrs:$4 (Pcl_open(od, $7)) }
   | class_expr attribute
       { Cl.attr $1 $2 }
+  | class_expr ANTI_ALGATTRS
+      { Cl.attrs $1 (vaant $2) }
   | mkclass(
       class_simple_expr vala(nonempty_llist(labeled_simple_expr), ANTI_LIST)
         { Pcl_apply($1, Pcaml.vala_map (List.map (fun (a,b) -> (a, b))) $2) }
@@ -2381,7 +2388,9 @@ class_signature:
       { unclosed "object" $loc($1) "end" $loc($4) }
   | class_signature attribute
       { Cty.attr $1 $2 }
-  | LET OPEN override_flag_vala vaval(attributes) mkrhs(mod_longident_vala) IN class_signature
+  | class_signature ANTI_ALGATTRS
+      { Cty.attrs $1 (vaant $2) }
+  | LET OPEN override_flag_vala attributes_vala mkrhs(mod_longident_vala) IN class_signature
       { let loc = ($startpos($2), $endpos($5)) in
         let od = Opn.mk ~override:$3 ~loc:(make_loc loc) $5 in
         mkcty ~loc:$sloc ~attrs:$4 (Pcty_open(od, $7)) }
@@ -2457,7 +2466,7 @@ class_sig_field:
 (*-*)  }
 ;
 %inline constrain:
-    core_type EQUAL core_type
+    core_type_no_attr EQUAL core_type_no_attr
     { $1, $3, make_loc $sloc }
 ;
 constrain_field:
@@ -2680,6 +2689,8 @@ expr:
     { mk_indexop_expr user_indexing_operators ~loc:$sloc $1 }
   | expr attribute
       { Exp.attr $1 $2 }
+  | expr ANTI_ALGATTRS
+      { Exp.attrs $1 (vaant $2) }
 /* BEGIN AVOID */
   | UNDERSCORE
      { not_expecting $loc($1) "wildcard \"_\"" }
@@ -3146,6 +3157,8 @@ pattern_no_exn:
       { mkpat_cons ~loc:$sloc $loc($2) (ghpat ~loc:$sloc (Ppat_tuple (vaval [$1;$3]))) }
   | self attribute
       { Pat.attr $1 $2 }
+  | self ANTI_ALGATTRS
+      { Pat.attrs $1 (vaant $2) }
   | pattern_gen
       { $1 }
   | mkpat(
@@ -3532,7 +3545,7 @@ generic_constructor_declaration(opening):
   opening
   cid = mkrhs(constr_ident_vala)
   vars_args_res = generalized_constructor_arguments
-  attrs = vaval(attributes)
+  attrs = attributes_vala
     {
       let vars, args, res = vars_args_res in
       let info = symbol_info $endpos in
@@ -3556,7 +3569,7 @@ str_exception_declaration:
   id = mkrhs(constr_ident_vala)
   EQUAL
   lid = mkrhs(constr_longident_vala)
-  attrs2 = vaval(attributes)
+  attrs2 = attributes_vala
   attrs = post_item_attributes_vala
   { let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
@@ -3570,7 +3583,7 @@ sig_exception_declaration:
   attrs1 = vaval(attributes)
   id = mkrhs(constr_ident_vala)
   vars_args_res = generalized_constructor_arguments
-  attrs2 = vaval(attributes)
+  attrs2 = attributes_vala
   attrs = post_item_attributes_vala
     { let vars, args, res = vars_args_res in
       let loc = make_loc ($startpos, $endpos(attrs2)) in
@@ -3580,7 +3593,7 @@ sig_exception_declaration:
       , ext }
 ;
 %inline let_exception_declaration:
-    mkrhs(constr_ident_vala) generalized_constructor_arguments vaval(attributes)
+    mkrhs(constr_ident_vala) generalized_constructor_arguments attributes_vala
       { let vars, args, res = $2 in
         Te.decl $1 ~vars ~args ~res ~attrs:$3 ~loc:(make_loc $sloc) }
 ;
@@ -3614,7 +3627,7 @@ label_declarations:
   | label_declaration_semi label_declarations   { $1 :: $2 }
 ;
 label_declaration:
-    mutable_flag_vala mkrhs(label_vala) COLON vala(poly_type_no_attr, ANTI_TYP) vaval(attributes)
+    mutable_flag_vala mkrhs(label_vala) COLON vala(poly_type_no_attr, ANTI_TYP) attributes_vala
       { let info = symbol_info $endpos in
         Type.field $2 $4 ~mut:$1 ~attrs:$5 ~loc:(make_loc $sloc) ~info }
 ;
@@ -3672,7 +3685,7 @@ extension_constructor_rebind(opening):
   cid = mkrhs(constr_ident_vala)
   EQUAL
   lid = mkrhs(constr_longident_vala)
-  attrs = vaval(attributes)
+  attrs = attributes_vala
       { let info = symbol_info $endpos in
         Te.rebind cid lid ~attrs ~loc:(make_loc $sloc) ~info }
 ;
@@ -3940,11 +3953,11 @@ row_field:
 ;
 tag_field:
     mkrhs(name_tag_vala) OF vala(opt_ampersand, ANTI_ISCONST)
-      vala(amper_type_list, ANTI_LIST) vaval(attributes)
+      vala(amper_type_list, ANTI_LIST) attributes_vala
       { let info = symbol_info $endpos in
         let attrs = add_info_attrs info $5 in
         Rf.tag ~loc:(make_loc $sloc) ~attrs $1 $3 $4 }
-  | mkrhs(name_tag_vala) vaval(attributes)
+  | mkrhs(name_tag_vala) attributes_vala
       { let info = symbol_info $endpos in
         let attrs = add_info_attrs info $2 in
         Rf.tag ~loc:(make_loc $sloc) ~attrs $1 (vaval true) (vaval[]) }
@@ -3976,7 +3989,7 @@ meth_list:
       { [], Open }
 ;
 %inline field:
-  mkrhs(label_vala) COLON poly_type_no_attr vaval(attributes)
+  mkrhs(label_vala) COLON poly_type_no_attr attributes_vala
     { let info = symbol_info $endpos in
       let attrs = add_info_attrs info $4 in
       Of.tag ~loc:(make_loc $sloc) ~attrs $1 $3 }
@@ -4432,7 +4445,7 @@ ext:
 /* END AVOID */
 ;
 %inline ext_attributes:
-  ext vaval(attributes)    { $1, $2 }
+  ext attributes_vala    { $1, $2 }
 ;
 extension:
   | LBRACKETPERCENT attr_id payload RBRACKET { ($2, $3) }
