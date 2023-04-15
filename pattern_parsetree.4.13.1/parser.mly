@@ -420,24 +420,24 @@ let wrap_type_annotation ~loc newtypes core_type body =
 let wrap_exp_attrs ~loc body (ext, attrs) =
   let ghexp = ghexp ~loc in
   (* todo: keep exact location for the entire attribute *)
-  let body = {body with pexp_attributes = attrs @ body.pexp_attributes} in
+  let body = {body with pexp_attributes = append_list_vala attrs body.pexp_attributes} in
   match ext with
   | None -> body
-  | Some id -> ghexp(Pexp_extension (id, PStr (vaval [mkstrexp ~loc (vaval body) []])))
+  | Some id -> ghexp(Pexp_extension (id, PStr (vaval [mkstrexp ~loc (vaval body) (vaval [])])))
 
 let mkexp_attrs ~loc d attrs =
   wrap_exp_attrs ~loc (mkexp ~loc d) attrs
 
 let wrap_typ_attrs ~loc typ (ext, attrs) =
   (* todo: keep exact location for the entire attribute *)
-  let typ = {typ with ptyp_attributes = attrs @ typ.ptyp_attributes} in
+  let typ = {typ with ptyp_attributes = append_list_vala attrs typ.ptyp_attributes} in
   match ext with
   | None -> typ
   | Some id -> ghtyp ~loc (Ptyp_extension (id, PTyp typ))
 
 let wrap_pat_attrs ~loc pat (ext, attrs) =
   (* todo: keep exact location for the entire attribute *)
-  let pat = {pat with ppat_attributes = attrs @ pat.ppat_attributes} in
+  let pat = {pat with ppat_attributes = append_list_vala attrs pat.ppat_attributes} in
   match ext with
   | None -> pat
   | Some id -> ghpat ~loc (Ppat_extension (id, PPat (pat, vaval None)))
@@ -446,16 +446,16 @@ let mkpat_attrs ~loc d attrs =
   wrap_pat_attrs ~loc (mkpat ~loc d) attrs
 
 let wrap_class_attrs ~loc:_ body attrs =
-  {body with pcl_attributes = attrs @ body.pcl_attributes}
+  {body with pcl_attributes = append_list_vala attrs body.pcl_attributes}
 let wrap_mod_attrs ~loc:_ attrs body =
-  {body with pmod_attributes = attrs @ body.pmod_attributes}
+  {body with pmod_attributes = append_list_vala attrs body.pmod_attributes}
 let wrap_mty_attrs ~loc:_ attrs body =
-  {body with pmty_attributes = attrs @ body.pmty_attributes}
+  {body with pmty_attributes = append_list_vala attrs body.pmty_attributes}
 
 let wrap_str_ext ~loc body ext =
   match ext with
   | None -> body
-  | Some id -> ghstr ~loc (Pstr_extension ((id, PStr (vaval [body])), []))
+  | Some id -> ghstr ~loc (Pstr_extension ((id, PStr (vaval [body])), vaval []))
 
 let wrap_mkstr_ext ~loc (item, ext) =
   wrap_str_ext ~loc (mkstr ~loc item) ext
@@ -463,7 +463,7 @@ let wrap_mkstr_ext ~loc (item, ext) =
 let wrap_sig_ext ~loc body ext =
   match ext with
   | None -> body
-  | Some id -> ghsig ~loc (Psig_extension ((id, PSig (vaval [body])), []))
+  | Some id -> ghsig ~loc (Psig_extension ((id, PSig (vaval [body])), vaval []))
 
 let wrap_mksig_ext ~loc (item, ext) =
   wrap_sig_ext ~loc (mksig ~loc item) ext
@@ -471,7 +471,7 @@ let wrap_mksig_ext ~loc (item, ext) =
 let mk_quotedext ~loc (id, idloc, str, strloc, delim) =
   let exp_id = mkloc (vaval id) idloc in
   let e = ghexp ~loc (Pexp_constant (vaval (Pconst_string (vaval str, strloc, Option.map vaval delim)))) in
-  (exp_id, PStr (vaval [mkstrexp ~loc (vaval e) []]))
+  (exp_id, PStr (vaval [mkstrexp ~loc (vaval e) (vaval [])]))
 
 let text_str pos = Str.text (rhs_text pos)
 let text_sig pos = Sig.text (rhs_text pos)
@@ -559,7 +559,7 @@ let val_of_let_bindings ~loc lbs =
   let str = mkstr ~loc (Pstr_value(lbs.lbs_rec, Pcaml.vala_map List.rev bindings)) in
   match lbs.lbs_extension with
   | None -> str
-  | Some id -> ghstr ~loc (Pstr_extension((id, PStr (vaval [str])), []))
+  | Some id -> ghstr ~loc (Pstr_extension((id, PStr (vaval [str])), vaval []))
 
 let expr_of_let_bindings ~loc lbs body =
   let bindings =
@@ -567,7 +567,7 @@ let expr_of_let_bindings ~loc lbs body =
       lbs.lbs_bindings
   in
     mkexp_attrs ~loc (Pexp_let(lbs.lbs_rec, Pcaml.vala_map List.rev bindings, body))
-      (lbs.lbs_extension, [])
+      (lbs.lbs_extension, vaval [])
 
 let class_of_let_bindings ~loc lbs body =
   let bindings =
@@ -597,7 +597,7 @@ let package_type_of_module_type pmty =
 
         (* restrictions below are checked by the 'with_constraint' rule *)
         assert (ptyp.ptype_kind = Ptype_abstract);
-        assert (ptyp.ptype_attributes = []);
+        assert (ptyp.ptype_attributes = vaval []);
         let ty =
           match unvala ptyp.ptype_manifest with
           | Some (Ploc.VaVal ty) -> ty
@@ -782,6 +782,7 @@ let mk_directive ~loc name arg =
 /*-*/%token <string> ANTI_TYP
 /*-*/%token <string> ANTI_PRIV
 /*-*/%token <string> ANTI_ALGATTRS
+/*-*/%token <string> ANTI_ITEMATTRS
 /*-*/%token <string> ANTI_MUTABLE
 /*-*/%token <string> ANTI_WHENO
 /*-*/%token <string> ANTI_WITHE
@@ -878,7 +879,7 @@ The precedences must be listed from low to high.
           LBRACKETPERCENT QUOTED_STRING_EXPR
 /*-*/          ANTI ANTI_UID ANTI_LID ANTI_LONGID
 /*-*/          ANTI_INT ANTI_INT32 ANTI_INT64 ANTI_NATIVEINT ANTI_CHAR ANTI_STRING ANTI_DELIM ANTI_FLOAT
-/*-*/          ANTI_EXPROPT ANTI_PATTOPT ANTI_CONSTANT
+/*-*/          ANTI_EXPROPT ANTI_PATTOPT ANTI_CONSTANT ANTI_ALGATTRS
 
 /* Entry points */
 
@@ -1577,11 +1578,11 @@ module_name:
    Perhaps in the future an explicit stratification could be used. *)
 
 module_expr:
-  | STRUCT attrs = attributes s = structure END
+  | STRUCT attrs = vaval(attributes) s = structure END
       { mkmod ~loc:$sloc ~attrs (Pmod_structure s) }
-  | STRUCT attributes structure error
+  | STRUCT vaval(attributes) structure error
       { unclosed "struct" $loc($1) "end" $loc($4) }
-  | FUNCTOR attrs = attributes args = functor_args MINUSGREATER me = module_expr
+  | FUNCTOR attrs = vaval(attributes) args = functor_args MINUSGREATER me = module_expr
       { wrap_mod_attrs ~loc:$sloc attrs (
           List.fold_left (fun acc (startpos, arg) ->
             mkmod ~loc:(startpos, $endpos) (Pmod_functor (arg, acc))
@@ -1591,6 +1592,8 @@ module_expr:
       { me }
   | me = module_expr attr = attribute
       { Mod.attr me attr }
+/*-*/  | me = module_expr ANTI_ALGATTRS
+/*-*/      { Mod.attrs me (vaant $2) }
   | mkmod(
       (* A module identifier. *)
       x = mkrhs(mod_longident_vala)
@@ -1626,13 +1629,13 @@ paren_module_expr:
       { unclosed "(" $loc($1) ")" $loc($3) }
   | (* A core language expression that produces a first-class module.
        This expression can be annotated in various ways. *)
-    LPAREN VAL attrs = attributes e = expr_colon_package_type RPAREN
+    LPAREN VAL attrs = vaval(attributes) e = expr_colon_package_type RPAREN
       { mkmod ~loc:$sloc ~attrs (Pmod_unpack e) }
-  | LPAREN VAL attributes expr COLON error
+  | LPAREN VAL vaval(attributes) expr COLON error
       { unclosed "(" $loc($1) ")" $loc($6) }
-  | LPAREN VAL attributes expr COLONGREATER error
+  | LPAREN VAL vaval(attributes) expr COLONGREATER error
       { unclosed "(" $loc($1) ")" $loc($6) }
-  | LPAREN VAL attributes expr error
+  | LPAREN VAL vaval(attributes) expr error
       { unclosed "(" $loc($1) ")" $loc($5) }
 ;
 
@@ -1671,7 +1674,7 @@ structure:
 (* An expression with attributes, wrapped as a structure item. *)
 %inline str_exp:
   e = vaval(seq_expr)
-  attrs = post_item_attributes
+  attrs = post_item_attributes_vala
     { mkstrexp ~loc:$sloc e attrs }
 ;
 
@@ -1689,7 +1692,7 @@ structure_item:
     let_bindings(ext)
       { val_of_let_bindings ~loc:$sloc $1 }
   | mkstr(
-      item_extension post_item_attributes
+      item_extension post_item_attributes_vala
         { let docs = symbol_docs $sloc in
           Pstr_extension ($1, add_docs_attrs docs $2) }
     | floating_attribute
@@ -1704,11 +1707,11 @@ structure_item:
         { pstr_type $1 }
 /*-*/    | TYPE
 /*-*/      ext = ext
-/*-*/      attrs1 = attributes
+/*-*/      attrs1 = vaval(attributes)
 /*-*/      nr = nonrec_flag_vala
 /*-*/      l = ANTI_LIST
 /*-*/      { assert (ext = None) ;
-(*-*)        assert (attrs1 = []) ;
+(*-*)        assert (unvala attrs1 = []) ;
 (*-*)        pstr_type((nr, None), vaant l)
 (*-*)      }
     | str_type_extension
@@ -1729,7 +1732,7 @@ structure_item:
         { let (ext, l) = $1 in (Pstr_class_type l, ext) }
     | include_statement(module_expr)
         { pstr_include $1 }
-    | ANTI_EXPR { Pstr_eval (vaant $1, []), None }
+/*-*/    | ANTI_EXPR { Pstr_eval (vaant $1, vaval []), None }
     )
     { $1 }
 ;
@@ -1737,13 +1740,13 @@ structure_item:
 (* A single module binding. *)
 %inline module_binding:
   MODULE
-  ext = ext attrs1 = attributes
+  ext = ext attrs1 = vaval(attributes)
   name = mkrhs(module_name)
   body = module_binding_body
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
     { let docs = symbol_docs $sloc in
       let loc = make_loc $sloc in
-      let attrs = attrs1 @ attrs2 in
+      let attrs = append_list_vala attrs1 attrs2 in
       let body = Mb.mk name body ~attrs ~loc ~docs in
       Pstr_module body, ext }
 ;
@@ -1767,12 +1770,12 @@ module_binding_body:
     { let (a,b) = $1 in a, vaval b }
 /*-*/| MODULE
 /*-*/  ext = ext
-/*-*/  attrs1 = attributes
+/*-*/  attrs1 = vaval(attributes)
 /*-*/  REC
 /*-*/  l = ANTI_LIST
 /*-*/  {
 (*-*)    assert (ext = None) ;
-(*-*)    assert (attrs1 = []) ;
+(*-*)    assert (unvala attrs1 = []) ;
 (*-*)    None, vaant l
 (*-*)  }
 ;
@@ -1781,14 +1784,14 @@ module_binding_body:
 %inline rec_module_binding:
   MODULE
   ext = ext
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   REC
   name = mkrhs(module_name)
   body = module_binding_body
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
   {
     let loc = make_loc $sloc in
-    let attrs = attrs1 @ attrs2 in
+    let attrs = append_list_vala attrs1 attrs2 in
     let docs = symbol_docs $sloc in
     ext,
     Mb.mk name body ~attrs ~loc ~docs
@@ -1798,13 +1801,13 @@ module_binding_body:
 (* The following bindings in a group of recursive module bindings. *)
 %inline and_module_binding:
   AND
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   name = mkrhs(module_name)
   body = module_binding_body
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
   {
     let loc = make_loc $sloc in
-    let attrs = attrs1 @ attrs2 in
+    let attrs = append_list_vala attrs1 attrs2 in
     let docs = symbol_docs $sloc in
     let text = symbol_text $symbolstartpos in
     Mb.mk name body ~attrs ~loc ~text ~docs
@@ -1820,11 +1823,11 @@ module_binding_body:
 %inline include_statement(thing):
   INCLUDE
   ext = ext
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   thing = thing
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Incl.mk thing ~attrs ~loc ~docs, ext
@@ -1835,23 +1838,24 @@ module_binding_body:
 module_type_declaration:
   MODULE TYPE
   ext = ext
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   id = mkrhs(ident_vala)
   typ = preceded(EQUAL, module_type)?
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Mtd.mk id ~typ:(vaval typ) ~attrs ~loc ~docs, ext
   }
 /*-*/| MODULE TYPE
 /*-*/  ext = ext
-/*-*/  attrs1 = attributes
+/*-*/  attrs1 = vaval(attributes)
 /*-*/  id = mkrhs(ident_vala)
 /*-*/  typ = ANTI_OPT
+/*-*/  attrs2 = post_item_attributes_vala
 /*-*/  {
-(*-*)    let attrs = attrs1 in
+(*-*)    let attrs = append_list_vala attrs1 attrs2 in
 (*-*)    let loc = make_loc $sloc in
 (*-*)    let docs = symbol_docs $sloc in
 (*-*)    Mtd.mk id ~typ:(vaant typ) ~attrs ~loc ~docs, ext
@@ -1866,11 +1870,11 @@ open_declaration:
   OPEN
   override = override_flag_vala
   ext = ext
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   me = module_expr
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Opn.mk me ~override ~attrs ~loc ~docs, ext
@@ -1881,11 +1885,11 @@ open_description:
   OPEN
   override = override_flag_vala
   ext = ext
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   id = mkrhs(mod_ext_longident_vala)
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Opn.mk id ~override ~attrs ~loc ~docs, ext
@@ -1903,11 +1907,11 @@ open_description:
 /* Module types */
 
 module_type:
-  | SIG attrs = attributes s = signature END
+  | SIG attrs = vaval(attributes) s = signature END
       { mkmty ~loc:$sloc ~attrs (Pmty_signature s) }
-  | SIG attributes signature error
+  | SIG vaval(attributes) signature error
       { unclosed "sig" $loc($1) "end" $loc($4) }
-  | FUNCTOR attrs = attributes args = functor_args
+  | FUNCTOR attrs = vaval(attributes) args = functor_args
     MINUSGREATER mty = module_type
       %prec below_WITH
       { wrap_mty_attrs ~loc:$sloc attrs (
@@ -1915,7 +1919,7 @@ module_type:
             mkmty ~loc:(startpos, $endpos) (Pmty_functor (arg, acc))
           ) mty args
         ) }
-  | MODULE TYPE OF attributes module_expr %prec below_LBRACKETAT
+  | MODULE TYPE OF vaval(attributes) module_expr %prec below_LBRACKETAT
       { mkmty ~loc:$sloc ~attrs:$4 (Pmty_typeof $5) }
   | LPAREN module_type RPAREN
       { $2 }
@@ -1923,6 +1927,8 @@ module_type:
       { unclosed "(" $loc($1) ")" $loc($3) }
   | module_type attribute
       { Mty.attr $1 $2 }
+/*-*/  | module_type ANTI_ALGATTRS
+/*-*/      { Mty.attrs $1 (vaant $2) }
   | mkmty(
       mkrhs(mty_longident)
         { Pmty_ident $1 }
@@ -1958,7 +1964,7 @@ signature:
 
 (* A signature item. *)
 signature_item:
-  | item_extension post_item_attributes
+  | item_extension post_item_attributes_vala
       { let docs = symbol_docs $sloc in
         mksig ~loc:$sloc (Psig_extension ($1, (add_docs_attrs docs $2))) }
   | mksig(
@@ -1975,11 +1981,11 @@ signature_item:
         { psig_type $1 }
 /*-*/    | TYPE
 /*-*/      ext = ext
-/*-*/      attrs1 = attributes
+/*-*/      attrs1 = vaval(attributes)
 /*-*/      nr = nonrec_flag_vala
 /*-*/      l = ANTI_LIST
 /*-*/      { assert (ext = None) ;
-(*-*)        assert (attrs1 = []) ;
+(*-*)        assert (unvala attrs1 = []) ;
 (*-*)        psig_type((nr, None), vaant l)
 (*-*)      }
     | type_subst_declarations
@@ -2017,12 +2023,12 @@ signature_item:
 (* A module declaration. *)
 %inline module_declaration:
   MODULE
-  ext = ext attrs1 = attributes
+  ext = ext attrs1 = vaval(attributes)
   name = mkrhs(module_name)
   body = module_declaration_body
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Md.mk name body ~attrs ~loc ~docs, ext
@@ -2044,13 +2050,13 @@ module_declaration_body:
 (* A module alias declaration (in a signature). *)
 %inline module_alias:
   MODULE
-  ext = ext attrs1 = attributes
+  ext = ext attrs1 = vaval(attributes)
   name = mkrhs(module_name)
   EQUAL
   body = module_expr_alias
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Md.mk name body ~attrs ~loc ~docs, ext
@@ -2063,18 +2069,18 @@ module_declaration_body:
 (* A module substitution (in a signature). *)
 module_subst:
   MODULE
-  ext = ext attrs1 = attributes
+  ext = ext attrs1 = vaval(attributes)
   uid = mkrhs(uident_vala)
   COLONEQUAL
   body = mkrhs(mod_ext_longident_vala)
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Ms.mk uid body ~attrs ~loc ~docs, ext
   }
-| MODULE ext attributes mkrhs(UIDENT) COLONEQUAL error
+| MODULE ext vaval(attributes) mkrhs(UIDENT) COLONEQUAL error
     { expecting $loc($6) "module path" }
 ;
 
@@ -2084,25 +2090,25 @@ module_subst:
     { let a,b = $1 in a, vaval b }
 /*-*/| MODULE
 /*-*/  ext = ext
-/*-*/  attrs1 = attributes
+/*-*/  attrs1 = vaval(attributes)
 /*-*/  REC
 /*-*/  l = ANTI_LIST
 /*-*/  { assert (ext = None) ;
-(*-*)    assert (attrs1 = []) ;
+(*-*)    assert (unvala attrs1 = []) ;
 (*-*)    None, vaant l
 (*-*)  }
 ;
 %inline rec_module_declaration:
   MODULE
   ext = ext
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   REC
   name = mkrhs(module_name)
   COLON
   mty = module_type
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     ext, Md.mk name mty ~attrs ~loc ~docs
@@ -2110,13 +2116,13 @@ module_subst:
 ;
 %inline and_module_declaration:
   AND
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   name = mkrhs(module_name)
   COLON
   mty = module_type
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = append_list_vala attrs1 attrs2 in
     let docs = symbol_docs $sloc in
     let loc = make_loc $sloc in
     let text = symbol_text $symbolstartpos in
@@ -2128,13 +2134,13 @@ module_subst:
 module_type_subst:
   MODULE TYPE
   ext = ext
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   id = mkrhs(ident_vala)
   COLONEQUAL
   typ=module_type
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Mtd.mk id ~typ:(vaval (Some typ)) ~attrs ~loc ~docs, ext
@@ -2154,14 +2160,14 @@ module_type_subst:
 %inline class_declaration:
   CLASS
   ext = ext
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   virt = virtual_flag_vala
   params = vala(formal_class_parameters, ANTI_LIST)
   id = mkrhs(lident_vala)
   body = class_fun_binding
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     ext,
@@ -2170,14 +2176,14 @@ module_type_subst:
 ;
 %inline and_class_declaration:
   AND
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   virt = virtual_flag_vala
   params = vala(formal_class_parameters, ANTI_LIST)
   id = mkrhs(lident_vala)
   body = class_fun_binding
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     let text = symbol_text $symbolstartpos in
@@ -2208,16 +2214,18 @@ formal_class_parameters:
 class_expr:
     class_simple_expr
       { $1 }
-  | FUN attributes class_fun_def
+  | FUN vaval(attributes) class_fun_def
       { wrap_class_attrs ~loc:$sloc $3 $2 }
   | let_bindings(no_ext) IN class_expr
       { class_of_let_bindings ~loc:$sloc $1 $3 }
-  | LET OPEN override_flag_vala attributes mkrhs(mod_longident_vala) IN class_expr
+  | LET OPEN override_flag_vala vaval(attributes) mkrhs(mod_longident_vala) IN class_expr
       { let loc = ($startpos($2), $endpos($5)) in
         let od = Opn.mk ~override:$3 ~loc:(make_loc loc) $5 in
         mkclass ~loc:$sloc ~attrs:$4 (Pcl_open(od, $7)) }
   | class_expr attribute
       { Cl.attr $1 $2 }
+/*-*/  | class_expr ANTI_ALGATTRS
+/*-*/      { Cl.attrs $1 (vaant $2) }
   | mkclass(
       class_simple_expr vala(nonempty_llist(labeled_simple_expr), ANTI_LIST)
         { Pcl_apply($1, Pcaml.vala_map (List.map (fun (a,b) -> (a, b))) $2) }
@@ -2233,14 +2241,14 @@ class_simple_expr:
   | mkclass(
       tys = vala(actual_class_parameters, ANTI_LIST) cid = mkrhs(class_longident)
         { Pcl_constr(cid, tys) }
-    | OBJECT attributes class_structure error
+    | OBJECT vaval(attributes) class_structure error
         { unclosed "object" $loc($1) "end" $loc($4) }
     | LPAREN class_expr COLON class_type RPAREN
         { Pcl_constraint($2, $4) }
     | LPAREN class_expr COLON class_type error
         { unclosed "(" $loc($1) ")" $loc($5) }
     ) { $1 }
-  | OBJECT attributes class_structure END
+  | OBJECT vaval(attributes) class_structure END
     { mkclass ~loc:$sloc ~attrs:$2 (Pcl_structure $3) }
 /*-*/  | ANTI
 /*-*/      { mkclass ~loc:$sloc (Pcl_xtr (Location.mkloc $1 (make_loc $sloc))) }
@@ -2273,26 +2281,26 @@ class_self_pattern:
     { $1 }
 ;
 class_field:
-  | INHERIT override_flag_vala attributes class_expr
+  | INHERIT override_flag_vala vaval(attributes) class_expr
     self = vala(preceded(AS, mkrhs(lident_vala))?, ANTI_OPT)
-    post_item_attributes
+    post_item_attributes_vala
       { let docs = symbol_docs $sloc in
-        mkcf ~loc:$sloc (Pcf_inherit ($2, $4, self)) ~attrs:($3@$6) ~docs }
-  | VAL value post_item_attributes
+        mkcf ~loc:$sloc (Pcf_inherit ($2, $4, self)) ~attrs:(append_list_vala $3 $6) ~docs }
+  | VAL value post_item_attributes_vala
       { let v, attrs = $2 in
         let docs = symbol_docs $sloc in
-        mkcf ~loc:$sloc (Pcf_val v) ~attrs:(attrs@$3) ~docs }
-  | METHOD method_ post_item_attributes
+        mkcf ~loc:$sloc (Pcf_val v) ~attrs:(append_list_vala attrs $3) ~docs }
+  | METHOD method_ post_item_attributes_vala
       { let meth, attrs = $2 in
         let docs = symbol_docs $sloc in
-        mkcf ~loc:$sloc (Pcf_method meth) ~attrs:(attrs@$3) ~docs }
-  | CONSTRAINT attributes constrain_field post_item_attributes
+        mkcf ~loc:$sloc (Pcf_method meth) ~attrs:(append_list_vala attrs $3) ~docs }
+  | CONSTRAINT vaval(attributes) constrain_field post_item_attributes_vala
       { let docs = symbol_docs $sloc in
-        mkcf ~loc:$sloc (Pcf_constraint $3) ~attrs:($2@$4) ~docs }
-  | INITIALIZER attributes seq_expr post_item_attributes
+        mkcf ~loc:$sloc (Pcf_constraint $3) ~attrs:(append_list_vala $2 $4) ~docs }
+  | INITIALIZER vaval(attributes) seq_expr post_item_attributes_vala
       { let docs = symbol_docs $sloc in
-        mkcf ~loc:$sloc (Pcf_initializer $3) ~attrs:($2@$4) ~docs }
-  | item_extension post_item_attributes
+        mkcf ~loc:$sloc (Pcf_initializer $3) ~attrs:(append_list_vala $2 $4) ~docs }
+  | item_extension post_item_attributes_vala
       { let docs = symbol_docs $sloc in
         mkcf ~loc:$sloc (Pcf_extension $1) ~attrs:$2 ~docs }
   | mkcf(floating_attribute
@@ -2301,13 +2309,13 @@ class_field:
 ;
 value:
     no_override_flag
-    attrs = attributes
+    attrs = vaval(attributes)
     mutable_ = vala(virtual_with_mutable_flag, ANTI_MUTABLE)
     label = mkrhs(label_vala) COLON ty = core_type
       { (label, mutable_, Cfk_virtual ty), attrs }
-  | override_flag_vala attributes mutable_flag_vala mkrhs(label_vala) EQUAL seq_expr
+  | override_flag_vala vaval(attributes) mutable_flag_vala mkrhs(label_vala) EQUAL seq_expr
       { ($4, $3, Cfk_concrete ($1, $6)), $2 }
-  | override_flag_vala attributes mutable_flag_vala mkrhs(label_vala) type_constraint
+  | override_flag_vala vaval(attributes) mutable_flag_vala mkrhs(label_vala) type_constraint
     EQUAL seq_expr
       { let e = mkexp_constraint ~loc:$sloc $7 $5 in
         ($4, $3, Cfk_concrete ($1, e)), $2
@@ -2315,22 +2323,22 @@ value:
 ;
 method_:
     no_override_flag
-    attrs = attributes
+    attrs = vaval(attributes)
     private_ = vala(virtual_with_private_flag, ANTI_PRIV)
     label = mkrhs(label_vala) COLON ty = poly_type
       { (label, private_, Cfk_virtual ty), attrs }
-  | vaval(override_flag) attributes private_flag_vala mkrhs(label_vala) strict_binding
+  | vaval(override_flag) vaval(attributes) private_flag_vala mkrhs(label_vala) strict_binding
       { let e = $5 in
         let loc = Location.(e.pexp_loc.loc_start, e.pexp_loc.loc_end) in
         ($4, $3,
         Cfk_concrete ($1, ghexp ~loc (Pexp_poly (e, None)))), $2 }
-  | vaval(override_flag) attributes private_flag_vala mkrhs(label_vala)
+  | vaval(override_flag) vaval(attributes) private_flag_vala mkrhs(label_vala)
     COLON poly_type EQUAL seq_expr
       { let poly_exp =
           let loc = ($startpos($6), $endpos($8)) in
           ghexp ~loc (Pexp_poly($8, Some $6)) in
         ($4, $3, Cfk_concrete ($1, poly_exp)), $2 }
-  | vaval(override_flag) attributes private_flag_vala mkrhs(label_vala) COLON TYPE lident_list
+  | vaval(override_flag) vaval(attributes) private_flag_vala mkrhs(label_vala) COLON TYPE lident_list
     DOT core_type EQUAL seq_expr
       { let poly_exp_loc = ($startpos($7), $endpos($11)) in
         let poly_exp =
@@ -2345,7 +2353,7 @@ method_:
 /*-*/  | ANTI_OVERRIDEFLAG private_flag_vala mkrhs(label_vala) EQUAL ANTI
 /*-*/     {
 (*-*)       let e = mkexp ~loc:$sloc (Pexp_xtr (Location.mkloc $5 (make_loc $sloc))) in
-(*-*)       (($3, $2, Cfk_concrete(vaant $1, e)), [])
+(*-*)       (($3, $2, Cfk_concrete(vaant $1, e)), vaval [])
 (*-*)     }
 ;
 
@@ -2369,13 +2377,15 @@ class_signature:
     | extension
         { Pcty_extension $1 }
     ) { $1 }
-  | OBJECT attributes class_sig_body END
+  | OBJECT vaval(attributes) class_sig_body END
       { mkcty ~loc:$sloc ~attrs:$2 (Pcty_signature $3) }
-  | OBJECT attributes class_sig_body error
+  | OBJECT vaval(attributes) class_sig_body error
       { unclosed "object" $loc($1) "end" $loc($4) }
   | class_signature attribute
       { Cty.attr $1 $2 }
-  | LET OPEN override_flag_vala attributes mkrhs(mod_longident_vala) IN class_signature
+/*-*/  | class_signature ANTI_ALGATTRS
+/*-*/      { Cty.attrs $1 (vaant $2) }
+  | LET OPEN override_flag_vala attributes_vala mkrhs(mod_longident_vala) IN class_signature
       { let loc = ($startpos($2), $endpos($5)) in
         let od = Opn.mk ~override:$3 ~loc:(make_loc loc) $5 in
         mkcty ~loc:$sloc ~attrs:$4 (Pcty_open(od, $7)) }
@@ -2407,25 +2417,25 @@ class_self_type:
     { $1 }
 ;
 class_sig_field:
-    INHERIT attributes class_signature post_item_attributes
+    INHERIT vaval(attributes) class_signature post_item_attributes_vala
       { let docs = symbol_docs $sloc in
-        mkctf ~loc:$sloc (Pctf_inherit $3) ~attrs:($2@$4) ~docs }
-  | VAL attributes value_type post_item_attributes
+        mkctf ~loc:$sloc (Pctf_inherit $3) ~attrs:(append_list_vala $2 $4) ~docs }
+  | VAL vaval(attributes) value_type post_item_attributes_vala
       { let docs = symbol_docs $sloc in
-        mkctf ~loc:$sloc (Pctf_val $3) ~attrs:($2@$4) ~docs }
-  | METHOD attributes private_virtual_flags mkrhs(label_vala) COLON poly_type
-    post_item_attributes
+        mkctf ~loc:$sloc (Pctf_val $3) ~attrs:(append_list_vala $2 $4) ~docs }
+  | METHOD vaval(attributes) private_virtual_flags mkrhs(label_vala) COLON poly_type
+    post_item_attributes_vala
       { let (p, v) = $3 in
         let docs = symbol_docs $sloc in
-        mkctf ~loc:$sloc (Pctf_method ($4, vaval p, vaval v, $6)) ~attrs:($2@$7) ~docs }
-/*-*/  | METHOD attributes p = ANTI_PRIV v = ANTI_VIRTUAL mkrhs(label_vala) COLON poly_type
-/*-*/    post_item_attributes
+        mkctf ~loc:$sloc (Pctf_method ($4, vaval p, vaval v, $6)) ~attrs:(append_list_vala $2 $7) ~docs }
+/*-*/  | METHOD vaval(attributes) p = ANTI_PRIV v = ANTI_VIRTUAL mkrhs(label_vala) COLON poly_type
+/*-*/    post_item_attributes_vala
 /*-*/      { let docs = symbol_docs $sloc in
-(*-*)        mkctf ~loc:$sloc (Pctf_method ($5, vaant p, vaant v, $7)) ~attrs:($2@$8) ~docs }
-  | CONSTRAINT attributes constrain_field post_item_attributes
+(*-*)        mkctf ~loc:$sloc (Pctf_method ($5, vaant p, vaant v, $7)) ~attrs:(append_list_vala $2 $8) ~docs }
+  | CONSTRAINT vaval(attributes) constrain_field post_item_attributes_vala
       { let docs = symbol_docs $sloc in
-        mkctf ~loc:$sloc (Pctf_constraint $3) ~attrs:($2@$4) ~docs }
-  | item_extension post_item_attributes
+        mkctf ~loc:$sloc (Pctf_constraint $3) ~attrs:(append_list_vala $2 $4) ~docs }
+  | item_extension post_item_attributes_vala
       { let docs = symbol_docs $sloc in
         mkctf ~loc:$sloc (Pctf_extension $1) ~attrs:$2 ~docs }
   | mkctf(floating_attribute
@@ -2451,7 +2461,7 @@ class_sig_field:
 (*-*)  }
 ;
 %inline constrain:
-    core_type EQUAL core_type
+    core_type_no_attr EQUAL core_type_no_attr
     { $1, $3, make_loc $sloc }
 ;
 constrain_field:
@@ -2468,15 +2478,15 @@ constrain_field:
 %inline class_description:
   CLASS
   ext = ext
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   virt = virtual_flag_vala
   params = vala(formal_class_parameters, ANTI_LIST)
   id = mkrhs(lident_vala)
   COLON
   cty = class_type
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
     {
-      let attrs = attrs1 @ attrs2 in
+      let attrs = append_list_vala attrs1 attrs2 in
       let loc = make_loc $sloc in
       let docs = symbol_docs $sloc in
       ext,
@@ -2485,15 +2495,15 @@ constrain_field:
 ;
 %inline and_class_description:
   AND
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   virt = virtual_flag_vala
   params = vala(formal_class_parameters, ANTI_LIST)
   id = mkrhs(lident_vala)
   COLON
   cty = class_type
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
     {
-      let attrs = attrs1 @ attrs2 in
+      let attrs = append_list_vala attrs1 attrs2 in
       let loc = make_loc $sloc in
       let docs = symbol_docs $sloc in
       let text = symbol_text $symbolstartpos in
@@ -2509,15 +2519,15 @@ class_type_declarations:
 %inline class_type_declaration:
   CLASS TYPE
   ext = ext
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   virt = virtual_flag_vala
   params = vala(formal_class_parameters, ANTI_LIST)
   id = mkrhs(lident_vala)
   EQUAL
   csig = class_signature
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
     {
-      let attrs = attrs1 @ attrs2 in
+      let attrs = append_list_vala attrs1 attrs2 in
       let loc = make_loc $sloc in
       let docs = symbol_docs $sloc in
       ext,
@@ -2526,15 +2536,15 @@ class_type_declarations:
 ;
 %inline and_class_type_declaration:
   AND
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   virt = virtual_flag_vala
   params = vala(formal_class_parameters, ANTI_LIST)
   id = mkrhs(lident_vala)
   EQUAL
   csig = class_signature
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
     {
-      let attrs = attrs1 @ attrs2 in
+      let attrs = append_list_vala attrs1 attrs2 in
       let loc = make_loc $sloc in
       let docs = symbol_docs $sloc in
       let text = symbol_text $symbolstartpos in
@@ -2552,7 +2562,7 @@ seq_expr:
     { $1 }
   | expr SEMI PERCENT attr_id seq_expr
     { let seq = mkexp ~loc:$sloc (Pexp_sequence ($1, $5)) in
-      let payload = PStr (vaval[mkstrexp ~loc:$sloc (vaval seq) []]) in
+      let payload = PStr (vaval[mkstrexp ~loc:$sloc (vaval seq) (vaval [])]) in
       mkexp ~loc:$sloc (Pexp_extension ($4, payload)) }
 ;
 labeled_simple_pattern:
@@ -2674,6 +2684,8 @@ expr:
     { mk_indexop_expr user_indexing_operators ~loc:$sloc $1 }
   | expr attribute
       { Exp.attr $1 $2 }
+/*-*/  | expr ANTI_ALGATTRS
+/*-*/      { Exp.attrs $1 (vaant $2) }
 /* BEGIN AVOID */
   | UNDERSCORE
      { not_expecting $loc($1) "wildcard \"_\"" }
@@ -2685,7 +2697,7 @@ expr:
   | LET EXCEPTION ext_attributes let_exception_declaration IN seq_expr
       { Pexp_letexception(vaval $4, $6), $3 }
 /*-*/  | LET ANTI_EXCON IN seq_expr
-/*-*/      { Pexp_letexception(vaant $2, $4), (None,[]) }
+/*-*/      { Pexp_letexception(vaant $2, $4), (None, vaval []) }
   | LET OPEN override_flag_vala ext_attributes module_expr IN seq_expr
       { let open_loc = make_loc ($startpos($2), $endpos($5)) in
         let od = Opn.mk $5 ~override:$3 ~loc:open_loc in
@@ -2768,8 +2780,8 @@ simple_expr:
       { $1 }
 ;
 %inline simple_expr_attrs:
-  | BEGIN ext = ext attrs = attributes e = seq_expr END
-      { e.pexp_desc, (ext, attrs @ e.pexp_attributes) }
+  | BEGIN ext = ext attrs = vaval(attributes) e = seq_expr END
+      { e.pexp_desc, (ext, append_list_vala attrs e.pexp_attributes) }
   | BEGIN ext_attributes END
       { Pexp_construct (mkloc (vaval (Lident (vaval"()"))) (make_loc $sloc), vaval None), $2 }
   | BEGIN ext_attributes seq_expr error
@@ -2945,18 +2957,18 @@ let_binding_body:
    so as to indicate whether an extension is allowed or disallowed. *)
 /*-*/value_binding:
 /*-*/  body = let_binding_body
-/*-*/  attrs2 = post_item_attributes
+/*-*/  attrs2 = post_item_attributes_vala
 /*-*/ { vb_of_lb (mklb ~loc:$sloc true body attrs2) }
 /*-*/;
 let_bindings(EXT):
     let_binding(EXT)                            { $1 }
 /*-*/  | LET
 /*-*/    ext = EXT
-/*-*/    attrs1 = attributes
+/*-*/    attrs1 = vaval(attributes)
 /*-*/    rec_flag = rec_flag_vala
 /*-*/    list = vaant(ANTI_LIST)
 /*-*/    {
-(*-*)      match (ext, attrs1) with
+(*-*)      match (ext, unvala attrs1) with
 (*-*)        (None, []) ->
 (*-*)        { lbs_bindings = list ; lbs_rec = rec_flag ; lbs_extension = None }
 (*-*)      | _ -> syntax_error()
@@ -2966,22 +2978,22 @@ let_bindings(EXT):
 %inline let_binding(EXT):
   LET
   ext = EXT
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   rec_flag = rec_flag_vala
   body = let_binding_body
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
     {
-      let attrs = attrs1 @ attrs2 in
+      let attrs = append_list_vala attrs1 attrs2 in
       mklbs ext rec_flag (mklb ~loc:$sloc true body attrs)
     }
 ;
 and_let_binding:
   AND
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   body = let_binding_body
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
     {
-      let attrs = attrs1 @ attrs2 in
+      let attrs = append_list_vala attrs1 attrs2 in
       mklb ~loc:$sloc false body attrs
     }
 ;
@@ -3141,6 +3153,8 @@ pattern_no_exn:
       { mkpat_cons ~loc:$sloc $loc($2) (ghpat ~loc:$sloc (Ppat_tuple (vaval [$1;$3]))) }
   | self attribute
       { Pat.attr $1 $2 }
+/*-*/  | self ANTI_ALGATTRS
+/*-*/      { Pat.attrs $1 (vaant $2) }
   | pattern_gen
       { $1 }
   | mkpat(
@@ -3310,12 +3324,12 @@ pattern_comma_list(self):
 value_description:
   VAL
   ext = ext
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   id = mkrhs(val_ident_vala)
   COLON
   ty = core_type
-  attrs2 = post_item_attributes
-    { let attrs = attrs1 @ attrs2 in
+  attrs2 = post_item_attributes_vala
+    { let attrs = append_list_vala attrs1 attrs2 in
       let loc = make_loc $sloc in
       let docs = symbol_docs $sloc in
       Val.mk id ty ~attrs ~loc ~docs,
@@ -3327,14 +3341,14 @@ value_description:
 primitive_declaration:
   EXTERNAL
   ext = ext
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   id = mkrhs(val_ident_vala)
   COLON
   ty = core_type
   EQUAL
   prim = vala(raw_string+, ANTI_LIST)
-  attrs2 = post_item_attributes
-    { let attrs = attrs1 @ attrs2 in
+  attrs2 = post_item_attributes_vala
+    { let attrs = append_list_vala attrs1 attrs2 in
       let loc = make_loc $sloc in
       let docs = symbol_docs $sloc in
       Val.mk id ty ~prim ~attrs ~loc ~docs,
@@ -3378,7 +3392,7 @@ primitive_declaration:
 /*-*/  id = mkrhs(lident_vala)
 /*-*/  kind_priv_manifest = kind
 /*-*/  cstrs = vala(constraints, ANTI_LIST)
-/*-*/  attrs2 = post_item_attributes
+/*-*/  attrs2 = post_item_attributes_vala
 /*-*/    {
 (*-*)      let (kind, priv, manifest) = kind_priv_manifest in
 (*-*)      let docs = symbol_docs $sloc in
@@ -3396,17 +3410,17 @@ primitive_declaration:
 %inline generic_type_declaration(flag, kind):
   TYPE
   ext = ext
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   flag = flag
   params = vala(type_parameters, ANTI_LIST)
   id = mkrhs(lident_vala)
   kind_priv_manifest = kind
   cstrs = vaval(constraints)
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
     {
       let (kind, priv, manifest) = kind_priv_manifest in
       let docs = symbol_docs $sloc in
-      let attrs = attrs1 @ attrs2 in
+      let attrs = append_list_vala attrs1 attrs2 in
       let loc = make_loc $sloc in
       (flag, ext),
       Type.mk id ~params ~cstrs ~kind ~priv ~manifest ~attrs ~loc ~docs
@@ -3414,16 +3428,16 @@ primitive_declaration:
 ;
 %inline generic_and_type_declaration(kind):
   AND
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   params = vala(type_parameters, ANTI_LIST)
   id = mkrhs(lident_vala)
   kind_priv_manifest = kind
   cstrs = vaval(constraints)
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
     {
       let (kind, priv, manifest) = kind_priv_manifest in
       let docs = symbol_docs $sloc in
-      let attrs = attrs1 @ attrs2 in
+      let attrs = append_list_vala attrs1 attrs2 in
       let loc = make_loc $sloc in
       let text = symbol_text $symbolstartpos in
       Type.mk id ~params ~cstrs ~kind ~priv ~manifest ~attrs ~loc ~docs ~text
@@ -3527,7 +3541,7 @@ generic_constructor_declaration(opening):
   opening
   cid = mkrhs(constr_ident_vala)
   args_res = generalized_constructor_arguments
-  attrs = attributes
+  attrs = attributes_vala
     {
       let args, res = args_res in
       let info = symbol_info $endpos in
@@ -3547,35 +3561,35 @@ str_exception_declaration:
     { $1 }
 | EXCEPTION
   ext = ext
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   id = mkrhs(constr_ident_vala)
   EQUAL
   lid = mkrhs(constr_longident_vala)
-  attrs2 = attributes
-  attrs = post_item_attributes
+  attrs2 = attributes_vala
+  attrs = post_item_attributes_vala
   { let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Te.mk_exception ~attrs
-      (Te.rebind id lid ~attrs:( attrs1 @ attrs2) ~loc ~docs)
+      (Te.rebind id lid ~attrs:( append_list_vala attrs1 attrs2) ~loc ~docs)
     , ext }
 ;
 sig_exception_declaration:
   EXCEPTION
   ext = ext
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   id = mkrhs(constr_ident_vala)
   args_res = generalized_constructor_arguments
-  attrs2 = attributes
-  attrs = post_item_attributes
+  attrs2 = attributes_vala
+  attrs = post_item_attributes_vala
     { let args, res = args_res in
       let loc = make_loc ($startpos, $endpos(attrs2)) in
       let docs = symbol_docs $sloc in
       Te.mk_exception ~attrs
-        (Te.decl id ~args ~res ~attrs:(attrs1 @ attrs2) ~loc ~docs)
+        (Te.decl id ~args ~res ~attrs:(append_list_vala attrs1 attrs2) ~loc ~docs)
       , ext }
 ;
 %inline let_exception_declaration:
-    mkrhs(constr_ident_vala) generalized_constructor_arguments attributes
+    mkrhs(constr_ident_vala) generalized_constructor_arguments attributes_vala
       { let args, res = $2 in
         Te.decl $1 ~args ~res ~attrs:$3 ~loc:(make_loc $sloc) }
 ;
@@ -3604,18 +3618,18 @@ label_declarations:
   | label_declaration_semi label_declarations   { $1 :: $2 }
 ;
 label_declaration:
-    mutable_flag_vala mkrhs(label_vala) COLON vala(poly_type_no_attr, ANTI_TYP) attributes
+    mutable_flag_vala mkrhs(label_vala) COLON vala(poly_type_no_attr, ANTI_TYP) attributes_vala
       { let info = symbol_info $endpos in
         Type.field $2 $4 ~mut:$1 ~attrs:$5 ~loc:(make_loc $sloc) ~info }
 ;
 label_declaration_semi:
-    mutable_flag_vala mkrhs(label_vala) COLON vala(poly_type_no_attr, ANTI_TYP) attributes SEMI attributes
+    mutable_flag_vala mkrhs(label_vala) COLON vala(poly_type_no_attr, ANTI_TYP) vaval(attributes) SEMI vaval(attributes)
       { let info =
           match rhs_info $endpos($5) with
           | Some _ as info_before_semi -> info_before_semi
           | None -> symbol_info $endpos
        in
-       Type.field $2 $4 ~mut:$1 ~attrs:($5 @ $7) ~loc:(make_loc $sloc) ~info }
+       Type.field $2 $4 ~mut:$1 ~attrs:(append_list_vala $5 $7) ~loc:(make_loc $sloc) ~info }
 ;
 
 /* Type Extensions */
@@ -3631,16 +3645,16 @@ label_declaration_semi:
 %inline type_extension(declaration):
   TYPE
   ext = ext
-  attrs1 = attributes
+  attrs1 = vaval(attributes)
   no_nonrec_flag
   params = vala(type_parameters, ANTI_LIST)
   tid = mkrhs(type_longident)
   PLUSEQ
   priv = private_flag_vala
   cs = vala(bar_llist(declaration), ANTI_LIST)
-  attrs2 = post_item_attributes
+  attrs2 = post_item_attributes_vala
     { let docs = symbol_docs $sloc in
-      let attrs = attrs1 @ attrs2 in
+      let attrs = append_list_vala attrs1 attrs2 in
       Te.mk tid cs ~params ~priv ~attrs ~docs,
       ext }
 ;
@@ -3662,7 +3676,7 @@ extension_constructor_rebind(opening):
   cid = mkrhs(constr_ident_vala)
   EQUAL
   lid = mkrhs(constr_longident_vala)
-  attrs = attributes
+  attrs = attributes_vala
       { let info = symbol_info $endpos in
         Te.rebind cid lid ~attrs ~loc:(make_loc $sloc) ~info }
 ;
@@ -3755,6 +3769,8 @@ possibly_poly(X):
 core_type:
     core_type_no_attr
       { $1 }
+/*-*/  | core_type_no_attr ANTI_ALGATTRS
+/*-*/      { Typ.attrs $1 (vaant $2) }
   | core_type attribute
       { Typ.attr $1 $2 }
 ;
@@ -3928,11 +3944,11 @@ row_field:
 ;
 tag_field:
     mkrhs(name_tag_vala) OF vala(opt_ampersand, ANTI_ISCONST)
-      vala(amper_type_list, ANTI_LIST) attributes
+      vala(amper_type_list, ANTI_LIST) attributes_vala
       { let info = symbol_info $endpos in
         let attrs = add_info_attrs info $5 in
         Rf.tag ~loc:(make_loc $sloc) ~attrs $1 $3 $4 }
-  | mkrhs(name_tag_vala) attributes
+  | mkrhs(name_tag_vala) attributes_vala
       { let info = symbol_info $endpos in
         let attrs = add_info_attrs info $2 in
         Rf.tag ~loc:(make_loc $sloc) ~attrs $1 (vaval true) (vaval[]) }
@@ -3964,20 +3980,20 @@ meth_list:
       { [], Open }
 ;
 %inline field:
-  mkrhs(label_vala) COLON poly_type_no_attr attributes
+  mkrhs(label_vala) COLON poly_type_no_attr attributes_vala
     { let info = symbol_info $endpos in
       let attrs = add_info_attrs info $4 in
       Of.tag ~loc:(make_loc $sloc) ~attrs $1 $3 }
 ;
 
 %inline field_semi:
-  mkrhs(label_vala) COLON poly_type_no_attr attributes SEMI attributes
+  mkrhs(label_vala) COLON poly_type_no_attr vaval(attributes) SEMI vaval(attributes)
     { let info =
         match rhs_info $endpos($4) with
         | Some _ as info_before_semi -> info_before_semi
         | None -> symbol_info $endpos
       in
-      let attrs = add_info_attrs info ($4 @ $6) in
+      let attrs = add_info_attrs info (append_list_vala $4 $6) in
       Of.tag ~loc:(make_loc $sloc) ~attrs $1 $3 }
 ;
 
@@ -4316,7 +4332,7 @@ optlabel:
    | QUESTION lident_vala COLON      { $2 }
 ;
 
-/* Attributes and extensions */
+/* Vaval(Attributes) and extensions */
 
 single_attr_id:
     LIDENT { $1 }
@@ -4394,13 +4410,21 @@ floating_attribute:
       Attr.mk ~loc:(make_loc $sloc) $2 $3 }
 ;
 %inline post_item_attributes:
-  post_item_attribute*
+   post_item_attribute*
     { $1 }
 ;
+/*-*/%inline post_item_attributes_vala:
+/*-*/  vala(post_item_attributes, ANTI_ITEMATTRS)
+/*-*/    { $1 }
+/*-*/;
 %inline attributes:
-  attribute*
+   attribute*
     { $1 }
 ;
+/*-*/%inline attributes_vala:
+/*-*/  vala(attributes, ANTI_ALGATTRS)
+/*-*/    { $1 }
+/*-*/;
 ext:
   | /* empty */     { None }
   | PERCENT attr_id { Some $2 }
@@ -4412,7 +4436,7 @@ ext:
 /* END AVOID */
 ;
 %inline ext_attributes:
-  ext attributes    { $1, $2 }
+  ext attributes_vala    { $1, $2 }
 ;
 extension:
   | LBRACKETPERCENT attr_id payload RBRACKET { ($2, $3) }

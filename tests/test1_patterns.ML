@@ -320,17 +320,34 @@
 <:expression< (let exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ in $x2$) $algattrs:attrs$ >>;
 <:expression< let exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ in $x2$ >>;
 #else
-<:expression< let exception $uid:s$ : $list:lx$ $opt:None$ in $x2$ $algattrs:attrs$ >>;
+<:expression< (let exception $uid:s$ : $list:lx$ $opt:None$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
+<:expression< let exception $uid:s$ : $list:lx$ $opt:None$ $algattrs:attrs$ in $x2$ >>;
+<:expression< (let exception $uid:s$ : $list:lx$ $opt:None$ in $x2$) $algattrs:attrs$ >>;
 <:expression< let exception $uid:s$ : $list:lx$ $opt:None$ in $x2$ >>;
-<:expression< let exception $uid:s$ : $list:lx$ -> $x2$ in $x2$ $algattrs:attrs$ >>;
+
+<:expression< (let exception $uid:s$ : $list:lx$ -> $x2$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
+<:expression< let exception $uid:s$ : $list:lx$ -> $x2$ $algattrs:attrs$ in $x2$ >>;
+<:expression< (let exception $uid:s$ : $list:lx$ -> $x2$ in $x2$) $algattrs:attrs$ >>;
 <:expression< let exception $uid:s$ : $list:lx$ -> $x2$ in $x2$ >>;
-<:expression< let exception $uid:s$ : $list:lx$ $opt:ox2$ in $x2$ $algattrs:attrs$ >>;
+
+<:expression< (let exception $uid:s$ : $list:lx$ $opt:ox2$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
+<:expression< let exception $uid:s$ : $list:lx$ $opt:ox2$ $algattrs:attrs$ in $x2$ >>;
+<:expression< (let exception $uid:s$ : $list:lx$ $opt:ox2$ in $x2$) $algattrs:attrs$ >>;
 <:expression< let exception $uid:s$ : $list:lx$ $opt:ox2$ in $x2$ >>;
-<:expression< let exception $uid:s$ : { $list:lx$} $opt:None$ in $x2$ $algattrs:attrs$ >>;
+
+<:expression< (let exception $uid:s$ : { $list:lx$} $opt:None$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
+<:expression< let exception $uid:s$ : { $list:lx$} $opt:None$ $algattrs:attrs$ in $x2$ >>;
+<:expression< (let exception $uid:s$ : { $list:lx$} $opt:None$ in $x2$) $algattrs:attrs$ >>;
 <:expression< let exception $uid:s$ : { $list:lx$} $opt:None$ in $x2$ >>;
-<:expression< let exception $uid:s$ : { $list:lx$} -> $x2$ in $x2$ $algattrs:attrs$ >>;
+
+<:expression< (let exception $uid:s$ : { $list:lx$} -> $x2$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
+<:expression< let exception $uid:s$ : { $list:lx$} -> $x2$ $algattrs:attrs$ in $x2$ >>;
+<:expression< (let exception $uid:s$ : { $list:lx$} -> $x2$ in $x2$) $algattrs:attrs$ >>;
 <:expression< let exception $uid:s$ : { $list:lx$} -> $x2$ in $x2$ >>;
-<:expression< let exception $uid:s$ : { $list:lx$} $opt:ox2$ in $x2$ $algattrs:attrs$ >>;
+
+<:expression< (let exception $uid:s$ : { $list:lx$} $opt:ox2$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
+<:expression< let exception $uid:s$ : { $list:lx$} $opt:ox2$ $algattrs:attrs$ in $x2$ >>;
+<:expression< (let exception $uid:s$ : { $list:lx$} $opt:ox2$ in $x2$) $algattrs:attrs$ >>;
 <:expression< let exception $uid:s$ : { $list:lx$} $opt:ox2$ in $x2$ >>;
 #endif
 {Parsetree.pexp_desc = Parsetree.Pexp_letexception {Parsetree.pext_name = {Location.txt = s; Location.loc = __loc__}; Parsetree.pext_kind = Parsetree.Pext_rebind {Location.txt = x; Location.loc = __loc__}; Parsetree.pext_loc = __loc__; Parsetree.pext_attributes = attrs} x2; Parsetree.pexp_loc = __loc__; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = attrs};
@@ -470,11 +487,17 @@
 <:constructor_declaration< $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox3$ $algattrs:attrs$ >>;
 <:constructor_declaration< $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox3$ >>;
 #else
-<:constructor_declaration< $uid:s$ : $list:lx$ $opt:None$ $algattrs:attrs$ >>;
+<:constructor_declaration< $uid:s$ : $list:lx$ $opt:None$ $algattrs:attrs$ >> ;
+<:constructor_declaration< $uid:s$ : $list:lx$ $opt:None$ >>;
+<:constructor_declaration< $uid:s$ : $list:lx$ -> $x3$ $algattrs:attrs$ >> ;
 <:constructor_declaration< $uid:s$ : $list:lx$ -> $x3$ >>;
-<:constructor_declaration< $uid:s$ : $list:lx$ $opt:ox3$ $algattrs:attrs$ >>;
+<:constructor_declaration< $uid:s$ : $list:lx$ $opt:ox3$ $algattrs:attrs$ >> ;
+<:constructor_declaration< $uid:s$ : $list:lx$ $opt:ox3$ >>;
+<:constructor_declaration< $uid:s$ : { $list:lx$} $opt:None$ $algattrs:attrs$ >> ;
 <:constructor_declaration< $uid:s$ : { $list:lx$} $opt:None$ >>;
-<:constructor_declaration< $uid:s$ : { $list:lx$} -> $x3$ $algattrs:attrs$ >>;
+<:constructor_declaration< $uid:s$ : { $list:lx$} -> $x3$ $algattrs:attrs$ >> ;
+<:constructor_declaration< $uid:s$ : { $list:lx$} -> $x3$ >>;
+<:constructor_declaration< $uid:s$ : { $list:lx$} $opt:ox3$ $algattrs:attrs$ >> ;
 <:constructor_declaration< $uid:s$ : { $list:lx$} $opt:ox3$ >>;
 #endif
 [@@@"ocaml.text" "constructor_arguments";];
@@ -739,11 +762,34 @@
 <:signature_item< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ $itemattrs:attrs$ >>;
 <:signature_item< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ >>;
 #else
+<:signature_item< exception $uid:s$ : $list:lx$ $opt:None$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:signature_item< exception $uid:s$ : $list:lx$ $opt:None$ $algattrs:attrs$ >>;
+<:signature_item< exception $uid:s$ : $list:lx$ $opt:None$ $itemattrs:attrs$ >>;
 <:signature_item< exception $uid:s$ : $list:lx$ $opt:None$ >>;
+
+<:signature_item< exception $uid:s$ : $list:lx$ -> $x2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:signature_item< exception $uid:s$ : $list:lx$ -> $x2$ $algattrs:attrs$ >>;
+<:signature_item< exception $uid:s$ : $list:lx$ -> $x2$ $itemattrs:attrs$ >>;
 <:signature_item< exception $uid:s$ : $list:lx$ -> $x2$ >>;
+
+<:signature_item< exception $uid:s$ : $list:lx$ $opt:ox2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:signature_item< exception $uid:s$ : $list:lx$ $opt:ox2$ $algattrs:attrs$ >>;
+<:signature_item< exception $uid:s$ : $list:lx$ $opt:ox2$ $itemattrs:attrs$ >>;
 <:signature_item< exception $uid:s$ : $list:lx$ $opt:ox2$ >>;
+
+<:signature_item< exception $uid:s$ : { $list:lx$} $opt:None$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:signature_item< exception $uid:s$ : { $list:lx$} $opt:None$ $algattrs:attrs$ >>;
+<:signature_item< exception $uid:s$ : { $list:lx$} $opt:None$ $itemattrs:attrs$ >>;
 <:signature_item< exception $uid:s$ : { $list:lx$} $opt:None$ >>;
+
+<:signature_item< exception $uid:s$ : { $list:lx$} -> $x2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:signature_item< exception $uid:s$ : { $list:lx$} -> $x2$ $algattrs:attrs$ >>;
+<:signature_item< exception $uid:s$ : { $list:lx$} -> $x2$ $itemattrs:attrs$ >>;
 <:signature_item< exception $uid:s$ : { $list:lx$} -> $x2$ >>;
+
+<:signature_item< exception $uid:s$ : { $list:lx$} $opt:ox2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:signature_item< exception $uid:s$ : { $list:lx$} $opt:ox2$ $algattrs:attrs$ >>;
+<:signature_item< exception $uid:s$ : { $list:lx$} $opt:ox2$ $itemattrs:attrs$ >>;
 <:signature_item< exception $uid:s$ : { $list:lx$} $opt:ox2$ >>;
 #endif
 <:signature_item< module _ : $mt$ $itemattrs:attrs$ >> ;
@@ -894,12 +940,39 @@
 <:structure_item< exception $uid:s$ = $longid:x$ $itemattrs:attrs$ >> ;
 <:structure_item< exception $uid:s$ = $longid:x$ >>;
 #else
+<:structure_item< exception $uid:s$ : $list:lx$ $opt:None$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:structure_item< exception $uid:s$ : $list:lx$ $opt:None$ $algattrs:attrs$ >>;
+<:structure_item< exception $uid:s$ : $list:lx$ $opt:None$ $itemattrs:attrs$ >>;
 <:structure_item< exception $uid:s$ : $list:lx$ $opt:None$ >>;
+
+<:structure_item< exception $uid:s$ : $list:lx$ -> $x2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:structure_item< exception $uid:s$ : $list:lx$ -> $x2$ $algattrs:attrs$ >>;
+<:structure_item< exception $uid:s$ : $list:lx$ -> $x2$ $itemattrs:attrs$ >>;
 <:structure_item< exception $uid:s$ : $list:lx$ -> $x2$ >>;
+
+<:structure_item< exception $uid:s$ : $list:lx$ $opt:ox2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:structure_item< exception $uid:s$ : $list:lx$ $opt:ox2$ $algattrs:attrs$ >>;
+<:structure_item< exception $uid:s$ : $list:lx$ $opt:ox2$ $itemattrs:attrs$ >>;
 <:structure_item< exception $uid:s$ : $list:lx$ $opt:ox2$ >>;
+
+<:structure_item< exception $uid:s$ : { $list:lx$} $opt:None$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:structure_item< exception $uid:s$ : { $list:lx$} $opt:None$ $algattrs:attrs$ >>;
+<:structure_item< exception $uid:s$ : { $list:lx$} $opt:None$ $itemattrs:attrs$ >>;
 <:structure_item< exception $uid:s$ : { $list:lx$} $opt:None$ >>;
+
+<:structure_item< exception $uid:s$ : { $list:lx$} -> $x2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:structure_item< exception $uid:s$ : { $list:lx$} -> $x2$ $algattrs:attrs$ >>;
+<:structure_item< exception $uid:s$ : { $list:lx$} -> $x2$ $itemattrs:attrs$ >>;
 <:structure_item< exception $uid:s$ : { $list:lx$} -> $x2$ >>;
+
+<:structure_item< exception $uid:s$ : { $list:lx$} $opt:ox2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:structure_item< exception $uid:s$ : { $list:lx$} $opt:ox2$ $algattrs:attrs$ >>;
+<:structure_item< exception $uid:s$ : { $list:lx$} $opt:ox2$ $itemattrs:attrs$ >>;
 <:structure_item< exception $uid:s$ : { $list:lx$} $opt:ox2$ >>;
+
+<:structure_item< exception $uid:s$ = $longid:x$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:structure_item< exception $uid:s$ = $longid:x$ $algattrs:attrs$ >>;
+<:structure_item< exception $uid:s$ = $longid:x$ $itemattrs:attrs$ >>;
 <:structure_item< exception $uid:s$ = $longid:x$ >>;
 #endif
 <:structure_item< module _ = $me$ $itemattrs:attrs$ >> ;
