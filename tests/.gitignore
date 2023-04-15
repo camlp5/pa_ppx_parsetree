@@ -2,3 +2,4 @@ ya-wrap-ocamlfind
 join_meta
 *out
 test1_patterns.ml
+via_parsetree_test.ml
