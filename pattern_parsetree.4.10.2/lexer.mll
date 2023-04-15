@@ -613,6 +613,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_ALGATTRS (make_antiquotation "algattrs" loc payload)
      }
+  | "$" "itemattrs:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_ITEMATTRS (make_antiquotation "itemattrs" loc payload)
+     }
   | "$" "mutable:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
