@@ -414,7 +414,7 @@ let wrap_type_annotation ~loc newtypes core_type body =
 let wrap_exp_attrs ~loc body (ext, attrs) =
   let ghexp = ghexp ~loc in
   (* todo: keep exact location for the entire attribute *)
-  let body = {body with pexp_attributes = attrs @ body.pexp_attributes} in
+  let body = {body with pexp_attributes = List.append attrs body.pexp_attributes} in
   match ext with
   | None -> body
   | Some id -> ghexp(Pexp_extension (id, PStr [mkstrexp ~loc body []]))
@@ -424,14 +424,14 @@ let mkexp_attrs ~loc d attrs =
 
 let wrap_typ_attrs ~loc typ (ext, attrs) =
   (* todo: keep exact location for the entire attribute *)
-  let typ = {typ with ptyp_attributes = attrs @ typ.ptyp_attributes} in
+  let typ = {typ with ptyp_attributes = List.append attrs typ.ptyp_attributes} in
   match ext with
   | None -> typ
   | Some id -> ghtyp ~loc (Ptyp_extension (id, PTyp typ))
 
 let wrap_pat_attrs ~loc pat (ext, attrs) =
   (* todo: keep exact location for the entire attribute *)
-  let pat = {pat with ppat_attributes = attrs @ pat.ppat_attributes} in
+  let pat = {pat with ppat_attributes = List.append attrs pat.ppat_attributes} in
   match ext with
   | None -> pat
   | Some id -> ghpat ~loc (Ppat_extension (id, PPat (pat, None)))
@@ -440,11 +440,11 @@ let mkpat_attrs ~loc d attrs =
   wrap_pat_attrs ~loc (mkpat ~loc d) attrs
 
 let wrap_class_attrs ~loc:_ body attrs =
-  {body with pcl_attributes = attrs @ body.pcl_attributes}
+  {body with pcl_attributes = List.append attrs body.pcl_attributes}
 let wrap_mod_attrs ~loc:_ attrs body =
-  {body with pmod_attributes = attrs @ body.pmod_attributes}
+  {body with pmod_attributes = List.append attrs body.pmod_attributes}
 let wrap_mty_attrs ~loc:_ attrs body =
-  {body with pmty_attributes = attrs @ body.pmty_attributes}
+  {body with pmty_attributes = List.append attrs body.pmty_attributes}
 
 let wrap_str_ext ~loc body ext =
   match ext with
@@ -1438,7 +1438,7 @@ structure_item:
   attrs2 = post_item_attributes
     { let docs = symbol_docs $sloc in
       let loc = make_loc $sloc in
-      let attrs = attrs1 @ attrs2 in
+      let attrs = List.append attrs1 attrs2 in
       let body = Mb.mk name body ~attrs ~loc ~docs in
       Pstr_module body, ext }
 ;
@@ -1473,7 +1473,7 @@ module_binding_body:
   attrs2 = post_item_attributes
   {
     let loc = make_loc $sloc in
-    let attrs = attrs1 @ attrs2 in
+    let attrs = List.append attrs1 attrs2 in
     let docs = symbol_docs $sloc in
     ext,
     Mb.mk name body ~attrs ~loc ~docs
@@ -1489,7 +1489,7 @@ module_binding_body:
   attrs2 = post_item_attributes
   {
     let loc = make_loc $sloc in
-    let attrs = attrs1 @ attrs2 in
+    let attrs = List.append attrs1 attrs2 in
     let docs = symbol_docs $sloc in
     let text = symbol_text $symbolstartpos in
     Mb.mk name body ~attrs ~loc ~text ~docs
@@ -1509,7 +1509,7 @@ module_binding_body:
   thing = thing
   attrs2 = post_item_attributes
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = List.append attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Incl.mk thing ~attrs ~loc ~docs, ext
@@ -1525,7 +1525,7 @@ module_type_declaration:
   typ = preceded(EQUAL, module_type)?
   attrs2 = post_item_attributes
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = List.append attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Mtd.mk id ~typ:typ ~attrs ~loc ~docs, ext
@@ -1544,7 +1544,7 @@ open_declaration:
   me = module_expr
   attrs2 = post_item_attributes
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = List.append attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Opn.mk me ~override ~attrs ~loc ~docs, ext
@@ -1559,7 +1559,7 @@ open_description:
   id = mkrhs(mod_ext_longident)
   attrs2 = post_item_attributes
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = List.append attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Opn.mk id ~override ~attrs ~loc ~docs, ext
@@ -1682,7 +1682,7 @@ signature_item:
   body = module_declaration_body
   attrs2 = post_item_attributes
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = List.append attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Md.mk name body ~attrs ~loc ~docs, ext
@@ -1710,7 +1710,7 @@ module_declaration_body:
   body = module_expr_alias
   attrs2 = post_item_attributes
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = List.append attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Md.mk name body ~attrs ~loc ~docs, ext
@@ -1729,7 +1729,7 @@ module_subst:
   body = mkrhs(mod_ext_longident)
   attrs2 = post_item_attributes
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = List.append attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Ms.mk uid body ~attrs ~loc ~docs, ext
@@ -1753,7 +1753,7 @@ module_subst:
   mty = module_type
   attrs2 = post_item_attributes
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = List.append attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     ext, Md.mk name mty ~attrs ~loc ~docs
@@ -1767,7 +1767,7 @@ module_subst:
   mty = module_type
   attrs2 = post_item_attributes
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = List.append attrs1 attrs2 in
     let docs = symbol_docs $sloc in
     let loc = make_loc $sloc in
     let text = symbol_text $symbolstartpos in
@@ -1785,7 +1785,7 @@ module_type_subst:
   typ=module_type
   attrs2 = post_item_attributes
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = List.append attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Mtd.mk id ~typ:(Some typ) ~attrs ~loc ~docs, ext
@@ -1810,7 +1810,7 @@ module_type_subst:
   body = class_fun_binding
   attrs2 = post_item_attributes
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = List.append attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     ext,
@@ -1826,7 +1826,7 @@ module_type_subst:
   body = class_fun_binding
   attrs2 = post_item_attributes
   {
-    let attrs = attrs1 @ attrs2 in
+    let attrs = List.append attrs1 attrs2 in
     let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     let text = symbol_text $symbolstartpos in
@@ -1922,21 +1922,21 @@ class_field:
     self = preceded(AS, mkrhs(LIDENT))?
     post_item_attributes
       { let docs = symbol_docs $sloc in
-        mkcf ~loc:$sloc (Pcf_inherit ($2, $4, self)) ~attrs:($3@$6) ~docs }
+        mkcf ~loc:$sloc (Pcf_inherit ($2, $4, self)) ~attrs:(List.append $3 $6) ~docs }
   | VAL value post_item_attributes
       { let v, attrs = $2 in
         let docs = symbol_docs $sloc in
-        mkcf ~loc:$sloc (Pcf_val v) ~attrs:(attrs@$3) ~docs }
+        mkcf ~loc:$sloc (Pcf_val v) ~attrs:(List.append attrs $3) ~docs }
   | METHOD method_ post_item_attributes
       { let meth, attrs = $2 in
         let docs = symbol_docs $sloc in
-        mkcf ~loc:$sloc (Pcf_method meth) ~attrs:(attrs@$3) ~docs }
+        mkcf ~loc:$sloc (Pcf_method meth) ~attrs:(List.append attrs $3) ~docs }
   | CONSTRAINT attributes constrain_field post_item_attributes
       { let docs = symbol_docs $sloc in
-        mkcf ~loc:$sloc (Pcf_constraint $3) ~attrs:($2@$4) ~docs }
+        mkcf ~loc:$sloc (Pcf_constraint $3) ~attrs:(List.append $2 $4) ~docs }
   | INITIALIZER attributes seq_expr post_item_attributes
       { let docs = symbol_docs $sloc in
-        mkcf ~loc:$sloc (Pcf_initializer $3) ~attrs:($2@$4) ~docs }
+        mkcf ~loc:$sloc (Pcf_initializer $3) ~attrs:(List.append $2 $4) ~docs }
   | item_extension post_item_attributes
       { let docs = symbol_docs $sloc in
         mkcf ~loc:$sloc (Pcf_extension $1) ~attrs:$2 ~docs }
@@ -2047,18 +2047,18 @@ class_self_type:
 class_sig_field:
     INHERIT attributes class_signature post_item_attributes
       { let docs = symbol_docs $sloc in
-        mkctf ~loc:$sloc (Pctf_inherit $3) ~attrs:($2@$4) ~docs }
+        mkctf ~loc:$sloc (Pctf_inherit $3) ~attrs:(List.append $2 $4) ~docs }
   | VAL attributes value_type post_item_attributes
       { let docs = symbol_docs $sloc in
-        mkctf ~loc:$sloc (Pctf_val $3) ~attrs:($2@$4) ~docs }
+        mkctf ~loc:$sloc (Pctf_val $3) ~attrs:(List.append $2 $4) ~docs }
   | METHOD attributes private_virtual_flags mkrhs(label) COLON poly_type
     post_item_attributes
       { let (p, v) = $3 in
         let docs = symbol_docs $sloc in
-        mkctf ~loc:$sloc (Pctf_method ($4, p, v, $6)) ~attrs:($2@$7) ~docs }
+        mkctf ~loc:$sloc (Pctf_method ($4, p, v, $6)) ~attrs:(List.append $2 $7) ~docs }
   | CONSTRAINT attributes constrain_field post_item_attributes
       { let docs = symbol_docs $sloc in
-        mkctf ~loc:$sloc (Pctf_constraint $3) ~attrs:($2@$4) ~docs }
+        mkctf ~loc:$sloc (Pctf_constraint $3) ~attrs:(List.append $2 $4) ~docs }
   | item_extension post_item_attributes
       { let docs = symbol_docs $sloc in
         mkctf ~loc:$sloc (Pctf_extension $1) ~attrs:$2 ~docs }
@@ -2077,7 +2077,7 @@ class_sig_field:
   }
 ;
 %inline constrain:
-    core_type EQUAL core_type
+    core_type_no_attr EQUAL core_type_no_attr
     { $1, $3, make_loc $sloc }
 ;
 constrain_field:
@@ -2100,7 +2100,7 @@ constrain_field:
   cty = class_type
   attrs2 = post_item_attributes
     {
-      let attrs = attrs1 @ attrs2 in
+      let attrs = List.append attrs1 attrs2 in
       let loc = make_loc $sloc in
       let docs = symbol_docs $sloc in
       ext,
@@ -2117,7 +2117,7 @@ constrain_field:
   cty = class_type
   attrs2 = post_item_attributes
     {
-      let attrs = attrs1 @ attrs2 in
+      let attrs = List.append attrs1 attrs2 in
       let loc = make_loc $sloc in
       let docs = symbol_docs $sloc in
       let text = symbol_text $symbolstartpos in
@@ -2139,7 +2139,7 @@ class_type_declarations:
   csig = class_signature
   attrs2 = post_item_attributes
     {
-      let attrs = attrs1 @ attrs2 in
+      let attrs = List.append attrs1 attrs2 in
       let loc = make_loc $sloc in
       let docs = symbol_docs $sloc in
       ext,
@@ -2156,7 +2156,7 @@ class_type_declarations:
   csig = class_signature
   attrs2 = post_item_attributes
     {
-      let attrs = attrs1 @ attrs2 in
+      let attrs = List.append attrs1 attrs2 in
       let loc = make_loc $sloc in
       let docs = symbol_docs $sloc in
       let text = symbol_text $symbolstartpos in
@@ -2358,7 +2358,7 @@ simple_expr:
 ;
 %inline simple_expr_attrs:
   | BEGIN ext = ext attrs = attributes e = seq_expr END
-      { e.pexp_desc, (ext, attrs @ e.pexp_attributes) }
+      { e.pexp_desc, (ext, List.append attrs e.pexp_attributes) }
   | BEGIN ext_attributes END
       { Pexp_construct (mkloc (Lident "()") (make_loc $sloc), None), $2 }
   | BEGIN ext_attributes seq_expr error
@@ -2543,7 +2543,7 @@ let_bindings(EXT):
   body = let_binding_body
   attrs2 = post_item_attributes
     {
-      let attrs = attrs1 @ attrs2 in
+      let attrs = List.append attrs1 attrs2 in
       mklbs ext rec_flag (mklb ~loc:$sloc true body attrs)
     }
 ;
@@ -2553,7 +2553,7 @@ and_let_binding:
   body = let_binding_body
   attrs2 = post_item_attributes
     {
-      let attrs = attrs1 @ attrs2 in
+      let attrs = List.append attrs1 attrs2 in
       mklb ~loc:$sloc false body attrs
     }
 ;
@@ -2871,7 +2871,7 @@ value_description:
   COLON
   ty = core_type
   attrs2 = post_item_attributes
-    { let attrs = attrs1 @ attrs2 in
+    { let attrs = List.append attrs1 attrs2 in
       let loc = make_loc $sloc in
       let docs = symbol_docs $sloc in
       Val.mk id ty ~attrs ~loc ~docs,
@@ -2890,7 +2890,7 @@ primitive_declaration:
   EQUAL
   prim = raw_string+
   attrs2 = post_item_attributes
-    { let attrs = attrs1 @ attrs2 in
+    { let attrs = List.append attrs1 attrs2 in
       let loc = make_loc $sloc in
       let docs = symbol_docs $sloc in
       Val.mk id ty ~prim ~attrs ~loc ~docs,
@@ -2946,7 +2946,7 @@ primitive_declaration:
     {
       let (kind, priv, manifest) = kind_priv_manifest in
       let docs = symbol_docs $sloc in
-      let attrs = attrs1 @ attrs2 in
+      let attrs = List.append attrs1 attrs2 in
       let loc = make_loc $sloc in
       (flag, ext),
       Type.mk id ~params ~cstrs ~kind ~priv ~manifest ~attrs ~loc ~docs
@@ -2963,7 +2963,7 @@ primitive_declaration:
     {
       let (kind, priv, manifest) = kind_priv_manifest in
       let docs = symbol_docs $sloc in
-      let attrs = attrs1 @ attrs2 in
+      let attrs = List.append attrs1 attrs2 in
       let loc = make_loc $sloc in
       let text = symbol_text $symbolstartpos in
       Type.mk id ~params ~cstrs ~kind ~priv ~manifest ~attrs ~loc ~docs ~text
@@ -3094,7 +3094,7 @@ str_exception_declaration:
   { let loc = make_loc $sloc in
     let docs = symbol_docs $sloc in
     Te.mk_exception ~attrs
-      (Te.rebind id lid ~attrs:(attrs1 @ attrs2) ~loc ~docs)
+      (Te.rebind id lid ~attrs:(List.append attrs1 attrs2) ~loc ~docs)
     , ext }
 ;
 sig_exception_declaration:
@@ -3109,7 +3109,7 @@ sig_exception_declaration:
       let loc = make_loc ($startpos, $endpos(attrs2)) in
       let docs = symbol_docs $sloc in
       Te.mk_exception ~attrs
-        (Te.decl id ~args ~res ~attrs:(attrs1 @ attrs2) ~loc ~docs)
+        (Te.decl id ~args ~res ~attrs:(List.append attrs1 attrs2) ~loc ~docs)
       , ext }
 ;
 %inline let_exception_declaration:
@@ -3150,7 +3150,7 @@ label_declaration_semi:
           | Some _ as info_before_semi -> info_before_semi
           | None -> symbol_info $endpos
        in
-       Type.field $2 $4 ~mut:$1 ~attrs:($5 @ $7) ~loc:(make_loc $sloc) ~info }
+       Type.field $2 $4 ~mut:$1 ~attrs:(List.append $5 $7) ~loc:(make_loc $sloc) ~info }
 ;
 
 /* Type Extensions */
@@ -3175,7 +3175,7 @@ label_declaration_semi:
   cs = bar_llist(declaration)
   attrs2 = post_item_attributes
     { let docs = symbol_docs $sloc in
-      let attrs = attrs1 @ attrs2 in
+      let attrs = List.append attrs1 attrs2 in
       Te.mk tid cs ~params ~priv ~attrs ~docs,
       ext }
 ;
@@ -3485,7 +3485,7 @@ meth_list:
         | Some _ as info_before_semi -> info_before_semi
         | None -> symbol_info $endpos
       in
-      let attrs = add_info_attrs info ($4 @ $6) in
+      let attrs = add_info_attrs info (List.append $4 $6) in
       Of.tag ~loc:(make_loc $sloc) ~attrs $1 $3 }
 ;
 

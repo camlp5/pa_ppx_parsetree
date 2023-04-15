@@ -108,12 +108,12 @@ let add_docs_attrs docs attrs =
   let attrs =
     match docs.docs_pre with
     | None | Some { ds_body=""; _ } -> attrs
-    | Some ds -> docs_attr ds :: attrs
+    | Some ds -> List.append [docs_attr ds] attrs
   in
   let attrs =
     match docs.docs_post with
     | None | Some { ds_body=""; _ } -> attrs
-    | Some ds -> attrs @ [docs_attr ds]
+    | Some ds -> List.append attrs [docs_attr ds]
   in
   attrs
 
@@ -128,7 +128,7 @@ let info_attr = docs_attr
 let add_info_attrs info attrs =
   match info with
   | None | Some {ds_body=""; _} -> attrs
-  | Some ds -> attrs @ [info_attr ds]
+  | Some ds -> List.append attrs [info_attr ds]
 
 (* Docstrings not attached to a specific item *)
 
@@ -158,7 +158,7 @@ let text_attr ds =
 
 let add_text_attrs dsl attrs =
   let fdsl = List.filter (function {ds_body=""} -> false| _ ->true) dsl in
-  (List.map text_attr fdsl) @ attrs
+  List.append (List.map text_attr fdsl) attrs
 
 (* Find the first non-info docstring in a list, attach it and return it *)
 let get_docstring ~info dsl =

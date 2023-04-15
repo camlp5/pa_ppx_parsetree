@@ -57,7 +57,7 @@ module Typ = struct
      ptyp_loc_stack = [];
      ptyp_attributes = attrs}
 
-  let attr d a = {d with ptyp_attributes = d.ptyp_attributes @ [a]}
+  let attr d a = {d with ptyp_attributes = List.append d.ptyp_attributes [a]}
 
   let any ?loc ?attrs () = mk ?loc ?attrs Ptyp_any
   let var ?loc ?attrs a = mk ?loc ?attrs (Ptyp_var a)
@@ -149,7 +149,7 @@ module Pat = struct
      ppat_loc = loc;
      ppat_loc_stack = [];
      ppat_attributes = attrs}
-  let attr d a = {d with ppat_attributes = d.ppat_attributes @ [a]}
+  let attr d a = {d with ppat_attributes = List.append d.ppat_attributes [a]}
 
   let any ?loc ?attrs () = mk ?loc ?attrs Ppat_any
   let var ?loc ?attrs a = mk ?loc ?attrs (Ppat_var a)
@@ -177,7 +177,7 @@ module Exp = struct
      pexp_loc = loc;
      pexp_loc_stack = [];
      pexp_attributes = attrs}
-  let attr d a = {d with pexp_attributes = d.pexp_attributes @ [a]}
+  let attr d a = {d with pexp_attributes = List.append d.pexp_attributes [a]}
 
   let ident ?loc ?attrs a = mk ?loc ?attrs (Pexp_ident a)
   let constant ?loc ?attrs a = mk ?loc ?attrs (Pexp_constant a)
@@ -237,7 +237,7 @@ end
 module Mty = struct
   let mk ?(loc = !default_loc) ?(attrs = []) d =
     {pmty_desc = d; pmty_loc = loc; pmty_attributes = attrs}
-  let attr d a = {d with pmty_attributes = d.pmty_attributes @ [a]}
+  let attr d a = {d with pmty_attributes = List.append d.pmty_attributes [a]}
 
   let ident ?loc ?attrs a = mk ?loc ?attrs (Pmty_ident a)
   let alias ?loc ?attrs a = mk ?loc ?attrs (Pmty_alias a)
@@ -251,7 +251,7 @@ end
 module Mod = struct
 let mk ?(loc = !default_loc) ?(attrs = []) d =
   {pmod_desc = d; pmod_loc = loc; pmod_attributes = attrs}
-  let attr d a = {d with pmod_attributes = d.pmod_attributes @ [a]}
+  let attr d a = {d with pmod_attributes = List.append d.pmod_attributes [a]}
 
   let ident ?loc ?attrs x = mk ?loc ?attrs (Pmod_ident x)
   let structure ?loc ?attrs x = mk ?loc ?attrs (Pmod_structure x)
@@ -320,7 +320,7 @@ module Cl = struct
      pcl_loc = loc;
      pcl_attributes = attrs;
     }
-  let attr d a = {d with pcl_attributes = d.pcl_attributes @ [a]}
+  let attr d a = {d with pcl_attributes = List.append d.pcl_attributes [a]}
 
   let constr ?loc ?attrs a b = mk ?loc ?attrs (Pcl_constr (a, b))
   let structure ?loc ?attrs a = mk ?loc ?attrs (Pcl_structure a)
@@ -339,7 +339,7 @@ module Cty = struct
      pcty_loc = loc;
      pcty_attributes = attrs;
     }
-  let attr d a = {d with pcty_attributes = d.pcty_attributes @ [a]}
+  let attr d a = {d with pcty_attributes = List.append d.pcty_attributes [a]}
 
   let constr ?loc ?attrs a b = mk ?loc ?attrs (Pcty_constr (a, b))
   let signature ?loc ?attrs a = mk ?loc ?attrs (Pcty_signature a)
@@ -369,7 +369,7 @@ module Ctf = struct
       (fun ds -> attribute ~loc:(docstring_loc ds) (text_attr ds))
       f_txt
 
-  let attr d a = {d with pctf_attributes = d.pctf_attributes @ [a]}
+  let attr d a = {d with pctf_attributes = List.append d.pctf_attributes [a]}
 
 end
 
@@ -398,7 +398,7 @@ module Cf = struct
   let virtual_ ct = Cfk_virtual ct
   let concrete o e = Cfk_concrete (o, e)
 
-  let attr d a = {d with pcf_attributes = d.pcf_attributes @ [a]}
+  let attr d a = {d with pcf_attributes = List.append d.pcf_attributes [a]}
 
 end
 
