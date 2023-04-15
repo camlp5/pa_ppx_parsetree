@@ -1597,8 +1597,8 @@ module_expr:
       { me }
   | me = module_expr attr = attribute
       { Mod.attr me attr }
-  | me = module_expr ANTI_ALGATTRS
-      { Mod.attrs me (vaant $2) }
+/*-*/  | me = module_expr ANTI_ALGATTRS
+/*-*/      { Mod.attrs me (vaant $2) }
   | mkmod(
       (* A module identifier. *)
       x = mkrhs(mod_longident_vala)
@@ -1737,7 +1737,7 @@ structure_item:
         { let (ext, l) = $1 in (Pstr_class_type l, ext) }
     | include_statement(module_expr)
         { pstr_include $1 }
-    | ANTI_EXPR { Pstr_eval (vaant $1, vaval []), None }
+/*-*/    | ANTI_EXPR { Pstr_eval (vaant $1, vaval []), None }
     )
     { $1 }
 ;
@@ -1932,8 +1932,8 @@ module_type:
       { unclosed "(" $loc($1) ")" $loc($3) }
   | module_type attribute
       { Mty.attr $1 $2 }
-  | module_type ANTI_ALGATTRS
-      { Mty.attrs $1 (vaant $2) }
+/*-*/  | module_type ANTI_ALGATTRS
+/*-*/      { Mty.attrs $1 (vaant $2) }
   | mkmty(
       mkrhs(mty_longident)
         { Pmty_ident $1 }
@@ -2229,8 +2229,8 @@ class_expr:
         mkclass ~loc:$sloc ~attrs:$4 (Pcl_open(od, $7)) }
   | class_expr attribute
       { Cl.attr $1 $2 }
-  | class_expr ANTI_ALGATTRS
-      { Cl.attrs $1 (vaant $2) }
+/*-*/  | class_expr ANTI_ALGATTRS
+/*-*/      { Cl.attrs $1 (vaant $2) }
   | mkclass(
       class_simple_expr vala(nonempty_llist(labeled_simple_expr), ANTI_LIST)
         { Pcl_apply($1, Pcaml.vala_map (List.map (fun (a,b) -> (a, b))) $2) }
@@ -2388,8 +2388,8 @@ class_signature:
       { unclosed "object" $loc($1) "end" $loc($4) }
   | class_signature attribute
       { Cty.attr $1 $2 }
-  | class_signature ANTI_ALGATTRS
-      { Cty.attrs $1 (vaant $2) }
+/*-*/  | class_signature ANTI_ALGATTRS
+/*-*/      { Cty.attrs $1 (vaant $2) }
   | LET OPEN override_flag_vala attributes_vala mkrhs(mod_longident_vala) IN class_signature
       { let loc = ($startpos($2), $endpos($5)) in
         let od = Opn.mk ~override:$3 ~loc:(make_loc loc) $5 in
@@ -2689,8 +2689,8 @@ expr:
     { mk_indexop_expr user_indexing_operators ~loc:$sloc $1 }
   | expr attribute
       { Exp.attr $1 $2 }
-  | expr ANTI_ALGATTRS
-      { Exp.attrs $1 (vaant $2) }
+/*-*/  | expr ANTI_ALGATTRS
+/*-*/      { Exp.attrs $1 (vaant $2) }
 /* BEGIN AVOID */
   | UNDERSCORE
      { not_expecting $loc($1) "wildcard \"_\"" }
@@ -3157,8 +3157,8 @@ pattern_no_exn:
       { mkpat_cons ~loc:$sloc $loc($2) (ghpat ~loc:$sloc (Ppat_tuple (vaval [$1;$3]))) }
   | self attribute
       { Pat.attr $1 $2 }
-  | self ANTI_ALGATTRS
-      { Pat.attrs $1 (vaant $2) }
+/*-*/  | self ANTI_ALGATTRS
+/*-*/      { Pat.attrs $1 (vaant $2) }
   | pattern_gen
       { $1 }
   | mkpat(
@@ -3778,8 +3778,8 @@ possibly_poly(X):
 core_type:
     core_type_no_attr
       { $1 }
-  | core_type_no_attr ANTI_ALGATTRS
-      { Typ.attrs $1 (vaant $2) }
+/*-*/  | core_type_no_attr ANTI_ALGATTRS
+/*-*/      { Typ.attrs $1 (vaant $2) }
   | core_type attribute
       { Typ.attr $1 $2 }
 ;

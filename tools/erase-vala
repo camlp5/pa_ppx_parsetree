@@ -103,6 +103,8 @@ our %valamap = (
   $txt =~ s,string_vala_loc,string_loc,gs ;
   $txt =~ s,string_vala_x_expression,string_x_expression,gs ;
   $txt =~ s,override_vala,override,gs ;
+  $txt =~ s,attributes_vala,attributes,gs ;
+  $txt =~ s,post_item_attributes_vala,post_item_attributes,gs ;
 
   $txt =~ s,vaval,,gs ;
   print $txt ;

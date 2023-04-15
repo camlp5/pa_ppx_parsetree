@@ -173,7 +173,7 @@ module Pat = struct
      ppat_loc_stack = [];
      ppat_attributes = attrs}
   let attr d a = {d with ppat_attributes = append_list_vala d.ppat_attributes (vaval [a])}
-  let attrs d al = {d with ppat_attributes = append_list_vala d.ppat_attributes al}
+(*-*)  let attrs d al = {d with ppat_attributes = append_list_vala d.ppat_attributes al}
 
   let any ?loc ?attrs () = mk ?loc ?attrs Ppat_any
   let var ?loc ?attrs a = mk ?loc ?attrs (Ppat_var a)
@@ -202,7 +202,7 @@ module Exp = struct
      pexp_loc_stack = [];
      pexp_attributes = attrs}
   let attr d a = {d with pexp_attributes = append_list_vala d.pexp_attributes (vaval [a])}
-  let attrs d al = {d with pexp_attributes = append_list_vala d.pexp_attributes al}
+(*-*)  let attrs d al = {d with pexp_attributes = append_list_vala d.pexp_attributes al}
 
   let ident ?loc ?attrs a = mk ?loc ?attrs (Pexp_ident a)
   let constant ?loc ?attrs a = mk ?loc ?attrs (Pexp_constant a)
@@ -263,7 +263,7 @@ module Mty = struct
   let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) d =
     {pmty_desc = d; pmty_loc = loc; pmty_attributes = attrs}
   let attr d a = {d with pmty_attributes = append_list_vala d.pmty_attributes (vaval [a])}
-  let attrs d al = {d with pmty_attributes = append_list_vala d.pmty_attributes al}
+(*-*)  let attrs d al = {d with pmty_attributes = append_list_vala d.pmty_attributes al}
 
   let ident ?loc ?attrs a = mk ?loc ?attrs (Pmty_ident a)
   let alias ?loc ?attrs a = mk ?loc ?attrs (Pmty_alias a)
@@ -278,7 +278,7 @@ module Mod = struct
 let mk ?(loc = !default_loc) ?(attrs = Ploc.VaVal []) d =
   {pmod_desc = d; pmod_loc = loc; pmod_attributes = attrs}
   let attr d a = {d with pmod_attributes = append_list_vala d.pmod_attributes (vaval [a])}
-  let attrs d al = {d with pmod_attributes = append_list_vala d.pmod_attributes al}
+(*-*)  let attrs d al = {d with pmod_attributes = append_list_vala d.pmod_attributes al}
 
   let ident ?loc ?attrs x = mk ?loc ?attrs (Pmod_ident x)
   let structure ?loc ?attrs x = mk ?loc ?attrs (Pmod_structure x)
@@ -349,7 +349,7 @@ module Cl = struct
      pcl_attributes = attrs;
     }
   let attr d a = {d with pcl_attributes = append_list_vala d.pcl_attributes (vaval [a])}
-  let attrs d al = {d with pcl_attributes = append_list_vala d.pcl_attributes al}
+(*-*)  let attrs d al = {d with pcl_attributes = append_list_vala d.pcl_attributes al}
 
   let constr ?loc ?attrs a b = mk ?loc ?attrs (Pcl_constr (a, b))
   let structure ?loc ?attrs a = mk ?loc ?attrs (Pcl_structure a)
@@ -369,7 +369,7 @@ module Cty = struct
      pcty_attributes = attrs;
     }
   let attr d a = {d with pcty_attributes = append_list_vala d.pcty_attributes (vaval [a])}
-  let attrs d al = {d with pcty_attributes = append_list_vala d.pcty_attributes al}
+(*-*)  let attrs d al = {d with pcty_attributes = append_list_vala d.pcty_attributes al}
 
   let constr ?loc ?attrs a b = mk ?loc ?attrs (Pcty_constr (a, b))
   let signature ?loc ?attrs a = mk ?loc ?attrs (Pcty_signature a)
