@@ -15,6 +15,14 @@
 
 open Location
 
+(*-*)let vaval x = Ploc.VaVal x
+(*-*)let append_list_vala a1 a2 =
+(*-*)  match (a1, a2) with
+(*-*)    (Ploc.VaVal l1, Ploc.VaVal l2) -> Ploc.VaVal(l1@l2)
+(*-*)  | (Ploc.VaVal [], a) -> a
+(*-*)  | (a, Ploc.VaVal []) -> a
+(*-*)  | _ -> assert false
+
 (* Docstrings *)
 
 (* A docstring is "attached" if it has been inserted in the AST. This
@@ -95,10 +103,10 @@ let docs_attr ds =
     { pexp_desc = Pexp_constant (Ploc.VaVal (Pconst_string(Ploc.VaVal body, loc, None)));
       pexp_loc = loc;
       pexp_loc_stack = [];
-      pexp_attributes = []; }
+      pexp_attributes = Ploc.VaVal []; }
   in
   let item =
-    { pstr_desc = Pstr_eval (Ploc.VaVal exp, []); pstr_loc = loc }
+    { pstr_desc = Pstr_eval (Ploc.VaVal exp, Ploc.VaVal []); pstr_loc = loc }
   in
   { attr_name = doc_loc;
     attr_payload = PStr (Ploc.VaVal [item]);
@@ -108,12 +116,12 @@ let add_docs_attrs docs attrs =
   let attrs =
     match docs.docs_pre with
     | None | Some { ds_body=""; _ } -> attrs
-    | Some ds -> docs_attr ds :: attrs
+    | Some ds -> append_list_vala (vaval [docs_attr ds]) attrs
   in
   let attrs =
     match docs.docs_post with
     | None | Some { ds_body=""; _ } -> attrs
-    | Some ds -> attrs @ [docs_attr ds]
+    | Some ds -> append_list_vala attrs (vaval [docs_attr ds])
   in
   attrs
 
@@ -128,7 +136,7 @@ let info_attr = docs_attr
 let add_info_attrs info attrs =
   match info with
   | None | Some {ds_body=""; _} -> attrs
-  | Some ds -> attrs @ [info_attr ds]
+  | Some ds -> append_list_vala attrs (vaval [info_attr ds])
 
 (* Docstrings not attached to a specific item *)
 
@@ -147,10 +155,10 @@ let text_attr ds =
     { pexp_desc = Pexp_constant (Ploc.VaVal (Pconst_string(Ploc.VaVal body, loc, None)));
       pexp_loc = loc;
       pexp_loc_stack = [];
-      pexp_attributes = []; }
+      pexp_attributes = Ploc.VaVal []; }
   in
   let item =
-    { pstr_desc = Pstr_eval (Ploc.VaVal exp, []); pstr_loc = loc }
+    { pstr_desc = Pstr_eval (Ploc.VaVal exp, Ploc.VaVal []); pstr_loc = loc }
   in
   { attr_name = text_loc;
     attr_payload = PStr (Ploc.VaVal [item]);
@@ -158,7 +166,7 @@ let text_attr ds =
 
 let add_text_attrs dsl attrs =
   let fdsl = List.filter (function {ds_body=""} -> false| _ ->true) dsl in
-  (List.map text_attr fdsl) @ attrs
+  append_list_vala (vaval (List.map text_attr fdsl)) attrs
 
 (* Find the first non-info docstring in a list, attach it and return it *)
 let get_docstring ~info dsl =

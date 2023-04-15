@@ -67,7 +67,7 @@ and extension = string Ploc.vala loc * payload
          Sub-language placeholder -- rejected by the typechecker.
       *)
 
-and attributes = attribute list
+and attributes = attribute list Ploc.vala
 
 and payload =
   | PStr of structure

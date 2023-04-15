@@ -101,7 +101,7 @@
 <:pattern< $string:s1$ >>;
 <:pattern< $string:s1$ $delim:s2$ $algattrs:attrs$ >>;
 <:pattern< $string:s1$ $delim:s2$ >>;
-#if OCAML_VERSION >= (4,12,0)
+#if OCAML_VERSION >= (4,11,0)
 {Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 __loc__ os2); Parsetree.ppat_loc = __loc__; Parsetree.ppat_loc_stack = []; Parsetree.ppat_attributes = attrs};
 {Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 __loc__ os2); Parsetree.ppat_loc = __loc__; Parsetree.ppat_loc_stack = []; Parsetree.ppat_attributes = []};
 #else
@@ -191,7 +191,7 @@
 <:expression< $string:s1$ >>;
 <:expression< $string:s1$ $delim:s2$ $algattrs:attrs$ >>;
 <:expression< $string:s1$ $delim:s2$ >>;
-#if OCAML_VERSION >= (4,12,0)
+#if OCAML_VERSION >= (4,11,0)
 {Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 __loc__ os2); Parsetree.pexp_loc = __loc__; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = attrs};
 {Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 __loc__ os2); Parsetree.pexp_loc = __loc__; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
 #else
@@ -1047,7 +1047,7 @@
 <:constant< $char:x$ >>;
 <:constant< $string:s1$ >>;
 <:constant< $string:s1$ $delim:s2$ >>;
-#if OCAML_VERSION >= (4,12,0)
+#if OCAML_VERSION >= (4,11,0)
 Parsetree.Pconst_string s1 __loc__ os2;
 #else
 Parsetree.Pconst_string s1 os2;
