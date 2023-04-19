@@ -171,7 +171,9 @@ pprintast.cmi : \
     longident.cmi
 parse.cmi : \
     parsetree.cmi \
-    longident.cmi
+    longident.cmi \
+    asttypes.cmi \
+    ast_helper.cmi
 printast.cmi : \
     parsetree.cmi
 mk_meta.cmo :

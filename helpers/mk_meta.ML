@@ -13,21 +13,21 @@ Arg.(parse [
 ;;
 
 Fmt.(pf stdout {|
-# Specifications for the "pa_ppx_parsetree_official_parsetree" preprocessor:
+# Specifications for the "pa_ppx_parsetree_helpers" preprocessor:
 requires = ""
 version = "%s"
-description = "pa_ppx_parsetree_official_parsetree: OCaml AST for officials"
+description = "pa_ppx_parsetree_helpers: OCaml AST for officials"
 
-archive(byte) = "pa_ppx_parsetree_official_parsetree.cma"
-archive(native) = "pa_ppx_parsetree_official_parsetree.cmxa"
+archive(byte) = "pa_ppx_parsetree_helpers.cma"
+archive(native) = "pa_ppx_parsetree_helpers.cmxa"
 
 
 # For the toploop:
-archive(byte,toploop) = "pa_ppx_parsetree_official_parsetree.cma"
+archive(byte,toploop) = "pa_ppx_parsetree_helpers.cma"
 
   # For the preprocessor itself:
   requires(syntax,preprocessor) = "camlp5,fmt,pa_ppx.base"
-  archive(syntax,preprocessor,-native) = "pa_ppx_parsetree_official_parsetree.cma"
-  archive(syntax,preprocessor,native) = "pa_ppx_parsetree_official_parsetree.cmxa"
+  archive(syntax,preprocessor,-native) = "pa_ppx_parsetree_helpers.cma"
+  archive(syntax,preprocessor,native) = "pa_ppx_parsetree_helpers.cmxa"
 
 |} version)

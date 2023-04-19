@@ -1,5 +1,5 @@
-via_camlp5_test.cmo via_parsetree_test.cmo via_camlp5_test.cmi via_parsetree_test.cmi via_camlp5_test.cmx via_parsetree_test.cmx: ../local-install/lib/pa_ppx_parsetree_official_parsetree/META
-via_camlp5_test.cmo :
-via_camlp5_test.cmx :
+via_parsetree_test.cmo test_show.cmo via_parsetree_test.cmi test_show.cmi via_parsetree_test.cmx test_show.cmx: ../local-install/lib/pa_ppx_parsetree_helpers/META
 via_parsetree_test.cmo :
 via_parsetree_test.cmx :
+test_show.cmo :
+test_show.cmx :

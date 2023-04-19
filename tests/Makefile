@@ -2,25 +2,21 @@ WD=$(shell pwd)
 TOP=..
 include $(TOP)/config/Makefile.sub
 
-PACKAGES := $(PACKAGES),ounit2,pa_ppx.utils,pa_ppx_parsetree_official_parsetree
+PACKAGES := $(PACKAGES),ounit2,pa_ppx.utils,pa_ppx_parsetree_helpers
 
 ML= \
-	via_camlp5_test.ml via_parsetree_test.ml test_show.ml
+	via_parsetree_test.ml test_show.ml
 
 ALLSRC=$(ML)
 ALLPACKAGES=$(PACKAGES)
 
-TESTS=via_camlp5_test.exe via_parsetree_test.exe test_show.exe
+TESTS=via_parsetree_test.exe test_show.exe
 
 all: $(TESTS)
 
 test:: all test1.TEST
-	mkdir -p _build && ./via_camlp5_test.exe
 	mkdir -p _build && ./via_parsetree_test.exe
 	mkdir -p _build && ./test_show.exe
-
-via_camlp5_test.exe: via_camlp5_test.cmo
-	$(LAUNCH) $(OCAMLFIND) ocamlc -linkall -linkpkg $(OCAMLCFLAGS) -package $(PACKAGES) -linkpkg -linkall -o $@ $<
 
 via_parsetree_test.exe: via_parsetree_test.cmo
 	$(LAUNCH) $(OCAMLFIND) ocamlc -linkall -linkpkg $(OCAMLCFLAGS) -package $(PACKAGES) -linkpkg -linkall -o $@ $<

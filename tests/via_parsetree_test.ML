@@ -64,7 +64,7 @@ let parse_longident s = s |> Lexing.from_string |> Parse.longident
 let parse_longident = Longident.parse
 #endif
 
-  include Pa_ppx_parsetree_official_parsetree.Derive_parsetree
+  include Pa_ppx_parsetree_helpers.Std_derivers
 end
 
 module SV = struct
@@ -155,7 +155,7 @@ module EX = struct
 open Fixtures
 
 let test_equality ctxt =
-  assert_equal ~cmp:Helpers.Parsetree.equal_expression ({| x |} |>  Lexing.from_string |> Parse.expression) [%expression {| $lid:l$ |}]
+  assert_equal ~cmp:Helpers.equal_expression ({| x |} |>  Lexing.from_string |> Parse.expression) [%expression {| $lid:l$ |}]
   ; assert_bool "builtin equality should fail here (b/c locations)"
       (not (({| x |} |>  Lexing.from_string |> Parse.expression) = [%expression {| $lid:l$ |}]))
 
@@ -190,7 +190,7 @@ let test1 ctxt =
 
 ; assert_equal (e1,cases) (match [%expression {| match $e1$ with $list:cases$ |}] with
                               [%expression {| match $e'$ with $list:cases'$ |}] -> (e',cases'))
-; assert_equal ~cmp:[%eq: Helpers.Parsetree.expression list]
+; assert_equal ~cmp:[%eq: Helpers.expression list]
     [e1;e2] (match ({| (a*b, a/b) |} |> Lexing.from_string |> Parse.expression) with
                           [%expression {| $tuplelist:l2$ |}] ->  l2)
 
@@ -200,7 +200,7 @@ let e2 =  {| { x = 1 } |} |> Lexing.from_string |> Parse.expression
 
 let test2 ctxt =
   assert_bool "builtin equality fails on expressions" (not (e1 = e2))
-  ; assert_equal ~cmp:Helpers.Parsetree.equal_expression e1 e2
+  ; assert_equal ~cmp:Helpers.equal_expression e1 e2
 
 let test3 ctxt =
   assert_equal ("x", [%expression {| 1 |}])
@@ -212,7 +212,7 @@ let test3 ctxt =
   ; assert_equal None
       (match e1 with
          [%expression {| { $withe:e$ $list:_$ } |}] -> e)
-  ; assert_equal ~cmp:Helpers.Parsetree.equal_expression
+  ; assert_equal ~cmp:Helpers.equal_expression
       ({| { e with y = 2 } |} |> Lexing.from_string |> Parse.expression)
       (let e = Some [%expression {| e |}] in
        [%expression {| { $withe:e$ y = 2 } |}])
