@@ -1,4 +1,4 @@
-(**pp -package pa_ppx.deriving_plugins.std,pa_ppx_parsetree_via_parsetree,pa_ppx_quotation2extension -syntax camlp5o *)
+(**pp -package pa_ppx.deriving_plugins.std,pa_ppx_parsetree_quotations,pa_ppx_quotation2extension -syntax camlp5o *)
 
 open Asttypes
 open Parsetree

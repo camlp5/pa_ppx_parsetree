@@ -1,4 +1,4 @@
-(**pp -package pa_ppx.deriving_plugins.std,pa_ppx_parsetree_via_parsetree,pa_ppx_quotation2extension -syntax camlp5o *)
+(**pp -package pa_ppx.deriving_plugins.std,pa_ppx_parsetree_quotations,pa_ppx_quotation2extension -syntax camlp5o *)
 
 open OUnit2
 
@@ -699,7 +699,7 @@ module STRI = struct
 
 end
 
-let suite = "Test pa_ppx_parsetree_via_parsetree" >::: [
+let suite = "Test pa_ppx_parsetree_quotations" >::: [
       "str_vala"   >:: SV.test
     ; "longident"   >:: LI.test
     ; "extended_module_path"   >:: XM.test

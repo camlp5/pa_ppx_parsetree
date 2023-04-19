@@ -7,7 +7,7 @@ include $(TOP)/config/Makefile.top
 WD=$(shell pwd)
 DESTDIR=
 
-SYSDIRS= pattern_parsetree.$(ocamlVERSION) helpers runtime via_parsetree
+SYSDIRS= pattern_parsetree.$(ocamlVERSION) helpers runtime quotations
 OTHERCLEANDIRS=\
 	adjusted-parsing.4.10.2 adjusted-parsing.4.11.2 adjusted-parsing.4.12.1 adjusted-parsing.4.13.1 adjusted-parsing.4.14.0 adjusted-parsing.5.0.0 \
 	pattern_parsetree.4.10.2 pattern_parsetree.4.11.2 pattern_parsetree.4.12.1 pattern_parsetree.4.13.1 pattern_parsetree.4.14.0 pattern_parsetree.5.0.0 \
@@ -31,8 +31,8 @@ META: sys
 		-wrap-subdir pattern_parsetree:pattern_parsetree \
 		-rewrite pa_ppx_parsetree_official_paretree:pa_ppx_parsetree.helpers \
 		-wrap-subdir helpers:helpers \
-		-rewrite pa_ppx_parsetree_via_parsetree:pa_ppx_parsetree.via_parsetree \
-		-wrap-subdir via_parsetree:via_parsetree \
+		-rewrite pa_ppx_parsetree_quotations:pa_ppx_parsetree.quotations \
+		-wrap-subdir quotations:quotations \
 		> META
 
 install: META

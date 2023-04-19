@@ -8,7 +8,7 @@ include $(TOP)/config/Makefile.sub
 DESTDIR=
 
 PACKAGES := fmt,camlp5,pa_ppx_parsetree_pattern_parsetree
-TARGET_PACKAGE = pa_ppx_parsetree_via_parsetree
+TARGET_PACKAGE = pa_ppx_parsetree_quotations
 TARGET=$(TARGET_PACKAGE).cma
 
 ML = reorg_parsetree.ml q_parsetree.ml
@@ -17,7 +17,7 @@ TOOLSML = mk_meta.ml
 ALLSRC=$(ML) $(MLI) $(TOOLSML)
 ALLPACKAGES=$(PACKAGES)
 
-OCAMLCFLAGS := $(OCAMLCFLAGS) -linkall -for-pack Pa_ppx_parsetree_via_parsetree
+OCAMLCFLAGS := $(OCAMLCFLAGS) -linkall -for-pack Pa_ppx_parsetree_quotations
 
 export MIGRATE_OCAMLCFLAGS= \
 	-ppopt -pa_passthru-debug \

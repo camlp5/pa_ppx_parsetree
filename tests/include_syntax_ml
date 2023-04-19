@@ -39,10 +39,10 @@ let f = function
 |} |> PAPR.Implem.pa1 |> PAPR.Implem.pr |> print_string ;;
  *)
 
-#require "pa_ppx_parsetree_via_parsetree";;
+#require "pa_ppx_parsetree_quotations";;
 #require "pa_ppx_quotation2extension";;
 #require "pa_ppx.import" ;;
-Pa_ppx_import.add_package "pa_ppx_parsetree_via_parsetree";;
+Pa_ppx_import.add_package "pa_ppx_parsetree_quotations";;
 
 #require "pa_ppx_parsetree_official_parsetree" ;;
 #require "pa_ppx_q_ast.quotation_test" ;;
@@ -54,12 +54,12 @@ Pa_ppx_import.add_package "pa_ppx_parsetree_via_parsetree";;
 #trace Pa_ppx_quotation_test.process_add_dels ;;
  *)
 
-open Pa_ppx_parsetree_via_parsetree ;;
+open Pa_ppx_parsetree_quotations ;;
 open Pa_ppx_parsetree_pattern_parsetree ;;
 open Pa_ppx_parsetree_pattern_parsetree.Parsetree ;;
 open Pa_ppx_parsetree_pattern_parsetree.Asttypes ;;
 open Pa_ppx_parsetree_pattern_parsetree.Longident ;;
-open Pa_ppx_parsetree_via_parsetree.Q_parsetree.Regular ;;
+open Pa_ppx_parsetree_quotations.Q_parsetree.Regular ;;
 (*
 #trace parse_expression ;;
 #trace E.location_stack ;;

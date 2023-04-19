@@ -5,20 +5,20 @@ include $(TOP)/config/Makefile.sub
 PACKAGES := $(PACKAGES),ounit2,pa_ppx.utils,pa_ppx_parsetree_helpers
 
 ML= \
-	via_parsetree_test.ml test_show.ml
+	quotations_test.ml test_show.ml
 
 ALLSRC=$(ML)
 ALLPACKAGES=$(PACKAGES)
 
-TESTS=via_parsetree_test.exe test_show.exe
+TESTS=quotations_test.exe test_show.exe
 
 all: $(TESTS)
 
 test:: all test1.TEST
-	mkdir -p _build && ./via_parsetree_test.exe
+	mkdir -p _build && ./quotations_test.exe
 	mkdir -p _build && ./test_show.exe
 
-via_parsetree_test.exe: via_parsetree_test.cmo
+quotations_test.exe: quotations_test.cmo
 	$(LAUNCH) $(OCAMLFIND) ocamlc -linkall -linkpkg $(OCAMLCFLAGS) -package $(PACKAGES) -linkpkg -linkall -o $@ $<
 
 test_show.exe: test_show.cmo
@@ -26,7 +26,7 @@ test_show.exe: test_show.cmo
 
 export IMPORT_OCAMLCFLAGS := \
 	-ppopt -pa_passthru-debug \
-	-ppopt -pa_import-package -ppopt camlp5,pa_ppx_parsetree_via_parsetree \
+	-ppopt -pa_import-package -ppopt camlp5,pa_ppx_parsetree_quotations \
 	-ppopt -pa_import-I -ppopt . \
 
 RPPFLAGS=-ppopt -l -ppopt 400 -ppopt -flag -ppopt D -ppopt -sep -ppopt '\n'
@@ -49,9 +49,9 @@ QUOTPACKAGES=pa_ppx_q_ast.quotation_test,pa_ppx_q_ast.test_cleanup
 test1_patterns.ml: test1_patterns.ML
 	cppo -V OCAML:$(ocamlVERSION) $< > $@
 
-via_parsetree_test.ml: via_parsetree_test.ML
+quotations_test.ml: quotations_test.ML
 	cppo -V OCAML:$(ocamlVERSION) $< > $@
 
 clean::
-	rm -rf *.cm* _build *.exe *_out test1_patterns.ml via_parsetree_test.ml
+	rm -rf *.cm* _build *.exe *_out test1_patterns.ml quotations_test.ml
 

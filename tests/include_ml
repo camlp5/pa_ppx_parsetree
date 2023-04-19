@@ -47,7 +47,7 @@ let pp_patt ty = Fmt.(pf stdout "#<patt< %s >>" (Eprinter.apply Pcaml.pr_patt Pp
 #require "camlp5.parser_quotations";;
 #require "pa_ppx.import" ;;
 Pa_ppx_import.add_include "." ;;
-Pa_ppx_import.add_package "camlp5,pa_ppx_parsetree_via_parsetree" ;;
+Pa_ppx_import.add_package "camlp5,pa_ppx_parsetree_quotations" ;;
 Pr_r.set_flags "D" ;;
 Pretty.line_length := 400 ;;
 #require "pa_ppx_q_ast.quotation_test";;
