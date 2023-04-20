@@ -632,13 +632,13 @@ let test ctxt =
   ; assert_equal (t1,t2) (match [%core_type {| $t1$ * $t2$ |}] with
                             [%core_type {| $t1'$ * $t2'$ |}] -> (t1', t2'))
 
-  ; assert_equal [%core_type {| 1 |}]
-    (match [%core_type {| 1 |}] with
+  ; assert_equal [%core_type {| int |}]
+    (match [%core_type {| int |}] with
        [%core_type {| $e$ |}] -> e)
-  ; assert_equal [] (match [%core_type {| 1 |}] with
+  ; assert_equal [] (match [%core_type {| int |}] with
                        [%core_type {| $_$ $algattrs:l$ |}] -> l)
   ; assert_equal Location.none
-      (match [%core_type {| 1 |}] with
+      (match [%core_type {| int |}] with
          [%core_type.loc {| $_$ |}] -> loc)
 
 end
