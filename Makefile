@@ -28,7 +28,7 @@ mdx-test:: README.asciidoc.TEST
 META: sys
 	$(JOINMETA) \
 		-rewrite pa_ppx_parsetree_pattern_paretree:pa_ppx_parsetree.pattern_parsetree \
-		-wrap-subdir pattern_parsetree:pattern_parsetree \
+		-wrap-subdir pattern_parsetree:pattern_parsetree.$(ocamlVERSION) \
 		-rewrite pa_ppx_parsetree_official_paretree:pa_ppx_parsetree.helpers \
 		-wrap-subdir helpers:helpers \
 		-rewrite pa_ppx_parsetree_quotations:pa_ppx_parsetree.quotations \
