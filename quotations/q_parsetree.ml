@@ -64,6 +64,9 @@ let parse_extension_constructor s =
 let parse_extended_module_path s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.extended_module_path s
 
+let parse_longlident s =
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.longlident s
+
 let parse_structure_item s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.structure_item s
 
@@ -283,6 +286,7 @@ let parse_class_type_field s =
     ; {name = "constant"; from_string = parse_constant ; type_name = constant }
     ; {name = "core_type"; from_string = parse_core_type ; type_name = core_type }
     ; {name = "longident_t"; from_string = parse_longident ; type_name = longident_t }
+    ; {name = "longlident"; from_string = parse_longlident ; type_name = longident_t }
     ; {name = "extended_module_path"; from_string = parse_extended_module_path ; type_name = longident_t }
     ; {name = "structure_item"; from_string = parse_structure_item ; type_name = structure_item }
     ; {name = "structure"; from_string = parse_structure ; type_name = structure }

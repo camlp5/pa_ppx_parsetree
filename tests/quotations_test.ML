@@ -18,6 +18,8 @@ let n = "N"
 let li1 = [%longident_t {| $uid:m$ |}] 
 let li2 = [%longident_t {| B.C |}] 
 
+let lili1 = [%longlident {| M.x |}]
+
 let e0 = [%expression {| $lid:l$ |}]
 let e1 = [%expression {| a * b |}]
 let e2 = [%expression {| a / b |}]
@@ -605,6 +607,8 @@ let test ctxt =
                       [%core_type {| $lid:s'$ |}] -> s')
   ; assert_equal (li1, l) (match  [%core_type {| $longid:li1$ . $lid:l$ |}] with
                       [%core_type {| $longid:li1'$ . $lid:s'$ |}] -> (li1', s'))
+  ; assert_equal lili1 (match  [%core_type {| $longid:li1$ . $lid:l$ |}] with
+                      [%core_type {| $longlid:li1'$ |}] -> li1')
 
   ; assert_equal (t1,t2) (match [%core_type {| $t1$ * $t2$ |}] with
                             [%core_type {| $t1'$ * $t2'$ |}] -> (t1', t2'))

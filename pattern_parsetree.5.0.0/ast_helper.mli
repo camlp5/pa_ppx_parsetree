@@ -88,7 +88,7 @@ module Typ :
     val arrow: ?loc:loc -> ?attrs:attrs -> arg_label Ploc.vala -> core_type -> core_type
                -> core_type
     val tuple: ?loc:loc -> ?attrs:attrs -> core_type list Ploc.vala -> core_type
-    val constr: ?loc:loc -> ?attrs:attrs -> lid -> core_type list Ploc.vala -> core_type
+    val constr: ?loc:loc -> ?attrs:attrs -> lid_vala -> core_type list Ploc.vala -> core_type
     val object_: ?loc:loc -> ?attrs:attrs -> object_field list Ploc.vala
                    -> closed_flag Ploc.vala -> core_type
     val class_: ?loc:loc -> ?attrs:attrs -> lid -> core_type list Ploc.vala -> core_type
@@ -133,7 +133,7 @@ module Pat:
     val array: ?loc:loc -> ?attrs:attrs -> pattern list Ploc.vala -> pattern
     val or_: ?loc:loc -> ?attrs:attrs -> pattern -> pattern -> pattern
     val constraint_: ?loc:loc -> ?attrs:attrs -> pattern -> core_type -> pattern
-    val type_: ?loc:loc -> ?attrs:attrs -> lid -> pattern
+    val type_: ?loc:loc -> ?attrs:attrs -> lid_vala -> pattern
     val lazy_: ?loc:loc -> ?attrs:attrs -> pattern -> pattern
     val unpack: ?loc:loc -> ?attrs:attrs -> str_vala_opt_vala -> pattern
     val open_: ?loc:loc -> ?attrs:attrs  -> lid_vala -> pattern -> pattern
@@ -240,7 +240,7 @@ module Te:
   sig
     val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs ->
       ?params:(core_type * (variance * injectivity)) list Ploc.vala ->
-      ?priv:private_flag Ploc.vala -> lid -> extension_constructor list Ploc.vala -> type_extension
+      ?priv:private_flag Ploc.vala -> lid_vala -> extension_constructor list Ploc.vala -> type_extension
 
     val mk_exception: ?loc:loc -> ?attrs:attrs -> ?docs:docs ->
       extension_constructor -> type_exception

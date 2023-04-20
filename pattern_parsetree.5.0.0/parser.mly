@@ -784,6 +784,7 @@ let mk_directive ~loc name arg =
 /*-*/%token <string> ANTI_LID
 /*-*/%token <string> ANTI_UID
 /*-*/%token <string> ANTI_LONGID
+/*-*/%token <string> ANTI_LONGLID
 /*-*/%token <string> ANTI_TYP
 /*-*/%token <string> ANTI_PRIV
 /*-*/%token <string> ANTI_ALGATTRS
@@ -925,6 +926,8 @@ The precedences must be listed from low to high.
 %type <Longident.t> parse_mod_ext_longident
 %start parse_mod_longident
 %type <Longident.t> parse_mod_longident
+%start parse_longlident
+%type <Longident.t> parse_longlident
 %start parse_any_longident
 %type <Longident.t> parse_any_longident
 /*-*/%start parse_value_binding
@@ -1388,6 +1391,10 @@ parse_any_longident:
   any_longident EOF
     { $1 }
 ;
+/*-*/parse_longlident:
+/*-*/  type_longident EOF
+/*-*/    { $1 }
+/*-*/;
 /*-*/
 /*-*/parse_structure_item:
 /*-*/  structure_item EOF
@@ -3232,7 +3239,7 @@ simple_pattern_not_ident:
       { Ppat_construct($1, vaval None) }
   | name_tag_vala
       { Ppat_variant($1, vaval None) }
-  | HASH mkrhs(type_longident)
+  | HASH mkrhs(vala(type_longident, ANTI_LONGLID))
       { Ppat_type ($2) }
   | mkrhs(mod_longident_vala) DOT simple_delimited_pattern
       { Ppat_open($1, $3) }
@@ -3657,7 +3664,7 @@ label_declaration_semi:
   attrs1 = vaval(attributes)
   no_nonrec_flag
   params = vala(type_parameters, ANTI_LIST)
-  tid = mkrhs(type_longident)
+  tid = mkrhs(vala(type_longident, ANTI_LONGLID))
   PLUSEQ
   priv = private_flag_vala
   cs = vala(bar_llist(declaration), ANTI_LIST)
@@ -3874,10 +3881,10 @@ atomic_type:
     | UNDERSCORE
         { Ptyp_any }
     | tys = actual_type_parameters
-      tid = mkrhs(type_longident)
+      tid = mkrhs(vala(type_longident, ANTI_LONGLID))
         { Ptyp_constr(tid, vaval tys) }
 /*-*/    | ANTI_LIST
-/*-*/      tid = mkrhs(type_longident)
+/*-*/      tid = mkrhs(vala(type_longident, ANTI_LONGLID))
 /*-*/        { Ptyp_constr(tid, vaant $1) }
     | LESS meth_list GREATER
         { let (f, c) = $2 in Ptyp_object (vaval f, vaval c) }

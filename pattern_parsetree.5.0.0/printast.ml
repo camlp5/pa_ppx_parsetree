@@ -179,7 +179,7 @@ let rec core_type i ppf x =
       line i ppf "Ptyp_tuple\n";
       list i core_type ppf l;
   | Ptyp_constr (li, Ploc.VaVal l) ->
-      line i ppf "Ptyp_constr %a\n" fmt_longident_loc li;
+      line i ppf "Ptyp_constr %a\n" fmt_longident_vala_loc li;
       list i core_type ppf l;
   | Ptyp_variant (l, closed, low) ->
       line i ppf "Ptyp_variant closed=%a\n" fmt_closed_flag (unvala closed);
@@ -263,7 +263,7 @@ and pattern i ppf x =
       core_type i ppf ct;
   | Ppat_type (li) ->
       line i ppf "Ppat_type\n";
-      longident_loc i ppf li
+      longident_vala_loc i ppf li
   | Ppat_unpack s ->
       line i ppf "Ppat_unpack %a\n" fmt_str_vala_opt_vala_loc s;
   | Ppat_exception p ->
@@ -476,7 +476,7 @@ and type_extension i ppf x =
   line i ppf "type_extension\n";
   attributes i ppf x.ptyext_attributes;
   let i = i+1 in
-  line i ppf "ptyext_path = %a\n" fmt_longident_loc x.ptyext_path;
+  line i ppf "ptyext_path = %a\n" fmt_longident_vala_loc x.ptyext_path;
   line i ppf "ptyext_params =\n";
   list (i+1) type_parameter ppf (unvala x.ptyext_params);
   line i ppf "ptyext_constructors =\n";

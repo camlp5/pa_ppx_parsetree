@@ -642,6 +642,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_LONGID (make_antiquotation "longid" loc payload)
      }
+  | "$" "longlid:" ([^ ':' '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_LONGLID (make_antiquotation "longlid" loc payload)
+     }
   | "$" "typ:" ([^ ':' '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in

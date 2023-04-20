@@ -345,7 +345,7 @@ and core_type1 ctxt f x =
              |[] -> ()
              |[x]-> pp f "%a@;" (core_type1 ctxt)  x
              | _ -> list ~first:"(" ~last:")@;" (core_type ctxt) ~sep:",@;" f l)
-          l longident_loc li
+          l longident_vala_loc li
     | Ptyp_variant (l, closed, low) ->
         let first_is_inherit = match unvala l with
           | {Parsetree.prf_desc = Rinherit _}::_ -> true
@@ -482,7 +482,7 @@ and simple_pattern ctxt (f:Format.formatter) (x:pattern) : unit =
     | Ppat_unpack { txt = Ploc.VaVal (Some s) } ->
         pp f "(module@ %s)@ " (unvala s)
     | Ppat_type li ->
-        pp f "#%a" longident_loc li
+        pp f "#%a" longident_vala_loc li
     | Ppat_record (l, closed) ->
         let longident_x_pattern f (li, p) =
           match (li,p) with
@@ -1597,7 +1597,7 @@ and type_extension ctxt f x =
        | l ->
            pp f "%a@;" (list (type_param ctxt) ~first:"(" ~last:")" ~sep:",") l)
     (unvala  x.ptyext_params)
-    longident_loc x.ptyext_path
+    longident_vala_loc x.ptyext_path
     private_flag (unvala x.ptyext_private) (* Cf: #7200 *)
     (list ~sep:"" extension_constructor)
     (unvala x.ptyext_constructors)
