@@ -178,3 +178,28 @@ printast.cmi : \
     parsetree.cmi
 mk_meta.cmo :
 mk_meta.cmx :
+parser_mock.cmo : \
+    syntaxerr.cmi \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    docstrings.cmi \
+    clflags.cmi \
+    asttypes.cmi \
+    ast_helper.cmi
+parser_mock.cmx : \
+    syntaxerr.cmx \
+    parsetree.cmx \
+    longident.cmx \
+    location.cmx \
+    docstrings.cmx \
+    clflags.cmx \
+    asttypes.cmx \
+    ast_helper.cmx
+parser_mock.out.cmi : \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    docstrings.cmi \
+    asttypes.cmi \
+    ast_helper.cmi
