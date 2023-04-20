@@ -485,6 +485,10 @@ let test_blank ctxt =
        [%expression {| $e$ |}] -> e)
   ; assert_equal [] (match [%expression {| 1 |}] with
                        [%expression {| $_$ $algattrs:l$ |}] -> l)
+  ; assert_equal false (match [%expression {| 1 |}] with
+                          [%expression {| $_$ $algattrs:_::_$ |}] -> true
+                        | _ -> false
+      )
   ; assert_equal Location.none
       (match [%expression {| 1 |}] with
          [%expression.loc {| $_$ |}] -> loc)
