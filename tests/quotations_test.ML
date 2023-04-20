@@ -6,7 +6,7 @@ let x = 1
 
 module Fixtures = struct
 
-let __loc__ = Location.none
+let loc = Location.none
 
 let l = "x" 
 let l' = "y"
@@ -161,9 +161,9 @@ let test_equality ctxt =
 
 let test0 ctxt = 
   assert_equal Location.none (
-      let __loc__ = 1 in
+      let loc = 1 in
       match e1 with
-        [%expression.loc {| $_$ * $_$ |}] -> __loc__)
+        [%expression.loc {| $_$ * $_$ |}] -> loc)
 
 let test1 ctxt = 
   let open Asttypes in

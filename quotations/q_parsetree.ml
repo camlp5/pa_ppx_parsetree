@@ -145,7 +145,7 @@ let parse_class_type_field s =
   ; default_quotation_source_module = Reorg_parsetree
   ; expr_meta_module = MetaE
   ; patt_meta_module = MetaP
-  ; loc_mode = CustomLoc { loc_varname = __loc__ ; loc_type = [%typ: location] ; loc_function_name = location }
+  ; loc_mode = CustomLoc { loc_varname = loc ; loc_type = [%typ: location] ; loc_function_name = location }
   ; custom_type = [
       ([%typ: location_stack], {
          pattern = (fun ctxt _ -> <:patt< _ >>)

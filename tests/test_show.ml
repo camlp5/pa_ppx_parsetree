@@ -11,7 +11,7 @@ let expr_unapplist e =
     | e ->  (e,acc)
   in exrec e []
 
-let expr_applist __loc__ e l =
+let expr_applist loc e l =
   let l = l |>  List.map (fun e -> (Nolabel,e)) in
   let (e,l0) = expr_unapplist e in
   [%expression {| $e$ $list:l0@l$ |}]
@@ -36,10 +36,10 @@ let rec core_type pfx = function
      let f = core_type pfx t in
      [%expression {| option ~none:(const string "None") ((const string "Some ") ++ $f$) |}]
   | [%core_type.loc {| $tuplelist:l$ |}] ->
-     let (varpat_list,_, body) = core_type_tuple __loc__ pfx l in
+     let (varpat_list,_, body) = core_type_tuple loc pfx l in
      [%expression {| parens (fun pps ( $tuplelist:varpat_list$ ) -> $body$) |}]
 
-and core_type_tuple __loc__ pfx l =
+and core_type_tuple loc pfx l =
   let prefixes_types = l |> List.mapi (fun i t -> (Fmt.(str "%s_%d" pfx i), t)) in
   let fmtstring = l |> List.map (fun _ -> "%a") |> String.concat "," in
   let varpat_list = prefixes_types |> List.map (fun (id, _) -> [%pattern {| $lid:id$ |}]) in
@@ -47,7 +47,7 @@ and core_type_tuple __loc__ pfx l =
   let pplist =
     prefixes_types
     |> List.concat_map (fun (id, t) -> [ core_type id t ; [%expression {| $lid:id$ |}] ]) in
-  let body = expr_applist __loc__ [%expression {| pf pps $string:fmtstring$ |}] pplist in
+  let body = expr_applist loc [%expression {| pf pps $string:fmtstring$ |}] pplist in
   (varpat_list, varexp_list, body)
 
 and constructor_decl = function
@@ -55,17 +55,17 @@ and constructor_decl = function
      [%case {| $uid:cid$ -> const string $string:cid$ pps () |}]
 
   | [%constructor_declaration.loc {| $uid:cid$ of $list:tyl$ |}] ->
-     let (varpat_list, varexp_list, body) = core_type_tuple __loc__ "_" tyl in
+     let (varpat_list, varexp_list, body) = core_type_tuple loc "_" tyl in
      [%case {| $uid:cid$ ( $tuplelist:varpat_list$ ) ->
              ((const string $string:cid$) ++ (const string " ") ++ (parens (fun pps ( $tuplelist:varpat_list$ ) -> $body$))) pps ( $tuplelist:varexp_list$ ) |}]
 
   | [%constructor_declaration.loc {| $uid:cid$ of { $list:fields$ } |}] ->
-     let (patbinding_list, (varpat_list, varexp_list), body) = record_type __loc__ fields in
+     let (patbinding_list, (varpat_list, varexp_list), body) = record_type loc fields in
      [%case {| $uid:cid$ { $list:patbinding_list$ } ->
              ((const string $string:cid$) ++ (const string " ") ++ (braces (fun pps ( $tuplelist:varpat_list$ ) -> $body$)))
              pps ( $tuplelist:varexp_list$ ) |}]
 
-and record_type __loc__ fields =
+and record_type loc fields =
   let ids_types =
     fields
     |>  List.map (function [%label_declaration {| $mutable:_$ $lid:l$ : $typ:t$ |}] ->
@@ -73,7 +73,7 @@ and record_type __loc__ fields =
   let patbinding_list =
     ids_types |> List.map (fun (id,_) ->
                      let li = [%longident_t {| $lid:id$ |}] in
-                     (Location.mkloc li __loc__,
+                     (Location.mkloc li loc,
                       [%pattern {| $lid:id$ |}])) in
 
   let varpat_list = ids_types |> List.map (fun (id, _) -> [%pattern {| $lid:id$ |}]) in
@@ -87,7 +87,7 @@ and record_type __loc__ fields =
            [ [%expression {| (const string $string:id$) ++ (const string " = ") ++ $ppt$ |}]
            ; [%expression {| $lid:id$ |}] ]) in
   
-  let body = expr_applist __loc__ [%expression {| (pf pps $string:fmtstring$) |}] pplist in
+  let body = expr_applist loc [%expression {| (pf pps $string:fmtstring$) |}] pplist in
   (patbinding_list, (varpat_list, varexp_list), body)
 
 let type_decl = function
@@ -114,7 +114,7 @@ let type_decl = function
      let pp_name = Fmt.(str "pp_%s" tname) in
      let params = List.map (function ([%core_type {| ' $lid:v$ |}], _) -> Fmt.(str "pp_param_%s" v)) tvl in
 
-     let (patbinding_list, _, body) = record_type __loc__ fields in
+     let (patbinding_list, _, body) = record_type loc fields in
      let rhs = [%expression {| Fmt.(braces (fun pps { $list:patbinding_list$ } -> $body$)) |}] in
      let rhs = List.fold_right (fun v rhs -> [%expression {| fun $lid:v$ -> $rhs$ |}]) params rhs in
 
