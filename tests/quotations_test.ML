@@ -479,6 +479,16 @@ let test_extension ctxt =
         match [%expression {| [% $attrid:l$ $list:sil$] |}] with
           [%expression {| [% $attrid:l'$ $list:sil'$] |}] -> (l', sil'))
 
+let test_blank ctxt =
+  assert_equal [%expression {| 1 |}]
+    (match [%expression {| 1 |}] with
+       [%expression {| $e$ |}] -> e)
+  ; assert_equal [] (match [%expression {| 1 |}] with
+                       [%expression {| $_$ $algattrs:l$ |}] -> l)
+  ; assert_equal Location.none
+      (match [%expression {| 1 |}] with
+         [%expression.loc {| $_$ |}] -> loc)
+
 let test = "expression" >::: [
       "equality"   >:: test_equality
     ; "0"   >:: test0
@@ -506,6 +516,7 @@ let test = "expression" >::: [
     ; "open"   >:: test_open
     ; "letop"   >:: test_letop
     ; "extension"   >:: test_extension
+    ; "blank"   >:: test_blank
     ]
 
 end
@@ -578,6 +589,14 @@ let test ctxt =
   assert_equal (m, pats) (match [%pattern {| $uid:m$ ( $tuplelist:pats$ ) |}] with
                             [%pattern {| $uid:m'$ ( $tuplelist:pats'$ ) |}] -> (m', pats'))
 
+  ; assert_equal [%pattern {| 1 |}] (match [%pattern {| 1 |}] with
+                       [%pattern {| $e$ |}] -> e)
+  ; assert_equal [] (match [%pattern {| 1 |}] with
+                       [%pattern {| $_$ $algattrs:l$ |}] -> l)
+  ; assert_equal Location.none (match [%pattern {| 1 |}] with
+                       [%pattern.loc {| $_$ |}] -> loc)
+
+
 end
 
 module TY = struct
@@ -612,6 +631,15 @@ let test ctxt =
 
   ; assert_equal (t1,t2) (match [%core_type {| $t1$ * $t2$ |}] with
                             [%core_type {| $t1'$ * $t2'$ |}] -> (t1', t2'))
+
+  ; assert_equal [%core_type {| 1 |}]
+    (match [%core_type {| 1 |}] with
+       [%core_type {| $e$ |}] -> e)
+  ; assert_equal [] (match [%core_type {| 1 |}] with
+                       [%core_type {| $_$ $algattrs:l$ |}] -> l)
+  ; assert_equal Location.none
+      (match [%core_type {| 1 |}] with
+         [%core_type.loc {| $_$ |}] -> loc)
 
 end
 

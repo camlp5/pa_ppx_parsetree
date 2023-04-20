@@ -3,7 +3,15 @@
 (* pa_sexp.ml,v *)
 (* Copyright (c) INRIA 2007-2017 *)
 
+open Pa_ppx_base
+open Ppxutil
 open Pa_ppx_parsetree_pattern_parsetree.Pattern_misc
+
+let antiloc_payload ~loc s =
+  let open Q_ast_base in
+  match split_anti_loc s with
+    None -> Fmt.(failwithf "Q_parsetree: unparseable antiquotation <<%s>>" s)
+  | Some(_,_,p) -> p
 
 module Regular = struct
 
@@ -199,8 +207,8 @@ let parse_class_type_field s =
       }
     ; expression = {
         add_branches_patt_code = (function
-          | {pexp_desc=Pexp_xtr{txt;loc};pexp_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
-          | {pexp_desc=Pexp_xtr{txt;loc};} -> failwith "Pexp_xtr with non-empty attributes is nearly always an error"
+          | {pexp_desc=Pexp_xtr{txt;loc};pexp_attributes=Ploc.VaVal[];} when antiloc_payload ~loc txt <> "_" -> C.xtr (ploc_of_location loc) txt
+          | {pexp_desc=Pexp_xtr{txt;loc};} when antiloc_payload ~loc txt <> "_" -> failwith "non-blank Pexp_xtr with non-empty attributes is nearly always an error"
                                  )
       ; add_branches_expr_code = (function
           | {pexp_desc=Pexp_xtr{txt;loc};pexp_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
@@ -208,68 +216,99 @@ let parse_class_type_field s =
                                  )
       }
     ; expression_desc = {
-        data_source_module = Parsetree
-      ; quotation_source_module = Reorg_parsetree
+        add_branches_patt_code = (function
+          | Pexp_xtr{txt;loc} when antiloc_payload ~loc txt = "_" -> C.xtr (ploc_of_location loc) txt
+                                 )
       }
     ; module_expr = {
         add_branches_patt_code = (function
-          | {pmod_desc=Pmod_xtr{txt;loc};pmod_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
-          | {pmod_desc=Pmod_xtr{txt;loc};} -> failwith "Pmod_xtr with non-empty attributes is nearly always an error"
+          | {pmod_desc=Pmod_xtr{txt;loc};pmod_attributes=Ploc.VaVal[];} when antiloc_payload ~loc txt <> "_" -> C.xtr (ploc_of_location loc) txt
+          | {pmod_desc=Pmod_xtr{txt;loc};} when antiloc_payload ~loc txt <> "_" -> failwith "Pmod_xtr with non-empty attributes is nearly always an error"
                                  )
       ; add_branches_expr_code = (function
           | {pmod_desc=Pmod_xtr{txt;loc};pmod_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
           | {pmod_desc=Pmod_xtr{txt;loc};} -> failwith "Pmod_xtr with non-empty attributes is nearly always an error"
+                                 )
+      }
+    ; module_expr_desc = {
+        add_branches_patt_code = (function
+          | Pmod_xtr{txt;loc} when antiloc_payload ~loc txt = "_" -> C.xtr (ploc_of_location loc) txt
                                  )
       }
     ; module_type = {
         add_branches_patt_code = (function
-          | {pmty_desc=Pmty_xtr{txt;loc};pmty_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
-          | {pmty_desc=Pmty_xtr{txt;loc};} -> failwith "Pmty_xtr with non-empty attributes is nearly always an error"
+          | {pmty_desc=Pmty_xtr{txt;loc};pmty_attributes=Ploc.VaVal[];} when antiloc_payload ~loc txt <> "_" -> C.xtr (ploc_of_location loc) txt
+          | {pmty_desc=Pmty_xtr{txt;loc};} when antiloc_payload ~loc txt <> "_" -> failwith "Pmty_xtr with non-empty attributes is nearly always an error"
                                  )
       ; add_branches_expr_code = (function
           | {pmty_desc=Pmty_xtr{txt;loc};pmty_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
           | {pmty_desc=Pmty_xtr{txt;loc};} -> failwith "Pmty_xtr with non-empty attributes is nearly always an error"
+                                 )
+      }
+    ; module_type_desc = {
+        add_branches_patt_code = (function
+          | Pmty_xtr{txt;loc} when antiloc_payload ~loc txt = "_" -> C.xtr (ploc_of_location loc) txt
                                  )
       }
 
     ; pattern = {
         add_branches_patt_code = (function
-          | {ppat_desc=Ppat_xtr{txt;loc};ppat_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
-          | {ppat_desc=Ppat_xtr{txt;loc};} -> failwith "Ppat_xtr with non-empty attributes is nearly always an error"
+          | {ppat_desc=Ppat_xtr{txt;loc};ppat_attributes=Ploc.VaVal[];} when antiloc_payload ~loc txt <> "_" -> C.xtr (ploc_of_location loc) txt
+          | {ppat_desc=Ppat_xtr{txt;loc};} when antiloc_payload ~loc txt <> "_" -> failwith "Ppat_xtr with non-empty attributes is nearly always an error"
                                  )
       ; add_branches_expr_code = (function
           | {ppat_desc=Ppat_xtr{txt;loc};ppat_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
           | {ppat_desc=Ppat_xtr{txt;loc};} -> failwith "Ppat_xtr with non-empty attributes is nearly always an error"
+                                 )
+      }
+    ; pattern_desc = {
+        add_branches_patt_code = (function
+          | Ppat_xtr{txt;loc} when antiloc_payload ~loc txt = "_" -> C.xtr (ploc_of_location loc) txt
                                  )
       }
     ; core_type = {
         add_branches_patt_code = (function
-          | {ptyp_desc=Ptyp_xtr{txt;loc};ptyp_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
-          | {ptyp_desc=Ptyp_xtr{txt;loc};} -> failwith "Ptyp_xtr with non-empty attributes is nearly always an error"
+          | {ptyp_desc=Ptyp_xtr{txt;loc};ptyp_attributes=Ploc.VaVal[];} when antiloc_payload ~loc txt <> "_" -> C.xtr (ploc_of_location loc) txt
+          | {ptyp_desc=Ptyp_xtr{txt;loc};} when antiloc_payload ~loc txt <> "_" -> failwith "Ptyp_xtr with non-empty attributes is nearly always an error"
                                  )
       ; add_branches_expr_code = (function
           | {ptyp_desc=Ptyp_xtr{txt;loc};ptyp_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
           | {ptyp_desc=Ptyp_xtr{txt;loc};} -> failwith "Ptyp_xtr with non-empty attributes is nearly always an error"
+                                 )
+      }
+    ; core_type_desc = {
+        add_branches_patt_code = (function
+          | Ptyp_xtr{txt;loc} when antiloc_payload ~loc txt = "_" -> C.xtr (ploc_of_location loc) txt
                                  )
       }
     ; class_type = {
         add_branches_patt_code = (function
-          | {pcty_desc=Pcty_xtr{txt;loc};pcty_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
-          | {pcty_desc=Pcty_xtr{txt;loc};} -> failwith "Pcty_xtr with non-empty attributes is nearly always an error"
+          | {pcty_desc=Pcty_xtr{txt;loc};pcty_attributes=Ploc.VaVal[];} when antiloc_payload ~loc txt <> "_" -> C.xtr (ploc_of_location loc) txt
+          | {pcty_desc=Pcty_xtr{txt;loc};} when antiloc_payload ~loc txt <> "_" -> failwith "Pcty_xtr with non-empty attributes is nearly always an error"
                                  )
       ; add_branches_expr_code = (function
           | {pcty_desc=Pcty_xtr{txt;loc};pcty_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
           | {pcty_desc=Pcty_xtr{txt;loc};} -> failwith "Pcty_xtr with non-empty attributes is nearly always an error"
                                  )
       }
+    ; class_type_desc = {
+        add_branches_patt_code = (function
+          | Pcty_xtr{txt;loc} when antiloc_payload ~loc txt = "_" -> C.xtr (ploc_of_location loc) txt
+                                 )
+      }
     ; class_expr = {
         add_branches_patt_code = (function
-          | {pcl_desc=Pcl_xtr{txt;loc};pcl_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
-          | {pcl_desc=Pcl_xtr{txt;loc};} -> failwith "Pcl_xtr with non-empty attributes is nearly always an error"
+          | {pcl_desc=Pcl_xtr{txt;loc};pcl_attributes=Ploc.VaVal[];} when antiloc_payload ~loc txt <> "_" -> C.xtr (ploc_of_location loc) txt
+          | {pcl_desc=Pcl_xtr{txt;loc};} when antiloc_payload ~loc txt <> "_" -> failwith "Pcl_xtr with non-empty attributes is nearly always an error"
                                  )
       ; add_branches_expr_code = (function
           | {pcl_desc=Pcl_xtr{txt;loc};pcl_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
           | {pcl_desc=Pcl_xtr{txt;loc};} -> failwith "Pcl_xtr with non-empty attributes is nearly always an error"
+                                 )
+      }
+    ; class_expr_desc = {
+        add_branches_patt_code = (function
+          | Pcl_xtr{txt;loc} when antiloc_payload ~loc txt = "_" -> C.xtr (ploc_of_location loc) txt
                                  )
       }
 
