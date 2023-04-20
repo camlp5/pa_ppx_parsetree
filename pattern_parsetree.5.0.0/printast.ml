@@ -208,14 +208,14 @@ let rec core_type i ppf x =
       line i ppf "Ptyp_poly%a\n" typevars (unvala sl);
       core_type i ppf ct;
   | Ptyp_package (s, l) ->
-      line i ppf "Ptyp_package %a\n" fmt_longident_loc s;
+      line i ppf "Ptyp_package %a\n" fmt_longident_vala_loc s;
       list i package_with ppf (unvala l);
   | Ptyp_extension (s, arg) ->
       line i ppf "Ptyp_extension \"%s\"\n" (unvala s.txt);
       payload i ppf arg
 
 and package_with i ppf (s, t) =
-  line i ppf "with type %a\n" fmt_longident_loc s;
+  line i ppf "with type %a\n" fmt_longident_vala_loc s;
   core_type i ppf t
 
 and pattern i ppf x =
@@ -281,7 +281,7 @@ and expression i ppf x =
   attributes i ppf x.pexp_attributes;
   let i = i+1 in
   match x.pexp_desc with
-  | Pexp_ident (li) -> line i ppf "Pexp_ident %a\n" fmt_longident_loc li;
+  | Pexp_ident (li) -> line i ppf "Pexp_ident %a\n" fmt_longident_vala_loc li;
   | Pexp_constant (c) -> line i ppf "Pexp_constant %a\n" fmt_constant (unvala c);
   | Pexp_let (rf, l, e) ->
       line i ppf "Pexp_let %a\n" fmt_rec_flag (unvala rf);
@@ -775,10 +775,10 @@ and modtype_declaration i ppf = function
 and with_constraint i ppf x =
   match x with
   | Pwith_type (lid, td) ->
-      line i ppf "Pwith_type %a\n" fmt_longident_loc lid;
+      line i ppf "Pwith_type %a\n" fmt_longident_vala_loc lid;
       type_declaration (i+1) ppf (unvala td);
   | Pwith_typesubst (lid, td) ->
-      line i ppf "Pwith_typesubst %a\n" fmt_longident_loc lid;
+      line i ppf "Pwith_typesubst %a\n" fmt_longident_vala_loc lid;
       type_declaration (i+1) ppf (unvala td);
   | Pwith_module (lid1, lid2) ->
       line i ppf "Pwith_module %a = %a\n"
@@ -924,7 +924,7 @@ and longident_x_pattern i ppf (li, p) =
   pattern (i+1) ppf p;
 
 (*-*)and longident_vala_x_pattern i ppf (li, p) =
-(*-*)  line i ppf "%a\n" fmt_longident_loc li;
+(*-*)  line i ppf "%a\n" fmt_longident_vala_loc li;
 (*-*)  pattern (i+1) ppf p;
 (*-*)
 and case i ppf {pc_lhs; pc_guard; pc_rhs} =
@@ -957,7 +957,7 @@ and string_x_expression i ppf (s, e) =
 (*-*)  expression (i+1) ppf e;
 (*-*)
 and longident_x_expression i ppf (li, e) =
-  line i ppf "%a\n" fmt_longident_loc li;
+  line i ppf "%a\n" fmt_longident_vala_loc li;
   expression (i+1) ppf e;
 
 and label_x_expression i ppf (l,e) =
