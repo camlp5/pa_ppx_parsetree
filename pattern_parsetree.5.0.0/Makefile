@@ -45,7 +45,7 @@ parser.cmo: parser.ml
 parser.cmx: parser.ml
 	$(LAUNCH) $(YAWRAP) $(OCAMLFIND) ocamlopt $(OCAMLCFLAGS) -package $(PACKAGES) -c $<
 
-parser.ml: parser_mock.out.mli
+parser.ml parser.mli: parser_mock.out.mli
 	menhir --explain --infer-read-reply parser_mock.out.mli parser.mly
 
 parser_mock.out.mli : \
