@@ -28,6 +28,8 @@
 <:core_type< $list:lx$ $lid:s$ >>;
 <:core_type< $list:lx$ $longid:x$ . $lid:s$ $algattrs:attrs$ >>;
 <:core_type< $list:lx$ $longid:x$ . $lid:s$ >>;
+<:core_type< $list:lx$ $longlid:x$ $algattrs:attrs$ >>;
+<:core_type< $list:lx$ $longlid:x$ >>;
 <:core_type< < $list:lx$ $closedflag:x$ > $algattrs:attrs$ >>;
 <:core_type< < $list:lx$ $closedflag:x$ > >>;
 <:core_type< $list:lx$ # $lid:s$ $algattrs:attrs$ >>;
@@ -50,6 +52,8 @@
 <:core_type< (module $lid:s$ with $list:xf2$) >>;
 <:core_type< (module $longid:x$ . $lid:s$ with $list:xf2$) $algattrs:attrs$ >>;
 <:core_type< (module $longid:x$ . $lid:s$ with $list:xf2$) >>;
+{Parsetree.ptyp_desc = Parsetree.Ptyp_package ({Location.txt = x; Location.loc = loc}, xf2); Parsetree.ptyp_loc = loc; Parsetree.ptyp_loc_stack = []; Parsetree.ptyp_attributes = attrs};
+{Parsetree.ptyp_desc = Parsetree.Ptyp_package ({Location.txt = x; Location.loc = loc}, xf2); Parsetree.ptyp_loc = loc; Parsetree.ptyp_loc_stack = []; Parsetree.ptyp_attributes = []};
 <:core_type< [% $attrid:s$ $list:x$] $algattrs:attrs$ >>;
 <:core_type< [% $attrid:s$ $list:x$] >>;
 <:core_type< [% $attrid:s$ : $list:x$] $algattrs:attrs$ >>;
@@ -147,6 +151,8 @@
 <:pattern< # $lid:s$ >>;
 <:pattern< # $longid:x$ . $lid:s$ $algattrs:attrs$ >>;
 <:pattern< # $longid:x$ . $lid:s$ >>;
+<:pattern< # $longlid:x$ $algattrs:attrs$ >>;
+<:pattern< # $longlid:x$ >>;
 <:pattern< lazy $x$ $algattrs:attrs$ >>;
 <:pattern< lazy $x$ >>;
 <:pattern< (module _) $algattrs:attrs$ >>;
@@ -177,6 +183,8 @@
 <:expression< $lid:s$ >>;
 <:expression< $longid:x$ . $lid:s$ $algattrs:attrs$ >>;
 <:expression< $longid:x$ . $lid:s$ >>;
+<:expression< $longlid:x$ $algattrs:attrs$ >>;
+<:expression< $longlid:x$ >>;
 <:expression< $int:s$ $algattrs:attrs$ >>;
 <:expression< $int:s$ >>;
 <:expression< $int32:s$ $algattrs:attrs$ >>;
@@ -731,6 +739,8 @@
 <:signature_item< type $list:lxxx$ $lid:s$ += $priv:x2$ $list:lx$ >>;
 <:signature_item< type $list:lxxx$ $longid:x$ . $lid:s$ += $priv:x2$ $list:lx$ $itemattrs:attrs$ >> ;
 <:signature_item< type $list:lxxx$ $longid:x$ . $lid:s$ += $priv:x2$ $list:lx$ >>;
+<:signature_item< type $list:lxxx$ $longlid:x$ += $priv:x2$ $list:lx$ $itemattrs:attrs$ >> ;
+<:signature_item< type $list:lxxx$ $longlid:x$ += $priv:x2$ $list:lx$ >>;
 #if OCAML_VERSION >= (4,14,0)
 <:signature_item< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ $algattrs:attrs$ $itemattrs:attrs$ >> ;
 <:signature_item< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ $algattrs:attrs$ >>;
@@ -904,6 +914,8 @@
 <:structure_item< type $list:lxxx$ $lid:s$ += $priv:x2$ $list:lx$ >>;
 <:structure_item< type $list:lxxx$ $longid:x$ . $lid:s$ += $priv:x2$ $list:lx$ $itemattrs:attrs$ >> ;
 <:structure_item< type $list:lxxx$ $longid:x$ . $lid:s$ += $priv:x2$ $list:lx$ >>;
+<:structure_item< type $list:lxxx$ $longlid:x$ += $priv:x2$ $list:lx$ $itemattrs:attrs$ >> ;
+<:structure_item< type $list:lxxx$ $longlid:x$ += $priv:x2$ $list:lx$ >>;
 #if OCAML_VERSION >= (4,14,0)
 <:structure_item< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ $algattrs:attrs$ $itemattrs:attrs$ >> ;
 <:structure_item< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ $algattrs:attrs$ >>;
