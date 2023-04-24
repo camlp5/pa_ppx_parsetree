@@ -14,7 +14,7 @@ Arg.(parse [
 
 Fmt.(pf stdout {|
 # Specifications for the "pa_ppx_parsetree_helpers" preprocessor:
-requires = ""
+requires = "fmt"
 version = "%s"
 description = "pa_ppx_parsetree_helpers: OCaml AST for officials"
 
@@ -26,7 +26,7 @@ archive(native) = "pa_ppx_parsetree_helpers.cmxa"
 archive(byte,toploop) = "pa_ppx_parsetree_helpers.cma"
 
   # For the preprocessor itself:
-  requires(syntax,preprocessor) = "camlp5,fmt,pa_ppx.base"
+  requires(syntax,preprocessor) = "fmt"
   archive(syntax,preprocessor,-native) = "pa_ppx_parsetree_helpers.cma"
   archive(syntax,preprocessor,native) = "pa_ppx_parsetree_helpers.cmxa"
 
