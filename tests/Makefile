@@ -5,21 +5,25 @@ include $(TOP)/config/Makefile.sub
 PACKAGES := $(PACKAGES),ounit2,pa_ppx.utils,pa_ppx_parsetree_helpers
 
 ML= \
-	quotations_test.ml quotations_noattr_test.ml test_show.ml
+	quotations_test.ml quotations_noattr_test.ml antiquotation_lexing_test.ml test_show.ml
 
 ALLSRC=$(ML)
 ALLPACKAGES=$(PACKAGES)
 
-TESTS=quotations_test.exe quotations_noattr_test.exe test_show.exe
+TESTS=quotations_test.exe quotations_noattr_test.exe antiquotation_lexing_test.exe test_show.exe
 
 all: $(TESTS)
 
 test:: all test1.TEST
 	mkdir -p _build && ./quotations_test.exe
 	mkdir -p _build && ./quotations_noattr_test.exe
+	mkdir -p _build && ./antiquotation_lexing_test.exe
 	mkdir -p _build && ./test_show.exe
 
 quotations_test.exe: quotations_test.cmo
+	$(LAUNCH) $(OCAMLFIND) ocamlc -linkall -linkpkg $(OCAMLCFLAGS) -package $(PACKAGES) -linkpkg -linkall -o $@ $<
+
+antiquotation_lexing_test.exe: antiquotation_lexing_test.cmo
 	$(LAUNCH) $(OCAMLFIND) ocamlc -linkall -linkpkg $(OCAMLCFLAGS) -package $(PACKAGES) -linkpkg -linkall -o $@ $<
 
 quotations_noattr_test.exe: quotations_noattr_test.cmo
