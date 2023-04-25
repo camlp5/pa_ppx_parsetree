@@ -3916,6 +3916,10 @@ atomic_type:
 /*-*/        { Ptyp_variant($3, vaval Closed, vaant $4) }
 /*-*/    | LBRACKET c = ANTI_CLOSEDFLAG r = ANTI_LIST l = ANTI_OPT RBRACKET
 /*-*/        { Ptyp_variant(vaant r, vaant c, vaant l) }
+/*-*/    | LBRACKET r = ANTI_LIST l = ANTI_OPT RBRACKET
+/*-*/        { Ptyp_variant(vaant r, vaval Closed, vaant l) }
+/*-*/    | LBRACKET r = ANTI_LIST RBRACKET
+/*-*/        { Ptyp_variant(vaant r, vaval Closed, vaval None) }
 /*-*/    | LBRACKET c = ANTI_CLOSEDFLAG r = ANTI_LIST GREATER l = vala(name_tag_list, ANTI_LIST) RBRACKET
 /*-*/        { Ptyp_variant(vaant r, vaant c, vaval (Some l)) }
     | extension

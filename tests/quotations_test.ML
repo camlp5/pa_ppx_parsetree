@@ -56,6 +56,9 @@ let vb2 = [%value_binding {| y = 2 |}]
 
 let excon1 = [%extension_constructor {| C of int |}]
 
+let rf1 = {%row_field| `A of int |}
+let rf2 = {%row_field| `B of int * bool |}
+
 end
 
 module Helpers = struct
@@ -644,6 +647,8 @@ let test ctxt =
   ; assert_equal Location.none
       (match [%core_type {| int |}] with
          [%core_type.loc {| $_$ |}] -> loc)
+  ; assert_equal [rf1;rf2] (match {%core_type| [ `A of int | `B of int * bool ] |} with
+                      {%core_type| [ $list:l$ ] |} -> l)
 
 end
 
