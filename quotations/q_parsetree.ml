@@ -159,6 +159,7 @@ module Q = struct
   ; expr_meta_module = MetaE
   ; patt_meta_module = MetaP
   ; loc_mode = CustomLoc { loc_varname = loc ; loc_type = [%typ: location] ; loc_function_name = location }
+  ; minimal_record_module_labels = true
   ; custom_type = [
       ([%typ: location_stack], {
          pattern = (fun ctxt _ -> <:patt< _ >>)
@@ -369,6 +370,7 @@ module QNoAttr = struct
   ; expr_meta_module = MetaE
   ; patt_meta_module = MetaP
   ; loc_mode = CustomLoc { loc_varname = loc ; loc_type = [%typ: location] ; loc_function_name = location }
+  ; minimal_record_module_labels = true
   ; custom_type = [
       ([%typ: location_stack], {
          pattern = (fun ctxt _ -> <:patt< _ >>)

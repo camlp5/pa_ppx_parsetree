@@ -4,6 +4,7 @@
         target_is_pattern_ast = false
       ; location_type = [%typ: location]
       ; loc_varname = loc
+      ; minimal_record_module_labels = true
       ; superfluous_constructors = [
           Pexp_xtr
         ; Ppat_xtr
@@ -106,16 +107,16 @@
           ; type_declaration = AddDel(
                                    [],
                                    [
-                                     {Parsetree.ptype_name = {Location.txt = s; Location.loc = loc}; Parsetree.ptype_params = lxxx; Parsetree.ptype_cstrs = lxxl; Parsetree.ptype_kind = Parsetree.Ptype_abstract; Parsetree.ptype_private = Asttypes.Private; Parsetree.ptype_manifest = None; Parsetree.ptype_attributes = attrs; Parsetree.ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; Location.loc = loc}; Parsetree.ptype_params = lxxx; Parsetree.ptype_cstrs = lxxl; Parsetree.ptype_kind = Parsetree.Ptype_abstract; Parsetree.ptype_private = Asttypes.Private; Parsetree.ptype_manifest = None; Parsetree.ptype_attributes = []; Parsetree.ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; Location.loc = loc}; Parsetree.ptype_params = lxxx; Parsetree.ptype_cstrs = lxxl; Parsetree.ptype_kind = Parsetree.Ptype_abstract; Parsetree.ptype_private = Asttypes.Private; Parsetree.ptype_manifest = ox4; Parsetree.ptype_attributes = attrs; Parsetree.ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; Location.loc = loc}; Parsetree.ptype_params = lxxx; Parsetree.ptype_cstrs = lxxl; Parsetree.ptype_kind = Parsetree.Ptype_abstract; Parsetree.ptype_private = Asttypes.Private; Parsetree.ptype_manifest = ox4; Parsetree.ptype_attributes = []; Parsetree.ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; Location.loc = loc}; Parsetree.ptype_params = lxxx; Parsetree.ptype_cstrs = lxxl; Parsetree.ptype_kind = Parsetree.Ptype_abstract; Parsetree.ptype_private = Asttypes.Public; Parsetree.ptype_manifest = ox4; Parsetree.ptype_attributes = attrs; Parsetree.ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; Location.loc = loc}; Parsetree.ptype_params = lxxx; Parsetree.ptype_cstrs = lxxl; Parsetree.ptype_kind = Parsetree.Ptype_abstract; Parsetree.ptype_private = Asttypes.Public; Parsetree.ptype_manifest = ox4; Parsetree.ptype_attributes = []; Parsetree.ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; Location.loc = loc}; Parsetree.ptype_params = lxxx; Parsetree.ptype_cstrs = lxxl; Parsetree.ptype_kind = Parsetree.Ptype_abstract; Parsetree.ptype_private = x3; Parsetree.ptype_manifest = None; Parsetree.ptype_attributes = attrs; Parsetree.ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; Location.loc = loc}; Parsetree.ptype_params = lxxx; Parsetree.ptype_cstrs = lxxl; Parsetree.ptype_kind = Parsetree.Ptype_abstract; Parsetree.ptype_private = x3; Parsetree.ptype_manifest = None; Parsetree.ptype_attributes = []; Parsetree.ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; Location.loc = loc}; Parsetree.ptype_params = lxxx; Parsetree.ptype_cstrs = lxxl; Parsetree.ptype_kind = Parsetree.Ptype_abstract; Parsetree.ptype_private = x3; Parsetree.ptype_manifest = ox4; Parsetree.ptype_attributes = attrs; Parsetree.ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; Location.loc = loc}; Parsetree.ptype_params = lxxx; Parsetree.ptype_cstrs = lxxl; Parsetree.ptype_kind = Parsetree.Ptype_abstract; Parsetree.ptype_private = x3; Parsetree.ptype_manifest = ox4; Parsetree.ptype_attributes = []; Parsetree.ptype_loc = loc};
+                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
+                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
+                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
+                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
+                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Public; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
+                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Public; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
+                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
+                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
+                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
+                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
                                    ]
                                  )
           }
@@ -229,29 +230,29 @@
                              [Parsetree.Ptyp_variant(lx1, x, Some [])]
           ))
         ; (Psig_value, AddDel (
-                           [Parsetree.Psig_value {Parsetree.pval_name = {Location.txt = s; Location.loc = loc}; Parsetree.pval_type = x2; Parsetree.pval_prim = []; Parsetree.pval_attributes = []; Parsetree.pval_loc = loc}],
+                           [Parsetree.Psig_value {Parsetree.pval_name = {Location.txt = s; loc = loc}; pval_type = x2; pval_prim = []; pval_attributes = []; pval_loc = loc}],
                            []
           ))
         ; (Psig_modtypesubst, AddDel (
                                   [],
                                   [
-                                    Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; Location.loc = loc}; Parsetree.pmtd_type = None; Parsetree.pmtd_attributes = []; Parsetree.pmtd_loc = loc}
-                                  ; Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; Location.loc = loc}; Parsetree.pmtd_type = omt; Parsetree.pmtd_attributes = []; Parsetree.pmtd_loc = loc}
+                                    Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; loc = loc}; pmtd_type = None; pmtd_attributes = []; pmtd_loc = loc}
+                                  ; Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; loc = loc}; pmtd_type = omt; pmtd_attributes = []; pmtd_loc = loc}
                                   ]
           ))
         ; (Psig_exception, AddDel (
                                   [],
                                   [
-                                    Parsetree.Psig_exception {Parsetree.ptyexn_constructor = {Parsetree.pext_name = {Location.txt = s; Location.loc = loc}; Parsetree.pext_kind = Parsetree.Pext_rebind {Location.txt = x; Location.loc = loc}; Parsetree.pext_loc = loc; Parsetree.pext_attributes = attrs}; Parsetree.ptyexn_loc = loc; Parsetree.ptyexn_attributes = attrs};
-                                    Parsetree.Psig_exception {Parsetree.ptyexn_constructor = {Parsetree.pext_name = {Location.txt = s; Location.loc = loc}; Parsetree.pext_kind = Parsetree.Pext_rebind {Location.txt = x; Location.loc = loc}; Parsetree.pext_loc = loc; Parsetree.pext_attributes = attrs}; Parsetree.ptyexn_loc = loc; Parsetree.ptyexn_attributes = []};
-                                    Parsetree.Psig_exception {Parsetree.ptyexn_constructor = {Parsetree.pext_name = {Location.txt = s; Location.loc = loc}; Parsetree.pext_kind = Parsetree.Pext_rebind {Location.txt = x; Location.loc = loc}; Parsetree.pext_loc = loc; Parsetree.pext_attributes = []}; Parsetree.ptyexn_loc = loc; Parsetree.ptyexn_attributes = attrs};
-                                    Parsetree.Psig_exception {Parsetree.ptyexn_constructor = {Parsetree.pext_name = {Location.txt = s; Location.loc = loc}; Parsetree.pext_kind = Parsetree.Pext_rebind {Location.txt = x; Location.loc = loc}; Parsetree.pext_loc = loc; Parsetree.pext_attributes = []}; Parsetree.ptyexn_loc = loc; Parsetree.ptyexn_attributes = []}
+                                    Parsetree.Psig_exception {Parsetree.ptyexn_constructor = {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = attrs}; ptyexn_loc = loc; ptyexn_attributes = attrs};
+                                    Parsetree.Psig_exception {Parsetree.ptyexn_constructor = {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = attrs}; ptyexn_loc = loc; ptyexn_attributes = []};
+                                    Parsetree.Psig_exception {Parsetree.ptyexn_constructor = {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = []}; ptyexn_loc = loc; ptyexn_attributes = attrs};
+                                    Parsetree.Psig_exception {Parsetree.ptyexn_constructor = {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = []}; ptyexn_loc = loc; ptyexn_attributes = []}
                                   ]
           ))
         ; (Pexp_letexception, AddDel (
                                   [],
                                   [
-                                    Parsetree.Pexp_letexception( {Parsetree.pext_name = {Location.txt = s; Location.loc = loc}; Parsetree.pext_kind = Parsetree.Pext_rebind {Location.txt = x; Location.loc = loc}; Parsetree.pext_loc = loc; Parsetree.pext_attributes = []}, x2)
+                                    Parsetree.Pexp_letexception( {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = []}, x2)
                                   ]
           ))
         ]

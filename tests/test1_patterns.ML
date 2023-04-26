@@ -46,14 +46,14 @@
 <:core_type< [ $closedflag:x$ $list:lx1$ $opt:olx2$ ] >>;
 <:core_type< [< $list:lx1$ ] $algattrs:attrs$ >>;
 <:core_type< [< $list:lx1$ ] >>;
-{Parsetree.ptyp_desc = Parsetree.Ptyp_poly lx x; Parsetree.ptyp_loc = loc; Parsetree.ptyp_loc_stack = []; Parsetree.ptyp_attributes = attrs};
-{Parsetree.ptyp_desc = Parsetree.Ptyp_poly lx x; Parsetree.ptyp_loc = loc; Parsetree.ptyp_loc_stack = []; Parsetree.ptyp_attributes = []};
+{Parsetree.ptyp_desc = Parsetree.Ptyp_poly lx x; ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = attrs};
+{Parsetree.ptyp_desc = Parsetree.Ptyp_poly lx x; ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = []};
 <:core_type< (module $lid:s$ with $list:xf2$) $algattrs:attrs$ >>;
 <:core_type< (module $lid:s$ with $list:xf2$) >>;
 <:core_type< (module $longid:x$ . $lid:s$ with $list:xf2$) $algattrs:attrs$ >>;
 <:core_type< (module $longid:x$ . $lid:s$ with $list:xf2$) >>;
-{Parsetree.ptyp_desc = Parsetree.Ptyp_package ({Location.txt = x; Location.loc = loc}, xf2); Parsetree.ptyp_loc = loc; Parsetree.ptyp_loc_stack = []; Parsetree.ptyp_attributes = attrs};
-{Parsetree.ptyp_desc = Parsetree.Ptyp_package ({Location.txt = x; Location.loc = loc}, xf2); Parsetree.ptyp_loc = loc; Parsetree.ptyp_loc_stack = []; Parsetree.ptyp_attributes = []};
+{Parsetree.ptyp_desc = Parsetree.Ptyp_package ({Location.txt = x; loc = loc}, xf2); ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = attrs};
+{Parsetree.ptyp_desc = Parsetree.Ptyp_package ({Location.txt = x; loc = loc}, xf2); ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = []};
 <:core_type< [% $attrid:s$ $list:x$] $algattrs:attrs$ >>;
 <:core_type< [% $attrid:s$ $list:x$] >>;
 <:core_type< [% $attrid:s$ : $list:x$] $algattrs:attrs$ >>;
@@ -75,13 +75,13 @@
 <:row_field< ` $id:x$ of $list:lx$ >>;
 <:row_field< ` $id:x$ of $isconst:b$ $list:lx$ $algattrs:attrs$ >>;
 <:row_field< ` $id:x$ of $isconst:b$ $list:lx$ >>;
-{Parsetree.prf_desc = Parsetree.Rinherit x; Parsetree.prf_loc = loc; Parsetree.prf_attributes = attrs}; (* cannot put alg-attr on Rinherit *)
+{Parsetree.prf_desc = Parsetree.Rinherit x; prf_loc = loc; prf_attributes = attrs}; (* cannot put alg-attr on Rinherit *)
 <:row_field< $x$ >>;
 [@@@"ocaml.text" "row_field_desc";];
 [@@@"ocaml.text" "object_field";];
 <:object_field< $lid:x$ : $x2$ $algattrs:attrs$ >>;
 <:object_field< $lid:x$ : $x2$ >>;
-{Parsetree.pof_desc = Parsetree.Oinherit x; Parsetree.pof_loc = loc; Parsetree.pof_attributes = attrs}; (* cannot put alg-attr on oinherit *)
+{Parsetree.pof_desc = Parsetree.Oinherit x; pof_loc = loc; pof_attributes = attrs}; (* cannot put alg-attr on oinherit *)
 <:object_field< $x$ >>;
 [@@@"ocaml.text" "object_field_desc";];
 [@@@"ocaml.text" "pattern";];
@@ -106,16 +106,16 @@
 <:pattern< $string:s1$ $delim:s2$ $algattrs:attrs$ >>;
 <:pattern< $string:s1$ $delim:s2$ >>;
 #if OCAML_VERSION >= (4,11,0)
-{Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 loc os2); Parsetree.ppat_loc = loc; Parsetree.ppat_loc_stack = []; Parsetree.ppat_attributes = attrs};
-{Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 loc os2); Parsetree.ppat_loc = loc; Parsetree.ppat_loc_stack = []; Parsetree.ppat_attributes = []};
+{Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 loc os2); ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = attrs};
+{Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 loc os2); ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = []};
 #else
 {Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 os2); Parsetree.ppat_loc = loc; Parsetree.ppat_loc_stack = []; Parsetree.ppat_attributes = attrs};
 {Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 os2); Parsetree.ppat_loc = loc; Parsetree.ppat_loc_stack = []; Parsetree.ppat_attributes = []};
 #endif
 <:pattern< $float:sxf1$ $algattrs:attrs$ >>;
 <:pattern< $float:sxf1$ >>;
-{Parsetree.ppat_desc = Parsetree.Ppat_constant x; Parsetree.ppat_loc = loc; Parsetree.ppat_loc_stack = []; Parsetree.ppat_attributes = attrs};
-{Parsetree.ppat_desc = Parsetree.Ppat_constant x; Parsetree.ppat_loc = loc; Parsetree.ppat_loc_stack = []; Parsetree.ppat_attributes = []};
+{Parsetree.ppat_desc = Parsetree.Ppat_constant x; ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = attrs};
+{Parsetree.ppat_desc = Parsetree.Ppat_constant x; ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = []};
 <:pattern< $constant:x1$ .. $constant:x2$ $algattrs:attrs$ >>;
 <:pattern< $constant:x1$ .. $constant:x2$ >>;
 <:pattern<  $tuplelist:lx$ $algattrs:attrs$ >>;
@@ -200,8 +200,8 @@
 <:expression< $string:s1$ $delim:s2$ $algattrs:attrs$ >>;
 <:expression< $string:s1$ $delim:s2$ >>;
 #if OCAML_VERSION >= (4,11,0)
-{Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 loc os2); Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 loc os2); Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
+{Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 loc os2); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
+{Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 loc os2); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 #else
 {Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 os2); Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = attrs};
 {Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 os2); Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
@@ -250,14 +250,14 @@
 <:expression< $x1$ . $lid:s$ >>;
 <:expression< $x1$ . $longid:x$ . $lid:s$ $algattrs:attrs$ >>;
 <:expression< $x1$ . $longid:x$ . $lid:s$ >>;
-{Parsetree.pexp_desc = Parsetree.Pexp_field x1 {Location.txt = x; Location.loc = loc}; Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_field x1 {Location.txt = x; Location.loc = loc}; Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
+{Parsetree.pexp_desc = Parsetree.Pexp_field x1 {Location.txt = x; loc = loc}; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
+{Parsetree.pexp_desc = Parsetree.Pexp_field x1 {Location.txt = x; loc = loc}; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 <:expression< ( $x1$ . $lid:s$ <- $x3$ ) $algattrs:attrs$ >>;
 <:expression< $x1$ . $lid:s$ <- $x3$ >>;
 <:expression< ( $x1$ . $longid:x$ . $lid:s$ <- $x3$ ) $algattrs:attrs$ >>;
 <:expression< $x1$ . $longid:x$ . $lid:s$ <- $x3$ >>;
-{Parsetree.pexp_desc = Parsetree.Pexp_setfield x1 {Location.txt = x; Location.loc = loc} x3; Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_setfield x1 {Location.txt = x; Location.loc = loc} x3; Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
+{Parsetree.pexp_desc = Parsetree.Pexp_setfield x1 {Location.txt = x; loc = loc} x3; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
+{Parsetree.pexp_desc = Parsetree.Pexp_setfield x1 {Location.txt = x; loc = loc} x3; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 <:expression< [| $list:lx$ |] $algattrs:attrs$ >>;
 <:expression< [| $list:lx$ |] >>;
 <:expression< ( if $x1$ then $x2$ ) $algattrs:attrs$ >>;
@@ -290,8 +290,8 @@
 <:expression< new $lid:s$ >>;
 <:expression< (new $longid:x$ . $lid:s$) $algattrs:attrs$ >>;
 <:expression< new $longid:x$ . $lid:s$ >>;
-{Parsetree.pexp_desc = Parsetree.Pexp_new {Location.txt = x; Location.loc = loc}; Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_new {Location.txt = x; Location.loc = loc}; Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
+{Parsetree.pexp_desc = Parsetree.Pexp_new {Location.txt = x; loc = loc}; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
+{Parsetree.pexp_desc = Parsetree.Pexp_new {Location.txt = x; loc = loc}; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 <:expression< ($lid:x$ <- $x2$) $algattrs:attrs$ >>;
 <:expression< $lid:x$ <- $x2$ >>;
 <:expression< {< $list:lxx$ >} $algattrs:attrs$ >>;
@@ -358,28 +358,28 @@
 <:expression< (let exception $uid:s$ : { $list:lx$} $opt:ox2$ in $x2$) $algattrs:attrs$ >>;
 <:expression< let exception $uid:s$ : { $list:lx$} $opt:ox2$ in $x2$ >>;
 #endif
-{Parsetree.pexp_desc = Parsetree.Pexp_letexception {Parsetree.pext_name = {Location.txt = s; Location.loc = loc}; Parsetree.pext_kind = Parsetree.Pext_rebind {Location.txt = x; Location.loc = loc}; Parsetree.pext_loc = loc; Parsetree.pext_attributes = attrs} x2; Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_letexception {Parsetree.pext_name = {Location.txt = s; Location.loc = loc}; Parsetree.pext_kind = Parsetree.Pext_rebind {Location.txt = x; Location.loc = loc}; Parsetree.pext_loc = loc; Parsetree.pext_attributes = attrs} x2; Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
+{Parsetree.pexp_desc = Parsetree.Pexp_letexception {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = attrs} x2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
+{Parsetree.pexp_desc = Parsetree.Pexp_letexception {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = attrs} x2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 <:expression< (let $excon:x1$ in $x2$) $algattrs:attrs$ >>;
 <:expression< let $excon:x1$ in $x2$ >>;
 <:expression< assert $x$ $algattrs:attrs$ >>;
 <:expression< assert $x$ >>;
 <:expression< lazy $x$ $algattrs:attrs$ >>;
 <:expression< lazy $x$ >>;
-{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 None; Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 None; Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
-{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 (Some x2); Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 (Some x2); Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
-{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 ox2; Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 ox2; Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
+{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 None; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
+{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 None; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
+{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 (Some x2); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
+{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 (Some x2); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
+{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 ox2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
+{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 ox2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 <:expression< object $patt:x$ $list:lx$  end $algattrs:attrs$ >>;
 <:expression< object $patt:x$ $list:lx$  end >>;
 <:expression< (fun (type $lid:s$) -> $x2$) $algattrs:attrs$ >>;
 <:expression< fun (type $lid:s$) -> $x2$ >>;
 <:expression< (module $me$) $algattrs:attrs$ >>;
 <:expression< (module $me$) >>;
-{Parsetree.pexp_desc = Parsetree.Pexp_open {Parsetree.popen_expr = me; Parsetree.popen_override = x1; Parsetree.popen_loc = loc; Parsetree.popen_attributes = attrs} x2; Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_open {Parsetree.popen_expr = me; Parsetree.popen_override = x1; Parsetree.popen_loc = loc; Parsetree.popen_attributes = attrs} x2; Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
+{Parsetree.pexp_desc = Parsetree.Pexp_open {Parsetree.popen_expr = me; popen_override = x1; popen_loc = loc; popen_attributes = attrs} x2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
+{Parsetree.pexp_desc = Parsetree.Pexp_open {Parsetree.popen_expr = me; popen_override = x1; popen_loc = loc; popen_attributes = attrs} x2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 <:expression< (let open $overrideflag:x1$ $me$ in $x2$) $algattrs:attrs$ >>;
 <:expression< let open $overrideflag:x1$ $me$ in $x2$ >>;
 <:expression< ($letop:x1$ $list:lx$ in $x2$) $algattrs:attrs$ >>;
@@ -396,8 +396,8 @@
 <:expression< [% $attrid:s$ ? $x1$ when $x2$] >>;
 <:expression< [% $attrid:s$ ? $x1$ $expropt:ox2$] $algattrs:attrs$ >>;
 <:expression< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
-{Parsetree.pexp_desc = Parsetree.Pexp_unreachable; Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_unreachable; Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
+{Parsetree.pexp_desc = Parsetree.Pexp_unreachable; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
+{Parsetree.pexp_desc = Parsetree.Pexp_unreachable; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 [@@@"ocaml.text" "expression_desc";];
 [@@@"ocaml.text" "case";];
 <:case< $x1$ -> $x3$ >>;
@@ -551,7 +551,7 @@
 <:class_type< $list:lx$ $longid:x$ . $lid:s$ >>;
 <:class_type< object ($x$) $list:lx$ end $algattrs:attrs$ >> ;
 <:class_type< object ($x$) $list:lx$ end >>;
-{Parsetree.pcty_desc = Parsetree.Pcty_arrow x1 x2 ct; Parsetree.pcty_loc = loc; Parsetree.pcty_attributes = attrs};
+{Parsetree.pcty_desc = Parsetree.Pcty_arrow x1 x2 ct; pcty_loc = loc; pcty_attributes = attrs};
 <:class_type< $label:x1$ $x2$ -> $ct$ >>;
 <:class_type< [% $attrid:s$ $list:x$] $algattrs:attrs$ >> ;
 <:class_type< [% $attrid:s$ $list:x$] >>;
@@ -565,8 +565,8 @@
 <:class_type< [% $attrid:s$ ? $x1$ when $x2$] >>;
 <:class_type< [% $attrid:s$ ? $x1$ $expropt:ox2$] $algattrs:attrs$ >> ;
 <:class_type< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
-{Parsetree.pcty_desc = Parsetree.Pcty_open {Parsetree.popen_expr = {Location.txt = x; Location.loc = loc}; Parsetree.popen_override = x2; Parsetree.popen_loc = loc; Parsetree.popen_attributes = attrs} ct; Parsetree.pcty_loc = loc; Parsetree.pcty_attributes = attrs};
-{Parsetree.pcty_desc = Parsetree.Pcty_open {Parsetree.popen_expr = {Location.txt = x; Location.loc = loc}; Parsetree.popen_override = x2; Parsetree.popen_loc = loc; Parsetree.popen_attributes = attrs} ct; Parsetree.pcty_loc = loc; Parsetree.pcty_attributes = []};
+{Parsetree.pcty_desc = Parsetree.Pcty_open {Parsetree.popen_expr = {Location.txt = x; loc = loc}; popen_override = x2; popen_loc = loc; popen_attributes = attrs} ct; pcty_loc = loc; pcty_attributes = attrs};
+{Parsetree.pcty_desc = Parsetree.Pcty_open {Parsetree.popen_expr = {Location.txt = x; loc = loc}; popen_override = x2; popen_loc = loc; popen_attributes = attrs} ct; pcty_loc = loc; pcty_attributes = []};
 <:class_type< let open $overrideflag:x2$ $algattrs:attrs$ $longid:x$ in $ct$ >> ;
 <:class_type< let open $overrideflag:x2$ $longid:x$ in $ct$ >>;
 [@@@"ocaml.text" "class_type_desc";];
@@ -580,17 +580,17 @@
 <:class_type_field< method $priv:xxxxf2$ $virtual:xxxxf3$ $lid:x$ : $xxxxf4$ >>;
 <:class_type_field< constraint $xxf1$ = $xxf2$ $itemattrs:attrs$ >> ;
 <:class_type_field< constraint $xxf1$ = $xxf2$ >>;
-{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; Location.loc = loc}; Parsetree.attr_payload = Parsetree.PStr x; Parsetree.attr_loc = loc}; Parsetree.pctf_loc = loc; Parsetree.pctf_attributes = attrs};
+{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PStr x; attr_loc = loc}; pctf_loc = loc; pctf_attributes = attrs};
 <:class_type_field< [@@@ $attrid:s$ $list:x$] >> ;
-{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; Location.loc = loc}; Parsetree.attr_payload = Parsetree.PSig x; Parsetree.attr_loc = loc}; Parsetree.pctf_loc = loc; Parsetree.pctf_attributes = attrs};
+{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PSig x; attr_loc = loc}; pctf_loc = loc; pctf_attributes = attrs};
 <:class_type_field< [@@@ $attrid:s$ : $list:x$] >> ;
-{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; Location.loc = loc}; Parsetree.attr_payload = Parsetree.PTyp x; Parsetree.attr_loc = loc}; Parsetree.pctf_loc = loc; Parsetree.pctf_attributes = attrs};
+{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PTyp x; attr_loc = loc}; pctf_loc = loc; pctf_attributes = attrs};
 <:class_type_field< [@@@ $attrid:s$ : $x$] >> ;
-{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; Location.loc = loc}; Parsetree.attr_payload = Parsetree.PPat x1 None; Parsetree.attr_loc = loc}; Parsetree.pctf_loc = loc; Parsetree.pctf_attributes = attrs};
+{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 None; attr_loc = loc}; pctf_loc = loc; pctf_attributes = attrs};
 <:class_type_field< [@@@ $attrid:s$ ? $x1$] >> ;
-{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; Location.loc = loc}; Parsetree.attr_payload = Parsetree.PPat x1 (Some x2); Parsetree.attr_loc = loc}; Parsetree.pctf_loc = loc; Parsetree.pctf_attributes = attrs};
+{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 (Some x2); attr_loc = loc}; pctf_loc = loc; pctf_attributes = attrs};
 <:class_type_field< [@@@ $attrid:s$ ? $x1$ when $x2$] >> ;
-{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; Location.loc = loc}; Parsetree.attr_payload = Parsetree.PPat x1 ox2; Parsetree.attr_loc = loc}; Parsetree.pctf_loc = loc; Parsetree.pctf_attributes = attrs};
+{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 ox2; attr_loc = loc}; pctf_loc = loc; pctf_attributes = attrs};
 <:class_type_field< [@@@ $attrid:s$ ? $x1$ $expropt:ox2$] >> ;
 <:class_type_field< [%% $attrid:s$ $list:x$] $itemattrs:attrs$ >> ;
 <:class_type_field< [%% $attrid:s$ $list:x$] >>;
@@ -643,8 +643,8 @@
 <:class_expr< [% $attrid:s$ ? $x1$ when $x2$] >>;
 <:class_expr< [% $attrid:s$ ? $x1$ $expropt:ox2$] $algattrs:attrs$ >> ;
 <:class_expr< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
-{Parsetree.pcl_desc = Parsetree.Pcl_open {Parsetree.popen_expr = {Location.txt = x; Location.loc = loc}; Parsetree.popen_override = x2; Parsetree.popen_loc = loc; Parsetree.popen_attributes = attrs} ce; Parsetree.pcl_loc = loc; Parsetree.pcl_attributes = attrs};
-{Parsetree.pcl_desc = Parsetree.Pcl_open {Parsetree.popen_expr = {Location.txt = x; Location.loc = loc}; Parsetree.popen_override = x2; Parsetree.popen_loc = loc; Parsetree.popen_attributes = attrs} ce; Parsetree.pcl_loc = loc; Parsetree.pcl_attributes = []};
+{Parsetree.pcl_desc = Parsetree.Pcl_open {Parsetree.popen_expr = {Location.txt = x; loc = loc}; popen_override = x2; popen_loc = loc; popen_attributes = attrs} ce; pcl_loc = loc; pcl_attributes = attrs};
+{Parsetree.pcl_desc = Parsetree.Pcl_open {Parsetree.popen_expr = {Location.txt = x; loc = loc}; popen_override = x2; popen_loc = loc; popen_attributes = attrs} ce; pcl_loc = loc; pcl_attributes = []};
 <:class_expr< (let open $overrideflag:x2$ $longid:x$ in $ce$) $algattrs:attrs$ >> ;
 <:class_expr< let open $overrideflag:x2$ $longid:x$ in $ce$ >>;
 [@@@"ocaml.text" "class_expr_desc";];
@@ -668,17 +668,17 @@
 <:class_field< constraint $xxf1$ = $xxf2$ >>;
 <:class_field< initializer $x$ $itemattrs:attrs$ >> ;
 <:class_field< initializer $x$ >>;
-{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; Location.loc = loc}; Parsetree.attr_payload = Parsetree.PStr x; Parsetree.attr_loc = loc}; Parsetree.pcf_loc = loc; Parsetree.pcf_attributes = attrs};
+{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PStr x; attr_loc = loc}; pcf_loc = loc; pcf_attributes = attrs};
 <:class_field< [@@@ $attrid:s$ $list:x$] >>;
-{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; Location.loc = loc}; Parsetree.attr_payload = Parsetree.PSig x; Parsetree.attr_loc = loc}; Parsetree.pcf_loc = loc; Parsetree.pcf_attributes = attrs};
+{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PSig x; attr_loc = loc}; pcf_loc = loc; pcf_attributes = attrs};
 <:class_field< [@@@ $attrid:s$ : $list:x$] >>;
-{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; Location.loc = loc}; Parsetree.attr_payload = Parsetree.PTyp x; Parsetree.attr_loc = loc}; Parsetree.pcf_loc = loc; Parsetree.pcf_attributes = attrs};
+{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PTyp x; attr_loc = loc}; pcf_loc = loc; pcf_attributes = attrs};
 <:class_field< [@@@ $attrid:s$ : $x$] >>;
-{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; Location.loc = loc}; Parsetree.attr_payload = Parsetree.PPat x1 None; Parsetree.attr_loc = loc}; Parsetree.pcf_loc = loc; Parsetree.pcf_attributes = attrs};
+{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 None; attr_loc = loc}; pcf_loc = loc; pcf_attributes = attrs};
 <:class_field< [@@@ $attrid:s$ ? $x1$] >>;
-{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; Location.loc = loc}; Parsetree.attr_payload = Parsetree.PPat x1 (Some x2); Parsetree.attr_loc = loc}; Parsetree.pcf_loc = loc; Parsetree.pcf_attributes = attrs};
+{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 (Some x2); attr_loc = loc}; pcf_loc = loc; pcf_attributes = attrs};
 <:class_field< [@@@ $attrid:s$ ? $x1$ when $x2$] >>;
-{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; Location.loc = loc}; Parsetree.attr_payload = Parsetree.PPat x1 ox2; Parsetree.attr_loc = loc}; Parsetree.pcf_loc = loc; Parsetree.pcf_attributes = attrs};
+{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 ox2; attr_loc = loc}; pcf_loc = loc; pcf_attributes = attrs};
 <:class_field< [@@@ $attrid:s$ ? $x1$ $expropt:ox2$] >>;
 <:class_field< [%% $attrid:s$ $list:x$] $itemattrs:attrs$ >> ;
 <:class_field< [%% $attrid:s$ $list:x$] >>;
@@ -818,10 +818,10 @@
 <:signature_item< module type $uid:s$ $opt:omt$ $itemattrs:attrs$ >> ;
 <:signature_item< module type $uid:s$ $opt:omt$ >>;
 #if OCAML_VERSION >= (4,13,0)
-{Parsetree.psig_desc = Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; Location.loc = loc}; Parsetree.pmtd_type = None; Parsetree.pmtd_attributes = attrs; Parsetree.pmtd_loc = loc}; Parsetree.psig_loc = loc};
+{Parsetree.psig_desc = Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; loc = loc}; pmtd_type = None; pmtd_attributes = attrs; pmtd_loc = loc}; psig_loc = loc};
 <:signature_item< module type $uid:s$ := $mt$ $itemattrs:attrs$ >>;
 <:signature_item< module type $uid:s$ := $mt$ >>;
-{Parsetree.psig_desc = Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; Location.loc = loc}; Parsetree.pmtd_type = omt; Parsetree.pmtd_attributes = attrs; Parsetree.pmtd_loc = loc}; Parsetree.psig_loc = loc};
+{Parsetree.psig_desc = Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; loc = loc}; pmtd_type = omt; pmtd_attributes = attrs; pmtd_loc = loc}; psig_loc = loc};
 #endif
 <:signature_item< open $overrideflag:x2$ $longid:x$ $itemattrs:attrs$ >>;
 <:signature_item< open $overrideflag:x2$ $longid:x$ >>;
