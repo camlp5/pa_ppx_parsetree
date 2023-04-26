@@ -35,6 +35,7 @@ let v1 = "a"
 let v2 = "b"
 let t1 = [%core_type {| 'a |}]
 let t2 = [%core_type {| 'b |}]
+let t_id = [%core_type {| 'a -> 'a |}]
 
 let cd1 = [%constructor_declaration {| C of t1 * t2 |}]
 let cd2 = [%constructor_declaration {| D |}]
@@ -125,6 +126,13 @@ open Fixtures
 
 let test ctxt = 
   assert_equal [%value_binding {| x = 1 |}] [%value_binding {| x = 1 |}]
+  ; assert_equal [{%lident_loc| a |}] (match {%value_binding| f : 'a . 'a -> 'a = fun x -> x |} with
+                       {%value_binding| f : $list:tvl$ . 'a -> 'a = fun x -> x |} -> tvl)
+  ; assert_equal [{%lident_loc| a |}] (match {%value_binding| f : 'a . 'a -> 'a = fun x -> x |} with
+                       {%value_binding| f : $list:tvl$ . 'a -> 'a = fun x -> x |} -> tvl)
+  ; let tvl = [{%lident_loc| a |}] in
+    assert_equal () (match {%value_binding| f : $list:tvl$ . $t_id$ = fun x -> x |} with
+                       {%value_binding| f : 'a . 'a -> 'a = fun x -> x |} -> ())
 
 end
 

@@ -3772,8 +3772,8 @@ with_type_binder:
     { $1 }
 ;
 %inline poly(X):
-  typevar_list DOT X
-    { Ptyp_poly(vaval $1, $3) }
+  vala(typevar_list, ANTI_LIST) DOT X
+    { Ptyp_poly($1, $3) }
 ;
 possibly_poly(X):
   X
