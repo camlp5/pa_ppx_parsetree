@@ -56,6 +56,8 @@ val module_expr : Lexing.lexbuf -> Parsetree.module_expr
 (*-*)val module_declaration : Lexing.lexbuf -> Parsetree.module_declaration
 (*-*)val with_constraint : Lexing.lexbuf -> Parsetree.with_constraint
 (*-*)val class_type_field : Lexing.lexbuf -> Parsetree.class_type_field
+(*-*)val str_type_extension : Lexing.lexbuf -> Parsetree.type_extension
+(*-*)val sig_type_extension : Lexing.lexbuf -> Parsetree.type_extension
 (*-*)val longlident : Lexing.lexbuf -> Longident.t
 
 (** The functions below can be used to parse Longident safely. *)

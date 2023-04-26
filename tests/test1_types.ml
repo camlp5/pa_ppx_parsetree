@@ -42,6 +42,7 @@
         ; signature_item
         ; structure_item
         ; type_declaration
+        ; type_extension
         ; value_binding
         ; with_constraint
         ]

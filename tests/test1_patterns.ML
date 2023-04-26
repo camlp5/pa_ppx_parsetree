@@ -510,6 +510,8 @@
 #endif
 [@@@"ocaml.text" "constructor_arguments";];
 [@@@"ocaml.text" "type_extension";];
+<:str_type_extension< type $list:lxxx$ $longlid:x$ += $priv:x2$ $list:lx$ $itemattrs:attrs$ >> ;
+<:str_type_extension< type $list:lxxx$ $longlid:x$ += $priv:x2$ $list:lx$ >>;
 [@@@"ocaml.text" "extension_constructor";];
 #if OCAML_VERSION >= (4,14,0)
 <:extension_constructor< $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ $algattrs:attrs$ >>;
@@ -866,6 +868,7 @@
 [@@@"ocaml.text" "with_constraint";];
 <:with_constraint< type $lid:s$ = $typedecl:x2$ >>;
 <:with_constraint< type $longid:x$ . $lid:s$ = $typedecl:x2$ >>;
+<:with_constraint< type $longlid:x$ = $typedecl:x2$ >>;
 <:with_constraint< module $longid:x$ = $longid:x$ >>;
 #if OCAML_VERSION >= (4,13,0)
 <:with_constraint< module type $lid:s$ = $mt$ >>;
@@ -877,6 +880,7 @@
 #endif
 <:with_constraint< type $lid:s$ := $typedecl:x2$ >>;
 <:with_constraint< type $longid:x$ . $lid:s$ := $typedecl:x2$ >>;
+<:with_constraint< type $longlid:x$ := $typedecl:x2$ >>;
 <:with_constraint< module $longid:x$ := $longid:x$ >>;
 [@@@"ocaml.text" "module_expr";];
 <:module_expr< $longid:x$ $algattrs:attrs$ >> ;

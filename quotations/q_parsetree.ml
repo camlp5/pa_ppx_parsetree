@@ -150,6 +150,12 @@ let parse_with_constraint s =
 let parse_class_type_field s =
   lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.class_type_field s
 
+let parse_str_type_extension s =
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.str_type_extension s
+
+let parse_sig_type_extension s =
+  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.sig_type_extension s
+
 module Q = struct
 
 [%%import: Reorg_parsetree.attribute]
@@ -356,6 +362,8 @@ module Q = struct
     ; {name = "module_declaration"; from_string = parse_module_declaration ; type_name = module_declaration }
     ; {name = "with_constraint"; from_string = parse_with_constraint ; type_name = with_constraint }
     ; {name = "class_type_field"; from_string = parse_class_type_field ; type_name = class_type_field }
+    ; {name = "str_type_extension"; from_string = parse_str_type_extension ; type_name = type_extension }
+    ; {name = "sig_type_extension"; from_string = parse_str_type_extension ; type_name = type_extension }
     ]
  }]
 
@@ -572,6 +580,8 @@ module QNoAttr = struct
     ; {name = "module_declaration.noattr"; from_string = parse_module_declaration ; type_name = module_declaration }
     ; {name = "with_constraint.noattr"; from_string = parse_with_constraint ; type_name = with_constraint }
     ; {name = "class_type_field.noattr"; from_string = parse_class_type_field ; type_name = class_type_field }
+    ; {name = "str_type_extension.noattr"; from_string = parse_str_type_extension ; type_name = type_extension }
+    ; {name = "sig_type_extension.noattr"; from_string = parse_str_type_extension ; type_name = type_extension }
     ]
  }]
 end

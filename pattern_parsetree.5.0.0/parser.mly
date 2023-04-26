@@ -972,6 +972,10 @@ The precedences must be listed from low to high.
 /*-*/%type <Parsetree.with_constraint> parse_with_constraint
 /*-*/%start parse_class_type_field
 /*-*/%type <Parsetree.class_type_field> parse_class_type_field
+/*-*/%start parse_str_type_extension
+/*-*/%type <Parsetree.type_extension> parse_str_type_extension
+/*-*/%start parse_sig_type_extension
+/*-*/%type <Parsetree.type_extension> parse_sig_type_extension
 /* END AVOID */
 
 /*-*/%type <Parsetree.expression list> expr_semi_list
@@ -1542,6 +1546,16 @@ parse_any_longident:
 /*-*/parse_class_type_field:
 /*-*/  class_sig_field EOF
 /*-*/    { $1 }
+/*-*/;
+/*-*/
+/*-*/parse_str_type_extension:
+/*-*/  str_type_extension EOF
+/*-*/    { fst $1 }
+/*-*/;
+/*-*/
+/*-*/parse_sig_type_extension:
+/*-*/  sig_type_extension EOF
+/*-*/    { fst $1 }
 /*-*/;
 /*-*/
 /* END AVOID */
