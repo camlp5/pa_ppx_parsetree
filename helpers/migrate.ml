@@ -35,6 +35,9 @@ let _migrate_list subrw0 __dt__ l =
           ; virtual_flag
           ; variance
           
+# 37 "migrate.ML"
+          ; injectivity
+          
 # 39 "migrate.ML"
           ; attribute
           ; attributes

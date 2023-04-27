@@ -88,7 +88,7 @@ module Typ :
     val arrow: ?loc:loc -> ?attrs:attrs -> arg_label Ploc.vala -> core_type -> core_type
                -> core_type
     val tuple: ?loc:loc -> ?attrs:attrs -> core_type list Ploc.vala -> core_type
-    val constr: ?loc:loc -> ?attrs:attrs -> lid -> core_type list Ploc.vala -> core_type
+    val constr: ?loc:loc -> ?attrs:attrs -> lid_vala -> core_type list Ploc.vala -> core_type
     val object_: ?loc:loc -> ?attrs:attrs -> object_field list Ploc.vala
                    -> closed_flag Ploc.vala -> core_type
     val class_: ?loc:loc -> ?attrs:attrs -> lid -> core_type list Ploc.vala -> core_type
@@ -96,7 +96,7 @@ module Typ :
     val variant: ?loc:loc -> ?attrs:attrs -> row_field list Ploc.vala -> closed_flag Ploc.vala
                  -> label list Ploc.vala option Ploc.vala -> core_type
     val poly: ?loc:loc -> ?attrs:attrs -> str_vala list Ploc.vala -> core_type -> core_type
-    val package: ?loc:loc -> ?attrs:attrs -> lid -> (lid * core_type) list Ploc.vala
+    val package: ?loc:loc -> ?attrs:attrs -> lid_vala -> (lid_vala * core_type) list Ploc.vala
                  -> core_type
     val extension: ?loc:loc -> ?attrs:attrs -> extension -> core_type
 
@@ -128,12 +128,12 @@ module Pat:
     val construct: ?loc:loc -> ?attrs:attrs ->
       lid_vala -> (str_vala list Ploc.vala * pattern) option Ploc.vala -> pattern
     val variant: ?loc:loc -> ?attrs:attrs -> label Ploc.vala -> pattern option Ploc.vala -> pattern
-    val record: ?loc:loc -> ?attrs:attrs -> (lid * pattern) list Ploc.vala -> closed_flag Ploc.vala
+    val record: ?loc:loc -> ?attrs:attrs -> (lid_vala * pattern) list Ploc.vala -> closed_flag Ploc.vala
                 -> pattern
     val array: ?loc:loc -> ?attrs:attrs -> pattern list Ploc.vala -> pattern
     val or_: ?loc:loc -> ?attrs:attrs -> pattern -> pattern -> pattern
     val constraint_: ?loc:loc -> ?attrs:attrs -> pattern -> core_type -> pattern
-    val type_: ?loc:loc -> ?attrs:attrs -> lid -> pattern
+    val type_: ?loc:loc -> ?attrs:attrs -> lid_vala -> pattern
     val lazy_: ?loc:loc -> ?attrs:attrs -> pattern -> pattern
     val unpack: ?loc:loc -> ?attrs:attrs -> str_vala_opt_vala -> pattern
     val open_: ?loc:loc -> ?attrs:attrs  -> lid_vala -> pattern -> pattern
@@ -148,7 +148,7 @@ module Exp:
     val attr: expression -> attribute -> expression
 (*-*)    val attrs: expression -> attrs -> expression
 
-    val ident: ?loc:loc -> ?attrs:attrs -> lid -> expression
+    val ident: ?loc:loc -> ?attrs:attrs -> lid_vala -> expression
     val constant: ?loc:loc -> ?attrs:attrs -> constant Ploc.vala -> expression
     val let_: ?loc:loc -> ?attrs:attrs -> rec_flag Ploc.vala -> value_binding list Ploc.vala
               -> expression -> expression
@@ -165,7 +165,7 @@ module Exp:
                    -> expression
     val variant: ?loc:loc -> ?attrs:attrs -> label Ploc.vala -> expression option Ploc.vala
                  -> expression
-    val record: ?loc:loc -> ?attrs:attrs -> (lid * expression) list Ploc.vala
+    val record: ?loc:loc -> ?attrs:attrs -> (lid_vala * expression) list Ploc.vala
                 -> expression option Ploc.vala -> expression
     val field: ?loc:loc -> ?attrs:attrs -> expression -> lid_vala -> expression
     val setfield: ?loc:loc -> ?attrs:attrs -> expression -> lid_vala -> expression
@@ -239,7 +239,7 @@ module Te:
   sig
     val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs ->
       ?params:(core_type * (variance * injectivity)) list Ploc.vala ->
-      ?priv:private_flag Ploc.vala -> lid -> extension_constructor list Ploc.vala -> type_extension
+      ?priv:private_flag Ploc.vala -> lid_vala -> extension_constructor list Ploc.vala -> type_extension
 
     val mk_exception: ?loc:loc -> ?attrs:attrs -> ?docs:docs ->
       extension_constructor -> type_exception

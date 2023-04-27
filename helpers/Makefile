@@ -44,7 +44,7 @@ TARGET_INSTALL_FILES= $(ARCHIVE_TARGET_INSTALL_FILES)
 install:: default_install
 
 clean::
-	rm -rf META mk_meta mk_meta.ml reorg_parsetree.ml std_derivers.ml
+	rm -rf META mk_meta mk_meta.ml reorg_parsetree.ml std_derivers.ml migrate.ml
 
 $(TARGET_PACKAGE).cmo $(TARGET_PACKAGE).cmi: $(CMO)
 	$(OCAMLFIND) ocamlc $(DEBUG) -pack -o $(TARGET_PACKAGE).cmo $^

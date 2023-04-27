@@ -107,7 +107,7 @@ let reloc_typ ~loc x =
            ptyp_loc_stack = push_loc x.ptyp_loc x.ptyp_loc_stack };;
 
 let mkexpvar ~loc (name : string Ploc.vala) =
-  mkexp ~loc (Pexp_ident(mkrhs (Lident name) loc))
+  mkexp ~loc (Pexp_ident(mkrhs (vaval  (Lident name)) loc))
 
 let mkoperator =
   mkexpvar
@@ -365,7 +365,7 @@ let mk_indexop_expr array_indexing_operator ~loc
     | None -> []
     | Some expr -> [Nolabel, expr] in
   let args = (Nolabel,array) :: index @ set_arg in
-  mkexp ~loc (Pexp_apply(ghexp ~loc (Pexp_ident fn), vaval args))
+  mkexp ~loc (Pexp_apply(ghexp ~loc (Pexp_ident (loc_map vaval fn)), vaval args))
 
 let indexop_unclosed_error loc_s s loc_e =
   let left, right = paren_to_strings s in
@@ -396,11 +396,11 @@ let loc_lident (id : string Location.loc) : Longident.t Location.loc =
   loc_map (fun x -> Lident (vaval x)) id
 
 let exp_of_longident ~loc lid =
-  let lid = make_ghost (loc_map (fun id -> Lident (vaval (Longident.last id))) lid) in
+  let lid = make_ghost (loc_map (fun id -> vaval (Lident (vaval (Longident.last id)))) lid) in
   ghexp ~loc (Pexp_ident lid)
 
 let exp_of_label ~loc lbl =
-  mkexp ~loc (Pexp_ident (loc_lident lbl))
+  mkexp ~loc (Pexp_ident (loc_map vaval (loc_lident lbl)))
 
 let pat_of_label lbl =
   Pat.mk ~loc:lbl.loc  (Ppat_var (loc_last_vala lbl))
@@ -608,9 +608,9 @@ let package_type_of_module_type pmty =
         err pmty.pmty_loc "only 'with type t =' constraints are supported"
   in
   match pmty with
-  | {pmty_desc = Pmty_ident lid} -> (lid, vaval [], pmty.pmty_attributes)
+  | {pmty_desc = Pmty_ident lid} -> ((loc_map vaval lid, vaval []), pmty.pmty_attributes)
   | {pmty_desc = Pmty_with({pmty_desc = Pmty_ident lid}, cstrs)} ->
-      (lid, Pcaml.vala_map (List.map map_cstr) cstrs, pmty.pmty_attributes)
+      ((loc_map vaval lid, Pcaml.vala_map (List.map map_cstr) cstrs), pmty.pmty_attributes)
   | _ ->
       err pmty.pmty_loc
         "only module type identifier and 'with type' constraints are supported"
@@ -779,6 +779,7 @@ let mk_directive ~loc name arg =
 /*-*/%token <string> ANTI_LID
 /*-*/%token <string> ANTI_UID
 /*-*/%token <string> ANTI_LONGID
+/*-*/%token <string> ANTI_LONGLID
 /*-*/%token <string> ANTI_TYP
 /*-*/%token <string> ANTI_PRIV
 /*-*/%token <string> ANTI_ALGATTRS
@@ -877,7 +878,7 @@ The precedences must be listed from low to high.
           LBRACE LBRACELESS LBRACKET LBRACKETBAR LIDENT LPAREN
           NEW PREFIXOP STRING TRUE UIDENT
           LBRACKETPERCENT QUOTED_STRING_EXPR
-/*-*/          ANTI ANTI_UID ANTI_LID ANTI_LONGID
+/*-*/          ANTI ANTI_UID ANTI_LID ANTI_LONGID ANTI_LONGLID
 /*-*/          ANTI_INT ANTI_INT32 ANTI_INT64 ANTI_NATIVEINT ANTI_CHAR ANTI_STRING ANTI_DELIM ANTI_FLOAT
 /*-*/          ANTI_EXPROPT ANTI_PATTOPT ANTI_CONSTANT ANTI_ALGATTRS
 
@@ -922,6 +923,8 @@ The precedences must be listed from low to high.
 /*-*/%type <Parsetree.module_type> parse_module_type
 /*-*/%start parse_module_expr
 /*-*/%type <Parsetree.module_expr> parse_module_expr
+/*-*/%start parse_longlident
+/*-*/%type <Longident.t> parse_longlident
 /*-*/%start parse_value_binding
 /*-*/%type <Parsetree.value_binding> parse_value_binding
 /*-*/%start parse_arg_label
@@ -964,6 +967,10 @@ The precedences must be listed from low to high.
 /*-*/%type <Parsetree.with_constraint> parse_with_constraint
 /*-*/%start parse_class_type_field
 /*-*/%type <Parsetree.class_type_field> parse_class_type_field
+/*-*/%start parse_str_type_extension
+/*-*/%type <Parsetree.type_extension> parse_str_type_extension
+/*-*/%start parse_sig_type_extension
+/*-*/%type <Parsetree.type_extension> parse_sig_type_extension
 /* END AVOID */
 
 /*-*/%type <Parsetree.expression list> expr_semi_list
@@ -989,7 +996,7 @@ The precedences must be listed from low to high.
 /*-*/
 /*-*/%type <Longident.t> mod_ext_longident
 /*-*/%type <Longident.t> mod_longident
-/*-*/%type <Longident.t Asttypes.loc * Parsetree.expression> record_expr_field
+/*-*/%type <Longident.t Ploc.vala Asttypes.loc * Parsetree.expression> record_expr_field
 /*-*/%type <Asttypes.arg_label Ploc.vala * Parsetree.expression option Ploc.vala * Parsetree.pattern> labeled_simple_pattern
 /*-*/%type <string Ploc.vala option Ploc.vala> module_name
 /*-*/%type <string Ploc.vala Location.loc> attr_id
@@ -1373,6 +1380,10 @@ parse_any_longident:
   any_longident EOF
     { $1 }
 ;
+/*-*/parse_longlident:
+/*-*/  type_longident EOF
+/*-*/    { $1 }
+/*-*/;
 /*-*/
 /*-*/parse_structure_item:
 /*-*/  structure_item EOF
@@ -1530,6 +1541,16 @@ parse_any_longident:
 /*-*/parse_class_type_field:
 /*-*/  class_sig_field EOF
 /*-*/    { $1 }
+/*-*/;
+/*-*/
+/*-*/parse_str_type_extension:
+/*-*/  str_type_extension EOF
+/*-*/    { fst $1 }
+/*-*/;
+/*-*/
+/*-*/parse_sig_type_extension:
+/*-*/  sig_type_extension EOF
+/*-*/    { fst $1 }
 /*-*/;
 /*-*/
 /* END AVOID */
@@ -2676,7 +2697,7 @@ expr:
       { mkexp_cons ~loc:$sloc $loc($2) (ghexp ~loc:$sloc (Pexp_tuple(vaval[$1;$3]))) }
   | mkrhs(label_vala) LESSMINUS expr
       { mkexp ~loc:$sloc (Pexp_setinstvar($1, $3)) }
-  | simple_expr DOT mkrhs(vaval(label_longident)) LESSMINUS expr
+  | simple_expr DOT mkrhs(vala(label_longident, ANTI_LONGLID)) LESSMINUS expr
       { mkexp ~loc:$sloc (Pexp_setfield($1, $3, $5)) }
   | indexop_expr(DOT, seq_expr, LESSMINUS v=expr {Some v})
     { mk_indexop_expr builtin_indexing_operators ~loc:$sloc $1 }
@@ -2796,7 +2817,7 @@ simple_expr:
       { unclosed "(" $loc($1) ")" $loc($6) }
 ;
 %inline simple_expr_:
-  | mkrhs(val_longident)
+  | mkrhs(vala(val_longident, ANTI_LONGLID))
       { Pexp_ident ($1) }
 /*-*/  | ANTI { Pexp_xtr (Location.mkloc $1 (make_loc $sloc)) }
   | vala(constant, ANTI_CONSTANT)
@@ -2815,7 +2836,7 @@ simple_expr:
       { unclosed "{<" $loc($1) ">}" $loc($3) }
   | LBRACELESS GREATERRBRACE
       { Pexp_override (vaval []) }
-  | simple_expr DOT mkrhs(vaval(label_longident))
+  | simple_expr DOT mkrhs(vala(label_longident, ANTI_LONGLID))
       { Pexp_field($1, $3) }
   | od=open_dot_declaration DOT LPAREN seq_expr RPAREN
       { Pexp_open(od, $4) }
@@ -2921,14 +2942,14 @@ let_binding_body_no_punning:
         let patloc = ($startpos($1), $endpos($2)) in
         (ghpat ~loc:patloc (Ppat_constraint(v, typ)),
          mkexp_constraint ~loc:$sloc $4 $2) }
-  | let_ident COLON typevar_list DOT core_type EQUAL seq_expr
+  | let_ident COLON vala(typevar_list, ANTI_LIST) DOT core_type EQUAL seq_expr
       (* TODO: could replace [typevar_list DOT core_type]
                with [mktyp(poly(core_type))]
                and simplify the semantic action? *)
       { let typloc = ($startpos($3), $endpos($5)) in
         let patloc = ($startpos($1), $endpos($5)) in
         (ghpat ~loc:patloc
-           (Ppat_constraint($1, ghtyp ~loc:typloc (Ptyp_poly(vaval $3,$5)))),
+           (Ppat_constraint($1, ghtyp ~loc:typloc (Ptyp_poly($3,$5)))),
          $7) }
   | let_ident COLON TYPE lident_list DOT core_type EQUAL seq_expr
       { let exp, poly =
@@ -3073,14 +3094,14 @@ record_expr_content:
     { eo, fields }
 ;
 %inline record_expr_field:
-  | label = mkrhs(label_longident)
+  | label = mkrhs(vala(label_longident, ANTI_LONGID))
     c = type_constraint?
     eo = preceded(EQUAL, expr)?
       { let e =
           match eo with
           | None ->
               (* No pattern; this is a pun. Desugar it. *)
-              exp_of_longident ~loc:$sloc label
+              exp_of_longident ~loc:$sloc (loc_map unvala label)
           | Some e ->
               e
         in
@@ -3228,7 +3249,7 @@ simple_pattern_not_ident:
       { Ppat_construct($1, vaval None) }
   | name_tag_vala
       { Ppat_variant($1, vaval None) }
-  | HASH mkrhs(type_longident)
+  | HASH mkrhs(vala(type_longident, ANTI_LONGLID))
       { Ppat_type ($2) }
   | mkrhs(mod_longident_vala) DOT simple_delimited_pattern
       { Ppat_open($1, $3) }
@@ -3301,7 +3322,7 @@ pattern_comma_list(self):
 (*-*)    }
 ;
 %inline record_pat_field:
-  label = mkrhs(label_longident)
+  label = mkrhs(vala(label_longident, ANTI_LONGLID))
   octy = preceded(COLON, core_type)?
   opat = preceded(EQUAL, pattern)?
     { let label, pat =
@@ -3311,7 +3332,7 @@ pattern_comma_list(self):
                But that the pattern was there and the label reconstructed (which
                piece of AST is marked as ghost is important for warning
                emission). *)
-            make_ghost label, pat_of_label label
+            make_ghost label, pat_of_label (loc_map unvala label)
         | Some pat ->
             label, pat
       in
@@ -3648,7 +3669,7 @@ label_declaration_semi:
   attrs1 = vaval(attributes)
   no_nonrec_flag
   params = vala(type_parameters, ANTI_LIST)
-  tid = mkrhs(type_longident)
+  tid = mkrhs(vala(type_longident, ANTI_LONGLID))
   PLUSEQ
   priv = private_flag_vala
   cs = vala(bar_llist(declaration), ANTI_LIST)
@@ -3685,9 +3706,10 @@ extension_constructor_rebind(opening):
 
 with_constraint:
     TYPE vala(type_parameters, ANTI_LIST)
-      mkrhs(label_longident) vala(with_type_binder, ANTI_PRIV)
+      mkrhs(vala(label_longident, ANTI_LONGLID))
+      vala(with_type_binder, ANTI_PRIV)
     core_type_no_attr vala(constraints, ANTI_LIST)
-      { let lident = loc_last_vala $3 in
+      { let lident = loc_last_vala (loc_map unvala $3) in
         Pwith_type
           ($3,
            vaval (Type.mk lident
@@ -3698,21 +3720,21 @@ with_constraint:
               ~loc:(make_loc $sloc))) }
     /* used label_longident instead of type_longident to disallow
        functor applications in type path */
-/*-*/  | TYPE tpl = type_parameters li = mkrhs(label_longident) EQUAL td = ANTI_TYPEDECL
+/*-*/  | TYPE tpl = type_parameters li = mkrhs(vala(label_longident, ANTI_LONGLID)) EQUAL td = ANTI_TYPEDECL
 /*-*/      {
 (*-*)        assert (tpl = []) ;
 (*-*)        Pwith_type (li, vaant td)
 (*-*)      }
-  | TYPE vaval(type_parameters) mkrhs(label_longident)
+  | TYPE vaval(type_parameters) mkrhs(vaval(label_longident))
     COLONEQUAL core_type_no_attr
-      { let lident = loc_last $3 in
+      { let lident = loc_last (loc_map unvala $3) in
         Pwith_typesubst
          ($3,
            vaval (Type.mk (loc_map vaval lident)
               ~params:$2
               ~manifest:(vaval (Some (vaval $5)))
               ~loc:(make_loc $sloc))) }
-/*-*/  | TYPE tpl = type_parameters li = mkrhs(label_longident) COLONEQUAL td = ANTI_TYPEDECL
+/*-*/  | TYPE tpl = type_parameters li = mkrhs(vala(label_longident, ANTI_LONGLID)) COLONEQUAL td = ANTI_TYPEDECL
 (*-*)      {
 (*-*)        assert (tpl = []) ;
 (*-*)        Pwith_typesubst (li, vaant td)
@@ -3742,8 +3764,8 @@ with_type_binder:
     { $1 }
 ;
 %inline poly(X):
-  typevar_list DOT X
-    { Ptyp_poly(vaval $1, $3) }
+  vala(typevar_list, ANTI_LIST) DOT X
+    { Ptyp_poly($1, $3) }
 ;
 possibly_poly(X):
   X
@@ -3865,10 +3887,10 @@ atomic_type:
     | UNDERSCORE
         { Ptyp_any }
     | tys = actual_type_parameters
-      tid = mkrhs(type_longident)
+      tid = mkrhs(vala(type_longident, ANTI_LONGLID))
         { Ptyp_constr(tid, vaval tys) }
 /*-*/    | ANTI_LIST
-/*-*/      tid = mkrhs(type_longident)
+/*-*/      tid = mkrhs(vala(type_longident, ANTI_LONGLID))
 /*-*/        { Ptyp_constr(tid, vaant $1) }
     | LESS meth_list GREATER
         { let (f, c) = $2 in Ptyp_object (vaval f, vaval c) }
@@ -3900,6 +3922,10 @@ atomic_type:
 /*-*/        { Ptyp_variant($3, vaval Closed, vaant $4) }
 /*-*/    | LBRACKET c = ANTI_CLOSEDFLAG r = ANTI_LIST l = ANTI_OPT RBRACKET
 /*-*/        { Ptyp_variant(vaant r, vaant c, vaant l) }
+/*-*/    | LBRACKET r = ANTI_LIST l = ANTI_OPT RBRACKET
+/*-*/        { Ptyp_variant(vaant r, vaval Closed, vaant l) }
+/*-*/    | LBRACKET r = ANTI_LIST RBRACKET
+/*-*/        { Ptyp_variant(vaant r, vaval Closed, vaval None) }
 /*-*/    | LBRACKET c = ANTI_CLOSEDFLAG r = ANTI_LIST GREATER l = vala(name_tag_list, ANTI_LIST) RBRACKET
 /*-*/        { Ptyp_variant(vaant r, vaant c, vaval (Some l)) }
     | extension
@@ -3928,7 +3954,7 @@ atomic_type:
 ;
 
 %inline package_type: module_type
-      { let (lid, cstrs, attrs) = package_type_of_module_type $1 in
+      { let ((lid, cstrs), attrs) = package_type_of_module_type $1 in
         let descr = Ptyp_package (lid, cstrs) in
         mktyp ~loc:$sloc ~attrs descr }
 ;
