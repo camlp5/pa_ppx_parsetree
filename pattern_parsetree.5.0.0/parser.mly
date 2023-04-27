@@ -586,7 +586,7 @@ let class_of_let_bindings ~loc lbs body =
 (* Alternatively, we could keep the generic module type in the Parsetree
    and extract the package type during type-checking. In that case,
    the assertions below should be turned into explicit checks. *)
-let package_type_of_module_type pmty : (package_type * attributes) =
+let package_type_of_module_type pmty =
   let err loc s =
     raise (Syntaxerr.Error (Syntaxerr.Invalid_package_type (loc, s)))
   in
@@ -926,10 +926,10 @@ The precedences must be listed from low to high.
 %type <Longident.t> parse_mod_ext_longident
 %start parse_mod_longident
 %type <Longident.t> parse_mod_longident
-%start parse_longlident
-%type <Longident.t> parse_longlident
 %start parse_any_longident
 %type <Longident.t> parse_any_longident
+/*-*/%start parse_longlident
+/*-*/%type <Longident.t> parse_longlident
 /*-*/%start parse_value_binding
 /*-*/%type <Parsetree.value_binding> parse_value_binding
 /*-*/%start parse_arg_label
@@ -3715,7 +3715,8 @@ extension_constructor_rebind(opening):
 
 with_constraint:
     TYPE vala(type_parameters, ANTI_LIST)
-      mkrhs(vala(label_longident, ANTI_LONGLID)) vala(with_type_binder, ANTI_PRIV)
+      mkrhs(vala(label_longident, ANTI_LONGLID))
+      vala(with_type_binder, ANTI_PRIV)
     core_type_no_attr vala(constraints, ANTI_LIST)
       { let lident = loc_last_vala (loc_map unvala $3) in
         Pwith_type
