@@ -103,7 +103,7 @@ and core_type_desc =
 
            Invariant: [n >= 2].
         *)
-  | Ptyp_constr of Longident.t loc * core_type list Ploc.vala
+  | Ptyp_constr of Longident.t Ploc.vala loc * core_type list Ploc.vala
       (** [Ptyp_constr(lident, l)] represents:
             - [tconstr]               when [l=[]],
             - [T tconstr]             when [l=[T]],
@@ -169,7 +169,7 @@ and core_type_desc =
   | Ptyp_package of package_type  (** [(module S)]. *)
   | Ptyp_extension of extension  (** [[%id]]. *)
 
-and package_type = Longident.t loc * (Longident.t loc * core_type) list Ploc.vala
+and package_type = Longident.t Ploc.vala loc * (Longident.t Ploc.vala loc * core_type) list Ploc.vala
 (** As {!package_type} typed values:
          - [(S, [])] represents [(module S)],
          - [(S, [(t1, T1) ; ... ; (tn, Tn)])]
@@ -248,7 +248,7 @@ and pattern_desc =
             - [`A]   when [pat] is [None],
             - [`A P] when [pat] is [Some P]
          *)
-  | Ppat_record of (Longident.t loc * pattern) list Ploc.vala * closed_flag Ploc.vala
+  | Ppat_record of (Longident.t Ploc.vala loc * pattern) list Ploc.vala * closed_flag Ploc.vala
       (** [Ppat_record([(l1, P1) ; ... ; (ln, Pn)], flag)] represents:
             - [{ l1=P1; ...; ln=Pn }]
                  when [flag] is {{!Asttypes.closed_flag.Closed}[Closed]}
@@ -260,7 +260,7 @@ and pattern_desc =
   | Ppat_array of pattern list Ploc.vala  (** Pattern [[| P1; ...; Pn |]] *)
   | Ppat_or of pattern * pattern  (** Pattern [P1 | P2] *)
   | Ppat_constraint of pattern * core_type  (** Pattern [(P : T)] *)
-  | Ppat_type of Longident.t loc  (** Pattern [#tconst] *)
+  | Ppat_type of Longident.t Ploc.vala loc  (** Pattern [#tconst] *)
   | Ppat_lazy of pattern  (** Pattern [lazy P] *)
   | Ppat_unpack of string Ploc.vala option Ploc.vala loc
       (** [Ppat_unpack(s)] represents:
@@ -286,7 +286,7 @@ and expression =
 
 and expression_desc =
 (*-*)  | Pexp_xtr of string loc
-  | Pexp_ident of Longident.t loc
+  | Pexp_ident of Longident.t Ploc.vala loc
       (** Identifiers such as [x] and [M.x]
          *)
   | Pexp_constant of constant Ploc.vala
@@ -354,7 +354,7 @@ and expression_desc =
             - [`A]   when [exp] is [None]
             - [`A E] when [exp] is [Some E]
          *)
-  | Pexp_record of (Longident.t loc * expression) list Ploc.vala * expression option Ploc.vala
+  | Pexp_record of (Longident.t Ploc.vala loc * expression) list Ploc.vala * expression option Ploc.vala
       (** [Pexp_record([(l1,P1) ; ... ; (ln,Pn)], exp0)] represents
             - [{ l1=P1; ...; ln=Pn }]         when [exp0] is [None]
             - [{ E0 with l1=P1; ...; ln=Pn }] when [exp0] is [Some E0]
@@ -555,7 +555,7 @@ and constructor_arguments =
 
 and type_extension =
     {
-     ptyext_path: Longident.t loc;
+     ptyext_path: Longident.t Ploc.vala loc;
      ptyext_params: (core_type * (variance * injectivity)) list Ploc.vala;
      ptyext_constructors: extension_constructor list Ploc.vala;
      ptyext_private: private_flag Ploc.vala;
@@ -936,7 +936,7 @@ and include_declaration = module_expr include_infos
 (** Values of type [include_declaration] represents [include ME] *)
 
 and with_constraint =
-  | Pwith_type of Longident.t loc * type_declaration Ploc.vala
+  | Pwith_type of Longident.t Ploc.vala loc * type_declaration Ploc.vala
       (** [with type X.t = ...]
 
             Note: the last component of the longident must match
@@ -947,7 +947,7 @@ and with_constraint =
       (** [with module type X.Y = Z] *)
   | Pwith_modtypesubst of Longident.t loc * module_type
       (** [with module type X.Y := sig end] *)
-  | Pwith_typesubst of Longident.t loc * type_declaration Ploc.vala
+  | Pwith_typesubst of Longident.t Ploc.vala loc * type_declaration Ploc.vala
       (** [with type X.t := ..., same format as [Pwith_type]] *)
   | Pwith_modsubst of Longident.t Ploc.vala loc * Longident.t Ploc.vala loc
       (** [with module X.Y := Z] *)
