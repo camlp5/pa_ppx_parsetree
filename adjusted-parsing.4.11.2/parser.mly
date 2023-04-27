@@ -3110,7 +3110,8 @@ extension_constructor_rebind(opening):
 
 with_constraint:
     TYPE type_parameters
-      mkrhs(label_longident) with_type_binder
+      mkrhs(label_longident)
+      with_type_binder
     core_type_no_attr constraints
       { let lident = loc_last $3 in
         Pwith_type
