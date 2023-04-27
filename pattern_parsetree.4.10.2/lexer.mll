@@ -542,224 +542,234 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI (make_antiquotation "" loc payload)
      }
-  | "$" "opt:" ([^ ':' '$']* as payload) "$"
+  | "$" ":" ([^ '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI (make_antiquotation "" loc payload)
+     }
+  | "$" "opt:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_OPT (make_antiquotation "opt" loc payload)
      }
-  | "$" "tuplelist:" ([^ ':' '$']* as payload) "$"
+  | "$" "tuplelist:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_TUPLELIST (make_antiquotation "tuplelist" loc payload)
      }
-  | "$" "constructorlist:" ([^ ':' '$']* as payload) "$"
+  | "$" "constructorlist:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_CONSTRUCTORLIST (make_antiquotation "constructorlist" loc payload)
      }
-  | "$" "list:" ([^ ':' '$']* as payload) "$"
+  | "$" "list:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_LIST (make_antiquotation "list" loc payload)
      }
-  | "$" "classlist:" ([^ ':' '$']* as payload) "$"
+  | "$" "classlist:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_CLASSLIST (make_antiquotation "classlist" loc payload)
      }
-  | "$" "classdesclist:" ([^ ':' '$']* as payload) "$"
+  | "$" "classdesclist:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_CLASSDESCLIST (make_antiquotation "classdesclist" loc payload)
      }
-  | "$" "classtypelist:" ([^ ':' '$']* as payload) "$"
+  | "$" "classtypelist:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_CLASSTYPELIST (make_antiquotation "classtypelist" loc payload)
      }
 
-  | "$" "lid:" ([^ ':' '$']* as payload) "$"
+  | "$" "lid:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_LID (make_antiquotation "lid" loc payload)
      }
-  | "$" "id:" ([^ ':' '$']* as payload) "$"
+  | "$" "id:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_ID (make_antiquotation "id" loc payload)
      }
-  | "$" "uid:" ([^ ':' '$']* as payload) "$"
+  | "$" "uid:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_UID (make_antiquotation "uid" loc payload)
      }
-  | "$" "longid:" ([^ ':' '$']* as payload) "$"
+  | "$" "longid:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_LONGID (make_antiquotation "longid" loc payload)
      }
-  | "$" "typ:" ([^ ':' '$']* as payload) "$"
+  | "$" "longlid:" ([^ '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_LONGLID (make_antiquotation "longlid" loc payload)
+     }
+  | "$" "typ:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_TYP (make_antiquotation "typ" loc payload)
      }
-  | "$" "priv:" ([^ ':' '$']* as payload) "$"
+  | "$" "priv:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_PRIV (make_antiquotation "priv" loc payload)
      }
-  | "$" "algattrs:" ([^ ':' '$']* as payload) "$"
+  | "$" "algattrs:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_ALGATTRS (make_antiquotation "algattrs" loc payload)
      }
-  | "$" "itemattrs:" ([^ ':' '$']* as payload) "$"
+  | "$" "itemattrs:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_ITEMATTRS (make_antiquotation "itemattrs" loc payload)
      }
-  | "$" "mutable:" ([^ ':' '$']* as payload) "$"
+  | "$" "mutable:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_MUTABLE (make_antiquotation "mutable" loc payload)
      }
-  | "$" "wheno:" ([^ ':' '$']* as payload) "$"
+  | "$" "wheno:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_WHENO (make_antiquotation "wheno" loc payload)
      }
-  | "$" "withe:" ([^ ':' '$']* as payload) "$"
+  | "$" "withe:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_WITHE (make_antiquotation "withe" loc payload)
      }
-  | "$" "recflag:" ([^ ':' '$']* as payload) "$"
+  | "$" "recflag:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_RECFLAG (make_antiquotation "recflag" loc payload)
      }
-  | "$" "nonrecflag:" ([^ ':' '$']* as payload) "$"
+  | "$" "nonrecflag:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_NONRECFLAG (make_antiquotation "nonrecflag" loc payload)
      }
-  | "$" "overrideflag:" ([^ ':' '$']* as payload) "$"
+  | "$" "overrideflag:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_OVERRIDEFLAG (make_antiquotation "overrideflag" loc payload)
      }
-  | "$" "closedflag:" ([^ ':' '$']* as payload) "$"
+  | "$" "closedflag:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_CLOSEDFLAG (make_antiquotation "closedflag" loc payload)
      }
-  | "$" "expr:" ([^ ':' '$']* as payload) "$"
+  | "$" "expr:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_EXPR (make_antiquotation "expr" loc payload)
      }
-  | "$" "expropt:" ([^ ':' '$']* as payload) "$"
+  | "$" "expropt:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_EXPROPT (make_antiquotation "expropt" loc payload)
      }
-  | "$" "pattopt:" ([^ ':' '$']* as payload) "$"
+  | "$" "pattopt:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_PATTOPT (make_antiquotation "pattopt" loc payload)
      }
-  | "$" "ctypopt:" ([^ ':' '$']* as payload) "$"
+  | "$" "ctypopt:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_CTYPOPT (make_antiquotation "ctypopt" loc payload)
      }
-  | "$" "patt:" ([^ ':' '$']* as payload) "$"
+  | "$" "patt:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_PATT (make_antiquotation "patt" loc payload)
      }
-  | "$" "int:" ([^ ':' '$']* as payload) "$"
+  | "$" "int:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_INT (make_antiquotation "int" loc payload)
      }
-  | "$" "int32:" ([^ ':' '$']* as payload) "$"
+  | "$" "int32:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_INT32 (make_antiquotation "int32" loc payload)
      }
-  | "$" "int64:" ([^ ':' '$']* as payload) "$"
+  | "$" "int64:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_INT64 (make_antiquotation "int64" loc payload)
      }
-  | "$" "nativeint:" ([^ ':' '$']* as payload) "$"
+  | "$" "nativeint:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_NATIVEINT (make_antiquotation "nativeint" loc payload)
      }
 
-  | "$" "char:" ([^ ':' '$']* as payload) "$"
+  | "$" "char:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_CHAR (make_antiquotation "char" loc payload)
      }
-  | "$" "string:" ([^ ':' '$']* as payload) "$"
+  | "$" "string:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_STRING (make_antiquotation "string" loc payload)
      }
-  | "$" "delim:" ([^ ':' '$']* as payload) "$"
+  | "$" "delim:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_DELIM (make_antiquotation "delim" loc payload)
      }
-  | "$" "float:" ([^ ':' '$']* as payload) "$"
+  | "$" "float:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_FLOAT (make_antiquotation "float" loc payload)
      }
-  | "$" "label:" ([^ ':' '$']* as payload) "$"
+  | "$" "label:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_LABEL (make_antiquotation "label" loc payload)
      }
-  | "$" "dirflag:" ([^ ':' '$']* as payload) "$"
+  | "$" "dirflag:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_DIRFLAG (make_antiquotation "dirflag" loc payload)
      }
-  | "$" "excon:" ([^ ':' '$']* as payload) "$"
+  | "$" "excon:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_EXCON (make_antiquotation "excon" loc payload)
      }
-  | "$" "letop:" ([^ ':' '$']* as payload) "$"
+  | "$" "letop:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_LETOP (make_antiquotation "letop" loc payload)
      }
-  | "$" "attrid:" ([^ ':' '$']* as payload) "$"
+  | "$" "attrid:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_ATTRID (make_antiquotation "attrid" loc payload)
      }
-  | "$" "constant:" ([^ ':' '$']* as payload) "$"
+  | "$" "constant:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_CONSTANT (make_antiquotation "constant" loc payload)
      }
-  | "$" "isconst:" ([^ ':' '$']* as payload) "$"
+  | "$" "isconst:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_ISCONST (make_antiquotation "isconst" loc payload)
      }
-  | "$" "virtual:" ([^ ':' '$']* as payload) "$"
+  | "$" "virtual:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_VIRTUAL (make_antiquotation "virtual" loc payload)
      }
-  | "$" "typedecl:" ([^ ':' '$']* as payload) "$"
+  | "$" "typedecl:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in
        ANTI_TYPEDECL (make_antiquotation "typedecl" loc payload)

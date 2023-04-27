@@ -8,7 +8,7 @@ include $(TOP)/config/Makefile.sub
 
 DESTDIR=
 
-PACKAGES := fmt,camlp5,re
+PACKAGES := fmt,camlp5,re,menhirLib
 TARGET_PACKAGE = pa_ppx_parsetree_pattern_parsetree
 TARGET=$(TARGET_PACKAGE).cma
 
@@ -18,7 +18,7 @@ MLI = clflags.mli location.mli longident.mli asttypes.mli parsetree.mli docstrin
 	ast_helper.mli lexer.mli pprintast.mli parse.mli printast.mli
 
 TOOLSML = mk_meta.ml
-ALLSRC=$(ML) $(MLI) $(TOOLSML)
+ALLSRC=$(ML) $(MLI) $(TOOLSML) parser_mock.ml parser_mock.out.mli
 ALLPACKAGES=$(PACKAGES)
 
 OCAMLCFLAGS := $(OCAMLCFLAGS) -linkall -for-pack Pa_ppx_parsetree_pattern_parsetree
@@ -37,7 +37,7 @@ clean::
 	rm -rf META mk_meta mk_meta.ml
 
 realclean:: clean
-	rm -f parser.ml parser.mli lexer.ml *_mock*.ml* *.conflicts parser_expanded.mly
+	rm -f parser.ml parser.mli lexer.ml *_mock* *.conflicts parser_expanded.mly
 
 parser.cmo: parser.ml
 	$(LAUNCH) $(YAWRAP) $(OCAMLFIND) ocamlc $(OCAMLCFLAGS) -package $(PACKAGES) -c $<
@@ -45,13 +45,25 @@ parser.cmo: parser.ml
 parser.cmx: parser.ml
 	$(LAUNCH) $(YAWRAP) $(OCAMLFIND) ocamlopt $(OCAMLCFLAGS) -package $(PACKAGES) -c $<
 
-parser.ml: parser.mly
-	menhir --only-preprocess $< > parser_expanded.mly
+parser.ml parser.mli: parser_mock.out.mli
+	menhir --table --explain --infer-read-reply parser_mock.out.mli parser.mly
+
+parser_mock.out.mli : \
+    syntaxerr.cmi \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    docstrings.cmi \
+    clflags.cmi \
+    asttypes.cmi \
+    ast_helper.cmi
+
+
+parser_mock.ml: parser.mly
 	menhir --infer-write-query parser_mock.ml $<
-	perl -p -e 's,# \d+.*,,' parser_mock.ml > parser_mock_nolines.ml
-	ocamlfind ocamlc -package camlp5 -c parser_mock_nolines.ml || true
-	ocamlfind ocamlc -package camlp5 -i parser_mock.ml > parser_mock.mli
-	menhir --explain --infer-read-reply parser_mock.mli $<
+
+parser_mock.out.mli: parser_mock.ml
+	ocamlfind ocamlc -package camlp5 -i parser_mock.ml > parser_mock.out.mli.NEW && mv parser_mock.out.mli.NEW parser_mock.out.mli
 
 lexer.ml: lexer.mll
 	ocamllex lexer.mll

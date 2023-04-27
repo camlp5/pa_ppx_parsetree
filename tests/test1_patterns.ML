@@ -109,8 +109,8 @@
 {Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 loc os2); ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = attrs};
 {Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 loc os2); ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = []};
 #else
-{Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 os2); Parsetree.ppat_loc = loc; Parsetree.ppat_loc_stack = []; Parsetree.ppat_attributes = attrs};
-{Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 os2); Parsetree.ppat_loc = loc; Parsetree.ppat_loc_stack = []; Parsetree.ppat_attributes = []};
+{Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 os2); ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = attrs};
+{Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 os2); ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = []};
 #endif
 <:pattern< $float:sxf1$ $algattrs:attrs$ >>;
 <:pattern< $float:sxf1$ >>;
@@ -203,8 +203,8 @@
 {Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 loc os2); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
 {Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 loc os2); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 #else
-{Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 os2); Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 os2); Parsetree.pexp_loc = loc; Parsetree.pexp_loc_stack = []; Parsetree.pexp_attributes = []};
+{Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 os2); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
+{Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 os2); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 #endif
 <:expression< $float:sxf1$ $algattrs:attrs$ >>;
 <:expression< $float:sxf1$ >>;
