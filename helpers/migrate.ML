@@ -1,4 +1,3 @@
-# 1 "migrate.ML"
 (**pp $(MIGRATE_OCAMLCFLAGS) -package pa_ppx.import,pa_ppx_migrate -syntax camlp5o *)
 
 module SRC = Reorg_parsetree
@@ -34,8 +33,9 @@ let _migrate_list subrw0 __dt__ l =
           ; rec_flag
           ; virtual_flag
           ; variance
-          
-# 39 "migrate.ML"
+#if OCAML_VERSION >= (4,12,0)
+          ; injectivity
+#endif
           ; attribute
           ; attributes
           ; binding_op

@@ -35,6 +35,9 @@ reorg_parsetree.ml: reorg_parsetree.ML
 std_derivers.ml: std_derivers.ML
 	cppo -V OCAML:$(ocamlVERSION) $< > $@
 
+migrate.ml: migrate.ML
+	cppo -V OCAML:$(ocamlVERSION) $< > $@
+
 doc: $(CMT) $(CMTI)
 
 TARGET_INSTALL_FILES= $(ARCHIVE_TARGET_INSTALL_FILES)
