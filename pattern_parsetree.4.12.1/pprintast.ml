@@ -66,7 +66,7 @@ let fixity_of_string  = function
   | _ -> `Normal
 
 let view_fixity_of_exp = function
-  | {pexp_desc = Pexp_ident {txt=Lident l;_}; pexp_attributes = Ploc.VaVal []} ->
+  | {pexp_desc = Pexp_ident {txt=Ploc.VaVal  (Lident l);_}; pexp_attributes = Ploc.VaVal []} ->
       fixity_of_string (unvala l)
   | _ -> `Normal
 
@@ -342,7 +342,7 @@ and core_type1 ctxt f x =
              |[] -> ()
              |[x]-> pp f "%a@;" (core_type1 ctxt)  x
              | _ -> list ~first:"(" ~last:")@;" (core_type ctxt) ~sep:",@;" f l)
-          l longident_loc li
+          l longident_vala_loc li
     | Ptyp_variant (l, closed, low) ->
         let first_is_inherit = match unvala l with
           | {Parsetree.prf_desc = Rinherit _}::_ -> true
@@ -399,11 +399,11 @@ and core_type1 ctxt f x =
           longident_loc li
     | Ptyp_package (lid, cstrs) ->
         let aux f (s, ct) =
-          pp f "type %a@ =@ %a" longident_loc s (core_type ctxt) ct  in
+          pp f "type %a@ =@ %a" longident_vala_loc s (core_type ctxt) ct  in
         (match unvala cstrs with
-         |[] -> pp f "@[<hov2>(module@ %a)@]" longident_loc lid
+         |[] -> pp f "@[<hov2>(module@ %a)@]" longident_vala_loc lid
          |_ ->
-             pp f "@[<hov2>(module@ %a@ with@ %a)@]" longident_loc lid
+             pp f "@[<hov2>(module@ %a@ with@ %a)@]" longident_vala_loc lid
                (list aux  ~sep:"@ and@ ")  (unvala cstrs))
     | Ptyp_extension e -> extension ctxt f e
     | _ -> paren true (core_type ctxt) f x
@@ -472,17 +472,17 @@ and simple_pattern ctxt (f:Format.formatter) (x:pattern) : unit =
     | Ppat_unpack { txt = Ploc.VaVal (Some s) } ->
         pp f "(module@ %s)@ " (unvala s)
     | Ppat_type li ->
-        pp f "#%a" longident_loc li
+        pp f "#%a" longident_vala_loc li
     | Ppat_record (l, closed) ->
         let longident_x_pattern f (li, p) =
           match (li,p) with
-          | ({txt=(Lident s);_ },
+          | ({txt=Ploc.VaVal (Lident s);_ },
              {ppat_desc=Ppat_var {txt;_};
               ppat_attributes= Ploc.VaVal []; _})
             when s = txt ->
-              pp f "@[<2>%a@]"  longident_loc li
+              pp f "@[<2>%a@]"  longident_vala_loc li
           | _ ->
-              pp f "@[<2>%a@;=@;%a@]" longident_loc li (pattern1 ctxt) p
+              pp f "@[<2>%a@;=@;%a@]" longident_vala_loc li (pattern1 ctxt) p
         in
         begin match unvala closed with
         | Closed ->
@@ -559,7 +559,7 @@ and sugar_expr ctxt f e =
                 left (list ~sep print_index) indices right
                 (simple_expr ctxt) v; true
             | _ -> false in
-      match id, List.map snd (unvala args) with
+      match unvala id, List.map snd (unvala args) with
       | Lident (Ploc.VaVal "!"), [e] ->
         pp f "@[<hov>!%a@]" (simple_expr ctxt) e; true
       | Ldot (path, (Ploc.VaVal ("get"|"set" as func))), a :: other_args -> begin
@@ -602,7 +602,7 @@ and sugar_expr ctxt f e =
             | ']' -> '[', "]"
             | '}' -> '{', "}"
             | _ -> assert false in
-          let path_prefix = match id with
+          let path_prefix = match unvala id with
             | Ldot(m,_) -> Some m
             | _ -> None in
           let left = String.sub s 0 (1+String.index s left) in
@@ -793,7 +793,7 @@ and simple_expr ctxt f x =
          | `simple x -> longident f (unvala x)
          | _ -> assert false)
     | Pexp_ident li ->
-        longident_loc f li
+        longident_vala_loc f li
     (* (match view_fixity_of_exp x with *)
     (* |`Normal -> longident_loc f li *)
     (* | `Prefix _ | `Infix _ -> pp f "( %a )" longident_loc li) *)
@@ -814,9 +814,9 @@ and simple_expr ctxt f x =
           match e with
           |  {pexp_desc=Pexp_ident {txt;_};
               pexp_attributes= Ploc.VaVal []; _} when li.txt = txt ->
-              pp f "@[<hov2>%a@]" longident_loc li
+              pp f "@[<hov2>%a@]" longident_vala_loc li
           | _ ->
-              pp f "@[<hov2>%a@;=@;%a@]" longident_loc li (simple_expr ctxt) e
+              pp f "@[<hov2>%a@;=@;%a@]" longident_vala_loc li (simple_expr ctxt) e
         in
         pp f "@[<hv0>@[<hv2>{@;%a%a@]@;}@]"(* "@[<hov2>{%a%a}@]" *)
           (option ~last:" with@;" (simple_expr ctxt)) (unvala eo)
@@ -1071,14 +1071,14 @@ and module_type ctxt f x =
       let ls = List.map fst (unvala ls) in
       pp f "type@ %a %a =@ %a"
         (list (core_type ctxt) ~sep:"," ~first:"(" ~last:")")
-        ls longident_loc li (type_declaration ctxt) td
+        ls longident_vala_loc li (type_declaration ctxt) td
   | Pwith_module (li, li2) ->
       pp f "module %a =@ %a" longident_vala_loc li longident_vala_loc li2;
   | Pwith_typesubst (li, (Ploc.VaVal ({ptype_params=ls;_} as td))) ->
       let ls = List.map fst (unvala ls) in
       pp f "type@ %a %a :=@ %a"
         (list (core_type ctxt) ~sep:"," ~first:"(" ~last:")")
-        ls longident_loc li
+        ls longident_vala_loc li
         (type_declaration ctxt) td
   | Pwith_modsubst (li, li2) ->
              pp f "module %a :=@ %a" longident_vala_loc li longident_vala_loc li2 in
@@ -1565,7 +1565,7 @@ and type_extension ctxt f x =
        | l ->
            pp f "%a@;" (list (type_param ctxt) ~first:"(" ~last:")" ~sep:",") l)
     (unvala  x.ptyext_params)
-    longident_loc x.ptyext_path
+    longident_vala_loc x.ptyext_path
     private_flag (unvala x.ptyext_private) (* Cf: #7200 *)
     (list ~sep:"" extension_constructor)
     (unvala x.ptyext_constructors)
@@ -1620,7 +1620,7 @@ and case_list ctxt f l : unit =
 
 and label_x_expression_param ctxt f (l,e) =
   let simple_name = match e with
-    | {pexp_desc=Pexp_ident {txt=Lident (Ploc.VaVal l);_};
+    | {pexp_desc=Pexp_ident {txt=Ploc.VaVal (Lident (Ploc.VaVal l));_};
        pexp_attributes= Ploc.VaVal []} -> Some l
     | _ -> None
   in match l with
