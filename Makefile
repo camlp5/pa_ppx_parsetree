@@ -39,17 +39,37 @@ mdx-test:: README.asciidoc.TEST
 setup:
 	set -e ; for v in 500 414 413 412 411 410; do \
 	rm -rf quotations_$$v && cp -r quotations.TMPL quotations_$$v; \
-	perl -p -i -e 's,VERSION,'$$v',g' quotations_$$v/mk_meta.ML quotations_$$v/Makefile quotations_$$v/.depend; \
+	perl -p -i -e 's,VERSION,'$$v',g' quotations_$$v/mk_meta.ML quotations_$$v/q_parsetree.ml quotations_$$v/reorg_parsetree.ML quotations_$$v/Makefile quotations_$$v/.depend; \
 	done
 
 META: sys
 	$(JOINMETA) \
-		-rewrite pa_ppx_parsetree_pattern_parsetree:pa_ppx_parsetree.pattern_parsetree \
-		-wrap-subdir pattern_parsetree:pattern_parsetree.$(ocamlVERSION) \
+		-rewrite pa_ppx_parsetree_pattern_parsetree_410:pa_ppx_parsetree.pattern_parsetree_410 \
+		-wrap-subdir pattern_parsetree_410:pattern_parsetree.4.10.2 \
+		-rewrite pa_ppx_parsetree_pattern_parsetree_411:pa_ppx_parsetree.pattern_parsetree_411 \
+		-wrap-subdir pattern_parsetree_411:pattern_parsetree.4.11.2 \
+		-rewrite pa_ppx_parsetree_pattern_parsetree_412:pa_ppx_parsetree.pattern_parsetree_412 \
+		-wrap-subdir pattern_parsetree_412:pattern_parsetree.4.12.1 \
+		-rewrite pa_ppx_parsetree_pattern_parsetree_413:pa_ppx_parsetree.pattern_parsetree_413 \
+		-wrap-subdir pattern_parsetree_413:pattern_parsetree.4.13.1 \
+		-rewrite pa_ppx_parsetree_pattern_parsetree_414:pa_ppx_parsetree.pattern_parsetree_414 \
+		-wrap-subdir pattern_parsetree_414:pattern_parsetree.4.14.0 \
+		-rewrite pa_ppx_parsetree_pattern_parsetree_500:pa_ppx_parsetree.pattern_parsetree_500 \
+		-wrap-subdir pattern_parsetree_500:pattern_parsetree.5.0.0 \
 		-rewrite pa_ppx_parsetree_helpers:pa_ppx_parsetree.helpers \
 		-wrap-subdir helpers:helpers \
-		-rewrite pa_ppx_parsetree_quotations:pa_ppx_parsetree.quotations \
-		-wrap-subdir quotations:quotations \
+		-rewrite pa_ppx_parsetree_quotations_410:pa_ppx_parsetree.quotations_410 \
+		-wrap-subdir quotations_410:quotations_410 \
+		-rewrite pa_ppx_parsetree_quotations_411:pa_ppx_parsetree.quotations_411 \
+		-wrap-subdir quotations_411:quotations_411 \
+		-rewrite pa_ppx_parsetree_quotations_412:pa_ppx_parsetree.quotations_412 \
+		-wrap-subdir quotations_412:quotations_412 \
+		-rewrite pa_ppx_parsetree_quotations_413:pa_ppx_parsetree.quotations_413 \
+		-wrap-subdir quotations_413:quotations_413 \
+		-rewrite pa_ppx_parsetree_quotations_414:pa_ppx_parsetree.quotations_414 \
+		-wrap-subdir quotations_414:quotations_414 \
+		-rewrite pa_ppx_parsetree_quotations_500:pa_ppx_parsetree.quotations_500 \
+		-wrap-subdir quotations_500:quotations_500 \
 		> META
 
 install: META

@@ -5,7 +5,7 @@
 
 open Pa_ppx_base
 open Ppxutil
-open Pa_ppx_parsetree_pattern_parsetree.Pattern_misc
+open Pa_ppx_parsetree_pattern_parsetree_VERSION.Pattern_misc
 
 let antiloc_payload ~loc s =
   let open Q_ast_base in
@@ -46,115 +46,115 @@ let lexwrap paf s =
   paf (Lexing.from_string s)
 
 let parse_expression s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.expression s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.expression s
 
 let parse_module_expr s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.module_expr s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.module_expr s
 
 let parse_module_type s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.module_type s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.module_type s
 
 let parse_pattern s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.pattern s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.pattern s
 
 let parse_constant s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.constant s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.constant s
 
 let parse_core_type s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.core_type s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.core_type s
 
 let parse_longident s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.longident s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.longident s
 
 let parse_extension_constructor s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.extension_constructor s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.extension_constructor s
 
 let parse_extended_module_path s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.extended_module_path s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.extended_module_path s
 
 let parse_longlident s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.longlident s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.longlident s
 
 let parse_structure_item s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.structure_item s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.structure_item s
 
 let parse_structure s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.structure s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.structure s
 
 let parse_signature_item s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.signature_item s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.signature_item s
 
 let parse_signature s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.signature s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.signature s
 
 let parse_constructor_declaration s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.constructor_declaration s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.constructor_declaration s
 
 let parse_attribute s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.attribute s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.attribute s
 
 let parse_extension s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.extension s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.extension s
 
 let parse_label_declaration s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.label_declaration s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.label_declaration s
 
 let parse_match_case s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.match_case s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.match_case s
 
 let parse_value_binding s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.value_binding s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.value_binding s
 
 let parse_arg_label s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.arg_label s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.arg_label s
 
 let parse_lident_vala_loc s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.lident_vala_loc s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.lident_vala_loc s
 
 let parse_binding_op s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.binding_op s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.binding_op s
 
 let parse_type_declaration s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.type_declaration s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.type_declaration s
 
 let parse_type_substitution s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.type_substitution s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.type_substitution s
 
 let parse_row_field s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.row_field s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.row_field s
 
 let parse_object_field s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.object_field s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.object_field s
 
 let parse_class_description s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.class_description s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.class_description s
 
 let parse_class_expr s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.class_expr s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.class_expr s
 
 let parse_class_type s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.class_type s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.class_type s
 
 let parse_class_field s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.class_field s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.class_field s
 
 let parse_functor_parameter s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.functor_parameter s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.functor_parameter s
 
 let parse_module_declaration s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.module_declaration s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.module_declaration s
 
 let parse_with_constraint s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.with_constraint s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.with_constraint s
 
 let parse_class_type_field s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.class_type_field s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.class_type_field s
 
 let parse_str_type_extension s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.str_type_extension s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.str_type_extension s
 
 let parse_sig_type_extension s =
-  lexwrap Pa_ppx_parsetree_pattern_parsetree.Parse.sig_type_extension s
+  lexwrap Pa_ppx_parsetree_pattern_parsetree_VERSION.Parse.sig_type_extension s
 
 module Q = struct
 

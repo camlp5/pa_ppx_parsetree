@@ -9,7 +9,7 @@ DESTDIR=
 
 PACKAGES := fmt,camlp5,pa_ppx_parsetree_pattern_parsetree_VERSION
 TARGET_PACKAGE = pa_ppx_parsetree_quotations_VERSION
-TARGET=pa_ppx_parsetree_quotations.cma
+TARGET=$(TARGET_PACKAGE).cma
 
 ML = reorg_parsetree.ml q_parsetree.ml
 
@@ -17,7 +17,7 @@ TOOLSML = mk_meta.ml
 ALLSRC=$(ML) $(MLI) $(TOOLSML)
 ALLPACKAGES=$(PACKAGES)
 
-OCAMLCFLAGS := $(OCAMLCFLAGS) -linkall -for-pack Pa_ppx_parsetree_quotations
+OCAMLCFLAGS := $(OCAMLCFLAGS) -linkall -for-pack Pa_ppx_parsetree_quotations_VERSION
 
 export MIGRATE_OCAMLCFLAGS= \
 	-ppopt -pa_passthru-debug \

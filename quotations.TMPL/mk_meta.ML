@@ -21,16 +21,16 @@ description = "pa_ppx_parsetree_quotations: pa_ppx_parsetree_quotations rewriter
 # For linking
 package "link" (
 requires = "camlp5,fmt,pa_ppx_parsetree_pattern_parsetree_VERSION,pa_ppx.base.link,camlp5.parser_quotations_base.link,,pa_ppx_q_ast.runtime"
-archive(byte) = "pa_ppx_parsetree_quotations.cma"
-archive(native) = "pa_ppx_parsetree_quotations.cmxa"
+archive(byte) = "pa_ppx_parsetree_quotations_VERSION.cma"
+archive(native) = "pa_ppx_parsetree_quotations_VERSION.cmxa"
 )
 
 # For the toploop:
-archive(byte,toploop) = "pa_ppx_parsetree_quotations.cma"
+archive(byte,toploop) = "pa_ppx_parsetree_quotations_VERSION.cma"
 
   # For the preprocessor itself:
   requires(syntax,preprocessor) = "camlp5,fmt,pa_ppx_parsetree_pattern_parsetree_VERSION,pa_ppx.base,camlp5.parser_quotations_base,pa_ppx_q_ast.runtime"
-  archive(syntax,preprocessor,-native) = "pa_ppx_parsetree_quotations.cma"
-  archive(syntax,preprocessor,native) = "pa_ppx_parsetree_quotations.cmxa"
+  archive(syntax,preprocessor,-native) = "pa_ppx_parsetree_quotations_VERSION.cma"
+  archive(syntax,preprocessor,native) = "pa_ppx_parsetree_quotations_VERSION.cmxa"
 
 |} version)

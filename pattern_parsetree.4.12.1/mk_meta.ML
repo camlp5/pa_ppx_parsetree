@@ -18,16 +18,16 @@ requires = "camlp5,fmt,re,menhirLib"
 version = "%s"
 description = "pa_ppx_parsetree_pattern_parsetree_412: OCaml AST for patterns"
 
-archive(byte) = "pa_ppx_parsetree_pattern_parsetree.cma"
-archive(native) = "pa_ppx_parsetree_pattern_parsetree.cmxa"
+archive(byte) = "pa_ppx_parsetree_pattern_parsetree_412.cma"
+archive(native) = "pa_ppx_parsetree_pattern_parsetree_412.cmxa"
 
 
 # For the toploop:
-archive(byte,toploop) = "pa_ppx_parsetree_pattern_parsetree.cma"
+archive(byte,toploop) = "pa_ppx_parsetree_pattern_parsetree_412.cma"
 
   # For the preprocessor itself:
   requires(syntax,preprocessor) = "camlp5,fmt,re,pa_ppx.base,menhirLib"
-  archive(syntax,preprocessor,-native) = "pa_ppx_parsetree_pattern_parsetree.cma"
-  archive(syntax,preprocessor,native) = "pa_ppx_parsetree_pattern_parsetree.cmxa"
+  archive(syntax,preprocessor,-native) = "pa_ppx_parsetree_pattern_parsetree_412.cma"
+  archive(syntax,preprocessor,native) = "pa_ppx_parsetree_pattern_parsetree_412.cmxa"
 
 |} version)

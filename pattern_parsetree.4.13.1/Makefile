@@ -10,7 +10,7 @@ DESTDIR=
 
 PACKAGES := fmt,camlp5,re,menhirLib
 TARGET_PACKAGE = pa_ppx_parsetree_pattern_parsetree_413
-TARGET=pa_ppx_parsetree_pattern_parsetree.cma
+TARGET=$(TARGET_PACKAGE).cma
 
 ML = misc.ml warnings.ml clflags.ml location.ml pattern_misc.ml longident.ml asttypes.ml parsetree.ml docstrings.ml syntaxerr.ml \
 	ast_helper.ml parser.ml lexer.ml pprintast.ml parse.ml printast.ml
@@ -21,13 +21,14 @@ TOOLSML = mk_meta.ml
 ALLSRC=$(ML) $(MLI) $(TOOLSML) parser_mock.ml parser_mock.out.mli
 ALLPACKAGES=$(PACKAGES)
 
-OCAMLCFLAGS := $(OCAMLCFLAGS) -linkall -for-pack Pa_ppx_parsetree_pattern_parsetree
+OCAMLCFLAGS := $(OCAMLCFLAGS) -linkall -for-pack Pa_ppx_parsetree_pattern_parsetree_413
 
 all: $(TARGET) $(TARGET:.cma=.cmxa) META
 	$(MAKE) DESTDIR=$(WD)/$(TOP)/local-install/ install
 
 doc: $(CMT) $(CMTI)
 
+DEFAULT_INSTALL_FILES:=
 TARGET_INSTALL_FILES= $(ARCHIVE_TARGET_INSTALL_FILES)
 install:: default_install
 
