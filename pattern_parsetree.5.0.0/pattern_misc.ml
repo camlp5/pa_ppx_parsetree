@@ -1,4 +1,3 @@
-(**pp -syntax camlp5o *)
 
 let ploc_of_location loc =
   let open Location in

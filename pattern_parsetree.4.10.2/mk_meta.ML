@@ -13,10 +13,10 @@ Arg.(parse [
 ;;
 
 Fmt.(pf stdout {|
-# Specifications for the "pa_ppx_parsetree_pattern_parsetree" preprocessor:
+# Specifications for the "pa_ppx_parsetree_pattern_parsetree_410" preprocessor:
 requires = "camlp5,fmt,re,menhirLib"
 version = "%s"
-description = "pa_ppx_parsetree_pattern_parsetree: OCaml AST for patterns"
+description = "pa_ppx_parsetree_pattern_parsetree_410: OCaml AST for patterns"
 
 archive(byte) = "pa_ppx_parsetree_pattern_parsetree.cma"
 archive(native) = "pa_ppx_parsetree_pattern_parsetree.cmxa"

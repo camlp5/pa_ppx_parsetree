@@ -3,7 +3,7 @@
 [%%import: Pa_ppx_parsetree_pattern_parsetree.Parsetree.attribute
   [@add
       [%%import: Lexing.position]
-      type location = [%import: Location.t
+      type location = [%import: Pa_ppx_parsetree_pattern_parsetree.Location.t
                                     [@with Lexing.position := position]
                         ]
       type 'a located = [%import: 'a Pa_ppx_parsetree_pattern_parsetree.Asttypes.loc
@@ -28,7 +28,7 @@
       [%%import: Pa_ppx_parsetree_pattern_parsetree.Asttypes.virtual_flag]
       [%%import: Pa_ppx_parsetree_pattern_parsetree.Asttypes.override_flag]
       [%%import: Pa_ppx_parsetree_pattern_parsetree.Asttypes.variance]
-#if OCAML_VERSION >= (4,12,0)
+#if VERS >= 412
       [%%import: Pa_ppx_parsetree_pattern_parsetree.Asttypes.injectivity]
 #endif
       [%%import: Pa_ppx_parsetree_pattern_parsetree.Parsetree.constant

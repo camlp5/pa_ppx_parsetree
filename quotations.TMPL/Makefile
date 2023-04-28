@@ -7,9 +7,9 @@ include $(TOP)/config/Makefile.sub
 
 DESTDIR=
 
-PACKAGES := fmt,camlp5,pa_ppx_parsetree_pattern_parsetree
-TARGET_PACKAGE = pa_ppx_parsetree_quotations
-TARGET=$(TARGET_PACKAGE).cma
+PACKAGES := fmt,camlp5,pa_ppx_parsetree_pattern_parsetree_VERSION
+TARGET_PACKAGE = pa_ppx_parsetree_quotations_VERSION
+TARGET=pa_ppx_parsetree_quotations.cma
 
 ML = reorg_parsetree.ml q_parsetree.ml
 
@@ -26,13 +26,12 @@ export MIGRATE_OCAMLCFLAGS= \
 
 export MIGRATE_PACKAGES=pa_ppx.import,pa_ppx_migrate
 
-all: $(TARGET) META
-#all: $(TARGET) $(TARGET:.cma=.cmxa) META
+all: $(TARGET) $(TARGET:.cma=.cmxa) META
 	$(MAKE) DESTDIR=$(WD)/$(TOP)/local-install/ install
 
 doc: $(CMT) $(CMTI)
 
-TARGET_INSTALL_FILES= $(BYTE_ARCHIVE_TARGET_INSTALL_FILES)
+TARGET_INSTALL_FILES= $(ARCHIVE_TARGET_INSTALL_FILES)
 install:: default_install
 
 clean::
@@ -56,16 +55,16 @@ lexer.ml: lexer.mll
 	ocamllex lexer.mll
 
 reorg_parsetree.ml: reorg_parsetree.ML
-	cppo -V OCAML:$(ocamlVERSION) $< > $@
+	cppo -D 'VERS VERSION' $< > $@
 
-$(TARGET_PACKAGE).cmo $(TARGET_PACKAGE).cmi: $(CMO)
-	$(OCAMLFIND) ocamlc $(DEBUG) -pack -o $(TARGET_PACKAGE).cmo $^
+$(TARGET:.cma=.cmo) $(TARGET:.cma=.cmi): $(CMO)
+	$(OCAMLFIND) ocamlc $(DEBUG) -pack -o $@ $^
 
-$(TARGET_PACKAGE).cmx: $(CMO:.cmo=.cmx)
-	$(OCAMLFIND) ocamlopt $(DEBUG) -pack -o $(TARGET_PACKAGE).cmx $^
+$(TARGET:.cma=.cmx): $(CMO:.cmo=.cmx)
+	$(OCAMLFIND) ocamlopt $(DEBUG) -pack -o $@ $^
 
-$(TARGET): $(TARGET_PACKAGE).cmo
+$(TARGET): $(TARGET:.cma=.cmo)
 	$(OCAMLFIND) ocamlc $(DEBUG) $^ -a -o $(TARGET)
 
-$(TARGET:.cma=.cmxa): $(TARGET_PACKAGE).cmx
+$(TARGET:.cma=.cmxa): $(TARGET:.cma=.cmx)
 	$(OCAMLFIND) ocamlopt $(DEBUG) $^ -a -o $(TARGET:.cma=.cmxa)

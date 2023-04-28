@@ -7,7 +7,18 @@ include $(TOP)/config/Makefile.top
 WD=$(shell pwd)
 DESTDIR=
 
-SYSDIRS= pattern_parsetree.$(ocamlVERSION) helpers runtime quotations
+GENERATED_SYSDIRS = \
+	quotations_500 quotations_414 \
+	quotations_413 quotations_412 \
+	quotations_411 quotations_410
+
+
+SYSDIRS= pattern_parsetree.5.0.0 pattern_parsetree.4.14.0 \
+	pattern_parsetree.4.13.1 pattern_parsetree.4.12.1 \
+	pattern_parsetree.4.11.2 pattern_parsetree.4.10.2 \
+	helpers runtime \
+	$(GENERATED_SYSDIRS)
+
 OTHERCLEANDIRS=\
 	adjusted-parsing.4.10.2 adjusted-parsing.4.11.2 adjusted-parsing.4.12.1 adjusted-parsing.4.13.1 adjusted-parsing.4.14.0 adjusted-parsing.5.0.0 \
 	pattern_parsetree.4.10.2 pattern_parsetree.4.11.2 pattern_parsetree.4.12.1 pattern_parsetree.4.13.1 pattern_parsetree.4.14.0 pattern_parsetree.5.0.0 \
@@ -25,11 +36,17 @@ test: all mdx-test
 
 mdx-test:: README.asciidoc.TEST
 
+setup:
+	set -e ; for v in 500 414 413 412 411 410; do \
+	rm -rf quotations_$$v && cp -r quotations.TMPL quotations_$$v; \
+	perl -p -i -e 's,VERSION,'$$v',g' quotations_$$v/mk_meta.ML quotations_$$v/Makefile quotations_$$v/.depend; \
+	done
+
 META: sys
 	$(JOINMETA) \
 		-rewrite pa_ppx_parsetree_pattern_parsetree:pa_ppx_parsetree.pattern_parsetree \
 		-wrap-subdir pattern_parsetree:pattern_parsetree.$(ocamlVERSION) \
-		-rewrite pa_ppx_parsetree_official_paretree:pa_ppx_parsetree.helpers \
+		-rewrite pa_ppx_parsetree_helpers:pa_ppx_parsetree.helpers \
 		-wrap-subdir helpers:helpers \
 		-rewrite pa_ppx_parsetree_quotations:pa_ppx_parsetree.quotations \
 		-wrap-subdir quotations:quotations \
@@ -43,11 +60,12 @@ uninstall:
 	$(OCAMLFIND) remove pa_ppx_parsetree || true
 
 clean::
-	set -e; for i in $(SYSDIRS) $(TESTDIRS) $(OTHERCLEANDIRS); do cd $$i; $(MAKE) clean; cd ..; done
+	set -e; for i in $(SYSDIRS) $(TESTDIRS) $(OTHERCLEANDIRS); do if [ -d $$i ]; then cd $$i; $(MAKE) clean; cd ..; fi; done
 	rm -rf docs local-install $(BATCHTOP) META *.corrected
 
 realclean:: clean
-	set -e; for i in $(SYSDIRS) $(TESTDIRS) $(OTHERCLEANDIRS); do cd $$i; $(MAKE) realclean; cd ..; done
+	set -e; for i in $(SYSDIRS) $(TESTDIRS) $(OTHERCLEANDIRS); do if [ -d $$i ]; then cd $$i; $(MAKE) realclean; cd ..; fi; done
+	rm -rf $(GENERATED_SYSDIRS)
 
 depend:
 	set -e; for i in $(SYSDIRS) $(TESTDIRS); do cd $$i; $(MAKE) depend; cd ..; done

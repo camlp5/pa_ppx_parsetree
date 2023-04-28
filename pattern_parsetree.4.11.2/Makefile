@@ -9,12 +9,12 @@ include $(TOP)/config/Makefile.sub
 DESTDIR=
 
 PACKAGES := fmt,camlp5,re,menhirLib
-TARGET_PACKAGE = pa_ppx_parsetree_pattern_parsetree
-TARGET=$(TARGET_PACKAGE).cma
+TARGET_PACKAGE = pa_ppx_parsetree_pattern_parsetree_411
+TARGET=pa_ppx_parsetree_pattern_parsetree.cma
 
-ML = clflags.ml location.ml pattern_misc.ml longident.ml asttypes.ml parsetree.ml docstrings.ml syntaxerr.ml \
+ML = misc.ml warnings.ml clflags.ml location.ml pattern_misc.ml longident.ml asttypes.ml parsetree.ml docstrings.ml syntaxerr.ml \
 	ast_helper.ml parser.ml lexer.ml pprintast.ml parse.ml printast.ml
-MLI = clflags.mli location.mli longident.mli asttypes.mli parsetree.mli docstrings.mli syntaxerr.mli \
+MLI = misc.mli warnings.mli clflags.mli location.mli longident.mli asttypes.mli parsetree.mli docstrings.mli syntaxerr.mli \
 	ast_helper.mli lexer.mli pprintast.mli parse.mli printast.mli
 
 TOOLSML = mk_meta.ml
@@ -23,14 +23,12 @@ ALLPACKAGES=$(PACKAGES)
 
 OCAMLCFLAGS := $(OCAMLCFLAGS) -linkall -for-pack Pa_ppx_parsetree_pattern_parsetree
 
-#all: $(TARGET) $(TARGET:.cma=.cmxa) META
-all: $(TARGET) META
+all: $(TARGET) $(TARGET:.cma=.cmxa) META
 	$(MAKE) DESTDIR=$(WD)/$(TOP)/local-install/ install
 
 doc: $(CMT) $(CMTI)
 
-#TARGET_INSTALL_FILES= $(ARCHIVE_TARGET_INSTALL_FILES)
-TARGET_INSTALL_FILES= $(BYTE_ARCHIVE_TARGET_INSTALL_FILES)
+TARGET_INSTALL_FILES= $(ARCHIVE_TARGET_INSTALL_FILES)
 install:: default_install
 
 clean::
@@ -90,14 +88,14 @@ compare:: $(COMPARE)
 
 .SUFFIXES: .COMPARE
 
-$(TARGET_PACKAGE).cmo $(TARGET_PACKAGE).cmi: $(CMO)
-	$(OCAMLFIND) ocamlc $(DEBUG) -pack -o $(TARGET_PACKAGE).cmo $^
+$(TARGET:.cma=.cmo) $(TARGET:.cma=.cmi): $(CMO)
+	$(OCAMLFIND) ocamlc $(DEBUG) -pack -o $@ $^
 
-$(TARGET_PACKAGE).cmx: $(CMO:.cmo=.cmx)
-	$(OCAMLFIND) ocamlopt $(DEBUG) -pack -o $(TARGET_PACKAGE).cmx $^
+$(TARGET:.cma=.cmx): $(CMO:.cmo=.cmx)
+	$(OCAMLFIND) ocamlopt $(DEBUG) -pack -o $@ $^
 
-$(TARGET): $(TARGET_PACKAGE).cmo
+$(TARGET): $(TARGET:.cma=.cmo)
 	$(OCAMLFIND) ocamlc $(DEBUG) $^ -a -o $(TARGET)
 
-$(TARGET:.cma=.cmxa): $(TARGET_PACKAGE).cmx
+$(TARGET:.cma=.cmxa): $(TARGET:.cma=.cmx)
 	$(OCAMLFIND) ocamlopt $(DEBUG) $^ -a -o $(TARGET:.cma=.cmxa)
