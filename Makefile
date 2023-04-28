@@ -16,8 +16,10 @@ GENERATED_SYSDIRS = \
 SYSDIRS= pattern_parsetree.5.0.0 pattern_parsetree.4.14.0 \
 	pattern_parsetree.4.13.1 pattern_parsetree.4.12.1 \
 	pattern_parsetree.4.11.2 pattern_parsetree.4.10.2 \
+	pattern_parsetree_gen \
 	helpers runtime \
-	$(GENERATED_SYSDIRS)
+	$(GENERATED_SYSDIRS) \
+	quotations_gen
 
 OTHERCLEANDIRS=\
 	adjusted-parsing.4.10.2 adjusted-parsing.4.11.2 adjusted-parsing.4.12.1 adjusted-parsing.4.13.1 adjusted-parsing.4.14.0 adjusted-parsing.5.0.0 \
@@ -36,11 +38,14 @@ test: all mdx-test
 
 mdx-test:: README.asciidoc.TEST
 
+OVERS=$(shell $(TOP)/tools/extract-major-minor-ocaml-version $(ocamlVERSION))
 setup:
 	set -e ; for v in 500 414 413 412 411 410; do \
 	rm -rf quotations_$$v && cp -r quotations.TMPL quotations_$$v; \
 	perl -p -i -e 's,VERSION,'$$v',g' quotations_$$v/mk_meta.ML quotations_$$v/q_parsetree.ml quotations_$$v/reorg_parsetree.ML quotations_$$v/Makefile quotations_$$v/.depend; \
 	done
+	rm -rf quotations_gen && cp -r quotations_gen.TMPL quotations_gen && perl -p -i -e 's,VERSION,'$(OVERS)',g' quotations_gen/*
+	rm -rf pattern_parsetree_gen && cp -r pattern_parsetree_gen.TMPL pattern_parsetree_gen && perl -p -i -e 's,VERSION,'$(OVERS)',g' pattern_parsetree_gen/*
 
 META: sys
 	$(JOINMETA) \

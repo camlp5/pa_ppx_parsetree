@@ -10,4 +10,7 @@ _build
 mk_meta.ml
 mk_meta
 *.corrected
-quotations_*
+quotations_5*
+quotations_4*
+quotations_gen
+pattern_parsetree_gen

@@ -1,5 +1,5 @@
 (**pp -syntax camlp5o $(IMPORT_OCAMLCFLAGS) -package pa_ppx.import *)
-[%%import: Pa_ppx_parsetree_quotations.Reorg_parsetree.attribute]
+[%%import: MODULE.Reorg_parsetree.attribute]
 [@@deriving quotation_test {
         target_is_pattern_ast = false
       ; location_type = [%typ: location]

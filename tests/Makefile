@@ -32,9 +32,10 @@ quotations_noattr_test.exe: quotations_noattr_test.cmo
 test_show.exe: test_show.cmo
 	$(LAUNCH) $(OCAMLFIND) ocamlc -linkall -linkpkg $(OCAMLCFLAGS) -package $(PACKAGES) -linkpkg -linkall -o $@ $<
 
+OVERS=$(shell $(TOP)/tools/extract-major-minor-ocaml-version $(ocamlVERSION))
 export IMPORT_OCAMLCFLAGS := \
 	-ppopt -pa_passthru-debug \
-	-ppopt -pa_import-package -ppopt camlp5,pa_ppx_parsetree_quotations \
+	-ppopt -pa_import-package -ppopt camlp5,pa_ppx_parsetree_quotations_$(OVERS) \
 	-ppopt -pa_import-I -ppopt . \
 
 RPPFLAGS=-ppopt -l -ppopt 400 -ppopt -flag -ppopt D -ppopt -sep -ppopt '\n'
@@ -57,9 +58,12 @@ QUOTPACKAGES=pa_ppx_q_ast.quotation_test,pa_ppx_q_ast.test_cleanup
 test1_patterns.ml: test1_patterns.ML
 	cppo -V OCAML:$(ocamlVERSION) $< > $@
 
+test1_types.ml: test1_types.ML
+	cppo -D 'MODULE Pa_ppx_parsetree_quotations_'$(OVERS) $< > $@
+
 quotations_test.ml: quotations_test.ML
 	cppo -V OCAML:$(ocamlVERSION) $< > $@
 
 clean::
-	rm -rf *.cm* _build *.exe *_out test1_patterns.ml quotations_test.ml
+	rm -rf *.cm* _build *.exe *_out test1_patterns.ml test1_types.ml quotations_test.ml
 
