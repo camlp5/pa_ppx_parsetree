@@ -40,7 +40,7 @@ migrate.ml: migrate.ML
 
 doc: $(CMT) $(CMTI)
 
-TARGET_INSTALL_FILES= $(ARCHIVE_TARGET_INSTALL_FILES)
+TARGET_INSTALL_FILES= $(PACKED_ARCHIVE_TARGET_INSTALL_FILES)
 install:: default_install
 
 clean::

@@ -1,5 +1,6 @@
 ya-wrap-ocamlfind
 join_meta
 *out
+test1_types.ml
 test1_patterns.ml
 quotations_test.ml
