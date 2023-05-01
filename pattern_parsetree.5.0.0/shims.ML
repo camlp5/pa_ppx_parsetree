@@ -1,4 +1,4 @@
-#if (OCAML_MAJOR , OCAML_MINOR) = (4, 10) || (OCAML_MAJOR , OCAML_MINOR) = (4, 11)
+#if (OCAML_MAJOR , OCAML_MINOR) = (4, 10) || (OCAML_MAJOR , OCAML_MINOR) = (4, 11) || (OCAML_MAJOR , OCAML_MINOR) = (4, 12)
 module Int = struct
   let max = max
   let min = min
