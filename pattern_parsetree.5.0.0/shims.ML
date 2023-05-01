@@ -5,6 +5,14 @@ module Int = struct
   let to_string = string_of_int
 end
 
+module Config = struct
+  include Config
+  let with_cmm_invariants = false
+end
+#endif
+
+
+#if (OCAML_MAJOR , OCAML_MINOR) = (4, 10) || (OCAML_MAJOR , OCAML_MINOR) = (4, 11) || (OCAML_MAJOR , OCAML_MINOR) = (4, 12) || (OCAML_MAJOR , OCAML_MINOR) = (4, 13)
 module Sys = struct
   include Sys
 
@@ -26,10 +34,4 @@ let ocaml_release = {
   extra = None
 }
 end
-
-module Config = struct
-  include Config
-  let with_cmm_invariants = false
-end
 #endif
-
