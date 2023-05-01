@@ -77,6 +77,8 @@ META: sys
 		-wrap-subdir quotations_414:quotations_414 \
 		-rewrite pa_ppx_parsetree_quotations_500:pa_ppx_parsetree.quotations_500 \
 		-wrap-subdir quotations_500:quotations_500 \
+		-rewrite pa_ppx_parsetree_quotations:pa_ppx_parsetree.quotations \
+		-wrap-subdir quotations:quotations_gen \
 		> META
 
 install: META
