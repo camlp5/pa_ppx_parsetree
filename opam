@@ -31,6 +31,7 @@ depends: [
   "mdx"
 ]
 build: [
+  [make "setup"]
   [make "sys"]
   [make "test"] {with-test}
 ]
