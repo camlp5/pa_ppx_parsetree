@@ -1,4 +1,4 @@
-#if (OCAML_MAJOR , OCAML_MINOR) = (4, 10) 
+#if (OCAML_MAJOR , OCAML_MINOR) = (4, 10) || (OCAML_MAJOR , OCAML_MINOR) = (4, 11)
 module Int = struct
   let max = max
   let min = min
@@ -20,9 +20,9 @@ type ocaml_release_info = {
 }
 
 let ocaml_release = {
-  major = 4;
-  minor = 10;
-  patchlevel = 2;
+  major = OCAML_MAJOR;
+  minor = OCAML_MINOR;
+  patchlevel = OCAML_PATCH;
   extra = None
 }
 end

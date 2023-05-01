@@ -1,7 +1,11 @@
-reorg_parsetree.cmo std_derivers.cmo reorg_parsetree.cmi std_derivers.cmi reorg_parsetree.cmx std_derivers.cmx: 
+reorg_parsetree.cmo std_derivers.cmo migrate.cmo reorg_parsetree.cmi std_derivers.cmi migrate.cmi reorg_parsetree.cmx std_derivers.cmx migrate.cmx: 
 reorg_parsetree.cmo :
 reorg_parsetree.cmx :
 std_derivers.cmo :
 std_derivers.cmx :
+migrate.cmo : \
+    reorg_parsetree.cmo
+migrate.cmx : \
+    reorg_parsetree.cmx
 mk_meta.cmo :
 mk_meta.cmx :

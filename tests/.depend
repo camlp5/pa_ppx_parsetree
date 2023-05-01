@@ -1,5 +1,9 @@
-via_parsetree_test.cmo test_show.cmo via_parsetree_test.cmi test_show.cmi via_parsetree_test.cmx test_show.cmx: ../local-install/lib/pa_ppx_parsetree_helpers/META
-via_parsetree_test.cmo :
-via_parsetree_test.cmx :
+quotations_test.cmo quotations_noattr_test.cmo antiquotation_lexing_test.cmo test_show.cmo quotations_test.cmi quotations_noattr_test.cmi antiquotation_lexing_test.cmi test_show.cmi quotations_test.cmx quotations_noattr_test.cmx antiquotation_lexing_test.cmx test_show.cmx: ../local-install/lib/pa_ppx_parsetree_helpers/META
+quotations_test.cmo :
+quotations_test.cmx :
+quotations_noattr_test.cmo :
+quotations_noattr_test.cmx :
+antiquotation_lexing_test.cmo :
+antiquotation_lexing_test.cmx :
 test_show.cmo :
 test_show.cmx :
