@@ -13,6 +13,8 @@
 (*                                                                        *)
 (**************************************************************************)
 
+open Shims
+
 (** Warning definitions
 
   {b Warning:} this module is unstable and part of

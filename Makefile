@@ -10,15 +10,17 @@ DESTDIR=
 GENERATED_SYSDIRS = \
 	quotations_500 quotations_414 \
 	quotations_413 quotations_412 \
-	quotations_411 quotations_410
-
+	quotations_411 quotations_410 \
+	pattern_parsetree_gen quotations_gen
 
 SYSDIRS= pattern_parsetree.5.0.0 pattern_parsetree.4.14.0 \
 	pattern_parsetree.4.13.1 pattern_parsetree.4.12.1 \
 	pattern_parsetree.4.11.2 pattern_parsetree.4.10.2 \
 	pattern_parsetree_gen \
 	helpers runtime \
-	$(GENERATED_SYSDIRS) \
+	quotations_500 quotations_414 \
+	quotations_413 quotations_412 \
+	quotations_411 quotations_410 \
 	quotations_gen
 
 OTHERCLEANDIRS=\

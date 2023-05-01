@@ -12,7 +12,7 @@ PACKAGES := fmt,camlp5,re,menhirLib
 TARGET_PACKAGE = pa_ppx_parsetree_pattern_parsetree_414
 TARGET=$(TARGET_PACKAGE).cma
 
-ML = misc.ml warnings.ml clflags.ml location.ml pattern_misc.ml longident.ml asttypes.ml parsetree.ml docstrings.ml syntaxerr.ml \
+ML = shims.ml misc.ml warnings.ml clflags.ml location.ml pattern_misc.ml longident.ml asttypes.ml parsetree.ml docstrings.ml syntaxerr.ml \
 	ast_helper.ml parser.ml lexer.ml pprintast.ml parse.ml printast.ml
 MLI = misc.mli warnings.mli clflags.mli location.mli longident.mli asttypes.mli parsetree.mli docstrings.mli syntaxerr.mli \
 	ast_helper.mli lexer.mli pprintast.mli parse.mli printast.mli
@@ -66,6 +66,9 @@ parser_mock.out.mli: parser_mock.ml
 
 lexer.ml: lexer.mll
 	ocamllex lexer.mll
+
+shims.ml: shims.ML
+	cppo -V OCAML:$(ocamlVERSION) $< > $@.NEW && mv $@.NEW $@
 
 PARSINGSRC=../adjusted-parsing.4.14.0
 %.COMPARE: %

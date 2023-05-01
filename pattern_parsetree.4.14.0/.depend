@@ -1,18 +1,26 @@
-misc.cmo warnings.cmo clflags.cmo location.cmo pattern_misc.cmo longident.cmo asttypes.cmo parsetree.cmo docstrings.cmo syntaxerr.cmo ast_helper.cmo parser.cmo lexer.cmo pprintast.cmo parse.cmo printast.cmo misc.cmi warnings.cmi clflags.cmi location.cmi pattern_misc.cmi longident.cmi asttypes.cmi parsetree.cmi docstrings.cmi syntaxerr.cmi ast_helper.cmi parser.cmi lexer.cmi pprintast.cmi parse.cmi printast.cmi misc.cmx warnings.cmx clflags.cmx location.cmx pattern_misc.cmx longident.cmx asttypes.cmx parsetree.cmx docstrings.cmx syntaxerr.cmx ast_helper.cmx parser.cmx lexer.cmx pprintast.cmx parse.cmx printast.cmx: 
+shims.cmo misc.cmo warnings.cmo clflags.cmo location.cmo pattern_misc.cmo longident.cmo asttypes.cmo parsetree.cmo docstrings.cmo syntaxerr.cmo ast_helper.cmo parser.cmo lexer.cmo pprintast.cmo parse.cmo printast.cmo shims.cmi misc.cmi warnings.cmi clflags.cmi location.cmi pattern_misc.cmi longident.cmi asttypes.cmi parsetree.cmi docstrings.cmi syntaxerr.cmi ast_helper.cmi parser.cmi lexer.cmi pprintast.cmi parse.cmi printast.cmi shims.cmx misc.cmx warnings.cmx clflags.cmx location.cmx pattern_misc.cmx longident.cmx asttypes.cmx parsetree.cmx docstrings.cmx syntaxerr.cmx ast_helper.cmx parser.cmx lexer.cmx pprintast.cmx parse.cmx printast.cmx: 
+shims.cmo :
+shims.cmx :
 misc.cmo : \
+    shims.cmo \
     misc.cmi
 misc.cmx : \
+    shims.cmx \
     misc.cmi
 warnings.cmo : \
+    shims.cmo \
     misc.cmi \
     warnings.cmi
 warnings.cmx : \
+    shims.cmx \
     misc.cmx \
     warnings.cmi
 clflags.cmo : \
+    shims.cmo \
     misc.cmi \
     clflags.cmi
 clflags.cmx : \
+    shims.cmx \
     misc.cmx \
     clflags.cmi
 location.cmo : \

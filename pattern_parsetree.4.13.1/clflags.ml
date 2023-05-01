@@ -13,6 +13,8 @@
 (*                                                                        *)
 (**************************************************************************)
 
+open Shims
+
 (* Command-line parameters *)
 
 module Int_arg_helper = Arg_helper.Make (struct
