@@ -23,6 +23,7 @@ depends: [
   "camlp5"      { >= "8.00.04" }
   "pa_ppx"      { >= "0.10" }
   "pa_ppx_q_ast"      { >= "0.10" }
+  "pa_ppx_quotation2extension"
   "not-ocamlfind" { >= "0.09" }
   "ounit" { >= "2.2.7" & with-test}
   "fmt"
