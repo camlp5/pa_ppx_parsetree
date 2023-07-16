@@ -8,24 +8,27 @@ WD=$(shell pwd)
 DESTDIR=
 
 GENERATED_SYSDIRS = \
+	quotations_501 \
 	quotations_500 quotations_414 \
 	quotations_413 quotations_412 \
 	quotations_411 quotations_410 \
 	pattern_parsetree_gen quotations_gen
 
-SYSDIRS= pattern_parsetree.5.0.0 pattern_parsetree.4.14.0 \
+SYSDIRS= pattern_parsetree.5.1.0  \
+	pattern_parsetree.5.0.0 pattern_parsetree.4.14.0 \
 	pattern_parsetree.4.13.1 pattern_parsetree.4.12.1 \
 	pattern_parsetree.4.11.2 pattern_parsetree.4.10.2 \
 	pattern_parsetree_gen \
 	helpers runtime \
+	quotations_501 \
 	quotations_500 quotations_414 \
 	quotations_413 quotations_412 \
 	quotations_411 quotations_410 \
 	quotations_gen
 
 OTHERCLEANDIRS=\
-	adjusted-parsing.4.10.2 adjusted-parsing.4.11.2 adjusted-parsing.4.12.1 adjusted-parsing.4.13.1 adjusted-parsing.4.14.0 adjusted-parsing.5.0.0 \
-	pattern_parsetree.4.10.2 pattern_parsetree.4.11.2 pattern_parsetree.4.12.1 pattern_parsetree.4.13.1 pattern_parsetree.4.14.0 pattern_parsetree.5.0.0 \
+	adjusted-parsing.4.10.2 adjusted-parsing.4.11.2 adjusted-parsing.4.12.1 adjusted-parsing.4.13.1 adjusted-parsing.4.14.0 adjusted-parsing.5.0.0 adjusted-parsing.5.1.0 \
+	pattern_parsetree.4.10.2 pattern_parsetree.4.11.2 pattern_parsetree.4.12.1 pattern_parsetree.4.13.1 pattern_parsetree.4.14.0 pattern_parsetree.5.0.0 pattern_parsetree.5.1.0 \
 
 TESTDIRS= tests
 
@@ -42,7 +45,7 @@ mdx-test:: README.asciidoc.TEST
 
 OVERS=$(shell $(TOP)/tools/extract-major-minor-ocaml-version $(ocamlVERSION))
 setup:
-	set -e ; for v in 500 414 413 412 411 410; do \
+	set -e ; for v in 501 500 414 413 412 411 410; do \
 	rm -rf quotations_$$v && cp -r quotations.TMPL quotations_$$v; \
 	perl -p -i -e 's,VERSION,'$$v',g' quotations_$$v/mk_meta.ML quotations_$$v/q_parsetree.ml quotations_$$v/reorg_parsetree.ML quotations_$$v/Makefile quotations_$$v/.depend; \
 	done
@@ -63,6 +66,8 @@ META: sys
 		-wrap-subdir pattern_parsetree_414:pattern_parsetree.4.14.0 \
 		-rewrite pa_ppx_parsetree_pattern_parsetree_500:pa_ppx_parsetree.pattern_parsetree_500 \
 		-wrap-subdir pattern_parsetree_500:pattern_parsetree.5.0.0 \
+		-rewrite pa_ppx_parsetree_pattern_parsetree_501:pa_ppx_parsetree.pattern_parsetree_501 \
+		-wrap-subdir pattern_parsetree_501:pattern_parsetree.5.1.0 \
 		-rewrite pa_ppx_parsetree_helpers:pa_ppx_parsetree.helpers \
 		-wrap-subdir helpers:helpers \
 		-rewrite pa_ppx_parsetree_quotations_410:pa_ppx_parsetree.quotations_410 \
@@ -77,6 +82,8 @@ META: sys
 		-wrap-subdir quotations_414:quotations_414 \
 		-rewrite pa_ppx_parsetree_quotations_500:pa_ppx_parsetree.quotations_500 \
 		-wrap-subdir quotations_500:quotations_500 \
+		-rewrite pa_ppx_parsetree_quotations_501:pa_ppx_parsetree.quotations_501 \
+		-wrap-subdir quotations_501:quotations_501 \
 		-rewrite pa_ppx_parsetree_quotations:pa_ppx_parsetree.quotations \
 		-wrap-subdir quotations:quotations_gen \
 		> META

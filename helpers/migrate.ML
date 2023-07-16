@@ -99,6 +99,9 @@ let _migrate_list subrw0 __dt__ l =
           ; type_extension
           ; type_kind
           ; value_binding
+#if OCAML_VERSION >= (5,1,0)
+          ; value_constraint
+#endif
           ; value_description
           ; with_constraint
           ]
