@@ -14,7 +14,7 @@ Arg.(parse [
 
 Fmt.(pf stdout {|
 # Specifications for the "pa_ppx_parsetree_runtime" package:
-requires = "fmt,re,pcre,pa_ppx.base"
+requires = "fmt,re,pa_ppx.base"
 version = "%s"
 description = "pa_ppx_parsetree runtime support"
 
