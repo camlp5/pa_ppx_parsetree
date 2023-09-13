@@ -47,7 +47,7 @@ QUOTPACKAGES=pa_ppx_q_ast.quotation_test,pa_ppx_q_ast.test_cleanup
 .SECONDARY:
 
 %.TEST: %.patterns_out %.types_out
-	diff -Bwiu $^ || true
+	$(DIFF) -Bwiu $^ || true
 
 %.types_out: %_types.ml
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,$(QUOTPACKAGES) $(RPPFLAGS) $< > $@

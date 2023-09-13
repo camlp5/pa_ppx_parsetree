@@ -47,7 +47,7 @@ lexer.ml: lexer.mll
 
 PARSINGSRC=../parsing.4.14.0
 %.COMPARE: %
-	diff -Bbwiu $(PARSINGSRC)/$< $< || true
+	$(DIFF) -Bbwiu $(PARSINGSRC)/$< $< || true
 
 COMPARE= \
 	longident.ml.COMPARE longident.mli.COMPARE \

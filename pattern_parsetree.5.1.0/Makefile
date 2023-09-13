@@ -72,7 +72,7 @@ shims.ml: shims.ML
 
 PARSINGSRC=../adjusted-parsing.5.1.0
 %.COMPARE: %
-	$(TOP)/tools/erase-vala $< | $(TOP)/tools/paren2ws | diff -Bbwiu <( $(TOP)/tools/paren2ws $(PARSINGSRC)/$< ) -
+	$(TOP)/tools/erase-vala $< | $(TOP)/tools/paren2ws | $(DIFF) -Bbwiu <( $(TOP)/tools/paren2ws $(PARSINGSRC)/$< ) -
 
 COMPARE= \
 	location.ml.COMPARE location.mli.COMPARE \
