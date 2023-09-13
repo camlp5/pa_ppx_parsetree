@@ -28,7 +28,7 @@ let e3 = [%expression {| a - b |}]
 let me1 = [%module_expr {| M |}]
 let me2 = [%module_expr {| N |}]
 
-let p1 = [%pattern {| C(a, b) |}]
+let p1 : Parsetree.pattern = [%pattern {| C(a, b) |}]
 let p2 = [%pattern {| [a :: b] |}]
 
 let v1 = "a"

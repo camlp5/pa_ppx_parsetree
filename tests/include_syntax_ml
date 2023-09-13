@@ -95,15 +95,6 @@ let input_interf ic =
 open Pa_ppx_parsetree_helpers.Std_derivers ;;
 Format.pp_set_margin Fmt.stdout 1000;;
 
-let frombin = "../../../ppx_jsobject_conv/src_test/foo.pp.ml" |> open_in |> input_implem ;;
-let fromtxt = "../../../ppx_jsobject_conv/src_test/foo.ml" |> open_in |> Lexing.from_channel |> Parse.implementation ;;
-
-Fmt.(pf stdout "================ foo.pp.ml ================\n%!") ;;
-Fmt.(pf stdout "%a\n%!" pp_structure frombin) ;;
-
-Fmt.(pf stdout "================ foo.ml ================\n%!") ;;
-Fmt.(pf stdout "%a\n%!" pp_structure fromtxt) ;;
-
 (*
 ;;; Local Variables: ***
 ;;; mode:tuareg ***
