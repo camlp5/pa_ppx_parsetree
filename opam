@@ -21,6 +21,7 @@ doc: "https://github.com/camlp5/pa_ppx_parsetree/doc"
 
 depends: [
   "conf-perl"
+  "conf-diffutils" (* { >= "1.2" & with-test } *)
   "ocaml"       { >= "4.10.0" }
   "camlp5-buildscripts"
   "camlp5"      { >= "8.00.04" }
