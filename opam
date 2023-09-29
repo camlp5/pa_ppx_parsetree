@@ -20,7 +20,7 @@ dev-repo: "git+https://github.com/camlp5/pa_ppx_parsetree.git"
 doc: "https://github.com/camlp5/pa_ppx_parsetree/doc"
 
 depends: [
-  "conf-perl"
+  "conf-perl" { >= "3" }
   "conf-diffutils" (* { >= "1.2" & with-test } *)
   "ocaml"       { >= "4.10.0" }
   "camlp5-buildscripts" { >= "0.02" }
