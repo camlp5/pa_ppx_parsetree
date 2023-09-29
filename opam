@@ -36,7 +36,6 @@ depends: [
   "cppo"
   "mdx"{ >= "2.3.0" & with-test}
 ]
-available: os = "freebsd"
 build: [
   [make "setup"]
   [make "sys"]

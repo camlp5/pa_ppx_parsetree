@@ -11,4 +11,3 @@ else
 DIFF=diff
 BASH=/bin/bash
 endif
-$(info BASH $(BASH))
