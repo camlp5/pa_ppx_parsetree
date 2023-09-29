@@ -23,7 +23,7 @@ depends: [
   "conf-perl"
   "conf-diffutils" (* { >= "1.2" & with-test } *)
   "ocaml"       { >= "4.10.0" }
-  "camlp5-buildscripts"
+  "camlp5-buildscripts" { >= "0.02" }
   "camlp5"      { >= "8.00.04" }
   "pa_ppx"      { >= "0.10" }
   "pa_ppx_q_ast"      { >= "0.10" }
@@ -34,7 +34,7 @@ depends: [
   "fmt"
   "conf-bash"
   "cppo"
-  "mdx"
+  "mdx"{ >= "2.3.0" & with-test}
 ]
 build: [
   [make "setup"]
