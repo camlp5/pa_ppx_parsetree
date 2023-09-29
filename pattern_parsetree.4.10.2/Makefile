@@ -1,10 +1,10 @@
 # Makefile,v
 # Copyright (c) INRIA 2007-2017
 
-SHELL := $(BASH)
 WD=$(shell pwd)
 TOP=..
 include $(TOP)/config/Makefile.sub
+SHELL=$(BASH)
 
 DESTDIR=
 
