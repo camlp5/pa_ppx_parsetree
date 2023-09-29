@@ -44,6 +44,7 @@ test: all mdx-test
 mdx-test:: README.asciidoc.TEST
 
 OVERS=$(shell $(TOP)/tools/extract-major-minor-ocaml-version $(ocamlVERSION))
+$(info OVERS $(OVERS))
 setup:
 	set -e ; for v in 501 500 414 413 412 411 410; do \
 	rm -rf quotations_$$v && cp -r quotations.TMPL quotations_$$v; \
