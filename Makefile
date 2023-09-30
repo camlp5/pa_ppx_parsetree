@@ -14,7 +14,8 @@ GENERATED_SYSDIRS = \
 	quotations_411 quotations_410 \
 	pattern_parsetree_gen quotations_gen
 
-SYSDIRS= pattern_parsetree.5.1.0  \
+SYSDIRS= tools \
+	pattern_parsetree.5.1.0  \
 	pattern_parsetree.5.0.0 pattern_parsetree.4.14.0 \
 	pattern_parsetree.4.13.1 pattern_parsetree.4.12.1 \
 	pattern_parsetree.4.11.2 pattern_parsetree.4.10.2 \
@@ -44,7 +45,11 @@ test: all mdx-test
 mdx-test:: README.asciidoc.TEST
 
 OVERS=$(shell $(TOP)/tools/extract-major-minor-ocaml-version $(ocamlVERSION))
-setup:
+
+tools::
+	$(MAKE) -C tools all
+
+setup: tools
 	set -e ; for v in 501 500 414 413 412 411 410; do \
 	rm -rf quotations_$$v && cp -r quotations.TMPL quotations_$$v; \
 	perl -p -i -e 's,VERSION,'$$v',g' quotations_$$v/mk_meta.ML quotations_$$v/q_parsetree.ml quotations_$$v/reorg_parsetree.ML quotations_$$v/Makefile quotations_$$v/.depend; \
