@@ -10,8 +10,14 @@ open Pa_ppx_parsetree_pattern_parsetree_VERSION.Pattern_misc
 let antiloc_payload ~loc s =
   let open Q_ast_base in
   match split_anti_loc s with
-    None -> Fmt.(failwithf "Q_parsetree: unparseable antiquotation <<%s>>" s)
+    None -> Fmt.(failwithf "Q_parsetree.antiloc_payload: unparseable antiquotation <<%s>>" s)
   | Some(_,_,p) -> p
+ 
+let antiloc_kind ~loc s =
+  let open Q_ast_base in
+  match split_anti_loc s with
+    None -> Fmt.(failwithf "Q_parsetree.antiloc_kind: unparseable antiquotation <<%s>>" s)
+  | Some(_,k,_) -> k
 
 module Regular = struct
 
@@ -220,7 +226,14 @@ module Q = struct
           | {pexp_desc=Pexp_xtr{txt;loc};} when antiloc_payload ~loc txt <> "_" -> failwith "non-blank Pexp_xtr with non-empty attributes is nearly always an error"
                                  )
       ; add_branches_expr_code = (function
-          | {pexp_desc=Pexp_xtr{txt;loc};pexp_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
+          | {pexp_desc=Pexp_xtr{txt;loc};pexp_attributes=Ploc.VaVal[];} when antiloc_kind ~loc txt <> "noattrs" ->
+             C.xtr (ploc_of_location loc) txt
+          | {pexp_desc=Pexp_xtr{txt;loc};pexp_attributes} when antiloc_kind ~loc txt = "noattrs" ->
+             let txt = Q_ast_base.replace_antiloc_kind  ~newkind:"" txt  in
+             let e = C.xtr (ploc_of_location loc) txt in
+             let attrs = attributes __ctxt__ pexp_attributes in
+             let loc = ploc_of_location loc in
+             <:expr< { ($e$) with Parsetree.pexp_attributes = $attrs$ } >>
           | {pexp_desc=Pexp_xtr{txt;loc};} -> failwith "Pexp_xtr with non-empty attributes is nearly always an error"
                                  )
       }
@@ -235,7 +248,14 @@ module Q = struct
           | {pmod_desc=Pmod_xtr{txt;loc};} when antiloc_payload ~loc txt <> "_" -> failwith "Pmod_xtr with non-empty attributes is nearly always an error"
                                  )
       ; add_branches_expr_code = (function
-          | {pmod_desc=Pmod_xtr{txt;loc};pmod_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
+          | {pmod_desc=Pmod_xtr{txt;loc};pmod_attributes=Ploc.VaVal[];} when antiloc_kind ~loc txt <> "noattrs" ->
+             C.xtr (ploc_of_location loc) txt
+          | {pmod_desc=Pmod_xtr{txt;loc};pmod_attributes} when antiloc_kind ~loc txt = "noattrs" ->
+             let txt = Q_ast_base.replace_antiloc_kind  ~newkind:"" txt  in
+             let e = C.xtr (ploc_of_location loc) txt in
+             let attrs = attributes __ctxt__ pmod_attributes in
+             let loc = ploc_of_location loc in
+             <:expr< { ($e$) with Parsetree.pmod_attributes = $attrs$ } >>
           | {pmod_desc=Pmod_xtr{txt;loc};} -> failwith "Pmod_xtr with non-empty attributes is nearly always an error"
                                  )
       }
@@ -250,7 +270,14 @@ module Q = struct
           | {pmty_desc=Pmty_xtr{txt;loc};} when antiloc_payload ~loc txt <> "_" -> failwith "Pmty_xtr with non-empty attributes is nearly always an error"
                                  )
       ; add_branches_expr_code = (function
-          | {pmty_desc=Pmty_xtr{txt;loc};pmty_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
+          | {pmty_desc=Pmty_xtr{txt;loc};pmty_attributes=Ploc.VaVal[];} when antiloc_kind ~loc txt <> "noattrs" ->
+             C.xtr (ploc_of_location loc) txt
+          | {pmty_desc=Pmty_xtr{txt;loc};pmty_attributes} when antiloc_kind ~loc txt = "noattrs" ->
+             let txt = Q_ast_base.replace_antiloc_kind  ~newkind:"" txt  in
+             let e = C.xtr (ploc_of_location loc) txt in
+             let attrs = attributes __ctxt__ pmty_attributes in
+             let loc = ploc_of_location loc in
+             <:expr< { ($e$) with Parsetree.pmty_attributes = $attrs$ } >>
           | {pmty_desc=Pmty_xtr{txt;loc};} -> failwith "Pmty_xtr with non-empty attributes is nearly always an error"
                                  )
       }
@@ -266,7 +293,14 @@ module Q = struct
           | {ppat_desc=Ppat_xtr{txt;loc};} when antiloc_payload ~loc txt <> "_" -> failwith "Ppat_xtr with non-empty attributes is nearly always an error"
                                  )
       ; add_branches_expr_code = (function
-          | {ppat_desc=Ppat_xtr{txt;loc};ppat_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
+          | {ppat_desc=Ppat_xtr{txt;loc};ppat_attributes=Ploc.VaVal[];} when antiloc_kind ~loc txt <> "noattrs" ->
+             C.xtr (ploc_of_location loc) txt
+          | {ppat_desc=Ppat_xtr{txt;loc};ppat_attributes} when antiloc_kind ~loc txt = "noattrs" ->
+             let txt = Q_ast_base.replace_antiloc_kind  ~newkind:"" txt  in
+             let e = C.xtr (ploc_of_location loc) txt in
+             let attrs = attributes __ctxt__ ppat_attributes in
+             let loc = ploc_of_location loc in
+             <:expr< { ($e$) with Parsetree.ppat_attributes = $attrs$ } >>
           | {ppat_desc=Ppat_xtr{txt;loc};} -> failwith "Ppat_xtr with non-empty attributes is nearly always an error"
                                  )
       }
@@ -281,7 +315,14 @@ module Q = struct
           | {ptyp_desc=Ptyp_xtr{txt;loc};} when antiloc_payload ~loc txt <> "_" -> failwith "Ptyp_xtr with non-empty attributes is nearly always an error"
                                  )
       ; add_branches_expr_code = (function
-          | {ptyp_desc=Ptyp_xtr{txt;loc};ptyp_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
+          | {ptyp_desc=Ptyp_xtr{txt;loc};ptyp_attributes=Ploc.VaVal[];} when antiloc_kind ~loc txt <> "noattrs" ->
+             C.xtr (ploc_of_location loc) txt
+          | {ptyp_desc=Ptyp_xtr{txt;loc};ptyp_attributes} when antiloc_kind ~loc txt = "noattrs" ->
+             let txt = Q_ast_base.replace_antiloc_kind  ~newkind:"" txt  in
+             let e = C.xtr (ploc_of_location loc) txt in
+             let attrs = attributes __ctxt__ ptyp_attributes in
+             let loc = ploc_of_location loc in
+             <:expr< { ($e$) with Parsetree.ptyp_attributes = $attrs$ } >>
           | {ptyp_desc=Ptyp_xtr{txt;loc};} -> failwith "Ptyp_xtr with non-empty attributes is nearly always an error"
                                  )
       }
@@ -296,7 +337,14 @@ module Q = struct
           | {pcty_desc=Pcty_xtr{txt;loc};} when antiloc_payload ~loc txt <> "_" -> failwith "Pcty_xtr with non-empty attributes is nearly always an error"
                                  )
       ; add_branches_expr_code = (function
-          | {pcty_desc=Pcty_xtr{txt;loc};pcty_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
+          | {pcty_desc=Pcty_xtr{txt;loc};pcty_attributes=Ploc.VaVal[];} when antiloc_kind ~loc txt <> "noattrs" ->
+             C.xtr (ploc_of_location loc) txt
+          | {pcty_desc=Pcty_xtr{txt;loc};pcty_attributes} when antiloc_kind ~loc txt = "noattrs" ->
+             let txt = Q_ast_base.replace_antiloc_kind  ~newkind:"" txt  in
+             let e = C.xtr (ploc_of_location loc) txt in
+             let attrs = attributes __ctxt__ pcty_attributes in
+             let loc = ploc_of_location loc in
+             <:expr< { ($e$) with Parsetree.pcty_attributes = $attrs$ } >>
           | {pcty_desc=Pcty_xtr{txt;loc};} -> failwith "Pcty_xtr with non-empty attributes is nearly always an error"
                                  )
       }
@@ -311,7 +359,14 @@ module Q = struct
           | {pcl_desc=Pcl_xtr{txt;loc};} when antiloc_payload ~loc txt <> "_" -> failwith "Pcl_xtr with non-empty attributes is nearly always an error"
                                  )
       ; add_branches_expr_code = (function
-          | {pcl_desc=Pcl_xtr{txt;loc};pcl_attributes=Ploc.VaVal[];} -> C.xtr (ploc_of_location loc) txt
+          | {pcl_desc=Pcl_xtr{txt;loc};pcl_attributes=Ploc.VaVal[];} when antiloc_kind ~loc txt <> "noattrs" ->
+             C.xtr (ploc_of_location loc) txt
+          | {pcl_desc=Pcl_xtr{txt;loc};pcl_attributes} when antiloc_kind ~loc txt = "noattrs" ->
+             let txt = Q_ast_base.replace_antiloc_kind  ~newkind:"" txt  in
+             let e = C.xtr (ploc_of_location loc) txt in
+             let attrs = attributes __ctxt__ pcl_attributes in
+             let loc = ploc_of_location loc in
+             <:expr< { ($e$) with Parsetree.pcl_attributes = $attrs$ } >>
           | {pcl_desc=Pcl_xtr{txt;loc};} -> failwith "Pcl_xtr with non-empty attributes is nearly always an error"
                                  )
       }

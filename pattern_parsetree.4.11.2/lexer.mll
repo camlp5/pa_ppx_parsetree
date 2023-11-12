@@ -580,6 +580,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI (make_antiquotation "" loc payload)
      }
+  | "$" "noattrs:" ([^ '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_NOATTRS (make_antiquotation "noattrs" loc payload)
+     }
   | "$" "opt:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in

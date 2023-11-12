@@ -710,6 +710,7 @@ let mk_directive ~loc name arg =
 %token <Docstrings.docstring> DOCSTRING
 
 /*-*/%token <string> ANTI
+/*-*/%token <string> ANTI_NOATTRS
 /*-*/%token <string> ANTI_OPT
 /*-*/%token <string> ANTI_TUPLELIST
 /*-*/%token <string> ANTI_LIST
@@ -820,7 +821,7 @@ The precedences must be listed from low to high.
           LBRACE LBRACELESS LBRACKET LBRACKETBAR LIDENT LPAREN
           NEW PREFIXOP STRING TRUE UIDENT
           LBRACKETPERCENT QUOTED_STRING_EXPR
-/*-*/          ANTI ANTI_UID ANTI_LID ANTI_LONGID ANTI_LONGLID
+/*-*/          ANTI ANTI_NOATTRS ANTI_UID ANTI_LID ANTI_LONGID ANTI_LONGLID
 /*-*/          ANTI_INT ANTI_INT32 ANTI_INT64 ANTI_NATIVEINT ANTI_CHAR ANTI_STRING ANTI_DELIM ANTI_FLOAT
 /*-*/          ANTI_EXPROPT ANTI_PATTOPT ANTI_CONSTANT ANTI_ALGATTRS
 
@@ -1516,6 +1517,9 @@ module_name:
       { None }
 ;
 
+(* the antiquotations that can be used in a position that produces a "xtr" *)
+/*-*/  %inline xtr_antis: ANTI { $1 } | ANTI_NOATTRS { $1 } ;
+
 (* -------------------------------------------------------------------------- *)
 
 (* Module expressions. *)
@@ -1546,7 +1550,7 @@ module_expr:
       (* A module identifier. *)
       x = mkrhs(mod_longident_vala)
         { Pmod_ident x }
-/*-*/    | ANTI { Pmod_xtr (Location.mkloc $1 (make_loc $sloc)) }
+/*-*/    | xtr_antis { Pmod_xtr (Location.mkloc $1 (make_loc $sloc)) }
     | (* In a functor application, the actual argument must be parenthesized. *)
       me1 = module_expr me2 = paren_module_expr
         { Pmod_apply(me1, me2) }
@@ -1879,7 +1883,7 @@ module_type:
   | mkmty(
       mkrhs(mty_longident)
         { Pmty_ident $1 }
-/*-*/    | ANTI { Pmty_xtr (Location.mkloc $1 (make_loc $sloc)) }
+/*-*/    | xtr_antis { Pmty_xtr (Location.mkloc $1 (make_loc $sloc)) }
     | module_type MINUSGREATER module_type
         %prec below_WITH
         { Pmty_functor(vaval (Named (mknoloc (vaval None), $1)), $3) }
@@ -2177,7 +2181,7 @@ class_simple_expr:
     ) { $1 }
   | OBJECT vaval(attributes) class_structure END
     { mkclass ~loc:$sloc ~attrs:$2 (Pcl_structure $3) }
-/*-*/  | ANTI
+/*-*/  | xtr_antis
 /*-*/      { mkclass ~loc:$sloc (Pcl_xtr (Location.mkloc $1 (make_loc $sloc))) }
 ;
 
@@ -2316,7 +2320,7 @@ class_signature:
       { let loc = ($startpos($2), $endpos($4)) in
         let od = Opn.mk ~override:$3 ~loc:(make_loc loc) $5 in
         mkcty ~loc:$sloc ~attrs:$4 (Pcty_open(od, $7)) }
-/*-*/  | ANTI
+/*-*/  | xtr_antis
 /*-*/      { mkcty ~loc:$sloc (Pcty_xtr (Location.mkloc $1 (make_loc $sloc))) }
 ;
 %inline class_parameters(parameter):
@@ -2753,7 +2757,7 @@ simple_expr:
 %inline simple_expr_:
   | mkrhs(vala(val_longident, ANTI_LONGLID))
       { Pexp_ident ($1) }
-/*-*/  | ANTI { Pexp_xtr (Location.mkloc $1 (make_loc $sloc)) }
+/*-*/  | xtr_antis { Pexp_xtr (Location.mkloc $1 (make_loc $sloc)) }
   | vala(constant, ANTI_CONSTANT)
       { Pexp_constant $1 }
   | mkrhs(constr_longident_vala) %prec prec_constant_constructor
@@ -3157,7 +3161,7 @@ simple_pattern_not_ident:
       { $1 }
 ;
 %inline simple_pattern_not_ident_:
-/*-*/  | ANTI { Ppat_xtr (Location.mkloc $1 (make_loc $sloc)) }
+/*-*/  | xtr_antis { Ppat_xtr (Location.mkloc $1 (make_loc $sloc)) }
   | UNDERSCORE
       { Ppat_any }
   | vala(signed_constant, ANTI_CONSTANT)
@@ -3173,7 +3177,7 @@ simple_pattern_not_ident:
       { Ppat_type ($2) }
   | mkrhs(mod_longident_vala) DOT simple_delimited_pattern
       { Ppat_open($1, $3) }
-/*-*/  | mkrhs(mod_longident_vala) DOT ANTI
+/*-*/  | mkrhs(mod_longident_vala) DOT xtr_antis
 /*-*/      { Ppat_open($1, mkpat ~loc:$sloc (Ppat_xtr (Location.mkloc $3 (make_loc $sloc)))) }
   | mkrhs(mod_longident_vala) DOT mkrhs(LBRACKET RBRACKET {vaval(Lident (vaval "[]"))})
     { Ppat_open($1, mkpat ~loc:$sloc (Ppat_construct($3, vaval None))) }
@@ -3785,7 +3789,7 @@ atomic_type:
   | mktyp( /* begin mktyp group */
       QUOTE ident_vala
         { Ptyp_var $2 }
-/*-*/    | ANTI { Ptyp_xtr (Location.mkloc $1 (make_loc $sloc)) }
+/*-*/    | xtr_antis { Ptyp_xtr (Location.mkloc $1 (make_loc $sloc)) }
     | UNDERSCORE
         { Ptyp_any }
     | tys = actual_type_parameters

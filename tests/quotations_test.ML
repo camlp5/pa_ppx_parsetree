@@ -504,6 +504,63 @@ let test_blank ctxt =
       (match [%expression {| 1 |}] with
          [%expression.loc {| $_$ |}] -> loc)
 
+let test_xtr_attributes ctxt =
+    begin
+      let a2 = {%attribute| [@bar]|} in
+      let e = {%expression| 1[@foo] |} in
+      assert_equal {%attribute| [@foo]|}
+        (match e with
+           {%expression| $_$ $algattrs:[a]$ |} -> a)
+      ; assert_equal {%expression| 1[@bar] |}
+          {%expression| $noattrs:e$ $algattrs:[a2]$ |}
+      ; assert_equal {%expression| 1 |}
+          {%expression| $noattrs:e$ |}
+    end
+  ; begin
+      let a2 = {%attribute| [@bar]|} in
+      let e = {%module_expr| M[@foo] |} in
+      assert_equal {%attribute| [@foo]|}
+        (match e with
+           {%module_expr| $_$ $algattrs:[a]$ |} -> a)
+      ; assert_equal {%module_expr| M[@bar] |}
+          {%module_expr| $noattrs:e$ $algattrs:[a2]$ |}
+      ; assert_equal {%module_expr| M |}
+          {%module_expr| $noattrs:e$ |}
+    end
+  ; begin
+      let a2 = {%attribute| [@bar]|} in
+      let e = {%module_type| M[@foo] |} in
+      assert_equal {%attribute| [@foo]|}
+        (match e with
+           {%module_type| $_$ $algattrs:[a]$ |} -> a)
+      ; assert_equal {%module_type| M[@bar] |}
+          {%module_type| $noattrs:e$ $algattrs:[a2]$ |}
+      ; assert_equal {%module_type| M |}
+          {%module_type| $noattrs:e$ |}
+    end
+  ; begin
+      let a2 = {%attribute| [@bar]|} in
+      let e = {%class_expr| e[@foo] |} in
+      assert_equal {%attribute| [@foo]|}
+        (match e with
+           {%class_expr| $_$ $algattrs:[a]$ |} -> a)
+      ; assert_equal {%class_expr| e[@bar] |}
+          {%class_expr| $noattrs:e$ $algattrs:[a2]$ |}
+      ; assert_equal {%class_expr| e |}
+          {%class_expr| $noattrs:e$ |}
+    end
+  ; begin
+      let a2 = {%attribute| [@bar]|} in
+      let e = {%class_type| e[@foo] |} in
+      assert_equal {%attribute| [@foo]|}
+        (match e with
+           {%class_type| $_$ $algattrs:[a]$ |} -> a)
+      ; assert_equal {%class_type| e[@bar] |}
+          {%class_type| $noattrs:e$ $algattrs:[a2]$ |}
+      ; assert_equal {%class_type| e |}
+          {%class_type| $noattrs:e$ |}
+    end
+
 let test = "expression" >::: [
       "equality"   >:: test_equality
     ; "0"   >:: test0
@@ -532,6 +589,7 @@ let test = "expression" >::: [
     ; "letop"   >:: test_letop
     ; "extension"   >:: test_extension
     ; "blank"   >:: test_blank
+    ; "xtr_attributes"   >:: test_xtr_attributes
     ]
 
 end
