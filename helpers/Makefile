@@ -19,11 +19,6 @@ ALLPACKAGES=$(PACKAGES)
 
 OCAMLCFLAGS := $(OCAMLCFLAGS) -linkall -for-pack Pa_ppx_parsetree_helpers
 
-export MIGRATE_OCAMLCFLAGS= \
-	-ppopt -pa_passthru-debug \
-	-ppopt -pa_import-package -ppopt $(PACKAGES) \
-	-ppopt -pa_import-I -ppopt . \
-
 export MIGRATE_PACKAGES=pa_ppx.import,pa_ppx_migrate
 
 all: $(TARGET) $(TARGET:.cma=.cmxa) META

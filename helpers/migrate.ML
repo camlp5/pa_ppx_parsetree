@@ -1,4 +1,4 @@
-(**pp $(MIGRATE_OCAMLCFLAGS) -package pa_ppx.import,pa_ppx_migrate -syntax camlp5o *)
+(**pp -package pa_ppx.import,pa_ppx_migrate -syntax camlp5o *)
 
 module SRC = Reorg_parsetree
 module DST = Reorg_parsetree

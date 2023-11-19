@@ -1,4 +1,4 @@
-(**pp $(MIGRATE_OCAMLCFLAGS) -package camlp5.macro,pa_ppx.deriving_plugins.std,pa_ppx_q_ast,pa_ppx.import -syntax camlp5o *)
+(**pp -package camlp5.macro,pa_ppx.deriving_plugins.std,pa_ppx_q_ast,pa_ppx.import -syntax camlp5o *)
 
 let _equal_location a b = true
 let _show_location pps _ = Fmt.(pf pps "<loc>")

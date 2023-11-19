@@ -1,4 +1,4 @@
-(**pp $(MIGRATE_OCAMLCFLAGS) -package pa_ppx.import -syntax camlp5o *)
+(**pp -package pa_ppx.import -syntax camlp5o *)
 
 [%%import: Parsetree.attribute
   [@add
