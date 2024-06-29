@@ -60,6 +60,7 @@ our %valamap = (
   'mutable_flag' => 'mutable_flag' ,
   'virtual_flag' => 'virtual_flag' ,
   'override_flag' => 'override_flag' ,
+  'fun_params' => 'fun_params' ,
     );
 
 {

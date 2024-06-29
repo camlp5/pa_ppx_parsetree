@@ -70,7 +70,7 @@ lexer.ml: lexer.mll
 shims.ml: shims.ML
 	cppo -V OCAML:$(ocamlVERSION) $< > $@.NEW && mv $@.NEW $@
 
-PARSINGSRC=../adjusted-parsing.5.1.0
+PARSINGSRC=../adjusted-parsing.5.2.0
 %.COMPARE: %
 	$(TOP)/tools/erase-vala $< | $(TOP)/tools/paren2ws | $(DIFF) -Bbwiu <( $(TOP)/tools/paren2ws $(PARSINGSRC)/$< ) -
 

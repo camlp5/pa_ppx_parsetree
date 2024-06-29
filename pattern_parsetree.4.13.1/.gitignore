@@ -2,3 +2,7 @@ parser.ml
 *.conflicts
 *.dump
 shims.ml
+lexer.ml
+parser.mli
+parser_mock.ml
+parser_mock.out.mli
