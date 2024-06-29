@@ -482,7 +482,7 @@ and function_param =
 
 and function_body =
   | Pfunction_body of expression
-  | Pfunction_cases of case list * Location.t * attributes
+  | Pfunction_cases of case list Ploc.vala * Location.t * attributes
   (** In [Pfunction_cases (_, loc, attrs)], the location extends from the
       start of the [function] keyword to the end of the last case. The compiler
       will only use typechecking-related attributes from [attrs], e.g. enabling

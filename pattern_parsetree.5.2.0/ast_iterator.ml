@@ -369,7 +369,7 @@ module E = struct
     | Pfunction_body e ->
         sub.expr sub e
     | Pfunction_cases (cases, loc, attrs) ->
-        sub.cases sub cases;
+        sub.cases sub (unvala cases);
         sub.location sub loc;
         sub.attributes sub (unvala attrs)
 

@@ -1076,7 +1076,6 @@ The precedences must be listed from low to high.
 /*-*/%type <string Ploc.vala Location.loc> attr_id
 /*-*/%type <(core_type * (variance * injectivity)) list> type_parameters
 /*-*/%type <label_declaration list> label_declarations
-%type <Parsetree.expression option> opt_default
 %%
 
 /* macros */

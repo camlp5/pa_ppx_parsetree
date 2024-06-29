@@ -430,7 +430,7 @@ and function_body i ppf body =
   | Pfunction_cases (cases, loc, attrs) ->
       line i ppf "Pfunction_cases %a\n" fmt_location loc;
       attributes (i+1) ppf attrs;
-      list (i+1) case ppf cases
+      list (i+1) case ppf (unvala cases)
 
 and type_constraint i ppf constraint_ =
   match unvala constraint_ with

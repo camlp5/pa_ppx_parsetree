@@ -653,7 +653,7 @@ and function_body ctxt f function_body =
   | Pfunction_cases (cases, _, attrs) ->
       pp f "@[<hv>function%a%a@]"
         (item_attributes ctxt) attrs
-        (case_list ctxt) cases
+        (case_list ctxt) (unvala cases)
 
 and type_constraint ctxt f constraint_ =
   match constraint_ with
