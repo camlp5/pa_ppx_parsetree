@@ -1,0 +1,296 @@
+shims.cmo build_path_prefix_map.cmo misc.cmo warnings.cmo clflags.cmo location.cmo pattern_misc.cmo longident.cmo asttypes.cmo parsetree.cmo docstrings.cmo syntaxerr.cmo ast_helper.cmo ast_iterator.cmo builtin_attributes.cmo parser.cmo lexer.cmo pprintast.cmo parse.cmo printast.cmo shims.cmi build_path_prefix_map.cmi misc.cmi warnings.cmi clflags.cmi location.cmi pattern_misc.cmi longident.cmi asttypes.cmi parsetree.cmi docstrings.cmi syntaxerr.cmi ast_helper.cmi ast_iterator.cmi builtin_attributes.cmi parser.cmi lexer.cmi pprintast.cmi parse.cmi printast.cmi shims.cmx build_path_prefix_map.cmx misc.cmx warnings.cmx clflags.cmx location.cmx pattern_misc.cmx longident.cmx asttypes.cmx parsetree.cmx docstrings.cmx syntaxerr.cmx ast_helper.cmx ast_iterator.cmx builtin_attributes.cmx parser.cmx lexer.cmx pprintast.cmx parse.cmx printast.cmx: 
+shims.cmo :
+shims.cmx :
+build_path_prefix_map.cmo : \
+    build_path_prefix_map.cmi
+build_path_prefix_map.cmx : \
+    build_path_prefix_map.cmi
+misc.cmo : \
+    build_path_prefix_map.cmi \
+    misc.cmi
+misc.cmx : \
+    build_path_prefix_map.cmx \
+    misc.cmi
+warnings.cmo : \
+    misc.cmi \
+    warnings.cmi
+warnings.cmx : \
+    misc.cmx \
+    warnings.cmi
+clflags.cmo : \
+    misc.cmi \
+    clflags.cmi
+clflags.cmx : \
+    misc.cmx \
+    clflags.cmi
+location.cmo : \
+    warnings.cmi \
+    misc.cmi \
+    clflags.cmi \
+    build_path_prefix_map.cmi \
+    location.cmi
+location.cmx : \
+    warnings.cmx \
+    misc.cmx \
+    clflags.cmx \
+    build_path_prefix_map.cmx \
+    location.cmi
+pattern_misc.cmo : \
+    location.cmi
+pattern_misc.cmx : \
+    location.cmx
+longident.cmo : \
+    misc.cmi \
+    longident.cmi
+longident.cmx : \
+    misc.cmx \
+    longident.cmi
+asttypes.cmo : \
+    location.cmi \
+    asttypes.cmi
+asttypes.cmx : \
+    location.cmx \
+    asttypes.cmi
+parsetree.cmo : \
+    longident.cmi \
+    location.cmi \
+    asttypes.cmi \
+    parsetree.cmi
+parsetree.cmx : \
+    longident.cmx \
+    location.cmx \
+    asttypes.cmx \
+    parsetree.cmi
+docstrings.cmo : \
+    warnings.cmi \
+    parsetree.cmi \
+    location.cmi \
+    docstrings.cmi
+docstrings.cmx : \
+    warnings.cmx \
+    parsetree.cmx \
+    location.cmx \
+    docstrings.cmi
+syntaxerr.cmo : \
+    location.cmi \
+    syntaxerr.cmi
+syntaxerr.cmx : \
+    location.cmx \
+    syntaxerr.cmi
+ast_helper.cmo : \
+    syntaxerr.cmi \
+    parsetree.cmi \
+    misc.cmi \
+    longident.cmi \
+    location.cmi \
+    docstrings.cmi \
+    asttypes.cmi \
+    ast_helper.cmi
+ast_helper.cmx : \
+    syntaxerr.cmx \
+    parsetree.cmx \
+    misc.cmx \
+    longident.cmx \
+    location.cmx \
+    docstrings.cmx \
+    asttypes.cmx \
+    ast_helper.cmi
+ast_iterator.cmo : \
+    parsetree.cmi \
+    location.cmi \
+    ast_helper.cmi \
+    ast_iterator.cmi
+ast_iterator.cmx : \
+    parsetree.cmx \
+    location.cmx \
+    ast_helper.cmx \
+    ast_iterator.cmi
+builtin_attributes.cmo : \
+    warnings.cmi \
+    parsetree.cmi \
+    misc.cmi \
+    longident.cmi \
+    location.cmi \
+    clflags.cmi \
+    asttypes.cmi \
+    ast_iterator.cmi \
+    ast_helper.cmi \
+    builtin_attributes.cmi
+builtin_attributes.cmx : \
+    warnings.cmx \
+    parsetree.cmx \
+    misc.cmx \
+    longident.cmx \
+    location.cmx \
+    clflags.cmx \
+    asttypes.cmx \
+    ast_iterator.cmx \
+    ast_helper.cmx \
+    builtin_attributes.cmi
+parser.cmo : \
+    syntaxerr.cmi \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    docstrings.cmi \
+    clflags.cmi \
+    builtin_attributes.cmi \
+    asttypes.cmi \
+    ast_helper.cmi \
+    parser.cmi
+parser.cmx : \
+    syntaxerr.cmx \
+    parsetree.cmx \
+    longident.cmx \
+    location.cmx \
+    docstrings.cmx \
+    clflags.cmx \
+    builtin_attributes.cmx \
+    asttypes.cmx \
+    ast_helper.cmx \
+    parser.cmi
+lexer.cmo : \
+    warnings.cmi \
+    pattern_misc.cmo \
+    parser.cmi \
+    misc.cmi \
+    location.cmi \
+    docstrings.cmi \
+    lexer.cmi
+lexer.cmx : \
+    warnings.cmx \
+    pattern_misc.cmx \
+    parser.cmx \
+    misc.cmx \
+    location.cmx \
+    docstrings.cmx \
+    lexer.cmi
+pprintast.cmo : \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    lexer.cmi \
+    asttypes.cmi \
+    ast_helper.cmi \
+    pprintast.cmi
+pprintast.cmx : \
+    parsetree.cmx \
+    longident.cmx \
+    location.cmx \
+    lexer.cmx \
+    asttypes.cmx \
+    ast_helper.cmx \
+    pprintast.cmi
+parse.cmo : \
+    syntaxerr.cmi \
+    pprintast.cmi \
+    parser.cmi \
+    misc.cmi \
+    location.cmi \
+    lexer.cmi \
+    docstrings.cmi \
+    parse.cmi
+parse.cmx : \
+    syntaxerr.cmx \
+    pprintast.cmx \
+    parser.cmx \
+    misc.cmx \
+    location.cmx \
+    lexer.cmx \
+    docstrings.cmx \
+    parse.cmi
+printast.cmo : \
+    pprintast.cmi \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    clflags.cmi \
+    asttypes.cmi \
+    ast_helper.cmi \
+    printast.cmi
+printast.cmx : \
+    pprintast.cmx \
+    parsetree.cmx \
+    longident.cmx \
+    location.cmx \
+    clflags.cmx \
+    asttypes.cmx \
+    ast_helper.cmx \
+    printast.cmi
+build_path_prefix_map.cmi :
+misc.cmi : \
+    build_path_prefix_map.cmi
+warnings.cmi :
+clflags.cmi : \
+    misc.cmi
+location.cmi : \
+    warnings.cmi
+longident.cmi :
+asttypes.cmi : \
+    location.cmi
+parsetree.cmi : \
+    longident.cmi \
+    location.cmi \
+    asttypes.cmi
+ast_iterator.cmi : \
+    parsetree.cmi \
+    location.cmi
+builtin_attributes.cmi : \
+    parsetree.cmi \
+    misc.cmi \
+    location.cmi
+docstrings.cmi : \
+    parsetree.cmi \
+    location.cmi
+syntaxerr.cmi : \
+    location.cmi
+ast_helper.cmi : \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    docstrings.cmi \
+    asttypes.cmi
+lexer.cmi : \
+    parser.cmi \
+    location.cmi
+pprintast.cmi : \
+    parsetree.cmi \
+    longident.cmi
+parse.cmi : \
+    parsetree.cmi \
+    longident.cmi \
+    asttypes.cmi \
+    ast_helper.cmi
+printast.cmi : \
+    parsetree.cmi
+mk_meta.cmo :
+mk_meta.cmx :
+parser_mock.cmo : \
+    syntaxerr.cmi \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    docstrings.cmi \
+    clflags.cmi \
+    builtin_attributes.cmi \
+    asttypes.cmi \
+    ast_helper.cmi \
+    parser_mock.cmi
+parser_mock.cmx : \
+    syntaxerr.cmx \
+    parsetree.cmx \
+    longident.cmx \
+    location.cmx \
+    docstrings.cmx \
+    clflags.cmx \
+    builtin_attributes.cmx \
+    asttypes.cmx \
+    ast_helper.cmx \
+    parser_mock.cmi
+parser_mock.out.cmi : \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    docstrings.cmi \
+    asttypes.cmi \
+    ast_helper.cmi

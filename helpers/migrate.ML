@@ -64,6 +64,11 @@ let _migrate_list subrw0 __dt__ l =
           ; extension
           ; extension_constructor
           ; extension_constructor_kind
+#if OCAML_VERSION >= (5,2,0)
+          ; function_body
+          ; function_param
+          ; function_param_desc
+#endif
           ; functor_parameter
           ; include_declaration
           ; include_description
@@ -94,6 +99,9 @@ let _migrate_list subrw0 __dt__ l =
           ; structure
           ; structure_item
           ; structure_item_desc
+#if OCAML_VERSION >= (5,2,0)
+          ; type_constraint
+#endif
           ; type_declaration
           ; type_exception
           ; type_extension

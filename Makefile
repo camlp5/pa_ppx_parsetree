@@ -8,6 +8,7 @@ WD=$(shell pwd)
 DESTDIR=
 
 GENERATED_SYSDIRS = \
+	quotations_502 \
 	quotations_501 \
 	quotations_500 quotations_414 \
 	quotations_413 quotations_412 \
@@ -15,12 +16,14 @@ GENERATED_SYSDIRS = \
 	pattern_parsetree_gen quotations_gen
 
 SYSDIRS= tools \
+	pattern_parsetree.5.2.0  \
 	pattern_parsetree.5.1.0  \
 	pattern_parsetree.5.0.0 pattern_parsetree.4.14.0 \
 	pattern_parsetree.4.13.1 pattern_parsetree.4.12.1 \
 	pattern_parsetree.4.11.2 pattern_parsetree.4.10.2 \
 	pattern_parsetree_gen \
 	helpers runtime \
+	quotations_502 \
 	quotations_501 \
 	quotations_500 quotations_414 \
 	quotations_413 quotations_412 \
@@ -50,7 +53,7 @@ tools::
 	$(MAKE) -C tools all
 
 setup: tools
-	set -e ; for v in 501 500 414 413 412 411 410; do \
+	set -e ; for v in 502 501 500 414 413 412 411 410; do \
 	rm -rf quotations_$$v && cp -r quotations.TMPL quotations_$$v; \
 	perl -p -i -e 's,VERSION,'$$v',g' quotations_$$v/mk_meta.ML quotations_$$v/q_parsetree.ml quotations_$$v/reorg_parsetree.ML quotations_$$v/Makefile quotations_$$v/.depend; \
 	done
