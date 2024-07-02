@@ -954,7 +954,7 @@ The precedences must be listed from low to high.
           LBRACKETPERCENT QUOTED_STRING_EXPR
 /*-*/          ANTI ANTI_NOATTRS ANTI_UID ANTI_LID ANTI_LONGID ANTI_LONGLID
 /*-*/          ANTI_INT ANTI_INT32 ANTI_INT64 ANTI_NATIVEINT ANTI_CHAR ANTI_STRING ANTI_DELIM ANTI_FLOAT
-/*-*/          ANTI_EXPROPT ANTI_PATTOPT ANTI_CONSTANT ANTI_ALGATTRS
+/*-*/          ANTI_EXPROPT ANTI_PATTOPT ANTI_CONSTANT ANTI_ALGATTRS ANTI_LIST
 
 /* Entry points */
 
@@ -2684,7 +2684,7 @@ class_type_declarations:
 %inline or_function(EXPR):
   | EXPR
       { $1 }
-  | FUNCTION ext_attributes match_cases
+  | FUNCTION ext_attributes vala(match_cases, ANTI_LIST)
       { let loc = make_loc $sloc in
         let cases = $3 in
         (* There are two choices of where to put attributes: on the
@@ -3190,7 +3190,7 @@ strict_binding:
       }
 ;
 fun_body:
-  | FUNCTION ext_attributes match_cases
+  | FUNCTION ext_attributes vala(match_cases, ANTI_LIST)
       { let ext, attrs = $2 in
         match ext with
         | None -> Pfunction_cases ($3, make_loc $sloc, attrs)
