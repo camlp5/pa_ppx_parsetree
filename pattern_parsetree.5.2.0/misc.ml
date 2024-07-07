@@ -306,7 +306,7 @@ let find_in_path_normalized path name =
 
 let remove_file filename =
   try
-    if Sys.is_regular_file filename
+   if Sys.file_exists filename
     then Sys.remove filename
   with Sys_error _msg ->
     ()
