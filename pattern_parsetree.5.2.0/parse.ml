@@ -134,6 +134,10 @@ let type_ident = wrap Parser.parse_mty_longident
 (*-*)let str_type_extension = wrap Parser.parse_str_type_extension
 (*-*)let sig_type_extension = wrap Parser.parse_sig_type_extension
 (*-*)let longlident = wrap Parser.parse_longlident
+(*-*)let attr_payload = wrap Parser.parse_attr_payload
+(*-*)let attr_id = wrap Parser.parse_attr_id
+(*-*)let fun_seq_expr = wrap Parser.parse_fun_seq_expr
+(*-*)let fun_body = wrap Parser.parse_fun_body
 
 (* Error reporting for Syntaxerr *)
 (* The code has been moved here so that one can reuse Pprintast.tyvar *)

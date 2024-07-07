@@ -49,63 +49,66 @@
       ; default_expression = {
           location_stack = []
         }
-      ; expand_types = {
-          attribute = Auto
-        ; attributes = Explicit [
+      ; expand_types = [
+          ([%typ: attribute], Auto)
+        ; ([%typ: attributes], Explicit [
                            attrs ;
                            []
-                         ]
-        ; constructor_arguments = Auto
-        ; class_expr_desc = Auto
-        ; class_field_desc = Auto
-        ; class_field_kind = Auto
-        ; class_infos = Auto
-        ; class_signature = Auto
-        ; class_structure = Auto
-        ; class_type_desc = Auto
-        ; class_type_field_desc = Auto
-        ; core_type_desc = Auto
-        ; expression_desc = Auto
-        ; extension = Auto
-        ; extension_constructor = Auto
-        ; extension_constructor_kind = Auto
-        ; include_declaration = Auto
-        ; include_description = Auto
-        ; include_infos = Auto
-        ; letop = Auto
-        ; located = Auto
-        ; module_binding = Auto
-        ; module_declaration = Auto
-        ; module_expr_desc = Auto
-        ; module_substitution = Auto
-        ; module_type_declaration = Auto
-        ; module_type_desc = Auto
-        ; object_field_desc = Auto
-        ; open_declaration = Auto
-        ; open_description = Auto
-        ; open_infos = Auto
-        ; open_infos = Auto
-        ; package_type = Auto
-        ; pattern_desc = Auto
-        ; payload = Auto
-        ; row_field_desc = Auto
-        ; signature_item_desc = Auto
-        ; structure_item_desc = AddDel (
+                         ])
+        ; ([%typ: constructor_arguments], Auto)
+        ; ([%typ: class_expr_desc], Auto)
+        ; ([%typ: class_field_desc], Auto)
+        ; ([%typ: class_field_kind], Auto)
+        ; ([%typ: class_infos], Auto)
+        ; ([%typ: class_signature], Auto)
+        ; ([%typ: class_structure], Auto)
+        ; ([%typ: class_type_desc], Auto)
+        ; ([%typ: class_type_field_desc], Auto)
+        ; ([%typ: core_type_desc], Auto)
+        ; ([%typ: expression_desc], Auto)
+        ; ([%typ: extension], Auto)
+        ; ([%typ: extension_constructor], Auto)
+        ; ([%typ: extension_constructor_kind], Auto)
+        ; ([%typ: function_body], Auto)
+        ; ([%typ: include_declaration], Auto)
+        ; ([%typ: include_description], Auto)
+        ; ([%typ: include_infos], Auto)
+        ; ([%typ: letop], Auto)
+        ; ([%typ: located], Auto)
+        ; ([%typ: module_binding], Auto)
+        ; ([%typ: module_declaration], Auto)
+        ; ([%typ: module_expr_desc], Auto)
+        ; ([%typ: module_substitution], Auto)
+        ; ([%typ: module_type_declaration], Auto)
+        ; ([%typ: module_type_desc], Auto)
+        ; ([%typ: object_field_desc], Auto)
+        ; ([%typ: open_declaration], Auto)
+        ; ([%typ: open_description], Auto)
+        ; ([%typ: open_infos], Auto)
+        ; ([%typ: open_infos], Auto)
+        ; ([%typ: package_type], Auto)
+        ; ([%typ: pattern_desc], Auto)
+        ; ([%typ: payload], Auto)
+        ; ([%typ: row_field_desc], Auto)
+        ; ([%typ: signature_item_desc], Auto)
+        ; ([%typ: structure_item_desc], AddDel (
                                     [],
                                     [
                                       Parsetree.Pstr_eval(x1, attrs);
                                       Parsetree.Pstr_eval(x1, [])
                                     ]
-                                  )
-        ; type_exception = Auto
-        ; type_extension = Auto
-        ; type_kind = Auto
-        ; value_description = Auto
-        }
+                                  ))
+        ; ([%typ: type_constraint], Auto)
+        ; ([%typ: type_exception], Auto)
+        ; ([%typ: type_extension], Auto)
+        ; ([%typ: type_kind], Auto)
+        ; ([%typ: value_constraint], Auto)
+        ; ([%typ: value_description], Auto)
+        ]
       ; expand_types_per_type = {
-          type_declaration = {
-            private_flag = Auto
-          ; type_declaration = AddDel(
+          type_declaration = [
+            ([%typ: private_flag], Auto)
+          ; ([%typ: type_declaration], AddDel(
                                    [],
                                    [
                                      {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
@@ -119,102 +122,153 @@
                                      {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
                                      {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
                                    ]
-                                 )
-          }
+                                 ))
+          ]
+        ; value_binding = [
+            ([%typ: value_constraint option],
+             AddDel(
+                 [],
+                 [ox3]
+               )
+            )
+          ]
         }
       ; expand_types_per_constructor = [
           (Pexp_ident,
-           { longident_t = Explicit [
+           [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
-          ]})
+             ])
+          ])
         ; (Ptyp_package,
-           { longident_t = Explicit [
+           [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
-          ]})
+             ])
+          ])
         ; (Ptyp_class,
-           { longident_t = Explicit [
+           [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
-          ]})
+             ])
+          ])
         ; (Ptyp_constr,
-           { longident_t = Explicit [
+           [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
-          ]})
+             ])
+          ])
         ; (Ppat_type,
-           { longident_t = Explicit [
+           [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
-          ]})
+             ])
+          ])
         ; (Pmty_ident,
-           { longident_t = Explicit [
+           [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
-          ]})
+             ])
+          ])
+        ; (Pexp_function,
+           [ ([%typ: type_constraint], AddDel (
+                                   [],
+                                   [
+                                     Parsetree.Pcoerce(None, x2)
+                                   ; Parsetree.Pcoerce(Some x1, x2)
+                                   ; Parsetree.Pcoerce(ox1, x2)
+                                   ]
+             ))
+           ; ([%typ: type_constraint Ploc.vala option Ploc.vala], AddDel (
+                                   [],
+                                   [
+                                     Some x1
+                                   ; ox1
+                                   ]
+             ))
+          ])
         ; (Pexp_field,
-           { longident_t = Explicit [
+           [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
-          ]})
+             ])
+          ])
         ; (Pexp_setfield,
-           { longident_t = Explicit [
+           [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
-          ]})
+             ])
+          ])
         ; (Pexp_setfield,
-           { longident_t = Explicit [
+           [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
-          ]})
-        ; (Pexp_for, { direction_flag = Auto })
+             ])
+          ])
+        ; (Pexp_for, [ ([%typ: direction_flag], Auto) ])
         ; (Pexp_new,
-           { longident_t = Explicit [
+           [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
-          ]})
-        ; (Pexp_object, { class_structure = Auto })
-        ; (Pexp_constant, { constant = Auto })
-        ; (Ppat_constant, { constant = Auto })
-        ; (Psig_typext, { longident_t = Explicit [
+             ])
+          ])
+        ; (Pexp_object, [ ([%typ: class_structure], Auto) ])
+        ; (Pexp_constant, [ ([%typ: constant], Auto) ])
+        ; (Ppat_constant, [ ([%typ: constant], Auto) ])
+        ; (Psig_typext, [ ([%typ: longident_t], Explicit [
                                             Longident.Lident s
                                           ; Longident.Ldot (x, s)
-          ]})
-        ; (Pstr_typext, { longident_t = Explicit [
+                          ])
+          ])
+        ; (Pstr_typext, [ ([%typ: longident_t], Explicit [
                                             Longident.Lident s
                                           ; Longident.Ldot (x, s)
-          ]})
+                          ])
+          ])
         ; (Pcl_constr,
-           { longident_t = Explicit [
+           [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
-          ]})
+             ])
+          ])
         ; (Pcty_constr,
-           { longident_t = Explicit [
+           [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
-          ]})
+             ])
+          ])
+        ; (Pvc_coercion,
+           [ ([%typ: core_type option],
+              AddDel(
+                  [],
+                  [ox1]
+                )
+             )
+          ])
         ; (Pwith_type,
-           { longident_t = Explicit [
+           [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
-          ]})
+             ])
+          ])
         ; (Pwith_typesubst,
-           { longident_t = Explicit [
+           [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
-          ]})
+             ])
+          ])
         ; (Pwith_modtype,
-           { longident_t = Explicit [
+           [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
-          ]})
+             ])
+          ])
         ; (Pwith_modtypesubst,
-           { longident_t = Explicit [
+           [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
                              ; Longident.Ldot (x, s)
-          ]})
+             ])
+          ])
         ]
       ; per_constructor_expansion = [
           (Pconst_integer, Explicit [
@@ -285,6 +339,7 @@
         ; extension_constructor_kind = Parsetree
         ; extension_constructor = Parsetree
         ; extension = Parsetree
+        ; function_body = Parsetree
         ; functor_parameter = Parsetree
         ; include_infos = Parsetree
         ; label_declaration = Parsetree
@@ -313,11 +368,13 @@
         ; signature_item = Parsetree
         ; structure_item_desc = Parsetree
         ; structure_item = Parsetree
+        ; type_constraint = Parsetree
         ; type_declaration = Parsetree
         ; type_exception = Parsetree
         ; type_extension = Parsetree
         ; type_kind = Parsetree
         ; value_binding = Parsetree
+        ; value_constraint = Parsetree
         ; value_description = Parsetree
         ; with_constraint = Parsetree
         }

@@ -168,7 +168,9 @@ let mkuplus ~oploc name arg =
       Pexp_apply(mkoperator ~loc:oploc (vaval ("~" ^ name)), vaval [Nolabel, arg])
 
 let mk_attr ~loc name payload =
+(*
   Builtin_attributes.(register_attr Parser (loc_map unvala name));
+ *)
   Attr.mk ~loc name payload
 
 (* TODO define an abstraction boundary between locations-as-pairs
@@ -647,10 +649,14 @@ let mkfunction params body_constraint body =
   | Pfunction_body body_exp ->
     (* If all the params are newtypes, then we don't create a function node;
        we create nested newtype nodes. *)
-      match all_params_as_newtypes (unvala params) with
-      | None -> Pexp_function (params, body_constraint, body)
-      | Some newtypes ->
-          mkghost_newtype_function_body newtypes body_constraint body_exp
+     match params with
+       Ploc.VaVal _ ->
+        (match all_params_as_newtypes (unvala params) with
+         | None -> Pexp_function (params, body_constraint, body)
+         | Some newtypes ->
+            mkghost_newtype_function_body newtypes body_constraint body_exp)
+     | Ploc.VaAnt _ ->
+        Pexp_function(params, body_constraint, body)
 
 (* Alternatively, we could keep the generic module type in the Parsetree
    and extract the package type during type-checking. In that case,
@@ -887,6 +893,7 @@ let mk_directive ~loc name arg =
 /*-*/%token <string> ANTI_ISCONST
 /*-*/%token <string> ANTI_VIRTUAL
 /*-*/%token <string> ANTI_TYPEDECL
+/*-*/%token <string> ANTI_CASES
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -954,7 +961,7 @@ The precedences must be listed from low to high.
           LBRACKETPERCENT QUOTED_STRING_EXPR
 /*-*/          ANTI ANTI_NOATTRS ANTI_UID ANTI_LID ANTI_LONGID ANTI_LONGLID
 /*-*/          ANTI_INT ANTI_INT32 ANTI_INT64 ANTI_NATIVEINT ANTI_CHAR ANTI_STRING ANTI_DELIM ANTI_FLOAT
-/*-*/          ANTI_EXPROPT ANTI_PATTOPT ANTI_CONSTANT ANTI_ALGATTRS ANTI_LIST
+/*-*/          ANTI_EXPROPT ANTI_PATTOPT ANTI_CONSTANT ANTI_ALGATTRS ANTI_CASES
 
 /* Entry points */
 
@@ -1045,6 +1052,14 @@ The precedences must be listed from low to high.
 /*-*/%type <Parsetree.type_extension> parse_str_type_extension
 /*-*/%start parse_sig_type_extension
 /*-*/%type <Parsetree.type_extension> parse_sig_type_extension
+/*-*/%start parse_attr_payload
+/*-*/%type <Parsetree.payload> parse_attr_payload
+/*-*/%start parse_attr_id
+/*-*/%type <string Ploc.vala Asttypes.loc> parse_attr_id
+/*-*/%start parse_fun_seq_expr
+/*-*/%type <Parsetree.expression> parse_fun_seq_expr
+/*-*/%start parse_fun_body
+/*-*/%type <Parsetree.function_body> parse_fun_body
 /* END AVOID */
 
 /*-*/%type <Parsetree.expression list> expr_semi_list
@@ -1645,6 +1660,26 @@ parse_any_longident:
 /*-*/parse_sig_type_extension:
 /*-*/  sig_type_extension EOF
 /*-*/    { fst $1 }
+/*-*/;
+/*-*/
+/*-*/parse_attr_payload:
+/*-*/  attr_payload EOF
+/*-*/    { $1 }
+/*-*/;
+/*-*/
+/*-*/parse_attr_id:
+/*-*/  attr_id EOF
+/*-*/    { $1 }
+/*-*/;
+/*-*/
+/*-*/parse_fun_seq_expr:
+/*-*/  fun_seq_expr EOF
+/*-*/    { $1 }
+/*-*/;
+/*-*/
+/*-*/parse_fun_body:
+/*-*/  fun_body EOF
+/*-*/    { $1 }
 /*-*/;
 /*-*/
 /* END AVOID */
@@ -2684,7 +2719,7 @@ class_type_declarations:
 %inline or_function(EXPR):
   | EXPR
       { $1 }
-  | FUNCTION ext_attributes vala(match_cases, ANTI_LIST)
+  | FUNCTION ext_attributes vala(match_cases, ANTI_CASES)
       { let loc = make_loc $sloc in
         let cases = $3 in
         (* There are two choices of where to put attributes: on the
@@ -2870,9 +2905,9 @@ fun_expr:
       { let body_constraint = Option.map (fun x -> vaval (Pconstraint x)) $4 in
         mkfunction $3 (vaval body_constraint) $6, $2
       }
-  | MATCH ext_attributes seq_expr WITH vala(match_cases, ANTI_LIST)
+  | MATCH ext_attributes seq_expr WITH vala(match_cases, ANTI_CASES)
       { Pexp_match($3, $5), $2 }
-  | TRY ext_attributes seq_expr WITH vala(match_cases, ANTI_LIST)
+  | TRY ext_attributes seq_expr WITH vala(match_cases, ANTI_CASES)
       { Pexp_try($3, $5), $2 }
   | TRY ext_attributes seq_expr WITH error
       { syntax_error() }
@@ -3093,15 +3128,28 @@ let_binding_body_no_punning:
       let t = ghtyp ~loc:($loc($3)) $3 in
       ($1, $5, Some (Pvc_constraint { locally_abstract_univars = vaval []; typ=t }))
     }
-  | let_ident COLON TYPE lident_list DOT core_type EQUAL seq_expr
+  | let_ident COLON TYPE vala(lident_list, ANTI_LIST) DOT core_type EQUAL seq_expr
     { let constraint' =
-        Pvc_constraint { locally_abstract_univars=vaval $4; typ = $6}
+        Pvc_constraint { locally_abstract_univars=$4; typ = $6}
       in
       ($1, $8, Some constraint') }
   | pattern_no_exn EQUAL seq_expr
       { ($1, $3, None) }
+/*
   | simple_pattern_not_ident COLON core_type EQUAL seq_expr
       { ($1, $5, Some(Pvc_constraint { locally_abstract_univars=vaval []; typ=$3 })) }
+*/
+  | simple_pattern_not_ident COLON TYPE l=vala(lident_list, ANTI_LIST) DOT cty = core_type EQUAL e = seq_expr
+      { ($1, e, Some(Pvc_constraint { locally_abstract_univars=l; typ=cty })) }
+
+  | simple_pattern_not_ident tc = type_constraint EQUAL e = seq_expr
+      { let tc =
+          match tc with
+            Pconstraint t ->
+             Pvc_constraint { locally_abstract_univars = vaval []; typ=t }
+          | Pcoerce (ground, coercion) -> Pvc_coercion { ground; coercion}
+        in
+        ($1, e, Some tc) }
 ;
 let_binding_body:
   | let_binding_body_no_punning
@@ -3190,7 +3238,7 @@ strict_binding:
       }
 ;
 fun_body:
-  | FUNCTION ext_attributes vala(match_cases, ANTI_LIST)
+  | FUNCTION ext_attributes vala(match_cases, ANTI_CASES)
       { let ext, attrs = $2 in
         match ext with
         | None -> Pfunction_cases ($3, make_loc $sloc, attrs)
@@ -4700,7 +4748,7 @@ payload:
 ;
 attr_payload:
   payload
-    { Builtin_attributes.mark_payload_attrs_used $1;
+    { (* Builtin_attributes.mark_payload_attrs_used $1; *)
       $1
     }
 ;

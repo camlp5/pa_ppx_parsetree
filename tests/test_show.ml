@@ -105,7 +105,7 @@ let type_decl = function
      let params = List.map (function ([%core_type {| ' $lid:v$ |}], _) -> Fmt.(str "pp_param_%s" v)) tvl in
 
      let branches = List.map constructor_decl cl in
-     let rhs = [%expression {| fun pps ->  Fmt.(function $list:branches$) |}] in
+     let rhs = [%expression {| fun pps ->  Fmt.(function $cases:branches$) |}] in
      let rhs = List.fold_right (fun v rhs -> [%expression {| fun $lid:v$ -> $rhs$ |}]) params rhs in
 
      [%value_binding {| $lid:pp_name$ = $rhs$ |}]

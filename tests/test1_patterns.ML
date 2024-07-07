@@ -1,4 +1,4 @@
-(**pp -package pa_ppx_parsetree_quotations -syntax camlp5r *)
+(**pp -package pa_ppx_parsetree_quotations_502 -syntax camlp5r *)
 [@@@"ocaml.text" "attribute";];
 <:attribute< [@ $attrid:s$ $list:x$] >>;
 <:attribute< [@ $attrid:s$ : $list:x$] >>;
@@ -36,8 +36,8 @@
 <:core_type< $list:lx$ # $lid:s$ >>;
 <:core_type< $list:lx$ # $longid:x$ . $lid:s$ $algattrs:attrs$ >>;
 <:core_type< $list:lx$ # $longid:x$ . $lid:s$ >>;
-<:core_type< $x$ as ' $lid:s$ $algattrs:attrs$ >>;
-<:core_type< $x$ as ' $lid:s$ >>;
+<:core_type< $x1$ as ' $lid:s$ $algattrs:attrs$ >>;
+<:core_type< $x1$ as ' $lid:s$ >>;
 <:core_type< [ $closedflag:x$ $list:lx1$ $opt:None$ ] $algattrs:attrs$ >>;
 <:core_type< [ $closedflag:x$ $list:lx1$ $opt:None$ ] >>;
 <:core_type< [ $closedflag:x$ $list:lx1$ > $list:lx2$ ] $algattrs:attrs$ >>;
@@ -54,6 +54,8 @@
 <:core_type< (module $longid:x$ . $lid:s$ with $list:xf2$) >>;
 {Parsetree.ptyp_desc = Parsetree.Ptyp_package ({Location.txt = x; loc = loc}, xf2); ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = attrs};
 {Parsetree.ptyp_desc = Parsetree.Ptyp_package ({Location.txt = x; loc = loc}, xf2); ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = []};
+<:core_type< $longid:x$ . ( $x2$ ) $algattrs:attrs$ >>;
+<:core_type< $longid:x$ . ( $x2$ ) >>;
 <:core_type< [% $attrid:s$ $list:x$] $algattrs:attrs$ >>;
 <:core_type< [% $attrid:s$ $list:x$] >>;
 <:core_type< [% $attrid:s$ : $list:x$] $algattrs:attrs$ >>;
@@ -212,20 +214,36 @@
 <:expression< $constant:x$ >>;
 <:expression< ( let $recflag:x1$ $list:lx$ in $x2$ ) $algattrs:attrs$ >>;
 <:expression< let $recflag:x1$ $list:lx$ in $x2$ >>;
-<:expression< function $list:lx$ $algattrs:attrs$ >>;
-<:expression< function $list:lx$ >>;
+(*
+<:expression< (function $cases:lx$) $algattrs:attrs$ >>;
+<:expression< function $cases:lx$ >>;
 <:expression< ( fun $label:x1$ ( $x3$ ) -> $x4$ ) $algattrs:attrs$ >>;
 <:expression< fun $label:x1$ ( $x3$ ) -> $x4$ >>;
 <:expression< ( fun $label:x1$ ( $x3$ = $x2$ ) -> $x4$ ) $algattrs:attrs$ >>;
 <:expression< fun $label:x1$ ( $x3$ = $x2$ ) -> $x4$ >>;
 <:expression< ( fun $label:x1$ ( $x3$ $expropt:ox2$ ) -> $x4$ ) $algattrs:attrs$ >>;
 <:expression< fun $label:x1$ ( $x3$ $expropt:ox2$ ) -> $x4$ >>;
+ *)
+<:expression< (fun $list:lx$ -> $x$) $algattrs:attrs$ >>;
+<:expression< fun $list:lx$ -> $x$ >>;
+<:expression< (fun $algattrs:attrs$ $list:lx$ -> function $algattrs:attrs$ $cases:lx$) >>;
+<:expression< (fun $list:lx$ -> function $algattrs:attrs$ $cases:lx$) >>;
+<:expression< fun $algattrs:attrs$ $list:lx$ -> function $cases:lx$ >>;
+<:expression< fun $list:lx$ -> function $cases:lx$ >>;
+
+<:expression< (fun $algattrs:attrs$ $list:lx$ : $x$ -> $x$) >>;
+<:expression< (fun $list:lx$ : $x$ -> $x$) >>;
+<:expression< (fun $algattrs:attrs$ $list:lx$ : $x$ -> function $algattrs:attrs$ $cases:lx$) >>;
+<:expression< (fun $list:lx$ : $x$ -> function $algattrs:attrs$ $cases:lx$) >>;
+<:expression< (fun $algattrs:attrs$ $list:lx$ : $x$ -> function $cases:lx$) >>;
+<:expression< (fun $list:lx$ : $x$ -> function $cases:lx$) >>;
+
 <:expression< $x$ $list:lxx$ $algattrs:attrs$ >>;
 <:expression< $x$ $list:lxx$ >>;
-<:expression< match $x$ with $list:lx$ $algattrs:attrs$ >>;
-<:expression< match $x$ with $list:lx$ >>;
-<:expression< try $x$ with $list:lx$ $algattrs:attrs$ >>;
-<:expression< try $x$ with $list:lx$ >>;
+<:expression< (match $x$ with $cases:lx$) $algattrs:attrs$ >>;
+<:expression< match $x$ with $cases:lx$ >>;
+<:expression< try $x$ with $cases:lx$ $algattrs:attrs$ >>;
+<:expression< try $x$ with $cases:lx$ >>;
 <:expression<  $tuplelist:lx$ $algattrs:attrs$ >>;
 <:expression<  $tuplelist:lx$ >>;
 <:expression< $longid:x$ $algattrs:attrs$ >>;
@@ -406,6 +424,10 @@
 [@@@"ocaml.text" "letop";];
 [@@@"ocaml.text" "binding_op";];
 <:binding_op< $lid:s$ $x2$ = $x3$ >>;
+[@@@"ocaml.text" "function_param_desc";];
+[@@@"ocaml.text" "function_param";];
+[@@@"ocaml.text" "function_body";];
+[@@@"ocaml.text" "type_constraint";];
 [@@@"ocaml.text" "value_description";];
 [@@@"ocaml.text" "type_declaration";];
 <:type_decl< $list:lxxx$ $lid:s$ = private $x4$ $list:lxxl$ $itemattrs:attrs$ >>;
@@ -891,6 +913,8 @@
 <:module_expr< functor $opt:x$ -> $me$ >>;
 <:module_expr< $me1$( $me2$ ) $algattrs:attrs$ >> ;
 <:module_expr< $me1$( $me2$ ) >>;
+<:module_expr< $me$() $algattrs:attrs$ >>;
+<:module_expr< $me$() >>;
 <:module_expr< ( $me$ : $mt$ ) $algattrs:attrs$ >> ;
 <:module_expr< ( $me$ : $mt$ ) >>;
 <:module_expr< ( val $x$ ) $algattrs:attrs$ >> ;
@@ -1029,9 +1053,16 @@
 <:structure_item< [%% $attrid:s$ ? $x1$ $expropt:ox2$] $itemattrs:attrs$ >> ;
 <:structure_item< [%% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
 [@@@"ocaml.text" "structure_item_desc";];
+[@@@"ocaml.text" "value_constraint";];
 [@@@"ocaml.text" "value_binding";];
 <:value_binding< $x1$ = $x2$ $itemattrs:attrs$ >> ;
 <:value_binding< $x1$ = $x2$ >>;
+<:value_binding< $x1$ : type $list:lx$ . $x$ = $x2$ $itemattrs:attrs$ >> ;
+<:value_binding< $x1$ : type $list:lx$ . $x$ = $x2$ >> ;
+<:value_binding< $x1$ :> $x2$ = $x2$ $itemattrs:attrs$ >> ;
+<:value_binding< $x1$ :> $x2$ = $x2$ >> ;
+<:value_binding< $x1$ : $x1$ :> $x2$ = $x2$ $itemattrs:attrs$ >> ;
+<:value_binding< $x1$ : $x1$:> $x2$ = $x2$ >> ;
 [@@@"ocaml.text" "module_binding";];
 [@@@"ocaml.text" "position";];
 [@@@"ocaml.text" "location";];

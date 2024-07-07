@@ -201,8 +201,8 @@ let test1 ctxt =
 ; assert_equal  l (match [%expression {| let* $lid:l$ = 1 in () |}] with
                      [%expression {| let* $lid:x$ = 1 in () |}] -> x)
 
-; assert_equal (e1,cases) (match [%expression {| match $e1$ with $list:cases$ |}] with
-                              [%expression {| match $e'$ with $list:cases'$ |}] -> (e',cases'))
+; assert_equal (e1,cases) (match [%expression {| match $e1$ with $cases:cases$ |}] with
+                              [%expression {| match $e'$ with $cases:cases'$ |}] -> (e',cases'))
 ; assert_equal ~cmp:[%eq: Helpers.expression list]
     [e1;e2] (match ({| (a*b, a/b) |} |> Lexing.from_string |> Parse.expression) with
                           [%expression {| $tuplelist:l2$ |}] ->  l2)
@@ -244,14 +244,14 @@ let test_let ctxt =
 let test_function ctxt =
   let open Asttypes in
   assert_equal cases (
-      match [%expression {| function $list:cases$ |}] with
-        [%expression {| function $list:cases'$ |}] -> cases')
+      match [%expression {| function $cases:cases$ |}] with
+        [%expression {| function $cases:cases'$ |}] -> cases')
 
 let test_try ctxt =
   let open Asttypes in
   assert_equal (e1,cases) (
-      match [%expression {| try $e1$ with $list:cases$ |}] with
-        [%expression {| try $e1'$ with $list:cases'$ |}] -> (e1',cases'))
+      match [%expression {| try $e1$ with $cases:cases$ |}] with
+        [%expression {| try $e1'$ with $cases:cases'$ |}] -> (e1',cases'))
 
 let test_construct ctxt =
   let open Asttypes in
