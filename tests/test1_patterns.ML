@@ -1066,8 +1066,10 @@
 [@@@"ocaml.text" "value_binding";];
 <:value_binding< $x1$ = $x2$ $itemattrs:attrs$ >> ;
 <:value_binding< $x1$ = $x2$ >>;
+#if OCAML_VERSION >= (5,1,0)
 <:value_binding< $x1$ : type $list:lx$ . $x$ = $x2$ $itemattrs:attrs$ >> ;
 <:value_binding< $x1$ : type $list:lx$ . $x$ = $x2$ >> ;
+#endif
 <:value_binding< $x1$ :> $x2$ = $x2$ $itemattrs:attrs$ >> ;
 <:value_binding< $x1$ :> $x2$ = $x2$ >> ;
 <:value_binding< $x1$ : $x1$ :> $x2$ = $x2$ $itemattrs:attrs$ >> ;
