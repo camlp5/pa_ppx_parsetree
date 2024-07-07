@@ -106,7 +106,9 @@
         ; ([%typ: type_exception], Auto)
         ; ([%typ: type_extension], Auto)
         ; ([%typ: type_kind], Auto)
+#if OCAML_VERSION >= (5,1,0)
         ; ([%typ: value_constraint], Auto)
+#endif
         ; ([%typ: value_description], Auto)
         ]
       ; expand_types_per_type = {

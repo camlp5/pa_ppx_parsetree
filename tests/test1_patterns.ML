@@ -922,8 +922,10 @@
 <:module_expr< functor $opt:x$ -> $me$ >>;
 <:module_expr< $me1$( $me2$ ) $algattrs:attrs$ >> ;
 <:module_expr< $me1$( $me2$ ) >>;
+#if OCAML_VERSION >= (5,1,0)
 <:module_expr< $me$() $algattrs:attrs$ >>;
 <:module_expr< $me$() >>;
+#endif
 <:module_expr< ( $me$ : $mt$ ) $algattrs:attrs$ >> ;
 <:module_expr< ( $me$ : $mt$ ) >>;
 <:module_expr< ( val $x$ ) $algattrs:attrs$ >> ;
@@ -1062,18 +1064,20 @@
 <:structure_item< [%% $attrid:s$ ? $x1$ $expropt:ox2$] $itemattrs:attrs$ >> ;
 <:structure_item< [%% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
 [@@@"ocaml.text" "structure_item_desc";];
+#if OCAML_VERSION >= (5,1,0)
 [@@@"ocaml.text" "value_constraint";];
+#endif
 [@@@"ocaml.text" "value_binding";];
 <:value_binding< $x1$ = $x2$ $itemattrs:attrs$ >> ;
 <:value_binding< $x1$ = $x2$ >>;
 #if OCAML_VERSION >= (5,1,0)
 <:value_binding< $x1$ : type $list:lx$ . $x$ = $x2$ $itemattrs:attrs$ >> ;
 <:value_binding< $x1$ : type $list:lx$ . $x$ = $x2$ >> ;
-#endif
 <:value_binding< $x1$ :> $x2$ = $x2$ $itemattrs:attrs$ >> ;
 <:value_binding< $x1$ :> $x2$ = $x2$ >> ;
 <:value_binding< $x1$ : $x1$ :> $x2$ = $x2$ $itemattrs:attrs$ >> ;
 <:value_binding< $x1$ : $x1$:> $x2$ = $x2$ >> ;
+#endif
 [@@@"ocaml.text" "module_binding";];
 [@@@"ocaml.text" "position";];
 [@@@"ocaml.text" "location";];
