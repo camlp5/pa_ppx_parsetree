@@ -1,4 +1,4 @@
-(**pp -package pa_ppx_parsetree_quotations_502 -syntax camlp5r *)
+(**pp -package pa_ppx_parsetree_quotations -syntax camlp5r *)
 [@@@"ocaml.text" "attribute";];
 <:attribute< [@ $attrid:s$ $list:x$] >>;
 <:attribute< [@ $attrid:s$ : $list:x$] >>;
