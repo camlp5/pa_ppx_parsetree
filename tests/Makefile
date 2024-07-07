@@ -56,7 +56,7 @@ test1_patterns.ml: test1_patterns.ML
 	cppo -V OCAML:$(ocamlVERSION) $< > $@
 
 test1_types.ml: test1_types.ML
-	cppo -D 'MODULE Pa_ppx_parsetree_quotations_'$(OVERS) $< > $@
+	cppo -V OCAML:$(ocamlVERSION) -D 'MODULE Pa_ppx_parsetree_quotations_'$(OVERS) $< > $@
 
 quotations_test.ml: quotations_test.ML
 	cppo -V OCAML:$(ocamlVERSION) $< > $@

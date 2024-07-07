@@ -821,6 +821,7 @@ let mk_directive ~loc name arg =
 /*-*/%token <string> ANTI_ISCONST
 /*-*/%token <string> ANTI_VIRTUAL
 /*-*/%token <string> ANTI_TYPEDECL
+/*-*/%token <string> ANTI_CASES
 %token EOL                    "\\n"      (* not great, but EOL is unused *)
 
 /* Precedences and associativities.
@@ -888,7 +889,7 @@ The precedences must be listed from low to high.
           LBRACKETPERCENT QUOTED_STRING_EXPR
 /*-*/          ANTI ANTI_NOATTRS ANTI_UID ANTI_LID ANTI_LONGID ANTI_LONGLID
 /*-*/          ANTI_INT ANTI_INT32 ANTI_INT64 ANTI_NATIVEINT ANTI_CHAR ANTI_STRING ANTI_DELIM ANTI_FLOAT
-/*-*/          ANTI_EXPROPT ANTI_PATTOPT ANTI_CONSTANT ANTI_ALGATTRS
+/*-*/          ANTI_EXPROPT ANTI_PATTOPT ANTI_CONSTANT ANTI_ALGATTRS ANTI_CASES
 
 /* Entry points */
 
@@ -2743,16 +2744,16 @@ expr:
       { let open_loc = make_loc ($startpos($2), $endpos($5)) in
         let od = Opn.mk $5 ~override:$3 ~loc:open_loc in
         Pexp_open(od, $7), $4 }
-  | FUNCTION ext_attributes vala(match_cases, ANTI_LIST)
+  | FUNCTION ext_attributes vala(match_cases, ANTI_CASES)
       { Pexp_function $3, $2 }
   | FUN ext_attributes labeled_simple_pattern fun_def
       { let (l,o,p) = $3 in
         Pexp_fun(l, o, p, $4), $2 }
   | FUN ext_attributes LPAREN TYPE lident_list RPAREN fun_def
       { (mk_newtypes ~loc:$sloc $5 $7).pexp_desc, $2 }
-  | MATCH ext_attributes seq_expr WITH vala(match_cases, ANTI_LIST)
+  | MATCH ext_attributes seq_expr WITH vala(match_cases, ANTI_CASES)
       { Pexp_match($3, $5), $2 }
-  | TRY ext_attributes seq_expr WITH vala(match_cases, ANTI_LIST)
+  | TRY ext_attributes seq_expr WITH vala(match_cases, ANTI_CASES)
       { Pexp_try($3, $5), $2 }
   | TRY ext_attributes seq_expr WITH error
       { syntax_error() }
@@ -2975,15 +2976,28 @@ let_binding_body_no_punning:
       let t = ghtyp ~loc:($loc($3)) $3 in
       ($1, $5, Some (Pvc_constraint { locally_abstract_univars = vaval []; typ=t }))
     }
-  | let_ident COLON TYPE lident_list DOT core_type EQUAL seq_expr
+  | let_ident COLON TYPE vala(lident_list, ANTI_LIST) DOT core_type EQUAL seq_expr
     { let constraint' =
-        Pvc_constraint { locally_abstract_univars=vaval $4; typ = $6}
+        Pvc_constraint { locally_abstract_univars=$4; typ = $6}
       in
       ($1, $8, Some constraint') }
   | pattern_no_exn EQUAL seq_expr
       { ($1, $3, None) }
+/*
   | simple_pattern_not_ident COLON core_type EQUAL seq_expr
       { ($1, $5, Some(Pvc_constraint { locally_abstract_univars=vaval []; typ=$3 })) }
+*/
+  | simple_pattern_not_ident COLON TYPE l=vala(lident_list, ANTI_LIST) DOT cty = core_type EQUAL e = seq_expr
+      { ($1, e, Some(Pvc_constraint { locally_abstract_univars=l; typ=cty })) }
+
+  | simple_pattern_not_ident tc = type_constraint EQUAL e = seq_expr
+      { let tc =
+          match tc with
+            (Some t, None) ->
+             Pvc_constraint { locally_abstract_univars = vaval []; typ=t }
+          | (ground, Some coercion) -> Pvc_coercion { ground; coercion}
+        in
+        ($1, e, Some tc) }
 ;
 let_binding_body:
   | let_binding_body_no_punning

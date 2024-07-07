@@ -107,7 +107,7 @@ clean::
 	set -e; for i in $(SYSDIRS) $(TESTDIRS) $(OTHERCLEANDIRS); do if [ -d $$i ]; then cd $$i; $(MAKE) clean; cd ..; fi; done
 	rm -rf docs local-install $(BATCHTOP) META *.corrected
 
-realclean:: clean
+realclean::
 	set -e; for i in $(SYSDIRS) $(TESTDIRS) $(OTHERCLEANDIRS); do if [ -d $$i ]; then cd $$i; $(MAKE) realclean; cd ..; fi; done
 	rm -rf $(GENERATED_SYSDIRS)
 

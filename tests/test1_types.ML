@@ -69,7 +69,9 @@
         ; ([%typ: extension], Auto)
         ; ([%typ: extension_constructor], Auto)
         ; ([%typ: extension_constructor_kind], Auto)
+#if OCAML_VERSION >= (5,2,0)
         ; ([%typ: function_body], Auto)
+#endif
         ; ([%typ: include_declaration], Auto)
         ; ([%typ: include_description], Auto)
         ; ([%typ: include_infos], Auto)
@@ -98,7 +100,9 @@
                                       Parsetree.Pstr_eval(x1, [])
                                     ]
                                   ))
+#if OCAML_VERSION >= (5,2,0)
         ; ([%typ: type_constraint], Auto)
+#endif
         ; ([%typ: type_exception], Auto)
         ; ([%typ: type_extension], Auto)
         ; ([%typ: type_kind], Auto)
@@ -170,6 +174,7 @@
                              ; Longident.Ldot (x, s)
              ])
           ])
+#if OCAML_VERSION >= (5,2,0)
         ; (Pexp_function,
            [ ([%typ: type_constraint], AddDel (
                                    [],
@@ -187,6 +192,7 @@
                                    ]
              ))
           ])
+#endif
         ; (Pexp_field,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s

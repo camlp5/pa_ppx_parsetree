@@ -36,8 +36,13 @@
 <:core_type< $list:lx$ # $lid:s$ >>;
 <:core_type< $list:lx$ # $longid:x$ . $lid:s$ $algattrs:attrs$ >>;
 <:core_type< $list:lx$ # $longid:x$ . $lid:s$ >>;
+#if OCAML_VERSION < (5,2,0)
+<:core_type< $x$ as ' $lid:s$ $algattrs:attrs$ >>;
+<:core_type< $x$ as ' $lid:s$ >>;
+#else
 <:core_type< $x1$ as ' $lid:s$ $algattrs:attrs$ >>;
 <:core_type< $x1$ as ' $lid:s$ >>;
+#endif
 <:core_type< [ $closedflag:x$ $list:lx1$ $opt:None$ ] $algattrs:attrs$ >>;
 <:core_type< [ $closedflag:x$ $list:lx1$ $opt:None$ ] >>;
 <:core_type< [ $closedflag:x$ $list:lx1$ > $list:lx2$ ] $algattrs:attrs$ >>;
@@ -54,8 +59,10 @@
 <:core_type< (module $longid:x$ . $lid:s$ with $list:xf2$) >>;
 {Parsetree.ptyp_desc = Parsetree.Ptyp_package ({Location.txt = x; loc = loc}, xf2); ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = attrs};
 {Parsetree.ptyp_desc = Parsetree.Ptyp_package ({Location.txt = x; loc = loc}, xf2); ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = []};
+#if OCAML_VERSION >= (5,2,0)
 <:core_type< $longid:x$ . ( $x2$ ) $algattrs:attrs$ >>;
 <:core_type< $longid:x$ . ( $x2$ ) >>;
+#endif
 <:core_type< [% $attrid:s$ $list:x$] $algattrs:attrs$ >>;
 <:core_type< [% $attrid:s$ $list:x$] >>;
 <:core_type< [% $attrid:s$ : $list:x$] $algattrs:attrs$ >>;
@@ -214,8 +221,8 @@
 <:expression< $constant:x$ >>;
 <:expression< ( let $recflag:x1$ $list:lx$ in $x2$ ) $algattrs:attrs$ >>;
 <:expression< let $recflag:x1$ $list:lx$ in $x2$ >>;
-(*
-<:expression< (function $cases:lx$) $algattrs:attrs$ >>;
+#if OCAML_VERSION < (5,2,0)
+<:expression< function $cases:lx$ $algattrs:attrs$ >>;
 <:expression< function $cases:lx$ >>;
 <:expression< ( fun $label:x1$ ( $x3$ ) -> $x4$ ) $algattrs:attrs$ >>;
 <:expression< fun $label:x1$ ( $x3$ ) -> $x4$ >>;
@@ -223,7 +230,7 @@
 <:expression< fun $label:x1$ ( $x3$ = $x2$ ) -> $x4$ >>;
 <:expression< ( fun $label:x1$ ( $x3$ $expropt:ox2$ ) -> $x4$ ) $algattrs:attrs$ >>;
 <:expression< fun $label:x1$ ( $x3$ $expropt:ox2$ ) -> $x4$ >>;
- *)
+#else
 <:expression< (fun $list:lx$ -> $x$) $algattrs:attrs$ >>;
 <:expression< fun $list:lx$ -> $x$ >>;
 <:expression< (fun $algattrs:attrs$ $list:lx$ -> function $algattrs:attrs$ $cases:lx$) >>;
@@ -237,7 +244,7 @@
 <:expression< (fun $list:lx$ : $x$ -> function $algattrs:attrs$ $cases:lx$) >>;
 <:expression< (fun $algattrs:attrs$ $list:lx$ : $x$ -> function $cases:lx$) >>;
 <:expression< (fun $list:lx$ : $x$ -> function $cases:lx$) >>;
-
+#endif
 <:expression< $x$ $list:lxx$ $algattrs:attrs$ >>;
 <:expression< $x$ $list:lxx$ >>;
 <:expression< (match $x$ with $cases:lx$) $algattrs:attrs$ >>;
@@ -424,10 +431,12 @@
 [@@@"ocaml.text" "letop";];
 [@@@"ocaml.text" "binding_op";];
 <:binding_op< $lid:s$ $x2$ = $x3$ >>;
+#if OCAML_VERSION >= (5,2,0)
 [@@@"ocaml.text" "function_param_desc";];
 [@@@"ocaml.text" "function_param";];
 [@@@"ocaml.text" "function_body";];
 [@@@"ocaml.text" "type_constraint";];
+#endif
 [@@@"ocaml.text" "value_description";];
 [@@@"ocaml.text" "type_declaration";];
 <:type_decl< $list:lxxx$ $lid:s$ = private $x4$ $list:lxxl$ $itemattrs:attrs$ >>;
