@@ -229,92 +229,13 @@ type report_printer = {
 
 (** {2 Report printers used in the compiler} *)
 
-val batch_mode_printer: report_printer
-
-val terminfo_toplevel_printer: Lexing.lexbuf -> report_printer
-
-val best_toplevel_printer: unit -> report_printer
-(** Detects the terminal capabilities and selects an adequate printer *)
-
 (** {2 Printing a [report]} *)
-
-val print_report: formatter -> report -> unit
-(** Display an error or warning report. *)
-
-val report_printer: (unit -> report_printer) ref
-(** Hook for redefining the printer of reports.
-
-    The hook is a [unit -> report_printer] and not simply a [report_printer]:
-    this is useful so that it can detect the type of the output (a file, a
-    terminal, ...) and select a printer accordingly. *)
-
-val default_report_printer: unit -> report_printer
-(** Original report printer for use in hooks. *)
-
 
 (** {1 Reporting warnings} *)
 
 (** {2 Converting a [Warnings.t] into a [report]} *)
 
-val report_warning: t -> Warnings.t -> report option
-(** [report_warning loc w] produces a report for the given warning [w], or
-   [None] if the warning is not to be printed. *)
-
-val warning_reporter: (t -> Warnings.t -> report option) ref
-(** Hook for intercepting warnings. *)
-
-val default_warning_reporter: t -> Warnings.t -> report option
-(** Original warning reporter for use in hooks. *)
-
-(** {2 Printing warnings} *)
-
-val formatter_for_warnings : formatter ref
-
-val print_warning: t -> formatter -> Warnings.t -> unit
-(** Prints a warning. This is simply the composition of [report_warning] and
-   [print_report]. *)
-
-val prerr_warning: t -> Warnings.t -> unit
-(** Same as [print_warning], but uses [!formatter_for_warnings] as output
-   formatter. *)
-
 (** {1 Reporting alerts} *)
-
-(** {2 Converting an [Alert.t] into a [report]} *)
-
-val report_alert: t -> Warnings.alert -> report option
-(** [report_alert loc w] produces a report for the given alert [w], or
-   [None] if the alert is not to be printed. *)
-
-val alert_reporter: (t -> Warnings.alert -> report option) ref
-(** Hook for intercepting alerts. *)
-
-val default_alert_reporter: t -> Warnings.alert -> report option
-(** Original alert reporter for use in hooks. *)
-
-(** {2 Printing alerts} *)
-
-val print_alert: t -> formatter -> Warnings.alert -> unit
-(** Prints an alert. This is simply the composition of [report_alert] and
-   [print_report]. *)
-
-val prerr_alert: t -> Warnings.alert -> unit
-(** Same as [print_alert], but uses [!formatter_for_warnings] as output
-   formatter. *)
-
-val deprecated: ?def:t -> ?use:t -> t -> string -> unit
-(** Prints a deprecation alert. *)
-
-val alert: ?def:t -> ?use:t -> kind:string -> t -> string -> unit
-(** Prints an arbitrary alert. *)
-
-val auto_include_alert: string -> unit
-(** Prints an alert that -I +lib has been automatically added to the load
-    path *)
-
-val deprecated_script_alert: string -> unit
-(** [deprecated_script_alert command] prints an alert that [command foo] has
-    been deprecated in favour of [command ./foo] *)
 
 (** {1 Reporting errors} *)
 
@@ -355,5 +276,3 @@ exception Already_displayed_error
 val raise_errorf: ?loc:t -> ?sub:msg list ->
   ('a, Format.formatter, unit, 'b) format4 -> 'a
 
-val report_exception: formatter -> exn -> unit
-(** Reraise the exception if it is unknown. *)

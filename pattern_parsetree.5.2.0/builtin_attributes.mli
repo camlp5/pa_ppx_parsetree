@@ -65,7 +65,6 @@
     attributes in that case.
 *)
 type current_phase = Parser | Invariant_check
-val register_attr : current_phase -> string Location.loc -> unit
 
 (** Marks the attributes hiding in the payload of another attribute used, for
     the purposes of misplaced attribute warnings (see comment on
@@ -73,10 +72,6 @@ val register_attr : current_phase -> string Location.loc -> unit
     the table and remove them later, rather than threading through state
     tracking whether we're in an attribute payload. *)
 val mark_payload_attrs_used : Parsetree.payload -> unit
-
-(** Issue misplaced attribute warnings for all attributes created with
-    [mk_internal] but not yet marked used. *)
-val warn_unused : unit -> unit
 
 (** {3 Warning 53 helpers for environment attributes}
 
@@ -90,97 +85,7 @@ val warn_unused : unit -> unit
     This is done with the helper functions in this section.
 *)
 
-(** Marks the attribute used for the purposes of misplaced attribute warnings if
-    it is an alert.  Call this when moving things allowed to have alert
-    attributes into the environment. *)
-val mark_alert_used : Parsetree.attribute -> unit
-
-(** The same as [List.iter mark_alert_used]. *)
-val mark_alerts_used : Parsetree.attribute list -> unit
-
-(** Marks "warn_on_literal_pattern" attributes used for the purposes of
-    misplaced attribute warnings.  Call this when moving constructors into the
-    environment. *)
-val mark_warn_on_literal_pattern_used : Parsetree.attribute list -> unit
-
-(** Marks "deprecated_mutable" attributes used for the purposes of misplaced
-    attribute warnings.  Call this when moving labels of mutable fields into the
-    environment. *)
-val mark_deprecated_mutable_used : Parsetree.attribute list -> unit
-
 (** {2 Helpers for alert and warning attributes} *)
-
-val check_alerts: Location.t -> Parsetree.attribute list -> string -> unit
-val check_alerts_inclusion:
-  def:Location.t -> use:Location.t -> Location.t -> Parsetree.attribute list ->
-  Parsetree.attribute list -> string -> unit
-val alerts_of_attrs: Parsetree.attribute list -> Misc.alerts
-val alerts_of_sig: Parsetree.signature_item list -> Misc.alerts
-val alerts_of_str: Parsetree.structure_item list -> Misc.alerts
-
-val check_deprecated_mutable:
-    Location.t -> Parsetree.attribute list -> string -> unit
-val check_deprecated_mutable_inclusion:
-  def:Location.t -> use:Location.t -> Location.t -> Parsetree.attribute list ->
-  Parsetree.attribute list -> string -> unit
 
 val error_of_extension: Parsetree.extension -> Location.error
 
-val warning_attribute: ?ppwarning:bool -> Parsetree.attribute -> unit
-  (** Apply warning settings from the specified attribute.
-      "ocaml.warning"/"ocaml.warnerror" (and variants without the prefix) are
-      processed and marked used for warning 53.  Other attributes are ignored.
-
-      Also implement ocaml.ppwarning (unless ~ppwarning:false is
-      passed).
-  *)
-
-val warning_scope:
-  ?ppwarning:bool ->
-  Parsetree.attribute list -> (unit -> 'a) -> 'a
-  (** Execute a function in a new scope for warning settings.  This
-      means that the effect of any call to [warning_attribute] during
-      the execution of this function will be discarded after
-      execution.
-
-      The function also takes a list of attributes which are processed
-      with [warning_attribute] in the fresh scope before the function
-      is executed.
-  *)
-
-(** {2 Helpers for searching for particular attributes} *)
-
-(** [has_attribute name attrs] is true if an attribute with name [name] or
-    ["ocaml." ^ name] is present in [attrs].  It marks that attribute used for
-    the purposes of misplaced attribute warnings. *)
-val has_attribute : string -> Parsetree.attribute list -> bool
-
-(** [select_attributes actions attrs] finds the elements of [attrs] that appear
-    in [actions] and either returns them or just marks them used, according to
-    the corresponding [attr_action].
-
-    Each element [(nm, action)] of the [actions] list is an attribute along with
-    an [attr_action] specifying what to do with that attribute.  The action is
-    used to accommodate different compiler configurations.  If an attribute is
-    used only in some compiler configurations, it's important that we still look
-    for it and mark it used when compiling with other configurations.
-    Otherwise, we would issue spurious misplaced attribute warnings. *)
-type attr_action = Mark_used_only | Return
-val select_attributes :
-  (string * attr_action) list -> Parsetree.attribute list -> Parsetree.attribute list
-
-(** [attr_equals_builtin attr s] is true if the name of the attribute is [s] or
-    ["ocaml." ^ s].  This is useful for manually inspecting attribute names, but
-    note that doing so will not result in marking the attribute used for the
-    purpose of warning 53, so it is usually preferrable to use [has_attribute]
-    or [select_attributes]. *)
-val attr_equals_builtin : Parsetree.attribute -> string -> bool
-
-val warn_on_literal_pattern: Parsetree.attribute list -> bool
-val explicit_arity: Parsetree.attribute list -> bool
-
-val immediate: Parsetree.attribute list -> bool
-val immediate64: Parsetree.attribute list -> bool
-
-val has_unboxed: Parsetree.attribute list -> bool
-val has_boxed: Parsetree.attribute list -> bool

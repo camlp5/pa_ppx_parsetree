@@ -119,8 +119,6 @@ type t =
 
 type alert = {kind:string; message:string; def:loc; use:loc}
 
-val parse_options : bool -> string -> alert option
-
 val parse_alert_option: string -> unit
   (** Disable/enable alerts based on the parameter to the -alert
       command-line option.  Raises [Arg.Bad] if the string is not a
@@ -143,15 +141,12 @@ type reporting_information =
   ; sub_locs : (loc * string) list;
   }
 
-val report : t -> [ `Active of reporting_information | `Inactive ]
 val report_alert : alert -> [ `Active of reporting_information | `Inactive ]
 
 exception Errors
 
 val check_fatal : unit -> unit
 val reset_fatal: unit -> unit
-
-val help_warnings: unit -> unit
 
 type state
 val backup: unit -> state
@@ -160,11 +155,3 @@ val with_state : state -> (unit -> 'a) -> 'a
 val mk_lazy: (unit -> 'a) -> 'a Lazy.t
     (** Like [Lazy.of_fun], but the function is applied with
         the warning/alert settings at the time [mk_lazy] is called. *)
-
-type description =
-  { number : int;
-    names : string list;
-    description : string;
-    since : Sys.ocaml_release_info option; }
-
-val descriptions : description list

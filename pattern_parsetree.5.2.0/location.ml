@@ -461,86 +461,6 @@ let infer_line_numbers
   | _, _ ->
       lines
 
-(* [get_lines] must return the lines to highlight, given starting and ending
-   positions.
-
-   See [lines_around_from_current_input] below for an instantiation of
-   [get_lines] that reads from the current input.
-*)
-let highlight_quote ppf
-    ~(get_lines: start_pos:position -> end_pos:position -> input_line list)
-    ?(max_lines = 10)
-    highlight_tag
-    locs
-  =
-  let iset = ISet.of_intervals @@ List.filter_map (fun loc ->
-    let s, e = loc.loc_start, loc.loc_end in
-    if s.pos_cnum = -1 || e.pos_cnum = -1 then None
-    else Some ((s, s.pos_cnum), (e, e.pos_cnum - 1))
-  ) locs in
-  match ISet.extrema iset with
-  | None -> ()
-  | Some ((leftmost, _), (rightmost, _)) ->
-      let lines =
-        get_lines ~start_pos:leftmost ~end_pos:rightmost
-        |> List.map (fun ({ text; start_pos } as line) ->
-          let end_pos = start_pos + String.length text - 1 in
-          let line_nb =
-            match ISet.find_bound_in iset ~range:(start_pos, end_pos) with
-            | None -> None
-            | Some (p, _) -> Some p.pos_lnum
-          in
-          (line_nb, line))
-        |> infer_line_numbers
-        |> List.map (fun (lnum, { text; start_pos }) ->
-          (text,
-           Option.fold ~some:Int.to_string ~none:"" lnum,
-           start_pos))
-      in
-    Format.fprintf ppf "@[<v>";
-    begin match lines with
-    | [] | [("", _, _)] -> ()
-    | [(line, line_nb, line_start_cnum)] ->
-        (* Single-line error *)
-        Format.fprintf ppf "%s | %s@," line_nb line;
-        Format.fprintf ppf "%*s   " (String.length line_nb) "";
-        (* Iterate up to [rightmost], which can be larger than the length of
-           the line because we may point to a location after the end of the
-           last token on the line, for instance:
-           {[
-             token
-                       ^
-             Did you forget ...
-           ]} *)
-        for i = 0 to rightmost.pos_cnum - line_start_cnum - 1 do
-          let pos = line_start_cnum + i in
-          if ISet.is_start iset ~pos <> None then
-            Format.fprintf ppf "@{<%s>" highlight_tag;
-          if ISet.mem iset ~pos then Format.pp_print_char ppf '^'
-          else if i < String.length line then begin
-            (* For alignment purposes, align using a tab for each tab in the
-               source code *)
-            if line.[i] = '\t' then Format.pp_print_char ppf '\t'
-            else Format.pp_print_char ppf ' '
-          end;
-          if ISet.is_end iset ~pos <> None then
-            Format.fprintf ppf "@}"
-        done;
-        Format.fprintf ppf "@}@,"
-    | _ ->
-        (* Multi-line error *)
-        Misc.pp_two_columns ~sep:"|" ~max_lines ppf
-        @@ List.map (fun (line, line_nb, line_start_cnum) ->
-          let line = String.mapi (fun i car ->
-            if ISet.mem iset ~pos:(line_start_cnum + i) then car else '.'
-          ) line in
-          (line_nb, line)
-        ) lines
-    end;
-    Format.fprintf ppf "@]"
-
-
-
 let lines_around
     ~(start_pos: position) ~(end_pos: position)
     ~(seek: int -> unit)
@@ -706,127 +626,10 @@ let error_style () =
   | Some setting -> setting
   | None -> Misc.Error_style.default_setting
 
-let batch_mode_printer : report_printer =
-  let pp_loc _self report ppf loc =
-    let tag = match report.kind with
-      | Report_warning_as_error _
-      | Report_alert_as_error _
-      | Report_error -> "error"
-      | Report_warning _
-      | Report_alert _ -> "warning"
-    in
-    let highlight ppf loc =
-      match error_style () with
-      | Misc.Error_style.Contextual ->
-          if is_quotable_loc loc then
-            highlight_quote ppf
-              ~get_lines:lines_around_from_current_input
-              tag [loc]
-      | Misc.Error_style.Short ->
-          ()
-    in
-    Format.fprintf ppf "@[<v>%a:@ %a@]" print_loc loc highlight loc
-  in
-  let pp_txt ppf txt = Format.fprintf ppf "@[%t@]" txt in
-  let pp self ppf report =
-    setup_tags ();
-    separate_new_message ppf;
-    (* Make sure we keep [num_loc_lines] updated.
-       The tabulation box is here to give submessage the option
-       to be aligned with the main message box
-    *)
-    print_updating_num_loc_lines ppf (fun ppf () ->
-      Format.fprintf ppf "@[<v>%a%a%a: %a%a%a%a@]@."
-      Format.pp_open_tbox ()
-      (self.pp_main_loc self report) report.main.loc
-      (self.pp_report_kind self report) report.kind
-      Format.pp_set_tab ()
-      (self.pp_main_txt self report) report.main.txt
-      (self.pp_submsgs self report) report.sub
-      Format.pp_close_tbox ()
-    ) ()
-  in
-  let pp_report_kind _self _ ppf = function
-    | Report_error -> Format.fprintf ppf "@{<error>Error@}"
-    | Report_warning w -> Format.fprintf ppf "@{<warning>Warning@} %s" w
-    | Report_warning_as_error w ->
-        Format.fprintf ppf "@{<error>Error@} (warning %s)" w
-    | Report_alert w -> Format.fprintf ppf "@{<warning>Alert@} %s" w
-    | Report_alert_as_error w ->
-        Format.fprintf ppf "@{<error>Error@} (alert %s)" w
-  in
-  let pp_main_loc self report ppf loc =
-    pp_loc self report ppf loc
-  in
-  let pp_main_txt _self _ ppf txt =
-    pp_txt ppf txt
-  in
-  let pp_submsgs self report ppf msgs =
-    List.iter (fun msg ->
-      Format.fprintf ppf "@,%a" (self.pp_submsg self report) msg
-    ) msgs
-  in
-  let pp_submsg self report ppf { loc; txt } =
-    Format.fprintf ppf "@[%a  %a@]"
-      (self.pp_submsg_loc self report) loc
-      (self.pp_submsg_txt self report) txt
-  in
-  let pp_submsg_loc self report ppf loc =
-    if not loc.loc_ghost then
-      pp_loc self report ppf loc
-  in
-  let pp_submsg_txt _self _ ppf loc =
-    pp_txt ppf loc
-  in
-  { pp; pp_report_kind; pp_main_loc; pp_main_txt;
-    pp_submsgs; pp_submsg; pp_submsg_loc; pp_submsg_txt }
-
-let terminfo_toplevel_printer (lb: lexbuf): report_printer =
-  let pp self ppf err =
-    setup_tags ();
-    (* Highlight all toplevel locations of the report, instead of displaying
-       the main location. Do it now instead of in [pp_main_loc], to avoid
-       messing with Format boxes. *)
-    let sub_locs = List.map (fun { loc; _ } -> loc) err.sub in
-    let all_locs = err.main.loc :: sub_locs in
-    let locs_highlighted = List.filter is_quotable_loc all_locs in
-    highlight_terminfo lb ppf locs_highlighted;
-    batch_mode_printer.pp self ppf err
-  in
-  let pp_main_loc _ _ _ _ = () in
-  let pp_submsg_loc _ _ ppf loc =
-    if not loc.loc_ghost then
-      Format.fprintf ppf "%a:@ " print_loc loc in
-  { batch_mode_printer with pp; pp_main_loc; pp_submsg_loc }
-
-let best_toplevel_printer () =
-  setup_terminal ();
-  match !status, !input_lexbuf with
-  | Terminfo.Good_term, Some lb ->
-      terminfo_toplevel_printer lb
-  | _, _ ->
-      batch_mode_printer
-
-(* Creates a printer for the current input *)
-let default_report_printer () : report_printer =
-  if !input_name = "//toplevel//" then
-    best_toplevel_printer ()
-  else
-    batch_mode_printer
-
-let report_printer = ref default_report_printer
-
-let print_report ppf report =
-  let printer = !report_printer () in
-  printer.pp printer ppf report
-
 (******************************************************************************)
 (* Reporting errors *)
 
 type error = report
-
-let report_error ppf err =
-  print_report ppf err
 
 let mkerror loc sub txt =
   { kind = Report_error; main = { loc; txt }; sub }
@@ -859,87 +662,7 @@ let default_warning_alert_reporter report mk (loc: t) w : report option =
       ) sub_locs in
       Some { kind; main; sub }
 
-
-let default_warning_reporter =
-  default_warning_alert_reporter
-    Warnings.report
-    (fun is_error id ->
-       if is_error then Report_warning_as_error id
-       else Report_warning id
-    )
-
-let warning_reporter = ref default_warning_reporter
-let report_warning loc w = !warning_reporter loc w
-
-let formatter_for_warnings = ref Format.err_formatter
-
-let print_warning loc ppf w =
-  match report_warning loc w with
-  | None -> ()
-  | Some report -> print_report ppf report
-
-let prerr_warning loc w = print_warning loc !formatter_for_warnings w
-
-let default_alert_reporter =
-  default_warning_alert_reporter
-    Warnings.report_alert
-    (fun is_error id ->
-       if is_error then Report_alert_as_error id
-       else Report_alert id
-    )
-
-let alert_reporter = ref default_alert_reporter
-let report_alert loc w = !alert_reporter loc w
-
-let print_alert loc ppf w =
-  match report_alert loc w with
-  | None -> ()
-  | Some report -> print_report ppf report
-
-let prerr_alert loc w = print_alert loc !formatter_for_warnings w
-
-let alert ?(def = none) ?(use = none) ~kind loc message =
-  prerr_alert loc {Warnings.kind; message; def; use}
-
-let deprecated ?def ?use loc message =
-  alert ?def ?use ~kind:"deprecated" loc message
-
 module Style = Misc.Style
-
-let auto_include_alert lib =
-  let message = Format.asprintf "\
-    OCaml's lib directory layout changed in 5.0. The %a subdirectory has been \
-    automatically added to the search path, but you should add %a to the \
-    command-line to silence this alert (e.g. by adding %a to the list of \
-    libraries in your dune file, or adding %a to your %a file for \
-    ocamlbuild, or using %a for ocamlfind)."
-      Style.inline_code lib
-      Style.inline_code ("-I +" ^lib)
-      Style.inline_code lib
-      Style.inline_code ("use_"^lib)
-      Style.inline_code "_tags"
-      Style.inline_code ("-package " ^ lib) in
-  let alert =
-    {Warnings.kind="ocaml_deprecated_auto_include"; use=none; def=none;
-     message = Format.asprintf "@[@\n%a@]" Format.pp_print_text message}
-  in
-  prerr_alert none alert
-
-let deprecated_script_alert program =
-  let message = Format.asprintf "\
-    Running %a where the first argument is an implicit basename with no \
-    extension (e.g. %a) is deprecated. Either rename the script \
-    (%a) or qualify the basename (%a)"
-      Style.inline_code program
-      Style.inline_code (program ^ " script-file")
-      Style.inline_code (program ^ " script-file.ml")
-      Style.inline_code (program ^ " ./script-file")
-  in
-  let alert =
-    {Warnings.kind="ocaml_deprecated_cli"; use=none; def=none;
-     message = Format.asprintf "@[@\n%a@]" Format.pp_print_text message}
-  in
-  prerr_alert none alert
 
 (******************************************************************************)
 (* Reporting errors on exceptions *)
@@ -972,16 +695,6 @@ let () =
     )
 
 external reraise : exn -> 'a = "%reraise"
-
-let report_exception ppf exn =
-  let rec loop n exn =
-    match error_of_exn exn with
-    | None -> reraise exn
-    | Some `Already_displayed -> ()
-    | Some (`Ok err) -> report_error ppf err
-    | exception exn when n > 0 -> loop (n-1) exn
-  in
-  loop 5 exn
 
 exception Error of error
 

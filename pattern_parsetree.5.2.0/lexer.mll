@@ -282,10 +282,7 @@ let escaped_newlines = ref false
 
 (* Warn about Latin-1 characters used in idents *)
 
-let warn_latin1 lexbuf =
-  Location.deprecated
-    (Location.curr lexbuf)
-    "ISO-Latin1 characters in identifiers"
+let warn_latin1 lexbuf = ()
 
 let handle_docstrings = ref true
 let comment_list = ref []
@@ -522,9 +519,7 @@ rule token = parse
         in
         COMMENT (s, loc) }
   | "(*)"
-      { if !print_warnings then
-          Location.prerr_warning (Location.curr lexbuf) Warnings.Comment_start;
-        let s, loc = wrap_comment_lexer comment lexbuf in
+      { let s, loc = wrap_comment_lexer comment lexbuf in
         COMMENT (s, loc) }
   | "(*" (('*'*) as stars) "*)"
       { if !handle_docstrings && stars="" then
@@ -533,12 +528,7 @@ rule token = parse
         else
           COMMENT (stars, Location.curr lexbuf) }
   | "*)"
-      { let loc = Location.curr lexbuf in
-        Location.prerr_warning loc Warnings.Comment_not_end;
-        lexbuf.Lexing.lex_curr_pos <- lexbuf.Lexing.lex_curr_pos - 1;
-        let curpos = lexbuf.lex_curr_p in
-        lexbuf.lex_curr_p <- { curpos with pos_cnum = curpos.pos_cnum - 1 };
-        STAR
+      { STAR
       }
   | "#"
       { let at_beginning_of_line pos = (pos.pos_cnum = pos.pos_bol) in
@@ -999,14 +989,7 @@ and string = parse
         { store_escaped_uchar lexbuf (uchar_for_uchar_escape lexbuf);
           string lexbuf }
   | '\\' _
-      { if not (in_comment ()) then begin
-(*  Should be an error, but we are very lax.
-          error lexbuf (Illegal_escape (Lexing.lexeme lexbuf, None))
-*)
-          let loc = Location.curr lexbuf in
-          Location.prerr_warning loc Warnings.Illegal_backslash;
-        end;
-        store_lexeme lexbuf;
+      { store_lexeme lexbuf;
         string lexbuf
       }
   | newline as nl

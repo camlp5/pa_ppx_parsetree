@@ -49,7 +49,6 @@ let wrap (parser : 'a parser) lexbuf : 'a =
     Lexer.init ();
     let ast = parser token lexbuf in
     Parsing.clear_parser();
-    Docstrings.warn_bad_docstrings ();
     last_token := Parser.EOF;
     ast
   with

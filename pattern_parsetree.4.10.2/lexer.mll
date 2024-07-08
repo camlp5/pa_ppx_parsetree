@@ -779,6 +779,11 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_TYPEDECL (make_antiquotation "typedecl" loc payload)
      }
+  | "$" "cases:" ([^ '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_CASES (make_antiquotation "cases" loc payload)
+     }
 
   | eof { EOF }
   | (_ as illegal_char)
