@@ -1,4 +1,10 @@
 
+pa_ppx_parsetree Version 0.03
+-------------------
+
+* add support for ocaml 5.2.0 syntax
+
+
 pa_ppx_parsetree Version 0.02
 -------------------
 

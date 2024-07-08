@@ -1,3 +1,4 @@
+version: "0.03"
 synopsis: "A Camlp5-based Quasi-Quotation ppx rewriter for OCaml's AST "
 description:
 """
