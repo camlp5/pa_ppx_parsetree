@@ -290,12 +290,6 @@ let comment_list = ref []
 let add_comment com =
   comment_list := com :: !comment_list
 
-let add_docstring_comment ds =
-  let com =
-    ("*" ^ Docstrings.docstring_body ds, Docstrings.docstring_loc ds)
-  in
-    add_comment com
-
 let comments () = List.rev !comment_list
 
 (* Error report *)
@@ -504,10 +498,7 @@ rule token = parse
         COMMENT (s, loc) }
   | "(**"
       { let s, loc = wrap_comment_lexer comment lexbuf in
-        if !handle_docstrings then
-          DOCSTRING (Docstrings.docstring s loc)
-        else
-          COMMENT ("*" ^ s, loc)
+        COMMENT ("*" ^ s, loc)
       }
   | "(**" (('*'+) as stars)
       { let s, loc =
@@ -522,11 +513,7 @@ rule token = parse
       { let s, loc = wrap_comment_lexer comment lexbuf in
         COMMENT (s, loc) }
   | "(*" (('*'*) as stars) "*)"
-      { if !handle_docstrings && stars="" then
-         (* (**) is an empty docstring *)
-          DOCSTRING(Docstrings.docstring "" (Location.curr lexbuf))
-        else
-          COMMENT (stars, Location.curr lexbuf) }
+      { COMMENT (stars, Location.curr lexbuf) }
   | "*)"
       { STAR
       }
@@ -1043,45 +1030,9 @@ and skip_hash_bang = parse
            token was a newline. *)
     | BlankLine (* There have been blank lines. *)
 
-  type doc_state =
-    | Initial  (* There have been no docstrings yet *)
-    | After of docstring list
-        (* There have been docstrings, none of which were
-           preceded by a blank line *)
-    | Before of docstring list * docstring list * docstring list
-        (* There have been docstrings, some of which were
-           preceded by a blank line *)
-
-  and docstring = Docstrings.docstring
-
   let token lexbuf =
     let post_pos = lexeme_end_p lexbuf in
-    let attach lines docs pre_pos =
-      let open Docstrings in
-        match docs, lines with
-        | Initial, _ -> ()
-        | After a, (NoLine | NewLine) ->
-            set_post_docstrings post_pos (List.rev a);
-            set_pre_docstrings pre_pos a;
-        | After a, BlankLine ->
-            set_post_docstrings post_pos (List.rev a);
-            set_pre_extra_docstrings pre_pos (List.rev a)
-        | Before(a, f, b), (NoLine | NewLine) ->
-            set_post_docstrings post_pos (List.rev a);
-            set_post_extra_docstrings post_pos
-              (List.rev_append f (List.rev b));
-            set_floating_docstrings pre_pos (List.rev f);
-            set_pre_extra_docstrings pre_pos (List.rev a);
-            set_pre_docstrings pre_pos b
-        | Before(a, f, b), BlankLine ->
-            set_post_docstrings post_pos (List.rev a);
-            set_post_extra_docstrings post_pos
-              (List.rev_append f (List.rev b));
-            set_floating_docstrings pre_pos
-              (List.rev_append f (List.rev b));
-            set_pre_extra_docstrings pre_pos (List.rev a)
-    in
-    let rec loop lines docs lexbuf =
+    let rec loop lines lexbuf =
       match token_with_comments lexbuf with
       | COMMENT (s, loc) ->
           add_comment (s, loc);
@@ -1091,7 +1042,7 @@ and skip_hash_bang = parse
             | NewLine -> NoLine
             | BlankLine -> BlankLine
           in
-          loop lines' docs lexbuf
+          loop lines' lexbuf
       | EOL ->
           let lines' =
             match lines with
@@ -1099,31 +1050,11 @@ and skip_hash_bang = parse
             | NewLine -> BlankLine
             | BlankLine -> BlankLine
           in
-          loop lines' docs lexbuf
-      | DOCSTRING doc ->
-          Docstrings.register doc;
-          add_docstring_comment doc;
-          let docs' =
-            if Docstrings.docstring_body doc = "/*" then
-              match docs with
-              | Initial -> Before([], [doc], [])
-              | After a -> Before (a, [doc], [])
-              | Before(a, f, b) -> Before(a, doc :: b @ f, [])
-            else
-              match docs, lines with
-              | Initial, (NoLine | NewLine) -> After [doc]
-              | Initial, BlankLine -> Before([], [], [doc])
-              | After a, (NoLine | NewLine) -> After (doc :: a)
-              | After a, BlankLine -> Before (a, [], [doc])
-              | Before(a, f, b), (NoLine | NewLine) -> Before(a, f, doc :: b)
-              | Before(a, f, b), BlankLine -> Before(a, b @ f, [doc])
-          in
-          loop NoLine docs' lexbuf
+          loop lines' lexbuf
       | tok ->
-          attach lines docs (lexeme_start_p lexbuf);
           tok
     in
-      loop NoLine Initial lexbuf
+      loop NoLine lexbuf
 
   let init () =
     is_in_string := false;

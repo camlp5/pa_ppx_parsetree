@@ -12,9 +12,9 @@ PACKAGES := fmt,camlp5,re,menhirLib
 TARGET_PACKAGE = pa_ppx_parsetree_pattern_parsetree_502
 TARGET=$(TARGET_PACKAGE).cma
 
-ML = shims.ml build_path_prefix_map.ml misc.ml warnings.ml clflags.ml location.ml pattern_misc.ml longident.ml asttypes.ml parsetree.ml docstrings.ml syntaxerr.ml \
-	ast_helper.ml ast_iterator.ml builtin_attributes.ml parser.ml lexer.ml pprintast.ml parse.ml printast.ml
-MLI = build_path_prefix_map.mli misc.mli warnings.mli clflags.mli location.mli longident.mli asttypes.mli parsetree.mli ast_iterator.mli builtin_attributes.mli docstrings.mli syntaxerr.mli \
+ML = shims.ml build_path_prefix_map.ml misc.ml warnings.ml clflags.ml location.ml pattern_misc.ml longident.ml asttypes.ml parsetree.ml syntaxerr.ml \
+	ast_helper.ml parser.ml lexer.ml pprintast.ml parse.ml printast.ml
+MLI = build_path_prefix_map.mli misc.mli warnings.mli clflags.mli location.mli longident.mli asttypes.mli parsetree.mli syntaxerr.mli \
 	ast_helper.mli lexer.mli pprintast.mli parse.mli printast.mli
 
 TOOLSML = mk_meta.ml
@@ -52,7 +52,6 @@ parser_mock.out.mli : \
     parsetree.cmi \
     longident.cmi \
     location.cmi \
-    docstrings.cmi \
     clflags.cmi \
     asttypes.cmi \
     ast_helper.cmi
@@ -72,21 +71,26 @@ shims.ml: shims.ML
 
 PARSINGSRC=../adjusted-parsing.5.2.0
 %.COMPARE: %
-	$(TOP)/tools/erase-vala $< | $(TOP)/tools/paren2ws | $(DIFF) -Bbwiu <( $(TOP)/tools/paren2ws $(PARSINGSRC)/$< ) -
+	$(TOP)/tools/erase-vala $< | $(TOP)/tools/paren2ws | $(DIFF) -Bbwiu <( $(TOP)/tools/paren2ws $(PARSINGSRC)/$< ) - || /bin/true
 
 COMPARE= \
+	ast_helper.ml.COMPARE ast_helper.mli.COMPARE \
+	ast_iterator.ml.COMPARE \
+	asttypes.mli.COMPARE \
+	builtin_attributes.ml.COMPARE \ builtin_attributes.mli.COMPARE \
+	docstrings.ml.COMPARE docstrings.mli.COMPARE \
+	lexer.mll.COMPARE \
 	location.ml.COMPARE location.mli.COMPARE \
 	longident.ml.COMPARE longident.mli.COMPARE \
-	asttypes.mli.COMPARE \
+	parse.ml.COMPARE parse.mli.COMPARE \
+	parser.mly.COMPARE \
 	parsetree.mli.COMPARE \
-	docstrings.ml.COMPARE docstrings.mli.COMPARE \
-	syntaxerr.ml.COMPARE syntaxerr.mli.COMPARE \
-	ast_helper.ml.COMPARE ast_helper.mli.COMPARE \
-	parser.mly.COMPARE parser.mly.COMPARE \
-	parse.ml.COMPARE parse.ml.COMPARE \
-	parse.mli.COMPARE parse.mli.COMPARE \
+	parsetree.ml.COMPARE parsetree.mli.COMPARE \
 	pprintast.ml.COMPARE pprintast.mli.COMPARE \
 	printast.ml.COMPARE printast.mli.COMPARE \
+	syntaxerr.ml.COMPARE syntaxerr.mli.COMPARE \
+	warnings.ml.COMPARE warnings.mli.COMPARE \
+
 
 compare:: $(COMPARE)
 

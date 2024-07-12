@@ -81,6 +81,7 @@ our %valamap = (
   $txt =~ s,Option.map unvala ,,gs ;
   $txt =~ s,List.map unvala ,,gs ;
   $txt =~ s,loc_map vaval ,,gs ;
+  $txt =~ s,List.map \(loc_map unvala\) ,,gs ;
   $txt =~ s,loc_map unvala ,,gs ;
   $txt =~ s,vaval ,,gs ;
   $txt =~ s,str_vala,str,gs ;

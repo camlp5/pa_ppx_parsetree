@@ -23,6 +23,9 @@
 (** (Re)Initialise all docstring state *)
 val init : unit -> unit
 
+(** Emit warnings for unattached and ambiguous docstrings *)
+val warn_bad_docstrings : unit -> unit
+
 (** {2 Docstrings} *)
 
 (** Documentation comments *)

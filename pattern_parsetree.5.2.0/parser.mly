@@ -31,8 +31,6 @@ open Asttypes
 open Longident
 open Parsetree
 open Ast_helper
-open Docstrings
-open Docstrings.WithMenhir
 
 let mkloc = Location.mkloc
 let mknoloc = Location.mknoloc
@@ -86,10 +84,10 @@ let psig_exception (te, ext) =
 let psig_include (body, ext) =
   (Psig_include body, ext)
 
-let mkctf ~loc ?attrs ?docs d =
-  Ctf.mk ~loc:(make_loc loc) ?attrs ?docs d
-let mkcf ~loc ?attrs ?docs d =
-  Cf.mk ~loc:(make_loc loc) ?attrs ?docs d
+let mkctf ~loc ?attrs d =
+  Ctf.mk ~loc:(make_loc loc) ?attrs d
+let mkcf ~loc ?attrs d =
+  Cf.mk ~loc:(make_loc loc) ?attrs d
 
 let mkrhs rhs loc = mkloc rhs (make_loc loc)
 let ghrhs rhs loc = mkloc rhs (ghost_loc loc)
@@ -168,9 +166,6 @@ let mkuplus ~oploc name arg =
       Pexp_apply(mkoperator ~loc:oploc (vaval ("~" ^ name)), vaval [Nolabel, arg])
 
 let mk_attr ~loc name payload =
-(*
-  Builtin_attributes.(register_attr Parser (loc_map unvala name));
- *)
   Attr.mk ~loc name payload
 
 (* TODO define an abstraction boundary between locations-as-pairs
@@ -489,36 +484,22 @@ let mk_quotedext ~loc (id, idloc, str, strloc, delim) =
   let e = ghexp ~loc (Pexp_constant (vaval (Pconst_string (vaval str, strloc, Option.map vaval delim)))) in
   (exp_id, PStr (vaval [mkstrexp ~loc (vaval e) (vaval [])]))
 
-let text_str pos = Str.text (rhs_text pos)
-let text_sig pos = Sig.text (rhs_text pos)
-let text_cstr pos = Cf.text (rhs_text pos)
-let text_csig pos = Ctf.text (rhs_text pos)
+let text_str pos = []
+let text_sig pos = []
+let text_cstr pos = []
+let text_csig pos = []
 let text_def pos =
-  List.map (fun def -> Ptop_def (vaval [def])) (Str.text (rhs_text pos))
+  List.map (fun def -> Ptop_def (vaval [def])) []
 
-let extra_text startpos endpos text items =
-  match items with
-  | [] ->
-      let post = rhs_post_text endpos in
-      let post_extras = rhs_post_extra_text endpos in
-      text post @ text post_extras
-  | _ :: _ ->
-      let pre_extras = rhs_pre_extra_text startpos in
-      let post_extras = rhs_post_extra_text endpos in
-        text pre_extras @ items @ text post_extras
+let extra_text startpos endpos text items = items
 
-let extra_str p1 p2 items = extra_text p1 p2 Str.text items
-let extra_sig p1 p2 items = extra_text p1 p2 Sig.text items
-let extra_cstr p1 p2 items = extra_text p1 p2 Cf.text items
-let extra_csig p1 p2 items = extra_text p1 p2 Ctf.text  items
-let extra_def p1 p2 items =
-  extra_text p1 p2
-    (fun txt -> List.map (fun def -> Ptop_def (vaval [def])) (Str.text txt))
-    items
+let extra_str p1 p2 items = items
+let extra_sig p1 p2 items = items
+let extra_cstr p1 p2 items = items
+let extra_csig p1 p2 items = items
+let extra_def p1 p2 items = items
 
-let extra_rhs_core_type ct ~pos =
-  let docs = rhs_info pos in
-  { ct with ptyp_attributes = add_info_attrs docs ct.ptyp_attributes }
+let extra_rhs_core_type ct ~pos = ct
 
 type let_binding =
   { lb_pattern: pattern;
@@ -526,8 +507,6 @@ type let_binding =
     lb_constraint: value_constraint option;
     lb_is_pun: bool;
     lb_attributes: attributes;
-    lb_docs: docs Lazy.t;
-    lb_text: text Lazy.t;
     lb_loc: Location.t; }
 
 type let_bindings =
@@ -542,9 +521,6 @@ let mklb first ~loc (p, e, typ, is_pun) attrs =
     lb_constraint=typ;
     lb_is_pun = is_pun;
     lb_attributes = attrs;
-    lb_docs = symbol_docs_lazy loc;
-    lb_text = (if first then empty_text_lazy
-               else symbol_text_lazy (fst loc));
     lb_loc = make_loc loc;
   }
 
@@ -569,8 +545,6 @@ let val_of_let_bindings ~loc lbs =
     Pcaml.vala_map (List.map
       (fun lb ->
          Vb.mk ~loc:lb.lb_loc ~attrs:lb.lb_attributes
-           ~docs:(Lazy.force lb.lb_docs)
-           ~text:(Lazy.force lb.lb_text)
                           ?value_constraint:lb.lb_constraint lb.lb_pattern lb.lb_expression))
       lbs.lbs_bindings
   in
@@ -845,7 +819,6 @@ let mk_directive ~loc name arg =
 %token WHILE                  "while"
 %token WITH                   "with"
 %token <string * Location.t> COMMENT    "(* comment *)"
-%token <Docstrings.docstring> DOCSTRING "(** documentation *)"
 /*-*/%token <string> ANTI
 /*-*/%token <string> ANTI_NOATTRS
 /*-*/%token <string> ANTI_OPT
@@ -1125,8 +1098,7 @@ The precedences must be listed from low to high.
 (* Using this %inline definition means that we do not control precisely
    when [mark_rhs_docs] is called, but I don't think this matters. *)
 %inline mark_rhs_docs(symb): symb
-  { mark_rhs_docs $startpos $endpos;
-    $1 }
+  { $1 }
 
 %inline op(symb): symb
    { mkoperator ~loc:$sloc (vaval $1) }
@@ -1847,8 +1819,7 @@ structure_item:
       { val_of_let_bindings ~loc:$sloc $1 }
   | mkstr(
       item_extension post_item_attributes_vala
-        { let docs = symbol_docs $sloc in
-          Pstr_extension ($1, add_docs_attrs docs $2) }
+        { Pstr_extension ($1, $2) }
     | floating_attribute
         { Pstr_attribute $1 }
     )
@@ -1898,10 +1869,9 @@ structure_item:
   name = mkrhs(module_name)
   body = module_binding_body
   attrs2 = post_item_attributes_vala
-    { let docs = symbol_docs $sloc in
-      let loc = make_loc $sloc in
+    { let loc = make_loc $sloc in
       let attrs = append_list_vala attrs1 attrs2 in
-      let body = Mb.mk name body ~attrs ~loc ~docs in
+      let body = Mb.mk name body ~attrs ~loc in
       Pstr_module body, ext }
 ;
 
@@ -1948,9 +1918,8 @@ module_binding_body:
   {
     let loc = make_loc $sloc in
     let attrs = append_list_vala attrs1 attrs2 in
-    let docs = symbol_docs $sloc in
     ext,
-    Mb.mk name body ~attrs ~loc ~docs
+    Mb.mk name body ~attrs ~loc
   }
 ;
 
@@ -1964,9 +1933,7 @@ module_binding_body:
   {
     let loc = make_loc $sloc in
     let attrs = append_list_vala attrs1 attrs2 in
-    let docs = symbol_docs $sloc in
-    let text = symbol_text $symbolstartpos in
-    Mb.mk name body ~attrs ~loc ~text ~docs
+    Mb.mk name body ~attrs ~loc
   }
 ;
 
@@ -1985,8 +1952,7 @@ module_binding_body:
   {
     let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
-    let docs = symbol_docs $sloc in
-    Incl.mk thing ~attrs ~loc ~docs, ext
+    Incl.mk thing ~attrs ~loc, ext
   }
 ;
 
@@ -2001,8 +1967,7 @@ module_type_declaration:
   {
     let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
-    let docs = symbol_docs $sloc in
-    Mtd.mk id ~typ:(vaval typ) ~attrs ~loc ~docs, ext
+    Mtd.mk id ~typ:(vaval typ) ~attrs ~loc, ext
   }
 /*-*/| MODULE TYPE
 /*-*/  ext = ext
@@ -2013,8 +1978,7 @@ module_type_declaration:
 /*-*/  {
 (*-*)    let attrs = append_list_vala attrs1 attrs2 in
 (*-*)    let loc = make_loc $sloc in
-(*-*)    let docs = symbol_docs $sloc in
-(*-*)    Mtd.mk id ~typ:(vaant typ) ~attrs ~loc ~docs, ext
+(*-*)    Mtd.mk id ~typ:(vaant typ) ~attrs ~loc, ext
 (*-*)  }
 ;
 
@@ -2032,8 +1996,7 @@ open_declaration:
   {
     let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
-    let docs = symbol_docs $sloc in
-    Opn.mk me ~override ~attrs ~loc ~docs, ext
+    Opn.mk me ~override ~attrs ~loc, ext
   }
 ;
 
@@ -2047,8 +2010,7 @@ open_description:
   {
     let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
-    let docs = symbol_docs $sloc in
-    Opn.mk id ~override ~attrs ~loc ~docs, ext
+    Opn.mk id ~override ~attrs ~loc, ext
   }
 ;
 
@@ -2125,8 +2087,7 @@ signature:
 (* A signature item. *)
 signature_item:
   | item_extension post_item_attributes_vala
-      { let docs = symbol_docs $sloc in
-        mksig ~loc:$sloc (Psig_extension ($1, (add_docs_attrs docs $2))) }
+      { mksig ~loc:$sloc (Psig_extension ($1, $2)) }
   | mksig(
       floating_attribute
         { Psig_attribute $1 }
@@ -2190,8 +2151,7 @@ signature_item:
   {
     let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
-    let docs = symbol_docs $sloc in
-    Md.mk name body ~attrs ~loc ~docs, ext
+    Md.mk name body ~attrs ~loc, ext
   }
 ;
 
@@ -2220,8 +2180,7 @@ module_declaration_body:
   {
     let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
-    let docs = symbol_docs $sloc in
-    Md.mk name body ~attrs ~loc ~docs, ext
+    Md.mk name body ~attrs ~loc, ext
   }
 ;
 %inline module_expr_alias:
@@ -2239,8 +2198,7 @@ module_subst:
   {
     let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
-    let docs = symbol_docs $sloc in
-    Ms.mk uid body ~attrs ~loc ~docs, ext
+    Ms.mk uid body ~attrs ~loc, ext
   }
 | MODULE ext vaval(attributes) mkrhs(UIDENT) COLONEQUAL error
     { expecting $loc($6) "module path" }
@@ -2272,8 +2230,7 @@ module_subst:
   {
     let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
-    let docs = symbol_docs $sloc in
-    ext, Md.mk name mty ~attrs ~loc ~docs
+    ext, Md.mk name mty ~attrs ~loc
   }
 ;
 %inline and_module_declaration:
@@ -2285,10 +2242,8 @@ module_subst:
   attrs2 = post_item_attributes_vala
   {
     let attrs = append_list_vala attrs1 attrs2 in
-    let docs = symbol_docs $sloc in
     let loc = make_loc $sloc in
-    let text = symbol_text $symbolstartpos in
-    Md.mk name mty ~attrs ~loc ~text ~docs
+    Md.mk name mty ~attrs ~loc
   }
 ;
 
@@ -2304,8 +2259,7 @@ module_type_subst:
   {
     let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
-    let docs = symbol_docs $sloc in
-    Mtd.mk id ~typ:(vaval (Some typ)) ~attrs ~loc ~docs, ext
+    Mtd.mk id ~typ:(vaval (Some typ)) ~attrs ~loc, ext
   }
 
 
@@ -2331,9 +2285,8 @@ module_type_subst:
   {
     let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
-    let docs = symbol_docs $sloc in
     ext,
-    Ci.mk id body ~virt ~params ~attrs ~loc ~docs
+    Ci.mk id body ~virt ~params ~attrs ~loc
   }
 ;
 %inline and_class_declaration:
@@ -2347,9 +2300,7 @@ module_type_subst:
   {
     let attrs = append_list_vala attrs1 attrs2 in
     let loc = make_loc $sloc in
-    let docs = symbol_docs $sloc in
-    let text = symbol_text $symbolstartpos in
-    Ci.mk id body ~virt ~params ~attrs ~loc ~text ~docs
+    Ci.mk id body ~virt ~params ~attrs ~loc
   }
 ;
 
@@ -2446,25 +2397,19 @@ class_field:
   | INHERIT override_flag_vala vaval(attributes) class_expr
     self = vala(preceded(AS, mkrhs(lident_vala))?, ANTI_OPT)
     post_item_attributes_vala
-      { let docs = symbol_docs $sloc in
-        mkcf ~loc:$sloc (Pcf_inherit ($2, $4, self)) ~attrs:(append_list_vala $3 $6) ~docs }
+      { mkcf ~loc:$sloc (Pcf_inherit ($2, $4, self)) ~attrs:(append_list_vala $3 $6) }
   | VAL value post_item_attributes_vala
       { let v, attrs = $2 in
-        let docs = symbol_docs $sloc in
-        mkcf ~loc:$sloc (Pcf_val v) ~attrs:(append_list_vala attrs $3) ~docs }
+        mkcf ~loc:$sloc (Pcf_val v) ~attrs:(append_list_vala attrs $3) }
   | METHOD method_ post_item_attributes_vala
       { let meth, attrs = $2 in
-        let docs = symbol_docs $sloc in
-        mkcf ~loc:$sloc (Pcf_method meth) ~attrs:(append_list_vala attrs $3) ~docs }
+        mkcf ~loc:$sloc (Pcf_method meth) ~attrs:(append_list_vala attrs $3) }
   | CONSTRAINT vaval(attributes) constrain_field post_item_attributes_vala
-      { let docs = symbol_docs $sloc in
-        mkcf ~loc:$sloc (Pcf_constraint $3) ~attrs:(append_list_vala $2 $4) ~docs }
+      { mkcf ~loc:$sloc (Pcf_constraint $3) ~attrs:(append_list_vala $2 $4) }
   | INITIALIZER vaval(attributes) seq_expr post_item_attributes_vala
-      { let docs = symbol_docs $sloc in
-        mkcf ~loc:$sloc (Pcf_initializer $3) ~attrs:(append_list_vala $2 $4) ~docs }
+      { mkcf ~loc:$sloc (Pcf_initializer $3) ~attrs:(append_list_vala $2 $4) }
   | item_extension post_item_attributes_vala
-      { let docs = symbol_docs $sloc in
-        mkcf ~loc:$sloc (Pcf_extension $1) ~attrs:$2 ~docs }
+      { mkcf ~loc:$sloc (Pcf_extension $1) ~attrs:$2 }
   | mkcf(floating_attribute
       { Pcf_attribute $1 })
       { $1 }
@@ -2580,26 +2525,20 @@ class_self_type:
 ;
 class_sig_field:
     INHERIT vaval(attributes) class_signature post_item_attributes_vala
-      { let docs = symbol_docs $sloc in
-        mkctf ~loc:$sloc (Pctf_inherit $3) ~attrs:(append_list_vala $2 $4) ~docs }
+      { mkctf ~loc:$sloc (Pctf_inherit $3) ~attrs:(append_list_vala $2 $4) }
   | VAL vaval(attributes) value_type post_item_attributes_vala
-      { let docs = symbol_docs $sloc in
-        mkctf ~loc:$sloc (Pctf_val $3) ~attrs:(append_list_vala $2 $4) ~docs }
+      { mkctf ~loc:$sloc (Pctf_val $3) ~attrs:(append_list_vala $2 $4) }
   | METHOD vaval(attributes) private_virtual_flags mkrhs(label_vala) COLON poly_type
     post_item_attributes_vala
       { let (p, v) = $3 in
-        let docs = symbol_docs $sloc in
-        mkctf ~loc:$sloc (Pctf_method ($4, vaval p, vaval v, $6)) ~attrs:(append_list_vala $2 $7) ~docs }
+        mkctf ~loc:$sloc (Pctf_method ($4, vaval p, vaval v, $6)) ~attrs:(append_list_vala $2 $7) }
 /*-*/  | METHOD vaval(attributes) p = ANTI_PRIV v = ANTI_VIRTUAL mkrhs(label_vala) COLON poly_type
 /*-*/    post_item_attributes_vala
-/*-*/      { let docs = symbol_docs $sloc in
-(*-*)        mkctf ~loc:$sloc (Pctf_method ($5, vaant p, vaant v, $7)) ~attrs:(append_list_vala $2 $8) ~docs }
+/*-*/      { mkctf ~loc:$sloc (Pctf_method ($5, vaant p, vaant v, $7)) ~attrs:(append_list_vala $2 $8) }
   | CONSTRAINT vaval(attributes) constrain_field post_item_attributes_vala
-      { let docs = symbol_docs $sloc in
-        mkctf ~loc:$sloc (Pctf_constraint $3) ~attrs:(append_list_vala $2 $4) ~docs }
+      { mkctf ~loc:$sloc (Pctf_constraint $3) ~attrs:(append_list_vala $2 $4) }
   | item_extension post_item_attributes_vala
-      { let docs = symbol_docs $sloc in
-        mkctf ~loc:$sloc (Pctf_extension $1) ~attrs:$2 ~docs }
+      { mkctf ~loc:$sloc (Pctf_extension $1) ~attrs:$2 }
   | mkctf(floating_attribute
       { Pctf_attribute $1 })
       { $1 }
@@ -2650,9 +2589,8 @@ constrain_field:
     {
       let attrs = append_list_vala attrs1 attrs2 in
       let loc = make_loc $sloc in
-      let docs = symbol_docs $sloc in
       ext,
-      Ci.mk id cty ~virt ~params ~attrs ~loc ~docs
+      Ci.mk id cty ~virt ~params ~attrs ~loc
     }
 ;
 %inline and_class_description:
@@ -2667,9 +2605,7 @@ constrain_field:
     {
       let attrs = append_list_vala attrs1 attrs2 in
       let loc = make_loc $sloc in
-      let docs = symbol_docs $sloc in
-      let text = symbol_text $symbolstartpos in
-      Ci.mk id cty ~virt ~params ~attrs ~loc ~text ~docs
+      Ci.mk id cty ~virt ~params ~attrs ~loc
     }
 ;
 class_type_declarations:
@@ -2691,9 +2627,8 @@ class_type_declarations:
     {
       let attrs = append_list_vala attrs1 attrs2 in
       let loc = make_loc $sloc in
-      let docs = symbol_docs $sloc in
       ext,
-      Ci.mk id csig ~virt ~params ~attrs ~loc ~docs
+      Ci.mk id csig ~virt ~params ~attrs ~loc
     }
 ;
 %inline and_class_type_declaration:
@@ -2708,9 +2643,7 @@ class_type_declarations:
     {
       let attrs = append_list_vala attrs1 attrs2 in
       let loc = make_loc $sloc in
-      let docs = symbol_docs $sloc in
-      let text = symbol_text $symbolstartpos in
-      Ci.mk id csig ~virt ~params ~attrs ~loc ~text ~docs
+      Ci.mk id csig ~virt ~params ~attrs ~loc
     }
 ;
 
@@ -3556,8 +3489,7 @@ value_description:
   attrs2 = post_item_attributes_vala
     { let attrs = append_list_vala attrs1 attrs2 in
       let loc = make_loc $sloc in
-      let docs = symbol_docs $sloc in
-      Val.mk id ty ~attrs ~loc ~docs,
+      Val.mk id ty ~attrs ~loc,
       ext }
 ;
 
@@ -3575,8 +3507,7 @@ primitive_declaration:
   attrs2 = post_item_attributes_vala
     { let attrs = append_list_vala attrs1 attrs2 in
       let loc = make_loc $sloc in
-      let docs = symbol_docs $sloc in
-      Val.mk id ty ~prim ~attrs ~loc ~docs,
+      Val.mk id ty ~prim ~attrs ~loc,
       ext }
 ;
 
@@ -3620,10 +3551,9 @@ primitive_declaration:
 /*-*/  attrs2 = post_item_attributes_vala
 /*-*/    {
 (*-*)      let (kind, priv, manifest) = kind_priv_manifest in
-(*-*)      let docs = symbol_docs $sloc in
 (*-*)      let attrs = attrs2 in
 (*-*)      let loc = make_loc $sloc in
-(*-*)      Type.mk id ~params ~cstrs ~kind ~priv ~manifest ~attrs ~loc ~docs
+(*-*)      Type.mk id ~params ~cstrs ~kind ~priv ~manifest ~attrs ~loc
 (*-*)    }
 /*-*/;
 /*-*/
@@ -3644,11 +3574,10 @@ primitive_declaration:
   attrs2 = post_item_attributes_vala
     {
       let (kind, priv, manifest) = kind_priv_manifest in
-      let docs = symbol_docs $sloc in
       let attrs = append_list_vala attrs1 attrs2 in
       let loc = make_loc $sloc in
       (flag, ext),
-      Type.mk id ~params ~cstrs ~kind ~priv ~manifest ~attrs ~loc ~docs
+      Type.mk id ~params ~cstrs ~kind ~priv ~manifest ~attrs ~loc
     }
 ;
 %inline generic_and_type_declaration(kind):
@@ -3661,11 +3590,9 @@ primitive_declaration:
   attrs2 = post_item_attributes_vala
     {
       let (kind, priv, manifest) = kind_priv_manifest in
-      let docs = symbol_docs $sloc in
       let attrs = append_list_vala attrs1 attrs2 in
       let loc = make_loc $sloc in
-      let text = symbol_text $symbolstartpos in
-      Type.mk id ~params ~cstrs ~kind ~priv ~manifest ~attrs ~loc ~docs ~text
+      Type.mk id ~params ~cstrs ~kind ~priv ~manifest ~attrs ~loc
     }
 ;
 %inline constraints:
@@ -3769,16 +3696,15 @@ generic_constructor_declaration(opening):
   attrs = attributes_vala
     {
       let vars, args, res = vars_args_res in
-      let info = symbol_info $endpos in
       let loc = make_loc $sloc in
-      cid, vars, args, res, attrs, loc, info
+      cid, vars, args, res, attrs, loc
     }
 ;
 %inline constructor_declaration(opening):
   d = generic_constructor_declaration(opening)
     {
-      let cid, vars, args, res, attrs, loc, info = d in
-      Type.constructor cid ~vars ~args ~res ~attrs ~loc ~info
+      let cid, vars, args, res, attrs, loc = d in
+      Type.constructor cid ~vars ~args ~res ~attrs ~loc
     }
 ;
 str_exception_declaration:
@@ -3793,9 +3719,8 @@ str_exception_declaration:
   attrs2 = attributes_vala
   attrs = post_item_attributes_vala
   { let loc = make_loc $sloc in
-    let docs = symbol_docs $sloc in
     Te.mk_exception ~attrs
-      (Te.rebind id lid ~attrs:( append_list_vala attrs1 attrs2) ~loc ~docs)
+      (Te.rebind id lid ~attrs:( append_list_vala attrs1 attrs2) ~loc)
     , ext }
 ;
 sig_exception_declaration:
@@ -3808,9 +3733,8 @@ sig_exception_declaration:
   attrs = post_item_attributes_vala
     { let vars, args, res = vars_args_res in
       let loc = make_loc ($startpos, $endpos(attrs2)) in
-      let docs = symbol_docs $sloc in
       Te.mk_exception ~attrs
-        (Te.decl id ~vars ~args ~res ~attrs:(append_list_vala attrs1 attrs2) ~loc ~docs)
+        (Te.decl id ~vars ~args ~res ~attrs:(append_list_vala attrs1 attrs2) ~loc)
       , ext }
 ;
 %inline let_exception_declaration:
@@ -3849,17 +3773,11 @@ label_declarations:
 ;
 label_declaration:
     mutable_flag_vala mkrhs(label_vala) COLON vala(poly_type_no_attr, ANTI_TYP) attributes_vala
-      { let info = symbol_info $endpos in
-        Type.field $2 $4 ~mut:$1 ~attrs:$5 ~loc:(make_loc $sloc) ~info }
+      { Type.field $2 $4 ~mut:$1 ~attrs:$5 ~loc:(make_loc $sloc) }
 ;
 label_declaration_semi:
     mutable_flag_vala mkrhs(label_vala) COLON vala(poly_type_no_attr, ANTI_TYP) vaval(attributes) SEMI vaval(attributes)
-      { let info =
-          match rhs_info $endpos($5) with
-          | Some _ as info_before_semi -> info_before_semi
-          | None -> symbol_info $endpos
-       in
-       Type.field $2 $4 ~mut:$1 ~attrs:(append_list_vala $5 $7) ~loc:(make_loc $sloc) ~info }
+      { Type.field $2 $4 ~mut:$1 ~attrs:(append_list_vala $5 $7) ~loc:(make_loc $sloc) }
 ;
 
 /* Type Extensions */
@@ -3883,9 +3801,8 @@ label_declaration_semi:
   priv = private_flag_vala
   cs = vala(bar_llist(declaration), ANTI_LIST)
   attrs2 = post_item_attributes_vala
-    { let docs = symbol_docs $sloc in
-      let attrs = append_list_vala attrs1 attrs2 in
-      Te.mk tid cs ~params ~priv ~attrs ~docs,
+    { let attrs = append_list_vala attrs1 attrs2 in
+      Te.mk tid cs ~params ~priv ~attrs,
       ext }
 ;
 %inline extension_constructor(opening):
@@ -3897,8 +3814,8 @@ label_declaration_semi:
 %inline extension_constructor_declaration(opening):
   d = generic_constructor_declaration(opening)
     {
-      let cid, vars, args, res, attrs, loc, info = d in
-      Te.decl cid ~vars ~args ~res ~attrs ~loc ~info
+      let cid, vars, args, res, attrs, loc = d in
+      Te.decl cid ~vars ~args ~res ~attrs ~loc
     }
 ;
 extension_constructor_rebind(opening):
@@ -3907,8 +3824,7 @@ extension_constructor_rebind(opening):
   EQUAL
   lid = mkrhs(constr_longident_vala)
   attrs = attributes_vala
-      { let info = symbol_info $endpos in
-        Te.rebind cid lid ~attrs ~loc:(make_loc $sloc) ~info }
+      { Te.rebind cid lid ~attrs ~loc:(make_loc $sloc) }
 ;
 
 /* "with" constraints (additional type equations over signature components) */
@@ -4235,12 +4151,10 @@ row_field:
 tag_field:
     mkrhs(name_tag_vala) OF vala(opt_ampersand, ANTI_ISCONST)
       vala(amper_type_list, ANTI_LIST) attributes_vala
-      { let info = symbol_info $endpos in
-        let attrs = add_info_attrs info $5 in
+      { let attrs = $5 in
         Rf.tag ~loc:(make_loc $sloc) ~attrs $1 $3 $4 }
   | mkrhs(name_tag_vala) attributes_vala
-      { let info = symbol_info $endpos in
-        let attrs = add_info_attrs info $2 in
+      { let attrs = $2 in
         Rf.tag ~loc:(make_loc $sloc) ~attrs $1 (vaval true) (vaval[]) }
 ;
 opt_ampersand:
@@ -4271,19 +4185,13 @@ meth_list:
 ;
 %inline field:
   mkrhs(label_vala) COLON poly_type_no_attr attributes_vala
-    { let info = symbol_info $endpos in
-      let attrs = add_info_attrs info $4 in
+    { let attrs = $4 in
       Of.tag ~loc:(make_loc $sloc) ~attrs $1 $3 }
 ;
 
 %inline field_semi:
   mkrhs(label_vala) COLON poly_type_no_attr vaval(attributes) SEMI vaval(attributes)
-    { let info =
-        match rhs_info $endpos($4) with
-        | Some _ as info_before_semi -> info_before_semi
-        | None -> symbol_info $endpos
-      in
-      let attrs = add_info_attrs info (append_list_vala $4 $6) in
+    { let attrs = append_list_vala $4 $6 in
       Of.tag ~loc:(make_loc $sloc) ~attrs $1 $3 }
 ;
 
@@ -4696,8 +4604,7 @@ post_item_attribute:
 ;
 floating_attribute:
   LBRACKETATATAT attr_id attr_payload RBRACKET
-    { mark_symbol_docs $sloc;
-      mk_attr ~loc:(make_loc $sloc) $2 $3 }
+    { mk_attr ~loc:(make_loc $sloc) $2 $3 }
 ;
 %inline post_item_attributes:
   post_item_attribute*
@@ -4748,8 +4655,7 @@ payload:
 ;
 attr_payload:
   payload
-    { (* Builtin_attributes.mark_payload_attrs_used $1; *)
-      $1
+    { $1
     }
 ;
 %%

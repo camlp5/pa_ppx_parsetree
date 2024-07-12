@@ -15,14 +15,6 @@
 
 open Location
 
-(*-*)let vaval x = Ploc.VaVal x
-(*-*)let append_list_vala a1 a2 =
-(*-*)  match (a1, a2) with
-(*-*)    (Ploc.VaVal l1, Ploc.VaVal l2) -> Ploc.VaVal(l1@l2)
-(*-*)  | (Ploc.VaVal [], a) -> a
-(*-*)  | (a, Ploc.VaVal []) -> a
-(*-*)  | _ -> assert false
-
 (* Docstrings *)
 
 (* A docstring is "attached" if it has been inserted in the AST. This
@@ -51,6 +43,22 @@ let docstrings : docstring list ref = ref []
 
 (* Warn for unused and ambiguous docstrings *)
 
+let warn_bad_docstrings () =
+  if Warnings.is_active (Warnings.Unexpected_docstring true) then begin
+    List.iter
+      (fun ds ->
+         match ds.ds_attached with
+         | Info -> ()
+         | Unattached ->
+           prerr_warning ds.ds_loc (Warnings.Unexpected_docstring true)
+         | Docs ->
+             match ds.ds_associated with
+             | Zero | One -> ()
+             | Many ->
+               prerr_warning ds.ds_loc (Warnings.Unexpected_docstring false))
+      (List.rev !docstrings)
+end
+
 (* Docstring constructors and destructors *)
 
 let docstring body loc =
@@ -77,35 +85,35 @@ type docs =
 
 let empty_docs = { docs_pre = None; docs_post = None }
 
-let doc_loc = {txt = Ploc.VaVal "ocaml.doc"; loc = Location.none}
+let doc_loc = {txt = "ocaml.doc"; loc = Location.none}
 
 let docs_attr ds =
   let open Parsetree in
   let body = ds.ds_body in
   let loc = ds.ds_loc in
   let exp =
-    { pexp_desc = Pexp_constant (Ploc.VaVal (Pconst_string(Ploc.VaVal body, loc, None)));
+    { pexp_desc = Pexp_constant (Pconst_string(body, loc, None));
       pexp_loc = loc;
       pexp_loc_stack = [];
-      pexp_attributes = Ploc.VaVal []; }
+      pexp_attributes = []; }
   in
   let item =
-    { pstr_desc = Pstr_eval (Ploc.VaVal exp, Ploc.VaVal []); pstr_loc = loc }
+    { pstr_desc = Pstr_eval (exp, []); pstr_loc = loc }
   in
   { attr_name = doc_loc;
-    attr_payload = PStr (Ploc.VaVal [item]);
+    attr_payload = PStr [item];
     attr_loc = loc }
 
 let add_docs_attrs docs attrs =
   let attrs =
     match docs.docs_pre with
     | None | Some { ds_body=""; _ } -> attrs
-    | Some ds -> append_list_vala (vaval [docs_attr ds]) attrs
+    | Some ds -> List.append [docs_attr ds] attrs
   in
   let attrs =
     match docs.docs_post with
     | None | Some { ds_body=""; _ } -> attrs
-    | Some ds -> append_list_vala attrs (vaval [docs_attr ds])
+    | Some ds -> List.append attrs [docs_attr ds]
   in
   attrs
 
@@ -120,7 +128,7 @@ let info_attr = docs_attr
 let add_info_attrs info attrs =
   match info with
   | None | Some {ds_body=""; _} -> attrs
-  | Some ds -> append_list_vala attrs (vaval [info_attr ds])
+  | Some ds -> List.append attrs [info_attr ds]
 
 (* Docstrings not attached to a specific item *)
 
@@ -129,28 +137,28 @@ type text = docstring list
 let empty_text = []
 let empty_text_lazy = lazy []
 
-let text_loc = {txt = Ploc.VaVal "ocaml.text"; loc = Location.none}
+let text_loc = {txt = "ocaml.text"; loc = Location.none}
 
 let text_attr ds =
   let open Parsetree in
   let body = ds.ds_body in
   let loc = ds.ds_loc in
   let exp =
-    { pexp_desc = Pexp_constant (Ploc.VaVal (Pconst_string(Ploc.VaVal body, loc, None)));
+    { pexp_desc = Pexp_constant (Pconst_string(body, loc, None));
       pexp_loc = loc;
       pexp_loc_stack = [];
-      pexp_attributes = Ploc.VaVal []; }
+      pexp_attributes = []; }
   in
   let item =
-    { pstr_desc = Pstr_eval (Ploc.VaVal exp, Ploc.VaVal []); pstr_loc = loc }
+    { pstr_desc = Pstr_eval (exp, []); pstr_loc = loc }
   in
   { attr_name = text_loc;
-    attr_payload = PStr (Ploc.VaVal [item]);
+    attr_payload = PStr [item];
     attr_loc = loc }
 
 let add_text_attrs dsl attrs =
   let fdsl = List.filter (function {ds_body=""} -> false| _ ->true) dsl in
-  append_list_vala (vaval (List.map text_attr fdsl)) attrs
+  List.append (List.map text_attr fdsl) attrs
 
 (* Find the first non-info docstring in a list, attach it and return it *)
 let get_docstring ~info dsl =

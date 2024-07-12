@@ -21,7 +21,6 @@
 *)
 
 open Asttypes
-open Docstrings
 open Parsetree
 
 type 'a with_loc = 'a Location.loc
@@ -216,45 +215,45 @@ module Exp:
 (** Value declarations *)
 module Val:
   sig
-    val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs ->
+    val mk: ?loc:loc -> ?attrs:attrs ->
       ?prim:string list Ploc.vala -> str_vala -> core_type -> value_description
   end
 
 (** Type declarations *)
 module Type:
   sig
-    val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?text:text ->
+    val mk: ?loc:loc -> ?attrs:attrs ->
       ?params:(core_type * (variance * injectivity)) list Ploc.vala ->
       ?cstrs:(core_type * core_type * loc) list Ploc.vala ->
       ?kind:type_kind -> ?priv:private_flag Ploc.vala -> manifest:core_type Ploc.vala option Ploc.vala -> str_vala ->
       type_declaration
 
-    val constructor: ?loc:loc -> ?attrs:attrs -> ?info:info ->
+    val constructor: ?loc:loc -> ?attrs:attrs ->
       ?vars:str_vala list Ploc.vala -> ?args:constructor_arguments -> res:core_type option Ploc.vala ->
       str_vala ->
       constructor_declaration
-    val field: ?loc:loc -> ?attrs:attrs -> ?info:info ->
+    val field: ?loc:loc -> ?attrs:attrs ->
       ?mut:mutable_flag Ploc.vala -> str_vala -> core_type Ploc.vala -> label_declaration
   end
 
 (** Type extensions *)
 module Te:
   sig
-    val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs ->
+    val mk: ?loc:loc -> ?attrs:attrs ->
       ?params:(core_type * (variance * injectivity)) list Ploc.vala ->
       ?priv:private_flag Ploc.vala -> lid_vala -> extension_constructor list Ploc.vala -> type_extension
 
-    val mk_exception: ?loc:loc -> ?attrs:attrs -> ?docs:docs ->
+    val mk_exception: ?loc:loc -> ?attrs:attrs ->
       extension_constructor -> type_exception
 
-    val constructor: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?info:info ->
+    val constructor: ?loc:loc -> ?attrs:attrs ->
       str_vala -> extension_constructor_kind -> extension_constructor
 
-    val decl: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?info:info ->
+    val decl: ?loc:loc -> ?attrs:attrs ->
       ?vars:str_vala list Ploc.vala -> ?args:constructor_arguments -> res:core_type option Ploc.vala ->
       str_vala ->
       extension_constructor
-    val rebind: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?info:info ->
+    val rebind: ?loc:loc -> ?attrs:attrs ->
       str_vala -> lid_vala -> extension_constructor
   end
 
@@ -319,7 +318,6 @@ module Sig:
     val class_type: ?loc:loc -> class_type_declaration list Ploc.vala -> signature_item
     val extension: ?loc:loc -> ?attrs:attrs -> extension -> signature_item
     val attribute: ?loc:loc -> attribute -> signature_item
-    val text: text -> signature_item list
   end
 
 (** Structure items *)
@@ -342,54 +340,53 @@ module Str:
     val include_: ?loc:loc -> include_declaration -> structure_item
     val extension: ?loc:loc -> ?attrs:attrs -> extension -> structure_item
     val attribute: ?loc:loc -> attribute -> structure_item
-    val text: text -> structure_item list
   end
 
 (** Module declarations *)
 module Md:
   sig
-    val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?text:text ->
+    val mk: ?loc:loc -> ?attrs:attrs ->
       str_vala_opt_vala -> module_type -> module_declaration
   end
 
 (** Module substitutions *)
 module Ms:
   sig
-    val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?text:text ->
+    val mk: ?loc:loc -> ?attrs:attrs ->
       str_vala -> lid_vala -> module_substitution
   end
 
 (** Module type declarations *)
 module Mtd:
   sig
-    val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?text:text ->
+    val mk: ?loc:loc -> ?attrs:attrs ->
       typ:module_type option Ploc.vala -> str_vala -> module_type_declaration
   end
 
 (** Module bindings *)
 module Mb:
   sig
-    val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?text:text ->
+    val mk: ?loc:loc -> ?attrs:attrs ->
       str_vala_opt_vala -> module_expr -> module_binding
   end
 
 (** Opens *)
 module Opn:
   sig
-    val mk: ?loc: loc -> ?attrs:attrs -> ?docs:docs ->
+    val mk: ?loc: loc -> ?attrs:attrs ->
       ?override:override_flag Ploc.vala -> 'a -> 'a open_infos
   end
 
 (** Includes *)
 module Incl:
   sig
-    val mk: ?loc: loc -> ?attrs:attrs -> ?docs:docs -> 'a -> 'a include_infos
+    val mk: ?loc: loc -> ?attrs:attrs -> 'a -> 'a include_infos
   end
 
 (** Value bindings *)
 module Vb:
   sig
-    val mk: ?loc: loc -> ?attrs:attrs -> ?docs:docs -> ?text:text ->
+    val mk: ?loc: loc -> ?attrs:attrs ->
       ?value_constraint:value_constraint -> pattern -> expression ->
       value_binding
   end
@@ -416,7 +413,7 @@ module Cty:
 (** Class type fields *)
 module Ctf:
   sig
-    val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs ->
+    val mk: ?loc:loc -> ?attrs:attrs ->
       class_type_field_desc -> class_type_field
     val attr: class_type_field -> attribute -> class_type_field
 
@@ -429,7 +426,6 @@ module Ctf:
       class_type_field
     val extension: ?loc:loc -> ?attrs:attrs -> extension -> class_type_field
     val attribute: ?loc:loc -> attribute -> class_type_field
-    val text: text -> class_type_field list
   end
 
 (** Class expressions *)
@@ -457,7 +453,7 @@ module Cl:
 (** Class fields *)
 module Cf:
   sig
-    val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> class_field_desc ->
+    val mk: ?loc:loc -> ?attrs:attrs -> class_field_desc ->
       class_field
     val attr: class_field -> attribute -> class_field
 
@@ -472,7 +468,6 @@ module Cf:
     val initializer_: ?loc:loc -> ?attrs:attrs -> expression -> class_field
     val extension: ?loc:loc -> ?attrs:attrs -> extension -> class_field
     val attribute: ?loc:loc -> attribute -> class_field
-    val text: text -> class_field list
 
     val virtual_: core_type -> class_field_kind
     val concrete: override_flag Ploc.vala -> expression -> class_field_kind
@@ -482,7 +477,7 @@ module Cf:
 (** Classes *)
 module Ci:
   sig
-    val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> ?text:text ->
+    val mk: ?loc:loc -> ?attrs:attrs ->
       ?virt:virtual_flag Ploc.vala ->
       ?params:(core_type * (variance * injectivity)) list Ploc.vala ->
       str_vala -> 'a -> 'a class_infos
