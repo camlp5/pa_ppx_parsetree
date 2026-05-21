@@ -1,17 +1,31 @@
-location.cmo longident.cmo docstrings.cmo syntaxerr.cmo ast_helper.cmo ast_iterator.cmo builtin_attributes.cmo parser.cmo docstrings.cmo lexer.cmo pprintast.cmo parse.cmo printast.cmo location.cmi longident.cmi docstrings.cmi syntaxerr.cmi ast_helper.cmi ast_iterator.cmi builtin_attributes.cmi parser.cmi docstrings.cmi lexer.cmi pprintast.cmi parse.cmi printast.cmi location.cmx longident.cmx docstrings.cmx syntaxerr.cmx ast_helper.cmx ast_iterator.cmx builtin_attributes.cmx parser.cmx docstrings.cmx lexer.cmx pprintast.cmx parse.cmx printast.cmx: 
+misc.cmo location.cmo longident.cmo docstrings.cmo syntaxerr.cmo ast_helper.cmo ast_iterator.cmo builtin_attributes.cmo parser.cmo docstrings.cmo lexer.cmo pprintast.cmo parse.cmo printast.cmo misc.cmi location.cmi longident.cmi docstrings.cmi syntaxerr.cmi ast_helper.cmi ast_iterator.cmi builtin_attributes.cmi parser.cmi docstrings.cmi lexer.cmi pprintast.cmi parse.cmi printast.cmi misc.cmx location.cmx longident.cmx docstrings.cmx syntaxerr.cmx ast_helper.cmx ast_iterator.cmx builtin_attributes.cmx parser.cmx docstrings.cmx lexer.cmx pprintast.cmx parse.cmx printast.cmx: 
+misc.cmo : \
+    misc.cmi
+misc.cmx : \
+    misc.cmi
 location.cmo : \
+    warnings.cmi \
+    misc.cmi \
+    clflags.cmi \
     location.cmi
 location.cmx : \
+    warnings.cmx \
+    misc.cmx \
+    clflags.cmx \
     location.cmi
 longident.cmo : \
+    misc.cmi \
     longident.cmi
 longident.cmx : \
+    misc.cmx \
     longident.cmi
 docstrings.cmo : \
+    warnings.cmi \
     parsetree.cmi \
     location.cmi \
     docstrings.cmi
 docstrings.cmx : \
+    warnings.cmx \
     parsetree.cmi \
     location.cmx \
     docstrings.cmi
@@ -24,6 +38,7 @@ syntaxerr.cmx : \
 ast_helper.cmo : \
     syntaxerr.cmi \
     parsetree.cmi \
+    misc.cmi \
     longident.cmi \
     location.cmi \
     docstrings.cmi \
@@ -32,6 +47,7 @@ ast_helper.cmo : \
 ast_helper.cmx : \
     syntaxerr.cmx \
     parsetree.cmi \
+    misc.cmx \
     longident.cmx \
     location.cmx \
     docstrings.cmx \
@@ -46,17 +62,23 @@ ast_iterator.cmx : \
     location.cmx \
     ast_iterator.cmi
 builtin_attributes.cmo : \
+    warnings.cmi \
     parsetree.cmi \
+    misc.cmi \
     longident.cmi \
     location.cmi \
+    clflags.cmi \
     asttypes.cmi \
     ast_iterator.cmi \
     ast_helper.cmi \
     builtin_attributes.cmi
 builtin_attributes.cmx : \
+    warnings.cmx \
     parsetree.cmi \
+    misc.cmx \
     longident.cmx \
     location.cmx \
+    clflags.cmx \
     asttypes.cmi \
     ast_iterator.cmx \
     ast_helper.cmx \
@@ -67,6 +89,7 @@ parser.cmo : \
     longident.cmi \
     location.cmi \
     docstrings.cmi \
+    clflags.cmi \
     builtin_attributes.cmi \
     asttypes.cmi \
     ast_helper.cmi \
@@ -77,25 +100,32 @@ parser.cmx : \
     longident.cmx \
     location.cmx \
     docstrings.cmx \
+    clflags.cmx \
     builtin_attributes.cmx \
     asttypes.cmi \
     ast_helper.cmx \
     parser.cmi
 docstrings.cmo : \
+    warnings.cmi \
     parsetree.cmi \
     location.cmi \
     docstrings.cmi
 docstrings.cmx : \
+    warnings.cmx \
     parsetree.cmi \
     location.cmx \
     docstrings.cmi
 lexer.cmo : \
+    warnings.cmi \
     parser.cmi \
+    misc.cmi \
     location.cmi \
     docstrings.cmi \
     lexer.cmi
 lexer.cmx : \
+    warnings.cmx \
     parser.cmx \
+    misc.cmx \
     location.cmx \
     docstrings.cmx \
     lexer.cmi
@@ -117,6 +147,7 @@ parse.cmo : \
     syntaxerr.cmi \
     pprintast.cmi \
     parser.cmi \
+    misc.cmi \
     location.cmi \
     lexer.cmi \
     docstrings.cmi \
@@ -125,6 +156,7 @@ parse.cmx : \
     syntaxerr.cmx \
     pprintast.cmx \
     parser.cmx \
+    misc.cmx \
     location.cmx \
     lexer.cmx \
     docstrings.cmx \
@@ -134,6 +166,7 @@ printast.cmo : \
     parsetree.cmi \
     longident.cmi \
     location.cmi \
+    clflags.cmi \
     asttypes.cmi \
     printast.cmi
 printast.cmx : \
@@ -141,9 +174,12 @@ printast.cmx : \
     parsetree.cmi \
     longident.cmx \
     location.cmx \
+    clflags.cmx \
     asttypes.cmi \
     printast.cmi
-location.cmi :
+misc.cmi :
+location.cmi : \
+    warnings.cmi
 longident.cmi :
 asttypes.cmi : \
     location.cmi
@@ -152,6 +188,7 @@ ast_iterator.cmi : \
     location.cmi
 builtin_attributes.cmi : \
     parsetree.cmi \
+    misc.cmi \
     location.cmi
 docstrings.cmi : \
     parsetree.cmi \
