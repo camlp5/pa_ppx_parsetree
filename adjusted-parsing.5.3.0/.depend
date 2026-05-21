@@ -1,0 +1,200 @@
+warnings.cmo location.cmo longident.cmo docstrings.cmo syntaxerr.cmo ast_helper.cmo ast_iterator.cmo builtin_attributes.cmo parser.cmo docstrings.cmo lexer.cmo pprintast.cmo parse.cmo printast.cmo warnings.cmi location.cmi longident.cmi docstrings.cmi syntaxerr.cmi ast_helper.cmi ast_iterator.cmi builtin_attributes.cmi parser.cmi docstrings.cmi lexer.cmi pprintast.cmi parse.cmi printast.cmi warnings.cmx location.cmx longident.cmx docstrings.cmx syntaxerr.cmx ast_helper.cmx ast_iterator.cmx builtin_attributes.cmx parser.cmx docstrings.cmx lexer.cmx pprintast.cmx parse.cmx printast.cmx: 
+warnings.cmo : \
+    warnings.cmi
+warnings.cmx : \
+    warnings.cmi
+location.cmo : \
+    warnings.cmi \
+    location.cmi
+location.cmx : \
+    warnings.cmx \
+    location.cmi
+longident.cmo : \
+    longident.cmi
+longident.cmx : \
+    longident.cmi
+docstrings.cmo : \
+    warnings.cmi \
+    parsetree.cmi \
+    location.cmi \
+    docstrings.cmi
+docstrings.cmx : \
+    warnings.cmx \
+    parsetree.cmi \
+    location.cmx \
+    docstrings.cmi
+syntaxerr.cmo : \
+    location.cmi \
+    syntaxerr.cmi
+syntaxerr.cmx : \
+    location.cmx \
+    syntaxerr.cmi
+ast_helper.cmo : \
+    syntaxerr.cmi \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    docstrings.cmi \
+    asttypes.cmi \
+    ast_helper.cmi
+ast_helper.cmx : \
+    syntaxerr.cmx \
+    parsetree.cmi \
+    longident.cmx \
+    location.cmx \
+    docstrings.cmx \
+    asttypes.cmx \
+    ast_helper.cmi
+ast_iterator.cmo : \
+    parsetree.cmi \
+    location.cmi \
+    ast_iterator.cmi
+ast_iterator.cmx : \
+    parsetree.cmi \
+    location.cmx \
+    ast_iterator.cmi
+builtin_attributes.cmo : \
+    warnings.cmi \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    asttypes.cmi \
+    ast_iterator.cmi \
+    ast_helper.cmi \
+    builtin_attributes.cmi
+builtin_attributes.cmx : \
+    warnings.cmx \
+    parsetree.cmi \
+    longident.cmx \
+    location.cmx \
+    asttypes.cmx \
+    ast_iterator.cmx \
+    ast_helper.cmx \
+    builtin_attributes.cmi
+parser.cmo : \
+    syntaxerr.cmi \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    docstrings.cmi \
+    builtin_attributes.cmi \
+    asttypes.cmi \
+    ast_helper.cmi \
+    parser.cmi
+parser.cmx : \
+    syntaxerr.cmx \
+    parsetree.cmi \
+    longident.cmx \
+    location.cmx \
+    docstrings.cmx \
+    builtin_attributes.cmx \
+    asttypes.cmx \
+    ast_helper.cmx \
+    parser.cmi
+docstrings.cmo : \
+    warnings.cmi \
+    parsetree.cmi \
+    location.cmi \
+    docstrings.cmi
+docstrings.cmx : \
+    warnings.cmx \
+    parsetree.cmi \
+    location.cmx \
+    docstrings.cmi
+lexer.cmo : \
+    warnings.cmi \
+    parser.cmi \
+    location.cmi \
+    docstrings.cmi \
+    lexer.cmi
+lexer.cmx : \
+    warnings.cmx \
+    parser.cmx \
+    location.cmx \
+    docstrings.cmx \
+    lexer.cmi
+pprintast.cmo : \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    lexer.cmi \
+    asttypes.cmi \
+    pprintast.cmi
+pprintast.cmx : \
+    parsetree.cmi \
+    longident.cmx \
+    location.cmx \
+    lexer.cmx \
+    asttypes.cmx \
+    pprintast.cmi
+parse.cmo : \
+    syntaxerr.cmi \
+    pprintast.cmi \
+    parser.cmi \
+    location.cmi \
+    lexer.cmi \
+    docstrings.cmi \
+    parse.cmi
+parse.cmx : \
+    syntaxerr.cmx \
+    pprintast.cmx \
+    parser.cmx \
+    location.cmx \
+    lexer.cmx \
+    docstrings.cmx \
+    parse.cmi
+printast.cmo : \
+    pprintast.cmi \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    asttypes.cmi \
+    printast.cmi
+printast.cmx : \
+    pprintast.cmx \
+    parsetree.cmi \
+    longident.cmx \
+    location.cmx \
+    asttypes.cmx \
+    printast.cmi
+warnings.cmi :
+location.cmi : \
+    warnings.cmi
+longident.cmi :
+asttypes.cmi : \
+    location.cmi
+ast_iterator.cmi : \
+    parsetree.cmi \
+    location.cmi
+builtin_attributes.cmi : \
+    parsetree.cmi \
+    location.cmi
+docstrings.cmi : \
+    parsetree.cmi \
+    location.cmi
+parsetree.cmi : \
+    longident.cmi \
+    location.cmi \
+    asttypes.cmi
+docstrings.cmi : \
+    parsetree.cmi \
+    location.cmi
+syntaxerr.cmi : \
+    location.cmi
+ast_helper.cmi : \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    docstrings.cmi \
+    asttypes.cmi
+lexer.cmi : \
+    parser.cmi \
+    location.cmi
+pprintast.cmi : \
+    parsetree.cmi \
+    longident.cmi
+parse.cmi : \
+    parsetree.cmi \
+    longident.cmi
+printast.cmi : \
+    parsetree.cmi
