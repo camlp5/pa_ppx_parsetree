@@ -11,9 +11,9 @@ PACKAGES := fmt,compiler-libs.common
 TARGET_PACKAGE = pa_ppx_parsetree_parsing_5_1_0
 TARGET=$(TARGET_PACKAGE).cma
 
-ML = misc.ml location.ml longident.ml docstrings.ml syntaxerr.ml \
+ML = misc.ml clflags.ml location.ml warnings.ml longident.ml docstrings.ml syntaxerr.ml \
 	ast_helper.ml ast_iterator.ml builtin_attributes.ml parser.ml docstrings.ml lexer.ml pprintast.ml parse.ml printast.ml
-MLI = misc.mli location.mli longident.mli asttypes.mli ast_iterator.mli builtin_attributes.mli docstrings.mli parsetree.mli docstrings.mli syntaxerr.mli \
+MLI = misc.mli clflags.mli location.mli warnings.mli longident.mli asttypes.mli ast_iterator.mli builtin_attributes.mli docstrings.mli parsetree.mli docstrings.mli syntaxerr.mli \
 	ast_helper.mli lexer.mli pprintast.mli parse.mli printast.mli
 
 ALLSRC=$(ML) $(MLI) $(TOOLSML)
