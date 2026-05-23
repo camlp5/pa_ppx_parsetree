@@ -9,7 +9,7 @@ SHELL=$(BASH)
 DESTDIR=
 
 PACKAGES := fmt,camlp5,re,menhirLib
-TARGET_PACKAGE = pa_ppx_parsetree_parsing_503
+TARGET_PACKAGE = Pa_ppx_parsetree_pattern_parsetree_503
 TARGET=$(TARGET_PACKAGE).cma
 
 ML = shims.ml misc.ml warnings.ml clflags.ml location.ml pattern_misc.ml longident.ml asttypes.ml parsetree.ml syntaxerr.ml \
@@ -21,7 +21,7 @@ TOOLSML = mk_meta.ml
 ALLSRC=$(ML) $(MLI) $(TOOLSML) parser_mock.ml parser_mock.out.mli
 ALLPACKAGES=$(PACKAGES)
 
-OCAMLCFLAGS := $(OCAMLCFLAGS) -linkall -for-pack Pa_ppx_parsetree_pattern_parsetree_502
+OCAMLCFLAGS := $(OCAMLCFLAGS) -linkall -for-pack Pa_ppx_parsetree_pattern_parsetree_503
 
 all: $(TARGET) $(TARGET:.cma=.cmxa) META
 	$(MAKE) DESTDIR=$(WD)/$(TOP)/local-install/ install

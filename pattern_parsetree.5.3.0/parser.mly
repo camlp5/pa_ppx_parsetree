@@ -155,12 +155,12 @@ let neg_string f =
 let mkuminus ~sloc ~oploc name arg =
   match name, arg.pexp_desc, arg.pexp_attributes with
   | "-",
-    Pexp_constant({pconst_desc = Ploc.VaVal (Pconst_integer (Ploc.VaVal n,m)); pconst_loc=_}),
-    [] ->
-      Pexp_constant(mkconst ~loc:sloc (vaval (Pconst_integer(vaval (neg_string n), m))))
+    Pexp_constant(Ploc.VaVal {pconst_desc = Pconst_integer (Ploc.VaVal n,m); pconst_loc=_}),
+    Ploc.VaVal [] ->
+      Pexp_constant(vaval (mkconst ~loc:sloc (Pconst_integer(vaval (neg_string n), m))))
   | ("-" | "-."),
-    Pexp_constant({pconst_desc = Ploc.VaVal (Pconst_float (Ploc.VaVal f, m)); pconst_loc=_}), [] ->
-      Pexp_constant(mkconst ~loc:sloc (vaval (Pconst_float(vaval (neg_string f), m))))
+    Pexp_constant(Ploc.VaVal {pconst_desc = (Pconst_float (Ploc.VaVal f, m)); pconst_loc=_}), Ploc.VaVal [] ->
+      Pexp_constant(vaval (mkconst ~loc:sloc (Pconst_float(vaval (neg_string f), m))))
   | _ ->
       Pexp_apply(mkoperator ~loc:oploc (vaval ("~" ^ name)), vaval [Nolabel, arg])
 
@@ -168,12 +168,12 @@ let mkuplus ~sloc ~oploc name arg =
   let desc = arg.pexp_desc in
   match name, desc, arg.pexp_attributes with
   | "+",
-    Pexp_constant({pconst_desc = (Ploc.VaVal (Pconst_integer _) as desc); pconst_loc=_}),
-    []
+    Pexp_constant(Ploc.VaVal {pconst_desc = ((Pconst_integer _) as desc); pconst_loc=_}),
+    Ploc.VaVal []
   | ("+" | "+."),
-    Pexp_constant({pconst_desc = (Ploc.VaVal (Pconst_float _) as desc); pconst_loc=_}),
-    [] ->
-      Pexp_constant(mkconst ~loc:sloc desc)
+    Pexp_constant(Ploc.VaVal {pconst_desc = ((Pconst_float _) as desc); pconst_loc=_}),
+    Ploc.VaVal [] ->
+      Pexp_constant(vaval (mkconst ~loc:sloc desc))
   | _ ->
       Pexp_apply(mkoperator ~loc:oploc (vaval ("~" ^ name)), vaval [Nolabel, arg])
 
@@ -493,8 +493,8 @@ let wrap_mksig_ext ~loc (item, ext) =
 
 let mk_quotedext ~loc (id, idloc, str, strloc, delim) =
   let exp_id = mkloc (vaval id) idloc in
-  let const = Const.mk ~loc:strloc (vaval (Pconst_string (vaval str, strloc, Option.map vaval delim))) in
-  let e = ghexp ~loc (Pexp_constant const) in
+  let const = Const.mk ~loc:strloc (Pconst_string (vaval str, strloc, Option.map vaval delim)) in
+  let e = ghexp ~loc (Pexp_constant (vaval const)) in
   (exp_id, PStr (vaval [mkstrexp ~loc (vaval e) (vaval [])]))
 
 let text_str pos = []
@@ -504,6 +504,15 @@ let text_csig pos = []
 let text_def pos =
   List.map (fun def -> Ptop_def (vaval [def])) []
 
+let extra_text startpos endpos text items = items
+
+let extra_str p1 p2 items = items
+let extra_sig p1 p2 items = items
+let extra_cstr p1 p2 items = items
+let extra_csig p1 p2 items = items
+let extra_def p1 p2 items = items
+
+let extra_rhs_core_type ct ~pos = ct
 
 type let_binding =
   { lb_pattern: pattern;
@@ -2958,10 +2967,10 @@ simple_expr:
 %inline metaocaml_expr:
   | METAOCAML_ESCAPE e = simple_expr
     { wrap_exp_attrs ~loc:$sloc e
-       (Some (mknoloc "metaocaml.escape"), []) }
+       (Some (mknoloc (vaval "metaocaml.escape")), vaval []) }
   | METAOCAML_BRACKET_OPEN e = seq_expr METAOCAML_BRACKET_CLOSE
     { wrap_exp_attrs ~loc:$sloc e
-       (Some  (mknoloc "metaocaml.bracket"),[]) }
+       (Some  (mknoloc (vaval "metaocaml.bracket")),vaval []) }
 ;
 
 %inline simple_expr_:
@@ -4253,14 +4262,14 @@ constant:
                    mkconst ~loc:$sloc (Pconst_string (vaval s,strloc,Option.map vaval d)) }
   | FLOAT        { let (f, m) = $1 in
                    mkconst ~loc:$sloc (Pconst_float (vaval f, m)) }
-/*-*/  | ANTI_INT     { Pconst_integer (vaant $1, None) }
-/*-*/  | ANTI_INT32     { Pconst_integer (vaant $1, Some 'l') }
-/*-*/  | ANTI_INT64     { Pconst_integer (vaant $1, Some 'L') }
-/*-*/  | ANTI_NATIVEINT     { Pconst_integer (vaant $1, Some 'n') }
-/*-*/  | ANTI_CHAR     { Pconst_char (vaant $1) }
-/*-*/  | ANTI_STRING     { Pconst_string (vaant $1, make_loc $sloc, None) }
-/*-*/  | ANTI_STRING ANTI_DELIM     { Pconst_string (vaant $1, make_loc $sloc, Some (vaant $2)) }
-/*-*/  | ANTI_FLOAT     { Pconst_float (vaant $1, None) }
+/*-*/  | ANTI_INT     { mkconst ~loc:$sloc (Pconst_integer (vaant $1, None)) }
+/*-*/  | ANTI_INT32     { mkconst ~loc:$sloc (Pconst_integer (vaant $1, Some 'l')) }
+/*-*/  | ANTI_INT64     { mkconst ~loc:$sloc (Pconst_integer (vaant $1, Some 'L')) }
+/*-*/  | ANTI_NATIVEINT     { mkconst ~loc:$sloc (Pconst_integer (vaant $1, Some 'n')) }
+/*-*/  | ANTI_CHAR     { mkconst ~loc:$sloc (Pconst_char (vaant $1)) }
+/*-*/  | ANTI_STRING     { mkconst ~loc:$sloc (Pconst_string (vaant $1, make_loc $sloc, None)) }
+/*-*/  | ANTI_STRING ANTI_DELIM     { mkconst ~loc:$sloc (Pconst_string (vaant $1, make_loc $sloc, Some (vaant $2))) }
+/*-*/  | ANTI_FLOAT     { mkconst ~loc:$sloc (Pconst_float (vaant $1, None)) }
 ;
 signed_constant:
     constant     { $1 }

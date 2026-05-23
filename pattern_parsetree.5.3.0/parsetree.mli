@@ -34,7 +34,7 @@ and constant_desc =
      Suffixes [[g-z][G-Z]] are accepted by the parser.
      Suffixes except ['l'], ['L'] and ['n'] are rejected by the typechecker
   *)
-  | Pconst_char of char  (** Character such as ['c']. *)
+  | Pconst_char of char Ploc.vala  (** Character such as ['c']. *)
   | Pconst_string of string Ploc.vala * Location.t * string Ploc.vala option
       (** Constant string such as ["constant"] or
           [{delim|other constant|delim}].

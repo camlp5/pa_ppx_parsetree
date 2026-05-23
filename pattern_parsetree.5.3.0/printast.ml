@@ -247,7 +247,7 @@ and pattern i ppf x =
       line i ppf "Ppat_construct %a\n" fmt_longident_vala_loc li;
       option i
         (fun i ppf (vl, p) ->
-          list i string_vala_loc ppf vl;
+          list i string_vala_loc ppf (unvala vl);
           pattern i ppf p)
         ppf (unvala po)
   | Ppat_variant (l, po) ->
@@ -343,7 +343,7 @@ and expression i ppf x =
       expression i ppf e2;
   | Pexp_array (l) ->
       line i ppf "Pexp_array\n";
-      list i expression ppf l;
+      list i expression ppf (unvala l);
   | Pexp_ifthenelse (e1, e2, eo) ->
       line i ppf "Pexp_ifthenelse\n";
       expression i ppf e1;

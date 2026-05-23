@@ -174,15 +174,11 @@ module Doc = struct
         Format_doc.fprintf f "%a(%a)"
           (any_longident ~kind:Other) (unvala y)
           (any_longident ~kind:Other) (unvala s)
-(*-*)let any_longident_vala_loc f x = pp f "%a" longident (unvala x.txt)
 
   let value_longident ppf l = any_longident ~kind:Other ppf l
-(*-*)let value_longident_vala_loc f x = pp f "%a" value_longident (unvala x.txt)
   let longident = value_longident
   let constr ppf l = any_longident ~kind:Constr ppf l
   let type_longident ppf l = any_longident ~kind:Type ppf l
-(*-*)let type_longident_vala f x = pp f "%a" type_longident (unvala x)
-(*-*)let type_longident_vala_loc f x = pp f "%a" type_longident (unvala x.txt)
 
   let tyvar ppf s =
     Format_doc.fprintf ppf "%s" (tyvar_of_name s)
@@ -198,15 +194,15 @@ module Doc = struct
     let open Format_doc.Doc in
     let longident ?(is_constr=false) l =
       let kind= if is_constr then Constr else Other in
-      Format_doc.doc_printer (any_longident ~kind) l.Location.txt in
+      Format_doc.doc_printer (any_longident ~kind) (unvala l.Location.txt) in
     let rec nominal_exp doc exp =
       match exp.pexp_desc with
-      | _ when exp.pexp_attributes <> [] -> None
+      | _ when unvala exp.pexp_attributes <> [] -> None
       | Pexp_ident l ->
           Some (longident l doc)
-      | Pexp_variant (lbl, None) ->
-          Some (printf "`%s" lbl doc)
-      | Pexp_construct (l, None) ->
+      | Pexp_variant (lbl, Ploc.VaVal None) ->
+          Some (printf "`%s" (unvala lbl) doc)
+      | Pexp_construct (l, Ploc.VaVal None) ->
           Some (longident ~is_constr:true l doc)
       | Pexp_field (parent, lbl) ->
           Option.map
@@ -214,26 +210,30 @@ module Doc = struct
             (nominal_exp doc parent)
       | Pexp_send (parent, meth) ->
           Option.map
-            (printf "#%s" meth.txt)
+            (printf "#%s" (unvala meth.txt))
             (nominal_exp doc parent)
       (* String constants are syntactically too complex. For example, the
          quotes conflict with the 'inline_code' style and they might contain
          spaces. *)
-      | Pexp_constant { pconst_desc = Pconst_string _; _ } -> None
+      | Pexp_constant (Ploc.VaVal { pconst_desc = Pconst_string _; _ }) -> None
       (* Char, integer and float constants are nominal. *)
-      | Pexp_constant { pconst_desc = Pconst_char c; _ } ->
-          Some (msg "%C" c)
+      | Pexp_constant (Ploc.VaVal { pconst_desc = Pconst_char c; _ }) ->
+          Some (msg "%C" (unvala c))
       | Pexp_constant
-          { pconst_desc = Pconst_integer (cst, suf) | Pconst_float (cst, suf);
-            _ } ->
-          Some (msg "%s%t" cst (option char suf))
+          (Ploc.VaVal { pconst_desc = Pconst_integer (cst, suf) | Pconst_float (cst, suf);
+            _ }) ->
+          Some (msg "%s%t" (unvala cst) (option char suf))
       | _ -> None
     in
     nominal_exp empty t
 end
 
+(*-*)let any_longident_vala_loc ~kind f x = Format_doc.fprintf f "%a" (Doc.any_longident ~kind) (unvala x.txt)
 let value_longident ppf l = Format_doc.compat Doc.value_longident ppf l
+(*-*)let value_longident_vala_loc f x = fprintf f "%a" value_longident (unvala x.txt)
 let type_longident ppf l = Format_doc.compat Doc.type_longident ppf l
+(*-*)let type_longident_vala f x = fprintf f "%a" type_longident (unvala x)
+(*-*)let type_longident_vala_loc f x = fprintf f "%a" type_longident (unvala x.txt)
 
 let ident_of_name ppf i =
   Format_doc.compat (Doc.ident_of_name ~kind:Other) ppf i
@@ -274,19 +274,19 @@ type construct =
 
 let view_expr x =
   match x.pexp_desc with
-  | Pexp_construct ( {txt= Ploc.VaVal (Lident (Ploc.VaVal "()")); _},None) -> `tuple
-  | Pexp_construct ( {txt= Ploc.VaVal (Lident (Ploc.VaVal "true")); _},None) -> `btrue
-  | Pexp_construct ( {txt= Ploc.VaVal (Lident (Ploc.VaVal "false")); _},None) -> `bfalse
-  | Pexp_construct ( {txt= Ploc.VaVal (Lident (Ploc.VaVal "[]"));_},None) -> `nil
-  | Pexp_construct ( {txt= Ploc.VaVal (Lident (Ploc.VaVal "::"));_},Some _) ->
+  | Pexp_construct ( {txt= Ploc.VaVal (Lident (Ploc.VaVal "()")); _},Ploc.VaVal None) -> `tuple
+  | Pexp_construct ( {txt= Ploc.VaVal (Lident (Ploc.VaVal "true")); _},Ploc.VaVal None) -> `btrue
+  | Pexp_construct ( {txt= Ploc.VaVal (Lident (Ploc.VaVal "false")); _},Ploc.VaVal None) -> `bfalse
+  | Pexp_construct ( {txt= Ploc.VaVal (Lident (Ploc.VaVal "[]"));_},Ploc.VaVal None) -> `nil
+  | Pexp_construct ( {txt= Ploc.VaVal (Lident (Ploc.VaVal "::"));_},Ploc.VaVal (Some _)) ->
       let rec loop exp acc = match exp with
-          | {pexp_desc=Pexp_construct ({txt=Ploc.VaVal (Lident (Ploc.Vaval "[]"));_},_);
+          | {pexp_desc=Pexp_construct ({txt=Ploc.VaVal (Lident (Ploc.VaVal "[]"));_},_);
              pexp_attributes = Ploc.VaVal []} ->
               (List.rev acc,true)
           | {pexp_desc=
-             Pexp_construct ({txt=Ploc.Vaval (Lident (Ploc.VaVal "::"));_},
-                             Some ({pexp_desc= Pexp_tuple(Ploc.VaVal [e1;e2]);
-                                    pexp_attributes = Ploc.VaVal []}));
+             Pexp_construct ({txt=Ploc.VaVal (Lident (Ploc.VaVal "::"));_},
+                             Ploc.VaVal (Some ({pexp_desc= Pexp_tuple(Ploc.VaVal [e1;e2]);
+                                                pexp_attributes = Ploc.VaVal []})));
              pexp_attributes = Ploc.VaVal []}
             ->
               loop e2 (e1::acc)
@@ -362,7 +362,7 @@ let value_longident_loc = with_loc value_longident
 let constant_desc f = function
   | Pconst_char (Ploc.VaVal i) ->
       pp f "%C"  i
-  | Pconst_string (Ploc.Vaval i, _, None) ->
+  | Pconst_string (Ploc.VaVal i, _, None) ->
       pp f "%S" i
   | Pconst_string (Ploc.VaVal i, _, Some (Ploc.VaVal delim)) ->
       pp f "{%s|%s|%s}" delim i delim
@@ -587,7 +587,7 @@ and pattern1 ctxt (f:Format.formatter) (x:pattern) : unit =
         simple_pattern ctxt f x
     | Ppat_construct (({txt;_} as li), po) ->
         (* FIXME The third field always false *)
-        if unvala txt = Lident "::" then
+        if unvala txt = Lident (Ploc.VaVal "::") then
           pp f "%a" pattern_list_helper x
         else
           (match unvala po with
@@ -598,7 +598,7 @@ and pattern1 ctxt (f:Format.formatter) (x:pattern) : unit =
                pp f "%a@ (type %a)@;%a" value_longident_vala_loc li
                  (list ~sep:"@ " ident_of_name_vala_loc) vl
                  (simple_pattern ctxt) x
-           | None -> pp f "%a" value_longident_val_aloc li)
+           | None -> pp f "%a" value_longident_vala_loc li)
     | _ -> simple_pattern ctxt f x
 
 and simple_pattern ctxt (f:Format.formatter) (x:pattern) : unit =
@@ -924,7 +924,7 @@ and expression ctxt f x =
         let string_vala_x_expression f (s, e) =
           pp f "@[<hov2>%a@ =@ %a@]" ident_of_name (unvala s.txt) (expression ctxt) e in
         pp f "@[<hov2>{<%a>}@]"
-          (list string_x_expression  ~sep:";"  )  (unvala l);
+          (list string_vala_x_expression  ~sep:";"  )  (unvala l);
     | Pexp_letmodule (s, me, e) ->
         pp f "@[<hov2>let@ module@ %s@ =@ %a@ in@ %a@]"
           (unvala (Option.value (unvala s.txt) ~default:(vaval "_")))
@@ -1284,7 +1284,7 @@ and with_constraint ctxt f = function
         (type_params ctxt) ls
         (with_loc type_longident_vala) li (type_declaration ctxt) td
   | Pwith_module (li, li2) ->
-      pp f "module %a =@ %a" value_longident_loc li value_longident_loc li2;
+      pp f "module %a =@ %a" value_longident_vala_loc li value_longident_vala_loc li2;
   | Pwith_modtype (li, mty) ->
       pp f "module type %a =@ %a"
         (with_loc type_longident) li
@@ -1409,7 +1409,7 @@ and signature_item ctxt f x : unit =
                 (item_attributes ctxt) pmd.pmd_attributes
             else
               pp f "@[<hov2>module@ rec@ %s:@ %a@]%a"
-                (Option.value pmd.pmd_name.txt ~default:"_")
+                (unvala (Option.value (unvala pmd.pmd_name.txt) ~default:(vaval "_")))
                 (module_type1 ctxt) pmd.pmd_type
                 (item_attributes ctxt) pmd.pmd_attributes;
             string_x_module_type_list f ~first:false tl
