@@ -64,7 +64,9 @@
         ; ([%typ: class_structure], Auto)
         ; ([%typ: class_type_desc], Auto)
         ; ([%typ: class_type_field_desc], Auto)
+#if OCAML_VERSION >= (5,3,0)
         ; ([%typ: constant_desc], Auto)
+#endif
         ; ([%typ: core_type_desc], Auto)
         ; ([%typ: expression_desc], Auto)
         ; ([%typ: extension], Auto)
@@ -338,7 +340,9 @@
         ; class_type_field = Parsetree
         ; class_type_field_desc = Parsetree
         ; constant = Parsetree
+#if OCAML_VERSION >= (5,3,0)
         ; constant_desc = Parsetree
+#endif
         ; constructor_arguments = Parsetree
         ; constructor_declaration = Parsetree
         ; core_type_desc = Parsetree

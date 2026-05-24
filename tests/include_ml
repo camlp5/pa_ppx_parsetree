@@ -49,3 +49,7 @@ let pp_patt ty = Fmt.(pf stdout "#<patt< %s >>" (Eprinter.apply Pcaml.pr_patt Pp
 #require "pa_ppx_parsetree_helpers" ;;
 #require "pa_ppx.deriving_plugins.std";;
 #require "pa_ppx_parsetree_quotations";;
+
+#require "pa_ppx_parsetree_pattern_parsetree_502";;
+{foo| ` $id:x1$ $pattopt:ox2$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_502.Parse.pattern ;;
+{foo| ` $id:x1$ $pattopt:ox2$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_503.Parse.pattern ;;
