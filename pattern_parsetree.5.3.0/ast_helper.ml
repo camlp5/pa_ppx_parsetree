@@ -57,7 +57,6 @@ module Const = struct
     {pconst_desc = d;
      pconst_loc = loc}
 
-  let integer ?loc ?suffix i = mk ?loc (Pconst_integer (i, suffix))
   let integer ?loc ?suffix i = mk ?loc (Pconst_integer (Ploc.VaVal i, suffix))
   let int ?loc ?suffix i = integer ?loc ?suffix (Int.to_string i)
   let int32 ?loc ?(suffix='l') i = integer ?loc ~suffix (Int32.to_string i)
