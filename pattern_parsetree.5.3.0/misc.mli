@@ -226,11 +226,6 @@ val find_in_path_normalized: string list -> string -> string
     i.e. if name is [Foo.ml], allow [/path/Foo.ml] and [/path/foo.ml] to
     match. *)
 
-val remove_file: string -> unit
-       (** Delete the given file if it exists and is a regular file.
-           Does nothing for other kinds of files.
-           Never raises an error. *)
-
 val expand_directory: string -> string -> string
        (** [expand_directory alt file] eventually expands a [+] at the
            beginning of file into [alt] (an alternate root directory) *)
@@ -255,24 +250,6 @@ val copy_file_chunk: in_channel -> out_channel -> int -> unit
 val string_of_file: in_channel -> string
        (** [string_of_file ic] reads the contents of file [ic] and copies
            them to a string. It stops when encountering EOF on [ic]. *)
-
-val output_to_file_via_temporary:
-      ?mode:open_flag list -> string -> (string -> out_channel -> 'a) -> 'a
-       (** Produce output in temporary file, then rename it
-           (as atomically as possible) to the desired output file name.
-           [output_to_file_via_temporary filename fn] opens a temporary file
-           which is passed to [fn] (name + output channel).  When [fn] returns,
-           the channel is closed and the temporary file is renamed to
-           [filename]. *)
-
-val protect_writing_to_file
-   : filename:string
-  -> f:(out_channel -> 'a)
-  -> 'a
-      (** Open the given [filename] for writing (in binary mode), pass
-          the [out_channel] to the given function, then close the
-          channel. If the function raises an exception then [filename]
-          will be removed. *)
 
 val concat_null_terminated : string list -> string
 (** [concat_null_terminated [x1;x2; ... xn]] is
