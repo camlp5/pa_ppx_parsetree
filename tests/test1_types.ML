@@ -64,6 +64,7 @@
         ; ([%typ: class_structure], Auto)
         ; ([%typ: class_type_desc], Auto)
         ; ([%typ: class_type_field_desc], Auto)
+        ; ([%typ: constant_desc], Auto)
         ; ([%typ: core_type_desc], Auto)
         ; ([%typ: expression_desc], Auto)
         ; ([%typ: extension], Auto)
@@ -337,6 +338,7 @@
         ; class_type_field = Parsetree
         ; class_type_field_desc = Parsetree
         ; constant = Parsetree
+        ; constant_desc = Parsetree
         ; constructor_arguments = Parsetree
         ; constructor_declaration = Parsetree
         ; core_type_desc = Parsetree
