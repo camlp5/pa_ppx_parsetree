@@ -3391,6 +3391,8 @@ pattern_gen:
 /*-*/        { Ppat_construct(constr, vaant pattopt) }
     | name_tag_vala pattern %prec prec_constr_appl
         { Ppat_variant($1, vaval (Some $2)) }
+/*-*/    | name_tag_vala pattopt = ANTI_PATTOPT
+/*-*/        { Ppat_variant($1, vaant pattopt) }
     ) { $1 }
   | LAZY ext_attributes simple_pattern
       { mkpat_attrs ~loc:$sloc (Ppat_lazy $3) $2}
