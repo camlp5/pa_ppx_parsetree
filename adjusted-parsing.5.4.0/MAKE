@@ -1,0 +1,18 @@
+#!/bin/bash -x
+
+make clean
+make format_doc.cmi
+make format_doc.cmo
+make misc.cmi
+make clflags.cmi
+make warnings.cmi
+make location.cmi
+make longident.cmi
+make asttypes.cmi
+make parsetree.cmi
+make docstrings.cmi
+make syntaxerr.cmi
+make ast_helper.cmi
+make ast_iterator.cmi
+make builtin_attributes.cmi
+make
