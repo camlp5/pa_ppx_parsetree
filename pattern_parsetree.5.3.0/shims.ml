@@ -1,3 +1,14 @@
+# 2 "shims.ML"
+module Int = struct
+  let max = max
+  let min = min
+  let to_string = string_of_int
+end
+
+module Config = struct
+  include Config
+  let with_cmm_invariants = false
+end
 
 
 # 16 "shims.ML"
@@ -23,7 +34,7 @@ let ocaml_release = {
                      ;
   minor = 
 # 32 "shims.ML"
-           13 
+           12 
 # 32 "shims.ML"
                      ;
   patchlevel = 

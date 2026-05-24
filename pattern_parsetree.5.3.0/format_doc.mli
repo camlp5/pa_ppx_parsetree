@@ -272,28 +272,3 @@ val comma: unit printer
 
 (** {2 Compiler output} *)
 
-val pp_two_columns :
-  ?sep:string -> ?max_lines:int ->
-  formatter -> (string * string) list -> unit
-(** [pp_two_columns ?sep ?max_lines ppf l] prints the lines in [l] as two
-   columns separated by [sep] ("|" by default). [max_lines] can be used to
-   indicate a maximum number of lines to print -- an ellipsis gets inserted at
-   the middle if the input has too many lines.
-
-   Example:
-
-    {v pp_two_columns ~max_lines:3 Format.std_formatter [
-      "abc", "hello";
-      "def", "zzz";
-      "a"  , "bllbl";
-      "bb" , "dddddd";
-    ] v}
-
-    prints
-
-    {v
-    abc | hello
-    ...
-    bb  | dddddd
-    v}
-*)
