@@ -6,94 +6,13 @@
 open Pa_ppx_testutils ;;
 open Papr_util ;;
 
-let pp_ctyp ty = Fmt.(pf stdout "#<ctyp< %s >>" (Eprinter.apply Pcaml.pr_ctyp Pprintf.empty_pc ty));;
-let pp_expr ty = Fmt.(pf stdout "#<expr< %s >>" (Eprinter.apply Pcaml.pr_expr Pprintf.empty_pc ty));;
-let pp_patt ty = Fmt.(pf stdout "#<patt< %s >>" (Eprinter.apply Pcaml.pr_patt Pprintf.empty_pc ty));;
-
-#install_printer pp_ctyp ;;
-#install_printer pp_expr ;;
-#install_printer pp_patt ;;
-
-#print_depth 1000;;
-#print_length 1000;;
-let pp_location pps (_ : Location.t) = Fmt.(pf pps "<loc>") ;;
-#install_printer pp_location ;;
-let pp_location_stack pps (_ : Parsetree.location_stack) = Fmt.(pf pps "<locstack>") ;;
-#install_printer pp_location_stack ;;
-
 print_string "================ START ================\n";; flush stdout ;;
 
 
-(*
-#require "pa_ppx_parsetree";;
-#require "camlp5,pa_ppx.deriving_plugins.show,camlp5.parser_quotations,pa_ppx.params_runtime,pa_ppx_q_ast.runtime";;
-
-#trace Pa_ppx_q_ast_runtime.Locate.mk;;
-#trace Pa_ppx_q_ast_runtime.Locate.get;;
-open Pa_ppx_parsetree ;;
-#trace Q_ocast.Regular.P.expression ;;
-#trace Q_ocast.Regular.P.expression_desc ;;
-#trace Q_ocast.Regular.P.location ;;
-#trace Q_ocast.Regular.P.location_stack ;;
-#trace MLast2Pattern_OCast.expr ;;
-
-{|
-let f = function
-  <:expression< $lid:e1$ + $e2$ >> ->  1
-|} |> PAPR.Implem.pa1 |> PAPR.Implem.pr |> print_string ;;
- *)
-
 #require "pa_ppx_parsetree_quotations";;
 #require "pa_ppx_quotation2extension";;
-#require "pa_ppx.import" ;;
-Pa_ppx_import.add_package "pa_ppx_parsetree_quotations";;
 
 #require "pa_ppx_parsetree_helpers" ;;
-#require "pa_ppx_q_ast.quotation_test" ;;
-#require "pa_ppx_q_ast.test_cleanup" ;;
-(*
-#trace Pa_ppx_quotation_test.expand_type_p ;;
-#trace Pa_ppx_quotation_test.do_expand_type ;;
-#trace Pa_ppx_quotation_test.expr_list_of_type_decl ;;
-#trace Pa_ppx_quotation_test.process_add_dels ;;
- *)
-(*
-open Pa_ppx_parsetree_quotations ;;
-open Pa_ppx_parsetree_pattern_parsetree ;;
-open Pa_ppx_parsetree_pattern_parsetree.Parsetree ;;
-open Pa_ppx_parsetree_pattern_parsetree.Asttypes ;;
-open Pa_ppx_parsetree_pattern_parsetree.Longident ;;
-open Pa_ppx_parsetree_quotations.Q_parsetree.Regular ;;
- *)
-(*
-#trace parse_expression ;;
-#trace E.location_stack ;;
-
-"foo.ml" |> Fpath.v |> Bos.OS.File.read |> Rresult.R.get_ok |> PAPR.Implem.pa1 |> PAPR.Implem.pr |> print_string ;;
- *)
-
-
-let input_magic ic magic =
-  let maglen = String.length magic in
-  let b = Bytes.create maglen in really_input ic b 0 maglen; Bytes.to_string b
-
-let input_implem ic =
-  if Config.ast_impl_magic_number <>
-       input_magic ic Config.ast_impl_magic_number
-  then
-    failwith "input_implem: bad magic number"
-  else let _ = input_value ic in (input_value ic : Parsetree.structure)
-
-let input_interf ic =
-  if Config.ast_intf_magic_number <>
-       input_magic ic Config.ast_intf_magic_number
-  then
-    failwith "input_interf: bad magic number"
-  else let _ = input_value ic in (input_value ic : Parsetree.signature)
-;;
-
-open Pa_ppx_parsetree_helpers.Std_derivers ;;
-Format.pp_set_margin Fmt.stdout 1000;;
 
 (*
 ;;; Local Variables: ***

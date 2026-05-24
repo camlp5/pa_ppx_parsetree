@@ -1,15 +1,23 @@
-shims.cmo misc.cmo warnings.cmo clflags.cmo location.cmo pattern_misc.cmo longident.cmo asttypes.cmo parsetree.cmo syntaxerr.cmo ast_helper.cmo parser.cmo lexer.cmo pprintast.cmo parse.cmo printast.cmo shims.cmi misc.cmi warnings.cmi clflags.cmi location.cmi pattern_misc.cmi longident.cmi asttypes.cmi parsetree.cmi syntaxerr.cmi ast_helper.cmi parser.cmi lexer.cmi pprintast.cmi parse.cmi printast.cmi shims.cmx misc.cmx warnings.cmx clflags.cmx location.cmx pattern_misc.cmx longident.cmx asttypes.cmx parsetree.cmx syntaxerr.cmx ast_helper.cmx parser.cmx lexer.cmx pprintast.cmx parse.cmx printast.cmx: 
+shims.cmo format_doc.cmo misc.cmo warnings.cmo clflags.cmo location.cmo pattern_misc.cmo longident.cmo asttypes.cmo parsetree.cmo syntaxerr.cmo ast_helper.cmo parser.cmo lexer.cmo pprintast.cmo parse.cmo printast.cmo shims.cmi format_doc.cmi misc.cmi warnings.cmi clflags.cmi location.cmi pattern_misc.cmi longident.cmi asttypes.cmi parsetree.cmi syntaxerr.cmi ast_helper.cmi parser.cmi lexer.cmi pprintast.cmi parse.cmi printast.cmi shims.cmx format_doc.cmx misc.cmx warnings.cmx clflags.cmx location.cmx pattern_misc.cmx longident.cmx asttypes.cmx parsetree.cmx syntaxerr.cmx ast_helper.cmx parser.cmx lexer.cmx pprintast.cmx parse.cmx printast.cmx: 
 shims.cmo :
 shims.cmx :
+format_doc.cmo : \
+    format_doc.cmi
+format_doc.cmx : \
+    format_doc.cmi
 misc.cmo : \
+    format_doc.cmi \
     misc.cmi
 misc.cmx : \
+    format_doc.cmx \
     misc.cmi
 warnings.cmo : \
     misc.cmi \
+    format_doc.cmi \
     warnings.cmi
 warnings.cmx : \
     misc.cmx \
+    format_doc.cmx \
     warnings.cmi
 clflags.cmo : \
     misc.cmi \
@@ -20,11 +28,13 @@ clflags.cmx : \
 location.cmo : \
     warnings.cmi \
     misc.cmi \
+    format_doc.cmi \
     clflags.cmi \
     location.cmi
 location.cmx : \
     warnings.cmx \
     misc.cmx \
+    format_doc.cmx \
     clflags.cmx \
     location.cmi
 pattern_misc.cmo : \
@@ -98,18 +108,21 @@ lexer.cmo : \
     parser.cmi \
     misc.cmi \
     location.cmi \
+    format_doc.cmi \
     lexer.cmi
 lexer.cmx : \
     pattern_misc.cmx \
     parser.cmx \
     misc.cmx \
     location.cmx \
+    format_doc.cmx \
     lexer.cmi
 pprintast.cmo : \
     parsetree.cmi \
     longident.cmi \
     location.cmi \
     lexer.cmi \
+    format_doc.cmi \
     asttypes.cmi \
     ast_helper.cmi \
     pprintast.cmi
@@ -118,6 +131,7 @@ pprintast.cmx : \
     longident.cmx \
     location.cmx \
     lexer.cmx \
+    format_doc.cmx \
     asttypes.cmx \
     ast_helper.cmx \
     pprintast.cmi
@@ -128,6 +142,7 @@ parse.cmo : \
     misc.cmi \
     location.cmi \
     lexer.cmi \
+    format_doc.cmi \
     clflags.cmi \
     parse.cmi
 parse.cmx : \
@@ -137,6 +152,7 @@ parse.cmx : \
     misc.cmx \
     location.cmx \
     lexer.cmx \
+    format_doc.cmx \
     clflags.cmx \
     parse.cmi
 printast.cmo : \
@@ -157,12 +173,16 @@ printast.cmx : \
     asttypes.cmx \
     ast_helper.cmx \
     printast.cmi
-misc.cmi :
-warnings.cmi :
+misc.cmi : \
+    format_doc.cmi
+format_doc.cmi :
+warnings.cmi : \
+    format_doc.cmi
 clflags.cmi : \
     misc.cmi
 location.cmi : \
-    warnings.cmi
+    warnings.cmi \
+    format_doc.cmi
 longident.cmi :
 asttypes.cmi : \
     location.cmi
@@ -182,7 +202,8 @@ lexer.cmi : \
     location.cmi
 pprintast.cmi : \
     parsetree.cmi \
-    longident.cmi
+    longident.cmi \
+    format_doc.cmi
 parse.cmi : \
     parsetree.cmi \
     longident.cmi \
@@ -194,7 +215,24 @@ printast.cmi : \
 mk_meta.cmo :
 mk_meta.cmx :
 parser_mock.cmo : \
-    parser_mock.cmi
+    syntaxerr.cmi \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    clflags.cmi \
+    asttypes.cmi \
+    ast_helper.cmi
 parser_mock.cmx : \
-    parser_mock.cmi
-parser_mock.out.cmi :
+    syntaxerr.cmx \
+    parsetree.cmx \
+    longident.cmx \
+    location.cmx \
+    clflags.cmx \
+    asttypes.cmx \
+    ast_helper.cmx
+parser_mock.out.cmi : \
+    parsetree.cmi \
+    longident.cmi \
+    location.cmi \
+    asttypes.cmi \
+    ast_helper.cmi

@@ -1,7 +1,6 @@
 (**pp -package pa_ppx.import -syntax camlp5o *)
 
-[%%import: Parsetree.attribute
-  [@add
+[%%typedecls
       [%%import: Lexing.position]
       type location = [%import: Location.t
                                     [@with Lexing.position := position]
@@ -30,18 +29,14 @@
 #if OCAML_VERSION >= (4,12,0)
       [%%import: Asttypes.injectivity]
 #endif
+
       [%%import: Parsetree.constant
                    [@with Location.t := location]
       ]
       [%%import: Parsetree.location_stack
                    [@with Location.t := location]
       ]
-      [%%import: Parsetree.toplevel_phrase
-                   [@with Location.t := location]
-                   [@with Asttypes.loc := located]
-                   [@with Longident.t := longident_t]
-            ]
-  ]
+[%%import: Parsetree.attribute
  [@with Location.t := location]
  [@with Asttypes.loc := located]
  [@with Longident.t := longident_t]
@@ -56,4 +51,5 @@
  [@with Asttypes.override_flag := override_flag]
  [@with Asttypes.variance := variance]
  [@with Asttypes.injectivity := injectivity]
+]
 ]

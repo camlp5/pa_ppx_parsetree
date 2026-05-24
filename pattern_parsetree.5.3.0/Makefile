@@ -9,12 +9,12 @@ SHELL=$(BASH)
 DESTDIR=
 
 PACKAGES := fmt,camlp5,re,menhirLib
-TARGET_PACKAGE = Pa_ppx_parsetree_pattern_parsetree_503
+TARGET_PACKAGE = pa_ppx_parsetree_pattern_parsetree_503
 TARGET=$(TARGET_PACKAGE).cma
 
-ML = shims.ml misc.ml warnings.ml clflags.ml location.ml pattern_misc.ml longident.ml asttypes.ml parsetree.ml syntaxerr.ml \
+ML = shims.ml format_doc.ml misc.ml warnings.ml clflags.ml location.ml pattern_misc.ml longident.ml asttypes.ml parsetree.ml syntaxerr.ml \
 	ast_helper.ml parser.ml lexer.ml pprintast.ml parse.ml printast.ml
-MLI = misc.mli warnings.mli clflags.mli location.mli longident.mli asttypes.mli parsetree.mli syntaxerr.mli \
+MLI = misc.mli format_doc.mli warnings.mli clflags.mli location.mli longident.mli asttypes.mli parsetree.mli syntaxerr.mli \
 	ast_helper.mli lexer.mli pprintast.mli parse.mli printast.mli
 
 TOOLSML = mk_meta.ml

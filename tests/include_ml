@@ -43,15 +43,9 @@ let pp_patt ty = Fmt.(pf stdout "#<patt< %s >>" (Eprinter.apply Pcaml.pr_patt Pp
 
 *)
 
-#require "camlp5.parser_quotations";;
-#require "pa_ppx.import" ;;
-Pa_ppx_import.add_include "." ;;
-Pa_ppx_import.add_package "camlp5,pa_ppx_parsetree_quotations" ;;
-Pr_r.set_flags "D" ;;
-Pretty.line_length := 400 ;;
-#require "pa_ppx_q_ast.quotation_test";;
-#require "pa_ppx_q_ast.test_cleanup";;
-#trace Pa_ppx_quotation_test.expr_of_cons_decl ;;
-#trace Pa_ppx_quotation_test.process_add_dels ;;
-
-"test1_types.ml" |> Fpath.v |> Bos.OS.File.read |> Rresult.R.get_ok |> PAPR.Implem.pa1 |> PAPR.Implem.pr |> print_string ;;
+#require "pa_ppx_quotation2extension" ;;
+#require "camlp5.parser_quotations_base";;
+#require "pa_ppx.utils";;
+#require "pa_ppx_parsetree_helpers" ;;
+#require "pa_ppx.deriving_plugins.std";;
+#require "pa_ppx_parsetree_quotations";;

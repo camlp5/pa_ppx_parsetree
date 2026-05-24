@@ -55,6 +55,9 @@ let _migrate_list subrw0 __dt__ l =
           ; class_type_field
           ; class_type_field_desc
           ; constant
+#if OCAML_VERSION >= (5,3,0)
+          ; constant_desc
+#endif
           ; constructor_arguments
           ; constructor_declaration
           ; core_type

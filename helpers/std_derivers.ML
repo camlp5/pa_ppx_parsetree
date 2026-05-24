@@ -1,16 +1,16 @@
 (**pp -package camlp5.macro,pa_ppx.deriving_plugins.std,pa_ppx_q_ast,pa_ppx.import -syntax camlp5o *)
 
-let _equal_location a b = true
-let _show_location pps _ = Fmt.(pf pps "<loc>")
+[%%import: Lexing.position]
+type location = [%import: Location.t
+                            [@with Lexing.position := position]
+                ]
 
-[%%import: Parsetree.attribute
-  [@add
-      [%%import: Lexing.position]
+let equal_location a b = true
+let pp_location pps _ = Fmt.(pf pps "<loc>")
+let show_location _ = Fmt.(str "<loc>")
 
-      type _location = Location.t =
-        { loc_start : position; loc_end : position; loc_ghost : bool }
-      type location = _location[@equal _equal_location][@printer _show_location]
-    type 'a located = [%import: 'a Asttypes.loc
+[%%typedecls
+      type 'a located = [%import: 'a Asttypes.loc
                                     [@with Location.t := location]
                         ]
       type longident_t = [%import: Longident.t
@@ -34,18 +34,14 @@ let _show_location pps _ = Fmt.(pf pps "<loc>")
 #if OCAML_VERSION >= (4,12,0)
       [%%import: Asttypes.injectivity]
 #endif
+
       [%%import: Parsetree.constant
                    [@with Location.t := location]
       ]
       [%%import: Parsetree.location_stack
                    [@with Location.t := location]
       ]
-      [%%import: Parsetree.toplevel_phrase
-                   [@with Location.t := location]
-                   [@with Asttypes.loc := located]
-                   [@with Longident.t := longident_t]
-            ]
-  ]
+[%%import: Parsetree.attribute
  [@with Location.t := location]
  [@with Asttypes.loc := located]
  [@with Longident.t := longident_t]
@@ -60,5 +56,6 @@ let _show_location pps _ = Fmt.(pf pps "<loc>")
  [@with Asttypes.override_flag := override_flag]
  [@with Asttypes.variance := variance]
  [@with Asttypes.injectivity := injectivity]
+]
 ]
   [@@deriving show,eq]
