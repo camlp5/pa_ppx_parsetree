@@ -17,10 +17,6 @@ let show_location _ = Fmt.(str "<loc>")
                                      [@with Lexing.position := position]
                                      [@with t := longident_t]
                          ]
-      type ast_constant =
-        [%import: Asttypes.constant
-                    [@with Location.t := location]
-        ]
       [%%import: Asttypes.arg_label]
       [%%import: Asttypes.label]
       [%%import: Asttypes.closed_flag]

@@ -1094,7 +1094,6 @@
 [@@@"ocaml.text" "located";];
 [@@@"ocaml.text" "str_vala";];
 [@@@"ocaml.text" "longident_t";];
-[@@@"ocaml.text" "ast_constant";];
 [@@@"ocaml.text" "arg_label";];
 <:arg_label< >>;
 <:arg_label< $lid:s$ : >>;
@@ -1129,8 +1128,4 @@ Parsetree.Pconst_string s1 os2;
 <:constant< $float:sxf1$ >>;
 [@@@"ocaml.text" "constant_desc";];
 [@@@"ocaml.text" "location_stack";];
-[@@@"ocaml.text" "toplevel_phrase";];
-[@@@"ocaml.text" "toplevel_directive";];
-[@@@"ocaml.text" "directive_argument";];
-[@@@"ocaml.text" "directive_argument_desc";];
 [@@@"ocaml.text" "functor_parameter_vala";];
