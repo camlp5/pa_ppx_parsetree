@@ -1117,11 +1117,9 @@ val xv_mkrhs_uident_vala_ : Ast_helper.str_vala
 val xv_mkrhs_name_tag_vala_ :
   Asttypes.label Ast_helper.vala Ast_helper.with_loc
 val xv_mkrhs_mty_longident_ : Longident.t Asttypes.loc
-val xv_mkrhs_module_name_ :
-  string Ast_helper.vala option Ast_helper.vala Asttypes.loc
-val xv_mkrhs_mod_longident_vala_ : Longident.t Ast_helper.vala Asttypes.loc
-val xv_mkrhs_mod_ext_longident_vala_ :
-  Longident.t Ast_helper.vala Asttypes.loc
+val xv_mkrhs_module_name_ : string Ploc.vala option Ploc.vala Asttypes.loc
+val xv_mkrhs_mod_longident_vala_ : Longident.t Ploc.vala Asttypes.loc
+val xv_mkrhs_mod_ext_longident_vala_ : Longident.t Ploc.vala Asttypes.loc
 val xv_mkrhs_lident_vala_ : Ast_helper.str_vala
 val xv_mkrhs_label_vala_ : Asttypes.label Ast_helper.vala Asttypes.loc
 val xv_mkrhs_ident_vala_ : Ast_helper.str_vala
