@@ -146,37 +146,64 @@
           (Pexp_ident,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
                              ; Longident.Ldot (x, s)
+#endif
              ])
           ])
         ; (Ptyp_package,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
                              ; Longident.Ldot (x, s)
+#endif
              ])
           ])
         ; (Ptyp_class,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
                              ; Longident.Ldot (x, s)
+#endif
              ])
           ])
         ; (Ptyp_constr,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
                              ; Longident.Ldot (x, s)
+#endif
              ])
+          ])
+        ; (Ppat_tuple,
+           [ ([%typ: closed_flag], Auto)
           ])
         ; (Ppat_type,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
                              ; Longident.Ldot (x, s)
+#endif
              ])
           ])
         ; (Pmty_ident,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
                              ; Longident.Ldot (x, s)
+#endif
              ])
           ])
 #if OCAML_VERSION >= (5,2,0)
@@ -201,51 +228,93 @@
         ; (Pexp_field,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
                              ; Longident.Ldot (x, s)
+#endif
              ])
           ])
         ; (Pexp_setfield,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
                              ; Longident.Ldot (x, s)
+#endif
              ])
           ])
         ; (Pexp_setfield,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
                              ; Longident.Ldot (x, s)
+#endif
              ])
           ])
         ; (Pexp_for, [ ([%typ: direction_flag], Auto) ])
         ; (Pexp_new,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
                              ; Longident.Ldot (x, s)
+#endif
              ])
           ])
         ; (Pexp_object, [ ([%typ: class_structure], Auto) ])
+        ; (Pexp_pack,
+           [ ([%typ: longident_t], Explicit [
+                               Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
+                             ; Longident.Ldot (x, s)
+#endif
+             ])
+          ])
         ; (Pexp_constant, [ ([%typ: constant], Auto) ])
         ; (Ppat_constant, [ ([%typ: constant], Auto) ])
         ; (Psig_typext, [ ([%typ: longident_t], Explicit [
-                                            Longident.Lident s
-                                          ; Longident.Ldot (x, s)
+                               Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
+                             ; Longident.Ldot (x, s)
+#endif
                           ])
           ])
         ; (Pstr_typext, [ ([%typ: longident_t], Explicit [
-                                            Longident.Lident s
-                                          ; Longident.Ldot (x, s)
+                               Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
+                             ; Longident.Ldot (x, s)
+#endif
                           ])
           ])
         ; (Pcl_constr,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
                              ; Longident.Ldot (x, s)
+#endif
              ])
           ])
         ; (Pcty_constr,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
                              ; Longident.Ldot (x, s)
+#endif
              ])
           ])
         ; (Pvc_coercion,
@@ -259,25 +328,41 @@
         ; (Pwith_type,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
                              ; Longident.Ldot (x, s)
+#endif
              ])
           ])
         ; (Pwith_typesubst,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
                              ; Longident.Ldot (x, s)
+#endif
              ])
           ])
         ; (Pwith_modtype,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
                              ; Longident.Ldot (x, s)
+#endif
              ])
           ])
         ; (Pwith_modtypesubst,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
+#if OCAML_VERSION >= (5,4,0)
+                             ; Longident.Ldot ({Location.txt=x; loc=loc}, {Location.txt=s; loc=loc})
+#else
                              ; Longident.Ldot (x, s)
+#endif
              ])
           ])
         ]
@@ -339,6 +424,7 @@
         ; class_type_desc = Parsetree
         ; class_type_field = Parsetree
         ; class_type_field_desc = Parsetree
+        ; closed_flag = Asttypes
         ; constant = Parsetree
 #if OCAML_VERSION >= (5,3,0)
         ; constant_desc = Parsetree
@@ -372,6 +458,7 @@
         ; object_field_desc = Parsetree
         ; open_infos = Parsetree
         ; open_infos = Parsetree
+        ; package_type = Parsetree
         ; pattern_desc = Parsetree
         ; pattern = Parsetree
         ; payload = Parsetree

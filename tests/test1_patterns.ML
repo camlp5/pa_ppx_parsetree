@@ -22,8 +22,13 @@
 <:core_type< ' $lid:s$ >>;
 <:core_type< $label:x1$ $x2$ -> $x3$ $algattrs:attrs$ >>;
 <:core_type< $label:x1$ $x2$ -> $x3$ >>;
+#if OCAML_VERSION >= (5,4,0)
+<:core_type< $tuplelist:lsx$ $algattrs:attrs$ >>;
+<:core_type< $tuplelist:lsx$ >>;
+#else
 <:core_type< $tuplelist:lx$ $algattrs:attrs$ >>;
 <:core_type< $tuplelist:lx$ >>;
+#endif
 <:core_type< $list:lx$ $lid:s$ $algattrs:attrs$ >>;
 <:core_type< $list:lx$ $lid:s$ >>;
 <:core_type< $list:lx$ $longid:x$ . $lid:s$ $algattrs:attrs$ >>;
@@ -53,12 +58,27 @@
 <:core_type< [< $list:lx1$ ] >>;
 {Parsetree.ptyp_desc = Parsetree.Ptyp_poly lx x; ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = attrs};
 {Parsetree.ptyp_desc = Parsetree.Ptyp_poly lx x; ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = []};
+#if OCAML_VERSION >= (5,4,0)
+<:core_type< (module $lid:s$ with $list:lxx$ $algattrs:attrs$) $algattrs:attrs$ >>;
+<:core_type< (module $lid:s$ with $list:lxx$ $algattrs:attrs$) >>;
+<:core_type< (module $lid:s$ with $list:lxx$) $algattrs:attrs$ >>;
+<:core_type< (module $lid:s$ with $list:lxx$) >>;
+<:core_type< (module $longid:x$ . $lid:s$ with $list:lxx$ $algattrs:attrs$) $algattrs:attrs$ >>;
+<:core_type< (module $longid:x$ . $lid:s$ with $list:lxx$ $algattrs:attrs$) >>;
+<:core_type< (module $longid:x$ . $lid:s$ with $list:lxx$) $algattrs:attrs$ >>;
+<:core_type< (module $longid:x$ . $lid:s$ with $list:lxx$) >>;
+{Parsetree.ptyp_desc = Parsetree.Ptyp_package {Parsetree.ppt_path = {Location.txt = x; loc = loc}; ppt_cstrs = lxx; ppt_loc = loc; ppt_attrs = attrs}; ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = attrs};
+{Parsetree.ptyp_desc = Parsetree.Ptyp_package {Parsetree.ppt_path = {Location.txt = x; loc = loc}; ppt_cstrs = lxx; ppt_loc = loc; ppt_attrs = attrs}; ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = []};
+{Parsetree.ptyp_desc = Parsetree.Ptyp_package {Parsetree.ppt_path = {Location.txt = x; loc = loc}; ppt_cstrs = lxx; ppt_loc = loc; ppt_attrs = []}; ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = attrs};
+{Parsetree.ptyp_desc = Parsetree.Ptyp_package {Parsetree.ppt_path = {Location.txt = x; loc = loc}; ppt_cstrs = lxx; ppt_loc = loc; ppt_attrs = []}; ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = []};
+#else
 <:core_type< (module $lid:s$ with $list:xf2$) $algattrs:attrs$ >>;
 <:core_type< (module $lid:s$ with $list:xf2$) >>;
 <:core_type< (module $longid:x$ . $lid:s$ with $list:xf2$) $algattrs:attrs$ >>;
 <:core_type< (module $longid:x$ . $lid:s$ with $list:xf2$) >>;
 {Parsetree.ptyp_desc = Parsetree.Ptyp_package ({Location.txt = x; loc = loc}, xf2); ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = attrs};
 {Parsetree.ptyp_desc = Parsetree.Ptyp_package ({Location.txt = x; loc = loc}, xf2); ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = []};
+#endif
 #if OCAML_VERSION >= (5,2,0)
 <:core_type< $longid:x$ . ( $x2$ ) $algattrs:attrs$ >>;
 <:core_type< $longid:x$ . ( $x2$ ) >>;
@@ -120,8 +140,17 @@
 {Parsetree.ppat_desc = Parsetree.Ppat_constant x; ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = []};
 <:pattern< $constant:x1$ .. $constant:x2$ $algattrs:attrs$ >>;
 <:pattern< $constant:x1$ .. $constant:x2$ >>;
+#if OCAML_VERSION >= (5,4,0)
+<:pattern<  $tuplelist:lsx$ $algattrs:attrs$ >>;
+<:pattern<  $tuplelist:lsx$ >>;
+<:pattern<  $tuplelist:lsx$ , .. $algattrs:attrs$ >>;
+<:pattern<  $tuplelist:lsx$ , .. >>;
+<:pattern<  $tuplelist:lsx$ $closedflag:x$ $algattrs:attrs$ >>;
+<:pattern<  $tuplelist:lsx$ $closedflag:x$ >>;
+#else
 <:pattern<  $tuplelist:lx$ $algattrs:attrs$ >>;
 <:pattern<  $tuplelist:lx$ >>;
+#endif
 <:pattern< $longid:x$ $algattrs:attrs$ >>;
 <:pattern< $longid:x$ >>;
 #if OCAML_VERSION >= (4,13,0)
@@ -241,8 +270,13 @@
 <:expression< match $x$ with $cases:lx$ >>;
 <:expression< try $x$ with $cases:lx$ $algattrs:attrs$ >>;
 <:expression< try $x$ with $cases:lx$ >>;
+#if OCAML_VERSION >= (5,4,0)
+<:expression<  $tuplelist:lsx$ $algattrs:attrs$ >>;
+<:expression<  $tuplelist:lsx$ >>;
+#else
 <:expression<  $tuplelist:lx$ $algattrs:attrs$ >>;
 <:expression<  $tuplelist:lx$ >>;
+#endif
 <:expression< $longid:x$ $algattrs:attrs$ >>;
 <:expression< $longid:x$ >>;
 <:expression< $longid:x$ $x2$ $algattrs:attrs$ >>;
@@ -391,6 +425,20 @@
 <:expression< fun (type $lid:s$) -> $x2$ >>;
 <:expression< (module $me$) $algattrs:attrs$ >>;
 <:expression< (module $me$) >>;
+#if OCAML_VERSION >= (5,4,0)
+<:expression< (module $me$ : $lid:s$ with $list:lxx$ $algattrs:attrs$) $algattrs:attrs$ >>;
+<:expression< (module $me$ : $lid:s$ with $list:lxx$ $algattrs:attrs$) >>;
+<:expression< (module $me$ : $lid:s$ with $list:lxx$) $algattrs:attrs$ >>;
+<:expression< (module $me$ : $lid:s$ with $list:lxx$) >>;
+<:expression< (module $me$ : $longid:x$ . $lid:s$ with $list:lxx$ $algattrs:attrs$) $algattrs:attrs$ >>;
+<:expression< (module $me$ : $longid:x$ . $lid:s$ with $list:lxx$ $algattrs:attrs$) >>;
+<:expression< (module $me$ : $longid:x$ . $lid:s$ with $list:lxx$) $algattrs:attrs$ >>;
+<:expression< (module $me$ : $longid:x$ . $lid:s$ with $list:lxx$) >>;
+{Parsetree.pexp_desc = Parsetree.Pexp_pack me (Some {Parsetree.ppt_path = {Location.txt = x; loc = loc}; ppt_cstrs = lxx; ppt_loc = loc; ppt_attrs = attrs}); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
+{Parsetree.pexp_desc = Parsetree.Pexp_pack me (Some {Parsetree.ppt_path = {Location.txt = x; loc = loc}; ppt_cstrs = lxx; ppt_loc = loc; ppt_attrs = attrs}); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
+{Parsetree.pexp_desc = Parsetree.Pexp_pack me (Some {Parsetree.ppt_path = {Location.txt = x; loc = loc}; ppt_cstrs = lxx; ppt_loc = loc; ppt_attrs = []}); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
+{Parsetree.pexp_desc = Parsetree.Pexp_pack me (Some {Parsetree.ppt_path = {Location.txt = x; loc = loc}; ppt_cstrs = lxx; ppt_loc = loc; ppt_attrs = []}); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
+#endif
 {Parsetree.pexp_desc = Parsetree.Pexp_open {Parsetree.popen_expr = me; popen_override = x1; popen_loc = loc; popen_attributes = attrs} x2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
 {Parsetree.pexp_desc = Parsetree.Pexp_open {Parsetree.popen_expr = me; popen_override = x1; popen_loc = loc; popen_attributes = attrs} x2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 <:expression< (let open $overrideflag:x1$ $me$ in $x2$) $algattrs:attrs$ >>;

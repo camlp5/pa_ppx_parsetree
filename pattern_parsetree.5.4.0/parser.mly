@@ -3911,9 +3911,9 @@ sig_exception_declaration:
       , ext }
 ;
 %inline let_exception_declaration:
-    mkrhs(constr_ident_vala) generalized_constructor_arguments attributes
+    mkrhs(constr_ident_vala) generalized_constructor_arguments attributes_vala
       { let vars, args, res = $2 in
-        Te.decl $1 ~vars ~args ~res ~attrs:(vaval $3) ~loc:(make_loc $sloc) }
+        Te.decl $1 ~vars ~args ~res ~attrs:$3 ~loc:(make_loc $sloc) }
 ;
 generalized_constructor_arguments:
     /*empty*/                     { (vaval [],Pcstr_tuple (vaval []), vaval None) }
@@ -4318,7 +4318,7 @@ atomic_type:
 /*-*/        { Ptyp_constr(tid, vaant $1) }
     | tys = vala(actual_type_parameters, ANTI_LIST)
       HASH
-      cid = mkrhs(vaval(clty_longident))
+      cid = mkrhs(clty_longident)
         { Ptyp_class (cid, tys) }
     | mod_ident = mkrhs(vala(mod_ext_longident, ANTI_LONGID))
       DOT

@@ -50,6 +50,30 @@ let pp_patt ty = Fmt.(pf stdout "#<patt< %s >>" (Eprinter.apply Pcaml.pr_patt Pp
 #require "pa_ppx.deriving_plugins.std";;
 #require "pa_ppx_parsetree_quotations";;
 
-#require "pa_ppx_parsetree_pattern_parsetree_502";;
-{foo| ` $id:x1$ $pattopt:ox2$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_502.Parse.pattern ;;
-{foo| ` $id:x1$ $pattopt:ox2$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_503.Parse.pattern ;;
+#require "pa_ppx_parsetree_pattern_parsetree_504";;
+#require "pa_ppx_parsetree_pattern_parsetree_503";;
+
+let pp_location_t pps (loc : Location.t) = Fmt.(pf pps "<loc>") ;;
+#install_printer pp_location_t ;;
+
+let pp_location_t_503 pps (loc : Pa_ppx_parsetree_pattern_parsetree_503.Location.t) = Fmt.(pf pps "<loc>") ;;
+#install_printer pp_location_t_503 ;;
+
+let pp_location_t_504 pps (loc : Pa_ppx_parsetree_pattern_parsetree_504.Location.t) = Fmt.(pf pps "<loc>") ;;
+#install_printer pp_location_t_504 ;;
+
+(*
+open Pa_ppx_parsetree_pattern_parsetree_504 ;;
+#trace Pa_ppx_parsetree_pattern_parsetree_504.Parser.package_type_of_module_type ;;
+
+{foo| (module $lid:s$ with $list:xf2$) $algattrs:attrs$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_504.Parse.core_type ;;
+
+
+{foo| $lid:s$ $algattrs:attrs2$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_504.Parse.module_type ;;
+
+{foo| $lid:s$ $algattrs:attrs2$ with $list:xf2$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_504.Parse.module_type ;;
+
+{foo| (module $lid:s$ $algattrs:attrs2$) $algattrs:attrs$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_504.Parse.core_type ;;
+
+{foo| (module $lid:s$ $algattrs:attrs2$ with $list:xf2$) $algattrs:attrs$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_504.Parse.core_type ;;
+ *)

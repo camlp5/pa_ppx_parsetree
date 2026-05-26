@@ -534,7 +534,7 @@ and core_type1 ctxt f x =
     | Ptyp_class (li, l) ->   (*FIXME*)
         pp f "@[<hov2>%a#%a@]"
           (list (core_type ctxt) ~sep:"," ~first:"(" ~last:")") (unvala l)
-          (with_loc type_longident_vala) li
+          (with_loc type_longident) li
     | Ptyp_package pck_ty ->
         pp f "@[<hov2>(module@ %a)@]" (package_type ctxt) pck_ty
     | Ptyp_open(li, ct) ->

@@ -85,6 +85,7 @@ module LI = struct
 open Fixtures
 
 let test ctxt = 
+  let cmp = Helpers.equal_longident_t in
   assert_equal () (match [%longident_t {| $lid:l$ |}] with
                      [%longident_t {| $lid:_$ |}] -> ())
   ; assert_equal l (match [%longident_t {| $lid:l$ |}] with
@@ -94,7 +95,7 @@ let test ctxt =
                            [%longident_t {| $uid:m2$ . $lid:l2$ |}] -> (m2,l2))
   ; assert_equal (li1,l) (match [%longident_t {| $longid:li1$. $lid:l$ |}] with
                             [%longident_t {| $longid:li2$. $lid:l2$ |}] -> (li2,l2))
-  ; assert_equal ({|M.x|} |> Helpers.parse_longident) [%longident_t {| $uid:m$ . $lid:l$ |}]
+  ; assert_equal ~cmp ({|M.x|} |> Helpers.parse_longident) [%longident_t {| $uid:m$ . $lid:l$ |}]
 end
 
 module XM = struct

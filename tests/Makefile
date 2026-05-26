@@ -50,7 +50,7 @@ QUOTPACKAGES=pa_ppx_q_ast.quotation_test,pa_ppx_q_ast.test_cleanup
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,$(QUOTPACKAGES),$(IMPORT_PACKAGES) $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
 %.patterns_out: %_patterns.ml
-	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r $(RPPFLAGS) $< > $@
+	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
 test1_patterns.ml: test1_patterns.ML
 	cppo -V OCAML:$(ocamlVERSION) $< > $@
