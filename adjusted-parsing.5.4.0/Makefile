@@ -44,7 +44,7 @@ parser.ml: parser.mly
 lexer.ml: lexer.mll
 	ocamllex lexer.mll
 
-PARSINGSRC=../parsing.5.3.0
+PARSINGSRC=../parsing.5.4.0
 %.COMPARE: %
 	$(DIFF) -Bbwiu $(PARSINGSRC)/$< $< || true
 
