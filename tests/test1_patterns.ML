@@ -67,17 +67,17 @@
 <:core_type< (module $longid:x$ . $lid:s$ with $list:lxx$ $algattrs:attrs$) >>;
 <:core_type< (module $longid:x$ . $lid:s$ with $list:lxx$) $algattrs:attrs$ >>;
 <:core_type< (module $longid:x$ . $lid:s$ with $list:lxx$) >>;
-{Parsetree.ptyp_desc = Parsetree.Ptyp_package {Parsetree.ppt_path = {Location.txt = x; loc = loc}; ppt_cstrs = lxx; ppt_loc = loc; ppt_attrs = attrs}; ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = attrs};
-{Parsetree.ptyp_desc = Parsetree.Ptyp_package {Parsetree.ppt_path = {Location.txt = x; loc = loc}; ppt_cstrs = lxx; ppt_loc = loc; ppt_attrs = attrs}; ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = []};
-{Parsetree.ptyp_desc = Parsetree.Ptyp_package {Parsetree.ppt_path = {Location.txt = x; loc = loc}; ppt_cstrs = lxx; ppt_loc = loc; ppt_attrs = []}; ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = attrs};
-{Parsetree.ptyp_desc = Parsetree.Ptyp_package {Parsetree.ppt_path = {Location.txt = x; loc = loc}; ppt_cstrs = lxx; ppt_loc = loc; ppt_attrs = []}; ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = []};
+<:core_type< (module $longid:x$ with $list:lxx$ $algattrs:attrs$) $algattrs:attrs$ >>;
+<:core_type< (module $longid:x$ with $list:lxx$ $algattrs:attrs$) >>;
+<:core_type< (module $longid:x$ with $list:lxx$) $algattrs:attrs$ >>;
+<:core_type< (module $longid:x$ with $list:lxx$) >>;
 #else
 <:core_type< (module $lid:s$ with $list:xf2$) $algattrs:attrs$ >>;
 <:core_type< (module $lid:s$ with $list:xf2$) >>;
 <:core_type< (module $longid:x$ . $lid:s$ with $list:xf2$) $algattrs:attrs$ >>;
 <:core_type< (module $longid:x$ . $lid:s$ with $list:xf2$) >>;
-{Parsetree.ptyp_desc = Parsetree.Ptyp_package ({Location.txt = x; loc = loc}, xf2); ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = attrs};
-{Parsetree.ptyp_desc = Parsetree.Ptyp_package ({Location.txt = x; loc = loc}, xf2); ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = []};
+<:core_type< (module $longid:x$ with $list:xf2$) $algattrs:attrs$ >>;
+<:core_type< (module $longid:x$ with $list:xf2$) >>;
 #endif
 #if OCAML_VERSION >= (5,2,0)
 <:core_type< $longid:x$ . ( $x2$ ) $algattrs:attrs$ >>;
