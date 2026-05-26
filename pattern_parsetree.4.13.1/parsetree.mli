@@ -720,7 +720,7 @@ and module_type =
     }
 
 and module_type_desc =
-  | Pmty_ident of Longident.t loc
+  | Pmty_ident of Longident.t Ploc.vala loc
         (* S *)
   | Pmty_signature of signature
         (* sig ... end *)

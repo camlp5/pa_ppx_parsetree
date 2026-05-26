@@ -615,9 +615,9 @@ let package_type_of_module_type pmty =
         err pmty.pmty_loc "only 'with type t =' constraints are supported"
   in
   match pmty with
-  | {pmty_desc = Pmty_ident lid} -> ((loc_map vaval lid, vaval []), pmty.pmty_attributes)
+  | {pmty_desc = Pmty_ident lid} -> ((lid, vaval []), pmty.pmty_attributes)
   | {pmty_desc = Pmty_with({pmty_desc = Pmty_ident lid}, cstrs)} ->
-      ((loc_map vaval lid, Pcaml.vala_map (List.map map_cstr) cstrs), pmty.pmty_attributes)
+      ((lid, Pcaml.vala_map (List.map map_cstr) cstrs), pmty.pmty_attributes)
   | _ ->
       err pmty.pmty_loc
         "only module type identifier and 'with type' constraints are supported"
@@ -1968,7 +1968,7 @@ module_type:
 /*-*/  | module_type ANTI_ALGATTRS
 /*-*/      { Mty.attrs $1 (vaant $2) }
   | mkmty(
-      mkrhs(mty_longident)
+      mkrhs(vala(mty_longident, ANTI_LONGID))
         { Pmty_ident $1 }
 /*-*/    | xtr_antis { Pmty_xtr (Location.mkloc $1 (make_loc $sloc)) }
     | LPAREN RPAREN MINUSGREATER module_type

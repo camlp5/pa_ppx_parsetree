@@ -896,7 +896,7 @@ and module_type =
     }
 
 and module_type_desc =
-  | Pmty_ident of Longident.t loc  (** [Pmty_ident(S)] represents [S] *)
+  | Pmty_ident of Longident.t Ploc.vala loc  (** [Pmty_ident(S)] represents [S] *)
   | Pmty_signature of signature  (** [sig ... end] *)
   | Pmty_functor of functor_parameter Ploc.vala * module_type
       (** [functor(X : MT1) -> MT2] *)

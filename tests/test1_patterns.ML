@@ -769,6 +769,8 @@
 <:module_type< $lid:s$ >>;
 <:module_type< $longid:x$ . $lid:s$ $algattrs:attrs$ >> ;
 <:module_type< $longid:x$ . $lid:s$ >>;
+<:module_type< $longid:x$ $algattrs:attrs$ >> ;
+<:module_type< $longid:x$ >>;
 <:module_type< sig $list:x$ end $algattrs:attrs$ >> ;
 <:module_type< sig $list:x$ end >>;
 <:module_type< (functor $opt:x$ -> $mt$) $algattrs:attrs$ >> ;

@@ -64,6 +64,9 @@ parser_mock.ml: parser.mly
 parser_mock.out.mli: parser_mock.ml
 	ocamlfind ocamlc -package camlp5 -i parser_mock.ml > parser_mock.out.mli.NEW && mv parser_mock.out.mli.NEW parser_mock.out.mli
 
+parsetree.ml: parsetree.mli
+	cp $< $@
+
 lexer.ml: lexer.mll
 	ocamllex lexer.mll
 

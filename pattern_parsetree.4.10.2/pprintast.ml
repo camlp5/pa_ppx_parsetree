@@ -1079,7 +1079,7 @@ and module_type1 ctxt f x =
   if unvala x.pmty_attributes <> [] then module_type ctxt f x
   else match x.pmty_desc with
     | Pmty_ident li ->
-        pp f "%a" longident_loc li;
+        pp f "%a" longident_vala_loc li;
     | Pmty_alias li ->
         pp f "(module %a)" longident_vala_loc li;
     | Pmty_signature (s) ->
