@@ -51,6 +51,7 @@ our %valamap = (
   'type_longident' => 'type_longident' ,
   'mod_longident' => 'mod_longident' ,
   'mod_ext_longident' => 'mod_ext_longident' ,
+  'mty_longident' => 'mty_longident' ,
   'ident' => 'ident' ,
   'rec_flag' => 'rec_flag' ,
   'nonrec_flag' => 'nonrec_flag' ,
