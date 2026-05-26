@@ -44,7 +44,7 @@ QUOTPACKAGES=pa_ppx_q_ast.quotation_test,pa_ppx_q_ast.test_cleanup
 .SECONDARY:
 
 %.TEST: %.patterns_out %.types_out
-	$(DIFF) -Bwiu $^ || true
+	$(DIFF) -Bwiu $^
 
 %.types_out: %_types.ml
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,$(QUOTPACKAGES),$(IMPORT_PACKAGES) $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
@@ -61,6 +61,9 @@ test1_types.ml: test1_types.ML
 quotations_test.ml: quotations_test.ML
 	cppo -V OCAML:$(ocamlVERSION) $< > $@
 
+test_show.ml: test_show.ML
+	cppo -V OCAML:$(ocamlVERSION) $< > $@
+
 clean::
-	rm -rf *.cm* _build *.exe *_out test1_patterns.ml test1_types.ml quotations_test.ml
+	rm -rf *.cm* _build *.exe *_out test1_patterns.ml test1_types.ml quotations_test.ml test_show.ml
 

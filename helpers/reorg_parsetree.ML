@@ -11,6 +11,7 @@
       type longident_t = [%import: Longident.t
                                      [@with Lexing.position := position]
                                      [@with t := longident_t]
+                                     [@with Location.loc := located]
                          ]
       [%%import: Asttypes.arg_label]
       [%%import: Asttypes.label]

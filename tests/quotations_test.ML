@@ -186,10 +186,13 @@ let test1 ctxt =
         [%expression {| $e0'$ $list:el'$ |}] -> (e0',el'))
 ; assert_equal (e1, e2) (match [%expression {| $e1$ + $e2$ |}] with
                            [%expression {| $e1'$ + $e2'$ |}] -> (e1',e2'))
+#if OCAML_VERSION >= (5,4,0)
+; assert_equal [(None, e1);(None, e2)] (match [%expression {| $tuplelist:[(None,e1);(None,e2)]$ |}] with
+                          [%expression {| $tuplelist:l2$ |}] ->  l2)
+#else
 ; assert_equal [e1;e2] (match [%expression {| $tuplelist:[e1;e2]$ |}] with
                           [%expression {| $tuplelist:l2$ |}] ->  l2)
-; assert_equal [e1;e2] (match [%expression {| $tuplelist:[e1;e2]$ |}] with
-                          [%expression {| $tuplelist:l2$ |}] ->  l2)
+#endif
 
 ; assert_equal (e1,e2) (match [%expression {| ($e1$, $e2$) |}] with
                           [%expression {| ($e1'$, $e2'$) |}] ->  (e1', e2'))
@@ -203,10 +206,15 @@ let test1 ctxt =
 
 ; assert_equal (e1,cases) (match [%expression {| match $e1$ with $cases:cases$ |}] with
                               [%expression {| match $e'$ with $cases:cases'$ |}] -> (e',cases'))
+#if OCAML_VERSION >= (5,4,0)
+; assert_equal ~cmp:[%eq: (string option * Helpers.expression) list]
+    [(None, e1);(None, e2)] (match ({| (a*b, a/b) |} |> Lexing.from_string |> Parse.expression) with
+                          [%expression {| $tuplelist:l2$ |}] ->  l2)
+#else
 ; assert_equal ~cmp:[%eq: Helpers.expression list]
     [e1;e2] (match ({| (a*b, a/b) |} |> Lexing.from_string |> Parse.expression) with
                           [%expression {| $tuplelist:l2$ |}] ->  l2)
-
+#endif
 
 let e1 = [%expression {| { x = 1 } |}]
 let e2 =  {| { x = 1 } |} |> Lexing.from_string |> Parse.expression
@@ -642,8 +650,13 @@ open Fixtures
 
 let test ctxt =
 
+#if OCAML_VERSION >= (5,4,0)
+  assert_equal [(None,p1);(None,p2)] (match  [%pattern {| $tuplelist:[(None,p1);(None,p2)]$ |}] with
+                          [%pattern {| $tuplelist:l'$ |}] ->  l')
+#else
   assert_equal [p1;p2] (match  [%pattern {| $tuplelist:[p1;p2]$ |}] with
                           [%pattern {| $tuplelist:l'$ |}] ->  l')
+#endif
 
 ; assert_equal (p1,p2) (match [%pattern {| ($p1$, $p2$) |}] with
                           [%pattern {| ($e1$, $e2$) |}] ->  (e1, e2))
@@ -658,10 +671,17 @@ let test ctxt =
                      [%pattern {| $uid:m'$ |}] -> m')
 
 
-; let pats = [ [%pattern {| $lid:l$ |}] ; [%pattern {| $lid:l'$ |}] ] in
-  assert_equal (m, pats) (match [%pattern {| $uid:m$ ( $tuplelist:pats$ ) |}] with
-                            [%pattern {| $uid:m'$ ( $tuplelist:pats'$ ) |}] -> (m', pats'))
-
+; begin
+#if OCAML_VERSION >= (5,4,0)
+    let pats = [ (None, [%pattern {| $lid:l$ |}]) ; (None, [%pattern {| $lid:l'$ |}]) ] in
+    assert_equal (m, pats) (match [%pattern {| $uid:m$ ( $tuplelist:pats$ ) |}] with
+                              [%pattern {| $uid:m'$ ( $tuplelist:pats'$ ) |}] -> (m', pats'))
+#else
+    let pats = [ [%pattern {| $lid:l$ |}] ; [%pattern {| $lid:l'$ |}] ] in
+    assert_equal (m, pats) (match [%pattern {| $uid:m$ ( $tuplelist:pats$ ) |}] with
+                              [%pattern {| $uid:m'$ ( $tuplelist:pats'$ ) |}] -> (m', pats'))
+#endif
+  end
   ; assert_equal [%pattern {| 1 |}] (match [%pattern {| 1 |}] with
                        [%pattern {| $e$ |}] -> e)
   ; assert_equal [] (match [%pattern {| 1 |}] with
@@ -689,11 +709,17 @@ let test ctxt =
   ; assert_equal (t1,m,l) (match [%core_type {| $t1$ $uid:m$ . $lid:l$ |}] with
                              [%core_type {| $c'$ $uid:m'$ . $lid:t'$ |}] -> (c',m',t'))
 
+#if OCAML_VERSION >= (5,4,0)
+  ; assert_equal [(None,t1);(None,t2)] (match  [%core_type {| $tuplelist:[(None,t1);(None,t2)]$ |}] with
+                            [%core_type {| $tuplelist:l'$ |}] -> l')
+  ; assert_equal [%core_type {| $t1$ * $t2$ |}]
+      [%core_type {| $tuplelist:[(None,t1);(None,t2)]$ |}]
+#else
   ; assert_equal [t1;t2] (match  [%core_type {| $tuplelist:[t1;t2]$ |}] with
                             [%core_type {| $tuplelist:l'$ |}] -> l')
-
   ; assert_equal [%core_type {| $t1$ * $t2$ |}]
       [%core_type {| $tuplelist:[t1;t2]$ |}]
+#endif
 
   ; assert_equal l (match  [%core_type {| $lid:l$ |}] with
                       [%core_type {| $lid:s'$ |}] -> s')

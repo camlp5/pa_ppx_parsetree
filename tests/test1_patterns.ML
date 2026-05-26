@@ -114,16 +114,6 @@
 <:pattern< $string:s1$ >>;
 <:pattern< $string:s1$ $delim:s2$ $algattrs:attrs$ >>;
 <:pattern< $string:s1$ $delim:s2$ >>;
-#if OCAML_VERSION >= (5,3,0)
-{Parsetree.ppat_desc = Parsetree.Ppat_constant {Parsetree.pconst_desc = Parsetree.Pconst_string s1 loc os2; pconst_loc = loc}; ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = attrs};
-{Parsetree.ppat_desc = Parsetree.Ppat_constant {Parsetree.pconst_desc = Parsetree.Pconst_string s1 loc os2; pconst_loc = loc}; ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = []};
-#elif OCAML_VERSION >= (4,11,0)
-{Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 loc os2); ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = attrs};
-{Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 loc os2); ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = []};
-#else
-{Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 os2); ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = attrs};
-{Parsetree.ppat_desc = Parsetree.Ppat_constant (Parsetree.Pconst_string s1 os2); ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = []};
-#endif
 <:pattern< $float:sxf1$ $algattrs:attrs$ >>;
 <:pattern< $float:sxf1$ >>;
 {Parsetree.ppat_desc = Parsetree.Ppat_constant x; ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = attrs};
@@ -215,16 +205,6 @@
 <:expression< $string:s1$ >>;
 <:expression< $string:s1$ $delim:s2$ $algattrs:attrs$ >>;
 <:expression< $string:s1$ $delim:s2$ >>;
-#if OCAML_VERSION >= (5,3,0)
-{Parsetree.pexp_desc = Parsetree.Pexp_constant {Parsetree.pconst_desc = Parsetree.Pconst_string s1 loc os2; pconst_loc = loc}; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_constant {Parsetree.pconst_desc = Parsetree.Pconst_string s1 loc os2; pconst_loc = loc}; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
-#elif OCAML_VERSION >= (4,11,0)
-{Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 loc os2); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 loc os2); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
-#else
-{Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 os2); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_constant (Parsetree.Pconst_string s1 os2); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
-#endif
 <:expression< $float:sxf1$ $algattrs:attrs$ >>;
 <:expression< $float:sxf1$ >>;
 <:expression< $constant:x$ $algattrs:attrs$ >>;
@@ -405,8 +385,6 @@
 {Parsetree.pexp_desc = Parsetree.Pexp_poly x1 None; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 {Parsetree.pexp_desc = Parsetree.Pexp_poly x1 (Some x2); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
 {Parsetree.pexp_desc = Parsetree.Pexp_poly x1 (Some x2); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
-{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 ox2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 ox2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 <:expression< object $patt:x$ $list:lx$  end $algattrs:attrs$ >>;
 <:expression< object $patt:x$ $list:lx$  end >>;
 <:expression< (fun (type $lid:s$) -> $x2$) $algattrs:attrs$ >>;
@@ -1118,14 +1096,9 @@
 <:constant< $char:x$ >>;
 <:constant< $string:s1$ >>;
 <:constant< $string:s1$ $delim:s2$ >>;
-#if OCAML_VERSION >= (5,3,0)
-{Parsetree.pconst_desc = Parsetree.Pconst_string s1 loc os2; pconst_loc = loc};
-#elif OCAML_VERSION >= (4,11,0)
-Parsetree.Pconst_string s1 loc os2;
-#else
-Parsetree.Pconst_string s1 os2;
-#endif
 <:constant< $float:sxf1$ >>;
+#if OCAML_VERSION >= (5,3,0)
 [@@@"ocaml.text" "constant_desc";];
+#endif
 [@@@"ocaml.text" "location_stack";];
 [@@@"ocaml.text" "functor_parameter_vala";];

@@ -43,10 +43,20 @@ and core_type_tuple loc pfx l =
   let prefixes_types = l |> List.mapi (fun i t -> (Fmt.(str "%s_%d" pfx i), t)) in
   let fmtstring = l |> List.map (fun _ -> "%a") |> String.concat "," in
   let varpat_list = prefixes_types |> List.map (fun (id, _) -> [%pattern {| $lid:id$ |}]) in
+#if OCAML_VERSION >= (5,4,0)
+  let varpat_list = List.map2 (fun (_,(lab,_)) p -> (lab,p)) prefixes_types varpat_list in
+#endif
   let varexp_list = prefixes_types |> List.map (fun (id, _) -> [%expression {| $lid:id$ |}]) in
+#if OCAML_VERSION >= (5,4,0)
+  let varexp_list = List.map2 (fun (_,(lab,_)) e -> (lab,e)) prefixes_types varexp_list in
+#endif
   let pplist =
     prefixes_types
+#if OCAML_VERSION >= (5,4,0)
+    |> List.concat_map (fun (id, (_, t)) -> [ core_type id t ; [%expression {| $lid:id$ |}] ]) in
+#else
     |> List.concat_map (fun (id, t) -> [ core_type id t ; [%expression {| $lid:id$ |}] ]) in
+#endif
   let body = expr_applist loc [%expression {| pf pps $string:fmtstring$ |}] pplist in
   (varpat_list, varexp_list, body)
 
@@ -55,6 +65,9 @@ and constructor_decl = function
      [%case {| $uid:cid$ -> const string $string:cid$ pps () |}]
 
   | [%constructor_declaration.loc {| $uid:cid$ of $list:tyl$ |}] ->
+#if OCAML_VERSION >= (5,4,0)
+     let tyl = List.map (fun t -> (None, t)) tyl in
+#endif
      let (varpat_list, varexp_list, body) = core_type_tuple loc "_" tyl in
      [%case {| $uid:cid$ ( $tuplelist:varpat_list$ ) ->
              ((const string $string:cid$) ++ (const string " ") ++ (parens (fun pps ( $tuplelist:varpat_list$ ) -> $body$))) pps ( $tuplelist:varexp_list$ ) |}]
@@ -76,8 +89,13 @@ and record_type loc fields =
                      (Location.mkloc li loc,
                       [%pattern {| $lid:id$ |}])) in
 
+#if OCAML_VERSION >= (5,4,0)
+  let varpat_list = ids_types |> List.map (fun (id, _) -> (None, [%pattern {| $lid:id$ |}])) in
+  let varexp_list = ids_types |> List.map (fun (id, _) -> (None, [%expression {| $lid:id$ |}])) in
+#else
   let varpat_list = ids_types |> List.map (fun (id, _) -> [%pattern {| $lid:id$ |}]) in
   let varexp_list = ids_types |> List.map (fun (id, _) -> [%expression {| $lid:id$ |}]) in
+#endif
 
   let fmtstring = fields |> List.map (fun _ -> "%a") |> String.concat "; " in
   let pplist =
