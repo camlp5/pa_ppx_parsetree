@@ -382,43 +382,43 @@ module Q = struct
       }
     }
   ; entrypoints = [
-      {name = "expression"; from_string = parse_expression ; type_name = expression }
-    ; {name = "module_expr"; from_string = parse_module_expr ; type_name = module_expr }
-    ; {name = "module_type"; from_string = parse_module_type ; type_name = module_type }
-    ; {name = "pattern"; from_string = parse_pattern ; type_name = pattern }
-    ; {name = "constant"; from_string = parse_constant ; type_name = constant }
-    ; {name = "core_type"; from_string = parse_core_type ; type_name = core_type }
-    ; {name = "longident_t"; from_string = parse_longident ; type_name = longident_t }
-    ; {name = "longlident"; from_string = parse_longlident ; type_name = longident_t }
-    ; {name = "extended_module_path"; from_string = parse_extended_module_path ; type_name = longident_t }
-    ; {name = "structure_item"; from_string = parse_structure_item ; type_name = structure_item }
-    ; {name = "structure"; from_string = parse_structure ; type_name = structure }
-    ; {name = "signature_item"; from_string = parse_signature_item ; type_name = signature_item }
-    ; {name = "signature"; from_string = parse_signature ; type_name = signature }
-    ; {name = "constructor_declaration"; from_string = parse_constructor_declaration ; type_name = constructor_declaration }
-    ; {name = "attribute"; from_string = parse_attribute ; type_name = attribute }
-    ; {name = "extension"; from_string = parse_extension ; type_name = extension }
-    ; {name = "label_declaration"; from_string = parse_label_declaration ; type_name = label_declaration }
-    ; {name = "case"; from_string = parse_match_case ; type_name = case }
-    ; {name = "value_binding"; from_string = parse_value_binding ; type_name = value_binding }
-    ; {name = "arg_label"; from_string = parse_arg_label ; type_name = arg_label }
-    ; {name = "lident_loc"; from_string = parse_lident_vala_loc ; type_name = str_vala }
-    ; {name = "extension_constructor"; from_string = parse_extension_constructor ; type_name = extension_constructor }
-    ; {name = "binding_op"; from_string = parse_binding_op ; type_name = binding_op }
-    ; {name = "type_decl"; from_string = parse_type_declaration ; type_name = type_declaration }
-    ; {name = "type_subst"; from_string = parse_type_substitution ; type_name = type_declaration }
-    ; {name = "row_field"; from_string = parse_row_field ; type_name = row_field }
-    ; {name = "object_field"; from_string = parse_object_field ; type_name = object_field }
-    ; {name = "class_description"; from_string = parse_class_description ; type_name = class_description }
-    ; {name = "class_expr"; from_string = parse_class_expr ; type_name = class_expr }
-    ; {name = "class_type"; from_string = parse_class_type ; type_name = class_type }
-    ; {name = "class_field"; from_string = parse_class_field ; type_name = class_field }
-    ; {name = "functor_parameter"; from_string = parse_functor_parameter ; type_name = functor_parameter_vala }
-    ; {name = "module_declaration"; from_string = parse_module_declaration ; type_name = module_declaration }
-    ; {name = "with_constraint"; from_string = parse_with_constraint ; type_name = with_constraint }
-    ; {name = "class_type_field"; from_string = parse_class_type_field ; type_name = class_type_field }
-    ; {name = "str_type_extension"; from_string = parse_str_type_extension ; type_name = type_extension }
-    ; {name = "sig_type_extension"; from_string = parse_str_type_extension ; type_name = type_extension }
+      {name = "expression.VERSION"; from_string = parse_expression ; type_name = expression }
+    ; {name = "module_expr.VERSION"; from_string = parse_module_expr ; type_name = module_expr }
+    ; {name = "module_type.VERSION"; from_string = parse_module_type ; type_name = module_type }
+    ; {name = "pattern.VERSION"; from_string = parse_pattern ; type_name = pattern }
+    ; {name = "constant.VERSION"; from_string = parse_constant ; type_name = constant }
+    ; {name = "core_type.VERSION"; from_string = parse_core_type ; type_name = core_type }
+    ; {name = "longident_t.VERSION"; from_string = parse_longident ; type_name = longident_t }
+    ; {name = "longlident.VERSION"; from_string = parse_longlident ; type_name = longident_t }
+    ; {name = "extended_module_path.VERSION"; from_string = parse_extended_module_path ; type_name = longident_t }
+    ; {name = "structure_item.VERSION"; from_string = parse_structure_item ; type_name = structure_item }
+    ; {name = "structure.VERSION"; from_string = parse_structure ; type_name = structure }
+    ; {name = "signature_item.VERSION"; from_string = parse_signature_item ; type_name = signature_item }
+    ; {name = "signature.VERSION"; from_string = parse_signature ; type_name = signature }
+    ; {name = "constructor_declaration.VERSION"; from_string = parse_constructor_declaration ; type_name = constructor_declaration }
+    ; {name = "attribute.VERSION"; from_string = parse_attribute ; type_name = attribute }
+    ; {name = "extension.VERSION"; from_string = parse_extension ; type_name = extension }
+    ; {name = "label_declaration.VERSION"; from_string = parse_label_declaration ; type_name = label_declaration }
+    ; {name = "case.VERSION"; from_string = parse_match_case ; type_name = case }
+    ; {name = "value_binding.VERSION"; from_string = parse_value_binding ; type_name = value_binding }
+    ; {name = "arg_label.VERSION"; from_string = parse_arg_label ; type_name = arg_label }
+    ; {name = "lident_loc.VERSION"; from_string = parse_lident_vala_loc ; type_name = str_vala }
+    ; {name = "extension_constructor.VERSION"; from_string = parse_extension_constructor ; type_name = extension_constructor }
+    ; {name = "binding_op.VERSION"; from_string = parse_binding_op ; type_name = binding_op }
+    ; {name = "type_decl.VERSION"; from_string = parse_type_declaration ; type_name = type_declaration }
+    ; {name = "type_subst.VERSION"; from_string = parse_type_substitution ; type_name = type_declaration }
+    ; {name = "row_field.VERSION"; from_string = parse_row_field ; type_name = row_field }
+    ; {name = "object_field.VERSION"; from_string = parse_object_field ; type_name = object_field }
+    ; {name = "class_description.VERSION"; from_string = parse_class_description ; type_name = class_description }
+    ; {name = "class_expr.VERSION"; from_string = parse_class_expr ; type_name = class_expr }
+    ; {name = "class_type.VERSION"; from_string = parse_class_type ; type_name = class_type }
+    ; {name = "class_field.VERSION"; from_string = parse_class_field ; type_name = class_field }
+    ; {name = "functor_parameter.VERSION"; from_string = parse_functor_parameter ; type_name = functor_parameter_vala }
+    ; {name = "module_declaration.VERSION"; from_string = parse_module_declaration ; type_name = module_declaration }
+    ; {name = "with_constraint.VERSION"; from_string = parse_with_constraint ; type_name = with_constraint }
+    ; {name = "class_type_field.VERSION"; from_string = parse_class_type_field ; type_name = class_type_field }
+    ; {name = "str_type_extension.VERSION"; from_string = parse_str_type_extension ; type_name = type_extension }
+    ; {name = "sig_type_extension.VERSION"; from_string = parse_str_type_extension ; type_name = type_extension }
     ]
  }]
 
@@ -600,43 +600,43 @@ module QNoAttr = struct
       }
     }
   ; entrypoints = [
-      {name = "expression.noattr"; from_string = parse_expression ; type_name = expression }
-    ; {name = "module_expr.noattr"; from_string = parse_module_expr ; type_name = module_expr }
-    ; {name = "module_type.noattr"; from_string = parse_module_type ; type_name = module_type }
-    ; {name = "pattern.noattr"; from_string = parse_pattern ; type_name = pattern }
-    ; {name = "constant.noattr"; from_string = parse_constant ; type_name = constant }
-    ; {name = "core_type.noattr"; from_string = parse_core_type ; type_name = core_type }
-    ; {name = "longident_t.noattr"; from_string = parse_longident ; type_name = longident_t }
-    ; {name = "longlident.noattr"; from_string = parse_longlident ; type_name = longident_t }
-    ; {name = "extended_module_path.noattr"; from_string = parse_extended_module_path ; type_name = longident_t }
-    ; {name = "structure_item.noattr"; from_string = parse_structure_item ; type_name = structure_item }
-    ; {name = "structure.noattr"; from_string = parse_structure ; type_name = structure }
-    ; {name = "signature_item.noattr"; from_string = parse_signature_item ; type_name = signature_item }
-    ; {name = "signature.noattr"; from_string = parse_signature ; type_name = signature }
-    ; {name = "constructor_declaration.noattr"; from_string = parse_constructor_declaration ; type_name = constructor_declaration }
-    ; {name = "attribute.noattr"; from_string = parse_attribute ; type_name = attribute }
-    ; {name = "extension.noattr"; from_string = parse_extension ; type_name = extension }
-    ; {name = "label_declaration.noattr"; from_string = parse_label_declaration ; type_name = label_declaration }
-    ; {name = "case.noattr"; from_string = parse_match_case ; type_name = case }
-    ; {name = "value_binding.noattr"; from_string = parse_value_binding ; type_name = value_binding }
-    ; {name = "arg_label.noattr"; from_string = parse_arg_label ; type_name = arg_label }
-    ; {name = "lident_loc.noattr"; from_string = parse_lident_vala_loc ; type_name = str_vala }
-    ; {name = "extension_constructor.noattr"; from_string = parse_extension_constructor ; type_name = extension_constructor }
-    ; {name = "binding_op.noattr"; from_string = parse_binding_op ; type_name = binding_op }
-    ; {name = "type_decl.noattr"; from_string = parse_type_declaration ; type_name = type_declaration }
-    ; {name = "type_subst.noattr"; from_string = parse_type_substitution ; type_name = type_declaration }
-    ; {name = "row_field.noattr"; from_string = parse_row_field ; type_name = row_field }
-    ; {name = "object_field.noattr"; from_string = parse_object_field ; type_name = object_field }
-    ; {name = "class_description.noattr"; from_string = parse_class_description ; type_name = class_description }
-    ; {name = "class_expr.noattr"; from_string = parse_class_expr ; type_name = class_expr }
-    ; {name = "class_type.noattr"; from_string = parse_class_type ; type_name = class_type }
-    ; {name = "class_field.noattr"; from_string = parse_class_field ; type_name = class_field }
-    ; {name = "functor_parameter.noattr"; from_string = parse_functor_parameter ; type_name = functor_parameter_vala }
-    ; {name = "module_declaration.noattr"; from_string = parse_module_declaration ; type_name = module_declaration }
-    ; {name = "with_constraint.noattr"; from_string = parse_with_constraint ; type_name = with_constraint }
-    ; {name = "class_type_field.noattr"; from_string = parse_class_type_field ; type_name = class_type_field }
-    ; {name = "str_type_extension.noattr"; from_string = parse_str_type_extension ; type_name = type_extension }
-    ; {name = "sig_type_extension.noattr"; from_string = parse_str_type_extension ; type_name = type_extension }
+      {name = "expression.noattr.VERSION"; from_string = parse_expression ; type_name = expression }
+    ; {name = "module_expr.noattr.VERSION"; from_string = parse_module_expr ; type_name = module_expr }
+    ; {name = "module_type.noattr.VERSION"; from_string = parse_module_type ; type_name = module_type }
+    ; {name = "pattern.noattr.VERSION"; from_string = parse_pattern ; type_name = pattern }
+    ; {name = "constant.noattr.VERSION"; from_string = parse_constant ; type_name = constant }
+    ; {name = "core_type.noattr.VERSION"; from_string = parse_core_type ; type_name = core_type }
+    ; {name = "longident_t.noattr.VERSION"; from_string = parse_longident ; type_name = longident_t }
+    ; {name = "longlident.noattr.VERSION"; from_string = parse_longlident ; type_name = longident_t }
+    ; {name = "extended_module_path.noattr.VERSION"; from_string = parse_extended_module_path ; type_name = longident_t }
+    ; {name = "structure_item.noattr.VERSION"; from_string = parse_structure_item ; type_name = structure_item }
+    ; {name = "structure.noattr.VERSION"; from_string = parse_structure ; type_name = structure }
+    ; {name = "signature_item.noattr.VERSION"; from_string = parse_signature_item ; type_name = signature_item }
+    ; {name = "signature.noattr.VERSION"; from_string = parse_signature ; type_name = signature }
+    ; {name = "constructor_declaration.noattr.VERSION"; from_string = parse_constructor_declaration ; type_name = constructor_declaration }
+    ; {name = "attribute.noattr.VERSION"; from_string = parse_attribute ; type_name = attribute }
+    ; {name = "extension.noattr.VERSION"; from_string = parse_extension ; type_name = extension }
+    ; {name = "label_declaration.noattr.VERSION"; from_string = parse_label_declaration ; type_name = label_declaration }
+    ; {name = "case.noattr.VERSION"; from_string = parse_match_case ; type_name = case }
+    ; {name = "value_binding.noattr.VERSION"; from_string = parse_value_binding ; type_name = value_binding }
+    ; {name = "arg_label.noattr.VERSION"; from_string = parse_arg_label ; type_name = arg_label }
+    ; {name = "lident_loc.noattr.VERSION"; from_string = parse_lident_vala_loc ; type_name = str_vala }
+    ; {name = "extension_constructor.noattr.VERSION"; from_string = parse_extension_constructor ; type_name = extension_constructor }
+    ; {name = "binding_op.noattr.VERSION"; from_string = parse_binding_op ; type_name = binding_op }
+    ; {name = "type_decl.noattr.VERSION"; from_string = parse_type_declaration ; type_name = type_declaration }
+    ; {name = "type_subst.noattr.VERSION"; from_string = parse_type_substitution ; type_name = type_declaration }
+    ; {name = "row_field.noattr.VERSION"; from_string = parse_row_field ; type_name = row_field }
+    ; {name = "object_field.noattr.VERSION"; from_string = parse_object_field ; type_name = object_field }
+    ; {name = "class_description.noattr.VERSION"; from_string = parse_class_description ; type_name = class_description }
+    ; {name = "class_expr.noattr.VERSION"; from_string = parse_class_expr ; type_name = class_expr }
+    ; {name = "class_type.noattr.VERSION"; from_string = parse_class_type ; type_name = class_type }
+    ; {name = "class_field.noattr.VERSION"; from_string = parse_class_field ; type_name = class_field }
+    ; {name = "functor_parameter.noattr.VERSION"; from_string = parse_functor_parameter ; type_name = functor_parameter_vala }
+    ; {name = "module_declaration.noattr.VERSION"; from_string = parse_module_declaration ; type_name = module_declaration }
+    ; {name = "with_constraint.noattr.VERSION"; from_string = parse_with_constraint ; type_name = with_constraint }
+    ; {name = "class_type_field.noattr.VERSION"; from_string = parse_class_type_field ; type_name = class_type_field }
+    ; {name = "str_type_extension.noattr.VERSION"; from_string = parse_str_type_extension ; type_name = type_extension }
+    ; {name = "sig_type_extension.noattr.VERSION"; from_string = parse_str_type_extension ; type_name = type_extension }
     ]
  }]
 end
