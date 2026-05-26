@@ -28,9 +28,8 @@ SYSDIRS= tools \
 	pattern_parsetree.4.12.1 quotations_412 \
 	pattern_parsetree.4.11.2 quotations_411 \
 	pattern_parsetree.4.10.2 quotations_410 \
-	pattern_parsetree_gen \
 	helpers runtime \
-	quotations_gen
+	pattern_parsetree_gen quotations_gen
 
 OTHERCLEANDIRS=\
 	adjusted-parsing.4.10.2 adjusted-parsing.4.11.2 adjusted-parsing.4.12.1 \
