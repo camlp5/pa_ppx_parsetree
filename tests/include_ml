@@ -51,16 +51,19 @@ let pp_patt ty = Fmt.(pf stdout "#<patt< %s >>" (Eprinter.apply Pcaml.pr_patt Pp
 #require "pa_ppx_parsetree_quotations";;
 
 #require "pa_ppx_parsetree_pattern_parsetree_504";;
-#require "pa_ppx_parsetree_pattern_parsetree_503";;
+#require "pa_ppx_parsetree_pattern_parsetree_505";;
 
 let pp_location_t pps (loc : Location.t) = Fmt.(pf pps "<loc>") ;;
 #install_printer pp_location_t ;;
 
-let pp_location_t_503 pps (loc : Pa_ppx_parsetree_pattern_parsetree_503.Location.t) = Fmt.(pf pps "<loc>") ;;
-#install_printer pp_location_t_503 ;;
-
 let pp_location_t_504 pps (loc : Pa_ppx_parsetree_pattern_parsetree_504.Location.t) = Fmt.(pf pps "<loc>") ;;
 #install_printer pp_location_t_504 ;;
+
+let pp_location_t_505 pps (loc : Pa_ppx_parsetree_pattern_parsetree_505.Location.t) = Fmt.(pf pps "<loc>") ;;
+#install_printer pp_location_t_505 ;;
+
+open Pa_ppx_parsetree_pattern_parsetree_505 ;;
+{foo| let $excon:excon1'$ in $e1'$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_505.Parse.expression ;;
 
 (*
 open Pa_ppx_parsetree_pattern_parsetree_504 ;;
