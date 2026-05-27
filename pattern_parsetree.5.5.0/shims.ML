@@ -1,0 +1,37 @@
+#if (OCAML_MAJOR , OCAML_MINOR) = (4, 10) || (OCAML_MAJOR , OCAML_MINOR) = (4, 11) || (OCAML_MAJOR , OCAML_MINOR) = (4, 12)
+module Int = struct
+  let max = max
+  let min = min
+  let to_string = string_of_int
+end
+
+module Config = struct
+  include Config
+  let with_cmm_invariants = false
+end
+#endif
+
+
+#if (OCAML_MAJOR , OCAML_MINOR) = (4, 10) || (OCAML_MAJOR , OCAML_MINOR) = (4, 11) || (OCAML_MAJOR , OCAML_MINOR) = (4, 12) || (OCAML_MAJOR , OCAML_MINOR) = (4, 13)
+module Sys = struct
+  include Sys
+
+type extra_prefix = Plus | Tilde
+
+type extra_info = extra_prefix * string
+
+type ocaml_release_info = {
+  major : int;
+  minor : int;
+  patchlevel : int;
+  extra : extra_info option
+}
+
+let ocaml_release = {
+  major = OCAML_MAJOR;
+  minor = OCAML_MINOR;
+  patchlevel = OCAML_PATCH;
+  extra = None
+}
+end
+#endif
