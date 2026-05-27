@@ -1,4 +1,8 @@
-shims.cmo format_doc.cmo misc.cmo warnings.cmo clflags.cmo location.cmo pattern_misc.cmo longident.cmo asttypes.cmo parsetree.cmo syntaxerr.cmo ast_helper.cmo parser.cmo lexer.cmo pprintast.cmo parse.cmo printast.cmo shims.cmi format_doc.cmi misc.cmi warnings.cmi clflags.cmi location.cmi pattern_misc.cmi longident.cmi asttypes.cmi parsetree.cmi syntaxerr.cmi ast_helper.cmi parser.cmi lexer.cmi pprintast.cmi parse.cmi printast.cmi shims.cmx format_doc.cmx misc.cmx warnings.cmx clflags.cmx location.cmx pattern_misc.cmx longident.cmx asttypes.cmx parsetree.cmx syntaxerr.cmx ast_helper.cmx parser.cmx lexer.cmx pprintast.cmx parse.cmx printast.cmx: 
+build_path_prefix_map.cmo shims.cmo format_doc.cmo misc.cmo warnings.cmo clflags.cmo location.cmo pattern_misc.cmo longident.cmo asttypes.cmo parsetree.cmo syntaxerr.cmo ast_helper.cmo parser.cmo lexer.cmo pprintast.cmo parse.cmo printast.cmo build_path_prefix_map.cmi shims.cmi format_doc.cmi misc.cmi warnings.cmi clflags.cmi location.cmi pattern_misc.cmi longident.cmi asttypes.cmi parsetree.cmi syntaxerr.cmi ast_helper.cmi parser.cmi lexer.cmi pprintast.cmi parse.cmi printast.cmi build_path_prefix_map.cmx shims.cmx format_doc.cmx misc.cmx warnings.cmx clflags.cmx location.cmx pattern_misc.cmx longident.cmx asttypes.cmx parsetree.cmx syntaxerr.cmx ast_helper.cmx parser.cmx lexer.cmx pprintast.cmx parse.cmx printast.cmx: 
+build_path_prefix_map.cmo : \
+    build_path_prefix_map.cmi
+build_path_prefix_map.cmx : \
+    build_path_prefix_map.cmi
 shims.cmo :
 shims.cmx :
 format_doc.cmo : \
@@ -7,9 +11,11 @@ format_doc.cmx : \
     format_doc.cmi
 misc.cmo : \
     format_doc.cmi \
+    build_path_prefix_map.cmi \
     misc.cmi
 misc.cmx : \
     format_doc.cmx \
+    build_path_prefix_map.cmx \
     misc.cmi
 warnings.cmo : \
     misc.cmi \
@@ -173,8 +179,10 @@ printast.cmx : \
     asttypes.cmx \
     ast_helper.cmx \
     printast.cmi
+build_path_prefix_map.cmi :
 misc.cmi : \
-    format_doc.cmi
+    format_doc.cmi \
+    build_path_prefix_map.cmi
 format_doc.cmi :
 warnings.cmi : \
     format_doc.cmi

@@ -12,9 +12,9 @@ PACKAGES := fmt,camlp5,re,menhirLib
 TARGET_PACKAGE = pa_ppx_parsetree_pattern_parsetree_505
 TARGET=$(TARGET_PACKAGE).cma
 
-ML = shims.ml format_doc.ml misc.ml warnings.ml clflags.ml location.ml pattern_misc.ml longident.ml asttypes.ml parsetree.ml syntaxerr.ml \
+ML = build_path_prefix_map.ml shims.ml format_doc.ml misc.ml warnings.ml clflags.ml location.ml pattern_misc.ml longident.ml asttypes.ml parsetree.ml syntaxerr.ml \
 	ast_helper.ml parser.ml lexer.ml pprintast.ml parse.ml printast.ml
-MLI = misc.mli format_doc.mli warnings.mli clflags.mli location.mli longident.mli asttypes.mli parsetree.mli syntaxerr.mli \
+MLI = build_path_prefix_map.mli misc.mli format_doc.mli warnings.mli clflags.mli location.mli longident.mli asttypes.mli parsetree.mli syntaxerr.mli \
 	ast_helper.mli lexer.mli pprintast.mli parse.mli printast.mli
 
 TOOLSML = mk_meta.ml
