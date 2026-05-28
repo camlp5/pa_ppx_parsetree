@@ -36,7 +36,7 @@ clean::
 	rm -rf META mk_meta mk_meta.ml
 
 realclean:: clean
-	rm -f parser.ml parser.mli lexer.ml *_mock* *.conflicts parser_expanded.mly shims.ml misc.ml
+	rm -f parser.ml parser.mli lexer.ml *_mock* *.conflicts parser_expanded.mly shims.ml misc.ml parsetree.ml
 
 parser.cmo: parser.ml
 	$(LAUNCH) $(YAWRAP) $(OCAMLFIND) ocamlc $(OCAMLCFLAGS) -package $(PACKAGES) -c $<
