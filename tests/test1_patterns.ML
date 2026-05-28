@@ -22,7 +22,7 @@
 <:core_type< ' $lid:s$ >>;
 <:core_type< $label:x1$ $x2$ -> $x3$ $algattrs:attrs$ >>;
 <:core_type< $label:x1$ $x2$ -> $x3$ >>;
-#if OCAML_VERSION >= (5,4,0)
+#if OVERS >= 504
 <:core_type< $tuplelist:lsx$ $algattrs:attrs$ >>;
 <:core_type< $tuplelist:lsx$ >>;
 #else
@@ -41,7 +41,7 @@
 <:core_type< $list:lx$ # $lid:s$ >>;
 <:core_type< $list:lx$ # $longid:x$ . $lid:s$ $algattrs:attrs$ >>;
 <:core_type< $list:lx$ # $longid:x$ . $lid:s$ >>;
-#if OCAML_VERSION < (5,2,0)
+#if OVERS < 502
 <:core_type< $x$ as ' $lid:s$ $algattrs:attrs$ >>;
 <:core_type< $x$ as ' $lid:s$ >>;
 #else
@@ -58,7 +58,7 @@
 <:core_type< [< $list:lx1$ ] >>;
 {Parsetree.ptyp_desc = Parsetree.Ptyp_poly lx x; ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = attrs};
 {Parsetree.ptyp_desc = Parsetree.Ptyp_poly lx x; ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = []};
-#if OCAML_VERSION >= (5,4,0)
+#if OVERS >= 504
 <:core_type< (module $lid:s$ with $list:lxx$ $algattrs:attrs$) $algattrs:attrs$ >>;
 <:core_type< (module $lid:s$ with $list:lxx$ $algattrs:attrs$) >>;
 <:core_type< (module $lid:s$ with $list:lxx$) $algattrs:attrs$ >>;
@@ -79,7 +79,7 @@
 <:core_type< (module $longid:x$ with $list:xf2$) $algattrs:attrs$ >>;
 <:core_type< (module $longid:x$ with $list:xf2$) >>;
 #endif
-#if OCAML_VERSION >= (5,2,0)
+#if OVERS >= 502
 <:core_type< $longid:x$ . ( $x2$ ) $algattrs:attrs$ >>;
 <:core_type< $longid:x$ . ( $x2$ ) >>;
 #endif
@@ -140,7 +140,7 @@
 {Parsetree.ppat_desc = Parsetree.Ppat_constant x; ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = []};
 <:pattern< $constant:x1$ .. $constant:x2$ $algattrs:attrs$ >>;
 <:pattern< $constant:x1$ .. $constant:x2$ >>;
-#if OCAML_VERSION >= (5,4,0)
+#if OVERS >= 504
 <:pattern<  $tuplelist:lsx$ $algattrs:attrs$ >>;
 <:pattern<  $tuplelist:lsx$ >>;
 <:pattern<  $tuplelist:lsx$ , .. $algattrs:attrs$ >>;
@@ -153,7 +153,7 @@
 #endif
 <:pattern< $longid:x$ $algattrs:attrs$ >>;
 <:pattern< $longid:x$ >>;
-#if OCAML_VERSION >= (4,13,0)
+#if OVERS >= 413
 <:pattern< $longid:x$ (type $list:lxxf1$) $lxxf2$ $algattrs:attrs$ >>;
 <:pattern< $longid:x$ (type $list:lxxf1$) $lxxf2$ >>;
 <:pattern< $longid:x$ $pattopt:olxx$ $algattrs:attrs$ >>;
@@ -194,7 +194,7 @@
 <:pattern< (module $opt:os$) >>;
 <:pattern< (exception $x$) $algattrs:attrs$ >>;
 <:pattern< exception $x$ >>;
-#if OCAML_VERSION >= (5,3,0)
+#if OVERS >= 503
 <:pattern< effect $x1$, $x2$ $algattrs:attrs$ >>;
 <:pattern< effect $x1$, $x2$ >>;
 #endif
@@ -240,7 +240,7 @@
 <:expression< $constant:x$ >>;
 <:expression< ( let $recflag:x1$ $list:lx$ in $x2$ ) $algattrs:attrs$ >>;
 <:expression< let $recflag:x1$ $list:lx$ in $x2$ >>;
-#if OCAML_VERSION < (5,2,0)
+#if OVERS < 502
 <:expression< function $cases:lx$ $algattrs:attrs$ >>;
 <:expression< function $cases:lx$ >>;
 <:expression< ( fun $label:x1$ ( $x3$ ) -> $x4$ ) $algattrs:attrs$ >>;
@@ -270,7 +270,7 @@
 <:expression< match $x$ with $cases:lx$ >>;
 <:expression< try $x$ with $cases:lx$ $algattrs:attrs$ >>;
 <:expression< try $x$ with $cases:lx$ >>;
-#if OCAML_VERSION >= (5,4,0)
+#if OVERS >= 504
 <:expression<  $tuplelist:lsx$ $algattrs:attrs$ >>;
 <:expression<  $tuplelist:lsx$ >>;
 #else
@@ -351,7 +351,7 @@
 <:expression< let module $uid:s$ = $me$ in $x2$ >>;
 <:expression< (let module $opt:os$ = $me$ in $x2$) $algattrs:attrs$ >>;
 <:expression< (let module $opt:os$ = $me$ in $x2$) >>;
-#if OCAML_VERSION >= (4,14,0)
+#if OVERS >= 414
 <:expression< (let exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
 <:expression< (let exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ $algattrs:attrs$ in $x2$) >>;
 <:expression< (let exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ in $x2$) $algattrs:attrs$ >>;
@@ -425,7 +425,7 @@
 <:expression< fun (type $lid:s$) -> $x2$ >>;
 <:expression< (module $me$) $algattrs:attrs$ >>;
 <:expression< (module $me$) >>;
-#if OCAML_VERSION >= (5,4,0)
+#if OVERS >= 504
 <:expression< (module $me$ : $lid:s$ with $list:lxx$ $algattrs:attrs$) $algattrs:attrs$ >>;
 <:expression< (module $me$ : $lid:s$ with $list:lxx$ $algattrs:attrs$) >>;
 <:expression< (module $me$ : $lid:s$ with $list:lxx$) $algattrs:attrs$ >>;
@@ -467,7 +467,7 @@
 [@@@"ocaml.text" "letop";];
 [@@@"ocaml.text" "binding_op";];
 <:binding_op< $lid:s$ $x2$ = $x3$ >>;
-#if OCAML_VERSION >= (5,2,0)
+#if OVERS >= 502
 [@@@"ocaml.text" "function_param_desc";];
 [@@@"ocaml.text" "function_param";];
 [@@@"ocaml.text" "function_body";];
@@ -548,7 +548,7 @@
 <:label_declaration< $mutable:x2$ $lid:s$ : $x3$ $algattrs:attrs$ >>;
 <:label_declaration< $mutable:x2$ $lid:s$ : $x3$ >>;
 [@@@"ocaml.text" "constructor_declaration";];
-#if OCAML_VERSION >= (4,14,0)
+#if OVERS >= 414
 <:constructor_declaration< $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ $algattrs:attrs$ >>;
 <:constructor_declaration< $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ >>;
 <:constructor_declaration< $uid:s$ : $list:lx$ . $list:lx$ -> $x3$ $algattrs:attrs$ >>;
@@ -580,7 +580,7 @@
 <:str_type_extension< type $list:lxxx$ $longlid:x$ += $priv:x2$ $list:lx$ $itemattrs:attrs$ >> ;
 <:str_type_extension< type $list:lxxx$ $longlid:x$ += $priv:x2$ $list:lx$ >>;
 [@@@"ocaml.text" "extension_constructor";];
-#if OCAML_VERSION >= (4,14,0)
+#if OVERS >= 414
 <:extension_constructor< $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ $algattrs:attrs$ >>;
 <:extension_constructor< $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ >>;
 <:extension_constructor< $uid:s$ : $list:lx$ . $list:lx$ -> $x2$ $algattrs:attrs$ >>;
@@ -812,7 +812,7 @@
 <:signature_item< type $list:lxxx$ $longid:x$ . $lid:s$ += $priv:x2$ $list:lx$ >>;
 <:signature_item< type $list:lxxx$ $longlid:x$ += $priv:x2$ $list:lx$ $itemattrs:attrs$ >> ;
 <:signature_item< type $list:lxxx$ $longlid:x$ += $priv:x2$ $list:lx$ >>;
-#if OCAML_VERSION >= (4,14,0)
+#if OVERS >= 414
 <:signature_item< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ $algattrs:attrs$ $itemattrs:attrs$ >> ;
 <:signature_item< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ $algattrs:attrs$ >>;
 <:signature_item< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ $itemattrs:attrs$ >> ;
@@ -892,7 +892,7 @@
 <:signature_item< module type $uid:s$ = $mt$ >>;
 <:signature_item< module type $uid:s$ $opt:omt$ $itemattrs:attrs$ >> ;
 <:signature_item< module type $uid:s$ $opt:omt$ >>;
-#if OCAML_VERSION >= (4,13,0)
+#if OVERS >= 413
 {Parsetree.psig_desc = Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; loc = loc}; pmtd_type = None; pmtd_attributes = attrs; pmtd_loc = loc}; psig_loc = loc};
 <:signature_item< module type $uid:s$ := $mt$ $itemattrs:attrs$ >>;
 <:signature_item< module type $uid:s$ := $mt$ >>;
@@ -943,11 +943,11 @@
 <:with_constraint< type $longid:x$ . $lid:s$ = $typedecl:x2$ >>;
 <:with_constraint< type $longlid:x$ = $typedecl:x2$ >>;
 <:with_constraint< module $longid:x$ = $longid:x$ >>;
-#if OCAML_VERSION >= (4,13,0)
+#if OVERS >= 413
 <:with_constraint< module type $lid:s$ = $mt$ >>;
 <:with_constraint< module type $longid:x$ . $lid:s$ = $mt$ >>;
 #endif
-#if OCAML_VERSION >= (4,13,0)
+#if OVERS >= 413
 <:with_constraint< module type $lid:s$ := $mt$ >>;
 <:with_constraint< module type $longid:x$ . $lid:s$ := $mt$ >>;
 #endif
@@ -964,7 +964,7 @@
 <:module_expr< functor $opt:x$ -> $me$ >>;
 <:module_expr< $me1$( $me2$ ) $algattrs:attrs$ >> ;
 <:module_expr< $me1$( $me2$ ) >>;
-#if OCAML_VERSION >= (5,1,0)
+#if OVERS >= 501
 <:module_expr< $me$() $algattrs:attrs$ >>;
 <:module_expr< $me$() >>;
 #endif
@@ -997,7 +997,7 @@
 <:structure_item< type $list:lxxx$ $longid:x$ . $lid:s$ += $priv:x2$ $list:lx$ >>;
 <:structure_item< type $list:lxxx$ $longlid:x$ += $priv:x2$ $list:lx$ $itemattrs:attrs$ >> ;
 <:structure_item< type $list:lxxx$ $longlid:x$ += $priv:x2$ $list:lx$ >>;
-#if OCAML_VERSION >= (4,14,0)
+#if OVERS >= 414
 <:structure_item< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ $algattrs:attrs$ $itemattrs:attrs$ >> ;
 <:structure_item< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ $algattrs:attrs$ >>;
 <:structure_item< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ $itemattrs:attrs$ >> ;
@@ -1110,13 +1110,13 @@
 <:structure_item< [%% $attrid:s$ ? $x1$ $expropt:ox2$] $itemattrs:attrs$ >> ;
 <:structure_item< [%% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
 [@@@"ocaml.text" "structure_item_desc";];
-#if OCAML_VERSION >= (5,1,0)
+#if OVERS >= 501
 [@@@"ocaml.text" "value_constraint";];
 #endif
 [@@@"ocaml.text" "value_binding";];
 <:value_binding< $x1$ = $x2$ $itemattrs:attrs$ >> ;
 <:value_binding< $x1$ = $x2$ >>;
-#if OCAML_VERSION >= (5,1,0)
+#if OVERS >= 501
 <:value_binding< $x1$ : type $list:lx$ . $x$ = $x2$ $itemattrs:attrs$ >> ;
 <:value_binding< $x1$ : type $list:lx$ . $x$ = $x2$ >> ;
 <:value_binding< $x1$ :> $x2$ = $x2$ $itemattrs:attrs$ >> ;
@@ -1143,7 +1143,7 @@
 [@@@"ocaml.text" "virtual_flag";];
 [@@@"ocaml.text" "override_flag";];
 [@@@"ocaml.text" "variance";];
-#if OCAML_VERSION >= (4,12,0)
+#if OVERS >= 412
 [@@@"ocaml.text" "injectivity";];
 #endif
 [@@@"ocaml.text" "constant";];
@@ -1155,7 +1155,7 @@
 <:constant< $string:s1$ >>;
 <:constant< $string:s1$ $delim:s2$ >>;
 <:constant< $float:sxf1$ >>;
-#if OCAML_VERSION >= (5,3,0)
+#if OVERS >= 503
 [@@@"ocaml.text" "constant_desc";];
 #endif
 [@@@"ocaml.text" "location_stack";];
