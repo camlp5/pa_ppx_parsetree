@@ -893,6 +893,8 @@ let mk_directive ~loc name arg =
 /*-*/%token <string> ANTI_NATIVEINT
 /*-*/%token <string> ANTI_CHAR
 /*-*/%token <string> ANTI_STRING
+/*-*/%token <string> ANTI_STRI
+/*-*/%token <string> ANTI_SIGI
 /*-*/%token <string> ANTI_DELIM
 /*-*/%token <string> ANTI_FLOAT
 /*-*/%token <string> ANTI_LABEL
@@ -1860,6 +1862,7 @@ structure_item:
   | wrap_mkstr_ext(
       include_statement(module_expr)
         { pstr_include $1 }
+/*-*/    | ANTI_EXPR { Pstr_eval (vaant $1, vaval []), None }
     )
     { $1 }
   | local_structure_item
@@ -2576,7 +2579,7 @@ class_sig_field:
     post_item_attributes_vala
       { let (p, v) = $3 in
         mkctf ~loc:$sloc (Pctf_method ($4, vaval p, vaval v, $6)) ~attrs:(append_list_vala $2 $7) }
-/*-*/  | METHOD vaval(attributes) p = ANTI_PRIV v = ANTI_VIRTUAL mkrhs(label_vala) COLON poly_type
+/*-*/  | METHOD vaval(attributes) p = ANTI_PRIV v = ANTI_VIRTUAL mkrhs(label_vala) COLON possibly_poly_type
 /*-*/    post_item_attributes_vala
 /*-*/      { mkctf ~loc:$sloc (Pctf_method ($5, vaant p, vaant v, $7)) ~attrs:(append_list_vala $2 $8) }
   | CONSTRAINT vaval(attributes) constrain_field post_item_attributes_vala
@@ -3908,6 +3911,15 @@ constructor_declarations:
    merely returns a tuple. *)
 generic_constructor_declaration(opening):
   opening
+  cd = generic_constructor_declaration_body
+    { cd }
+;
+generic_constructor_declaration_vala(opening,anti):
+  opening
+  cd = vala(generic_constructor_declaration_body, anti)
+    { cd }
+;
+generic_constructor_declaration_body:
   cid = mkrhs(constr_ident_vala)
   vars_args_res = generalized_constructor_arguments
   attrs = attributes_vala
@@ -3935,7 +3947,7 @@ str_exception_declaration:
   attrs = post_item_attributes_vala
   { let loc = make_loc $sloc in
     Te.mk_exception ~attrs ~loc
-      (Te.rebind id lid ~attrs:(append_list_vala attrs1 attrs2) ~loc)
+      (vaval (Te.rebind id lid ~attrs:(append_list_vala attrs1 attrs2) ~loc))
     , ext }
 ;
 sig_exception_declaration:
@@ -3949,8 +3961,15 @@ sig_exception_declaration:
     { let vars, args, res = vars_args_res in
       let loc = make_loc ($startpos, $endpos(attrs2)) in
       Te.mk_exception ~attrs ~loc
-        (Te.decl id ~vars ~args ~res ~attrs:(append_list_vala attrs1 attrs2) ~loc)
+        (vaval(Te.decl id ~vars ~args ~res ~attrs:(append_list_vala attrs1 attrs2) ~loc))
       , ext }
+| EXCEPTION
+  ext = ext
+  ANTI_EXCON
+  attrs = post_item_attributes_vala
+    { let loc = make_loc ($startpos, $endpos(attrs)) in
+      Te.mk_exception ~attrs ~loc (vaant $3), ext
+    }
 ;
 generalized_constructor_arguments:
     /*empty*/                     { (vaval [],Pcstr_tuple (vaval []),vaval None) }
@@ -3993,11 +4012,11 @@ label_declaration_semi:
 /* Type Extensions */
 
 %inline str_type_extension:
-  type_extension(extension_constructor)
+  type_extension(extension_constructor_vala)
     { $1 }
 ;
 %inline sig_type_extension:
-  type_extension(extension_constructor_declaration)
+  type_extension(extension_constructor_declaration_vala)
     { $1 }
 ;
 %inline type_extension(declaration):
@@ -4022,11 +4041,24 @@ label_declaration_semi:
   | extension_constructor_rebind(opening)
       { $1 }
 ;
+%inline extension_constructor_vala(opening):
+    extension_constructor_declaration_vala(opening)
+      { $1 }
+  | extension_constructor_rebind(opening)
+      { vaval $1 }
+;
 %inline extension_constructor_declaration(opening):
   d = generic_constructor_declaration(opening)
     {
       let cid, vars, args, res, attrs, loc = d in
       Te.decl cid ~vars ~args ~res ~attrs ~loc
+    }
+;
+%inline extension_constructor_declaration_vala(opening):
+  d = generic_constructor_declaration_vala(opening,ANTI_EXCON)
+    {
+      Pcaml.vala_map (fun (cid, vars, args, res, attrs, loc) ->
+          Te.decl cid ~vars ~args ~res ~attrs ~loc) d
     }
 ;
 extension_constructor_rebind(opening):

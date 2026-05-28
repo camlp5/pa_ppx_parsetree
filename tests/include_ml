@@ -8,13 +8,13 @@
 #require "bos";;
 #require "re";;
 #require "str";;
-
+(*
 #require "camlp5.pa_op";;
 Pcaml.inter_phrases := Some ";;\n";;
-(*
+ *)
 #require "camlp5.pa_r";;
 Pcaml.inter_phrases := Some ";\n";;
- *)
+
 (*
 #require "camlp5.pr_o";;
 Pr_o.sep := Some ";;\n";;
@@ -48,10 +48,12 @@ let pp_patt ty = Fmt.(pf stdout "#<patt< %s >>" (Eprinter.apply Pcaml.pr_patt Pp
 #require "pa_ppx.utils";;
 #require "pa_ppx_parsetree_helpers" ;;
 #require "pa_ppx.deriving_plugins.std";;
-#require "pa_ppx_parsetree_quotations";;
 
 #require "pa_ppx_parsetree_pattern_parsetree_504";;
+#require "pa_ppx_parsetree_quotations_504";;
 #require "pa_ppx_parsetree_pattern_parsetree_505";;
+
+#require "pa_ppx_parsetree_quotations";;
 
 let pp_location_t pps (loc : Location.t) = Fmt.(pf pps "<loc>") ;;
 #install_printer pp_location_t ;;
@@ -62,10 +64,14 @@ let pp_location_t_504 pps (loc : Pa_ppx_parsetree_pattern_parsetree_504.Location
 let pp_location_t_505 pps (loc : Pa_ppx_parsetree_pattern_parsetree_505.Location.t) = Fmt.(pf pps "<loc>") ;;
 #install_printer pp_location_t_505 ;;
 
+{foo| exception $excon:ec1$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_505.Parse.structure_item ;;
+
+open Pa_ppx_parsetree_pattern_parsetree_504 ;;
 open Pa_ppx_parsetree_pattern_parsetree_505 ;;
-{foo| let $excon:excon1'$ in $e1'$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_505.Parse.expression ;;
 
 (*
+{foo| type t += $excon:ec1$ | $excon:ec2$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_504.Parse.structure_item ;;
+
 open Pa_ppx_parsetree_pattern_parsetree_504 ;;
 #trace Pa_ppx_parsetree_pattern_parsetree_504.Parser.package_type_of_module_type ;;
 
