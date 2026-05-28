@@ -842,6 +842,8 @@
 <:signature_item< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ $algattrs:attrs$ >>;
 <:signature_item< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ $itemattrs:attrs$ >>;
 <:signature_item< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ >>;
+<:signature_item< exception $excon:x1$ $itemattrs:attrs$ >> ;
+<:signature_item< exception $excon:x1$ >> ;
 #else
 <:signature_item< exception $uid:s$ : $list:lx$ $opt:None$ $algattrs:attrs$ $itemattrs:attrs$ >>;
 <:signature_item< exception $uid:s$ : $list:lx$ $opt:None$ $algattrs:attrs$ >>;
@@ -1028,6 +1030,8 @@
 <:structure_item< exception $uid:s$ = $longid:x$ $algattrs:attrs$ >>;
 <:structure_item< exception $uid:s$ = $longid:x$ $itemattrs:attrs$ >> ;
 <:structure_item< exception $uid:s$ = $longid:x$ >>;
+<:structure_item< exception $excon:x1$ $itemattrs:attrs$ >> ;
+<:structure_item< exception $excon:x1$ >> ;
 #else
 <:structure_item< exception $uid:s$ : $list:lx$ $opt:None$ $algattrs:attrs$ $itemattrs:attrs$ >>;
 <:structure_item< exception $uid:s$ : $list:lx$ $opt:None$ $algattrs:attrs$ >>;

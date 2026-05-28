@@ -71,6 +71,7 @@ let parse_longident = Longident.parse
 #endif
 
   include Pa_ppx_parsetree_helpers.Std_derivers
+  let eq_ec_list = [%eq: extension_constructor list]
 end
 
 module SV = struct
@@ -814,14 +815,17 @@ module STRI = struct
     ; assert_equal (m, [t1;t2])
         (match [%structure_item {| exception $uid:m$ of $list:[t1;t2]$ |}] with
            [%structure_item {| exception $uid:cid$ of $list:tl'$ |}] -> (cid, tl'))
-
+ 
     ; assert_equal (m, fields) (match [%structure_item {| exception $uid:m$ of { $list:fields$ } |}] with
                                          [%structure_item {| exception $uid:cid$ of { $list:fl$ } |}] -> (cid, fl))
+
+    ; assert_equal excon1
+        (match [%structure_item {| exception $excon:excon1$ |}] with
+           [%structure_item {| exception $excon:e$ |}] -> e)
 
     ; assert_equal (Mutable, l, t1)
         (match [%structure_item {| type t = { $mutable:Mutable$ $lid:l$ : $typ:t1$ } |}] with
            [%structure_item {| type t = { $mutable:f'$ $lid:name$ : $typ:t$ } |}] -> (f',  name, t))
-
   
     ; assert_equal [ [%type_decl {| t = int |} ] ]
         (match [%structure_item {| type t = int |}] with
@@ -831,6 +835,25 @@ module STRI = struct
         (match [%structure_item {| $expr:e1$ |}] with
            [%structure_item {| $expr:e1'$ |}] -> e1')
 
+    ; begin
+        let ec1 = [%extension_constructor {| A of int |}] in
+        let ec2 = [%extension_constructor {| B of { a : int } |}] in
+        assert_equal ~cmp:Helpers.eq_ec_list [ec1;ec2]
+          (match [%structure_item {| type t += A of int | B of { a : int } |}] with
+             [%structure_item {| type t += $list:lx$ |}] -> lx)
+      end
+end
+
+module SIGI = struct
+
+  open Fixtures
+  open Asttypes
+
+  let test ctxt =
+    ()
+    ; assert_equal excon1
+        (match [%signature_item {| exception $excon:excon1$ |}] with
+           [%signature_item {| exception $excon:e$ |}] -> e)
 end
 
 let suite = "Test pa_ppx_parsetree_quotations" >::: [
@@ -849,6 +872,7 @@ let suite = "Test pa_ppx_parsetree_quotations" >::: [
     ; "field"   >:: FLD.test
     ; "type_decl"   >:: TD.test
     ; "structure_item"   >:: STRI.test
+    ; "signature_item"   >:: SIGI.test
     ; "case"   >:: Case.test
     ]
 

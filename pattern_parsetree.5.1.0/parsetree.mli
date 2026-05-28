@@ -557,7 +557,7 @@ and type_extension =
     {
      ptyext_path: Longident.t Ploc.vala loc;
      ptyext_params: (core_type * (variance * injectivity)) list Ploc.vala;
-     ptyext_constructors: extension_constructor list Ploc.vala;
+     ptyext_constructors: extension_constructor Ploc.vala list Ploc.vala;
      ptyext_private: private_flag Ploc.vala;
      ptyext_loc: Location.t;
      ptyext_attributes: attributes;  (** ... [\@\@id1] [\@\@id2] *)
@@ -577,7 +577,7 @@ and extension_constructor =
 
 and type_exception =
   {
-    ptyexn_constructor : extension_constructor;
+    ptyexn_constructor : extension_constructor Ploc.vala;
     ptyexn_loc : Location.t;
     ptyexn_attributes : attributes;  (** [... [\@\@id1] [\@\@id2]] *)
   }

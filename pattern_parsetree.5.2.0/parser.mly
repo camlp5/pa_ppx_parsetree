@@ -1320,6 +1320,22 @@ reversed_bar_llist(X):
   xs = reversed_bar_llist(X)
     { List.rev xs }
 
+reversed_bar_vala_llist(X, anti):
+    (* An [X] without a leading BAR. *)
+    x = vala(X(epsilon), anti)
+      { [x] }
+  | (* An [X] with a leading BAR. *)
+    x = vala(X(BAR), anti)
+      { [x] }
+  | (* An initial list, followed with a BAR and an [X]. *)
+    xs = reversed_bar_vala_llist(X, anti)
+    x = vala(X(BAR), anti)
+      { x :: xs }
+
+%inline bar_vala_llist(X, anti):
+  xs = reversed_bar_vala_llist(X, anti)
+    { List.rev xs }
+
 (* [xlist(A, B)] recognizes [AB*]. We assume that the semantic value for [A]
    is a pair [x, b], while the semantic value for [B*] is a list [bs].
    We return the pair [x, b :: bs]. *)
@@ -3720,7 +3736,7 @@ str_exception_declaration:
   attrs = post_item_attributes_vala
   { let loc = make_loc $sloc in
     Te.mk_exception ~attrs
-      (Te.rebind id lid ~attrs:( append_list_vala attrs1 attrs2) ~loc)
+      (vaval (Te.rebind id lid ~attrs:( append_list_vala attrs1 attrs2) ~loc))
     , ext }
 ;
 sig_exception_declaration:
@@ -3734,8 +3750,15 @@ sig_exception_declaration:
     { let vars, args, res = vars_args_res in
       let loc = make_loc ($startpos, $endpos(attrs2)) in
       Te.mk_exception ~attrs
-        (Te.decl id ~vars ~args ~res ~attrs:(append_list_vala attrs1 attrs2) ~loc)
+        (vaval (Te.decl id ~vars ~args ~res ~attrs:(append_list_vala attrs1 attrs2) ~loc))
       , ext }
+| EXCEPTION
+  ext = ext
+  ANTI_EXCON
+  attrs = post_item_attributes_vala
+    { let loc = make_loc ($startpos, $endpos($3)) in
+      Te.mk_exception ~attrs ~loc (vaant $3),
+      ext }
 ;
 %inline let_exception_declaration:
     mkrhs(constr_ident_vala) generalized_constructor_arguments attributes_vala
@@ -3799,7 +3822,7 @@ label_declaration_semi:
   tid = mkrhs(vala(type_longident, ANTI_LONGLID))
   PLUSEQ
   priv = private_flag_vala
-  cs = vala(bar_llist(declaration), ANTI_LIST)
+  cs = vala(bar_vala_llist(declaration, ANTI_EXCON), ANTI_LIST)
   attrs2 = post_item_attributes_vala
     { let attrs = append_list_vala attrs1 attrs2 in
       Te.mk tid cs ~params ~priv ~attrs,

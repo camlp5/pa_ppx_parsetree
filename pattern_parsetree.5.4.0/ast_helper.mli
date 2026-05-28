@@ -250,10 +250,10 @@ module Te:
   sig
     val mk: ?loc:loc -> ?attrs:attrs ->
       ?params:(core_type * (variance * injectivity)) list Ploc.vala ->
-      ?priv:private_flag Ploc.vala -> lid_vala -> extension_constructor list Ploc.vala -> type_extension
+      ?priv:private_flag Ploc.vala -> lid_vala -> extension_constructor Ploc.vala list Ploc.vala -> type_extension
 
     val mk_exception: ?loc:loc -> ?attrs:attrs ->
-      extension_constructor -> type_exception
+      extension_constructor Ploc.vala -> type_exception
 
     val constructor: ?loc:loc -> ?attrs:attrs ->
       str_vala -> extension_constructor_kind -> extension_constructor
