@@ -449,8 +449,8 @@ let test_letexception ctxt =
       match [%expression {| let exception C of int in e |}] with
         [%expression {| let exception C of int in e |}] -> ())
   ; assert_equal (excon1, e1) (
-        match [%expression {| let $excon:excon1$ in $e1$ |}] with
-          [%expression {| let $excon:excon1'$ in $e1'$ |}] -> (excon1', e1'))
+        match [%expression {| let exception $excon:excon1$ in $e1$ |}] with
+          [%expression {| let exception $excon:excon1'$ in $e1'$ |}] -> (excon1', e1'))
 
 let test_open ctxt =
   let open Asttypes in
@@ -841,6 +841,14 @@ module STRI = struct
         assert_equal ~cmp:Helpers.eq_ec_list [ec1;ec2]
           (match [%structure_item {| type t += A of int | B of { a : int } |}] with
              [%structure_item {| type t += $list:lx$ |}] -> lx)
+      end
+
+    ; begin
+        let ec1 = [%extension_constructor {| A of int |}] in
+        let ec2 = [%extension_constructor {| B of { a : int } |}] in
+        assert_equal ~cmp:Helpers.eq_ec_list [ec1;ec2]
+          (match [%structure_item {| type t += A of int | B of { a : int } |}] with
+             [%structure_item {| type t += $excon:ec1$ | $excon:ec2$ |}] -> [ec1;ec2])
       end
 end
 

@@ -409,8 +409,8 @@
 #endif
 {Parsetree.pexp_desc = Parsetree.Pexp_letexception {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = attrs} x2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
 {Parsetree.pexp_desc = Parsetree.Pexp_letexception {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = attrs} x2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
-<:expression< (let $excon:x1$ in $x2$) $algattrs:attrs$ >>;
-<:expression< let $excon:x1$ in $x2$ >>;
+<:expression< (let exception $excon:x1$ in $x2$) $algattrs:attrs$ >>;
+<:expression< let exception $excon:x1$ in $x2$ >>;
 <:expression< assert $x$ $algattrs:attrs$ >>;
 <:expression< assert $x$ >>;
 <:expression< lazy $x$ $algattrs:attrs$ >>;

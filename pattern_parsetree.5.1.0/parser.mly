@@ -810,6 +810,8 @@ let mk_directive ~loc name arg =
 /*-*/%token <string> ANTI_NATIVEINT
 /*-*/%token <string> ANTI_CHAR
 /*-*/%token <string> ANTI_STRING
+/*-*/%token <string> ANTI_STRI
+/*-*/%token <string> ANTI_SIGI
 /*-*/%token <string> ANTI_DELIM
 /*-*/%token <string> ANTI_FLOAT
 /*-*/%token <string> ANTI_LABEL
@@ -1246,22 +1248,6 @@ reversed_bar_llist(X):
 
 %inline bar_llist(X):
   xs = reversed_bar_llist(X)
-    { List.rev xs }
-
-reversed_bar_vala_llist(X, anti):
-    (* An [X] without a leading BAR. *)
-    x = vala(X(epsilon), anti)
-      { [x] }
-  | (* An [X] with a leading BAR. *)
-    x = vala(X(BAR), anti)
-      { [x] }
-  | (* An initial list, followed with a BAR and an [X]. *)
-    xs = reversed_bar_vala_llist(X, anti)
-    x = vala(X(BAR), anti)
-      { x :: xs }
-
-%inline bar_vala_llist(X, anti):
-  xs = reversed_bar_vala_llist(X, anti)
     { List.rev xs }
 
 (* [xlist(A, B)] recognizes [AB*]. We assume that the semantic value for [A]
@@ -2754,8 +2740,8 @@ expr:
       { Pexp_letmodule($4, $5, $7), $3 }
   | LET EXCEPTION ext_attributes let_exception_declaration IN seq_expr
       { Pexp_letexception(vaval $4, $6), $3 }
-/*-*/  | LET ANTI_EXCON IN seq_expr
-/*-*/      { Pexp_letexception(vaant $2, $4), (None, vaval []) }
+/*-*/  | LET EXCEPTION ANTI_EXCON IN seq_expr
+/*-*/      { Pexp_letexception(vaant $3, $5), (None, vaval []) }
   | LET OPEN override_flag_vala ext_attributes module_expr IN seq_expr
       { let open_loc = make_loc ($startpos($2), $endpos($5)) in
         let od = Opn.mk $5 ~override:$3 ~loc:open_loc in
@@ -3613,6 +3599,15 @@ constructor_declarations:
    merely returns a tuple. *)
 generic_constructor_declaration(opening):
   opening
+  cd = generic_constructor_declaration_body
+    { cd }
+;
+generic_constructor_declaration_vala(opening,anti):
+  opening
+  cd = vala(generic_constructor_declaration_body, anti)
+    { cd }
+;
+generic_constructor_declaration_body:
   cid = mkrhs(constr_ident_vala)
   vars_args_res = generalized_constructor_arguments
   attrs = attributes_vala
@@ -3721,11 +3716,11 @@ label_declaration_semi:
 /* Type Extensions */
 
 %inline str_type_extension:
-  type_extension(extension_constructor)
+  type_extension(extension_constructor_vala)
     { $1 }
 ;
 %inline sig_type_extension:
-  type_extension(extension_constructor_declaration)
+  type_extension(extension_constructor_declaration_vala)
     { $1 }
 ;
 %inline type_extension(declaration):
@@ -3737,7 +3732,7 @@ label_declaration_semi:
   tid = mkrhs(vala(type_longident, ANTI_LONGLID))
   PLUSEQ
   priv = private_flag_vala
-  cs = vala(bar_vala_llist(declaration, ANTI_EXCON), ANTI_LIST)
+  cs = vala(bar_llist(declaration), ANTI_LIST)
   attrs2 = post_item_attributes_vala
     { let docs = symbol_docs $sloc in
       let attrs = append_list_vala attrs1 attrs2 in
@@ -3750,11 +3745,24 @@ label_declaration_semi:
   | extension_constructor_rebind(opening)
       { $1 }
 ;
+%inline extension_constructor_vala(opening):
+    extension_constructor_declaration_vala(opening)
+      { $1 }
+  | extension_constructor_rebind(opening)
+      { vaval $1 }
+;
 %inline extension_constructor_declaration(opening):
   d = generic_constructor_declaration(opening)
     {
       let cid, vars, args, res, attrs, loc, info = d in
       Te.decl cid ~vars ~args ~res ~attrs ~loc ~info
+    }
+;
+%inline extension_constructor_declaration_vala(opening):
+  d = generic_constructor_declaration_vala(opening,ANTI_EXCON)
+    {
+      Pcaml.vala_map (fun (cid, vars, args, res, attrs, loc, info) ->
+          Te.decl cid ~vars ~args ~res ~attrs ~loc ~info) d
     }
 ;
 extension_constructor_rebind(opening):
