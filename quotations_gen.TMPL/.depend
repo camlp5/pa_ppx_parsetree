@@ -1,0 +1,5 @@
+pa_ppx_parsetree_quotations.cmo pa_ppx_parsetree_quotations.cmi pa_ppx_parsetree_quotations.cmx: ../local-install/lib/pa_ppx_parsetree_quotations_VERSION/META
+pa_ppx_parsetree_quotations.cmo :
+pa_ppx_parsetree_quotations.cmx :
+mk_meta.cmo :
+mk_meta.cmx :
