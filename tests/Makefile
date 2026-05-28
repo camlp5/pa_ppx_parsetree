@@ -53,13 +53,21 @@ QUOTPACKAGES=pa_ppx_q_ast.quotation_test,pa_ppx_q_ast.test_cleanup
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,$(QUOTPACKAGES),$(IMPORT_PACKAGES) $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
 %.patterns_out: %_patterns.ml
-	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
+	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
+
+test1_patterns.ML: test2_patterns.ML
+	perl -p -e 's,_VERSION,,' $< > $@.TMP && mv $@.TMP $@
+
+test1_types.ML: test2_types.ML
+	cp $< $@
 
 test1_patterns.ml: test1_patterns.ML
 	cppo -D 'OVERS '$(OVERS) $< > $@.TMP && mv $@.TMP $@
 
 test1_types.ml: test1_types.ML
 	cppo -D 'OVERS '$(OVERS) -D 'MODULE Pa_ppx_parsetree_quotations_'$(OVERS) $< > $@
+
+.SECONDARY: test1_patterns.ML test1_types.ML
 
 -include coverage-Makefile
 coverage-Makefile: Makefile make-coverage
@@ -74,3 +82,5 @@ test_show.ml: test_show.ML
 clean::
 	rm -rf *.cm* _build *.exe *_out test1_patterns.ml test1_types.ml quotations_test.ml test_show.ml
 
+realclean::
+	rm -f test1_patterns.ML test1_types.ML
