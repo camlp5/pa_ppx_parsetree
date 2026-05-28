@@ -625,6 +625,3 @@ end
 
 type filepath = string
 type modname = string
-type crcs = (modname * Digest.BLAKE128.t option) list
-
-type alerts = string Stdlib.String.Map.t

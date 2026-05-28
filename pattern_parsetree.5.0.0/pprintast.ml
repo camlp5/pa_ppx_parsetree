@@ -877,7 +877,7 @@ and item_extension ctxt f (s, e) =
 
 and exception_declaration ctxt f x =
   pp f "@[<hov2>exception@ %a@]%a"
-    (extension_constructor ctxt) x.ptyexn_constructor
+    (extension_constructor ctxt) (unvala x.ptyexn_constructor)
     (item_attributes ctxt) x.ptyexn_attributes
 
 and class_type_field ctxt f x =
@@ -1600,7 +1600,7 @@ and type_extension ctxt f x =
     longident_vala_loc x.ptyext_path
     private_flag (unvala x.ptyext_private) (* Cf: #7200 *)
     (list ~sep:"" extension_constructor)
-    (unvala x.ptyext_constructors)
+    (List.map unvala (unvala x.ptyext_constructors))
     (item_attributes ctxt) x.ptyext_attributes
 
 and constructor_declaration ctxt f (name, vars, args, res, attrs) =
