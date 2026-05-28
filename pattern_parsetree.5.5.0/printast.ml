@@ -224,8 +224,8 @@ let rec core_type i ppf x =
       payload i ppf arg
   | Ptyp_functor (label, name, ptyp, ct2) ->
       line i ppf "Ptyp_functor\n";
-      arg_label i ppf label;
-      line i ppf "\"%s\"\n" name.txt;
+      arg_label i ppf (unvala label);
+      line i ppf "\"%s\"\n" (unvala name.txt);
       package_type i ppf ptyp;
       core_type i ppf ct2
 
@@ -291,7 +291,7 @@ and pattern i ppf x =
       longident_vala_loc i ppf li
   | Ppat_unpack (s, ptyp) ->
       line i ppf "Ppat_unpack %a\n" fmt_str_vala_opt_vala_loc s;
-      option i package_type ppf (Option.map unvala (unvala ptyp));
+      option i package_type ppf (unvala ptyp);
   | Ppat_exception p ->
       line i ppf "Ppat_exception\n";
       pattern i ppf p

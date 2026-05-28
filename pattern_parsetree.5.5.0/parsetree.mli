@@ -96,7 +96,7 @@ and core_type_desc =
   | Ptyp_arrow of arg_label Ploc.vala * core_type * core_type
       (** [Ptyp_arrow(lbl, T1, T2)] represents:
             - [T1 -> T2]    when [lbl] is
-                                     {{!Asttypes.arg_label.Nolabel}[Nolabel]},
+                                     {{!Asttype.sarg_label.Nolabel}[Nolabel]},
             - [~l:T1 -> T2] when [lbl] is
                                      {{!Asttypes.arg_label.Labelled}[Labelled]},
             - [?l:T1 -> T2] when [lbl] is
@@ -169,7 +169,6 @@ and core_type_desc =
 
            - As the {{!label_declaration.pld_type}[pld_type]} field of a
            {!label_declaration}.
-
            - As a {!core_type} of a {{!core_type_desc.Ptyp_object}[Ptyp_object]}
            node.
 
@@ -179,7 +178,7 @@ and core_type_desc =
   | Ptyp_package of package_type  (** [(module S)]. *)
   | Ptyp_open of Longident.t Ploc.vala loc * core_type (** [M.(T)] *)
   | Ptyp_extension of extension  (** [[%id]]. *)
-  | Ptyp_functor of arg_label * string loc * package_type * core_type
+  | Ptyp_functor of arg_label Ploc.vala * string Ploc.vala loc * package_type * core_type
         (** [(module M : S) -> ...] : module-dependent arrow *)
 
 
@@ -293,7 +292,7 @@ and pattern_desc =
   | Ppat_constraint of pattern * core_type  (** Pattern [(P : T)] *)
   | Ppat_type of Longident.t Ploc.vala loc  (** Pattern [#tconst] *)
   | Ppat_lazy of pattern  (** Pattern [lazy P] *)
-  | Ppat_unpack of string Ploc.vala option Ploc.vala loc * package_type Ploc.vala option Ploc.vala
+  | Ppat_unpack of string Ploc.vala option Ploc.vala loc * package_type option Ploc.vala
       (** [Ppat_unpack(s, ptyp)] represents:
             - [(module P : S)] when [s] is [Some "P"] and [ptyp] is [Some "S"]
             - [(module _ : S)] when [s] is [None] and [ptyp] is [Some "S"]

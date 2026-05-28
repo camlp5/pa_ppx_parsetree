@@ -17,6 +17,7 @@ all: coverage-Makefile $(TESTS)
 test:: all
 	mkdir -p _build/coverage
 	$(MAKE) test1.TEST
+	$(MAKE) coverage-test
 	./quotations_test.exe
 	./quotations_noattr_test.exe
 	./antiquotation_lexing_test.exe

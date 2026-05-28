@@ -3524,7 +3524,10 @@ simple_pattern_not_ident:
       { mkpat_attrs ~loc:$sloc (Ppat_unpack (name, vaval None)) ext_attrs }
   | LPAREN MODULE ext_attrs = ext_attributes name = mkrhs(module_name) COLON
     ptyp = package_type_ RPAREN
-      { mkpat_attrs ~loc:$sloc (Ppat_unpack (name, vaval (Some (vaval ptyp)))) ext_attrs }
+      { mkpat_attrs ~loc:$sloc (Ppat_unpack (name, vaval (Some ptyp))) ext_attrs }
+  | LPAREN MODULE ext_attrs = ext_attributes name = mkrhs(module_name) COLON
+    ptyp = ANTI_OPT RPAREN
+      { mkpat_attrs ~loc:$sloc (Ppat_unpack (name, vaant ptyp)) ext_attrs }
   | mkpat(simple_pattern_not_ident_)
       { $1 }
 ;
@@ -4238,9 +4241,9 @@ function_type:
       mktyp ~loc:$sloc (Ptyp_tuple (vaval ((vaval (Some label), ty) :: ltys)))
     }
   | mktyp(
-      label = arg_label_no_opt
+      label = arg_label_no_opt_vala
       LPAREN
-        MODULE attrs = ext_attributes id = mkrhs(UIDENT) COLON
+        MODULE attrs = ext_attributes id = mkrhs(uident_vala) COLON
         ptyp = package_type_
       RPAREN
       MINUSGREATER
@@ -4265,6 +4268,9 @@ function_type:
   | /* empty */
       { Nolabel }
 ;
+/*-*/%inline arg_label_no_opt_vala:
+/*-*/   vala(arg_label_no_opt, ANTI_LABEL) { $1 }
+/*-*/;
 %inline param_type:
   | LPAREN poly_type RPAREN
     { reloc_typ ~loc:$sloc $2 }

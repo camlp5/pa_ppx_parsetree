@@ -184,8 +184,17 @@
 #endif
              ])
           ])
+        ; (Ptyp_functor,
+           [ ([%typ: arg_label], Explicit [
+                               Asttypes.Nolabel
+                             ; Asttypes.Labelled m
+             ])
+          ])
         ; (Ppat_tuple,
            [ ([%typ: closed_flag], Auto)
+          ])
+        ; (Ppat_unpack,
+           [ ([%typ: package_type], Auto)
           ])
         ; (Ppat_type,
            [ ([%typ: longident_t], Explicit [

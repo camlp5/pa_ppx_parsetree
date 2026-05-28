@@ -452,7 +452,7 @@ let rec class_params_def ctxt f =  function
 and type_with_label ctxt = labelled (core_type1 ctxt)
 
 and functor_arg ctxt f (name, pck_ty) =
-  pp f "@[<hov2>(module@ %s :@ %a)@]" name.txt (package_type ctxt) pck_ty
+  pp f "@[<hov2>(module@ %s :@ %a)@]" (unvala name.txt) (package_type ctxt) pck_ty
 
 and functor_arg_with_label ctxt = labelled (functor_arg ctxt)
 
@@ -467,7 +467,7 @@ and core_type ctxt f x =
           (type_with_label ctxt) (unvala l,ct1) (core_type ctxt) ct2
     | Ptyp_functor (label, name, pack, ct) ->
         pp f "@[<2>%a@;->@;%a@]"
-            (functor_arg_with_label ctxt) (label, (name, pack))
+            (functor_arg_with_label ctxt) (unvala label, (name, pack))
             (core_type ctxt) ct
     | Ptyp_alias (ct, s) ->
         pp f "@[<2>%a@;as@;%a@]" (core_type1 ctxt) ct tyvar (unvala s.txt)
@@ -660,7 +660,7 @@ and simple_pattern ctxt (f:Format.formatter) (x:pattern) : unit =
     | Ppat_unpack ({ txt; }, Ploc.VaVal None) ->
         let s = unvala (Option.value (unvala txt) ~default:(vaval "_")) in
         pp f "(module@ %s)@ " s
-    | Ppat_unpack ({ txt; }, Ploc.VaVal (Some (Ploc.VaVal ptyp))) ->
+    | Ppat_unpack ({ txt; }, Ploc.VaVal (Some ptyp)) ->
         let s = unvala (Option.value (unvala txt) ~default:(vaval "_")) in
         pp f "@[<2>(module@ %s :@ %a)@]" s (package_type ctxt) ptyp
     | Ppat_type li ->

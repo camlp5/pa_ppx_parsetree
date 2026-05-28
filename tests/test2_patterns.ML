@@ -95,6 +95,20 @@
 <:core_type_VERSION< [% $attrid:s$ ? $x1$ when $x2$] >>;
 <:core_type_VERSION< [% $attrid:s$ ? $x1$ $expropt:ox2$] $algattrs:attrs$ >>;
 <:core_type_VERSION< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+#if OVERS >= 505
+<:core_type_VERSION< (module $uid:s$:$longid:x$ with $list:lxx$ $algattrs:attrs$ ) -> $x4$ $algattrs:attrs$ >>;
+<:core_type_VERSION< (module $uid:s$:$longid:x$ with $list:lxx$ $algattrs:attrs$ ) -> $x4$ >>;
+<:core_type_VERSION< (module $uid:s$:$longid:x$ with $list:lxx$ ) -> $x4$ $algattrs:attrs$ >>;
+<:core_type_VERSION< (module $uid:s$:$longid:x$ with $list:lxx$ ) -> $x4$ >>;
+<:core_type_VERSION< $lid:m$:(module $uid:s$:$longid:x$ with $list:lxx$ $algattrs:attrs$ ) -> $x4$ $algattrs:attrs$ >>;
+<:core_type_VERSION< $lid:m$:(module $uid:s$:$longid:x$ with $list:lxx$ $algattrs:attrs$ ) -> $x4$ >>;
+<:core_type_VERSION< $lid:m$:(module $uid:s$:$longid:x$ with $list:lxx$ ) -> $x4$ $algattrs:attrs$ >>;
+<:core_type_VERSION< $lid:m$:(module $uid:s$:$longid:x$ with $list:lxx$ ) -> $x4$ >>;
+<:core_type_VERSION< $label:x1$(module $uid:s$:$longid:x$ with $list:lxx$ $algattrs:attrs$ ) -> $x4$ $algattrs:attrs$ >>;
+<:core_type_VERSION< $label:x1$(module $uid:s$:$longid:x$ with $list:lxx$ $algattrs:attrs$ ) -> $x4$ >>;
+<:core_type_VERSION< $label:x1$(module $uid:s$:$longid:x$ with $list:lxx$ ) -> $x4$ $algattrs:attrs$ >>;
+<:core_type_VERSION< $label:x1$(module $uid:s$:$longid:x$ with $list:lxx$ ) -> $x4$ >>;
+#endif
 [@@@"ocaml.text" "core_type_desc";];
 [@@@"ocaml.text" "package_type";];
 [@@@"ocaml.text" "row_field";];
@@ -188,10 +202,34 @@
 <:pattern_VERSION< lazy $x$ >>;
 <:pattern_VERSION< (module _) $algattrs:attrs$ >>;
 <:pattern_VERSION< (module _) >>;
+#if OVERS >= 505
+<:pattern_VERSION< (module _: $longid:x$ with $list:lxx$ $algattrs:attrs$) $algattrs:attrs$ >>;
+<:pattern_VERSION< (module _: $longid:x$ with $list:lxx$ $algattrs:attrs$) >>;
+<:pattern_VERSION< (module _: $longid:x$ with $list:lxx$) $algattrs:attrs$ >>;
+<:pattern_VERSION< (module _: $longid:x$ with $list:lxx$) >>;
+<:pattern_VERSION< (module _: $opt:ox2$ ) $algattrs:attrs$ >>;
+<:pattern_VERSION< (module _: $opt:ox2$ ) >>;
+#endif
 <:pattern_VERSION< (module $uid:s$) $algattrs:attrs$ >>;
 <:pattern_VERSION< (module $uid:s$) >>;
+#if OVERS >= 505
+<:pattern_VERSION< (module $uid:s$: $longid:x$ with $list:lxx$ $algattrs:attrs$) $algattrs:attrs$ >>;
+<:pattern_VERSION< (module $uid:s$: $longid:x$ with $list:lxx$ $algattrs:attrs$) >>;
+<:pattern_VERSION< (module $uid:s$: $longid:x$ with $list:lxx$) $algattrs:attrs$ >>;
+<:pattern_VERSION< (module $uid:s$: $longid:x$ with $list:lxx$) >>;
+<:pattern_VERSION< (module $uid:s$: $opt:ox2$ ) $algattrs:attrs$ >>;
+<:pattern_VERSION< (module $uid:s$: $opt:ox2$ ) >>;
+#endif
 <:pattern_VERSION< (module $opt:os$) $algattrs:attrs$ >>;
 <:pattern_VERSION< (module $opt:os$) >>;
+#if OVERS >= 505
+<:pattern_VERSION< (module $opt:os$: $longid:x$ with $list:lxx$ $algattrs:attrs$) $algattrs:attrs$ >>;
+<:pattern_VERSION< (module $opt:os$: $longid:x$ with $list:lxx$ $algattrs:attrs$) >>;
+<:pattern_VERSION< (module $opt:os$: $longid:x$ with $list:lxx$) $algattrs:attrs$ >>;
+<:pattern_VERSION< (module $opt:os$: $longid:x$ with $list:lxx$) >>;
+<:pattern_VERSION< (module $opt:os$: $opt:ox2$ ) $algattrs:attrs$ >>;
+<:pattern_VERSION< (module $opt:os$: $opt:ox2$ ) >>;
+#endif
 <:pattern_VERSION< (exception $x$) $algattrs:attrs$ >>;
 <:pattern_VERSION< exception $x$ >>;
 #if OVERS >= 503

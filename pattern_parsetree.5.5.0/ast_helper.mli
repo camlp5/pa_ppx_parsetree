@@ -101,7 +101,7 @@ module Typ :
     val package: ?loc:loc -> ?attrs:attrs -> package_type -> core_type
     val open_ : ?loc:loc -> ?attrs:attrs -> lid_vala -> core_type -> core_type
     val extension: ?loc:loc -> ?attrs:attrs -> extension -> core_type
-    val functor_ : ?loc:loc -> ?attrs:attrs -> arg_label -> str
+    val functor_ : ?loc:loc -> ?attrs:attrs -> arg_label Ploc.vala -> str_vala
                    -> package_type -> core_type -> core_type
 
     val force_poly: core_type -> core_type
@@ -144,7 +144,7 @@ module Pat:
     val constraint_: ?loc:loc -> ?attrs:attrs -> pattern -> core_type -> pattern
     val type_: ?loc:loc -> ?attrs:attrs -> lid_vala -> pattern
     val lazy_: ?loc:loc -> ?attrs:attrs -> pattern -> pattern
-    val unpack: ?loc:loc -> ?attrs:attrs -> str_vala_opt_vala -> package_type Ploc.vala option Ploc.vala
+    val unpack: ?loc:loc -> ?attrs:attrs -> str_vala_opt_vala -> package_type option Ploc.vala
                 -> pattern
     val open_: ?loc:loc -> ?attrs:attrs  -> lid_vala -> pattern -> pattern
     val exception_: ?loc:loc -> ?attrs:attrs -> pattern -> pattern
