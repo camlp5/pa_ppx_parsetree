@@ -874,6 +874,8 @@
 <:signature_item< exception $uid:s$ : { $list:lx$} $opt:ox2$ $algattrs:attrs$ >>;
 <:signature_item< exception $uid:s$ : { $list:lx$} $opt:ox2$ $itemattrs:attrs$ >>;
 <:signature_item< exception $uid:s$ : { $list:lx$} $opt:ox2$ >>;
+<:signature_item< exception $excon:x1$ $itemattrs:attrs$ >> ;
+<:signature_item< exception $excon:x1$ >> ;
 #endif
 <:signature_item< module _ : $mt$ $itemattrs:attrs$ >> ;
 <:signature_item< module _ : $mt$ >>;
@@ -1067,6 +1069,8 @@
 <:structure_item< exception $uid:s$ = $longid:x$ $algattrs:attrs$ >>;
 <:structure_item< exception $uid:s$ = $longid:x$ $itemattrs:attrs$ >>;
 <:structure_item< exception $uid:s$ = $longid:x$ >>;
+<:structure_item< exception $excon:x1$ $itemattrs:attrs$ >> ;
+<:structure_item< exception $excon:x1$ >> ;
 #endif
 <:structure_item< module _ = $me$ $itemattrs:attrs$ >> ;
 <:structure_item< module _ = $me$ >>;

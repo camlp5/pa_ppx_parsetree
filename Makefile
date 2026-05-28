@@ -56,6 +56,57 @@ test: all mdx-test
 
 mdx-test:: README.asciidoc.TEST
 
+version-parallel:
+	set -e ; for v in 505 504 503 502 501 500 414 413 412 411 410; do \
+	$(MAKE) $(MAKEFLAGS) version.$$v & \
+	done; \
+	wait
+
+version.505:
+	$(MAKE) -C pattern_parsetree.5.5.0
+	$(MAKE) -C quotations_505
+
+version.504:
+	$(MAKE) -C pattern_parsetree.5.4.0
+	$(MAKE) -C quotations_504
+
+version.503:
+	$(MAKE) -C pattern_parsetree.5.3.0
+	$(MAKE) -C quotations_503
+
+version.502:
+	$(MAKE) -C pattern_parsetree.5.2.0
+	$(MAKE) -C quotations_502
+
+version.501:
+	$(MAKE) -C pattern_parsetree.5.1.0
+	$(MAKE) -C quotations_501
+
+version.500:
+	$(MAKE) -C pattern_parsetree.5.0.0
+	$(MAKE) -C quotations_500
+
+version.414:
+	$(MAKE) -C pattern_parsetree.4.14.0
+	$(MAKE) -C quotations_414
+
+version.413:
+	$(MAKE) -C pattern_parsetree.4.13.1
+	$(MAKE) -C quotations_413
+
+version.412:
+	$(MAKE) -C pattern_parsetree.4.12.1
+	$(MAKE) -C quotations_412
+
+version.411:
+	$(MAKE) -C pattern_parsetree.4.11.2
+	$(MAKE) -C quotations_411
+
+version.410:
+	$(MAKE) -C pattern_parsetree.4.10.2
+	$(MAKE) -C quotations_410
+
+
 OVERS=$(shell $(TOP)/tools/extract-major-minor-ocaml-version $(ocamlVERSION))
 
 tools::
