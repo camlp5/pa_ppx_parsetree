@@ -117,8 +117,8 @@ setup: tools
 	rm -rf quotations_$$v && cp -r quotations.TMPL quotations_$$v; \
 	perl -p -i -e 's,VERSION,'$$v',g' quotations_$$v/mk_meta.ML quotations_$$v/q_parsetree.ml quotations_$$v/reorg_parsetree.ML quotations_$$v/Makefile quotations_$$v/.depend; \
 	done
-	rm -rf quotations_gen && cp -r quotations_gen.TMPL quotations_gen && perl -p -i -e 's,VERSION,'$(OVERS)',g' quotations_gen/*
-	rm -rf pattern_parsetree_gen && cp -r pattern_parsetree_gen.TMPL pattern_parsetree_gen && perl -p -i -e 's,VERSION,'$(OVERS)',g' pattern_parsetree_gen/*
+	rm -rf quotations_gen && cp -r quotations_gen.TMPL quotations_gen && perl -p -i -e 's,VERSION,'$(OVERS)',g' quotations_gen/* quotations_gen/.depend
+	rm -rf pattern_parsetree_gen && cp -r pattern_parsetree_gen.TMPL pattern_parsetree_gen && perl -p -i -e 's,VERSION,'$(OVERS)',g' pattern_parsetree_gen/* pattern_parsetree_gen/.depend
 
 META: sys
 	$(JOINMETA) \

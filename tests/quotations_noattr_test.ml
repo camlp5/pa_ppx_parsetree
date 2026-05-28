@@ -68,7 +68,7 @@ let test ctxt =
                        [%core_type {| $_$ $algattrs:l$ |}] -> l)
   ; assert_equal Location.none
       (match [%core_type {| int |}] with
-         [%core_type.noattr.loc {| $_$ |}] -> loc)[@@ocaml.warnerror "+8"]
+         [%core_type_noattr.loc {| $_$ |}] -> loc)[@@ocaml.warnerror "+8"]
 
 end
 

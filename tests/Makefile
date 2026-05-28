@@ -12,13 +12,15 @@ ALLPACKAGES=$(PACKAGES)
 
 TESTS=quotations_test.exe quotations_noattr_test.exe antiquotation_lexing_test.exe test_show.exe
 
-all: $(TESTS)
+all: coverage-Makefile $(TESTS)
 
-test:: all test1.TEST
-	mkdir -p _build && ./quotations_test.exe
-	mkdir -p _build && ./quotations_noattr_test.exe
-	mkdir -p _build && ./antiquotation_lexing_test.exe
-	mkdir -p _build && ./test_show.exe
+test:: all
+	mkdir -p _build/coverage
+	$(MAKE) test1.TEST
+	./quotations_test.exe
+	./quotations_noattr_test.exe
+	./antiquotation_lexing_test.exe
+	./test_show.exe
 
 quotations_test.exe: quotations_test.cmo
 	$(LAUNCH) $(OCAMLFIND) ocamlc -linkall -linkpkg $(OCAMLCFLAGS) -package $(PACKAGES) -linkpkg -linkall -o $@ $<
@@ -53,10 +55,14 @@ QUOTPACKAGES=pa_ppx_q_ast.quotation_test,pa_ppx_q_ast.test_cleanup
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
 test1_patterns.ml: test1_patterns.ML
-	cppo -V OCAML:$(ocamlVERSION) $< > $@
+	cppo -D 'OVERS '$(OVERS) $< > $@.TMP && mv $@.TMP $@
 
 test1_types.ml: test1_types.ML
-	cppo -V OCAML:$(ocamlVERSION) -D 'MODULE Pa_ppx_parsetree_quotations_'$(OVERS) $< > $@
+	cppo -D 'OVERS '$(OVERS) -D 'MODULE Pa_ppx_parsetree_quotations_'$(OVERS) $< > $@
+
+-include coverage-Makefile
+coverage-Makefile: Makefile make-coverage
+	./make-coverage 505 504 503 502 501 500 414 413 412 411 410 > $@.TMP && mv $@.TMP $@
 
 quotations_test.ml: quotations_test.ML
 	cppo -V OCAML:$(ocamlVERSION) $< > $@

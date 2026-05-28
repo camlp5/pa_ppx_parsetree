@@ -1,0 +1,5 @@
+pa_ppx_parsetree_pattern_parsetree.cmo pa_ppx_parsetree_pattern_parsetree.cmi pa_ppx_parsetree_pattern_parsetree.cmx: ../local-install/lib/pa_ppx_parsetree_pattern_parsetree_VERSION/META
+pa_ppx_parsetree_pattern_parsetree.cmo :
+pa_ppx_parsetree_pattern_parsetree.cmx :
+mk_meta.cmo :
+mk_meta.cmx :
