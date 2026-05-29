@@ -436,7 +436,7 @@ and type_declaration =
            (* ... constraint T1=T1'  ... constraint Tn=Tn' *)
      ptype_kind: type_kind;
      ptype_private: private_flag Ploc.vala;   (* = private ... *)
-     ptype_manifest: core_type Ploc.vala option Ploc.vala;  (* = T *)
+     ptype_manifest: core_type Ploc.vala option;  (* = T *)
      ptype_attributes: attributes;   (* ... [@@id1] [@@id2] *)
      ptype_loc: Location.t;
     }

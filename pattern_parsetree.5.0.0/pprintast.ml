@@ -1510,7 +1510,7 @@ and type_def_list ctxt f (rf, exported, l) =
   let type_decl kwd rf f x =
     let eq =
       if (x.ptype_kind = Ptype_abstract)
-         && (unvala x.ptype_manifest = None) then ""
+         && (x.ptype_manifest = None) then ""
       else if exported then " ="
       else " :="
     in
@@ -1548,7 +1548,7 @@ and type_declaration ctxt f x =
     | Private -> pp f "@;private"
   in
   let manifest f =
-    match unvala x.ptype_manifest with
+    match x.ptype_manifest with
     | None -> ()
     | Some y ->
         if x.ptype_kind = Ptype_abstract then
@@ -1564,7 +1564,7 @@ and type_declaration ctxt f x =
   in
   let repr f =
     let intro f =
-      if unvala x.ptype_manifest = None then ()
+      if x.ptype_manifest = None then ()
       else pp f "@;="
     in
     match x.ptype_kind with

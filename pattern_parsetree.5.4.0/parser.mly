@@ -659,7 +659,7 @@ let package_type_of_module_type pmty =
         assert (ptyp.ptype_kind = Ptype_abstract);
         assert (ptyp.ptype_attributes = vaval []);
         let ty =
-          match unvala ptyp.ptype_manifest with
+          match ptyp.ptype_manifest with
           | Some (Ploc.VaVal ty) -> ty
           | None -> assert false
         in
@@ -3776,7 +3776,7 @@ primitive_declaration:
 nonempty_type_kind:
   | priv = inline_private_flag_vala
     ty = vaval(core_type)
-      { (Ptype_abstract, priv, vaval (Some ty)) }
+      { (Ptype_abstract, priv, Some ty) }
   | oty = type_synonym
     priv = inline_private_flag_vala
     cs = vala(constructor_declarations, ANTI_CONSTRUCTORLIST)
@@ -3792,13 +3792,11 @@ nonempty_type_kind:
 ;
 %inline type_synonym:
   ioption(terminated(vaval(core_type), EQUAL))
-    { vaval $1 }
-/*-*/| ANTI_OPT
-/*-*/    { vaant $1 }
+    { $1 }
 ;
 type_kind:
     /*empty*/
-      { (Ptype_abstract, vaval Public, vaval None) }
+      { (Ptype_abstract, vaval Public, None) }
   | EQUAL nonempty_type_kind
       { $2 }
 ;
@@ -4046,7 +4044,7 @@ with_constraint:
            vaval (Type.mk lident
               ~params:$2
               ~cstrs:$6
-              ~manifest:(vaval (Some (vaval $5)))
+              ~manifest:(Some (vaval $5))
               ~priv:$4
               ~loc:(make_loc $sloc))) }
     /* used label_longident instead of type_longident to disallow
@@ -4063,7 +4061,7 @@ with_constraint:
          ($3,
            vaval (Type.mk (loc_map vaval lident)
               ~params:$2
-              ~manifest:(vaval (Some (vaval $5)))
+              ~manifest:(Some (vaval $5))
               ~loc:(make_loc $sloc))) }
 /*-*/  | TYPE tpl = type_parameters li = mkrhs(vala(label_longident, ANTI_LONGLID)) COLONEQUAL td = ANTI_TYPEDECL
 (*-*)      {
