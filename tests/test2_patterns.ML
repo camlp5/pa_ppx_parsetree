@@ -528,32 +528,18 @@
 #endif
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = private $x4$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = private $x4$ $list:lxxl$ >>;
-#if OVERS >= 505
-2;
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
-3;
-#endif
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ $list:lxxl$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $x4$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $x4$ $list:lxxl$ >>;
 #if OVERS >= 505
 4;
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Public; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Public; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
 5;
 #endif
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $priv:x3$ $x4$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $priv:x3$ $x4$ $list:lxxl$ >>;
-#if OVERS >= 505
-6;
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
-7;
-#endif
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = private $constructorlist:lx$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = private $constructorlist:lx$ $list:lxxl$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $x4$ = private $constructorlist:lx$ $list:lxxl$ $itemattrs:attrs$ >>;
@@ -597,20 +583,14 @@
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = Some x4; ptype_attributes = attrs; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = Some x4; ptype_attributes = []; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = Some x4; ptype_attributes = attrs; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = Some x4; ptype_attributes = []; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = Some x4; ptype_attributes = attrs; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = Some x4; ptype_attributes = []; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
 9;
 #endif
 (*
