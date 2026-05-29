@@ -583,8 +583,9 @@
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = Some x4; ptype_attributes = attrs; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = Some x4; ptype_attributes = []; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
+9;
+<:type_decl_VERSION< $list:lxxx$ $lid:s$ = external $string:s$ $list:lxxl$ $itemattrs:attrs$ >>;
+<:type_decl_VERSION< $list:lxxx$ $lid:s$ = external $string:s$ $list:lxxl$ >>;
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = Some x4; ptype_attributes = attrs; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = Some x4; ptype_attributes = []; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};

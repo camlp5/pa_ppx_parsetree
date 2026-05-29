@@ -523,7 +523,7 @@ and type_kind i ppf x =
   | Ptype_open ->
       line i ppf "Ptype_open\n";
   | Ptype_external name ->
-      line i ppf "Ptype_external %S\n" name;
+      line i ppf "Ptype_external %S\n" (unvala name);
 
 and type_extension i ppf x =
   line i ppf "type_extension\n";

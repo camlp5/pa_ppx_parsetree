@@ -589,7 +589,7 @@ and type_kind =
   | Ptype_variant of constructor_declaration list Ploc.vala
   | Ptype_record of label_declaration list Ploc.vala  (** Invariant: non-empty list *)
   | Ptype_open
-  | Ptype_external of string
+  | Ptype_external of string Ploc.vala
 
 and label_declaration =
     {

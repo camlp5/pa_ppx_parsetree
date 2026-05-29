@@ -1793,7 +1793,7 @@ and type_declaration ctxt f x =
     | Ptype_open ->
         pp f "%t%t@;.." intro priv
     | Ptype_external name ->
-        pp f "@;external %a" constant_string name
+        pp f "@;external %a" constant_string (unvala name)
   in
   let constraints f =
     List.iter
