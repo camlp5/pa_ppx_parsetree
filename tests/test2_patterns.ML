@@ -383,6 +383,7 @@
 <:expression_VERSION< $lid:x$ <- $x2$ >>;
 <:expression_VERSION< {< $list:lxx$ >} $algattrs:attrs$ >>;
 <:expression_VERSION< {< $list:lxx$ >} >>;
+#if OVERS < 505
 <:expression_VERSION< (let module _ = $me$ in $x2$) $algattrs:attrs$ >>;
 <:expression_VERSION< let module _ = $me$ in $x2$ >>;
 <:expression_VERSION< (let module $uid:s$ = $me$ in $x2$) $algattrs:attrs$ >>;
@@ -449,6 +450,10 @@
 {Parsetree.pexp_desc = Parsetree.Pexp_letexception {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = attrs} x2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 <:expression_VERSION< (let exception $excon:x1$ in $x2$) $algattrs:attrs$ >>;
 <:expression_VERSION< let exception $excon:x1$ in $x2$ >>;
+#else
+<:expression_VERSION< (let $stri:x1$ in $x2$) $algattrs:attrs$ >>;
+<:expression_VERSION< (let $stri:x1$ in $x2$) >>;
+#endif
 <:expression_VERSION< assert $x$ $algattrs:attrs$ >>;
 <:expression_VERSION< assert $x$ >>;
 <:expression_VERSION< lazy $x$ $algattrs:attrs$ >>;
@@ -471,16 +476,19 @@
 <:expression_VERSION< (module $me$ : $longid:x$ . $lid:s$ with $list:lxx$ $algattrs:attrs$) $algattrs:attrs$ >>;
 <:expression_VERSION< (module $me$ : $longid:x$ . $lid:s$ with $list:lxx$ $algattrs:attrs$) >>;
 <:expression_VERSION< (module $me$ : $longid:x$ . $lid:s$ with $list:lxx$) $algattrs:attrs$ >>;
+
 <:expression_VERSION< (module $me$ : $longid:x$ . $lid:s$ with $list:lxx$) >>;
-{Parsetree.pexp_desc = Parsetree.Pexp_pack me (Some {Parsetree.ppt_path = {Location.txt = x; loc = loc}; ppt_cstrs = lxx; ppt_loc = loc; ppt_attrs = attrs}); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_pack me (Some {Parsetree.ppt_path = {Location.txt = x; loc = loc}; ppt_cstrs = lxx; ppt_loc = loc; ppt_attrs = attrs}); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
-{Parsetree.pexp_desc = Parsetree.Pexp_pack me (Some {Parsetree.ppt_path = {Location.txt = x; loc = loc}; ppt_cstrs = lxx; ppt_loc = loc; ppt_attrs = []}); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_pack me (Some {Parsetree.ppt_path = {Location.txt = x; loc = loc}; ppt_cstrs = lxx; ppt_loc = loc; ppt_attrs = []}); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
+<:expression_VERSION< (module $me$ : $longid:x$ with $list:lxx$ $algattrs:attrs$) $algattrs:attrs$ >>;
+<:expression_VERSION< (module $me$ : $longid:x$ with $list:lxx$ $algattrs:attrs$) >>;
+<:expression_VERSION< (module $me$ : $longid:x$ with $list:lxx$) $algattrs:attrs$ >>;
+<:expression_VERSION< (module $me$ : $longid:x$ with $list:lxx$) >>;
 #endif
+#if OVERS <= 504
 {Parsetree.pexp_desc = Parsetree.Pexp_open {Parsetree.popen_expr = me; popen_override = x1; popen_loc = loc; popen_attributes = attrs} x2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
 {Parsetree.pexp_desc = Parsetree.Pexp_open {Parsetree.popen_expr = me; popen_override = x1; popen_loc = loc; popen_attributes = attrs} x2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 <:expression_VERSION< (let open $overrideflag:x1$ $me$ in $x2$) $algattrs:attrs$ >>;
 <:expression_VERSION< let open $overrideflag:x1$ $me$ in $x2$ >>;
+#endif
 <:expression_VERSION< ($letop:x1$ $list:lx$ in $x2$) $algattrs:attrs$ >>;
 <:expression_VERSION< $letop:x1$ $list:lx$ in $x2$ >>;
 <:expression_VERSION< [% $attrid:s$ $list:x$] $algattrs:attrs$ >>;
@@ -513,14 +521,39 @@
 #endif
 [@@@"ocaml.text" "value_description";];
 [@@@"ocaml.text" "type_declaration";];
+#if OVERS >= 505
+1;
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
+#endif
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = private $x4$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = private $x4$ $list:lxxl$ >>;
+#if OVERS >= 505
+2;
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
+3;
+#endif
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ $list:lxxl$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $x4$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $x4$ $list:lxxl$ >>;
+#if OVERS >= 505
+4;
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Public; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Public; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
+5;
+#endif
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $priv:x3$ $x4$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $priv:x3$ $x4$ $list:lxxl$ >>;
+#if OVERS >= 505
+6;
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
+7;
+#endif
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = private $constructorlist:lx$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = private $constructorlist:lx$ $list:lxxl$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $x4$ = private $constructorlist:lx$ $list:lxxl$ $itemattrs:attrs$ >>;
@@ -577,7 +610,28 @@
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $x4$ = $priv:x3$ .. $list:lxxl$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $opt:ox4$ $priv:x3$ .. $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $opt:ox4$ $priv:x3$ .. $list:lxxl$ >>;
-
+#if OVERS >= 505
+8;
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = Some x4; ptype_attributes = attrs; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = Some x4; ptype_attributes = []; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = Some x4; ptype_attributes = attrs; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = Some x4; ptype_attributes = []; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = Some x4; ptype_attributes = attrs; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = Some x4; ptype_attributes = []; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
+{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
+9;
+#endif
 (*
 <:type_decl< $list:lxxx$ $lid:s$ = $constructorlist:l$ $list:lxxl$ >>;
  *)
@@ -996,8 +1050,14 @@
 [@@@"ocaml.text" "module_expr";];
 <:module_expr_VERSION< $longid:x$ $algattrs:attrs$ >> ;
 <:module_expr_VERSION< $longid:x$ >>;
-<:module_expr_VERSION< struct $list:x$ end $algattrs:attrs$ >> ;
-<:module_expr_VERSION< struct $list:x$ end >>;
+<:module_expr_VERSION< struct $list:l$ end $algattrs:attrs$ >> ;
+<:module_expr_VERSION< struct $list:l$ end >>;
+<:module_expr_VERSION< struct end $algattrs:attrs$ >> ;
+<:module_expr_VERSION< struct end >>;
+<:module_expr_VERSION< struct $stri:x$ end $algattrs:attrs$ >> ;
+<:module_expr_VERSION< struct $stri:x$ end >>;
+<:module_expr_VERSION< struct $stri:x$ $stri:y$ end $algattrs:attrs$ >> ;
+<:module_expr_VERSION< struct $stri:x$ $stri:y$ end >>;
 <:module_expr_VERSION< (functor $opt:x$ -> $me$) $algattrs:attrs$ >> ;
 <:module_expr_VERSION< functor $opt:x$ -> $me$ >>;
 <:module_expr_VERSION< $me1$( $me2$ ) $algattrs:attrs$ >> ;

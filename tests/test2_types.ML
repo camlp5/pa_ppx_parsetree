@@ -375,6 +375,14 @@
 #endif
              ])
           ])
+        ; (Pmod_structure,
+           [ ([%typ: structure], Explicit [
+                               l
+                             ; []
+                             ; [x]
+                             ; [x;y]
+             ])
+          ])
         ]
       ; per_constructor_expansion = [
           (Pconst_integer, Explicit [

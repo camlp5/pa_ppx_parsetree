@@ -220,6 +220,20 @@ module Q = struct
         data_source_module = Asttypes
       ; quotation_source_module = Reorg_parsetree
       }
+    ; structure_item = {
+        add_branches_patt_code = (function
+          | {pstr_desc=Pstr_xtr{txt;loc};} when antiloc_payload ~loc txt <> "_" -> C.xtr_typed "stri" (ploc_of_location loc) txt
+                                 )
+      ; add_branches_expr_code = (function
+          | {pstr_desc=Pstr_xtr{txt;loc};} ->
+             C.xtr_typed "stri" (ploc_of_location loc) txt
+                                 )
+      }
+    ; structure_item_desc = {
+        add_branches_patt_code = (function
+          | Pstr_xtr{txt;loc} when antiloc_payload ~loc txt = "_" -> C.xtr_typed "stri" (ploc_of_location loc) txt
+                                 )
+      }
     ; expression = {
         add_branches_patt_code = (function
           | {pexp_desc=Pexp_xtr{txt;loc};pexp_attributes=Ploc.VaVal[];} when antiloc_payload ~loc txt <> "_" -> C.xtr (ploc_of_location loc) txt

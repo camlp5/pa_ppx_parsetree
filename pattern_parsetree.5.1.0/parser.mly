@@ -1769,6 +1769,7 @@ structure_item:
     | include_statement(module_expr)
         { pstr_include $1 }
 /*-*/    | ANTI_EXPR { Pstr_eval (vaant $1, vaval []), None }
+/*-*/    | ANTI_STRI { Pstr_xtr (Location.mkloc $1 (make_loc $sloc)), None }
     )
     { $1 }
 ;

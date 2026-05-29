@@ -779,6 +779,16 @@ rule token = parse
        let loc = Location.curr lexbuf in
        ANTI_STRING (make_antiquotation "string" loc payload)
      }
+  | "$" "stri:" ([^ '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_STRI (make_antiquotation "stri" loc payload)
+     }
+  | "$" "sigi:" ([^ '$']* as payload) "$"
+     {
+       let loc = Location.curr lexbuf in
+       ANTI_SIGI (make_antiquotation "sigi" loc payload)
+     }
   | "$" "delim:" ([^ '$']* as payload) "$"
      {
        let loc = Location.curr lexbuf in

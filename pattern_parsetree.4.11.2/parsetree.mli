@@ -896,6 +896,7 @@ and structure_item =
     }
 
 and structure_item_desc =
+(*-*)  | Pstr_xtr of string loc
   | Pstr_eval of expression Ploc.vala * attributes
         (* E *)
   | Pstr_value of rec_flag Ploc.vala * value_binding list Ploc.vala

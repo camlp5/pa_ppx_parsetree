@@ -1909,6 +1909,7 @@ local_structure_item:
         { pstr_module $1 }
     | open_declaration
         { pstr_open $1 }
+/*-*/    | ANTI_STRI { Pstr_xtr (Location.mkloc $1 (make_loc $sloc)), None }
     )
     { $1 }
 ;
