@@ -5,14 +5,14 @@
 <:attribute_VERSION< [@ $attrid:s$ : $x$] >>;
 <:attribute_VERSION< [@ $attrid:s$ ? $x1$] >>;
 <:attribute_VERSION< [@ $attrid:s$ ? $x1$ when $x2$] >>;
-<:attribute_VERSION< [@ $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:attribute_VERSION< [@ $attrid:s$ ? $x1$ $expropt:x2$] >>;
 [@@@"ocaml.text" "extension";];
 <:extension_VERSION< [% $attrid:s$ $list:x$] >>;
 <:extension_VERSION< [% $attrid:s$ : $list:x$] >>;
 <:extension_VERSION< [% $attrid:s$ : $x$] >>;
 <:extension_VERSION< [% $attrid:s$ ? $x1$] >>;
 <:extension_VERSION< [% $attrid:s$ ? $x1$ when $x2$] >>;
-<:extension_VERSION< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:extension_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] >>;
 [@@@"ocaml.text" "attributes";];
 [@@@"ocaml.text" "payload";];
 [@@@"ocaml.text" "core_type";];
@@ -52,8 +52,8 @@
 <:core_type_VERSION< [ $closedflag:x$ $list:lx1$ $opt:None$ ] >>;
 <:core_type_VERSION< [ $closedflag:x$ $list:lx1$ > $list:lx2$ ] $algattrs:attrs$ >>;
 <:core_type_VERSION< [ $closedflag:x$ $list:lx1$ > $list:lx2$ ] >>;
-<:core_type_VERSION< [ $closedflag:x$ $list:lx1$ $opt:olx2$ ] $algattrs:attrs$ >>;
-<:core_type_VERSION< [ $closedflag:x$ $list:lx1$ $opt:olx2$ ] >>;
+<:core_type_VERSION< [ $closedflag:x$ $list:lx1$ $opt:lx2$ ] $algattrs:attrs$ >>;
+<:core_type_VERSION< [ $closedflag:x$ $list:lx1$ $opt:lx2$ ] >>;
 <:core_type_VERSION< [< $list:lx1$ ] $algattrs:attrs$ >>;
 <:core_type_VERSION< [< $list:lx1$ ] >>;
 {Parsetree.ptyp_desc = Parsetree.Ptyp_poly lx x; ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = attrs};
@@ -93,8 +93,8 @@
 <:core_type_VERSION< [% $attrid:s$ ? $x1$] >>;
 <:core_type_VERSION< [% $attrid:s$ ? $x1$ when $x2$] $algattrs:attrs$ >>;
 <:core_type_VERSION< [% $attrid:s$ ? $x1$ when $x2$] >>;
-<:core_type_VERSION< [% $attrid:s$ ? $x1$ $expropt:ox2$] $algattrs:attrs$ >>;
-<:core_type_VERSION< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:core_type_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] $algattrs:attrs$ >>;
+<:core_type_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] >>;
 #if OVERS >= 505
 <:core_type_VERSION< (module $uid:s$:$longid:x$ with $list:lxx$ $algattrs:attrs$ ) -> $x4$ $algattrs:attrs$ >>;
 <:core_type_VERSION< (module $uid:s$:$longid:x$ with $list:lxx$ $algattrs:attrs$ ) -> $x4$ >>;
@@ -170,20 +170,20 @@
 #if OVERS >= 413
 <:pattern_VERSION< $longid:x$ (type $list:lxxf1$) $lxxf2$ $algattrs:attrs$ >>;
 <:pattern_VERSION< $longid:x$ (type $list:lxxf1$) $lxxf2$ >>;
-<:pattern_VERSION< $longid:x$ $pattopt:olxx$ $algattrs:attrs$ >>;
-<:pattern_VERSION< $longid:x$ $pattopt:olxx$ >>;
+<:pattern_VERSION< $longid:x$ $pattopt:lxx$ $algattrs:attrs$ >>;
+<:pattern_VERSION< $longid:x$ $pattopt:lxx$ >>;
 #else
 <:pattern_VERSION< ($longid:x$ $x2$) $algattrs:attrs$ >>;
 <:pattern_VERSION< $longid:x$ $x2$ >>;
-<:pattern_VERSION< $longid:x$ $pattopt:ox2$ $algattrs:attrs$ >>;
-<:pattern_VERSION< $longid:x$ $pattopt:ox2$ >>;
+<:pattern_VERSION< $longid:x$ $pattopt:x2$ $algattrs:attrs$ >>;
+<:pattern_VERSION< $longid:x$ $pattopt:x2$ >>;
 #endif
 <:pattern_VERSION< ` $id:x1$ $algattrs:attrs$ >>;
 <:pattern_VERSION< ` $id:x1$ >>;
 <:pattern_VERSION< ( ` $id:x1$ $x2$ ) $algattrs:attrs$ >>;
 <:pattern_VERSION< ` $id:x1$ $x2$ >>;
-<:pattern_VERSION< ` $id:x1$ $pattopt:ox2$ $algattrs:attrs$ >>;
-<:pattern_VERSION< ` $id:x1$ $pattopt:ox2$ >>;
+<:pattern_VERSION< ` $id:x1$ $pattopt:x2$ $algattrs:attrs$ >>;
+<:pattern_VERSION< ` $id:x1$ $pattopt:x2$ >>;
 <:pattern_VERSION< { $list:lxx$ $closedflag:x$ } $algattrs:attrs$ >>;
 <:pattern_VERSION< { $list:lxx$ $closedflag:x$ } >>;
 <:pattern_VERSION< [| $list:lx$ |] $algattrs:attrs$ >>;
@@ -207,8 +207,8 @@
 <:pattern_VERSION< (module _: $longid:x$ with $list:lxx$ $algattrs:attrs$) >>;
 <:pattern_VERSION< (module _: $longid:x$ with $list:lxx$) $algattrs:attrs$ >>;
 <:pattern_VERSION< (module _: $longid:x$ with $list:lxx$) >>;
-<:pattern_VERSION< (module _: $opt:ox2$ ) $algattrs:attrs$ >>;
-<:pattern_VERSION< (module _: $opt:ox2$ ) >>;
+<:pattern_VERSION< (module _: $opt:x2$ ) $algattrs:attrs$ >>;
+<:pattern_VERSION< (module _: $opt:x2$ ) >>;
 #endif
 <:pattern_VERSION< (module $uid:s$) $algattrs:attrs$ >>;
 <:pattern_VERSION< (module $uid:s$) >>;
@@ -217,18 +217,18 @@
 <:pattern_VERSION< (module $uid:s$: $longid:x$ with $list:lxx$ $algattrs:attrs$) >>;
 <:pattern_VERSION< (module $uid:s$: $longid:x$ with $list:lxx$) $algattrs:attrs$ >>;
 <:pattern_VERSION< (module $uid:s$: $longid:x$ with $list:lxx$) >>;
-<:pattern_VERSION< (module $uid:s$: $opt:ox2$ ) $algattrs:attrs$ >>;
-<:pattern_VERSION< (module $uid:s$: $opt:ox2$ ) >>;
+<:pattern_VERSION< (module $uid:s$: $opt:x2$ ) $algattrs:attrs$ >>;
+<:pattern_VERSION< (module $uid:s$: $opt:x2$ ) >>;
 #endif
-<:pattern_VERSION< (module $opt:os$) $algattrs:attrs$ >>;
-<:pattern_VERSION< (module $opt:os$) >>;
+<:pattern_VERSION< (module $opt:s$) $algattrs:attrs$ >>;
+<:pattern_VERSION< (module $opt:s$) >>;
 #if OVERS >= 505
-<:pattern_VERSION< (module $opt:os$: $longid:x$ with $list:lxx$ $algattrs:attrs$) $algattrs:attrs$ >>;
-<:pattern_VERSION< (module $opt:os$: $longid:x$ with $list:lxx$ $algattrs:attrs$) >>;
-<:pattern_VERSION< (module $opt:os$: $longid:x$ with $list:lxx$) $algattrs:attrs$ >>;
-<:pattern_VERSION< (module $opt:os$: $longid:x$ with $list:lxx$) >>;
-<:pattern_VERSION< (module $opt:os$: $opt:ox2$ ) $algattrs:attrs$ >>;
-<:pattern_VERSION< (module $opt:os$: $opt:ox2$ ) >>;
+<:pattern_VERSION< (module $opt:s$: $longid:x$ with $list:lxx$ $algattrs:attrs$) $algattrs:attrs$ >>;
+<:pattern_VERSION< (module $opt:s$: $longid:x$ with $list:lxx$ $algattrs:attrs$) >>;
+<:pattern_VERSION< (module $opt:s$: $longid:x$ with $list:lxx$) $algattrs:attrs$ >>;
+<:pattern_VERSION< (module $opt:s$: $longid:x$ with $list:lxx$) >>;
+<:pattern_VERSION< (module $opt:s$: $opt:x2$ ) $algattrs:attrs$ >>;
+<:pattern_VERSION< (module $opt:s$: $opt:x2$ ) >>;
 #endif
 <:pattern_VERSION< (exception $x$) $algattrs:attrs$ >>;
 <:pattern_VERSION< exception $x$ >>;
@@ -246,8 +246,8 @@
 <:pattern_VERSION< [% $attrid:s$ ? $x1$] >>;
 <:pattern_VERSION< [% $attrid:s$ ? $x1$ when $x2$] $algattrs:attrs$ >>;
 <:pattern_VERSION< [% $attrid:s$ ? $x1$ when $x2$] >>;
-<:pattern_VERSION< [% $attrid:s$ ? $x1$ $expropt:ox2$] $algattrs:attrs$ >>;
-<:pattern_VERSION< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:pattern_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] $algattrs:attrs$ >>;
+<:pattern_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] >>;
 <:pattern_VERSION< $longid:x$ . $x2$ $algattrs:attrs$ >>;
 <:pattern_VERSION< $longid:x$ . $x2$ >>;
 [@@@"ocaml.text" "pattern_desc";];
@@ -285,8 +285,8 @@
 <:expression_VERSION< fun $label:x1$ ( $x3$ ) -> $x4$ >>;
 <:expression_VERSION< ( fun $label:x1$ ( $x3$ = $x2$ ) -> $x4$ ) $algattrs:attrs$ >>;
 <:expression_VERSION< fun $label:x1$ ( $x3$ = $x2$ ) -> $x4$ >>;
-<:expression_VERSION< ( fun $label:x1$ ( $x3$ $expropt:ox2$ ) -> $x4$ ) $algattrs:attrs$ >>;
-<:expression_VERSION< fun $label:x1$ ( $x3$ $expropt:ox2$ ) -> $x4$ >>;
+<:expression_VERSION< ( fun $label:x1$ ( $x3$ $expropt:x2$ ) -> $x4$ ) $algattrs:attrs$ >>;
+<:expression_VERSION< fun $label:x1$ ( $x3$ $expropt:x2$ ) -> $x4$ >>;
 #else
 <:expression_VERSION< (fun $list:lx$ -> $x$) $algattrs:attrs$ >>;
 <:expression_VERSION< fun $list:lx$ -> $x$ >>;
@@ -301,6 +301,12 @@
 <:expression_VERSION< (fun $list:lx$ : $x$ -> function $algattrs:attrs$ $cases:lx$) >>;
 <:expression_VERSION< (fun $algattrs:attrs$ $list:lx$ : $x$ -> function $cases:lx$) >>;
 <:expression_VERSION< (fun $list:lx$ : $x$ -> function $cases:lx$) >>;
+{Parsetree.pexp_desc = Parsetree.Pexp_function lx x1 (Parsetree.Pfunction_body x); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
+{Parsetree.pexp_desc = Parsetree.Pexp_function lx x1 (Parsetree.Pfunction_body x); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
+{Parsetree.pexp_desc = Parsetree.Pexp_function lx x1 (Parsetree.Pfunction_cases lx loc attrs); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
+{Parsetree.pexp_desc = Parsetree.Pexp_function lx x1 (Parsetree.Pfunction_cases lx loc attrs); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
+{Parsetree.pexp_desc = Parsetree.Pexp_function lx x1 (Parsetree.Pfunction_cases lx loc []); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
+{Parsetree.pexp_desc = Parsetree.Pexp_function lx x1 (Parsetree.Pfunction_cases lx loc []); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 #endif
 <:expression_VERSION< $x$ $list:lxx$ $algattrs:attrs$ >>;
 <:expression_VERSION< $x$ $list:lxx$ >>;
@@ -319,20 +325,20 @@
 <:expression_VERSION< $longid:x$ >>;
 <:expression_VERSION< $longid:x$ $x2$ $algattrs:attrs$ >>;
 <:expression_VERSION< $longid:x$ $x2$ >>;
-<:expression_VERSION< $longid:x$ $expropt:ox2$ $algattrs:attrs$ >>;
-<:expression_VERSION< $longid:x$ $expropt:ox2$ >>;
+<:expression_VERSION< $longid:x$ $expropt:x2$ $algattrs:attrs$ >>;
+<:expression_VERSION< $longid:x$ $expropt:x2$ >>;
 <:expression_VERSION< ` $id:x1$ $algattrs:attrs$ >>;
 <:expression_VERSION< ` $id:x1$ >>;
 <:expression_VERSION< ` $id:x1$ $x2$ $algattrs:attrs$ >>;
 <:expression_VERSION< ` $id:x1$ $x2$ >>;
-<:expression_VERSION< ` $id:x1$ $expropt:ox2$ $algattrs:attrs$ >>;
-<:expression_VERSION< ` $id:x1$ $expropt:ox2$ >>;
+<:expression_VERSION< ` $id:x1$ $expropt:x2$ $algattrs:attrs$ >>;
+<:expression_VERSION< ` $id:x1$ $expropt:x2$ >>;
 <:expression_VERSION< { $list:lxx$ } $algattrs:attrs$ >>;
 <:expression_VERSION< { $list:lxx$ } >>;
 <:expression_VERSION< { $x$ with $list:lxx$ } $algattrs:attrs$ >>;
 <:expression_VERSION< { $x$ with $list:lxx$ } >>;
-<:expression_VERSION< { $withe:ox$ $list:lxx$ } $algattrs:attrs$ >>;
-<:expression_VERSION< { $withe:ox$ $list:lxx$ } >>;
+<:expression_VERSION< { $withe:x$ $list:lxx$ } $algattrs:attrs$ >>;
+<:expression_VERSION< { $withe:x$ $list:lxx$ } >>;
 <:expression_VERSION< $x1$ . $lid:s$ $algattrs:attrs$ >>;
 <:expression_VERSION< $x1$ . $lid:s$ >>;
 <:expression_VERSION< $x1$ . $longid:x$ . $lid:s$ $algattrs:attrs$ >>;
@@ -351,8 +357,8 @@
 <:expression_VERSION< if $x1$ then $x2$ >>;
 <:expression_VERSION< ( if $x1$ then $x2$ else $x3$ ) $algattrs:attrs$ >>;
 <:expression_VERSION< if $x1$ then $x2$ else $x3$ >>;
-<:expression_VERSION< if $x1$ then $x2$ $expropt:ox3$ $algattrs:attrs$ >>;
-<:expression_VERSION< if $x1$ then $x2$ $expropt:ox3$ >>;
+<:expression_VERSION< if $x1$ then $x2$ $expropt:x3$ $algattrs:attrs$ >>;
+<:expression_VERSION< if $x1$ then $x2$ $expropt:x3$ >>;
 <:expression_VERSION< ( $x1$ ; $x2$ ) $algattrs:attrs$ >>;
 <:expression_VERSION< $x1$ ; $x2$ >>;
 <:expression_VERSION< while $x1$ do $x2$ done $algattrs:attrs$ >>;
@@ -369,8 +375,8 @@
 <:expression_VERSION< ( $x1$ :> $x3$ ) >>;
 <:expression_VERSION< ( $x1$ : $x2$ :> $x3$ ) $algattrs:attrs$ >>;
 <:expression_VERSION< ( $x1$ : $x2$ :> $x3$ ) >>;
-<:expression_VERSION< ( $x1$ $ctypopt:ox2$ :> $x3$ ) $algattrs:attrs$ >>;
-<:expression_VERSION< ( $x1$ $ctypopt:ox2$ :> $x3$ ) >>;
+<:expression_VERSION< ( $x1$ $ctypopt:x2$ :> $x3$ ) $algattrs:attrs$ >>;
+<:expression_VERSION< ( $x1$ $ctypopt:x2$ :> $x3$ ) >>;
 <:expression_VERSION< $x1$ # $lid:x$ $algattrs:attrs$ >>;
 <:expression_VERSION< $x1$ # $lid:x$ >>;
 <:expression_VERSION< (new $lid:s$ ) $algattrs:attrs$ >>;
@@ -388,8 +394,8 @@
 <:expression_VERSION< let module _ = $me$ in $x2$ >>;
 <:expression_VERSION< (let module $uid:s$ = $me$ in $x2$) $algattrs:attrs$ >>;
 <:expression_VERSION< let module $uid:s$ = $me$ in $x2$ >>;
-<:expression_VERSION< (let module $opt:os$ = $me$ in $x2$) $algattrs:attrs$ >>;
-<:expression_VERSION< (let module $opt:os$ = $me$ in $x2$) >>;
+<:expression_VERSION< (let module $opt:s$ = $me$ in $x2$) $algattrs:attrs$ >>;
+<:expression_VERSION< (let module $opt:s$ = $me$ in $x2$) >>;
 #if OVERS >= 414
 <:expression_VERSION< (let exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
 <:expression_VERSION< (let exception $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ $algattrs:attrs$ in $x2$) >>;
@@ -399,10 +405,10 @@
 <:expression_VERSION< (let exception $uid:s$ : $list:lx$ . $list:lx$ -> $x2$ $algattrs:attrs$ in $x2$) >>;
 <:expression_VERSION< (let exception $uid:s$ : $list:lx$ . $list:lx$ -> $x2$ in $x2$) $algattrs:attrs$ >>;
 <:expression_VERSION< let exception $uid:s$ : $list:lx$ . $list:lx$ -> $x2$ in $x2$ >>;
-<:expression_VERSION< (let exception $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
-<:expression_VERSION< let exception $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ $algattrs:attrs$ in $x2$ >>;
-<:expression_VERSION< (let exception $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ in $x2$) $algattrs:attrs$ >>;
-<:expression_VERSION< let exception $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ in $x2$ >>;
+<:expression_VERSION< (let exception $uid:s$ : $list:lx$ . $list:lx$ $opt:x2$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
+<:expression_VERSION< let exception $uid:s$ : $list:lx$ . $list:lx$ $opt:x2$ $algattrs:attrs$ in $x2$ >>;
+<:expression_VERSION< (let exception $uid:s$ : $list:lx$ . $list:lx$ $opt:x2$ in $x2$) $algattrs:attrs$ >>;
+<:expression_VERSION< let exception $uid:s$ : $list:lx$ . $list:lx$ $opt:x2$ in $x2$ >>;
 <:expression_VERSION< (let exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:None$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
 <:expression_VERSION< let exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:None$ $algattrs:attrs$ in $x2$ >>;
 <:expression_VERSION< (let exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:None$ in $x2$) $algattrs:attrs$ >>;
@@ -411,10 +417,10 @@
 <:expression_VERSION< let exception $uid:s$ : $list:lx$ . { $list:lx$} -> $x2$ $algattrs:attrs$ in $x2$ >>;
 <:expression_VERSION< (let exception $uid:s$ : $list:lx$ . { $list:lx$} -> $x2$ in $x2$) $algattrs:attrs$ >>;
 <:expression_VERSION< let exception $uid:s$ : $list:lx$ . { $list:lx$} -> $x2$ in $x2$ >>;
-<:expression_VERSION< (let exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
-<:expression_VERSION< let exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ $algattrs:attrs$ in $x2$ >>;
-<:expression_VERSION< (let exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ in $x2$) $algattrs:attrs$ >>;
-<:expression_VERSION< let exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ in $x2$ >>;
+<:expression_VERSION< (let exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:x2$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
+<:expression_VERSION< let exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:x2$ $algattrs:attrs$ in $x2$ >>;
+<:expression_VERSION< (let exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:x2$ in $x2$) $algattrs:attrs$ >>;
+<:expression_VERSION< let exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:x2$ in $x2$ >>;
 #else
 <:expression_VERSION< (let exception $uid:s$ : $list:lx$ $opt:None$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
 <:expression_VERSION< let exception $uid:s$ : $list:lx$ $opt:None$ $algattrs:attrs$ in $x2$ >>;
@@ -426,10 +432,10 @@
 <:expression_VERSION< (let exception $uid:s$ : $list:lx$ -> $x2$ in $x2$) $algattrs:attrs$ >>;
 <:expression_VERSION< let exception $uid:s$ : $list:lx$ -> $x2$ in $x2$ >>;
 
-<:expression_VERSION< (let exception $uid:s$ : $list:lx$ $opt:ox2$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
-<:expression_VERSION< let exception $uid:s$ : $list:lx$ $opt:ox2$ $algattrs:attrs$ in $x2$ >>;
-<:expression_VERSION< (let exception $uid:s$ : $list:lx$ $opt:ox2$ in $x2$) $algattrs:attrs$ >>;
-<:expression_VERSION< let exception $uid:s$ : $list:lx$ $opt:ox2$ in $x2$ >>;
+<:expression_VERSION< (let exception $uid:s$ : $list:lx$ $opt:x2$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
+<:expression_VERSION< let exception $uid:s$ : $list:lx$ $opt:x2$ $algattrs:attrs$ in $x2$ >>;
+<:expression_VERSION< (let exception $uid:s$ : $list:lx$ $opt:x2$ in $x2$) $algattrs:attrs$ >>;
+<:expression_VERSION< let exception $uid:s$ : $list:lx$ $opt:x2$ in $x2$ >>;
 
 <:expression_VERSION< (let exception $uid:s$ : { $list:lx$} $opt:None$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
 <:expression_VERSION< let exception $uid:s$ : { $list:lx$} $opt:None$ $algattrs:attrs$ in $x2$ >>;
@@ -441,10 +447,10 @@
 <:expression_VERSION< (let exception $uid:s$ : { $list:lx$} -> $x2$ in $x2$) $algattrs:attrs$ >>;
 <:expression_VERSION< let exception $uid:s$ : { $list:lx$} -> $x2$ in $x2$ >>;
 
-<:expression_VERSION< (let exception $uid:s$ : { $list:lx$} $opt:ox2$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
-<:expression_VERSION< let exception $uid:s$ : { $list:lx$} $opt:ox2$ $algattrs:attrs$ in $x2$ >>;
-<:expression_VERSION< (let exception $uid:s$ : { $list:lx$} $opt:ox2$ in $x2$) $algattrs:attrs$ >>;
-<:expression_VERSION< let exception $uid:s$ : { $list:lx$} $opt:ox2$ in $x2$ >>;
+<:expression_VERSION< (let exception $uid:s$ : { $list:lx$} $opt:x2$ $algattrs:attrs$ in $x2$) $algattrs:attrs$ >>;
+<:expression_VERSION< let exception $uid:s$ : { $list:lx$} $opt:x2$ $algattrs:attrs$ in $x2$ >>;
+<:expression_VERSION< (let exception $uid:s$ : { $list:lx$} $opt:x2$ in $x2$) $algattrs:attrs$ >>;
+<:expression_VERSION< let exception $uid:s$ : { $list:lx$} $opt:x2$ in $x2$ >>;
 #endif
 {Parsetree.pexp_desc = Parsetree.Pexp_letexception {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = attrs} x2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
 {Parsetree.pexp_desc = Parsetree.Pexp_letexception {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = attrs} x2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
@@ -501,15 +507,15 @@
 <:expression_VERSION< [% $attrid:s$ ? $x1$] >>;
 <:expression_VERSION< [% $attrid:s$ ? $x1$ when $x2$] $algattrs:attrs$ >>;
 <:expression_VERSION< [% $attrid:s$ ? $x1$ when $x2$] >>;
-<:expression_VERSION< [% $attrid:s$ ? $x1$ $expropt:ox2$] $algattrs:attrs$ >>;
-<:expression_VERSION< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:expression_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] $algattrs:attrs$ >>;
+<:expression_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] >>;
 {Parsetree.pexp_desc = Parsetree.Pexp_unreachable; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
 {Parsetree.pexp_desc = Parsetree.Pexp_unreachable; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 [@@@"ocaml.text" "expression_desc";];
 [@@@"ocaml.text" "case";];
 <:case_VERSION< $x1$ -> $x3$ >>;
 <:case_VERSION< $x1$ when $x2$ -> $x3$ >>;
-<:case_VERSION< $x1$ $wheno:ox2$ -> $x3$ >>;
+<:case_VERSION< $x1$ $wheno:x2$ -> $x3$ >>;
 [@@@"ocaml.text" "letop";];
 [@@@"ocaml.text" "binding_op";];
 <:binding_op_VERSION< $lid:s$ $x2$ = $x3$ >>;
@@ -522,7 +528,6 @@
 [@@@"ocaml.text" "value_description";];
 [@@@"ocaml.text" "type_declaration";];
 #if OVERS >= 505
-1;
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
 #endif
@@ -533,10 +538,8 @@
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $x4$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $x4$ $list:lxxl$ >>;
 #if OVERS >= 505
-4;
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
-5;
 #endif
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $priv:x3$ $x4$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $priv:x3$ $x4$ $list:lxxl$ >>;
@@ -578,12 +581,10 @@
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $x4$ = $priv:x3$ .. $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $x4$ = $priv:x3$ .. $list:lxxl$ >>;
 #if OVERS >= 505
-8;
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = Some x4; ptype_attributes = attrs; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = Some x4; ptype_attributes = []; ptype_loc = loc};
-9;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = external $string:s$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = external $string:s$ $list:lxxl$ >>;
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = Some x4; ptype_attributes = attrs; ptype_loc = loc};
@@ -592,7 +593,6 @@
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = Some x4; ptype_attributes = attrs; ptype_loc = loc};
 {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = Some x4; ptype_attributes = []; ptype_loc = loc};
-9;
 #endif
 (*
 <:type_decl< $list:lxxx$ $lid:s$ = $constructorlist:l$ $list:lxxl$ >>;
@@ -607,27 +607,27 @@
 <:constructor_declaration_VERSION< $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ >>;
 <:constructor_declaration_VERSION< $uid:s$ : $list:lx$ . $list:lx$ -> $x3$ $algattrs:attrs$ >>;
 <:constructor_declaration_VERSION< $uid:s$ : $list:lx$ . $list:lx$ -> $x3$ >>;
-<:constructor_declaration_VERSION< $uid:s$ : $list:lx$ . $list:lx$ $opt:ox3$ $algattrs:attrs$ >>;
-<:constructor_declaration_VERSION< $uid:s$ : $list:lx$ . $list:lx$ $opt:ox3$ >>;
+<:constructor_declaration_VERSION< $uid:s$ : $list:lx$ . $list:lx$ $opt:x3$ $algattrs:attrs$ >>;
+<:constructor_declaration_VERSION< $uid:s$ : $list:lx$ . $list:lx$ $opt:x3$ >>;
 <:constructor_declaration_VERSION< $uid:s$ : $list:lx$ . { $list:lx$} $opt:None$ $algattrs:attrs$ >>;
 <:constructor_declaration_VERSION< $uid:s$ : $list:lx$ . { $list:lx$} $opt:None$ >>;
 <:constructor_declaration_VERSION< $uid:s$ : $list:lx$ . { $list:lx$} -> $x3$ $algattrs:attrs$ >>;
 <:constructor_declaration_VERSION< $uid:s$ : $list:lx$ . { $list:lx$} -> $x3$ >>;
-<:constructor_declaration_VERSION< $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox3$ $algattrs:attrs$ >>;
-<:constructor_declaration_VERSION< $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox3$ >>;
+<:constructor_declaration_VERSION< $uid:s$ : $list:lx$ . { $list:lx$} $opt:x3$ $algattrs:attrs$ >>;
+<:constructor_declaration_VERSION< $uid:s$ : $list:lx$ . { $list:lx$} $opt:x3$ >>;
 #else
 <:constructor_declaration_VERSION< $uid:s$ : $list:lx$ $opt:None$ $algattrs:attrs$ >> ;
 <:constructor_declaration_VERSION< $uid:s$ : $list:lx$ $opt:None$ >>;
 <:constructor_declaration_VERSION< $uid:s$ : $list:lx$ -> $x3$ $algattrs:attrs$ >> ;
 <:constructor_declaration_VERSION< $uid:s$ : $list:lx$ -> $x3$ >>;
-<:constructor_declaration_VERSION< $uid:s$ : $list:lx$ $opt:ox3$ $algattrs:attrs$ >> ;
-<:constructor_declaration_VERSION< $uid:s$ : $list:lx$ $opt:ox3$ >>;
+<:constructor_declaration_VERSION< $uid:s$ : $list:lx$ $opt:x3$ $algattrs:attrs$ >> ;
+<:constructor_declaration_VERSION< $uid:s$ : $list:lx$ $opt:x3$ >>;
 <:constructor_declaration_VERSION< $uid:s$ : { $list:lx$} $opt:None$ $algattrs:attrs$ >> ;
 <:constructor_declaration_VERSION< $uid:s$ : { $list:lx$} $opt:None$ >>;
 <:constructor_declaration_VERSION< $uid:s$ : { $list:lx$} -> $x3$ $algattrs:attrs$ >> ;
 <:constructor_declaration_VERSION< $uid:s$ : { $list:lx$} -> $x3$ >>;
-<:constructor_declaration_VERSION< $uid:s$ : { $list:lx$} $opt:ox3$ $algattrs:attrs$ >> ;
-<:constructor_declaration_VERSION< $uid:s$ : { $list:lx$} $opt:ox3$ >>;
+<:constructor_declaration_VERSION< $uid:s$ : { $list:lx$} $opt:x3$ $algattrs:attrs$ >> ;
+<:constructor_declaration_VERSION< $uid:s$ : { $list:lx$} $opt:x3$ >>;
 #endif
 [@@@"ocaml.text" "constructor_arguments";];
 [@@@"ocaml.text" "type_extension";];
@@ -639,14 +639,14 @@
 <:extension_constructor_VERSION< $uid:s$ : $list:lx$ . $list:lx$ $opt:None$ >>;
 <:extension_constructor_VERSION< $uid:s$ : $list:lx$ . $list:lx$ -> $x2$ $algattrs:attrs$ >>;
 <:extension_constructor_VERSION< $uid:s$ : $list:lx$ . $list:lx$ -> $x2$ >>;
-<:extension_constructor_VERSION< $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ $algattrs:attrs$ >>;
-<:extension_constructor_VERSION< $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ >>;
+<:extension_constructor_VERSION< $uid:s$ : $list:lx$ . $list:lx$ $opt:x2$ $algattrs:attrs$ >>;
+<:extension_constructor_VERSION< $uid:s$ : $list:lx$ . $list:lx$ $opt:x2$ >>;
 <:extension_constructor_VERSION< $uid:s$ : $list:lx$ . { $list:lx$} $opt:None$ $algattrs:attrs$ >>;
 <:extension_constructor_VERSION< $uid:s$ : $list:lx$ . { $list:lx$} $opt:None$ >>;
 <:extension_constructor_VERSION< $uid:s$ : $list:lx$ . { $list:lx$} -> $x2$ $algattrs:attrs$ >>;
 <:extension_constructor_VERSION< $uid:s$ : $list:lx$ . { $list:lx$} -> $x2$ >>;
-<:extension_constructor_VERSION< $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ $algattrs:attrs$ >>;
-<:extension_constructor_VERSION< $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ >>;
+<:extension_constructor_VERSION< $uid:s$ : $list:lx$ . { $list:lx$} $opt:x2$ $algattrs:attrs$ >>;
+<:extension_constructor_VERSION< $uid:s$ : $list:lx$ . { $list:lx$} $opt:x2$ >>;
 <:extension_constructor_VERSION< $uid:s$ = $longid:x$ $algattrs:attrs$ >>;
 <:extension_constructor_VERSION< $uid:s$ = $longid:x$ >>;
 #else
@@ -654,14 +654,14 @@
 <:extension_constructor_VERSION< $uid:s$ : $list:lx$ $opt:None$ >>;
 <:extension_constructor_VERSION< $uid:s$ : $list:lx$ -> $x2$ $algattrs:attrs$ >>;
 <:extension_constructor_VERSION< $uid:s$ : $list:lx$ -> $x2$ >>;
-<:extension_constructor_VERSION< $uid:s$ : $list:lx$ $opt:ox2$ $algattrs:attrs$ >>;
-<:extension_constructor_VERSION< $uid:s$ : $list:lx$ $opt:ox2$ >>;
+<:extension_constructor_VERSION< $uid:s$ : $list:lx$ $opt:x2$ $algattrs:attrs$ >>;
+<:extension_constructor_VERSION< $uid:s$ : $list:lx$ $opt:x2$ >>;
 <:extension_constructor_VERSION< $uid:s$ : { $list:lx$} $opt:None$ $algattrs:attrs$ >>;
 <:extension_constructor_VERSION< $uid:s$ : { $list:lx$} $opt:None$ >>;
 <:extension_constructor_VERSION< $uid:s$ : { $list:lx$} -> $x2$ $algattrs:attrs$ >>;
 <:extension_constructor_VERSION< $uid:s$ : { $list:lx$} -> $x2$ >>;
-<:extension_constructor_VERSION< $uid:s$ : { $list:lx$} $opt:ox2$ $algattrs:attrs$ >>;
-<:extension_constructor_VERSION< $uid:s$ : { $list:lx$} $opt:ox2$ >>;
+<:extension_constructor_VERSION< $uid:s$ : { $list:lx$} $opt:x2$ $algattrs:attrs$ >>;
+<:extension_constructor_VERSION< $uid:s$ : { $list:lx$} $opt:x2$ >>;
 <:extension_constructor_VERSION< $uid:s$ = $longid:x$ $algattrs:attrs$ >>;
 <:extension_constructor_VERSION< $uid:s$ = $longid:x$ >>;
 #endif
@@ -686,8 +686,8 @@
 <:class_type_VERSION< [% $attrid:s$ ? $x1$] >>;
 <:class_type_VERSION< [% $attrid:s$ ? $x1$ when $x2$] $algattrs:attrs$ >> ;
 <:class_type_VERSION< [% $attrid:s$ ? $x1$ when $x2$] >>;
-<:class_type_VERSION< [% $attrid:s$ ? $x1$ $expropt:ox2$] $algattrs:attrs$ >> ;
-<:class_type_VERSION< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:class_type_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] $algattrs:attrs$ >> ;
+<:class_type_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] >>;
 {Parsetree.pcty_desc = Parsetree.Pcty_open {Parsetree.popen_expr = {Location.txt = x; loc = loc}; popen_override = x2; popen_loc = loc; popen_attributes = attrs} ct; pcty_loc = loc; pcty_attributes = attrs};
 {Parsetree.pcty_desc = Parsetree.Pcty_open {Parsetree.popen_expr = {Location.txt = x; loc = loc}; popen_override = x2; popen_loc = loc; popen_attributes = attrs} ct; pcty_loc = loc; pcty_attributes = []};
 <:class_type_VERSION< let open $overrideflag:x2$ $algattrs:attrs$ $longid:x$ in $ct$ >> ;
@@ -713,8 +713,8 @@
 <:class_type_field_VERSION< [@@@ $attrid:s$ ? $x1$] >> ;
 {Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 (Some x2); attr_loc = loc}; pctf_loc = loc; pctf_attributes = attrs};
 <:class_type_field_VERSION< [@@@ $attrid:s$ ? $x1$ when $x2$] >> ;
-{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 ox2; attr_loc = loc}; pctf_loc = loc; pctf_attributes = attrs};
-<:class_type_field_VERSION< [@@@ $attrid:s$ ? $x1$ $expropt:ox2$] >> ;
+{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 x2; attr_loc = loc}; pctf_loc = loc; pctf_attributes = attrs};
+<:class_type_field_VERSION< [@@@ $attrid:s$ ? $x1$ $expropt:x2$] >> ;
 <:class_type_field_VERSION< [%% $attrid:s$ $list:x$] $itemattrs:attrs$ >> ;
 <:class_type_field_VERSION< [%% $attrid:s$ $list:x$] >>;
 <:class_type_field_VERSION< [%% $attrid:s$ : $list:x$] $itemattrs:attrs$ >> ;
@@ -725,8 +725,8 @@
 <:class_type_field_VERSION< [%% $attrid:s$ ? $x1$] >>;
 <:class_type_field_VERSION< [%% $attrid:s$ ? $x1$ when $x2$] $itemattrs:attrs$ >> ;
 <:class_type_field_VERSION< [%% $attrid:s$ ? $x1$ when $x2$] >>;
-<:class_type_field_VERSION< [%% $attrid:s$ ? $x1$ $expropt:ox2$] $itemattrs:attrs$ >> ;
-<:class_type_field_VERSION< [%% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:class_type_field_VERSION< [%% $attrid:s$ ? $x1$ $expropt:x2$] $itemattrs:attrs$ >> ;
+<:class_type_field_VERSION< [%% $attrid:s$ ? $x1$ $expropt:x2$] >>;
 [@@@"ocaml.text" "class_type_field_desc";];
 [@@@"ocaml.text" "class_infos";];
 [@@@"ocaml.text" "class_description";];
@@ -746,8 +746,8 @@
 <:class_expr_VERSION< fun $label:x1$ ( $x3$ ) -> $ce$ >>;
 <:class_expr_VERSION< (fun $label:x1$ ( $x3$ = $x2$ ) -> $ce$) $algattrs:attrs$ >> ;
 <:class_expr_VERSION< fun $label:x1$ ( $x3$ = $x2$ ) -> $ce$ >>;
-<:class_expr_VERSION< (fun $label:x1$ ( $x3$ $expropt:ox2$ ) -> $ce$) $algattrs:attrs$ >> ;
-<:class_expr_VERSION< fun $label:x1$ ( $x3$ $expropt:ox2$ ) -> $ce$ >>;
+<:class_expr_VERSION< (fun $label:x1$ ( $x3$ $expropt:x2$ ) -> $ce$) $algattrs:attrs$ >> ;
+<:class_expr_VERSION< fun $label:x1$ ( $x3$ $expropt:x2$ ) -> $ce$ >>;
 <:class_expr_VERSION< $ce$ $list:lxx$ $algattrs:attrs$ >> ;
 <:class_expr_VERSION< $ce$ $list:lxx$ >>;
 <:class_expr_VERSION< (let $recflag:x$ $list:lx$ in $ce$) $algattrs:attrs$ >> ;
@@ -764,8 +764,8 @@
 <:class_expr_VERSION< [% $attrid:s$ ? $x1$] >>;
 <:class_expr_VERSION< [% $attrid:s$ ? $x1$ when $x2$] $algattrs:attrs$ >> ;
 <:class_expr_VERSION< [% $attrid:s$ ? $x1$ when $x2$] >>;
-<:class_expr_VERSION< [% $attrid:s$ ? $x1$ $expropt:ox2$] $algattrs:attrs$ >> ;
-<:class_expr_VERSION< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:class_expr_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] $algattrs:attrs$ >> ;
+<:class_expr_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] >>;
 {Parsetree.pcl_desc = Parsetree.Pcl_open {Parsetree.popen_expr = {Location.txt = x; loc = loc}; popen_override = x2; popen_loc = loc; popen_attributes = attrs} ce; pcl_loc = loc; pcl_attributes = attrs};
 {Parsetree.pcl_desc = Parsetree.Pcl_open {Parsetree.popen_expr = {Location.txt = x; loc = loc}; popen_override = x2; popen_loc = loc; popen_attributes = attrs} ce; pcl_loc = loc; pcl_attributes = []};
 <:class_expr_VERSION< (let open $overrideflag:x2$ $longid:x$ in $ce$) $algattrs:attrs$ >> ;
@@ -777,8 +777,8 @@
 <:class_field_VERSION< inherit $overrideflag:x1$ $ce$ >>;
 <:class_field_VERSION< inherit $overrideflag:x1$ $ce$ as $lid:s$ $itemattrs:attrs$ >> ;
 <:class_field_VERSION< inherit $overrideflag:x1$ $ce$ as $lid:s$ >>;
-<:class_field_VERSION< inherit $overrideflag:x1$ $ce$ $opt:ox2$ $itemattrs:attrs$ >> ;
-<:class_field_VERSION< inherit $overrideflag:x1$ $ce$ $opt:ox2$ >>;
+<:class_field_VERSION< inherit $overrideflag:x1$ $ce$ $opt:x2$ $itemattrs:attrs$ >> ;
+<:class_field_VERSION< inherit $overrideflag:x1$ $ce$ $opt:x2$ >>;
 <:class_field_VERSION< val $mutable:xxxf2$ $lid:x$ : $x$ $itemattrs:attrs$ >> ;
 <:class_field_VERSION< val $mutable:xxxf2$ $lid:x$ : $x$ >>;
 <:class_field_VERSION< val $overrideflag:x1$ $mutable:xxxf2$ $lid:x$ = $x2$ $itemattrs:attrs$ >> ;
@@ -801,8 +801,8 @@
 <:class_field_VERSION< [@@@ $attrid:s$ ? $x1$] >>;
 {Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 (Some x2); attr_loc = loc}; pcf_loc = loc; pcf_attributes = attrs};
 <:class_field_VERSION< [@@@ $attrid:s$ ? $x1$ when $x2$] >>;
-{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 ox2; attr_loc = loc}; pcf_loc = loc; pcf_attributes = attrs};
-<:class_field_VERSION< [@@@ $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 x2; attr_loc = loc}; pcf_loc = loc; pcf_attributes = attrs};
+<:class_field_VERSION< [@@@ $attrid:s$ ? $x1$ $expropt:x2$] >>;
 <:class_field_VERSION< [%% $attrid:s$ $list:x$] $itemattrs:attrs$ >> ;
 <:class_field_VERSION< [%% $attrid:s$ $list:x$] >>;
 <:class_field_VERSION< [%% $attrid:s$ : $list:x$] $itemattrs:attrs$ >> ;
@@ -813,8 +813,8 @@
 <:class_field_VERSION< [%% $attrid:s$ ? $x1$] >>;
 <:class_field_VERSION< [%% $attrid:s$ ? $x1$ when $x2$] $itemattrs:attrs$ >> ;
 <:class_field_VERSION< [%% $attrid:s$ ? $x1$ when $x2$] >>;
-<:class_field_VERSION< [%% $attrid:s$ ? $x1$ $expropt:ox2$] $itemattrs:attrs$ >> ;
-<:class_field_VERSION< [%% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:class_field_VERSION< [%% $attrid:s$ ? $x1$ $expropt:x2$] $itemattrs:attrs$ >> ;
+<:class_field_VERSION< [%% $attrid:s$ ? $x1$ $expropt:x2$] >>;
 [@@@"ocaml.text" "class_field_desc";];
 [@@@"ocaml.text" "class_field_kind";];
 [@@@"ocaml.text" "class_declaration";];
@@ -843,8 +843,8 @@
 <:module_type_VERSION< [% $attrid:s$ ? $x1$] >>;
 <:module_type_VERSION< [% $attrid:s$ ? $x1$ when $x2$] $algattrs:attrs$ >> ;
 <:module_type_VERSION< [% $attrid:s$ ? $x1$ when $x2$] >>;
-<:module_type_VERSION< [% $attrid:s$ ? $x1$ $expropt:ox2$] $algattrs:attrs$ >> ;
-<:module_type_VERSION< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:module_type_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] $algattrs:attrs$ >> ;
+<:module_type_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] >>;
 <:module_type_VERSION< (module $longid:x$) $algattrs:attrs$ >> ;
 <:module_type_VERSION< (module $longid:x$) >>;
 [@@@"ocaml.text" "module_type_desc";];
@@ -852,7 +852,7 @@
 <:functor_parameter_VERSION< () >>;
 <:functor_parameter_VERSION< ( _ : $mt$ ) >>;
 <:functor_parameter_VERSION< ( $uid:s$ : $mt$ ) >>;
-<:functor_parameter_VERSION< ( $opt:os$ : $mt$ ) >>;
+<:functor_parameter_VERSION< ( $opt:s$ : $mt$ ) >>;
 [@@@"ocaml.text" "signature";];
 [@@@"ocaml.text" "signature_item";];
 <:signature_item_VERSION< external $lid:s$ : $x2$ = $list:ls$ $itemattrs:attrs$ >>;
@@ -877,10 +877,10 @@
 <:signature_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ -> $x2$ $itemattrs:attrs$ >>;
 
 <:signature_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ -> $x2$ >>;
-<:signature_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
-<:signature_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ $algattrs:attrs$ >>;
-<:signature_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ $itemattrs:attrs$ >>;
-<:signature_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ >>;
+<:signature_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:x2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:signature_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:x2$ $algattrs:attrs$ >>;
+<:signature_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:x2$ $itemattrs:attrs$ >>;
+<:signature_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:x2$ >>;
 
 <:signature_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:None$ $algattrs:attrs$ $itemattrs:attrs$ >>;
 <:signature_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:None$ $algattrs:attrs$ >>;
@@ -892,10 +892,10 @@
 <:signature_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} -> $x2$ $itemattrs:attrs$ >>;
 <:signature_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} -> $x2$ >>;
 
-<:signature_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
-<:signature_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ $algattrs:attrs$ >>;
-<:signature_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ $itemattrs:attrs$ >>;
-<:signature_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ >>;
+<:signature_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:x2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:signature_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:x2$ $algattrs:attrs$ >>;
+<:signature_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:x2$ $itemattrs:attrs$ >>;
+<:signature_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:x2$ >>;
 <:signature_item_VERSION< exception $excon:x1$ $itemattrs:attrs$ >> ;
 <:signature_item_VERSION< exception $excon:x1$ >> ;
 #else
@@ -909,10 +909,10 @@
 <:signature_item_VERSION< exception $uid:s$ : $list:lx$ -> $x2$ $itemattrs:attrs$ >>;
 <:signature_item_VERSION< exception $uid:s$ : $list:lx$ -> $x2$ >>;
 
-<:signature_item_VERSION< exception $uid:s$ : $list:lx$ $opt:ox2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
-<:signature_item_VERSION< exception $uid:s$ : $list:lx$ $opt:ox2$ $algattrs:attrs$ >>;
-<:signature_item_VERSION< exception $uid:s$ : $list:lx$ $opt:ox2$ $itemattrs:attrs$ >>;
-<:signature_item_VERSION< exception $uid:s$ : $list:lx$ $opt:ox2$ >>;
+<:signature_item_VERSION< exception $uid:s$ : $list:lx$ $opt:x2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:signature_item_VERSION< exception $uid:s$ : $list:lx$ $opt:x2$ $algattrs:attrs$ >>;
+<:signature_item_VERSION< exception $uid:s$ : $list:lx$ $opt:x2$ $itemattrs:attrs$ >>;
+<:signature_item_VERSION< exception $uid:s$ : $list:lx$ $opt:x2$ >>;
 
 <:signature_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:None$ $algattrs:attrs$ $itemattrs:attrs$ >>;
 <:signature_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:None$ $algattrs:attrs$ >>;
@@ -924,10 +924,10 @@
 <:signature_item_VERSION< exception $uid:s$ : { $list:lx$} -> $x2$ $itemattrs:attrs$ >>;
 <:signature_item_VERSION< exception $uid:s$ : { $list:lx$} -> $x2$ >>;
 
-<:signature_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:ox2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
-<:signature_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:ox2$ $algattrs:attrs$ >>;
-<:signature_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:ox2$ $itemattrs:attrs$ >>;
-<:signature_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:ox2$ >>;
+<:signature_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:x2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:signature_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:x2$ $algattrs:attrs$ >>;
+<:signature_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:x2$ $itemattrs:attrs$ >>;
+<:signature_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:x2$ >>;
 <:signature_item_VERSION< exception $excon:x1$ $itemattrs:attrs$ >> ;
 <:signature_item_VERSION< exception $excon:x1$ >> ;
 #endif
@@ -935,8 +935,8 @@
 <:signature_item_VERSION< module _ : $mt$ >>;
 <:signature_item_VERSION< module $uid:s$ : $mt$ $itemattrs:attrs$ >> ;
 <:signature_item_VERSION< module $uid:s$ : $mt$ >>;
-<:signature_item_VERSION< module $opt:os$ : $mt$ $itemattrs:attrs$ >> ;
-<:signature_item_VERSION< module $opt:os$ : $mt$ >>;
+<:signature_item_VERSION< module $opt:s$ : $mt$ $itemattrs:attrs$ >> ;
+<:signature_item_VERSION< module $opt:s$ : $mt$ >>;
 <:signature_item_VERSION< module $uid:s$ := $longid:x$ $itemattrs:attrs$ >> ;
 <:signature_item_VERSION< module $uid:s$ := $longid:x$ >>;
 <:signature_item_VERSION< module rec $list:lx$ >>;
@@ -944,13 +944,14 @@
 <:signature_item_VERSION< module type $uid:s$ >>;
 <:signature_item_VERSION< module type $uid:s$ = $mt$ $itemattrs:attrs$ >> ;
 <:signature_item_VERSION< module type $uid:s$ = $mt$ >>;
-<:signature_item_VERSION< module type $uid:s$ $opt:omt$ $itemattrs:attrs$ >> ;
-<:signature_item_VERSION< module type $uid:s$ $opt:omt$ >>;
+<:signature_item_VERSION< module type $uid:s$ $opt:mt$ $itemattrs:attrs$ >> ;
+<:signature_item_VERSION< module type $uid:s$ $opt:mt$ >>;
 #if OVERS >= 413
 {Parsetree.psig_desc = Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; loc = loc}; pmtd_type = None; pmtd_attributes = attrs; pmtd_loc = loc}; psig_loc = loc};
 <:signature_item_VERSION< module type $uid:s$ := $mt$ $itemattrs:attrs$ >>;
 <:signature_item_VERSION< module type $uid:s$ := $mt$ >>;
-{Parsetree.psig_desc = Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; loc = loc}; pmtd_type = omt; pmtd_attributes = attrs; pmtd_loc = loc}; psig_loc = loc};
+{Parsetree.psig_desc = Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; loc = loc}; pmtd_type = mt; pmtd_attributes = attrs; pmtd_loc = loc}; psig_loc = loc};
+{Parsetree.psig_desc = Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; loc = loc}; pmtd_type = mt; pmtd_attributes = []; pmtd_loc = loc}; psig_loc = loc};
 #endif
 <:signature_item_VERSION< open $overrideflag:x2$ $longid:x$ $itemattrs:attrs$ >>;
 <:signature_item_VERSION< open $overrideflag:x2$ $longid:x$ >>;
@@ -963,7 +964,7 @@
 <:signature_item_VERSION< [@@@ $attrid:s$ : $x$] >>;
 <:signature_item_VERSION< [@@@ $attrid:s$ ? $x1$] >>;
 <:signature_item_VERSION< [@@@ $attrid:s$ ? $x1$ when $x2$] >>;
-<:signature_item_VERSION< [@@@ $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:signature_item_VERSION< [@@@ $attrid:s$ ? $x1$ $expropt:x2$] >>;
 <:signature_item_VERSION< [%% $attrid:s$ $list:x$] $itemattrs:attrs$ >> ;
 <:signature_item_VERSION< [%% $attrid:s$ $list:x$] >>;
 <:signature_item_VERSION< [%% $attrid:s$ : $list:x$] $itemattrs:attrs$ >> ;
@@ -974,16 +975,16 @@
 <:signature_item_VERSION< [%% $attrid:s$ ? $x1$] >>;
 <:signature_item_VERSION< [%% $attrid:s$ ? $x1$ when $x2$] $itemattrs:attrs$ >> ;
 <:signature_item_VERSION< [%% $attrid:s$ ? $x1$ when $x2$] >>;
-<:signature_item_VERSION< [%% $attrid:s$ ? $x1$ $expropt:ox2$] $itemattrs:attrs$ >> ;
-<:signature_item_VERSION< [%% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:signature_item_VERSION< [%% $attrid:s$ ? $x1$ $expropt:x2$] $itemattrs:attrs$ >> ;
+<:signature_item_VERSION< [%% $attrid:s$ ? $x1$ $expropt:x2$] >>;
 [@@@"ocaml.text" "signature_item_desc";];
 [@@@"ocaml.text" "module_declaration";];
 <:module_declaration_VERSION< module _ : $mt$ $itemattrs:attrs$ >> ;
 <:module_declaration_VERSION< module _ : $mt$ >>;
 <:module_declaration_VERSION< module $uid:s$ : $mt$ $itemattrs:attrs$ >> ;
 <:module_declaration_VERSION< module $uid:s$ : $mt$ >>;
-<:module_declaration_VERSION< module $opt:os$ : $mt$ $itemattrs:attrs$ >> ;
-<:module_declaration_VERSION< module $opt:os$ : $mt$ >>;
+<:module_declaration_VERSION< module $opt:s$ : $mt$ $itemattrs:attrs$ >> ;
+<:module_declaration_VERSION< module $opt:s$ : $mt$ >>;
 [@@@"ocaml.text" "module_substitution";];
 [@@@"ocaml.text" "module_type_declaration";];
 [@@@"ocaml.text" "open_infos";];
@@ -1042,8 +1043,8 @@
 <:module_expr_VERSION< [% $attrid:s$ ? $x1$] >>;
 <:module_expr_VERSION< [% $attrid:s$ ? $x1$ when $x2$] $algattrs:attrs$ >> ;
 <:module_expr_VERSION< [% $attrid:s$ ? $x1$ when $x2$] >>;
-<:module_expr_VERSION< [% $attrid:s$ ? $x1$ $expropt:ox2$] $algattrs:attrs$ >> ;
-<:module_expr_VERSION< [% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:module_expr_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] $algattrs:attrs$ >> ;
+<:module_expr_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] >>;
 [@@@"ocaml.text" "module_expr_desc";];
 [@@@"ocaml.text" "structure";];
 [@@@"ocaml.text" "structure_item";];
@@ -1068,10 +1069,10 @@
 <:structure_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ -> $x2$ $itemattrs:attrs$ >> ;
 <:structure_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ -> $x2$ >>;
 
-<:structure_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ $algattrs:attrs$ $itemattrs:attrs$ >> ;
-<:structure_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ $algattrs:attrs$ >>;
-<:structure_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ $itemattrs:attrs$ >> ;
-<:structure_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:ox2$ >>;
+<:structure_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:x2$ $algattrs:attrs$ $itemattrs:attrs$ >> ;
+<:structure_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:x2$ $algattrs:attrs$ >>;
+<:structure_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:x2$ $itemattrs:attrs$ >> ;
+<:structure_item_VERSION< exception $uid:s$ : $list:lx$ . $list:lx$ $opt:x2$ >>;
 
 <:structure_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:None$ $algattrs:attrs$ $itemattrs:attrs$ >> ;
 <:structure_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:None$ $algattrs:attrs$ >>;
@@ -1083,10 +1084,10 @@
 <:structure_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} -> $x2$ $itemattrs:attrs$ >> ;
 <:structure_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} -> $x2$ >>;
 
-<:structure_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ $algattrs:attrs$ $itemattrs:attrs$ >> ;
-<:structure_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ $algattrs:attrs$ >>;
-<:structure_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ $itemattrs:attrs$ >> ;
-<:structure_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:ox2$ >>;
+<:structure_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:x2$ $algattrs:attrs$ $itemattrs:attrs$ >> ;
+<:structure_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:x2$ $algattrs:attrs$ >>;
+<:structure_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:x2$ $itemattrs:attrs$ >> ;
+<:structure_item_VERSION< exception $uid:s$ : $list:lx$ . { $list:lx$} $opt:x2$ >>;
 
 <:structure_item_VERSION< exception $uid:s$ = $longid:x$ $algattrs:attrs$ $itemattrs:attrs$ >> ;
 <:structure_item_VERSION< exception $uid:s$ = $longid:x$ $algattrs:attrs$ >>;
@@ -1105,10 +1106,10 @@
 <:structure_item_VERSION< exception $uid:s$ : $list:lx$ -> $x2$ $itemattrs:attrs$ >>;
 <:structure_item_VERSION< exception $uid:s$ : $list:lx$ -> $x2$ >>;
 
-<:structure_item_VERSION< exception $uid:s$ : $list:lx$ $opt:ox2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
-<:structure_item_VERSION< exception $uid:s$ : $list:lx$ $opt:ox2$ $algattrs:attrs$ >>;
-<:structure_item_VERSION< exception $uid:s$ : $list:lx$ $opt:ox2$ $itemattrs:attrs$ >>;
-<:structure_item_VERSION< exception $uid:s$ : $list:lx$ $opt:ox2$ >>;
+<:structure_item_VERSION< exception $uid:s$ : $list:lx$ $opt:x2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:structure_item_VERSION< exception $uid:s$ : $list:lx$ $opt:x2$ $algattrs:attrs$ >>;
+<:structure_item_VERSION< exception $uid:s$ : $list:lx$ $opt:x2$ $itemattrs:attrs$ >>;
+<:structure_item_VERSION< exception $uid:s$ : $list:lx$ $opt:x2$ >>;
 
 <:structure_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:None$ $algattrs:attrs$ $itemattrs:attrs$ >>;
 <:structure_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:None$ $algattrs:attrs$ >>;
@@ -1120,10 +1121,10 @@
 <:structure_item_VERSION< exception $uid:s$ : { $list:lx$} -> $x2$ $itemattrs:attrs$ >>;
 <:structure_item_VERSION< exception $uid:s$ : { $list:lx$} -> $x2$ >>;
 
-<:structure_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:ox2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
-<:structure_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:ox2$ $algattrs:attrs$ >>;
-<:structure_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:ox2$ $itemattrs:attrs$ >>;
-<:structure_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:ox2$ >>;
+<:structure_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:x2$ $algattrs:attrs$ $itemattrs:attrs$ >>;
+<:structure_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:x2$ $algattrs:attrs$ >>;
+<:structure_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:x2$ $itemattrs:attrs$ >>;
+<:structure_item_VERSION< exception $uid:s$ : { $list:lx$} $opt:x2$ >>;
 
 <:structure_item_VERSION< exception $uid:s$ = $longid:x$ $algattrs:attrs$ $itemattrs:attrs$ >>;
 <:structure_item_VERSION< exception $uid:s$ = $longid:x$ $algattrs:attrs$ >>;
@@ -1136,15 +1137,15 @@
 <:structure_item_VERSION< module _ = $me$ >>;
 <:structure_item_VERSION< module $uid:s$ = $me$ $itemattrs:attrs$ >> ;
 <:structure_item_VERSION< module $uid:s$ = $me$ >>;
-<:structure_item_VERSION< module $opt:os$ = $me$ $itemattrs:attrs$ >> ;
-<:structure_item_VERSION< module $opt:os$ = $me$ >>;
+<:structure_item_VERSION< module $opt:s$ = $me$ $itemattrs:attrs$ >> ;
+<:structure_item_VERSION< module $opt:s$ = $me$ >>;
 <:structure_item_VERSION< module rec $list:lx$ >>;
 <:structure_item_VERSION< module type $uid:s$ $itemattrs:attrs$ >> ;
 <:structure_item_VERSION< module type $uid:s$ >>;
 <:structure_item_VERSION< module type $uid:s$ = $mt$ $itemattrs:attrs$ >> ;
 <:structure_item_VERSION< module type $uid:s$ = $mt$ >>;
-<:structure_item_VERSION< module type $uid:s$ $opt:omt$ $itemattrs:attrs$ >> ;
-<:structure_item_VERSION< module type $uid:s$ $opt:omt$ >>;
+<:structure_item_VERSION< module type $uid:s$ $opt:mt$ $itemattrs:attrs$ >> ;
+<:structure_item_VERSION< module type $uid:s$ $opt:mt$ >>;
 <:structure_item_VERSION< open $overrideflag:x1$ $me$ $itemattrs:attrs$ >> ;
 <:structure_item_VERSION< open $overrideflag:x1$ $me$ >>;
 <:structure_item_VERSION< class $classlist:lx$ >>;
@@ -1156,7 +1157,7 @@
 <:structure_item_VERSION< [@@@ $attrid:s$ : $x$] >>;
 <:structure_item_VERSION< [@@@ $attrid:s$ ? $x1$] >>;
 <:structure_item_VERSION< [@@@ $attrid:s$ ? $x1$ when $x2$] >>;
-<:structure_item_VERSION< [@@@ $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:structure_item_VERSION< [@@@ $attrid:s$ ? $x1$ $expropt:x2$] >>;
 <:structure_item_VERSION< [%% $attrid:s$ $list:x$] $itemattrs:attrs$ >> ;
 <:structure_item_VERSION< [%% $attrid:s$ $list:x$] >>;
 <:structure_item_VERSION< [%% $attrid:s$ : $list:x$] $itemattrs:attrs$ >> ;
@@ -1167,8 +1168,8 @@
 <:structure_item_VERSION< [%% $attrid:s$ ? $x1$] >>;
 <:structure_item_VERSION< [%% $attrid:s$ ? $x1$ when $x2$] $itemattrs:attrs$ >> ;
 <:structure_item_VERSION< [%% $attrid:s$ ? $x1$ when $x2$] >>;
-<:structure_item_VERSION< [%% $attrid:s$ ? $x1$ $expropt:ox2$] $itemattrs:attrs$ >> ;
-<:structure_item_VERSION< [%% $attrid:s$ ? $x1$ $expropt:ox2$] >>;
+<:structure_item_VERSION< [%% $attrid:s$ ? $x1$ $expropt:x2$] $itemattrs:attrs$ >> ;
+<:structure_item_VERSION< [%% $attrid:s$ ? $x1$ $expropt:x2$] >>;
 [@@@"ocaml.text" "structure_item_desc";];
 #if OVERS >= 501
 [@@@"ocaml.text" "value_constraint";];
