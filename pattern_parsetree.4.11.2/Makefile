@@ -39,10 +39,10 @@ realclean:: clean
 	rm -f parser.ml parser.mli lexer.ml *_mock* *.conflicts parser_expanded.mly parsetree.ml
 
 parser.cmo: parser.ml
-	$(LAUNCH) $(YAWRAP) $(OCAMLFIND) ocamlc $(OCAMLCFLAGS) -package $(PACKAGES) -c $<
+	$(LAUNCH) $(YAWRAP) $(OCAMLFIND) ocamlc $(DEBUG) $(OCAMLCFLAGS) -package $(PACKAGES) -c $<
 
 parser.cmx: parser.ml
-	$(LAUNCH) $(YAWRAP) $(OCAMLFIND) ocamlopt $(OCAMLCFLAGS) -package $(PACKAGES) -c $<
+	$(LAUNCH) $(YAWRAP) $(OCAMLFIND) ocamlopt $(DEBUG) $(OCAMLCFLAGS) -package $(PACKAGES) -c $<
 
 parser.ml parser.mli: parser_mock.out.mli
 	menhir --table --explain --infer-read-reply parser_mock.out.mli parser.mly

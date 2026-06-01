@@ -1358,6 +1358,8 @@ parse_module_expr:
 parse_core_type:
   core_type EOF
     { $1 }
+/*-*/| ANTI_LIST DOT xtr_antis attrs=attributes_vala EOF
+/*-*/      { mktyp ~loc:$sloc ~attrs (Ptyp_poly(vaant $1, mktyp ~loc:$sloc (Ptyp_xtr (Location.mkloc $3 (make_loc $sloc))))) }
 ;
 
 parse_expression:
@@ -3847,9 +3849,6 @@ core_type:
 %inline core_type_no_attr:
   alias_type
     { $1 }
-/*-*/| ANTI_LIST DOT xtr_antis
-/*-*/      { mktyp ~loc:$sloc (Ptyp_poly(vaant $1, mktyp ~loc:$sloc (Ptyp_xtr (Location.mkloc $3 (make_loc $sloc))))) }
-
 ;
 
 (* Alias types include:

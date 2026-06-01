@@ -14,6 +14,30 @@ print_string "================ START ================\n";; flush stdout ;;
 
 #require "pa_ppx_parsetree_helpers" ;;
 
+let pp_location_t pps (loc : Location.t) = Fmt.(pf pps "<loc>") ;;
+let pp_expression pps e = Fmt.(pf pps "#<expr< %a >>" Pprintast.expression e) ;;
+let pp_pattern pps e = Fmt.(pf pps "#<patt< %a >>" Pprintast.pattern e) ;;
+let pp_core_type pps e = Fmt.(pf pps "#<core_type< %a >>" Pprintast.core_type e) ;;
+
+#install_printer pp_location_t ;;
+#install_printer pp_core_type ;;
+
+#install_printer pp_expression ;;
+#install_printer pp_pattern ;;
+
+module PT500 = struct
+  open Pa_ppx_parsetree_pattern_parsetree_500
+let pp_location_t pps (loc : Location.t) = Fmt.(pf pps "<loc>")
+let pp_expression pps e = Fmt.(pf pps "#<expr< %a >>" Pprintast.expression e)
+let pp_pattern pps e = Fmt.(pf pps "#<patt< %a >>" Pprintast.pattern e)
+let pp_core_type pps e = Fmt.(pf pps "#<core_type< %a >>" Pprintast.core_type e)
+end
+#install_printer PT500.pp_location_t ;;
+(*
+#install_printer PT500.pp_core_type ;;
+#install_printer PT500.pp_expression ;;
+#install_printer PT500.pp_pattern ;;
+ *)
 (*
 ;;; Local Variables: ***
 ;;; mode:tuareg ***

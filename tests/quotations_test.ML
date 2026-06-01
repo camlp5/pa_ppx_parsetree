@@ -132,16 +132,16 @@ let test ctxt =
                        {%value_binding| f : $list:tvl$ . 'a -> 'a = fun x -> x |} -> tvl)
   ; assert_equal [{%lident_loc| a |}] (match {%value_binding| f : 'a . 'a -> 'a = fun x -> x |} with
                        {%value_binding| f : $list:tvl$ . 'a -> 'a = fun x -> x |} -> tvl)
-#if OCAML_VERSION >= (5,1,0)
+
   ; let tvl = [{%lident_loc| a |}] in
     let t_id = [%core_type {| 'a -> 'a |}] in
     assert_equal () (match {%value_binding| f : $list:tvl$ . $t_id$ = fun x -> x |} with
                        {%value_binding| f : 'a . 'a -> 'a = fun x -> x |} -> ())
-#else
+
   ; let t_id = [%core_type {| 'a -> 'a |}] in
     assert_equal () (match {%value_binding| f : $t_id$ = fun x -> x |} with
                        {%value_binding| f : 'a -> 'a = fun x -> x |} -> ())
-#endif
+
 end
 
 module AL = struct
