@@ -24,7 +24,6 @@
         ; class_expr
         ; class_field
         ; class_type
-        ; class_type_declaration
         ; class_type_field
         ; constant
         ; constructor_declaration
@@ -50,6 +49,47 @@
       ; default_expression = {
           location_stack = []
         }
+      ; expand_test_types = [
+          ([%typ: type_declaration],
+           DelPatts [
+               [%patt? {ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = None}]
+             ; [%patt? {ptype_kind = Parsetree.Ptype_abstract; ptype_private = x; ptype_manifest = None}]
+#if OVERS >= 505
+             ; [%patt? {ptype_kind = Parsetree.Ptype_external _; ptype_private = (x|Asttypes.Private)}]
+             ; [%patt? {ptype_kind = Parsetree.Ptype_external s; ptype_manifest = Some _}]
+#endif
+             ]
+          )
+          ; ([%typ: class_expr],
+           DelPatts [
+               [%patt? {Parsetree.pcl_desc = Parsetree.Pcl_open({popen_attributes = attrs}, ce)}]
+             ]
+          )
+          ; ([%typ: class_type],
+           DelPatts [
+               [%patt? {Parsetree.pcty_desc = Parsetree.Pcty_arrow(_,_,_); pcty_attributes = x}]
+             ; [%patt? {Parsetree.pcty_desc = Parsetree.Pcty_open({Parsetree.popen_expr = _; popen_attributes = attrs}, ct)}]
+             ]
+          )
+          ; ([%typ: class_type_field],
+           DelPatts [
+               [%patt? {Parsetree.pctf_desc = Parsetree.Pctf_attribute _; pctf_attributes = attrs}]
+             ]
+          )
+          ; ([%typ: class_field],
+           DelPatts [
+               [%patt? {Parsetree.pcf_desc = Parsetree.Pcf_attribute _; pcf_attributes = attrs}]
+             ]
+          )
+          ; ([%typ: signature_item],
+           DelPatts [
+               [%patt? {Parsetree.psig_desc = Parsetree.Psig_exception {Parsetree.ptyexn_constructor = {pext_kind = Parsetree.Pext_rebind _}}}]
+             ; [%patt? {Parsetree.psig_desc = Parsetree.Psig_modtypesubst {pmtd_type = None}}]
+             ; [%patt? {Parsetree.psig_desc = Parsetree.Psig_modtypesubst {pmtd_type = x}}]
+             ]
+          )
+        ]
+
       ; expand_types = [
           ([%typ: attribute], Auto)
         ; ([%typ: attributes], Explicit [
@@ -65,6 +105,7 @@
         ; ([%typ: class_structure], Auto)
         ; ([%typ: class_type_desc], Auto)
         ; ([%typ: class_type_field_desc], Auto)
+        ; ([%typ: closed_flag], Auto)
 #if OVERS >= 503
         ; ([%typ: constant_desc], Auto)
 #endif
@@ -88,6 +129,11 @@
         ; ([%typ: module_type_declaration], Auto)
         ; ([%typ: module_type_desc], Auto)
         ; ([%typ: object_field_desc], Auto)
+        ; ([%typ: object_field], 
+           DelPatts [
+               [%patt? {Parsetree.pof_desc = Parsetree.Oinherit x; pof_attributes = attrs}]
+             ]
+          )
         ; ([%typ: open_declaration], Auto)
         ; ([%typ: open_description], Auto)
         ; ([%typ: open_infos], Auto)
@@ -96,14 +142,14 @@
         ; ([%typ: pattern_desc], Auto)
         ; ([%typ: payload], Auto)
         ; ([%typ: row_field_desc], Auto)
+        ; ([%typ: row_field], 
+           DelPatts [
+               [%patt? {Parsetree.prf_desc = Parsetree.Rinherit _; prf_attributes = attrs}]
+             ]
+          )
         ; ([%typ: signature_item_desc], Auto)
-        ; ([%typ: structure_item_desc], AddDel (
-                                    [],
-                                    [
-                                      Parsetree.Pstr_eval(x1, attrs);
-                                      Parsetree.Pstr_eval(x1, [])
-                                    ]
-                                  ))
+        ; ([%typ: structure_item_desc], Auto
+          )
 #if OVERS >= 502
         ; ([%typ: type_constraint], Auto)
 #endif
@@ -118,30 +164,21 @@
       ; expand_types_per_type = {
           type_declaration = [
             ([%typ: private_flag], Auto)
-          ; ([%typ: type_declaration], AddDel(
-                                   [],
-                                   [
-                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Public; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Public; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = ox4; ptype_attributes = attrs; ptype_loc = loc};
-                                     {Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_cstrs = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = ox4; ptype_attributes = []; ptype_loc = loc};
-                                   ]
-                                 ))
+          ; ([%typ: type_declaration], Auto)
           ]
+        ; value_description = [
+            ([%typ: string list], Explicit [
+                                      l
+                                    ; []
+            ])
+          ]
+
+(*
         ; value_binding = [
-            ([%typ: value_constraint option],
-             AddDel(
-                 [],
-                 [ox3]
-               )
+            ([%typ: value_constraint option],Auto
             )
           ]
+ *)
         }
       ; expand_types_per_constructor = [
           (Pexp_ident,
@@ -190,9 +227,6 @@
                              ; Asttypes.Labelled m
              ])
           ])
-        ; (Ppat_tuple,
-           [ ([%typ: closed_flag], Auto)
-          ])
         ; (Ppat_unpack,
            [ ([%typ: package_type], Auto)
           ])
@@ -217,23 +251,12 @@
              ])
           ])
 #if OVERS >= 502
+(*
         ; (Pexp_function,
-           [ ([%typ: type_constraint], AddDel (
-                                   [],
-                                   [
-                                     Parsetree.Pcoerce(None, x2)
-                                   ; Parsetree.Pcoerce(Some x1, x2)
-                                   ; Parsetree.Pcoerce(ox1, x2)
-                                   ]
-             ))
-           ; ([%typ: type_constraint Ploc.vala option Ploc.vala], AddDel (
-                                   [],
-                                   [
-                                     Some x1
-                                   ; ox1
-                                   ]
-             ))
+           [ ([%typ: type_constraint], Auto)
+           ; ([%typ: type_constraint Ploc.vala option Ploc.vala], Auto)
           ])
+ *)
 #endif
         ; (Pexp_field,
            [ ([%typ: longident_t], Explicit [
@@ -327,14 +350,12 @@
 #endif
              ])
           ])
+(*
         ; (Pvc_coercion,
-           [ ([%typ: core_type option],
-              AddDel(
-                  [],
-                  [ox1]
-                )
+           [ ([%typ: core_type option],Auto
              )
           ])
+ *)
         ; (Pwith_type,
            [ ([%typ: longident_t], Explicit [
                                Longident.Lident s
@@ -383,6 +404,12 @@
                              ; [x;y]
              ])
           ])
+        ; (Psig_value,
+           [ ([%typ: string list], Explicit [
+                               l
+                             ; []
+             ])
+          ])
         ]
       ; per_constructor_expansion = [
           (Pconst_integer, Explicit [
@@ -394,36 +421,28 @@
         ; (Pconst_float, Explicit [
              Parsetree.Pconst_float (sxf1, None)
           ])
-        ; (Ptyp_variant, AddDel (
-                             [Parsetree.Ptyp_variant(lx1, Asttypes.Closed, Some [])],
-                             [Parsetree.Ptyp_variant(lx1, x, Some [])]
-          ))
-        ; (Psig_value, AddDel (
-                           [Parsetree.Psig_value {Parsetree.pval_name = {Location.txt = s; loc = loc}; pval_type = x2; pval_prim = []; pval_attributes = []; pval_loc = loc}],
-                           []
-          ))
-        ; (Psig_modtypesubst, AddDel (
-                                  [],
-                                  [
-                                    Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; loc = loc}; pmtd_type = None; pmtd_attributes = []; pmtd_loc = loc}
-                                  ; Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; loc = loc}; pmtd_type = omt; pmtd_attributes = []; pmtd_loc = loc}
-                                  ]
-          ))
-        ; (Psig_exception, AddDel (
-                                  [],
-                                  [
-                                    Parsetree.Psig_exception {Parsetree.ptyexn_constructor = {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = attrs}; ptyexn_loc = loc; ptyexn_attributes = attrs};
-                                    Parsetree.Psig_exception {Parsetree.ptyexn_constructor = {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = attrs}; ptyexn_loc = loc; ptyexn_attributes = []};
-                                    Parsetree.Psig_exception {Parsetree.ptyexn_constructor = {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = []}; ptyexn_loc = loc; ptyexn_attributes = attrs};
-                                    Parsetree.Psig_exception {Parsetree.ptyexn_constructor = {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = []}; ptyexn_loc = loc; ptyexn_attributes = []}
-                                  ]
-          ))
-        ; (Pexp_letexception, AddDel (
-                                  [],
-                                  [
-                                    Parsetree.Pexp_letexception( {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = []}, x2)
-                                  ]
-          ))
+        ; (Ptyp_variant, DelPatts [
+             [%patt? Parsetree.Ptyp_variant(_, Asttypes.Open, Some _)]
+           ; [%patt? Parsetree.Ptyp_variant(_, Asttypes.Open, x)]
+          ])
+        ; (Ppat_record, DelPatts [
+             [%patt? Parsetree.Ppat_record(x00, (Asttypes.Closed|Asttypes.Open))]
+          ])
+        ; (Pexp_function, DelPatts [
+             [%patt? Parsetree.Pexp_function(_, Some (Parsetree.Pcoerce(_, _)), _)]
+          ])
+        ; (Pexp_letexception, DelPatts [
+             [%patt? Parsetree.Pexp_letexception({pext_kind = Parsetree.Pext_rebind _}, _)]
+          ])
+        ; (Pexp_poly, DelPatts [
+             [%patt? Parsetree.Pexp_poly(_, _)]
+          ])
+        ; (Pexp_open, DelPatts [
+             [%patt? Parsetree.Pexp_open({popen_attributes = attrs}, _)]
+          ])
+        ; (Pexp_unreachable, DelPatts [
+             [%patt? Parsetree.Pexp_unreachable]
+          ])
         ]
       ; type_module_map = {
           arg_label = Asttypes

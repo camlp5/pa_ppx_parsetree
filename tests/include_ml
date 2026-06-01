@@ -8,21 +8,21 @@
 #require "bos";;
 #require "re";;
 #require "str";;
-(*
+
 #require "camlp5.pa_op";;
 Pcaml.inter_phrases := Some ";;\n";;
- *)
+(*
 #require "camlp5.pa_r";;
 Pcaml.inter_phrases := Some ";\n";;
-
-(*
-#require "camlp5.pr_o";;
-Pr_o.sep := Some ";;\n";;
  *)
 
+#require "camlp5.pr_o";;
+Pr_o.sep := Some ";;\n";;
+
+(*
 #require "camlp5.pr_r";;
 Pcaml.inter_phrases := Some ";\n";;
-
+ *)
 #require "pa_ppx.testutils";;
 open Pa_ppx_testutils ;;
 open Papr_util ;;
@@ -48,12 +48,15 @@ let pp_patt ty = Fmt.(pf stdout "#<patt< %s >>" (Eprinter.apply Pcaml.pr_patt Pp
 #require "pa_ppx.utils";;
 #require "pa_ppx_parsetree_helpers" ;;
 #require "pa_ppx.deriving_plugins.std";;
+#require "pa_ppx.import" ;;
+Pa_ppx_import.add_include "." ;;
+Pa_ppx_import.add_include "../local-install/lib/pa_ppx_parsetree_quotations_504";;
 
 #require "pa_ppx_parsetree_pattern_parsetree_504";;
-#require "pa_ppx_parsetree_quotations_504";;
 #require "pa_ppx_parsetree_pattern_parsetree_505";;
+#require "pa_ppx_parsetree_quotations_504";;
 
-#require "pa_ppx_parsetree_quotations";;
+#require "pa_ppx_q_ast.quotation_test.full" ;;
 
 let pp_location_t pps (loc : Location.t) = Fmt.(pf pps "<loc>") ;;
 #install_printer pp_location_t ;;
@@ -64,25 +67,34 @@ let pp_location_t_504 pps (loc : Pa_ppx_parsetree_pattern_parsetree_504.Location
 let pp_location_t_505 pps (loc : Pa_ppx_parsetree_pattern_parsetree_505.Location.t) = Fmt.(pf pps "<loc>") ;;
 #install_printer pp_location_t_505 ;;
 
-{foo| exception $excon:ec1$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_505.Parse.structure_item ;;
-
 open Pa_ppx_parsetree_pattern_parsetree_504 ;;
-open Pa_ppx_parsetree_pattern_parsetree_505 ;;
+
+let parse_patt s = s |> Stream.of_string |> Grammar.Entry.parse Pcaml.patt ;;
+let parse_expr s = s |> Stream.of_string |> Grammar.Entry.parse Pcaml.expr ;;
 
 (*
-{foo| type t += $excon:ec1$ | $excon:ec2$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_504.Parse.structure_item ;;
-
-open Pa_ppx_parsetree_pattern_parsetree_504 ;;
-#trace Pa_ppx_parsetree_pattern_parsetree_504.Parser.package_type_of_module_type ;;
-
-{foo| (module $lid:s$ with $list:xf2$) $algattrs:attrs$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_504.Parse.core_type ;;
-
-
-{foo| $lid:s$ $algattrs:attrs2$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_504.Parse.module_type ;;
-
-{foo| $lid:s$ $algattrs:attrs2$ with $list:xf2$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_504.Parse.module_type ;;
-
-{foo| (module $lid:s$ $algattrs:attrs2$) $algattrs:attrs$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_504.Parse.core_type ;;
 
 {foo| (module $lid:s$ $algattrs:attrs2$ with $list:xf2$) $algattrs:attrs$ |foo} |> Lexing.from_string |> Pa_ppx_parsetree_pattern_parsetree_504.Parse.core_type ;;
  *)
+
+(*
+#trace Pa_ppx_quotation_test.pattmatch ;;
+#trace Pa_ppx_quotation_test.pattmatch1 ;;
+ *)
+#trace Pa_ppx_quotation_test.process_del_patts ;;
+(*
+"_build/coverage/test2_types.504.ml" |> Fpath.v |> Bos.OS.File.read |> Result.get_ok
+|> PAPR.Implem.pa1 |> PAPR.Implem.pr |> print_string ;;
+ *)
+
+let p = parse_patt {foo| Parsetree.Pexp_letexception {pext_kind = Parsetree.Pext_rebind _} |foo} ;;
+let e = parse_expr {foo| Parsetree.Pexp_letexception
+  ({Parsetree.pext_name = {Location.txt = x; loc = loc};
+    pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc};
+    pext_loc = loc; pext_attributes = attrs},
+   x) |foo} ;;
+#trace Pa_ppx_quotation_test.pattmatch ;;
+#trace Pa_ppx_quotation_test.pattmatch1 ;;
+#trace Pa_ppx_base.Ppxutil.Patt.unapplist ;;
+#trace Pa_ppx_base.Ppxutil.Expr.unapplist ;;
+Pa_ppx_quotation_test.pattmatch p e ;;

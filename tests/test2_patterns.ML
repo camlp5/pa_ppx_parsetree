@@ -13,8 +13,6 @@
 <:extension_VERSION< [% $attrid:s$ ? $x1$] >>;
 <:extension_VERSION< [% $attrid:s$ ? $x1$ when $x2$] >>;
 <:extension_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] >>;
-[@@@"ocaml.text" "attributes";];
-[@@@"ocaml.text" "payload";];
 [@@@"ocaml.text" "core_type";];
 <:core_type_VERSION< _ $algattrs:attrs$ >>;
 <:core_type_VERSION< _ >>;
@@ -22,42 +20,46 @@
 <:core_type_VERSION< ' $lid:s$ >>;
 <:core_type_VERSION< $label:x1$ $x2$ -> $x3$ $algattrs:attrs$ >>;
 <:core_type_VERSION< $label:x1$ $x2$ -> $x3$ >>;
-#if OVERS >= 504
 <:core_type_VERSION< $tuplelist:lsx$ $algattrs:attrs$ >>;
 <:core_type_VERSION< $tuplelist:lsx$ >>;
-#else
-<:core_type_VERSION< $tuplelist:lx$ $algattrs:attrs$ >>;
-<:core_type_VERSION< $tuplelist:lx$ >>;
-#endif
 <:core_type_VERSION< $list:lx$ $lid:s$ $algattrs:attrs$ >>;
 <:core_type_VERSION< $list:lx$ $lid:s$ >>;
 <:core_type_VERSION< $list:lx$ $longid:x$ . $lid:s$ $algattrs:attrs$ >>;
 <:core_type_VERSION< $list:lx$ $longid:x$ . $lid:s$ >>;
 <:core_type_VERSION< $list:lx$ $longlid:x$ $algattrs:attrs$ >>;
 <:core_type_VERSION< $list:lx$ $longlid:x$ >>;
+<:core_type_VERSION< < $list:lx$ ; .. > $algattrs:attrs$ >>;
+<:core_type_VERSION< < $list:lx$ ; .. > >>;
+<:core_type_VERSION< < $list:lx$ > $algattrs:attrs$ >>;
+<:core_type_VERSION< < $list:lx$ > >>;
 <:core_type_VERSION< < $list:lx$ $closedflag:x$ > $algattrs:attrs$ >>;
 <:core_type_VERSION< < $list:lx$ $closedflag:x$ > >>;
 <:core_type_VERSION< $list:lx$ # $lid:s$ $algattrs:attrs$ >>;
 <:core_type_VERSION< $list:lx$ # $lid:s$ >>;
 <:core_type_VERSION< $list:lx$ # $longid:x$ . $lid:s$ $algattrs:attrs$ >>;
 <:core_type_VERSION< $list:lx$ # $longid:x$ . $lid:s$ >>;
-#if OVERS < 502
 <:core_type_VERSION< $x$ as ' $lid:s$ $algattrs:attrs$ >>;
 <:core_type_VERSION< $x$ as ' $lid:s$ >>;
-#else
-<:core_type_VERSION< $x1$ as ' $lid:s$ $algattrs:attrs$ >>;
-<:core_type_VERSION< $x1$ as ' $lid:s$ >>;
-#endif
+<:core_type_VERSION< [ $list:lx1$ ] $algattrs:attrs$ >>;
+<:core_type_VERSION< [ $list:lx1$ ] >>;
+<:core_type_VERSION< [< $list:lx1$ ] $algattrs:attrs$ >>;
+<:core_type_VERSION< [< $list:lx1$ ] >>;
+<:core_type_VERSION< [< $list:lx1$ > $list:l$ ] $algattrs:attrs$ >>;
+<:core_type_VERSION< [< $list:lx1$ > $list:l$ ] >>;
+<:core_type_VERSION< [< $list:lx1$ $opt:l$ ] $algattrs:attrs$ >>;
+<:core_type_VERSION< [< $list:lx1$ $opt:l$ ] >>;
+<:core_type_VERSION< [> $list:lx1$ ] $algattrs:attrs$ >>;
+<:core_type_VERSION< [> $list:lx1$ ] >>;
 <:core_type_VERSION< [ $closedflag:x$ $list:lx1$ $opt:None$ ] $algattrs:attrs$ >>;
 <:core_type_VERSION< [ $closedflag:x$ $list:lx1$ $opt:None$ ] >>;
+<:core_type_VERSION< [ $closedflag:x$ $list:lx1$ > $list:[]$ ] $algattrs:attrs$ >>;
+<:core_type_VERSION< [ $closedflag:x$ $list:lx1$ > $list:[]$ ] >>;
 <:core_type_VERSION< [ $closedflag:x$ $list:lx1$ > $list:lx2$ ] $algattrs:attrs$ >>;
 <:core_type_VERSION< [ $closedflag:x$ $list:lx1$ > $list:lx2$ ] >>;
 <:core_type_VERSION< [ $closedflag:x$ $list:lx1$ $opt:lx2$ ] $algattrs:attrs$ >>;
 <:core_type_VERSION< [ $closedflag:x$ $list:lx1$ $opt:lx2$ ] >>;
-<:core_type_VERSION< [< $list:lx1$ ] $algattrs:attrs$ >>;
-<:core_type_VERSION< [< $list:lx1$ ] >>;
-{Parsetree.ptyp_desc = Parsetree.Ptyp_poly lx x; ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = attrs};
-{Parsetree.ptyp_desc = Parsetree.Ptyp_poly lx x; ptyp_loc = loc; ptyp_loc_stack = []; ptyp_attributes = []};
+<:core_type_VERSION< $list:l$ . $ty$ $algattrs:attrs$ >>;
+<:core_type_VERSION< $list:l$ . $ty$ >>;
 #if OVERS >= 504
 <:core_type_VERSION< (module $lid:s$ with $list:lxx$ $algattrs:attrs$) $algattrs:attrs$ >>;
 <:core_type_VERSION< (module $lid:s$ with $list:lxx$ $algattrs:attrs$) >>;
@@ -109,8 +111,6 @@
 <:core_type_VERSION< $label:x1$(module $uid:s$:$longid:x$ with $list:lxx$ ) -> $x4$ $algattrs:attrs$ >>;
 <:core_type_VERSION< $label:x1$(module $uid:s$:$longid:x$ with $list:lxx$ ) -> $x4$ >>;
 #endif
-[@@@"ocaml.text" "core_type_desc";];
-[@@@"ocaml.text" "package_type";];
 [@@@"ocaml.text" "row_field";];
 <:row_field_VERSION< ` $id:x$ of & $list:lx$ $algattrs:attrs$ >>;
 <:row_field_VERSION< ` $id:x$ of & $list:lx$ >>;
@@ -118,15 +118,11 @@
 <:row_field_VERSION< ` $id:x$ of $list:lx$ >>;
 <:row_field_VERSION< ` $id:x$ of $isconst:b$ $list:lx$ $algattrs:attrs$ >>;
 <:row_field_VERSION< ` $id:x$ of $isconst:b$ $list:lx$ >>;
-{Parsetree.prf_desc = Parsetree.Rinherit x; prf_loc = loc; prf_attributes = attrs}; (* cannot put alg-attr on Rinherit *)
 <:row_field_VERSION< $x$ >>;
-[@@@"ocaml.text" "row_field_desc";];
 [@@@"ocaml.text" "object_field";];
 <:object_field_VERSION< $lid:x$ : $x2$ $algattrs:attrs$ >>;
 <:object_field_VERSION< $lid:x$ : $x2$ >>;
-{Parsetree.pof_desc = Parsetree.Oinherit x; pof_loc = loc; pof_attributes = attrs}; (* cannot put alg-attr on oinherit *)
 <:object_field_VERSION< $x$ >>;
-[@@@"ocaml.text" "object_field_desc";];
 [@@@"ocaml.text" "pattern";];
 <:pattern_VERSION< _ $algattrs:attrs$ >>;
 <:pattern_VERSION< _ >>;
@@ -150,8 +146,8 @@
 <:pattern_VERSION< $string:s1$ $delim:s2$ >>;
 <:pattern_VERSION< $float:sxf1$ $algattrs:attrs$ >>;
 <:pattern_VERSION< $float:sxf1$ >>;
-{Parsetree.ppat_desc = Parsetree.Ppat_constant x; ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = attrs};
-{Parsetree.ppat_desc = Parsetree.Ppat_constant x; ppat_loc = loc; ppat_loc_stack = []; ppat_attributes = []};
+<:pattern_VERSION< $constant:c$ $algattrs:attrs$ >>;
+<:pattern_VERSION< $constant:c$ >>;
 <:pattern_VERSION< $constant:x1$ .. $constant:x2$ $algattrs:attrs$ >>;
 <:pattern_VERSION< $constant:x1$ .. $constant:x2$ >>;
 #if OVERS >= 504
@@ -250,7 +246,6 @@
 <:pattern_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] >>;
 <:pattern_VERSION< $longid:x$ . $x2$ $algattrs:attrs$ >>;
 <:pattern_VERSION< $longid:x$ . $x2$ >>;
-[@@@"ocaml.text" "pattern_desc";];
 [@@@"ocaml.text" "expression";];
 <:expression_VERSION< $lid:s$ $algattrs:attrs$ >>;
 <:expression_VERSION< $lid:s$ >>;
@@ -294,19 +289,24 @@
 <:expression_VERSION< (fun $list:lx$ -> function $algattrs:attrs$ $cases:lx$) >>;
 <:expression_VERSION< fun $algattrs:attrs$ $list:lx$ -> function $cases:lx$ >>;
 <:expression_VERSION< fun $list:lx$ -> function $cases:lx$ >>;
-
-<:expression_VERSION< (fun $algattrs:attrs$ $list:lx$ : $x$ -> $x$) >>;
+<:expression_VERSION< (fun $list:lx$ : $t$ -> $x$) $algattrs:attrs$ >>;
 <:expression_VERSION< (fun $list:lx$ : $x$ -> $x$) >>;
 <:expression_VERSION< (fun $algattrs:attrs$ $list:lx$ : $x$ -> function $algattrs:attrs$ $cases:lx$) >>;
 <:expression_VERSION< (fun $list:lx$ : $x$ -> function $algattrs:attrs$ $cases:lx$) >>;
 <:expression_VERSION< (fun $algattrs:attrs$ $list:lx$ : $x$ -> function $cases:lx$) >>;
 <:expression_VERSION< (fun $list:lx$ : $x$ -> function $cases:lx$) >>;
-{Parsetree.pexp_desc = Parsetree.Pexp_function lx x1 (Parsetree.Pfunction_body x); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_function lx x1 (Parsetree.Pfunction_body x); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
-{Parsetree.pexp_desc = Parsetree.Pexp_function lx x1 (Parsetree.Pfunction_cases lx loc attrs); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_function lx x1 (Parsetree.Pfunction_cases lx loc attrs); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
-{Parsetree.pexp_desc = Parsetree.Pexp_function lx x1 (Parsetree.Pfunction_cases lx loc []); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_function lx x1 (Parsetree.Pfunction_cases lx loc []); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
+<:expression_VERSION< (fun $list:lx$ $opt:(Some x)$ -> $x$) $algattrs:attrs$ >>;
+<:expression_VERSION< (fun $list:lx$ $opt:(Some x)$ -> $x$) >>;
+<:expression_VERSION< (fun $list:lx$ $opt:(Some x)$ -> function $algattrs:attrs$ $cases:lx$) $algattrs:attrs$ >>;
+<:expression_VERSION< (fun $list:lx$ $opt:(Some x)$ -> function $algattrs:attrs$ $cases:lx$) >>;
+<:expression_VERSION< (fun $list:lx$ $opt:(Some x)$ -> function $cases:lx$) $algattrs:attrs$ >>;
+<:expression_VERSION< (fun $list:lx$ $opt:(Some x)$ -> function $cases:lx$) >>;
+<:expression_VERSION< (fun $list:lx$ $opt:x$ -> $x$) $algattrs:attrs$ >>;
+<:expression_VERSION< (fun $list:lx$ $opt:x$ -> $x$) >>;
+<:expression_VERSION< (fun $list:lx$ $opt:x$ -> function $algattrs:attrs$ $cases:lx$) $algattrs:attrs$ >>;
+<:expression_VERSION< (fun $list:lx$ $opt:x$ -> function $algattrs:attrs$ $cases:lx$) >>;
+<:expression_VERSION< (fun $list:lx$ $opt:x$ -> function $cases:lx$) $algattrs:attrs$ >>;
+<:expression_VERSION< (fun $list:lx$ $opt:x$ -> function $cases:lx$) >>;
 #endif
 <:expression_VERSION< $x$ $list:lxx$ $algattrs:attrs$ >>;
 <:expression_VERSION< $x$ $list:lxx$ >>;
@@ -343,14 +343,14 @@
 <:expression_VERSION< $x1$ . $lid:s$ >>;
 <:expression_VERSION< $x1$ . $longid:x$ . $lid:s$ $algattrs:attrs$ >>;
 <:expression_VERSION< $x1$ . $longid:x$ . $lid:s$ >>;
-{Parsetree.pexp_desc = Parsetree.Pexp_field x1 {Location.txt = x; loc = loc}; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_field x1 {Location.txt = x; loc = loc}; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
+<:expression_VERSION< $x1$ . $longlid:x$ $algattrs:attrs$ >>;
+<:expression_VERSION< $x1$ . $longlid:x$ >>;
 <:expression_VERSION< ( $x1$ . $lid:s$ <- $x3$ ) $algattrs:attrs$ >>;
 <:expression_VERSION< $x1$ . $lid:s$ <- $x3$ >>;
 <:expression_VERSION< ( $x1$ . $longid:x$ . $lid:s$ <- $x3$ ) $algattrs:attrs$ >>;
 <:expression_VERSION< $x1$ . $longid:x$ . $lid:s$ <- $x3$ >>;
-{Parsetree.pexp_desc = Parsetree.Pexp_setfield x1 {Location.txt = x; loc = loc} x3; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_setfield x1 {Location.txt = x; loc = loc} x3; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
+<:expression_VERSION< ( $x1$ . $longlid:x$ <- $x3$ ) $algattrs:attrs$ >>;
+<:expression_VERSION< $x1$ . $longlid:x$ <- $x3$ >>;
 <:expression_VERSION< [| $list:lx$ |] $algattrs:attrs$ >>;
 <:expression_VERSION< [| $list:lx$ |] >>;
 <:expression_VERSION< ( if $x1$ then $x2$ ) $algattrs:attrs$ >>;
@@ -383,8 +383,8 @@
 <:expression_VERSION< new $lid:s$ >>;
 <:expression_VERSION< (new $longid:x$ . $lid:s$) $algattrs:attrs$ >>;
 <:expression_VERSION< new $longid:x$ . $lid:s$ >>;
-{Parsetree.pexp_desc = Parsetree.Pexp_new {Location.txt = x; loc = loc}; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_new {Location.txt = x; loc = loc}; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
+<:expression_VERSION< (new $longlid:x$) $algattrs:attrs$ >>;
+<:expression_VERSION< new $longlid:x$ >>;
 <:expression_VERSION< ($lid:x$ <- $x2$) $algattrs:attrs$ >>;
 <:expression_VERSION< $lid:x$ <- $x2$ >>;
 <:expression_VERSION< {< $list:lxx$ >} $algattrs:attrs$ >>;
@@ -452,8 +452,6 @@
 <:expression_VERSION< (let exception $uid:s$ : { $list:lx$} $opt:x2$ in $x2$) $algattrs:attrs$ >>;
 <:expression_VERSION< let exception $uid:s$ : { $list:lx$} $opt:x2$ in $x2$ >>;
 #endif
-{Parsetree.pexp_desc = Parsetree.Pexp_letexception {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = attrs} x2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_letexception {Parsetree.pext_name = {Location.txt = s; loc = loc}; pext_kind = Parsetree.Pext_rebind {Location.txt = x; loc = loc}; pext_loc = loc; pext_attributes = attrs} x2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 <:expression_VERSION< (let exception $excon:x1$ in $x2$) $algattrs:attrs$ >>;
 <:expression_VERSION< let exception $excon:x1$ in $x2$ >>;
 #else
@@ -464,10 +462,6 @@
 <:expression_VERSION< assert $x$ >>;
 <:expression_VERSION< lazy $x$ $algattrs:attrs$ >>;
 <:expression_VERSION< lazy $x$ >>;
-{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 None; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 None; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
-{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 (Some x2); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_poly x1 (Some x2); pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 <:expression_VERSION< object $patt:x$ $list:lx$  end $algattrs:attrs$ >>;
 <:expression_VERSION< object $patt:x$ $list:lx$  end >>;
 <:expression_VERSION< (fun (type $lid:s$) -> $x2$) $algattrs:attrs$ >>;
@@ -490,8 +484,6 @@
 <:expression_VERSION< (module $me$ : $longid:x$ with $list:lxx$) >>;
 #endif
 #if OVERS <= 504
-{Parsetree.pexp_desc = Parsetree.Pexp_open {Parsetree.popen_expr = me; popen_override = x1; popen_loc = loc; popen_attributes = attrs} x2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_open {Parsetree.popen_expr = me; popen_override = x1; popen_loc = loc; popen_attributes = attrs} x2; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
 <:expression_VERSION< (let open $overrideflag:x1$ $me$ in $x2$) $algattrs:attrs$ >>;
 <:expression_VERSION< let open $overrideflag:x1$ $me$ in $x2$ >>;
 #endif
@@ -509,38 +501,21 @@
 <:expression_VERSION< [% $attrid:s$ ? $x1$ when $x2$] >>;
 <:expression_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] $algattrs:attrs$ >>;
 <:expression_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] >>;
-{Parsetree.pexp_desc = Parsetree.Pexp_unreachable; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = attrs};
-{Parsetree.pexp_desc = Parsetree.Pexp_unreachable; pexp_loc = loc; pexp_loc_stack = []; pexp_attributes = []};
-[@@@"ocaml.text" "expression_desc";];
 [@@@"ocaml.text" "case";];
 <:case_VERSION< $x1$ -> $x3$ >>;
 <:case_VERSION< $x1$ when $x2$ -> $x3$ >>;
 <:case_VERSION< $x1$ $wheno:x2$ -> $x3$ >>;
-[@@@"ocaml.text" "letop";];
 [@@@"ocaml.text" "binding_op";];
 <:binding_op_VERSION< $lid:s$ $x2$ = $x3$ >>;
 #if OVERS >= 502
-[@@@"ocaml.text" "function_param_desc";];
-[@@@"ocaml.text" "function_param";];
-[@@@"ocaml.text" "function_body";];
-[@@@"ocaml.text" "type_constraint";];
 #endif
-[@@@"ocaml.text" "value_description";];
 [@@@"ocaml.text" "type_declaration";];
-#if OVERS >= 505
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
-#endif
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = private $x4$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = private $x4$ $list:lxxl$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ $list:lxxl$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $x4$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $x4$ $list:lxxl$ >>;
-#if OVERS >= 505
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_abstract; ptype_private = x3; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
-#endif
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $priv:x3$ $x4$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $priv:x3$ $x4$ $list:lxxl$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = private $constructorlist:lx$ $list:lxxl$ $itemattrs:attrs$ >>;
@@ -581,23 +556,12 @@
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $x4$ = $priv:x3$ .. $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = $x4$ = $priv:x3$ .. $list:lxxl$ >>;
 #if OVERS >= 505
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = Some x4; ptype_attributes = attrs; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Private; ptype_manifest = Some x4; ptype_attributes = []; ptype_loc = loc};
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = external $string:s$ $list:lxxl$ $itemattrs:attrs$ >>;
 <:type_decl_VERSION< $list:lxxx$ $lid:s$ = external $string:s$ $list:lxxl$ >>;
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = Some x4; ptype_attributes = attrs; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = Asttypes.Public; ptype_manifest = Some x4; ptype_attributes = []; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = None; ptype_attributes = attrs; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = None; ptype_attributes = []; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = Some x4; ptype_attributes = attrs; ptype_loc = loc};
-{Parsetree.ptype_name = {Location.txt = s; loc = loc}; ptype_params = lxxx; ptype_constraints = lxxl; ptype_kind = Parsetree.Ptype_external s; ptype_private = x3; ptype_manifest = Some x4; ptype_attributes = []; ptype_loc = loc};
 #endif
 (*
 <:type_decl< $list:lxxx$ $lid:s$ = $constructorlist:l$ $list:lxxl$ >>;
  *)
-[@@@"ocaml.text" "type_kind";];
 [@@@"ocaml.text" "label_declaration";];
 <:label_declaration_VERSION< $mutable:x2$ $lid:s$ : $x3$ $algattrs:attrs$ >>;
 <:label_declaration_VERSION< $mutable:x2$ $lid:s$ : $x3$ >>;
@@ -629,7 +593,6 @@
 <:constructor_declaration_VERSION< $uid:s$ : { $list:lx$} $opt:x3$ $algattrs:attrs$ >> ;
 <:constructor_declaration_VERSION< $uid:s$ : { $list:lx$} $opt:x3$ >>;
 #endif
-[@@@"ocaml.text" "constructor_arguments";];
 [@@@"ocaml.text" "type_extension";];
 <:str_type_extension_VERSION< type $list:lxxx$ $longlid:x$ += $priv:x2$ $list:lx$ $itemattrs:attrs$ >> ;
 <:str_type_extension_VERSION< type $list:lxxx$ $longlid:x$ += $priv:x2$ $list:lx$ >>;
@@ -665,8 +628,6 @@
 <:extension_constructor_VERSION< $uid:s$ = $longid:x$ $algattrs:attrs$ >>;
 <:extension_constructor_VERSION< $uid:s$ = $longid:x$ >>;
 #endif
-[@@@"ocaml.text" "type_exception";];
-[@@@"ocaml.text" "extension_constructor_kind";];
 [@@@"ocaml.text" "class_type";];
 <:class_type_VERSION< $list:lx$ $lid:s$ $algattrs:attrs$ >>;
 <:class_type_VERSION< $list:lx$ $lid:s$ >>;
@@ -674,7 +635,6 @@
 <:class_type_VERSION< $list:lx$ $longid:x$ . $lid:s$ >>;
 <:class_type_VERSION< object ($x$) $list:lx$ end $algattrs:attrs$ >> ;
 <:class_type_VERSION< object ($x$) $list:lx$ end >>;
-{Parsetree.pcty_desc = Parsetree.Pcty_arrow x1 x2 ct; pcty_loc = loc; pcty_attributes = attrs};
 <:class_type_VERSION< $label:x1$ $x2$ -> $ct$ >>;
 <:class_type_VERSION< [% $attrid:s$ $list:x$] $algattrs:attrs$ >> ;
 <:class_type_VERSION< [% $attrid:s$ $list:x$] >>;
@@ -688,12 +648,8 @@
 <:class_type_VERSION< [% $attrid:s$ ? $x1$ when $x2$] >>;
 <:class_type_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] $algattrs:attrs$ >> ;
 <:class_type_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] >>;
-{Parsetree.pcty_desc = Parsetree.Pcty_open {Parsetree.popen_expr = {Location.txt = x; loc = loc}; popen_override = x2; popen_loc = loc; popen_attributes = attrs} ct; pcty_loc = loc; pcty_attributes = attrs};
-{Parsetree.pcty_desc = Parsetree.Pcty_open {Parsetree.popen_expr = {Location.txt = x; loc = loc}; popen_override = x2; popen_loc = loc; popen_attributes = attrs} ct; pcty_loc = loc; pcty_attributes = []};
 <:class_type_VERSION< let open $overrideflag:x2$ $algattrs:attrs$ $longid:x$ in $ct$ >> ;
 <:class_type_VERSION< let open $overrideflag:x2$ $longid:x$ in $ct$ >>;
-[@@@"ocaml.text" "class_type_desc";];
-[@@@"ocaml.text" "class_signature";];
 [@@@"ocaml.text" "class_type_field";];
 <:class_type_field_VERSION< inherit $ct$ $itemattrs:attrs$ >>;
 <:class_type_field_VERSION< inherit $ct$ >>;
@@ -703,17 +659,11 @@
 <:class_type_field_VERSION< method $priv:xxxxf2$ $virtual:xxxxf3$ $lid:x$ : $xxxxf4$ >>;
 <:class_type_field_VERSION< constraint $xxf1$ = $xxf2$ $itemattrs:attrs$ >> ;
 <:class_type_field_VERSION< constraint $xxf1$ = $xxf2$ >>;
-{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PStr x; attr_loc = loc}; pctf_loc = loc; pctf_attributes = attrs};
 <:class_type_field_VERSION< [@@@ $attrid:s$ $list:x$] >> ;
-{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PSig x; attr_loc = loc}; pctf_loc = loc; pctf_attributes = attrs};
 <:class_type_field_VERSION< [@@@ $attrid:s$ : $list:x$] >> ;
-{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PTyp x; attr_loc = loc}; pctf_loc = loc; pctf_attributes = attrs};
 <:class_type_field_VERSION< [@@@ $attrid:s$ : $x$] >> ;
-{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 None; attr_loc = loc}; pctf_loc = loc; pctf_attributes = attrs};
 <:class_type_field_VERSION< [@@@ $attrid:s$ ? $x1$] >> ;
-{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 (Some x2); attr_loc = loc}; pctf_loc = loc; pctf_attributes = attrs};
 <:class_type_field_VERSION< [@@@ $attrid:s$ ? $x1$ when $x2$] >> ;
-{Parsetree.pctf_desc = Parsetree.Pctf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 x2; attr_loc = loc}; pctf_loc = loc; pctf_attributes = attrs};
 <:class_type_field_VERSION< [@@@ $attrid:s$ ? $x1$ $expropt:x2$] >> ;
 <:class_type_field_VERSION< [%% $attrid:s$ $list:x$] $itemattrs:attrs$ >> ;
 <:class_type_field_VERSION< [%% $attrid:s$ $list:x$] >>;
@@ -727,12 +677,7 @@
 <:class_type_field_VERSION< [%% $attrid:s$ ? $x1$ when $x2$] >>;
 <:class_type_field_VERSION< [%% $attrid:s$ ? $x1$ $expropt:x2$] $itemattrs:attrs$ >> ;
 <:class_type_field_VERSION< [%% $attrid:s$ ? $x1$ $expropt:x2$] >>;
-[@@@"ocaml.text" "class_type_field_desc";];
-[@@@"ocaml.text" "class_infos";];
 [@@@"ocaml.text" "class_description";];
-<:class_description_VERSION< class $virtual:x1$ $list:lxxx$ $lid:s$ : $ct$ $itemattrs:attrs$ >>;
-<:class_description_VERSION< class $virtual:x1$ $list:lxxx$ $lid:s$ : $ct$ >>;
-[@@@"ocaml.text" "class_type_declaration";];
 <:class_description_VERSION< class $virtual:x1$ $list:lxxx$ $lid:s$ : $ct$ $itemattrs:attrs$ >>;
 <:class_description_VERSION< class $virtual:x1$ $list:lxxx$ $lid:s$ : $ct$ >>;
 [@@@"ocaml.text" "class_expr";];
@@ -766,12 +711,8 @@
 <:class_expr_VERSION< [% $attrid:s$ ? $x1$ when $x2$] >>;
 <:class_expr_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] $algattrs:attrs$ >> ;
 <:class_expr_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] >>;
-{Parsetree.pcl_desc = Parsetree.Pcl_open {Parsetree.popen_expr = {Location.txt = x; loc = loc}; popen_override = x2; popen_loc = loc; popen_attributes = attrs} ce; pcl_loc = loc; pcl_attributes = attrs};
-{Parsetree.pcl_desc = Parsetree.Pcl_open {Parsetree.popen_expr = {Location.txt = x; loc = loc}; popen_override = x2; popen_loc = loc; popen_attributes = attrs} ce; pcl_loc = loc; pcl_attributes = []};
 <:class_expr_VERSION< (let open $overrideflag:x2$ $longid:x$ in $ce$) $algattrs:attrs$ >> ;
 <:class_expr_VERSION< let open $overrideflag:x2$ $longid:x$ in $ce$ >>;
-[@@@"ocaml.text" "class_expr_desc";];
-[@@@"ocaml.text" "class_structure";];
 [@@@"ocaml.text" "class_field";];
 <:class_field_VERSION< inherit $overrideflag:x1$ $ce$ $itemattrs:attrs$ >> ;
 <:class_field_VERSION< inherit $overrideflag:x1$ $ce$ >>;
@@ -791,17 +732,11 @@
 <:class_field_VERSION< constraint $xxf1$ = $xxf2$ >>;
 <:class_field_VERSION< initializer $x$ $itemattrs:attrs$ >> ;
 <:class_field_VERSION< initializer $x$ >>;
-{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PStr x; attr_loc = loc}; pcf_loc = loc; pcf_attributes = attrs};
 <:class_field_VERSION< [@@@ $attrid:s$ $list:x$] >>;
-{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PSig x; attr_loc = loc}; pcf_loc = loc; pcf_attributes = attrs};
 <:class_field_VERSION< [@@@ $attrid:s$ : $list:x$] >>;
-{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PTyp x; attr_loc = loc}; pcf_loc = loc; pcf_attributes = attrs};
 <:class_field_VERSION< [@@@ $attrid:s$ : $x$] >>;
-{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 None; attr_loc = loc}; pcf_loc = loc; pcf_attributes = attrs};
 <:class_field_VERSION< [@@@ $attrid:s$ ? $x1$] >>;
-{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 (Some x2); attr_loc = loc}; pcf_loc = loc; pcf_attributes = attrs};
 <:class_field_VERSION< [@@@ $attrid:s$ ? $x1$ when $x2$] >>;
-{Parsetree.pcf_desc = Parsetree.Pcf_attribute {Parsetree.attr_name = {Location.txt = s; loc = loc}; attr_payload = Parsetree.PPat x1 x2; attr_loc = loc}; pcf_loc = loc; pcf_attributes = attrs};
 <:class_field_VERSION< [@@@ $attrid:s$ ? $x1$ $expropt:x2$] >>;
 <:class_field_VERSION< [%% $attrid:s$ $list:x$] $itemattrs:attrs$ >> ;
 <:class_field_VERSION< [%% $attrid:s$ $list:x$] >>;
@@ -815,9 +750,6 @@
 <:class_field_VERSION< [%% $attrid:s$ ? $x1$ when $x2$] >>;
 <:class_field_VERSION< [%% $attrid:s$ ? $x1$ $expropt:x2$] $itemattrs:attrs$ >> ;
 <:class_field_VERSION< [%% $attrid:s$ ? $x1$ $expropt:x2$] >>;
-[@@@"ocaml.text" "class_field_desc";];
-[@@@"ocaml.text" "class_field_kind";];
-[@@@"ocaml.text" "class_declaration";];
 [@@@"ocaml.text" "module_type";];
 <:module_type_VERSION< $lid:s$ $algattrs:attrs$ >>;
 <:module_type_VERSION< $lid:s$ >>;
@@ -847,16 +779,15 @@
 <:module_type_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] >>;
 <:module_type_VERSION< (module $longid:x$) $algattrs:attrs$ >> ;
 <:module_type_VERSION< (module $longid:x$) >>;
-[@@@"ocaml.text" "module_type_desc";];
 [@@@"ocaml.text" "functor_parameter";];
 <:functor_parameter_VERSION< () >>;
 <:functor_parameter_VERSION< ( _ : $mt$ ) >>;
 <:functor_parameter_VERSION< ( $uid:s$ : $mt$ ) >>;
 <:functor_parameter_VERSION< ( $opt:s$ : $mt$ ) >>;
-[@@@"ocaml.text" "signature";];
 [@@@"ocaml.text" "signature_item";];
 <:signature_item_VERSION< external $lid:s$ : $x2$ = $list:ls$ $itemattrs:attrs$ >>;
 <:signature_item_VERSION< external $lid:s$ : $x2$ = $list:ls$ >>;
+<:signature_item_VERSION< val $lid:s$ : $x2$ $itemattrs:attrs$ >>;
 <:signature_item_VERSION< val $lid:s$ : $x2$ >>;
 <:signature_item_VERSION< type $nonrecflag:x$ $list:lx$ >>;
 <:signature_item_VERSION< typesubst $list:lx$ >>;
@@ -947,11 +878,8 @@
 <:signature_item_VERSION< module type $uid:s$ $opt:mt$ $itemattrs:attrs$ >> ;
 <:signature_item_VERSION< module type $uid:s$ $opt:mt$ >>;
 #if OVERS >= 413
-{Parsetree.psig_desc = Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; loc = loc}; pmtd_type = None; pmtd_attributes = attrs; pmtd_loc = loc}; psig_loc = loc};
 <:signature_item_VERSION< module type $uid:s$ := $mt$ $itemattrs:attrs$ >>;
 <:signature_item_VERSION< module type $uid:s$ := $mt$ >>;
-{Parsetree.psig_desc = Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; loc = loc}; pmtd_type = mt; pmtd_attributes = attrs; pmtd_loc = loc}; psig_loc = loc};
-{Parsetree.psig_desc = Parsetree.Psig_modtypesubst {Parsetree.pmtd_name = {Location.txt = s; loc = loc}; pmtd_type = mt; pmtd_attributes = []; pmtd_loc = loc}; psig_loc = loc};
 #endif
 <:signature_item_VERSION< open $overrideflag:x2$ $longid:x$ $itemattrs:attrs$ >>;
 <:signature_item_VERSION< open $overrideflag:x2$ $longid:x$ >>;
@@ -977,7 +905,6 @@
 <:signature_item_VERSION< [%% $attrid:s$ ? $x1$ when $x2$] >>;
 <:signature_item_VERSION< [%% $attrid:s$ ? $x1$ $expropt:x2$] $itemattrs:attrs$ >> ;
 <:signature_item_VERSION< [%% $attrid:s$ ? $x1$ $expropt:x2$] >>;
-[@@@"ocaml.text" "signature_item_desc";];
 [@@@"ocaml.text" "module_declaration";];
 <:module_declaration_VERSION< module _ : $mt$ $itemattrs:attrs$ >> ;
 <:module_declaration_VERSION< module _ : $mt$ >>;
@@ -985,14 +912,6 @@
 <:module_declaration_VERSION< module $uid:s$ : $mt$ >>;
 <:module_declaration_VERSION< module $opt:s$ : $mt$ $itemattrs:attrs$ >> ;
 <:module_declaration_VERSION< module $opt:s$ : $mt$ >>;
-[@@@"ocaml.text" "module_substitution";];
-[@@@"ocaml.text" "module_type_declaration";];
-[@@@"ocaml.text" "open_infos";];
-[@@@"ocaml.text" "open_description";];
-[@@@"ocaml.text" "open_declaration";];
-[@@@"ocaml.text" "include_infos";];
-[@@@"ocaml.text" "include_description";];
-[@@@"ocaml.text" "include_declaration";];
 [@@@"ocaml.text" "with_constraint";];
 <:with_constraint_VERSION< type $lid:s$ = $typedecl:x2$ >>;
 <:with_constraint_VERSION< type $longid:x$ . $lid:s$ = $typedecl:x2$ >>;
@@ -1045,9 +964,9 @@
 <:module_expr_VERSION< [% $attrid:s$ ? $x1$ when $x2$] >>;
 <:module_expr_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] $algattrs:attrs$ >> ;
 <:module_expr_VERSION< [% $attrid:s$ ? $x1$ $expropt:x2$] >>;
-[@@@"ocaml.text" "module_expr_desc";];
-[@@@"ocaml.text" "structure";];
 [@@@"ocaml.text" "structure_item";];
+<:structure_item_VERSION< $expr:e$ $itemattrs:l$ >>;
+<:structure_item_VERSION< $expr:e$ >>;
 <:structure_item_VERSION< let $recflag:x$ $list:lx$ >>;
 <:structure_item_VERSION< external $lid:s$ : $x2$ = $list:ls$ $itemattrs:attrs$ >> ;
 <:structure_item_VERSION< external $lid:s$ : $x2$ = $list:ls$ >>;
@@ -1170,10 +1089,6 @@
 <:structure_item_VERSION< [%% $attrid:s$ ? $x1$ when $x2$] >>;
 <:structure_item_VERSION< [%% $attrid:s$ ? $x1$ $expropt:x2$] $itemattrs:attrs$ >> ;
 <:structure_item_VERSION< [%% $attrid:s$ ? $x1$ $expropt:x2$] >>;
-[@@@"ocaml.text" "structure_item_desc";];
-#if OVERS >= 501
-[@@@"ocaml.text" "value_constraint";];
-#endif
 [@@@"ocaml.text" "value_binding";];
 <:value_binding_VERSION< $x1$ = $x2$ $itemattrs:attrs$ >> ;
 <:value_binding_VERSION< $x1$ = $x2$ >>;
@@ -1185,28 +1100,10 @@
 <:value_binding_VERSION< $x1$ : $x1$ :> $x2$ = $x2$ $itemattrs:attrs$ >> ;
 <:value_binding_VERSION< $x1$ : $x1$:> $x2$ = $x2$ >> ;
 #endif
-[@@@"ocaml.text" "module_binding";];
-[@@@"ocaml.text" "position";];
-[@@@"ocaml.text" "location";];
-[@@@"ocaml.text" "located";];
-[@@@"ocaml.text" "str_vala";];
-[@@@"ocaml.text" "longident_t";];
 [@@@"ocaml.text" "arg_label";];
 <:arg_label_VERSION< >>;
 <:arg_label_VERSION< $lid:s$ : >>;
 <:arg_label_VERSION< ? $lid:s$ : >>;
-[@@@"ocaml.text" "label";];
-[@@@"ocaml.text" "closed_flag";];
-[@@@"ocaml.text" "rec_flag";];
-[@@@"ocaml.text" "direction_flag";];
-[@@@"ocaml.text" "private_flag";];
-[@@@"ocaml.text" "mutable_flag";];
-[@@@"ocaml.text" "virtual_flag";];
-[@@@"ocaml.text" "override_flag";];
-[@@@"ocaml.text" "variance";];
-#if OVERS >= 412
-[@@@"ocaml.text" "injectivity";];
-#endif
 [@@@"ocaml.text" "constant";];
 <:constant_VERSION< $int:s$ >>;
 <:constant_VERSION< $int32:s$ >>;
@@ -1216,8 +1113,3 @@
 <:constant_VERSION< $string:s1$ >>;
 <:constant_VERSION< $string:s1$ $delim:s2$ >>;
 <:constant_VERSION< $float:sxf1$ >>;
-#if OVERS >= 503
-[@@@"ocaml.text" "constant_desc";];
-#endif
-[@@@"ocaml.text" "location_stack";];
-[@@@"ocaml.text" "functor_parameter_vala";];

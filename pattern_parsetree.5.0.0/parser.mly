@@ -1765,7 +1765,7 @@ structure_item:
         { let (ext, l) = $1 in (Pstr_class_type l, ext) }
     | include_statement(module_expr)
         { pstr_include $1 }
-/*-*/    | ANTI_EXPR { Pstr_eval (vaant $1, vaval []), None }
+/*-*/    | ANTI_EXPR post_item_attributes_vala { Pstr_eval (vaant $1, $2), None }
 /*-*/    | ANTI_STRI { Pstr_xtr (Location.mkloc $1 (make_loc $sloc)), None }
     )
     { $1 }
@@ -2252,7 +2252,7 @@ class_expr:
       { wrap_class_attrs ~loc:$sloc $3 $2 }
   | let_bindings(no_ext) IN class_expr
       { class_of_let_bindings ~loc:$sloc $1 $3 }
-  | LET OPEN override_flag_vala vaval(attributes) mkrhs(mod_longident_vala) IN class_expr
+  | LET OPEN override_flag_vala attributes_vala mkrhs(mod_longident_vala) IN class_expr
       { let loc = ($startpos($2), $endpos($5)) in
         let od = Opn.mk ~override:$3 ~loc:(make_loc loc) $5 in
         mkclass ~loc:$sloc ~attrs:$4 (Pcl_open(od, $7)) }
@@ -2816,7 +2816,7 @@ simple_expr:
       { Pexp_construct (mkloc (vaval (Lident (vaval"()"))) (make_loc $sloc), vaval None), $2 }
   | BEGIN ext_attributes seq_expr error
       { unclosed "begin" $loc($1) "end" $loc($4) }
-  | NEW ext_attributes mkrhs(vaval(class_longident))
+  | NEW ext_attributes mkrhs(vala(class_longident, ANTI_LONGLID))
       { Pexp_new($3), $2 }
   | LPAREN MODULE ext_attributes module_expr RPAREN
       { Pexp_pack $4, $3 }
@@ -3847,6 +3847,9 @@ core_type:
 %inline core_type_no_attr:
   alias_type
     { $1 }
+/*-*/| ANTI_LIST DOT xtr_antis
+/*-*/      { mktyp ~loc:$sloc (Ptyp_poly(vaant $1, mktyp ~loc:$sloc (Ptyp_xtr (Location.mkloc $3 (make_loc $sloc))))) }
+
 ;
 
 (* Alias types include:
@@ -3940,6 +3943,10 @@ atomic_type:
         { let (f, c) = $2 in Ptyp_object (vaval f, vaval c) }
 /*-*/    | LESS l = ANTI_LIST c = ANTI_CLOSEDFLAG GREATER
 /*-*/        { Ptyp_object (vaant l, vaant c) }
+/*-*/    | LESS l = ANTI_LIST  GREATER
+/*-*/        { Ptyp_object (vaant l, vaval Open) }
+/*-*/    | LESS l = ANTI_LIST SEMI DOTDOT GREATER
+/*-*/        { Ptyp_object (vaant l, vaval Closed) }
     | LESS GREATER
         { Ptyp_object (vaval [], vaval Closed) }
     | tys = vala(actual_type_parameters, ANTI_LIST)

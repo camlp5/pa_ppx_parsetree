@@ -1,175 +1,175 @@
-_build/coverage/test2.505.types_out: _build/coverage/test2_types.505.ml
+_build/coverage/test2.505.types_out: _build/coverage/test2_types.505.ml _build/coverage
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,$(QUOTPACKAGES),pa_ppx_parsetree_quotations_505 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2.505.patterns_out: _build/coverage/test2_patterns.505.ml
-	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_505 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
+_build/coverage/test2.505.patterns_out: _build/coverage/test2_patterns.505.ml _build/coverage
+	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_505,pa_ppx_q_ast.test_renumber $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2_patterns.505.ml: test2_patterns.ML
+_build/coverage/test2_patterns.505.ml: test2_patterns.ML _build/coverage
 	cppo -D 'OVERS 505' $< > $@.TMP
 	perl -p -i -e 's,VERSION,505,' $@.TMP
 	mv $@.TMP $@
 
-_build/coverage/test2_types.505.ml: test2_types.ML
+_build/coverage/test2_types.505.ml: test2_types.ML _build/coverage
 	cppo -D 'OVERS 505' -D 'MODULE Pa_ppx_parsetree_quotations_505' $< > $@
 
 coverage-test: _build/coverage/test2.505.TEST
 
-_build/coverage/test2.504.types_out: _build/coverage/test2_types.504.ml
+_build/coverage/test2.504.types_out: _build/coverage/test2_types.504.ml _build/coverage
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,$(QUOTPACKAGES),pa_ppx_parsetree_quotations_504 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2.504.patterns_out: _build/coverage/test2_patterns.504.ml
-	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_504 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
+_build/coverage/test2.504.patterns_out: _build/coverage/test2_patterns.504.ml _build/coverage
+	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_504,pa_ppx_q_ast.test_renumber $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2_patterns.504.ml: test2_patterns.ML
+_build/coverage/test2_patterns.504.ml: test2_patterns.ML _build/coverage
 	cppo -D 'OVERS 504' $< > $@.TMP
 	perl -p -i -e 's,VERSION,504,' $@.TMP
 	mv $@.TMP $@
 
-_build/coverage/test2_types.504.ml: test2_types.ML
+_build/coverage/test2_types.504.ml: test2_types.ML _build/coverage
 	cppo -D 'OVERS 504' -D 'MODULE Pa_ppx_parsetree_quotations_504' $< > $@
 
 coverage-test: _build/coverage/test2.504.TEST
 
-_build/coverage/test2.503.types_out: _build/coverage/test2_types.503.ml
+_build/coverage/test2.503.types_out: _build/coverage/test2_types.503.ml _build/coverage
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,$(QUOTPACKAGES),pa_ppx_parsetree_quotations_503 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2.503.patterns_out: _build/coverage/test2_patterns.503.ml
-	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_503 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
+_build/coverage/test2.503.patterns_out: _build/coverage/test2_patterns.503.ml _build/coverage
+	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_503,pa_ppx_q_ast.test_renumber $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2_patterns.503.ml: test2_patterns.ML
+_build/coverage/test2_patterns.503.ml: test2_patterns.ML _build/coverage
 	cppo -D 'OVERS 503' $< > $@.TMP
 	perl -p -i -e 's,VERSION,503,' $@.TMP
 	mv $@.TMP $@
 
-_build/coverage/test2_types.503.ml: test2_types.ML
+_build/coverage/test2_types.503.ml: test2_types.ML _build/coverage
 	cppo -D 'OVERS 503' -D 'MODULE Pa_ppx_parsetree_quotations_503' $< > $@
 
 coverage-test: _build/coverage/test2.503.TEST
 
-_build/coverage/test2.502.types_out: _build/coverage/test2_types.502.ml
+_build/coverage/test2.502.types_out: _build/coverage/test2_types.502.ml _build/coverage
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,$(QUOTPACKAGES),pa_ppx_parsetree_quotations_502 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2.502.patterns_out: _build/coverage/test2_patterns.502.ml
-	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_502 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
+_build/coverage/test2.502.patterns_out: _build/coverage/test2_patterns.502.ml _build/coverage
+	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_502,pa_ppx_q_ast.test_renumber $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2_patterns.502.ml: test2_patterns.ML
+_build/coverage/test2_patterns.502.ml: test2_patterns.ML _build/coverage
 	cppo -D 'OVERS 502' $< > $@.TMP
 	perl -p -i -e 's,VERSION,502,' $@.TMP
 	mv $@.TMP $@
 
-_build/coverage/test2_types.502.ml: test2_types.ML
+_build/coverage/test2_types.502.ml: test2_types.ML _build/coverage
 	cppo -D 'OVERS 502' -D 'MODULE Pa_ppx_parsetree_quotations_502' $< > $@
 
 coverage-test: _build/coverage/test2.502.TEST
 
-_build/coverage/test2.501.types_out: _build/coverage/test2_types.501.ml
+_build/coverage/test2.501.types_out: _build/coverage/test2_types.501.ml _build/coverage
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,$(QUOTPACKAGES),pa_ppx_parsetree_quotations_501 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2.501.patterns_out: _build/coverage/test2_patterns.501.ml
-	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_501 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
+_build/coverage/test2.501.patterns_out: _build/coverage/test2_patterns.501.ml _build/coverage
+	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_501,pa_ppx_q_ast.test_renumber $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2_patterns.501.ml: test2_patterns.ML
+_build/coverage/test2_patterns.501.ml: test2_patterns.ML _build/coverage
 	cppo -D 'OVERS 501' $< > $@.TMP
 	perl -p -i -e 's,VERSION,501,' $@.TMP
 	mv $@.TMP $@
 
-_build/coverage/test2_types.501.ml: test2_types.ML
+_build/coverage/test2_types.501.ml: test2_types.ML _build/coverage
 	cppo -D 'OVERS 501' -D 'MODULE Pa_ppx_parsetree_quotations_501' $< > $@
 
 coverage-test: _build/coverage/test2.501.TEST
 
-_build/coverage/test2.500.types_out: _build/coverage/test2_types.500.ml
+_build/coverage/test2.500.types_out: _build/coverage/test2_types.500.ml _build/coverage
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,$(QUOTPACKAGES),pa_ppx_parsetree_quotations_500 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2.500.patterns_out: _build/coverage/test2_patterns.500.ml
-	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_500 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
+_build/coverage/test2.500.patterns_out: _build/coverage/test2_patterns.500.ml _build/coverage
+	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_500,pa_ppx_q_ast.test_renumber $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2_patterns.500.ml: test2_patterns.ML
+_build/coverage/test2_patterns.500.ml: test2_patterns.ML _build/coverage
 	cppo -D 'OVERS 500' $< > $@.TMP
 	perl -p -i -e 's,VERSION,500,' $@.TMP
 	mv $@.TMP $@
 
-_build/coverage/test2_types.500.ml: test2_types.ML
+_build/coverage/test2_types.500.ml: test2_types.ML _build/coverage
 	cppo -D 'OVERS 500' -D 'MODULE Pa_ppx_parsetree_quotations_500' $< > $@
 
 coverage-test: _build/coverage/test2.500.TEST
 
-_build/coverage/test2.414.types_out: _build/coverage/test2_types.414.ml
+_build/coverage/test2.414.types_out: _build/coverage/test2_types.414.ml _build/coverage
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,$(QUOTPACKAGES),pa_ppx_parsetree_quotations_414 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2.414.patterns_out: _build/coverage/test2_patterns.414.ml
-	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_414 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
+_build/coverage/test2.414.patterns_out: _build/coverage/test2_patterns.414.ml _build/coverage
+	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_414,pa_ppx_q_ast.test_renumber $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2_patterns.414.ml: test2_patterns.ML
+_build/coverage/test2_patterns.414.ml: test2_patterns.ML _build/coverage
 	cppo -D 'OVERS 414' $< > $@.TMP
 	perl -p -i -e 's,VERSION,414,' $@.TMP
 	mv $@.TMP $@
 
-_build/coverage/test2_types.414.ml: test2_types.ML
+_build/coverage/test2_types.414.ml: test2_types.ML _build/coverage
 	cppo -D 'OVERS 414' -D 'MODULE Pa_ppx_parsetree_quotations_414' $< > $@
 
 coverage-test: _build/coverage/test2.414.TEST
 
-_build/coverage/test2.413.types_out: _build/coverage/test2_types.413.ml
+_build/coverage/test2.413.types_out: _build/coverage/test2_types.413.ml _build/coverage
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,$(QUOTPACKAGES),pa_ppx_parsetree_quotations_413 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2.413.patterns_out: _build/coverage/test2_patterns.413.ml
-	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_413 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
+_build/coverage/test2.413.patterns_out: _build/coverage/test2_patterns.413.ml _build/coverage
+	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_413,pa_ppx_q_ast.test_renumber $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2_patterns.413.ml: test2_patterns.ML
+_build/coverage/test2_patterns.413.ml: test2_patterns.ML _build/coverage
 	cppo -D 'OVERS 413' $< > $@.TMP
 	perl -p -i -e 's,VERSION,413,' $@.TMP
 	mv $@.TMP $@
 
-_build/coverage/test2_types.413.ml: test2_types.ML
+_build/coverage/test2_types.413.ml: test2_types.ML _build/coverage
 	cppo -D 'OVERS 413' -D 'MODULE Pa_ppx_parsetree_quotations_413' $< > $@
 
 coverage-test: _build/coverage/test2.413.TEST
 
-_build/coverage/test2.412.types_out: _build/coverage/test2_types.412.ml
+_build/coverage/test2.412.types_out: _build/coverage/test2_types.412.ml _build/coverage
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,$(QUOTPACKAGES),pa_ppx_parsetree_quotations_412 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2.412.patterns_out: _build/coverage/test2_patterns.412.ml
-	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_412 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
+_build/coverage/test2.412.patterns_out: _build/coverage/test2_patterns.412.ml _build/coverage
+	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_412,pa_ppx_q_ast.test_renumber $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2_patterns.412.ml: test2_patterns.ML
+_build/coverage/test2_patterns.412.ml: test2_patterns.ML _build/coverage
 	cppo -D 'OVERS 412' $< > $@.TMP
 	perl -p -i -e 's,VERSION,412,' $@.TMP
 	mv $@.TMP $@
 
-_build/coverage/test2_types.412.ml: test2_types.ML
+_build/coverage/test2_types.412.ml: test2_types.ML _build/coverage
 	cppo -D 'OVERS 412' -D 'MODULE Pa_ppx_parsetree_quotations_412' $< > $@
 
 coverage-test: _build/coverage/test2.412.TEST
 
-_build/coverage/test2.411.types_out: _build/coverage/test2_types.411.ml
+_build/coverage/test2.411.types_out: _build/coverage/test2_types.411.ml _build/coverage
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,$(QUOTPACKAGES),pa_ppx_parsetree_quotations_411 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2.411.patterns_out: _build/coverage/test2_patterns.411.ml
-	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_411 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
+_build/coverage/test2.411.patterns_out: _build/coverage/test2_patterns.411.ml _build/coverage
+	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_411,pa_ppx_q_ast.test_renumber $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2_patterns.411.ml: test2_patterns.ML
+_build/coverage/test2_patterns.411.ml: test2_patterns.ML _build/coverage
 	cppo -D 'OVERS 411' $< > $@.TMP
 	perl -p -i -e 's,VERSION,411,' $@.TMP
 	mv $@.TMP $@
 
-_build/coverage/test2_types.411.ml: test2_types.ML
+_build/coverage/test2_types.411.ml: test2_types.ML _build/coverage
 	cppo -D 'OVERS 411' -D 'MODULE Pa_ppx_parsetree_quotations_411' $< > $@
 
 coverage-test: _build/coverage/test2.411.TEST
 
-_build/coverage/test2.410.types_out: _build/coverage/test2_types.410.ml
+_build/coverage/test2.410.types_out: _build/coverage/test2_types.410.ml _build/coverage
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,$(QUOTPACKAGES),pa_ppx_parsetree_quotations_410 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2.410.patterns_out: _build/coverage/test2_patterns.410.ml
-	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_410 $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
+_build/coverage/test2.410.patterns_out: _build/coverage/test2_patterns.410.ml _build/coverage
+	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_410,pa_ppx_q_ast.test_renumber $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
-_build/coverage/test2_patterns.410.ml: test2_patterns.ML
+_build/coverage/test2_patterns.410.ml: test2_patterns.ML _build/coverage
 	cppo -D 'OVERS 410' $< > $@.TMP
 	perl -p -i -e 's,VERSION,410,' $@.TMP
 	mv $@.TMP $@
 
-_build/coverage/test2_types.410.ml: test2_types.ML
+_build/coverage/test2_types.410.ml: test2_types.ML _build/coverage
 	cppo -D 'OVERS 410' -D 'MODULE Pa_ppx_parsetree_quotations_410' $< > $@
 
 coverage-test: _build/coverage/test2.410.TEST

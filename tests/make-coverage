@@ -4,18 +4,18 @@ use strict ;
 
 foreach my $v (@ARGV) {
   print <<"EOF";
-_build/coverage/test2.${v}.types_out: _build/coverage/test2_types.${v}.ml
+_build/coverage/test2.${v}.types_out: _build/coverage/test2_types.${v}.ml _build/coverage
 	\$(LAUNCH) \$(YAWRAP) \$(NOT_OCAMLFIND) preprocess \$(OCAMLCFLAGS) -package \$(PACKAGES),camlp5.pr_r,\$(QUOTPACKAGES),pa_ppx_parsetree_quotations_${v} \$(RPPFLAGS) \$< > \$@.TMP && mv \$@.TMP \$@
 
-_build/coverage/test2.${v}.patterns_out: _build/coverage/test2_patterns.${v}.ml
-	\$(LAUNCH) \$(YAWRAP) \$(NOT_OCAMLFIND) preprocess \$(OCAMLCFLAGS) -package \$(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_${v} \$(RPPFLAGS) \$< > \$@.TMP && mv \$@.TMP \$@
+_build/coverage/test2.${v}.patterns_out: _build/coverage/test2_patterns.${v}.ml _build/coverage
+	\$(LAUNCH) \$(YAWRAP) \$(NOT_OCAMLFIND) preprocess \$(OCAMLCFLAGS) -package \$(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations_${v},pa_ppx_q_ast.test_renumber \$(RPPFLAGS) \$< > \$@.TMP && mv \$@.TMP \$@
 
-_build/coverage/test2_patterns.${v}.ml: test2_patterns.ML
+_build/coverage/test2_patterns.${v}.ml: test2_patterns.ML _build/coverage
 	cppo -D 'OVERS ${v}' \$< > \$@.TMP
 	perl -p -i -e 's,VERSION,${v},' \$@.TMP
 	mv \$@.TMP \$@
 
-_build/coverage/test2_types.${v}.ml: test2_types.ML
+_build/coverage/test2_types.${v}.ml: test2_types.ML _build/coverage
 	cppo -D 'OVERS ${v}' -D 'MODULE Pa_ppx_parsetree_quotations_${v}' \$< > \$@
 
 coverage-test: _build/coverage/test2.${v}.TEST

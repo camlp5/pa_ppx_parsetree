@@ -40,7 +40,7 @@ IMPORT_PACKAGES := camlp5,pa_ppx_parsetree_quotations_$(OVERS)
 
 RPPFLAGS=-ppopt -l -ppopt 400 -ppopt -flag -ppopt D -ppopt -sep -ppopt '\n'
 OPPFLAGS=-ppopt -l -ppopt 400 -ppopt -flag -ppopt M -ppopt -sep -ppopt '\n'
-QUOTPACKAGES=pa_ppx_q_ast.quotation_test,pa_ppx_q_ast.test_cleanup
+QUOTPACKAGES=pa_ppx_q_ast.quotation_test.full
 #QUOTPACKAGES=pa_ppx_q_ast.quotation_test
 #QUOTPACKAGES=
 
@@ -53,7 +53,7 @@ QUOTPACKAGES=pa_ppx_q_ast.quotation_test,pa_ppx_q_ast.test_cleanup
 	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,$(QUOTPACKAGES),$(IMPORT_PACKAGES) $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
 %.patterns_out: %_patterns.ml
-	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
+	$(LAUNCH) $(YAWRAP) $(NOT_OCAMLFIND) preprocess $(OCAMLCFLAGS) -package $(PACKAGES),camlp5.pr_r,pa_ppx_parsetree_quotations,pa_ppx_q_ast.test_renumber $(RPPFLAGS) $< > $@.TMP && mv $@.TMP $@
 
 test1_patterns.ML: test2_patterns.ML
 	perl -p -e 's,_VERSION,,' $< > $@.TMP && mv $@.TMP $@
@@ -72,6 +72,9 @@ test1_types.ml: test1_types.ML
 -include coverage-Makefile
 coverage-Makefile: Makefile make-coverage
 	./make-coverage 505 504 503 502 501 500 414 413 412 411 410 > $@.TMP && mv $@.TMP $@
+
+_build/coverage:
+	mkdir -p _build/coverage
 
 quotations_test.ml: quotations_test.ML
 	cppo -V OCAML:$(ocamlVERSION) $< > $@
